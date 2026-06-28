@@ -6,6 +6,7 @@ import { TerminalScene } from "./scenes/TerminalScene";
 import { CodeScene } from "./scenes/CodeScene";
 import { ErrorLogScene } from "./scenes/ErrorLogScene";
 import { Caption } from "./Caption";
+import { SafeZoneGuide } from "./SafeZoneGuide";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   return (
@@ -21,6 +22,7 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
           </Series.Sequence>
         ))}
       </Series>
+      <SafeZoneGuide />
     </AbsoluteFill>
   );
 };

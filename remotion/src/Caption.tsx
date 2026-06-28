@@ -1,5 +1,6 @@
 import React from "react";
-import { interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { SAFE_ZONE } from "./styles";
 
 export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
   text,
@@ -16,14 +17,13 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
   );
 
   return (
-    <div
+    <AbsoluteFill
       style={{
-        position: "absolute",
-        bottom: 80,
-        left: 40,
-        right: 40,
-        display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingBottom: SAFE_ZONE.bottom,
+        paddingLeft: SAFE_ZONE.left,
+        paddingRight: SAFE_ZONE.right,
         opacity,
         pointerEvents: "none",
       }}
@@ -34,7 +34,7 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
           borderRadius: 16,
           background: "rgba(0,0,0,0.65)",
           backdropFilter: "blur(12px)",
-          maxWidth: 900,
+          maxWidth: 840,
           textAlign: "center",
         }}
       >
@@ -50,6 +50,6 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
           {text}
         </span>
       </div>
-    </div>
+    </AbsoluteFill>
   );
 };

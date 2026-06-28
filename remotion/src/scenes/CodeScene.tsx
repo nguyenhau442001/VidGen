@@ -3,6 +3,7 @@ import { Highlight, themes, type Language } from "prism-react-renderer";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { CodeSceneProps } from "../types";
 import { colors, JETBRAINS_MONO, type as t } from "../styles";
+import { SafeZone } from "../SafeZone";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -55,12 +56,9 @@ export const CodeScene: React.FC<CodeSceneProps> = ({
         backgroundColor: colors.bg,
         opacity: sceneOpacity,
         transform: `translateY(${sceneY}px)`,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "0 48px",
-        fontFamily: JETBRAINS_MONO,
       }}
     >
+      <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO }}>
       <div
         style={{
           width: "100%",
@@ -110,6 +108,7 @@ export const CodeScene: React.FC<CodeSceneProps> = ({
           })}
         </div>
       </div>
+      </SafeZone>
     </AbsoluteFill>
   );
 };

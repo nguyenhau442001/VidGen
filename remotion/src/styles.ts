@@ -24,6 +24,15 @@ export const colors = {
   codeBg: "#0d1117",
 };
 
+// TikTok safe zone (1080×1920) — measured from real posted-video screenshots,
+// includes 24px inner breathing room so content isn't flush against the boundary.
+export const SAFE_ZONE = {
+  top: 244,   // 220 tab-bar + 24
+  bottom: 424, // 400 bottom-bar + 24
+  left: 94,   // 70 + 24
+  right: 154, // 130 icon-column + 24
+} as const;
+
 export const type = {
   headline: { fontSize: 56, fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.025em" } as const,
   body: { fontSize: 32, fontWeight: 400, lineHeight: 1.5 } as const,

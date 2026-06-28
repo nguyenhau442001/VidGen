@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { ExplanationSceneProps } from "../types";
 import { colors, INTER, type as t } from "../styles";
+import { SafeZone } from "../SafeZone";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -35,13 +36,9 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
         backgroundColor: colors.bg,
         opacity: sceneOpacity,
         transform: `translateY(${sceneY}px)`,
-        justifyContent: "center",
-        alignItems: "flex-start",
-        padding: "0 72px",
-        fontFamily: INTER,
-        flexDirection: "column",
       }}
     >
+      <SafeZone style={{ justifyContent: "center", alignItems: "flex-start", flexDirection: "column", fontFamily: INTER }}>
       {/* Cyan accent bar */}
       <div
         style={{
@@ -109,6 +106,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
           );
         })}
       </div>
+      </SafeZone>
     </AbsoluteFill>
   );
 };
