@@ -994,7 +994,7 @@ git commit -m "feat: add TikTokVideo composition with Series scene dispatch and 
 
 **Interfaces:**
 - Consumes: `script: dict` (loaded JSON), `audio_durations: dict[int, float]` (scene id → seconds)
-- Produces: `output/render_manifest.json`; triggers `npx remotion render` subprocess; final MP4 at `output/video/video.mp4`
+- Produces: `output/render_manifest.json`; triggers `npx remotion render` subprocess; final MP4 at `output/video/mp4/video.mp4`
 
 - [ ] **Step 1: Update `content/sample_script.json` with type and visual fields**
 
@@ -1180,7 +1180,7 @@ from vidgen.manifest import (
 WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
-VIDEO_OUTPUT = "output/video/video.mp4"
+VIDEO_OUTPUT = "output/video/mp4/video.mp4"
 
 tts = Vieneu()
 
@@ -1252,10 +1252,10 @@ Total audio duration: X.XXs
 Copied 3 WAV file(s) to remotion/public/audio/
 Render manifest written to output/render_manifest.json
 ...
-Video rendered to output/video/video.mp4
+Video rendered to output/video/mp4/video.mp4
 ```
 
-Verify `output/video/video.mp4` exists and plays correctly.
+Verify `output/video/mp4/video.mp4` exists and plays correctly.
 
 - [ ] **Step 8: Commit**
 

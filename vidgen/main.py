@@ -23,7 +23,7 @@ with open("content/sample_script.json", encoding="utf-8") as f:
     script = json.load(f)
 
 video_filename = script["title"].lower().replace(" ", "_") + ".mp4"
-VIDEO_OUTPUT = os.path.abspath(f"output/video/{video_filename}")
+VIDEO_OUTPUT = os.path.abspath(f"output/video/mp4/{video_filename}")
 
 # --- Audio synthesis (parallel) ---
 def synthesize_scene(scene: dict) -> int:

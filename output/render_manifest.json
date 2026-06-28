@@ -1,0 +1,42 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "scenes": [
+    {
+      "id": 1,
+      "type": "explanation",
+      "audioPath": "audio/scene_1.wav",
+      "durationInFrames": 44,
+      "visual": {
+        "headline": "Unix File Permissions",
+        "body": "Mỗi file có 3 nhóm quyền: owner, group, others"
+      }
+    },
+    {
+      "id": 2,
+      "type": "terminal",
+      "audioPath": "audio/scene_2.wav",
+      "durationInFrames": 75,
+      "visual": {
+        "lines": [
+          "$ ls -la /etc/passwd",
+          "-rw-r--r-- 1 root root 2847 /etc/passwd"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "type": "code",
+      "audioPath": "audio/scene_3.wav",
+      "durationInFrames": 68,
+      "visual": {
+        "language": "bash",
+        "code": "chmod 755 script.sh\nchown user:group file.txt",
+        "highlightLines": [
+          1
+        ]
+      }
+    }
+  ]
+}

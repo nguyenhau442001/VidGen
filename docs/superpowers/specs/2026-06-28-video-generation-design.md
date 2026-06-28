@@ -30,7 +30,7 @@ content/sample_script.json          ← authored by user (extended schema)
   - Reads render_manifest.json via --props
   - Renders each scene (code / terminal / explanation / error_log)
   - Syncs audio per scene
-  - Outputs final MP4                → output/video/video.mp4
+  - Outputs final MP4                → output/video/mp4/video.mp4
 ```
 
 The `render_manifest.json` is the sole handoff contract between Python and Remotion. No other shared state.
@@ -119,7 +119,7 @@ Python writes `output/render_manifest.json` after audio synthesis:
 
 Python then calls:
 ```bash
-npx remotion render TikTokVideo output/video/video.mp4 \
+npx remotion render TikTokVideo output/video/mp4/video.mp4 \
   --props='{"manifestPath":"../../output/render_manifest.json"}'
 ```
 
