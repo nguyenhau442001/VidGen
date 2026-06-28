@@ -10,7 +10,7 @@ text = """[cười] Nếu AI trả lời sai, bạn sẽ làm gì? Nếu bạn g
 Đúng phải là: nhấn chỉnh sửa, sửa câu lệnh gốc, tạo lại. 
 Cuộc trao đổi sai biến mất, token không cộng dồn thêm."""
 
-output_wav_file_name = "output/wav/test_output.wav"
+output_wav_file_name = "output/audio/wav/test_output.wav"
 
 start_time = time()
 # Synthesize speech using the built-in preset voice "Xuân Vĩnh"

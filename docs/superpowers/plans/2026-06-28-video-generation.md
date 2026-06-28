@@ -1177,7 +1177,7 @@ from vidgen.manifest import (
     write_render_manifest,
 )
 
-WAV_DIR = "output/wav"
+WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
 VIDEO_OUTPUT = "output/video/video.mp4"
@@ -1242,9 +1242,9 @@ print(f"Video rendered to {VIDEO_OUTPUT}")
 
 Expected output (in order):
 ```
-Scene 1 saved to output/wav/scene_1.wav
-Scene 2 saved to output/wav/scene_2.wav
-Scene 3 saved to output/wav/scene_3.wav
+Scene 1 saved to output/audio/wav/scene_1.wav
+Scene 2 saved to output/audio/wav/scene_2.wav
+Scene 3 saved to output/audio/wav/scene_3.wav
 Total generation time: X.XXs
 Scene 1 audio duration: X.XXs
 ...

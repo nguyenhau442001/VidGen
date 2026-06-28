@@ -20,7 +20,7 @@ content/sample_script.json          ← authored by user (extended schema)
          │
          ▼
 [Python: vidgen/main.py]
-  1. Synthesize per-scene WAV        → output/wav/scene_N.wav
+  1. Synthesize per-scene WAV        → output/audio/wav/scene_N.wav
   2. Measure audio durations
   3. Write render manifest           → output/render_manifest.json
   4. Call: npx remotion render ...
@@ -107,7 +107,7 @@ Python writes `output/render_manifest.json` after audio synthesis:
     {
       "id": 1,
       "type": "explanation",
-      "audioPath": "../output/wav/scene_1.wav",
+      "audioPath": "../output/audio/wav/scene_1.wav",
       "durationInFrames": 39,
       "visual": { "headline": "...", "body": "..." }
     }

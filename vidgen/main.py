@@ -13,7 +13,7 @@ from vidgen.manifest import (
     write_render_manifest,
 )
 
-WAV_DIR = "output/wav"
+WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
 
