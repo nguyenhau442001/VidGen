@@ -4,18 +4,15 @@
   "scenes": [
     {
       "id": 1,
-      "narration": "Bạn có biết rằng...",
-      "duration_seconds": 3
+      "narration": "Bạn có biết rằng..."
     },
     {
       "id": 2,
-      "narration": "Đây là một sự thật thú vị.",
-      "duration_seconds": 4
+      "narration": "Đây là một sự thật thú vị."
     },
     {
       "id": 3,
-      "narration": "Hãy theo dõi để biết thêm nhé!",
-      "duration_seconds": 3
+      "narration": "Hãy theo dõi để biết thêm nhé!"
     }
   ]
 }
