@@ -19,10 +19,10 @@ export type ErrorLogVisual = {
 };
 
 export type ManifestScene =
-  | { type: "explanation"; id: number; audioPath: string; durationInFrames: number; visual: ExplanationVisual }
-  | { type: "terminal"; id: number; audioPath: string; durationInFrames: number; visual: TerminalVisual }
-  | { type: "code"; id: number; audioPath: string; durationInFrames: number; visual: CodeVisual }
-  | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; visual: ErrorLogVisual };
+  | { type: "explanation"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ExplanationVisual }
+  | { type: "terminal"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: TerminalVisual }
+  | { type: "code"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CodeVisual }
+  | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ErrorLogVisual };
 
 export type RenderManifest = {
   fps: number;

@@ -5,6 +5,7 @@ import { ExplanationScene } from "./scenes/ExplanationScene";
 import { TerminalScene } from "./scenes/TerminalScene";
 import { CodeScene } from "./scenes/CodeScene";
 import { ErrorLogScene } from "./scenes/ErrorLogScene";
+import { Caption } from "./Caption";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   return (
@@ -14,6 +15,9 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
           <Series.Sequence key={scene.id} durationInFrames={scene.durationInFrames}>
             {scene.audioPath && <Audio src={staticFile(scene.audioPath)} />}
             <SceneRenderer scene={scene} />
+            {scene.caption && (
+              <Caption text={scene.caption} durationInFrames={scene.durationInFrames} />
+            )}
           </Series.Sequence>
         ))}
       </Series>

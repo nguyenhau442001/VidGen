@@ -19,6 +19,7 @@ def build_render_manifest(script: dict, audio_durations: dict[int, float]) -> di
                 "type": scene["type"],
                 "audioPath": f"audio/scene_{sid}.wav",
                 "durationInFrames": duration_frames,
+                "caption": scene.get("narration", ""),
                 "visual": scene["visual"],
             }
         )
