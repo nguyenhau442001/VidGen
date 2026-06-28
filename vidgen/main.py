@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import socket
@@ -20,9 +21,13 @@ WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
 
+parser = argparse.ArgumentParser()
+parser.add_argument("script", nargs="?", default="content/sample_script.json")
+args = parser.parse_args()
+
 tts = Vieneu()
 
-with open("content/sample_script.json", encoding="utf-8") as f:
+with open(args.script, encoding="utf-8") as f:
     script = json.load(f)
 
 video_filename = script["title"].lower().replace(" ", "_") + ".mp4"
