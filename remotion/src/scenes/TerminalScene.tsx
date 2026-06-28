@@ -10,10 +10,11 @@ const CHARS_PER_FRAME = 3;
 export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInFrames }) => {
   const frame = useCurrentFrame();
 
+  const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
   const sceneOpacity = interpolate(
     frame,
-    [0, ENTER_FRAMES, durationInFrames - EXIT_FRAMES, durationInFrames],
-    [0, 1, 1, 0],
+    hasExitRoom ? [0, ENTER_FRAMES, durationInFrames - EXIT_FRAMES, durationInFrames] : [0, durationInFrames],
+    hasExitRoom ? [0, 1, 1, 0] : [0, 1],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
   const sceneY = interpolate(frame, [0, ENTER_FRAMES], [20, 0], {
