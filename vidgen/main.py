@@ -15,12 +15,14 @@ from vidgen.manifest import (
 WAV_DIR = "output/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
-VIDEO_OUTPUT = os.path.abspath("output/video/video.mp4")
 
 tts = Vieneu()
 
 with open("content/sample_script.json", encoding="utf-8") as f:
     script = json.load(f)
+
+video_filename = script["title"].lower().replace(" ", "_") + ".mp4"
+VIDEO_OUTPUT = os.path.abspath(f"output/video/{video_filename}")
 
 # --- Audio synthesis ---
 start_time = time()
