@@ -1,5 +1,4 @@
 import json
-import math
 import os
 import subprocess
 import wave
@@ -59,7 +58,7 @@ print(f"Render manifest written to {MANIFEST_PATH}")
 # --- Render video ---
 os.makedirs("output/video", exist_ok=True)
 manifest_props = json.dumps({"manifest": manifest})
-result = subprocess.run(
+subprocess.run(
     [
         "npx", "remotion", "render", "TikTokVideo", VIDEO_OUTPUT,
         f"--props={manifest_props}",
