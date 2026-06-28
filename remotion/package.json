@@ -1,0 +1,19 @@
+{
+  "name": "vidgen-remotion",
+  "scripts": {
+    "dev": "npx remotion studio",
+    "render": "npx remotion render TikTokVideo"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.293",
+    "@remotion/google-fonts": "4.0.293",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "remotion": "4.0.293"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
