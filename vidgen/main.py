@@ -1,9 +1,12 @@
 import json
 import os
+import socket
 import subprocess
+import time
 import wave
+import webbrowser
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from time import time
+from time import time as now
 
 from vieneu import Vieneu  # type: ignore
 
@@ -32,14 +35,14 @@ def synthesize_scene(scene: dict) -> int:
     tts.save(audio, output_path)  # type: ignore
     return scene["id"]
 
-start_time = time()
+start_time = now()
 with ThreadPoolExecutor(max_workers=len(script["scenes"])) as executor:
     futures = {executor.submit(synthesize_scene, scene): scene for scene in script["scenes"]}
     for future in as_completed(futures):
         scene_id = future.result()
         print(f"Scene {scene_id} saved to {WAV_DIR}/scene_{scene_id}.wav")
 
-end_time = time()
+end_time = now()
 print(f"Total generation time: {end_time - start_time:.2f}s")
 
 # --- Audio durations ---
@@ -79,3 +82,25 @@ subprocess.run(
     check=True,
 )
 print(f"Video rendered to {VIDEO_OUTPUT}")
+
+# --- Open Remotion Studio in browser ---
+STUDIO_PORT = 3000
+
+def _port_open(port: int) -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(1)
+        return s.connect_ex(("localhost", port)) == 0
+
+if not _port_open(STUDIO_PORT):
+    subprocess.Popen(
+        ["npx", "remotion", "studio"],
+        cwd="remotion",
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    print("Starting Remotion Studio...")
+    while not _port_open(STUDIO_PORT):
+        time.sleep(1)
+
+webbrowser.open(f"http://localhost:{STUDIO_PORT}")
+print(f"Opened Remotion Studio at http://localhost:{STUDIO_PORT}")
