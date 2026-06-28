@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import wave
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from time import time
 
 from vieneu import Vieneu  # type: ignore
@@ -24,13 +25,19 @@ with open("content/sample_script.json", encoding="utf-8") as f:
 video_filename = script["title"].lower().replace(" ", "_") + ".mp4"
 VIDEO_OUTPUT = os.path.abspath(f"output/video/{video_filename}")
 
-# --- Audio synthesis ---
-start_time = time()
-for scene in script["scenes"]:
+# --- Audio synthesis (parallel) ---
+def synthesize_scene(scene: dict) -> int:
     output_path = f"{WAV_DIR}/scene_{scene['id']}.wav"
     audio = tts.infer(scene["narration"], voice="Xuân Vĩnh")  # type: ignore
     tts.save(audio, output_path)  # type: ignore
-    print(f"Scene {scene['id']} saved to {output_path}")
+    return scene["id"]
+
+start_time = time()
+with ThreadPoolExecutor(max_workers=len(script["scenes"])) as executor:
+    futures = {executor.submit(synthesize_scene, scene): scene for scene in script["scenes"]}
+    for future in as_completed(futures):
+        scene_id = future.result()
+        print(f"Scene {scene_id} saved to {WAV_DIR}/scene_{scene_id}.wav")
 
 end_time = time()
 print(f"Total generation time: {end_time - start_time:.2f}s")
