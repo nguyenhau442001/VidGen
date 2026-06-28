@@ -65,7 +65,10 @@ write_render_manifest(manifest, MANIFEST_PATH)
 print(f"Render manifest written to {MANIFEST_PATH}")
 
 # --- Render video ---
-os.makedirs("output/video", exist_ok=True)
+os.makedirs("output/video/mp4", exist_ok=True)
+if os.path.exists(VIDEO_OUTPUT):
+    os.remove(VIDEO_OUTPUT)
+    print(f"Deleted old video: {VIDEO_OUTPUT}")
 manifest_props = json.dumps({"manifest": manifest})
 subprocess.run(
     [
