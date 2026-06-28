@@ -3,3 +3,6 @@
 # Generated output files
 output/
 remotion/public/audio/
+
+# Python bytecode
+vidgen/__pycache__/*
