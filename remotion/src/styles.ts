@@ -3,13 +3,13 @@ import { loadFont as loadJetBrainsMonoFont } from "@remotion/google-fonts/JetBra
 
 export const { fontFamily: INTER, waitUntilDone: waitForInter } = loadInterFont("normal", {
   weights: ["400", "600", "700"],
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
 });
 
 export const { fontFamily: JETBRAINS_MONO, waitUntilDone: waitForJetBrainsMono } =
   loadJetBrainsMonoFont("normal", {
     weights: ["400", "500", "700"],
-    subsets: ["latin"],
+    subsets: ["latin", "vietnamese"],
   });
 
 export const colors = {

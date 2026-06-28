@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Highlight, themes, type Language } from "prism-react-renderer";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { CodeSceneProps } from "../types";
@@ -15,6 +15,27 @@ export const CodeScene: React.FC<CodeSceneProps> = ({
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
+
+  // Precompute token spans per line — only re-runs when code or language changes
+  const tokenLines = useMemo<React.ReactNode[][]>(() => {
+    const lines: React.ReactNode[][] = [];
+    Highlight({
+      theme: themes.nightOwl,
+      code: code.trim(),
+      language: language as Language,
+      children: ({ tokens, getTokenProps }) => {
+        for (const line of tokens) {
+          lines.push(
+            line.map((token, i) => (
+              <span key={i} {...getTokenProps({ token })} />
+            ))
+          );
+        }
+        return null as unknown as React.ReactElement;
+      },
+    });
+    return lines;
+  }, [code, language]);
 
   const sceneOpacity = interpolate(
     frame,
@@ -60,47 +81,32 @@ export const CodeScene: React.FC<CodeSceneProps> = ({
 
         {/* Code block */}
         <div style={{ padding: "24px 32px" }}>
-          <Highlight
-            theme={themes.nightOwl}
-            code={code.trim()}
-            language={language as Language}
-          >
-            {({ tokens, getTokenProps }) =>
-              tokens.map((line, lineIdx) => {
-                const revealStart = ENTER_FRAMES + lineIdx * FRAMES_PER_LINE;
-                const lineOpacity = interpolate(
-                  frame,
-                  [revealStart, revealStart + 8],
-                  [0, 1],
-                  { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-                );
-                const isHighlighted = highlightLines.includes(lineIdx + 1);
-
-                return (
-                  <div
-                    key={lineIdx}
-                    style={{
-                      ...t.code,
-                      opacity: lineOpacity,
-                      backgroundColor: isHighlighted
-                        ? "rgba(0,255,65,0.08)"
-                        : "transparent",
-                      borderLeft: isHighlighted
-                        ? `3px solid ${colors.green}`
-                        : "3px solid transparent",
-                      padding: "2px 12px",
-                      margin: "0 -12px",
-                      whiteSpace: "pre",
-                    }}
-                  >
-                    {line.map((token, tokenIdx) => (
-                      <span key={tokenIdx} {...getTokenProps({ token })} />
-                    ))}
-                  </div>
-                );
-              })
-            }
-          </Highlight>
+          {tokenLines.map((lineSpans, lineIdx) => {
+            const revealStart = ENTER_FRAMES + lineIdx * FRAMES_PER_LINE;
+            const lineOpacity = interpolate(
+              frame,
+              [revealStart, revealStart + 8],
+              [0, 1],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+            );
+            const isHighlighted = highlightLines.includes(lineIdx + 1);
+            return (
+              <div
+                key={lineIdx}
+                style={{
+                  ...t.code,
+                  opacity: lineOpacity,
+                  backgroundColor: isHighlighted ? "rgba(0,255,65,0.08)" : "transparent",
+                  borderLeft: isHighlighted ? `3px solid ${colors.green}` : "3px solid transparent",
+                  padding: "2px 12px",
+                  margin: "0 -12px",
+                  whiteSpace: "pre",
+                }}
+              >
+                {lineSpans}
+              </div>
+            );
+          })}
         </div>
       </div>
     </AbsoluteFill>
