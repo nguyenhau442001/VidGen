@@ -3,6 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { TerminalSceneProps } from "../types";
 import { colors, JETBRAINS_MONO, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
+import { AmbientBackground } from "../AmbientBackground";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -39,6 +40,7 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
         transform: `translateY(${sceneY}px)`,
       }}
     >
+      <AmbientBackground accent={colors.cyan} />
       <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO }}>
       <div
         style={{
@@ -71,7 +73,16 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
         {/* Lines */}
         <div style={{ padding: "28px 32px", minHeight: 200 }}>
           {lines.map((line, lineIdx) => {
-            const isCommand = line.startsWith("$ ");
+            const isCommand = line.startsWith("$ ") || line.trimStart().startsWith("// ");
+            const isFail = line.includes("❌") || line.trim().startsWith("✗");
+            const isSuccess = line.includes("✅") || line.trim().startsWith("✓");
+            const lineColor = isFail
+              ? colors.errorRed
+              : isSuccess
+              ? colors.green
+              : isCommand
+              ? colors.green
+              : colors.textDim;
             const startFrame = lineStartFrames[lineIdx];
             const charsToShow = Math.floor(
               interpolate(
@@ -89,7 +100,9 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
                 key={lineIdx}
                 style={{
                   ...t.terminal,
-                  color: isCommand ? colors.green : colors.textDim,
+                  color: lineColor,
+                  fontWeight: isFail || isSuccess ? 700 : 400,
+                  textShadow: isFail || isSuccess ? `0 0 18px ${lineColor}66` : "none",
                   whiteSpace: "pre",
                   opacity: visible ? 1 : 0,
                   minHeight: "1.7em",
