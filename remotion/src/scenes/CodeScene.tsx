@@ -4,6 +4,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { CodeSceneProps } from "../types";
 import { colors, JETBRAINS_MONO, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
+import { AmbientBackground } from "../AmbientBackground";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -58,6 +59,7 @@ export const CodeScene: React.FC<CodeSceneProps> = ({
         transform: `translateY(${sceneY}px)`,
       }}
     >
+      <AmbientBackground accent={colors.cyan} />
       <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO }}>
       <div
         style={{

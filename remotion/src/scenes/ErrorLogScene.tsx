@@ -3,6 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { ErrorLogSceneProps } from "../types";
 import { colors, JETBRAINS_MONO, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
+import { AmbientBackground } from "../AmbientBackground";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -52,6 +53,7 @@ export const ErrorLogScene: React.FC<ErrorLogSceneProps> = ({
         transform: `translateY(${sceneY}px) translateX(${shakeX}px)`,
       }}
     >
+      <AmbientBackground accent={colors.errorRed} />
       <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO }}>
       <div
         style={{
