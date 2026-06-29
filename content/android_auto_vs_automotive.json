@@ -5,16 +5,16 @@
     {
       "id": 1,
       "type": "explanation",
-      "narration": "Google Maps đang chạy trên màn hình xe. Điện thoại hết pin. Màn hình tắt ngay. Tại sao?",
+      "narration": "Google Maps đang chạy trên màn hình xe. Bạn rút điện thoại ra. Google Maps biến mất ngay. Tại sao?",
       "visual": {
-        "headline": "Google Maps tắt theo điện thoại?",
+        "headline": "**Rút điện thoại** — Maps biến mất?",
         "body": "Tại sao?"
       }
     },
     {
       "id": 2,
       "type": "explanation",
-      "narration": "Màn hình xe chỉ là một cái tivi được kết nối — hay Android đang thực sự chạy bên trong đó?",
+      "narration": "Cái màn hình ấy chỉ đang hiển thị thôi — hay Android thực sự đang chạy ngay trong xe?",
       "visual": {
         "headline": "Màn hình xe là gì?",
         "body": "Display phụ — hay hệ điều hành?"
@@ -25,8 +25,8 @@
       "type": "explanation",
       "narration": "Android Auto – Android vẫn đang chạy trên điện thoại của bạn. Điện thoại làm mọi thứ. Xe chỉ hiển thị.",
       "visual": {
-        "headline": "Android Auto",
-        "body": "Điện thoại làm mọi thứ · Xe chỉ hiển thị"
+        "headline": "**Android Auto**",
+        "body": "**Điện thoại** làm mọi thứ · **Xe** chỉ hiển thị"
       }
     },
     {
@@ -35,21 +35,22 @@
       "narration": "Điện thoại kết nối với xe. Màn hình xe chỉ là một màn hình phụ. Ngắt kết nối điện thoại – Android Auto dừng ngay lập tức.",
       "visual": {
         "lines": [
-          "📱 Điện thoại (Android)",
-          "    ↓ USB / Wireless",
-          "🖥️  Màn hình xe (chỉ là display)",
+          "📱 Phone (Android)",
+          "    ↓ USB cable  —or—  Bluetooth + Wi-Fi Direct",
+          "🖥️  Car display (output only)",
           "",
-          "$ adb disconnect → Auto stops"
+          "// phone disconnected",
+          "✗ Android Auto session ended"
         ]
       }
     },
     {
       "id": 5,
       "type": "explanation",
-      "narration": "Nhưng Android Automotive OS thì khác. Android được cài trực tiếp vào xe – không cần điện thoại tồn tại.",
+      "narration": "Còn Android Automotive OS thì hoàn toàn khác — Android chính là hệ điều hành của chiếc xe, không cần điện thoại nào cả.",
       "visual": {
-        "headline": "Android Automotive OS",
-        "body": "Android cài sẵn trong xe"
+        "headline": "**Android Automotive OS**",
+        "body": "Android = **hệ điều hành** của xe"
       }
     },
     {
@@ -72,7 +73,7 @@
       "narration": "Thử rút điện thoại ra. Android Auto – Google Maps biến mất ngay. Android Automotive – Google Maps vẫn chạy. Vì lần này, Android đang sống bên trong chiếc xe.",
       "visual": {
         "lines": [
-          "$ unplug phone",
+          "// rút điện thoại ra khỏi xe",
           "",
           "Android Auto:",
           "  ❌ Google Maps biến mất",
@@ -85,19 +86,10 @@
     {
       "id": 8,
       "type": "explanation",
-      "narration": "Và đây là lý do developer cần phân biệt: build app cho Android Auto và Android Automotive là hai pipeline hoàn toàn khác nhau.",
+      "narration": "Và đây là lý do developer cần phân biệt: build và deploy app cho hai nền tảng này là hai việc hoàn toàn khác nhau.",
       "visual": {
-        "headline": "Tại sao developer cần biết?",
-        "body": "Hai pipeline khác nhau hoàn toàn"
-      }
-    },
-    {
-      "id": 9,
-      "type": "explanation",
-      "narration": "Đây chỉ là bắt đầu. Trong các video tiếp theo, mình sẽ đi sâu vào cách Android giao tiếp với xe – từ Car Service, Vehicle HAL đến CAN Bus. Theo dõi nhé!",
-      "visual": {
-        "headline": "Tiếp theo...",
-        "body": "Car Service · Vehicle HAL · CAN Bus"
+        "headline": "Tại sao **developer** cần biết?",
+        "body": "**Hai khái niệm** khác nhau hoàn toàn"
       }
     }
   ]

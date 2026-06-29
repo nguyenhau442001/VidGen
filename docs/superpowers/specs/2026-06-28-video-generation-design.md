@@ -92,6 +92,18 @@ The `render_manifest.json` is the sole handoff contract between Python and Remot
 - `code` — syntax-highlighted code block, line-by-line reveal
 - `error_log` — red-tinted terminal, shake/pulse on entry
 
+**Keyword highlight convention (`explanation` scenes):**
+Wrap terms in `**...**` inside `headline` and `body` strings to render them in accent color (`colors.cyan`). Only applies to `ExplanationScene` — other scene types ignore the markers. Example:
+```json
+{ "headline": "**Android Auto** vs Automotive", "body": "**Điện thoại** làm mọi thứ" }
+```
+
+**Terminal line coloring (`terminal` / `error_log` scenes):**
+- Lines starting with `$ ` or `// ` → green (command / comment)
+- Lines containing `❌` or starting with `✗` → red + glow (failure)
+- Lines containing `✅` or starting with `✓` → green + glow (success)
+- All other lines → `colors.textDim`
+
 ---
 
 ## Render Manifest

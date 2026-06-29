@@ -3,9 +3,27 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { ExplanationSceneProps } from "../types";
 import { colors, INTER, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
+import { AmbientBackground } from "../AmbientBackground";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
+
+// Parse "**foo bar** baz" into highlighted/plain segments, then flatten to words.
+function parseWords(text: string): { word: string; highlighted: boolean }[] {
+  const segments: { text: string; highlighted: boolean }[] = [];
+  const re = /\*\*([^*]+)\*\*/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) segments.push({ text: text.slice(last, m.index), highlighted: false });
+    segments.push({ text: m[1], highlighted: true });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) segments.push({ text: text.slice(last), highlighted: false });
+  return segments.flatMap(seg =>
+    seg.text.split(/\s+/).filter(Boolean).map(word => ({ word, highlighted: seg.highlighted }))
+  );
+}
 
 export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   headline,
@@ -27,8 +45,8 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
     extrapolateRight: "clamp",
   });
 
-  const headlineWords = headline.split(" ");
-  const bodyWords = body.split(" ");
+  const headlineWords = parseWords(headline);
+  const bodyWords = parseWords(body);
 
   return (
     <AbsoluteFill
@@ -38,6 +56,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
         transform: `translateY(${sceneY}px)`,
       }}
     >
+      <AmbientBackground accent={colors.cyan} />
       <SafeZone style={{ justifyContent: "center", alignItems: "flex-start", flexDirection: "column", fontFamily: INTER }}>
       {/* Cyan accent bar */}
       <div
@@ -56,7 +75,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
 
       {/* Headline — staggered spring per word */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0 14px", marginBottom: 36 }}>
-        {headlineWords.map((word, i) => {
+        {headlineWords.map(({ word, highlighted }, i) => {
           const s = spring({
             frame: frame - ENTER_FRAMES - i * 3,
             fps,
@@ -68,7 +87,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
               key={i}
               style={{
                 ...t.headline,
-                color: colors.textPrimary,
+                color: highlighted ? colors.cyan : colors.textPrimary,
                 opacity: s,
                 transform: `translateY(${interpolate(s, [0, 1], [16, 0])}px)`,
                 display: "inline-block",
@@ -82,7 +101,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
 
       {/* Body — staggered spring per word, delayed after headline */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
-        {bodyWords.map((word, i) => {
+        {bodyWords.map(({ word, highlighted }, i) => {
           const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
           const s = spring({
             frame: frame - delay,
@@ -95,7 +114,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
               key={i}
               style={{
                 ...t.body,
-                color: colors.textDim,
+                color: highlighted ? colors.cyan : colors.textDim,
                 opacity: s,
                 transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
                 display: "inline-block",
