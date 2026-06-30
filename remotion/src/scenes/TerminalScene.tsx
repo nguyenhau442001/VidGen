@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { TerminalSceneProps } from "../types";
-import { colors, JETBRAINS_MONO, type as t } from "../styles";
+import { colors, JETBRAINS_MONO, SAFE_ZONE, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 
@@ -41,7 +41,7 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
       }}
     >
       <AmbientBackground accent={colors.cyan} />
-      <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO }}>
+      <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO, paddingBottom: SAFE_ZONE.bottom + 240 }}>
       <div
         style={{
           width: "100%",

@@ -40,7 +40,7 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
       >
         <span
           style={{
-            fontSize: 34,
+            fontSize: 28,
             fontWeight: 500,
             color: "#fff",
             lineHeight: 1.4,
