@@ -1,0 +1,111 @@
+{
+  "title": "Homebrew Tap Trust – Bạn đang uỷ quyền cho attacker mà không hay biết",
+  "language": "vi",
+  "scenes": [
+    {
+      "id": 1,
+      "type": "explanation",
+      "narration": "Bạn đang uỷ quyền cho attacker mà không hay biết. Và đa số dev dùng Homebrew đang làm điều này mỗi ngày.",
+      "visual": {
+        "headline": "**Bạn đang uỷ quyền** cho attacker",
+        "body": "mà không hay biết"
+      }
+    },
+    {
+      "id": 2,
+      "type": "terminal",
+      "narration": "SSH key của bạn bị đọc. AWS credentials bị lấy. Máy bị kiểm soát từ xa. Không có error. Không có warning. Bạn không thấy gì cả.",
+      "visual": {
+        "lines": [
+          "~/.ssh/id_rsa              ← đã bị đọc",
+          "~/.aws/credentials         ← đã bị lấy",
+          "~/Documents/               ← đang bị scan",
+          "",
+          "// không có error",
+          "// không có warning",
+          "// bạn không thấy gì cả"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "type": "terminal",
+      "narration": "Đây không phải lý thuyết. Tháng 3 năm nay, TeamPCP chiếm credential maintainer của Trivy — vulnerability scanner của hàng nghìn CI/CD pipeline. Inject code vào GitHub Action. Pipeline vẫn chạy bình thường — nhưng secrets đang bị đọc và gửi ra ngoài. Không ai để ý.",
+      "visual": {
+        "lines": [
+          "// TeamPCP chiếm credential maintainer Trivy",
+          "// inject vào aquasecurity/trivy-action",
+          "",
+          "- uses: aquasecurity/trivy-action@v0.34.0",
+          "  // pipeline vẫn chạy bình thường",
+          "",
+          "→ đọc /proc/*/environ   ← bypass secret masking",
+          "→ quét ~/.ssh, ~/.aws, ~/.kube",
+          "→ exfiltrate → scan.aquasecurtiy.org",
+          "//              ^^^ sai 1 chữ — không ai để ý"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": "terminal",
+      "narration": "Homebrew tap có cùng loại rủi ro đó. Tap cũng là code của maintainer — Ruby code, chạy full quyền user trên máy bạn, không sandbox. Nếu maintainer của tap bạn đang dùng bị compromise, vector tấn công y hệt.",
+      "visual": {
+        "lines": [
+          "// Trivy: GitHub Action bị compromise",
+          "// Homebrew tap: rủi ro y hệt",
+          "",
+          "$ brew tap osrf/simulation",
+          "  ↓",
+          "[Ruby code] Formula.rb — từ repo của maintainer",
+          "  ↓",
+          "⚠️  full quyền user — không sandbox",
+          "// maintainer bị compromise = máy bạn bị compromise"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": "explanation",
+      "narration": "Đó là lý do Homebrew 6.0 ra mắt tap trust — yêu cầu bạn phải explicit trust trước khi bất kỳ code nào từ third-party tap được chạy.",
+      "visual": {
+        "headline": "**Homebrew 6.0** · Tap Trust",
+        "body": "Explicit trust trước khi **bất kỳ code nào** được chạy"
+      }
+    },
+    {
+      "id": 6,
+      "type": "terminal",
+      "narration": "Kiểm tra ngay máy bạn đang có bao nhiêu tap chưa được trust bằng brew doctor. Nếu thấy Untrusted — đó là tap đang ở trạng thái chưa kiểm soát.",
+      "visual": {
+        "lines": [
+          "$ brew doctor",
+          "Warning: The following taps are not trusted:",
+          "  cloudflare/cloudflare",
+          "  osrf/simulation",
+          "",
+          "$ brew tap-info osrf/simulation",
+          "osrf/simulation: Installed",
+          "Untrusted · 101 formulae · last commit: 4 days ago"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": "terminal",
+      "narration": "Cách làm đúng là trust từng formula bạn thật sự cần — không trust cả tap. Trust cả tap nghĩa là bạn đang uỷ quyền cho tất cả code hiện tại và tương lai của họ. Comment 'tap' nếu bạn muốn xem cách full audit Homebrew environment.",
+      "visual": {
+        "lines": [
+          "# ✅ Đúng — trust từng formula cụ thể",
+          "$ brew trust --formula osrf/simulation/gz-harmonic",
+          "",
+          "# ⚠️  Sai — trust toàn bộ tap",
+          "$ brew trust osrf/simulation",
+          "",
+          "// trust cả tap = uỷ quyền cho mọi",
+          "// code hiện tại VÀ tương lai của tap đó"
+        ]
+      }
+    }
+  ]
+}
