@@ -5,7 +5,9 @@ import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
+import { SplitViewScene } from "./scenes/SplitViewScene";
 import { ManifestScene, RenderManifest } from "./types";
+import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
 
@@ -25,6 +27,78 @@ const coverDefaultProps = {
   headline: hookScene.type === "explanation" ? hookScene.visual.headline : "",
   body: hookScene.type === "explanation" ? hookScene.visual.body : "",
   terminalLines: firstTerminal ? firstTerminal.visual.lines.filter((l) => l.trim()) : [],
+};
+
+// Demo wrapper — uses hooks so rightContent can animate
+const SPLIT_DEMO_DURATION = 180;
+const ALGO_STEPS = [
+  "Phân tích 247 tài xế gần đó",
+  "Tính toán điểm ưu tiên",
+  "Kiểm tra lịch sử đánh giá",
+  "Tối ưu hóa lộ trình",
+  "Xác nhận khả dụng",
+];
+
+const SplitViewDemo: React.FC = () => {
+  const frame = useCurrentFrame();
+  const rightContent = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 20, width: "100%" }}>
+      {ALGO_STEPS.map((step, i) => {
+        const enterAt = 14 + i * 10;
+        const opacity = interpolate(frame, [enterAt, enterAt + 12], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const slideX = interpolate(frame, [enterAt, enterAt + 12], [18, 0], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        return (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              opacity,
+              transform: `translateX(${slideX}px)`,
+            }}
+          >
+            <div
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                backgroundColor: "#00c896",
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontSize: 22,
+                color: "rgba(255,255,255,0.75)",
+                fontFamily: "Inter, sans-serif",
+                lineHeight: 1.4,
+              }}
+            >
+              {step}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <SplitViewScene
+      leftPanel={{ kind: "loading", text: "Đang tìm tài xế..." }}
+      rightContent={rightContent}
+      leftLabel="Bạn thấy"
+      rightLabel="Hệ thống đang làm"
+      accentColor="#00c896"
+      durationInFrames={SPLIT_DEMO_DURATION}
+    />
+  );
 };
 
 export const Root: React.FC = () => {
@@ -56,6 +130,14 @@ export const Root: React.FC = () => {
         width={defaultManifest.width}
         height={defaultManifest.height}
         defaultProps={coverDefaultProps}
+      />
+      <Composition
+        id="SplitView"
+        component={SplitViewDemo}
+        durationInFrames={SPLIT_DEMO_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="ScoreCard"

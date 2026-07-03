@@ -38,7 +38,8 @@ export type ManifestScene =
   | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
   | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
   | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual }
-  | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual };
+  | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
+  | { type: "split_view"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: SplitViewVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -77,3 +78,17 @@ export type ScoreCardVisual = {
 };
 
 export type ScoreCardSceneProps = ScoreCardVisual & { durationInFrames: number };
+
+export type SplitPanelContent =
+  | { kind: "loading"; text?: string }
+  | { kind: "text"; heading?: string; body: string };
+
+export type SplitViewVisual = {
+  leftPanel?: SplitPanelContent;
+  rightPanel?: SplitPanelContent;
+  leftLabel?: string;
+  rightLabel?: string;
+  accentColor?: string;
+};
+
+export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
