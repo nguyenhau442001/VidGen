@@ -27,6 +27,7 @@ const GLOW_BASE_R = 28;
 
 const BAIT_COLOR = "#f5c542";
 const ACCENT_DEFAULT = "#00c896";
+const MUTED_DEFAULT = "rgba(255,255,255,0.28)";
 
 const toPx = (n: number, dim: number) => n * dim;
 
@@ -172,7 +173,7 @@ const DriverDot: React.FC<{
   const dotColor =
     state === "bait" ? BAIT_COLOR :
     state === "selected" ? accentColor :
-    "rgba(255,255,255,0.28)";
+    MUTED_DEFAULT;
 
   const glowColor = state === "bait" ? BAIT_COLOR : accentColor;
 
@@ -482,6 +483,7 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
           opacity: sceneOpacity,
           "--accent": accentColor,
           "--bait": BAIT_COLOR,
+          "--muted": MUTED_DEFAULT,
         } as React.CSSProperties
       }
     >
