@@ -9,6 +9,7 @@ import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { ScoreCardScene } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
+import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -49,5 +50,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <ScoreCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "split_view":
       return <SplitViewScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "character_icon":
+      return <CharacterIconScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

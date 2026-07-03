@@ -39,7 +39,8 @@ export type ManifestScene =
   | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
   | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual }
   | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
-  | { type: "split_view"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: SplitViewVisual };
+  | { type: "split_view"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: SplitViewVisual }
+  | { type: "character_icon"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CharacterIconVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -92,3 +93,12 @@ export type SplitViewVisual = {
 };
 
 export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
+
+export type CharacterIconVisual = {
+  pose: "idle" | "holding-phone" | "pointing";
+  accompanyingIcon?: "car" | "phone" | "map-pin";
+  accentColor?: string;
+  silhouetteColor?: string;
+};
+
+export type CharacterIconSceneProps = CharacterIconVisual & { durationInFrames: number };

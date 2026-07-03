@@ -6,6 +6,7 @@ import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
+import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -130,6 +131,20 @@ export const Root: React.FC = () => {
         width={defaultManifest.width}
         height={defaultManifest.height}
         defaultProps={coverDefaultProps}
+      />
+      <Composition
+        id="CharacterIcon"
+        component={CharacterIconScene}
+        durationInFrames={120}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          pose: "holding-phone" as const,
+          accompanyingIcon: "phone" as const,
+          accentColor: "#00c896",
+          durationInFrames: 120,
+        }}
       />
       <Composition
         id="SplitView"
