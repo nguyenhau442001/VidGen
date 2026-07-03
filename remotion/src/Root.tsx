@@ -4,6 +4,7 @@ import { TikTokVideo } from "./TikTokVideo";
 import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
+import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
@@ -55,6 +56,26 @@ export const Root: React.FC = () => {
         width={defaultManifest.width}
         height={defaultManifest.height}
         defaultProps={coverDefaultProps}
+      />
+      <Composition
+        id="ScoreCard"
+        component={ScoreCardScene}
+        durationInFrames={calculateScoreCardDuration(4, 30)}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          criteria: [
+            { label: "Hiệu suất", score: 65, maxScore: 100 },
+            { label: "Độ chính xác", score: 78, maxScore: 100 },
+            { label: "Bảo mật", score: 55, maxScore: 100 },
+            { label: "Tốc độ xử lý", score: 82, maxScore: 100 },
+          ],
+          staggerFrames: 30,
+          accentColor: "#61dafb",
+          title: "Kết Quả Đánh Giá",
+          durationInFrames: calculateScoreCardDuration(4, 30),
+        }}
       />
       <Composition
         id="MapPing"

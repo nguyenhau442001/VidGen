@@ -7,6 +7,7 @@ import { CodeScene } from "./scenes/CodeScene";
 import { ErrorLogScene } from "./scenes/ErrorLogScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
+import { ScoreCardScene } from "./scenes/ScoreCardScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -43,5 +44,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <PhoneMockupScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "map_ping":
       return <MapPingScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "score_card":
+      return <ScoreCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

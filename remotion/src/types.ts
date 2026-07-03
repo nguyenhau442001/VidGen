@@ -37,7 +37,8 @@ export type ManifestScene =
   | { type: "code"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CodeVisual }
   | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
   | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
-  | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual };
+  | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual }
+  | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -65,3 +66,14 @@ export type MapPingVisual = {
 };
 
 export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
+
+export type ScoreCriteria = { label: string; score: number; maxScore: number };
+
+export type ScoreCardVisual = {
+  criteria: ScoreCriteria[];
+  staggerFrames?: number;
+  accentColor?: string;
+  title?: string;
+};
+
+export type ScoreCardSceneProps = ScoreCardVisual & { durationInFrames: number };
