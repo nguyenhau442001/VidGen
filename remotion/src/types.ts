@@ -40,7 +40,8 @@ export type ManifestScene =
   | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual }
   | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: SplitViewVisual }
-  | { type: "character_icon"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CharacterIconVisual };
+  | { type: "character_icon"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
+  | { type: "quote_callout"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -102,3 +103,12 @@ export type CharacterIconVisual = {
 };
 
 export type CharacterIconSceneProps = CharacterIconVisual & { durationInFrames: number };
+
+export type QuoteCalloutVisual = {
+  text: string;
+  accentWord?: string;
+  backgroundStyle?: "dark" | "gradient-subtle";
+  accentColor?: string;
+};
+
+export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };

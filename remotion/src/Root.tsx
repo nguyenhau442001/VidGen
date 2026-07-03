@@ -7,6 +7,7 @@ import { MapPingScene } from "./scenes/MapPingScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
+import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -144,6 +145,25 @@ export const Root: React.FC = () => {
           accompanyingIcon: "phone" as const,
           accentColor: "#00c896",
           durationInFrames: 120,
+        }}
+      />
+      <Composition
+        id="QuoteCallout"
+        component={QuoteCalloutScene}
+        durationInFrames={calculateQuoteCalloutDuration(
+          "Đó là lúc mọi thứ thay đổi mãi mãi."
+        )}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          text: "Đó là lúc mọi thứ thay đổi mãi mãi.",
+          accentWord: "thay đổi",
+          backgroundStyle: "gradient-subtle" as const,
+          accentColor: "#61dafb",
+          durationInFrames: calculateQuoteCalloutDuration(
+            "Đó là lúc mọi thứ thay đổi mãi mãi."
+          ),
         }}
       />
       <Composition
