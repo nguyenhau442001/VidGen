@@ -36,7 +36,8 @@ export type ManifestScene =
   | { type: "terminal"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: TerminalVisual }
   | { type: "code"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CodeVisual }
   | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
-  | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual };
+  | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
+  | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -50,3 +51,17 @@ export type TerminalSceneProps = TerminalVisual & { durationInFrames: number };
 export type CodeSceneProps = CodeVisual & { durationInFrames: number };
 export type ErrorLogSceneProps = ErrorLogVisual & { durationInFrames: number };
 export type PhoneMockupSceneProps = PhoneMockupVisual & { durationInFrames: number };
+
+export type MapPingDriver = { x: number; y: number; label: string };
+
+export type MapPingVisual = {
+  drivers: MapPingDriver[];
+  highlightedDriverIndex?: number;
+  nearestDriverIndex?: number;
+  selectedDriverIndex?: number;
+  phase1End?: number;
+  phase2Start?: number;
+  accentColor?: string;
+};
+
+export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };

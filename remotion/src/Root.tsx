@@ -3,6 +3,7 @@ import { Composition, continueRender, delayRender } from "remotion";
 import { TikTokVideo } from "./TikTokVideo";
 import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
+import { MapPingScene } from "./scenes/MapPingScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
@@ -54,6 +55,28 @@ export const Root: React.FC = () => {
         width={defaultManifest.width}
         height={defaultManifest.height}
         defaultProps={coverDefaultProps}
+      />
+      <Composition
+        id="MapPing"
+        component={MapPingScene}
+        durationInFrames={210}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          drivers: [
+            { x: 0.28, y: 0.28, label: "350m" },
+            { x: 0.72, y: 0.35, label: "480m" },
+            { x: 0.35, y: 0.65, label: "610m" },
+            { x: 0.68, y: 0.62, label: "290m" },
+          ],
+          nearestDriverIndex: 3,
+          selectedDriverIndex: 0,
+          phase1End: 100,
+          phase2Start: 115,
+          accentColor: "#00c896",
+          durationInFrames: 210,
+        }}
       />
       <Composition
         id="PhoneMockup"
