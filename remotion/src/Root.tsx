@@ -8,6 +8,7 @@ import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardSc
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
+import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -103,6 +104,26 @@ const SplitViewDemo: React.FC = () => {
   );
 };
 
+// ZoomReveal demo — pulls back from one highlighted driver to a busy dot field
+const ZOOM_REVEAL_DURATION = calculateZoomRevealDuration(30, 2.2);
+
+const ZoomRevealDemo: React.FC = () => (
+  <ZoomRevealScene
+    focusElement={<FocalDot />}
+    revealContent={
+      <DotField
+        durationInFrames={ZOOM_REVEAL_DURATION}
+        zoomStartScale={8}
+        zoomEndScale={1}
+      />
+    }
+    zoomStartScale={8}
+    zoomEndScale={1}
+    accentColor="#00c896"
+    durationInFrames={ZOOM_REVEAL_DURATION}
+  />
+);
+
 export const Root: React.FC = () => {
   return (
     <>
@@ -165,6 +186,14 @@ export const Root: React.FC = () => {
             "Đó là lúc mọi thứ thay đổi mãi mãi."
           ),
         }}
+      />
+      <Composition
+        id="ZoomReveal"
+        component={ZoomRevealDemo}
+        durationInFrames={ZOOM_REVEAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="SplitView"
