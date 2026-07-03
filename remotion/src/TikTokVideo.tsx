@@ -5,6 +5,7 @@ import { ExplanationScene } from "./scenes/ExplanationScene";
 import { TerminalScene } from "./scenes/TerminalScene";
 import { CodeScene } from "./scenes/CodeScene";
 import { ErrorLogScene } from "./scenes/ErrorLogScene";
+import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -37,5 +38,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <CodeScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "error_log":
       return <ErrorLogScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "phone_mockup":
+      return <PhoneMockupScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

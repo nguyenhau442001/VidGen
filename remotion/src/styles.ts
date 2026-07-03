@@ -1,5 +1,6 @@
 import { loadFont as loadInterFont } from "@remotion/google-fonts/Inter";
 import { loadFont as loadJetBrainsMonoFont } from "@remotion/google-fonts/JetBrainsMono";
+import { loadFont as loadBeVietnamProFont } from "@remotion/google-fonts/BeVietnamPro";
 
 export const { fontFamily: INTER, waitUntilDone: waitForInter } = loadInterFont("normal", {
   weights: ["400", "600", "700"],
@@ -9,6 +10,12 @@ export const { fontFamily: INTER, waitUntilDone: waitForInter } = loadInterFont(
 export const { fontFamily: JETBRAINS_MONO, waitUntilDone: waitForJetBrainsMono } =
   loadJetBrainsMonoFont("normal", {
     weights: ["400", "500", "700"],
+    subsets: ["latin", "vietnamese"],
+  });
+
+export const { fontFamily: BE_VIETNAM_PRO, waitUntilDone: waitForBeVietnamPro } =
+  loadBeVietnamProFont("normal", {
+    weights: ["400", "500", "600", "700"],
     subsets: ["latin", "vietnamese"],
   });
 

@@ -2,13 +2,14 @@ import React from "react";
 import { Composition, continueRender, delayRender } from "remotion";
 import { TikTokVideo } from "./TikTokVideo";
 import { CoverScene } from "./scenes/CoverScene";
+import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { ManifestScene, RenderManifest } from "./types";
-import { waitForInter, waitForJetBrainsMono } from "./styles";
+import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
 
 // Load fonts before any frame is captured
 const fontHandle = delayRender("Loading fonts");
-Promise.all([waitForInter(), waitForJetBrainsMono()]).then(() => {
+Promise.all([waitForInter(), waitForJetBrainsMono(), waitForBeVietnamPro()]).then(() => {
   continueRender(fontHandle);
 });
 
@@ -53,6 +54,25 @@ export const Root: React.FC = () => {
         width={defaultManifest.width}
         height={defaultManifest.height}
         defaultProps={coverDefaultProps}
+      />
+      <Composition
+        id="PhoneMockup"
+        component={PhoneMockupScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          screenState: "idle" as const,
+          driverName: "Nguyễn Văn An",
+          driverEta: "3",
+          accentColor: "#00c896",
+          buttonLabel: "Đặt xe",
+          idleRange: [0, 44] as [number, number],
+          loadingRange: [45, 89] as [number, number],
+          matchedRange: [90, 149] as [number, number],
+          durationInFrames: 150,
+        }}
       />
     </>
   );
