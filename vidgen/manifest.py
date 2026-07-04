@@ -28,9 +28,15 @@ MAP_REF_H = 1000
 
 # leftContent/rightContent in split_view scenes are semantic preset keys
 # (the script doesn't know SplitViewScene's exact SplitPanelContent shape).
+# Scripts authored in the nested motion-pipeline-1.0 schema pick these same
+# keys in main.py's _build_split_view_props — import the constants rather
+# than retyping the strings there, so the two stay in sync.
+PRESET_PHONE_LOADING_TEXT = "phone_loading_text"
+PRESET_MAP_DOTS_GATHERING = "map_dots_gathering"
+
 SPLIT_CONTENT_PRESETS = {
-    "phone_loading_text": {"kind": "loading", "text": "Đang tìm tài xế..."},
-    "map_dots_gathering": {"kind": "dots", "count": 18},
+    PRESET_PHONE_LOADING_TEXT: {"kind": "loading", "text": "Đang tìm tài xế..."},
+    PRESET_MAP_DOTS_GATHERING: {"kind": "dots", "count": 18},
 }
 
 
