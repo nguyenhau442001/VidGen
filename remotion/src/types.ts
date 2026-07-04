@@ -116,7 +116,9 @@ export type ScoreCardSceneProps = ScoreCardVisual & { durationInFrames: number }
 export type SplitPanelContent =
   | { kind: "loading"; text?: string }
   | { kind: "text"; heading?: string; body: string }
-  | { kind: "dots"; count?: number };
+  | { kind: "dots"; count?: number }
+  | { kind: "road_diagram"; axis: MapPingAxis; roadConstraint?: "median" }
+  | { kind: "eta_comparison"; axis: MapPingAxis };
 
 export type SplitViewVisual = {
   leftPanel?: SplitPanelContent;

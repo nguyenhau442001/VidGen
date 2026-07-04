@@ -44,11 +44,19 @@ MAP_REF_H = 1000
 # than retyping the strings there, so the two stay in sync.
 PRESET_PHONE_LOADING_TEXT = "phone_loading_text"
 PRESET_MAP_DOTS_GATHERING = "map_dots_gathering"
+PRESET_ROAD_CONSTRAINT_DIAGRAM = "road_constraint_diagram"
+PRESET_ETA_COMPARISON = "eta_comparison"
 
 SPLIT_CONTENT_PRESETS = {
     PRESET_PHONE_LOADING_TEXT: {"kind": "loading", "text": "Đang tìm tài xế..."},
     PRESET_MAP_DOTS_GATHERING: {"kind": "dots", "count": 18},
 }
+
+# road_constraint_diagram/eta_comparison aren't static presets like the ones
+# above — they render the shot's own axis/roadConstraint data (the same
+# MapPingAxis shape MapPingScene's axis-comparison mode consumes), so they
+# need those sibling props threaded through rather than a fixed dict.
+AXIS_SPLIT_PRESETS = {PRESET_ROAD_CONSTRAINT_DIAGRAM: "road_diagram", PRESET_ETA_COMPARISON: "eta_comparison"}
 
 
 def wav_filename(scene_id) -> str:
@@ -58,11 +66,17 @@ def wav_filename(scene_id) -> str:
     return f"{stem}.wav"
 
 
-def _resolve_split_panel(value):
+def _resolve_split_panel(value, axis_shared=None):
     if value is None:
         return None
     if isinstance(value, dict):
         return value
+    if value in AXIS_SPLIT_PRESETS:
+        axis_shared = axis_shared or {}
+        panel = {"kind": AXIS_SPLIT_PRESETS[value], "axis": axis_shared.get("axis")}
+        if value == PRESET_ROAD_CONSTRAINT_DIAGRAM:
+            panel["roadConstraint"] = axis_shared.get("roadConstraint")
+        return panel
     return SPLIT_CONTENT_PRESETS.get(value, {"kind": "text", "body": str(value)})
 
 
@@ -88,10 +102,14 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
 
     if scene_type == "split_view":
         visual = dict(props)
+        # Only road_constraint_diagram/eta_comparison need these — popped
+        # either way so they don't leak into SplitViewVisual's top level
+        # alongside the resolved leftPanel/rightPanel.
+        axis_shared = {"axis": visual.pop("axis", None), "roadConstraint": visual.pop("roadConstraint", None)}
         if "leftContent" in visual:
-            visual["leftPanel"] = _resolve_split_panel(visual.pop("leftContent"))
+            visual["leftPanel"] = _resolve_split_panel(visual.pop("leftContent"), axis_shared)
         if "rightContent" in visual:
-            visual["rightPanel"] = _resolve_split_panel(visual.pop("rightContent"))
+            visual["rightPanel"] = _resolve_split_panel(visual.pop("rightContent"), axis_shared)
         if "leftCaption" in visual:
             visual["leftLabel"] = visual.pop("leftCaption")
         if "rightCaption" in visual:
