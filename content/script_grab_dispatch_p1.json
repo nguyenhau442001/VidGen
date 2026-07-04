@@ -1,0 +1,302 @@
+{
+  "title": "grab_dispatch_p1",
+  "language": "vi",
+  "scenes": [
+    {
+      "id": "shot_01a",
+      "type": "CharacterIconScene",
+      "duration_frames": 152,
+      "props": {
+        "pose": "holding-phone",
+        "accompanyingIcon": "phone",
+        "accentColor": "#22C55E",
+        "topicLabel": "Thuật toán ẩn",
+        "partLabel": "Phần 1/4",
+        "rejectedPin": { "label": "200m" },
+        "selectedPin": { "label": "350m" }
+      },
+      "narration": "Grab không chọn tài xế gần bạn nhất — nó chấm điểm họ như một kỳ thi",
+      "narration_timing_frames": [0, 136],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Tài xế cách bạn 200 mét vừa bị hệ thống bỏ qua",
+      "on_screen_text_style": "headline_bold"
+    },
+    {
+      "id": "shot_01b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 245,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#22C55E"
+      },
+      "narration": "Hệ thống tính khoảng cách thật theo đường đi, hướng di chuyển, thời gian chờ — và cả uy tín nhận cuốc của từng tài xế",
+      "narration_timing_frames": [5, 220],
+      "on_screen_text": "Và bạn không bao giờ biết tại sao",
+      "transition_out_delay_frames": 15,
+      "on_screen_text_at_frame": 5
+    },
+    {
+      "id": "shot_01c",
+      "type": "PhoneMockupScene",
+      "duration_frames": 143,
+      "props": {
+        "screenState": "loading",
+        "accentColor": "#22C55E"
+      },
+      "narration": "Ngay lúc bạn bấm, một cuộc đua thầm lặng bắt đầu phía sau màn hình",
+      "narration_timing_frames": [8, 128],
+      "sound_design": "button_tap sfx at frame 0, subtle loading tick loop underneath narration",
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_02a",
+      "type": "MapPingScene",
+      "duration_frames": 75,
+      "props": { "drivers": [] },
+      "narration": null,
+      "sound_design": "map whoosh/materialize sfx",
+      "transition_out_delay_frames": 0
+    },
+    {
+      "id": "shot_02b",
+      "type": "MapPingScene",
+      "duration_frames": 258,
+      "props": {
+        "drivers": [
+          { "x": 210.0, "y": 450.0, "label": "180m" },
+          { "x": 502.5, "y": 330.0, "label": "350m" },
+          { "x": 540.0, "y": 610.0, "label": "420m" },
+          { "x": 315.0, "y": 720.0, "label": "600m" },
+          { "x": 375.0, "y": 500.0, "label": "Bạn" }
+        ]
+      },
+      "narration": "Ai cũng nghĩ tài xế gần nhất sẽ được chọn — nhìn vào bản đồ, người cách bạn 180 mét trông có vẻ là lựa chọn hiển nhiên",
+      "narration_timing_frames": [15, 248],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02c",
+      "type": "MapPingScene",
+      "duration_frames": 207,
+      "props": {
+        "drivers": [
+          { "x": 210.0, "y": 450.0, "label": "180m" }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#22C55E"
+      },
+      "narration": "Nhưng không, người gần nhất không tự động thắng. Tất cả phụ thuộc vào một điểm số ẩn.",
+      "narration_timing_frames": [8, 192],
+      "transition_out_delay_frames": 5
+    },
+    {
+      "id": "shot_02d",
+      "type": "MapPingScene",
+      "duration_frames": 211,
+      "props": {
+        "drivers": [
+          { "x": 210.0, "y": 450.0, "label": "180m" },
+          { "x": 502.5, "y": 330.0, "label": "350m" }
+        ],
+        "highlightedDriverIndex": 1,
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Không phải khoảng cách — là một con số khác. Và nó thay đổi từng giây.",
+      "narration_timing_frames": [25, 161],
+      "on_screen_text": "Điểm số ẩn",
+      "transition_out_delay_frames": 20
+    },
+    {
+      "id": "shot_02ea",
+      "type": "MapPingScene",
+      "duration_frames": 204,
+      "props": {
+        "drivers": [
+          { "x": 210.0, "y": 450.0, "label": "200m" },
+          { "x": 502.5, "y": 330.0, "label": "400m" }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Tài xế A cách 200 mét. Tài xế B cách 400 mét — trông có vẻ xa hơn.",
+      "narration_timing_frames": [8, 164],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02eb",
+      "type": "SplitViewScene",
+      "duration_frames": 387,
+      "props": {
+        "leftContent": "road_constraint_diagram",
+        "rightContent": "eta_comparison",
+        "leftCaption": "Khoảng cách",
+        "rightCaption": "Thời gian thực tế",
+        "roadConstraint": "median",
+        "axis": {
+          "destinationLabel": "Điểm đón",
+          "drivers": [
+            {
+              "label": "200m — nhưng phải quay đầu",
+              "distanceMeters": 200,
+              "direction": "away",
+              "constraintNote": "Dải phân cách — chạy tới lối quay đầu tiếp theo",
+              "etaSeconds": 360,
+              "etaLabel": "ETA: 6 phút"
+            },
+            {
+              "label": "400m — tấp lề ngay",
+              "distanceMeters": 400,
+              "direction": "toward",
+              "constraintNote": null,
+              "etaSeconds": 120,
+              "etaLabel": "ETA: 2 phút"
+            }
+          ]
+        },
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Nhưng tài xế A đang chạy trên làn có dải phân cách, phải vòng lại mới đón được. Tài xế B tấp lề đón bạn ngay lập tức. Ứng dụng không tính khoảng cách — nó tính thời gian thực tế trên bản đồ đường.",
+      "narration_timing_frames": [8, 368],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_02f",
+      "type": "MapPingScene",
+      "duration_frames": 246,
+      "props": {
+        "drivers": [
+          { "x": 502.5, "y": 330.0, "label": "350m" },
+          { "x": 210.0, "y": 450.0, "label": "180m" },
+          { "x": 540.0, "y": 610.0, "label": "420m" },
+          { "x": 315.0, "y": 720.0, "label": "600m" }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Và trong tích tắc đó, hệ thống đang âm thầm chấm điểm từng tài xế một — tất cả, cùng một lúc, mà bạn không hề hay biết",
+      "narration_timing_frames": [5, 229],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_03a",
+      "type": "ScoreCardScene",
+      "duration_frames": 417,
+      "sound_design": "split/reveal whoosh sfx at frame 0",
+      "props": {
+        "criteria": [
+          { "label": "Khoảng cách thật", "score": 18, "maxScore": 25 },
+          { "label": "Hướng di chuyển",  "score": 22, "maxScore": 25 },
+          { "label": "Thời gian chờ",    "score": 20, "maxScore": 25 },
+          { "label": "Uy tín nhận cuốc", "score": 24, "maxScore": 25 }
+        ],
+        "rowEnterFrames": [28, 78, 151, 209],
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Tổng điểm cao nhất thắng — dù người đó không phải gần nhất",
+      "narration_timing_frames": [294, 398],
+      "narration_per_criterion": [
+        { "at_frame": 5,   "text": "Một: khoảng cách thật" },
+        { "at_frame": 71,  "text": "Hai: hướng di chuyển" },
+        { "at_frame": 144, "text": "Ba: thời gian chờ" },
+        { "at_frame": 202, "text": "Bốn: uy tín nhận cuốc" }
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_03b",
+      "type": "ZoomRevealScene",
+      "duration_frames": 266,
+      "props": {
+        "focusElement": "selected_driver_dot",
+        "revealContent": "city_dot_field",
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Và đây không chỉ là bài toán của riêng bạn — Grab đang làm điều này cho hàng nghìn người, cùng lúc.",
+      "narration_timing_frames": [30, 251],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_04a",
+      "type": "PhoneMockupScene",
+      "duration_frames": 184,
+      "props": {
+        "screenState": "matched",
+        "accentColor": "#22C55E",
+        "driverName": "Anh Tuấn",
+        "driverEta": "3 phút"
+      },
+      "narration": "Đây chính là lý do bạn luôn có tài xế phù hợp — không phải may mắn, mà là toán học",
+      "narration_timing_frames": [0, 168],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_04b",
+      "type": "SplitViewScene",
+      "duration_frames": 341,
+      "props": {
+        "leftContent": "phone_loading_text",
+        "rightContent": "map_dots_gathering",
+        "leftCaption": "Bạn thấy",
+        "rightCaption": "Hệ thống đang làm",
+        "accentColor": "#22C55E"
+      },
+      "narration": "Nhưng đôi khi ứng dụng vẫn chưa ghép ngay — và đó không phải lỗi. Ứng dụng đang chờ thêm vài giây để đưa ra quyết định tốt hơn.",
+      "narration_timing_frames": [20, 321],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_04c",
+      "type": "MapPingScene",
+      "duration_frames": 359,
+      "props": {
+        "drivers": [
+          { "x": 262.5, "y": 420.0, "label": "Khách A" },
+          { "x": 457.5, "y": 500.0, "label": "Khách B" }
+        ]
+      },
+      "narration": "Khách A đặt xe lúc 0 giây. Hai giây sau, Khách B cũng đặt xe, cách đó không xa. Hệ thống chờ đúng khoảng đó — để nhìn thấy cả hai cùng lúc, rồi ghép tối ưu cho cả hai",
+      "narration_timing_frames": [5, 339],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_05a",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 232,
+      "props": {
+        "text": "Giống như người quản lý nhà hàng nhìn cả phòng chờ trước khi xếp bàn, thay vì xếp ngay khi vừa trống một chỗ",
+        "accentWord": "nhìn cả phòng chờ",
+        "backgroundStyle": "gradient-subtle"
+      },
+      "narration": "Giống như người quản lý nhà hàng nhìn cả phòng chờ trước khi xếp bàn — thay vì xếp ngay khi vừa có chỗ trống",
+      "narration_timing_frames": [10, 210],
+      "transition_out_delay_frames": 20
+    },
+    {
+      "id": "shot_05b",
+      "type": "MapPingScene",
+      "duration_frames": 235,
+      "props": {
+        "drivers": [
+          { "x": 262.5, "y": 420.0, "label": "Khách A" },
+          { "x": 457.5, "y": 500.0, "label": "Khách B" }
+        ]
+      },
+      "narration": "Kết quả: cả hai đều được ghép với tài xế hợp lý hơn — dù mỗi người chỉ chờ thêm đúng hai giây",
+      "narration_timing_frames": [10, 210],
+      "transition_out_delay_frames": 20
+    },
+    {
+      "id": "shot_05c",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 240,
+      "props": {
+        "text": "Nhưng tài xế đứng gần bạn — có khi đã được Grab gợi ý di chuyển tới đó, trước khi bạn mở app",
+        "accentWord": "gợi ý di chuyển tới đó từ trước",
+        "backgroundStyle": "dark"
+      },
+      "narration": "Nhưng tài xế đứng gần bạn — có khi đã được Grab gợi ý di chuyển tới đó, trước khi bạn mở app.",
+      "narration_timing_frames": [12, 235],
+      "transition_out_delay_frames": 0
+    }
+  ]
+}
