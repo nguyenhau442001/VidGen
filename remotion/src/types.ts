@@ -84,7 +84,8 @@ export type ScoreCardSceneProps = ScoreCardVisual & { durationInFrames: number }
 
 export type SplitPanelContent =
   | { kind: "loading"; text?: string }
-  | { kind: "text"; heading?: string; body: string };
+  | { kind: "text"; heading?: string; body: string }
+  | { kind: "dots"; count?: number };
 
 export type SplitViewVisual = {
   leftPanel?: SplitPanelContent;

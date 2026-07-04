@@ -27,6 +27,56 @@ const SAFE_TOP = 244;
 const SAFE_BOTTOM = 424;
 
 // ---------------------------------------------------------------------------
+// Deterministic pseudo-random hash — never Math.random() (see DotField in
+// ZoomRevealScene.tsx for the same rationale: layout must stay frame-stable).
+// ---------------------------------------------------------------------------
+function hash(seed: number): number {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+// ---------------------------------------------------------------------------
+// Small decorative dot cluster — used by the "dots" panel kind to suggest
+// many requests/signals arriving, each popping in on its own stagger.
+// ---------------------------------------------------------------------------
+const DotCluster: React.FC<{ frame: number; count: number; accentColor: string }> = ({
+  frame,
+  count,
+  accentColor,
+}) => {
+  const size = 300;
+  const dots = React.useMemo(() => {
+    const arr: { x: number; y: number; r: number; delay: number }[] = [];
+    for (let i = 0; i < count; i++) {
+      const x = hash(i * 2.31 + 1) * size;
+      const y = hash(i * 3.17 + 5) * size;
+      const r = 4 + hash(i * 5.71 + 2) * 5;
+      const delay = Math.floor(hash(i * 7.13 + 3) * 20);
+      arr.push({ x, y, r, delay });
+    }
+    return arr;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      {dots.map((d, i) => {
+        const enterFrame = 6 + d.delay;
+        const opacity = interpolate(frame, [enterFrame, enterFrame + 10], [0, 0.8], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        const scale = interpolate(frame, [enterFrame, enterFrame + 10], [0.3, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+        return <circle key={i} cx={d.x} cy={d.y} r={d.r * scale} fill={accentColor} opacity={opacity} />;
+      })}
+    </svg>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Panel content renderer (manifest-driven panel types)
 // ---------------------------------------------------------------------------
 const PanelContent: React.FC<{
@@ -115,6 +165,10 @@ const PanelContent: React.FC<{
         </div>
       </div>
     );
+  }
+
+  if (panel.kind === "dots") {
+    return <DotCluster frame={frame} count={panel.count ?? 18} accentColor={accentColor} />;
   }
 
   return null;
