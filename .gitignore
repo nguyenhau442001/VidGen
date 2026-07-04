@@ -6,3 +6,8 @@ remotion/public/audio/
 
 # Python bytecode
 vidgen/__pycache__/*
+tests/__pycache__/*
+
+# Remotion Studio local state
+remotion/out/
+remotion/.DS_Store
