@@ -128,6 +128,7 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
         scenes.append(
             {
                 "id": i,
+                "label": str(sid),  # original script scene/shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
                 "type": scene_type,
                 "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
                 "audioOffsetFrames": audio_offset,

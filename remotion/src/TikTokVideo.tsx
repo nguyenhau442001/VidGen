@@ -21,7 +21,11 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
     <AbsoluteFill style={{ backgroundColor: "#0a0a0f" }}>
       <Series>
         {manifest.scenes.map((scene) => (
-          <Series.Sequence key={scene.id} durationInFrames={scene.durationInFrames}>
+          <Series.Sequence
+            key={scene.id}
+            name={scene.label ? `${scene.id} · ${scene.label}` : `${scene.id}`}
+            durationInFrames={scene.durationInFrames}
+          >
             {scene.audioPath && (
               <Sequence from={scene.audioOffsetFrames ?? 0}>
                 <Audio src={staticFile(scene.audioPath)} />
