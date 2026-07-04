@@ -98,11 +98,20 @@ export type SplitViewVisual = {
 
 export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
 
+export type CharacterIconDistancePin = { label: string };
+
 export type CharacterIconVisual = {
   pose: "idle" | "holding-phone" | "pointing";
   accompanyingIcon?: "car" | "phone" | "map-pin";
   accentColor?: string;
   silhouetteColor?: string;
+  // Scene-1 "hook" framing — all optional so every other CharacterIconScene
+  // usage renders unchanged. topicLabel/partLabel are freeform (already
+  // human-composed, e.g. "Phần 1/4") so no series-numbering logic lives here.
+  topicLabel?: string;
+  partLabel?: string;
+  rejectedPin?: CharacterIconDistancePin;
+  selectedPin?: CharacterIconDistancePin;
 };
 
 export type CharacterIconSceneProps = CharacterIconVisual & { durationInFrames: number };
