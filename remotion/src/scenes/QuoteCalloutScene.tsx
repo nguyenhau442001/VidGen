@@ -215,6 +215,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
           style={{
             maxWidth: MAX_TEXT_WIDTH,
             textAlign: "center",
+            textWrap: "balance",
             fontFamily: BE_VIETNAM_PRO,
             fontWeight: 700,
             fontSize,
