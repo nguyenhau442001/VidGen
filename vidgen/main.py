@@ -88,6 +88,7 @@ subprocess.run(
     [
         "npx", "remotion", "render", "TikTokVideo", VIDEO_OUTPUT,
         f"--props={manifest_props}",
+        "--concurrency=100%",
     ],
     cwd="remotion",
     check=True,
