@@ -33,7 +33,11 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
             )}
             <SceneRenderer scene={scene} />
             {scene.caption && (
-              <Caption text={scene.caption} durationInFrames={scene.durationInFrames} />
+              <Caption
+                text={scene.caption}
+                durationInFrames={scene.durationInFrames}
+                style={scene.captionStyle}
+              />
             )}
           </Series.Sequence>
         ))}

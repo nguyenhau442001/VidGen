@@ -2,9 +2,20 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { SAFE_ZONE } from "./styles";
 
-export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
+// Caption "style" arrives as a semantic preset key authored on the script's
+// on_screen_text_style (manifest visuals must stay JSON-serializable) —
+// resolve unrecognized/absent keys to "default" rather than guessing.
+const CAPTION_PRESETS = {
+  default: { fontSize: 28, fontWeight: 500, maxWidth: 840 },
+  // Hook-frame emphasis: the opening seconds decide whether a viewer keeps
+  // watching, so this caption reads noticeably louder than the rest.
+  headline_bold: { fontSize: 44, fontWeight: 800, maxWidth: 920 },
+} as const;
+
+export const Caption: React.FC<{ text: string; durationInFrames: number; style?: string }> = ({
   text,
   durationInFrames,
+  style,
 }) => {
   const frame = useCurrentFrame();
   const fade = Math.min(8, Math.floor(durationInFrames / 4));
@@ -15,6 +26,9 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
     [0, 1, 1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
+
+  const { fontSize, fontWeight, maxWidth } =
+    CAPTION_PRESETS[style as keyof typeof CAPTION_PRESETS] ?? CAPTION_PRESETS.default;
 
   return (
     <AbsoluteFill
@@ -34,16 +48,16 @@ export const Caption: React.FC<{ text: string; durationInFrames: number }> = ({
           borderRadius: 16,
           background: "rgba(0,0,0,0.65)",
           backdropFilter: "blur(12px)",
-          maxWidth: 840,
+          maxWidth,
           textAlign: "center",
         }}
       >
         <span
           style={{
-            fontSize: 28,
-            fontWeight: 500,
+            fontSize,
+            fontWeight,
             color: "#fff",
-            lineHeight: 1.4,
+            lineHeight: 1.35,
             fontFamily: "Inter, system-ui, sans-serif",
           }}
         >

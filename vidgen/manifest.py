@@ -152,6 +152,7 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                 "audioOffsetFrames": audio_offset,
                 "durationInFrames": duration_frames,
                 "caption": caption,
+                "captionStyle": scene.get("on_screen_text_style"),
                 "visual": visual,
             }
         )

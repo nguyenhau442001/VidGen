@@ -323,6 +323,8 @@ def flatten_script(script: dict) -> dict:
                 flat_scene["narration_timing_frames"] = [f - start for f in timing]
             if shot.get("on_screen_text"):
                 flat_scene["on_screen_text"] = shot["on_screen_text"]
+            if shot.get("on_screen_text_style"):
+                flat_scene["on_screen_text_style"] = shot["on_screen_text_style"]
             if shot.get("sound_design"):
                 flat_scene["sound_design"] = shot["sound_design"]
 
