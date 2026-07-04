@@ -74,6 +74,65 @@ def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
     assert "roadConstraint" not in visual
 
 
+# Reading-speed floor: a caption must stay on screen at least
+# len(caption) / 17 chars-per-second, or viewers can't finish reading it
+# before the scene cuts. 17 CPS is the standard subtitle ceiling (spaces
+# counted), which short TTS audio or authored durations can easily beat.
+
+
+def test_caption_reading_time_extends_short_audio_derived_duration():
+    narration = (
+        "Ứng dụng đang chờ thêm vài giây để đưa ra quyết định ghép tài xế "
+        "tốt hơn cho bạn và cả những người xung quanh."
+    )
+    script = {
+        "scenes": [
+            {"id": 1, "type": "explanation", "narration": narration, "visual": {}}
+        ]
+    }
+
+    manifest = build_render_manifest(script, {1: 1.0})
+
+    min_reading_frames = math.ceil(len(narration) / 17 * FPS)
+    assert min_reading_frames > math.ceil(1.0 * FPS) + FRAME_PADDING  # rule actually binds
+    assert manifest["scenes"][0]["durationInFrames"] == min_reading_frames
+
+
+def test_caption_reading_time_extends_authored_duration_using_on_screen_text():
+    on_screen_text = "Hệ thống không chọn tài xế gần nhất, mà chọn tài xế đến đón nhanh nhất."
+    script = {
+        "scenes": [
+            {
+                "id": "shot_04b",
+                "type": "QuoteCalloutScene",
+                "duration_frames": 60,
+                "narration": "ba từ thôi",
+                "on_screen_text": on_screen_text,
+                "props": {},
+            }
+        ]
+    }
+
+    manifest = build_render_manifest(script, {"shot_04b": 1.5})
+
+    # The displayed caption is on_screen_text, not the short narration.
+    min_reading_frames = math.ceil(len(on_screen_text) / 17 * FPS)
+    assert min_reading_frames > 60  # rule actually binds
+    assert manifest["scenes"][0]["durationInFrames"] == min_reading_frames
+
+
+def test_short_caption_leaves_audio_derived_duration_unchanged():
+    script = {
+        "scenes": [
+            {"id": 1, "type": "explanation", "narration": "Ngắn gọn.", "visual": {}}
+        ]
+    }
+
+    manifest = build_render_manifest(script, {1: 3.0})
+
+    assert manifest["scenes"][0]["durationInFrames"] == math.ceil(3.0 * FPS) + FRAME_PADDING
+
+
 def test_multi_scene_ordering():
     script = {
         "scenes": [

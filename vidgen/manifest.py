@@ -7,6 +7,12 @@ import shutil
 FPS = 30
 FRAME_PADDING = 10
 
+# Reading-speed ceiling for the on-screen caption, chars/sec with spaces
+# counted (standard subtitle guideline). Scene duration is clamped up so the
+# caption never leaves the screen before a viewer at this speed finishes it —
+# short TTS audio or an authored duration_frames can otherwise cut it early.
+MAX_CAPTION_CPS = 17
+
 # Shot ids follow "<scene>_<letter>" (e.g. "shot_01a", "shot_01b", "shot_01c"
 # all belong to scene "shot_01"). Ids without a trailing shot letter (plain
 # "shot_01", numeric legacy ids) aren't part of a multi-shot scene.
@@ -159,6 +165,9 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
             audio_offset = timing[0]
 
         caption = scene.get("on_screen_text") or narration or ""
+        if caption:
+            min_reading_frames = math.ceil(len(caption) / MAX_CAPTION_CPS * fps)
+            duration_frames = max(duration_frames, min_reading_frames)
 
         # Staggered voiceover lines (e.g. ScoreCardScene's per-row narration)
         # each got their own TTS pass in main.py, keyed "<id>_seg<i>" — surface
