@@ -32,16 +32,17 @@ export type PhoneMockupVisual = {
 };
 
 export type ManifestScene =
-  | { type: "explanation"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ExplanationVisual }
-  | { type: "terminal"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: TerminalVisual }
-  | { type: "code"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CodeVisual }
-  | { type: "error_log"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
-  | { type: "phone_mockup"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
-  | { type: "map_ping"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: MapPingVisual }
-  | { type: "score_card"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
-  | { type: "split_view"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: SplitViewVisual }
-  | { type: "character_icon"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
-  | { type: "quote_callout"; id: number; audioPath: string; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual };
+  | { type: "explanation"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ExplanationVisual }
+  | { type: "terminal"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: TerminalVisual }
+  | { type: "code"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CodeVisual }
+  | { type: "error_log"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
+  | { type: "phone_mockup"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
+  | { type: "map_ping"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: MapPingVisual }
+  | { type: "score_card"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
+  | { type: "split_view"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitViewVisual }
+  | { type: "character_icon"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
+  | { type: "quote_callout"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual }
+  | { type: "zoom_reveal"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ZoomRevealVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -112,3 +113,15 @@ export type QuoteCalloutVisual = {
 };
 
 export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };
+
+// focusElement/revealContent are preset keys (resolved to the built-in FocalDot /
+// DotField components by the scene renderer) since manifest visuals must stay
+// JSON-serializable and can't carry actual ReactNode content.
+export type ZoomRevealVisual = {
+  focusElement?: string;
+  revealContent?: string;
+  zoomStartScale?: number;
+  zoomEndScale?: number;
+  accentColor?: string;
+  dotColor?: string;
+};
