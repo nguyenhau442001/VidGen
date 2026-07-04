@@ -116,6 +116,20 @@ export type CharacterIconVisual = {
 
 export type CharacterIconSceneProps = CharacterIconVisual & { durationInFrames: number };
 
+export type CharacterIconCoverVisual = {
+  accentColor?: string;
+  line1?: string;
+  line2?: string;
+  line3?: string;
+  subtitle?: string;
+  eyebrowText?: string;
+  seriesLabel?: string;
+  rejectedLabel?: string;
+  selectedLabel?: string;
+};
+
+export type CharacterIconCoverSceneProps = CharacterIconCoverVisual;
+
 export type QuoteCalloutVisual = {
   text: string;
   accentWord?: string;

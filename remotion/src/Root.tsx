@@ -7,6 +7,7 @@ import { MapPingScene } from "./scenes/MapPingScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
+import { CharacterIconCoverScene } from "./scenes/CharacterIconCoverScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
@@ -209,6 +210,17 @@ export const Root: React.FC = () => {
           accompanyingIcon: "phone" as const,
           accentColor: "#00c896",
           durationInFrames: 120,
+        }}
+      />
+      <Composition
+        id="CharacterIconCover"
+        component={CharacterIconCoverScene}
+        durationInFrames={1}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          eyebrowText: "DevFasterr",
         }}
       />
       <Composition
