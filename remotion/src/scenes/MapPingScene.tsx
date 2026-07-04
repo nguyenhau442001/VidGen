@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { MapPingSceneProps } from "../types";
+import { MapPingAxis, MapPingSceneProps } from "../types";
 import { colors, INTER } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
 
@@ -30,6 +30,18 @@ const ACCENT_DEFAULT = "#00c896";
 const MUTED_DEFAULT = "rgba(255,255,255,0.28)";
 
 const toPx = (n: number, dim: number) => n * dim;
+
+// ---------------------------------------------------------------------------
+// Axis-comparison geometry (fixed screen bearings, not authored per-shot):
+// "forward" points straight up from the rider, matching a compass mental
+// model, so destination/rider/toward-driver read as one honest vertical
+// line. The away-driver branches to the lower-left so its vector is
+// unambiguously distinct from that line rather than merely its reverse.
+// ---------------------------------------------------------------------------
+const AXIS_DIR = { x: 0, y: -1 };
+const OFF_AXIS_DIR = { x: -0.85, y: 0.53 };
+const AXIS_METERS_TO_PX = 0.55;
+const AXIS_DEST_DIST_PX = 300;
 
 // ---------------------------------------------------------------------------
 // Street grid: [normalizedPos, isMajor]
@@ -254,21 +266,32 @@ const DriverDot: React.FC<{
       {/* Specular highlight */}
       <circle r={dotR * 0.38 * entrance} fill="rgba(255,255,255,0.65)" opacity={entrance} />
 
-      {/* Distance label */}
-      <text
-        x={DRIVER_R + 10}
-        y={6}
-        fontSize={24}
-        fontWeight={600}
-        letterSpacing="-0.01em"
-        style={{
-          fill: state !== "normal" ? dotColor : "rgba(255,255,255,0.4)",
-          fontFamily: INTER,
-        }}
-        opacity={labelOpacity * entrance}
-      >
-        {label}
-      </text>
+      {/* Distance label — offset scales with the dot's own (possibly
+          enlarged, highlighted) radius, and a dark stroke halo keeps it
+          legible over the glow rings regardless of how far they pulse.
+          Empty label (axis mode renders its own side-aware label instead,
+          since a fixed rightward offset can run into other diagram content
+          when a dot sits off-center) renders nothing. */}
+      {label && (
+        <text
+          x={dotR + 14}
+          y={6}
+          fontSize={24}
+          fontWeight={600}
+          letterSpacing="-0.01em"
+          paintOrder="stroke"
+          stroke={colors.bg}
+          strokeWidth={5}
+          strokeLinejoin="round"
+          style={{
+            fill: state !== "normal" ? dotColor : "rgba(255,255,255,0.4)",
+            fontFamily: INTER,
+          }}
+          opacity={labelOpacity * entrance}
+        >
+          {label}
+        </text>
+      )}
 
       {/* Phase badge */}
       {badge && badgeOpacity > 0 && (
@@ -322,6 +345,397 @@ const CustomerDot: React.FC<{ frame: number; fps: number }> = ({ frame, fps }) =
       <circle r={CUST_R * entrance} fill={colors.cyan} opacity={entrance} />
       <circle r={CUST_R * 0.38 * entrance} fill="white" opacity={0.85 * entrance} />
     </g>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Axis-comparison mode: rider→destination "ground truth" direction vs. two
+// drivers' own travel vectors (one aligned, one opposed) — dedicated layout
+// for explaining that raw distance loses to direction of travel.
+// ---------------------------------------------------------------------------
+
+// Flag/pin marker for the destination — deliberately not a circular dot, so
+// it reads as distinct from the rider/driver nodes at a glance.
+const DestinationNode: React.FC<{
+  x: number;
+  y: number;
+  label: string;
+  frame: number;
+  fps: number;
+  enterFrame: number;
+}> = ({ x, y, label, frame, fps, enterFrame }) => {
+  const entrance = spring({
+    frame: frame - enterFrame,
+    fps,
+    from: 0,
+    to: 1,
+    config: { stiffness: 220, damping: 16 },
+    durationInFrames: 24,
+  });
+
+  if (entrance <= 0) return null;
+
+  return (
+    <g transform={`translate(${x},${y}) scale(${entrance})`} opacity={entrance}>
+      <line x1={0} y1={10} x2={0} y2={-26} stroke="#fff" strokeWidth={3} strokeLinecap="round" />
+      <path d="M 0 -26 L 22 -19 L 0 -12 Z" fill="#fff" />
+      <circle cx={0} cy={12} r={4} fill="#fff" />
+
+      <text
+        x={30}
+        y={-10}
+        fontSize={24}
+        fontWeight={600}
+        letterSpacing="-0.01em"
+        paintOrder="stroke"
+        stroke={colors.bg}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        style={{ fill: "#fff", fontFamily: INTER }}
+      >
+        {label}
+      </text>
+    </g>
+  );
+};
+
+// A drawn-in line with an optional directional arrowhead. `dashed` renders
+// the rider→destination "ground truth" axis (fades in, doesn't imply
+// motion); solid segments are driver vectors that draw in stroke-first, same
+// technique as RouteLine, to read as "this is the way it's moving."
+const AxisSegment: React.FC<{
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  color: string;
+  markerId?: string;
+  dashed?: boolean;
+  frame: number;
+  drawStart: number;
+  drawDuration?: number;
+}> = ({ x1, y1, x2, y2, color, markerId, dashed, frame, drawStart, drawDuration = 22 }) => {
+  const length = Math.hypot(x2 - x1, y2 - y1);
+  const drawP = interpolate(frame, [drawStart, drawStart + drawDuration], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  if (drawP <= 0) return null;
+
+  const markerEnd = markerId ? `url(#${markerId})` : undefined;
+
+  return dashed ? (
+    <line
+      x1={x1} y1={y1} x2={x2} y2={y2}
+      stroke={color}
+      strokeWidth={3}
+      strokeDasharray="10 8"
+      strokeLinecap="round"
+      opacity={0.75 * drawP}
+      markerEnd={markerEnd}
+    />
+  ) : (
+    <line
+      x1={x1} y1={y1} x2={x2} y2={y2}
+      stroke={color}
+      strokeWidth={3.5}
+      strokeLinecap="round"
+      strokeDasharray={`${length}`}
+      strokeDashoffset={`${length * (1 - drawP)}`}
+      opacity={0.9}
+      markerEnd={markerEnd}
+    />
+  );
+};
+
+// Distance label + ETA + (when present) the real-world reason distance
+// alone is misleading — all three lines anchored to the same side, chosen
+// by the caller based on which way the dot has room to breathe, so a driver
+// sitting off-center never has its own label text cross back over the
+// rider→destination axis or another driver's vector.
+const AxisDriverLabel: React.FC<{
+  x: number;
+  y: number;
+  dotR: number;
+  side: "left" | "right";
+  distanceLabel: string;
+  etaLabel?: string;
+  constraintNote?: string | null;
+  color: string;
+  mutedColor: string;
+  frame: number;
+  enterFrame: number;
+}> = ({ x, y, dotR, side, distanceLabel, etaLabel, constraintNote, color, mutedColor, frame, enterFrame }) => {
+  const opacity = interpolate(frame, [enterFrame, enterFrame + 14], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  if (opacity <= 0) return null;
+
+  const sign = side === "left" ? -1 : 1;
+  const anchor = side === "left" ? "end" : "start";
+  const tx = sign * (dotR + 14);
+
+  return (
+    <g transform={`translate(${x},${y})`} opacity={opacity}>
+      <text
+        x={tx}
+        y={6}
+        textAnchor={anchor}
+        fontSize={24}
+        fontWeight={600}
+        letterSpacing="-0.01em"
+        paintOrder="stroke"
+        stroke={colors.bg}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        style={{ fill: mutedColor, fontFamily: INTER }}
+      >
+        {distanceLabel}
+      </text>
+      {etaLabel && (
+        <text
+          x={tx}
+          y={42}
+          textAnchor={anchor}
+          fontSize={26}
+          fontWeight={700}
+          paintOrder="stroke"
+          stroke={colors.bg}
+          strokeWidth={5}
+          strokeLinejoin="round"
+          style={{ fill: color, fontFamily: INTER }}
+        >
+          {etaLabel}
+        </text>
+      )}
+      {constraintNote && (
+        <text
+          x={tx}
+          y={72}
+          textAnchor={anchor}
+          fontSize={17}
+          fontWeight={500}
+          paintOrder="stroke"
+          stroke={colors.bg}
+          strokeWidth={4}
+          strokeLinejoin="round"
+          style={{ fill: "rgba(255,255,255,0.55)", fontFamily: INTER }}
+        >
+          {constraintNote}
+        </text>
+      )}
+    </g>
+  );
+};
+
+// Physical barrier glyph (e.g. a road median) drawn across a driver's vector
+// — the concrete, visible reason their route can't run straight to the
+// rider, perpendicular to the vector it's blocking.
+const MedianStrip: React.FC<{
+  midX: number;
+  midY: number;
+  perp: { x: number; y: number };
+  frame: number;
+  enterFrame: number;
+}> = ({ midX, midY, perp, frame, enterFrame }) => {
+  const opacity = interpolate(frame, [enterFrame, enterFrame + 14], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  if (opacity <= 0) return null;
+
+  const len = 46;
+  const x1 = midX - perp.x * (len / 2);
+  const y1 = midY - perp.y * (len / 2);
+  const x2 = midX + perp.x * (len / 2);
+  const y2 = midY + perp.y * (len / 2);
+
+  return (
+    <line
+      x1={x1} y1={y1} x2={x2} y2={y2}
+      stroke={BAIT_COLOR}
+      strokeWidth={5}
+      strokeLinecap="round"
+      strokeDasharray="9 7"
+      opacity={opacity}
+    />
+  );
+};
+
+const AxisComparisonDiagram: React.FC<{
+  axis: MapPingAxis;
+  accentColor: string;
+  roadConstraint?: "median";
+  frame: number;
+  fps: number;
+}> = ({ axis, accentColor, roadConstraint, frame, fps }) => {
+  const riderX = toPx(CUST_NX, VW);
+  const riderY = toPx(CUST_NY, VH);
+
+  const destX = riderX + AXIS_DIR.x * AXIS_DEST_DIST_PX;
+  const destY = riderY + AXIS_DIR.y * AXIS_DEST_DIST_PX;
+
+  const towardDriver = axis.drivers.find((d) => d.direction === "toward");
+  const awayDriver = axis.drivers.find((d) => d.direction === "away");
+
+  const towardPos = towardDriver && {
+    x: riderX - AXIS_DIR.x * towardDriver.distanceMeters * AXIS_METERS_TO_PX,
+    y: riderY - AXIS_DIR.y * towardDriver.distanceMeters * AXIS_METERS_TO_PX,
+  };
+  const awayPos = awayDriver && {
+    x: riderX + OFF_AXIS_DIR.x * awayDriver.distanceMeters * AXIS_METERS_TO_PX,
+    y: riderY + OFF_AXIS_DIR.y * awayDriver.distanceMeters * AXIS_METERS_TO_PX,
+  };
+
+  // Perpendicular to the away driver's own vector — where a median glyph
+  // crosses it, at the segment's midpoint.
+  const awayPerp = { x: -OFF_AXIS_DIR.y, y: OFF_AXIS_DIR.x };
+  const awayMid = awayPos && { x: (riderX + awayPos.x) / 2, y: (riderY + awayPos.y) / 2 };
+
+  // Staggered reveal: ground-truth axis first, then the aligned driver
+  // "arriving" along it, then the opposed driver branching away — so the
+  // eye reads the correct direction before it's contradicted.
+  const destEnter = ENTER_FRAMES + 6;
+  const axisLineDraw = destEnter + 18;
+  const towardEnter = axisLineDraw + 10;
+  const towardArrowDraw = towardEnter + 16;
+  const towardAnnotationEnter = towardArrowDraw + 14;
+  const awayEnter = towardArrowDraw + 8;
+  const awayArrowDraw = awayEnter + 16;
+  const medianEnter = awayArrowDraw + 6;
+  const awayAnnotationEnter = medianEnter + 10;
+
+  return (
+    <>
+      <defs>
+        <marker id="axisArrowAccent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" fill={accentColor} />
+        </marker>
+        <marker id="axisArrowMuted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" fill={MUTED_DEFAULT} />
+        </marker>
+        <marker id="axisArrowGhost" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" fill="rgba(255,255,255,0.5)" />
+        </marker>
+      </defs>
+
+      {/* Ground-truth axis: rider → destination */}
+      <AxisSegment
+        x1={riderX} y1={riderY} x2={destX} y2={destY}
+        color="rgba(255,255,255,0.5)"
+        markerId="axisArrowGhost"
+        dashed
+        frame={frame}
+        drawStart={axisLineDraw}
+      />
+
+      {/* Aligned driver's own vector, pointing toward (and through) the
+          rider — stops just short of the rider's own dot so the arrowhead
+          isn't drawn underneath it (CustomerDot always renders on top). */}
+      {towardPos && (
+        <AxisSegment
+          x1={towardPos.x} y1={towardPos.y}
+          x2={riderX - AXIS_DIR.x * (CUST_R + 6)}
+          y2={riderY - AXIS_DIR.y * (CUST_R + 6)}
+          color={accentColor}
+          markerId="axisArrowAccent"
+          frame={frame}
+          drawStart={towardArrowDraw}
+        />
+      )}
+
+      {/* Opposed driver's own vector, pointing away from the rider */}
+      {awayPos && (
+        <AxisSegment
+          x1={riderX} y1={riderY} x2={awayPos.x} y2={awayPos.y}
+          color={MUTED_DEFAULT}
+          markerId="axisArrowMuted"
+          frame={frame}
+          drawStart={awayArrowDraw}
+        />
+      )}
+
+      {/* Physical reason the opposed driver can't go straight to the rider */}
+      {roadConstraint === "median" && awayMid && (
+        <MedianStrip
+          midX={awayMid.x}
+          midY={awayMid.y}
+          perp={awayPerp}
+          frame={frame}
+          enterFrame={medianEnter}
+        />
+      )}
+
+      <DestinationNode
+        x={destX}
+        y={destY}
+        label={axis.destinationLabel ?? "Điểm đến"}
+        frame={frame}
+        fps={fps}
+        enterFrame={destEnter}
+      />
+
+      {towardPos && towardDriver && (
+        <>
+          <DriverDot
+            nx={towardPos.x / VW}
+            ny={towardPos.y / VH}
+            label=""
+            state="selected"
+            frame={frame}
+            fps={fps}
+            enterFrame={towardEnter}
+            highlightStartFrame={towardEnter}
+            accentColor={accentColor}
+          />
+          <AxisDriverLabel
+            x={towardPos.x}
+            y={towardPos.y}
+            dotR={DRIVER_R * 1.35}
+            side="right"
+            distanceLabel={towardDriver.label}
+            etaLabel={towardDriver.etaLabel}
+            constraintNote={towardDriver.constraintNote}
+            color={accentColor}
+            mutedColor={accentColor}
+            frame={frame}
+            enterFrame={towardAnnotationEnter}
+          />
+        </>
+      )}
+      {awayPos && awayDriver && (
+        <>
+          <DriverDot
+            nx={awayPos.x / VW}
+            ny={awayPos.y / VH}
+            label=""
+            state="normal"
+            frame={frame}
+            fps={fps}
+            enterFrame={awayEnter}
+            highlightStartFrame={null}
+            accentColor={accentColor}
+          />
+          <AxisDriverLabel
+            x={awayPos.x}
+            y={awayPos.y}
+            dotR={DRIVER_R}
+            side="left"
+            distanceLabel={awayDriver.label}
+            etaLabel={awayDriver.etaLabel}
+            constraintNote={awayDriver.constraintNote}
+            color={MUTED_DEFAULT}
+            mutedColor="rgba(255,255,255,0.4)"
+            frame={frame}
+            enterFrame={awayAnnotationEnter}
+          />
+        </>
+      )}
+    </>
   );
 };
 
@@ -429,19 +843,22 @@ const PhaseLabel: React.FC<{
 // Main component
 // ---------------------------------------------------------------------------
 export const MapPingScene: React.FC<MapPingSceneProps> = ({
-  drivers,
+  drivers = [],
   highlightedDriverIndex,
   nearestDriverIndex,
   selectedDriverIndex,
   phase1End,
   phase2Start,
   accentColor = ACCENT_DEFAULT,
+  axis,
+  roadConstraint,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const hasTwoPhase =
+    !axis &&
     nearestDriverIndex != null &&
     selectedDriverIndex != null &&
     phase1End != null &&
@@ -469,7 +886,7 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
 
   // Stagger: each driver dot enters 6 frames apart, starting at ENTER_FRAMES
   const dotEnterFrames = drivers.map((_, i) => ENTER_FRAMES + i * 6);
-  const allDotsIn = dotEnterFrames[dotEnterFrames.length - 1] + 18;
+  const allDotsIn = dotEnterFrames.length ? dotEnterFrames[dotEnterFrames.length - 1] + 18 : ENTER_FRAMES;
 
   // Route draw timing
   const phase1DrawStart = allDotsIn;
@@ -498,95 +915,107 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
       >
         <MapGrid />
 
-        {/* ── Routes ── */}
-
-        {/* Two-phase: phase 1 line (bait), fades when phase 2 begins */}
-        {hasTwoPhase && nearestDriverIndex != null && (
-          <RouteLine
-            toNX={drivers[nearestDriverIndex].x}
-            toNY={drivers[nearestDriverIndex].y}
-            color={BAIT_COLOR}
+        {axis ? (
+          <AxisComparisonDiagram
+            axis={axis}
+            accentColor={accentColor}
+            roadConstraint={roadConstraint}
             frame={frame}
-            drawStart={phase1DrawStart}
-            drawDuration={28}
-            fadeStart={phase1End}
-            fadeDuration={14}
+            fps={fps}
           />
+        ) : (
+          <>
+            {/* ── Routes ── */}
+
+            {/* Two-phase: phase 1 line (bait), fades when phase 2 begins */}
+            {hasTwoPhase && nearestDriverIndex != null && (
+              <RouteLine
+                toNX={drivers[nearestDriverIndex].x}
+                toNY={drivers[nearestDriverIndex].y}
+                color={BAIT_COLOR}
+                frame={frame}
+                drawStart={phase1DrawStart}
+                drawDuration={28}
+                fadeStart={phase1End}
+                fadeDuration={14}
+              />
+            )}
+
+            {/* Two-phase: phase 2 line (selected) */}
+            {hasTwoPhase && selectedDriverIndex != null && (
+              <RouteLine
+                toNX={drivers[selectedDriverIndex].x}
+                toNY={drivers[selectedDriverIndex].y}
+                color={accentColor}
+                frame={frame}
+                drawStart={phase2DrawStart}
+                drawDuration={28}
+              />
+            )}
+
+            {/* Static mode: single route to highlighted driver */}
+            {!hasTwoPhase && activeIdx >= 0 && activeIdx < drivers.length && (
+              <RouteLine
+                toNX={drivers[activeIdx].x}
+                toNY={drivers[activeIdx].y}
+                color={accentColor}
+                frame={frame}
+                drawStart={phase1DrawStart}
+                drawDuration={28}
+              />
+            )}
+
+            {/* ── Driver dots ── */}
+            {drivers.map((driver, i) => {
+              const isBait = hasTwoPhase && i === nearestDriverIndex && !inPhase2;
+              const isSelected = hasTwoPhase
+                ? i === selectedDriverIndex && inPhase2
+                : i === activeIdx;
+              const dotState: DotState = isBait ? "bait" : isSelected ? "selected" : "normal";
+
+              // When does this dot's highlight glow start?
+              const highlightStartFrame =
+                dotState === "bait" ? phase1DrawStart - 6 :
+                dotState === "selected" ? phase2DrawStart :
+                null;
+
+              // Badges only on the currently active phase's driver
+              const badge =
+                dotState === "bait" ? "Gần nhất" :
+                dotState === "selected" && hasTwoPhase ? "Được chọn!" :
+                undefined;
+
+              const badgeFrame =
+                badge === "Gần nhất" ? phase1DrawStart + 22 :
+                badge === "Được chọn!" ? phase2DrawStart + 12 :
+                undefined;
+
+              return (
+                <DriverDot
+                  key={i}
+                  nx={driver.x}
+                  ny={driver.y}
+                  label={driver.label}
+                  state={dotState}
+                  frame={frame}
+                  fps={fps}
+                  enterFrame={dotEnterFrames[i]}
+                  highlightStartFrame={highlightStartFrame}
+                  accentColor={accentColor}
+                  badge={badge}
+                  badgeFrame={badgeFrame}
+                />
+              );
+            })}
+          </>
         )}
-
-        {/* Two-phase: phase 2 line (selected) */}
-        {hasTwoPhase && selectedDriverIndex != null && (
-          <RouteLine
-            toNX={drivers[selectedDriverIndex].x}
-            toNY={drivers[selectedDriverIndex].y}
-            color={accentColor}
-            frame={frame}
-            drawStart={phase2DrawStart}
-            drawDuration={28}
-          />
-        )}
-
-        {/* Static mode: single route to highlighted driver */}
-        {!hasTwoPhase && activeIdx >= 0 && activeIdx < drivers.length && (
-          <RouteLine
-            toNX={drivers[activeIdx].x}
-            toNY={drivers[activeIdx].y}
-            color={accentColor}
-            frame={frame}
-            drawStart={phase1DrawStart}
-            drawDuration={28}
-          />
-        )}
-
-        {/* ── Driver dots ── */}
-        {drivers.map((driver, i) => {
-          const isBait = hasTwoPhase && i === nearestDriverIndex && !inPhase2;
-          const isSelected = hasTwoPhase
-            ? i === selectedDriverIndex && inPhase2
-            : i === activeIdx;
-          const dotState: DotState = isBait ? "bait" : isSelected ? "selected" : "normal";
-
-          // When does this dot's highlight glow start?
-          const highlightStartFrame =
-            dotState === "bait" ? phase1DrawStart - 6 :
-            dotState === "selected" ? phase2DrawStart :
-            null;
-
-          // Badges only on the currently active phase's driver
-          const badge =
-            dotState === "bait" ? "Gần nhất" :
-            dotState === "selected" && hasTwoPhase ? "Được chọn!" :
-            undefined;
-
-          const badgeFrame =
-            badge === "Gần nhất" ? phase1DrawStart + 22 :
-            badge === "Được chọn!" ? phase2DrawStart + 12 :
-            undefined;
-
-          return (
-            <DriverDot
-              key={i}
-              nx={driver.x}
-              ny={driver.y}
-              label={driver.label}
-              state={dotState}
-              frame={frame}
-              fps={fps}
-              enterFrame={dotEnterFrames[i]}
-              highlightStartFrame={highlightStartFrame}
-              accentColor={accentColor}
-              badge={badge}
-              badgeFrame={badgeFrame}
-            />
-          );
-        })}
 
         {/* ── Customer dot (always on top) ── */}
         <CustomerDot frame={frame} fps={fps} />
       </svg>
 
       {/* Phase status text overlay */}
-      {hasTwoPhase && phase1End != null && phase2Start != null && (
+      {!axis && hasTwoPhase && phase1End != null && phase2Start != null && (
         <PhaseLabel
           frame={frame}
           phase1End={phase1End}

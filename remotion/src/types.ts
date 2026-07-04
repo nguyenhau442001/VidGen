@@ -62,14 +62,38 @@ export type PhoneMockupSceneProps = PhoneMockupVisual & { durationInFrames: numb
 
 export type MapPingDriver = { x: number; y: number; label: string };
 
+// One driver's vector relative to the rider→destination "ground truth" axis:
+// "toward" means aligned with the trip direction (approaches the rider from
+// behind, along the same line as the destination); "away" means it points
+// off-axis, in the wrong direction.
+export type MapPingAxisDriver = {
+  label: string;
+  distanceMeters: number;
+  direction: "toward" | "away";
+  // Real-world reason distance alone is misleading, e.g. a median forcing a
+  // detour to the next U-turn — shown as a small annotation near this driver.
+  constraintNote?: string | null;
+  etaSeconds?: number;
+  etaLabel?: string;
+};
+
+export type MapPingAxis = {
+  destinationLabel?: string;
+  drivers: MapPingAxisDriver[];
+};
+
 export type MapPingVisual = {
-  drivers: MapPingDriver[];
+  drivers?: MapPingDriver[];
   highlightedDriverIndex?: number;
   nearestDriverIndex?: number;
   selectedDriverIndex?: number;
   phase1End?: number;
   phase2Start?: number;
   accentColor?: string;
+  // When "median", a physical divider is drawn across the "away" driver's
+  // vector — the visual reason their route can't go straight to the rider.
+  roadConstraint?: "median";
+  axis?: MapPingAxis;
 };
 
 export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
