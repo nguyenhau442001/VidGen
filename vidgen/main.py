@@ -11,6 +11,7 @@ from time import time as now
 
 from vieneu import Vieneu  # type: ignore
 
+from vidgen.chunked_render import render_video_chunked
 from vidgen.manifest import (
     MAP_REF_H,
     MAP_REF_W,
@@ -501,21 +502,12 @@ def main():
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
 
-    # --- Render video ---
+    # --- Render video (per-scene chunks with caching) ---
     os.makedirs("output/video/mp4", exist_ok=True)
     if os.path.exists(video_output):
         os.remove(video_output)
         print(f"Deleted old video: {video_output}")
-    manifest_props = json.dumps({"manifest": manifest})
-    subprocess.run(
-        [
-            "npx", "remotion", "render", "TikTokVideo", video_output,
-            f"--props={manifest_props}",
-            "--concurrency=100%",
-        ],
-        cwd="remotion",
-        check=True,
-    )
+    render_video_chunked(manifest, video_output)
     print(f"Video rendered to {video_output}")
 
     # --- Open Remotion Studio in browser ---
