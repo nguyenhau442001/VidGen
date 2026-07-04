@@ -12,6 +12,7 @@ import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
+import { SplitRevealScene } from "./scenes/SplitRevealScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -101,6 +102,19 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
           accentColor={scene.visual.accentColor}
           dotColor={scene.visual.dotColor}
           durationInFrames={scene.durationInFrames}
+        />
+      );
+    case "split_reveal":
+      return (
+        <SplitRevealScene
+          leftContent={
+            <MapPingScene {...scene.visual.leftMapPing} durationInFrames={scene.durationInFrames} />
+          }
+          splitRatio={scene.visual.splitRatio}
+          revealDurationFrames={scene.visual.revealDurationFrames}
+          accentColor={scene.visual.accentColor}
+          leftCaption={scene.visual.leftCaption}
+          rightCaption={scene.visual.rightCaption}
         />
       );
   }

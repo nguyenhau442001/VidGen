@@ -17,6 +17,7 @@ TYPE_MAP = {
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",
     "ZoomRevealScene": "zoom_reveal",
+    "SplitRevealScene": "split_reveal",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
@@ -84,6 +85,15 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
         visual = dict(props)
         visual.setdefault("driverName", "")
         visual.setdefault("driverEta", "")
+        return visual
+
+    if scene_type == "split_reveal":
+        visual = dict(props)
+        left_map = visual.get("leftMapPing")
+        if left_map and "drivers" in left_map:
+            left_map = dict(left_map)
+            left_map["drivers"] = _normalize_map_drivers(left_map["drivers"])
+            visual["leftMapPing"] = left_map
         return visual
 
     return dict(props)

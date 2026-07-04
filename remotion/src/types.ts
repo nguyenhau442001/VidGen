@@ -42,7 +42,8 @@ export type ManifestScene =
   | { type: "split_view"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
   | { type: "quote_callout"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual }
-  | { type: "zoom_reveal"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ZoomRevealVisual };
+  | { type: "zoom_reveal"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ZoomRevealVisual }
+  | { type: "split_reveal"; id: number; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitRevealVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -114,6 +115,18 @@ export type QuoteCalloutVisual = {
 };
 
 export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };
+
+// leftMapPing is rendered as a live MapPingScene in SplitRevealScene's left
+// panel (manifest visuals must stay JSON-serializable, so it's data here,
+// not a ReactNode — resolved to the actual component by the scene renderer).
+export type SplitRevealVisual = {
+  leftMapPing: MapPingVisual;
+  splitRatio?: number;
+  revealDurationFrames?: number;
+  accentColor?: string;
+  leftCaption?: string;
+  rightCaption?: string;
+};
 
 // focusElement/revealContent are preset keys (resolved to the built-in FocalDot /
 // DotField components by the scene renderer) since manifest visuals must stay
