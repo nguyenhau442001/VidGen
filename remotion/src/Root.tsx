@@ -9,6 +9,7 @@ import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
+import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -124,6 +125,48 @@ const ZoomRevealDemo: React.FC = () => (
   />
 );
 
+// SplitReveal demo — a compressed MapPing shot slides left, opening space for
+// a (placeholder) score panel on the right.
+const SPLIT_REVEAL_DURATION = calculateSplitRevealDuration(35, true);
+
+const SplitRevealDemo: React.FC = () => (
+  <SplitRevealScene
+    leftContent={
+      <MapPingScene
+        drivers={[
+          { x: 0.28, y: 0.28, label: "350m" },
+          { x: 0.72, y: 0.35, label: "480m" },
+          { x: 0.35, y: 0.65, label: "610m" },
+          { x: 0.68, y: 0.62, label: "290m" },
+        ]}
+        highlightedDriverIndex={3}
+        accentColor="#00c896"
+        durationInFrames={SPLIT_REVEAL_DURATION}
+      />
+    }
+    rightContent={
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          textAlign: "center",
+          padding: "0 24px",
+        }}
+      >
+        <span style={{ fontSize: 20, color: "rgba(255,255,255,0.35)" }}>
+          Bảng điểm sẽ được dựng ở đây
+        </span>
+      </div>
+    }
+    leftCaption="Bản đồ"
+    rightCaption="Điểm số"
+    accentColor="#00c896"
+    revealDurationFrames={35}
+  />
+);
+
 export const Root: React.FC = () => {
   return (
     <>
@@ -191,6 +234,14 @@ export const Root: React.FC = () => {
         id="ZoomReveal"
         component={ZoomRevealDemo}
         durationInFrames={ZOOM_REVEAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="SplitReveal"
+        component={SplitRevealDemo}
+        durationInFrames={SPLIT_REVEAL_DURATION}
         fps={30}
         width={1080}
         height={1920}
