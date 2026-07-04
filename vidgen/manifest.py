@@ -1,10 +1,21 @@
 import json
 import math
 import os
+import re
 import shutil
 
 FPS = 30
 FRAME_PADDING = 10
+
+# Shot ids follow "<scene>_<letter>" (e.g. "shot_01a", "shot_01b", "shot_01c"
+# all belong to scene "shot_01"). Ids without a trailing shot letter (plain
+# "shot_01", numeric legacy ids) aren't part of a multi-shot scene.
+SCENE_GROUP_RE = re.compile(r"^(.+\d)[a-zA-Z]+$")
+
+
+def scene_name_for(scene_id) -> str | None:
+    match = SCENE_GROUP_RE.match(str(scene_id))
+    return match.group(1) if match else None
 
 # Script "type" values may be either the old snake_case manifest keys
 # (explanation, terminal, ...) or the newer PascalCase Remotion component
@@ -135,6 +146,7 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
             {
                 "id": i,
                 "label": str(sid),  # original script scene/shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
+                "sceneName": scene_name_for(sid),
                 "type": scene_type,
                 "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
                 "audioOffsetFrames": audio_offset,

@@ -32,18 +32,18 @@ export type PhoneMockupVisual = {
 };
 
 export type ManifestScene =
-  | { type: "explanation"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ExplanationVisual }
-  | { type: "terminal"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: TerminalVisual }
-  | { type: "code"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CodeVisual }
-  | { type: "error_log"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
-  | { type: "phone_mockup"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
-  | { type: "map_ping"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: MapPingVisual }
-  | { type: "score_card"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
-  | { type: "split_view"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitViewVisual }
-  | { type: "character_icon"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
-  | { type: "quote_callout"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual }
-  | { type: "zoom_reveal"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ZoomRevealVisual }
-  | { type: "split_reveal"; id: number; label?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitRevealVisual };
+  | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ExplanationVisual }
+  | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: TerminalVisual }
+  | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CodeVisual }
+  | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ErrorLogVisual }
+  | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: PhoneMockupVisual }
+  | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: MapPingVisual }
+  | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ScoreCardVisual }
+  | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitViewVisual }
+  | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: CharacterIconVisual }
+  | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: QuoteCalloutVisual }
+  | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: ZoomRevealVisual }
+  | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; visual: SplitRevealVisual };
 
 export type RenderManifest = {
   fps: number;

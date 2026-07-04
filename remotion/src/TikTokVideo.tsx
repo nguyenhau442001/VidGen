@@ -23,7 +23,7 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
         {manifest.scenes.map((scene) => (
           <Series.Sequence
             key={scene.id}
-            name={scene.label ? `${scene.id} · ${scene.label}` : `${scene.id}`}
+            name={[String(scene.id), scene.sceneName, scene.label].filter(Boolean).join(" · ")}
             durationInFrames={scene.durationInFrames}
           >
             {scene.audioPath && (
