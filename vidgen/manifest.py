@@ -142,6 +142,17 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
 
         caption = scene.get("on_screen_text") or narration or ""
 
+        # Staggered voiceover lines (e.g. ScoreCardScene's per-row narration)
+        # each got their own TTS pass in main.py, keyed "<id>_seg<i>" — surface
+        # them as extra timed clips alongside the scene's single audioPath.
+        extra_audio = []
+        for seg_i, seg in enumerate(scene.get("narration_per_criterion", [])):
+            seg_id = f"{sid}_seg{seg_i}"
+            if seg_id in audio_durations:
+                extra_audio.append(
+                    {"path": f"audio/{wav_filename(seg_id)}", "offsetFrames": seg.get("at_frame", 0)}
+                )
+
         scenes.append(
             {
                 "id": i,
@@ -150,6 +161,7 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                 "type": scene_type,
                 "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
                 "audioOffsetFrames": audio_offset,
+                "extraAudio": extra_audio,
                 "durationInFrames": duration_frames,
                 "caption": caption,
                 "captionStyle": scene.get("on_screen_text_style"),

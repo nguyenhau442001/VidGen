@@ -31,6 +31,11 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
                 <Audio src={staticFile(scene.audioPath)} />
               </Sequence>
             )}
+            {scene.extraAudio?.map((seg, i) => (
+              <Sequence key={i} from={seg.offsetFrames}>
+                <Audio src={staticFile(seg.path)} />
+              </Sequence>
+            ))}
             <SceneRenderer scene={scene} />
             {scene.caption && (
               <Caption

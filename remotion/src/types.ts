@@ -31,19 +31,21 @@ export type PhoneMockupVisual = {
   matchedRange?: PhoneMockupStateRange;
 };
 
+export type ManifestExtraAudio = { path: string; offsetFrames: number };
+
 export type ManifestScene =
-  | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: ExplanationVisual }
-  | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: TerminalVisual }
-  | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: CodeVisual }
-  | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: ErrorLogVisual }
-  | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMockupVisual }
-  | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: MapPingVisual }
-  | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
-  | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
-  | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
-  | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: QuoteCalloutVisual }
-  | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: ZoomRevealVisual }
-  | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitRevealVisual };
+  | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ExplanationVisual }
+  | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: TerminalVisual }
+  | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CodeVisual }
+  | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ErrorLogVisual }
+  | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMockupVisual }
+  | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: MapPingVisual }
+  | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
+  | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
+  | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
+  | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: QuoteCalloutVisual }
+  | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ZoomRevealVisual }
+  | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitRevealVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -77,6 +79,10 @@ export type ScoreCriteria = { label: string; score: number; maxScore: number };
 export type ScoreCardVisual = {
   criteria: ScoreCriteria[];
   staggerFrames?: number;
+  // Explicit per-row reveal frame, overriding the uniform staggerFrames
+  // spacing — needed when narration_per_criterion lines run for uneven
+  // durations and each row must sync to its own line instead of a fixed gap.
+  rowEnterFrames?: number[];
   accentColor?: string;
   title?: string;
 };

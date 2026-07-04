@@ -238,6 +238,7 @@ const TotalRow: React.FC<{
 export const ScoreCardScene: React.FC<ScoreCardSceneProps> = ({
   criteria,
   staggerFrames = 30,
+  rowEnterFrames: rowEnterFramesProp,
   accentColor,
   title,
   durationInFrames,
@@ -258,8 +259,11 @@ export const ScoreCardScene: React.FC<ScoreCardSceneProps> = ({
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
-  // Per-row enter frames
-  const rowEnterFrames = criteria.map((_, i) => ENTER_FRAMES + i * staggerFrames);
+  // Per-row enter frames — explicit rowEnterFrames wins when the reveal needs
+  // to sync to unevenly-timed per-row narration (see narration_per_criterion);
+  // otherwise falls back to the uniform staggerFrames spacing.
+  const rowEnterFrames =
+    rowEnterFramesProp ?? criteria.map((_, i) => ENTER_FRAMES + i * staggerFrames);
   const lastRowDone =
     rowEnterFrames[criteria.length - 1] + LABEL_IN + COUNT_UP;
 

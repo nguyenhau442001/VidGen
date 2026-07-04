@@ -448,23 +448,33 @@ def main():
     video_filename = title.lower().replace(" ", "_") + ".mp4"
     video_output = os.path.abspath(f"output/video/mp4/{video_filename}")
 
-    # Scenes without narration (silent beats) get no TTS pass at all.
-    narrated_scenes = [s for s in script["scenes"] if s.get("narration")]
+    # Every distinct line that needs its own TTS pass: each scene's main
+    # narration, plus one per narration_per_criterion segment. Each segment
+    # gets a separate clip (id "<scene_id>_seg<i>") so it can be placed at
+    # its own at_frame offset in the render manifest instead of sharing the
+    # scene's single audioPath — e.g. ScoreCardScene's per-row voiceover,
+    # which needs to land in sync with each row's own reveal frame.
+    tts_jobs = []
+    for scene in script["scenes"]:
+        if scene.get("narration"):
+            tts_jobs.append({"id": scene["id"], "text": scene["narration"]})
+        for i, seg in enumerate(scene.get("narration_per_criterion", [])):
+            tts_jobs.append({"id": f"{scene['id']}_seg{i}", "text": seg["text"]})
 
     # --- Audio synthesis (parallel) ---
-    def synthesize_scene(scene: dict) -> str:
-        output_path = f"{WAV_DIR}/{wav_filename(scene['id'])}"
-        audio = tts.infer(scene["narration"], voice="Xuân Vĩnh")  # type: ignore
+    def synthesize_job(job: dict) -> str:
+        output_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
+        audio = tts.infer(job["text"], voice="Xuân Vĩnh")  # type: ignore
         tts.save(audio, output_path)  # type: ignore
-        return scene["id"]
+        return job["id"]
 
     os.makedirs(WAV_DIR, exist_ok=True)
     start_time = now()
-    with ThreadPoolExecutor(max_workers=max(1, len(narrated_scenes))) as executor:
-        futures = {executor.submit(synthesize_scene, scene): scene for scene in narrated_scenes}
+    with ThreadPoolExecutor(max_workers=max(1, len(tts_jobs))) as executor:
+        futures = {executor.submit(synthesize_job, job): job for job in tts_jobs}
         for future in as_completed(futures):
-            scene_id = future.result()
-            print(f"Scene {scene_id} saved to {WAV_DIR}/{wav_filename(scene_id)}")
+            job_id = future.result()
+            print(f"{job_id} saved to {WAV_DIR}/{wav_filename(job_id)}")
 
     end_time = now()
     print(f"Total generation time: {end_time - start_time:.2f}s")
@@ -472,19 +482,19 @@ def main():
     # --- Audio durations ---
     audio_durations: dict = {}
     total_audio = 0.0
-    for scene in narrated_scenes:
-        wav_path = f"{WAV_DIR}/{wav_filename(scene['id'])}"
+    for job in tts_jobs:
+        wav_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
         with wave.open(wav_path) as wf:
             duration = wf.getnframes() / wf.getframerate()
-        print(f"Scene {scene['id']} audio duration: {duration:.2f}s")
-        audio_durations[scene["id"]] = duration
+        print(f"{job['id']} audio duration: {duration:.2f}s")
+        audio_durations[job["id"]] = duration
         total_audio += duration
     print(f"Total audio duration: {total_audio:.2f}s")
 
     # --- Copy audio to Remotion public/ ---
-    scene_ids = [s["id"] for s in script["scenes"]]
-    copy_audio_to_remotion_public(scene_ids, WAV_DIR, REMOTION_PUBLIC_AUDIO)
-    print(f"Copied {len(narrated_scenes)} WAV file(s) to {REMOTION_PUBLIC_AUDIO}/")
+    audio_ids = [job["id"] for job in tts_jobs]
+    copy_audio_to_remotion_public(audio_ids, WAV_DIR, REMOTION_PUBLIC_AUDIO)
+    print(f"Copied {len(audio_ids)} WAV file(s) to {REMOTION_PUBLIC_AUDIO}/")
 
     # --- Write render manifest ---
     manifest = build_render_manifest(script, audio_durations)
