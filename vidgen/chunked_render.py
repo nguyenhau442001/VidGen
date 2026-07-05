@@ -6,10 +6,10 @@ pure Series — every visual, caption, and audio tag lives inside its scene's
 Series.Sequence, and the only global element, SafeZoneGuide, renders nothing
 in production). Chunks are cached by content hash, so re-running the
 pipeline only re-renders scenes whose manifest entry or the Remotion code
-changed. The full audio track is rendered by Remotion in one audio-only
-pass every run (fast — no frames are captured) and muxed onto the
-losslessly concatenated video, which sidesteps the AAC encoder-priming gaps
-that concatenating per-chunk audio would introduce.
+changed. The full audio track is built directly from the manifest with
+ffmpeg every run (~1s, so it is not cached) and muxed onto the losslessly
+concatenated video, which sidesteps the AAC encoder-priming gaps that
+concatenating per-chunk audio would introduce.
 """
 
 import hashlib
@@ -67,32 +67,67 @@ def scene_cache_key(scene: dict, manifest: dict, code_hash: str) -> str:
     return hashlib.sha256(key_src.encode()).hexdigest()[:24]
 
 
-def audio_cache_key(manifest: dict, remotion_dir: str = "remotion") -> str:
-    """Hash of everything the audio-only render depends on: each scene's
-    duration (which sets where the next scene's audio starts), its audio
-    clip paths/offsets, and the audio files' actual bytes. Visual-only
-    edits leave this unchanged, so the ~40s audio pass is skipped too."""
-    h = hashlib.sha256()
-    timeline = [
-        [
-            scene.get("durationInFrames"),
-            scene.get("audioPath"),
-            scene.get("audioOffsetFrames"),
-            scene.get("extraAudio"),
-        ]
-        for scene in manifest["scenes"]
-    ]
-    h.update(json.dumps({"fps": manifest["fps"], "timeline": timeline}, sort_keys=True).encode())
+AUDIO_SAMPLE_RATE = 48000
+
+
+def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remotion") -> None:
+    """Build the full audio track with one ffmpeg filter graph, replicating
+    TikTokVideo.tsx exactly: each scene's audioPath starts at
+    scene_start + audioOffsetFrames, each extraAudio seg at
+    scene_start + seg.offsetFrames, and every clip is truncated at its
+    scene's end (the <Audio> unmounts with its Series.Sequence). Frame
+    offsets convert to whole samples (fps must divide 48000), so placement
+    is sample-exact — Remotion's own audio-only pass quantized clip starts
+    to whole milliseconds (±16-sample jitter); this is the accurate one.
+    Assumes bare <Audio> tags: any volume/trim field in the manifest means
+    the component semantics changed and this builder must be extended."""
+    fps = manifest["fps"]
+    if AUDIO_SAMPLE_RATE % fps:
+        raise ValueError(f"fps {fps} does not divide {AUDIO_SAMPLE_RATE}; offsets would not be sample-exact")
+    spf = AUDIO_SAMPLE_RATE // fps
+
+    clips = []  # (abs_path, delay_samples, max_samples)
+    start_f = 0
     for scene in manifest["scenes"]:
-        clips = [scene.get("audioPath")] + [seg["path"] for seg in scene.get("extraAudio") or []]
-        for clip in clips:
-            if not clip:
-                continue
-            path = os.path.join(remotion_dir, "public", clip)
-            if os.path.exists(path):
-                with open(path, "rb") as f:
-                    h.update(f.read())
-    return h.hexdigest()[:24]
+        dur_f = scene["durationInFrames"]
+        entries = []
+        if scene.get("audioPath"):
+            entries.append((scene["audioPath"], scene.get("audioOffsetFrames") or 0))
+        for seg in scene.get("extraAudio") or []:
+            unknown = set(seg) - {"path", "offsetFrames"}
+            if unknown:
+                raise ValueError(f"extraAudio has fields this builder does not replicate: {unknown}")
+            entries.append((seg["path"], seg["offsetFrames"]))
+        for rel, off_f in entries:
+            path = os.path.abspath(os.path.join(remotion_dir, "public", rel))
+            clips.append((path, (start_f + off_f) * spf, (dur_f - off_f) * spf))
+        start_f += dur_f
+    total = start_f * spf
+
+    # Per clip: truncate at scene end, upmix mono→stereo (ffmpeg's default
+    # -3dB pan law — bit-identical to what Remotion's pass produced), delay
+    # by whole samples onto the frame grid. The silent
+    # anchor is amix's *first* input so duration=first pins the exact
+    # composition length; normalize=0 sums overlapping clips like Remotion.
+    parts = []
+    for i, (_, delay, max_s) in enumerate(clips):
+        parts.append(
+            f"[{i}:a]atrim=end_sample={max_s},"
+            f"aformat=sample_rates={AUDIO_SAMPLE_RATE}:channel_layouts=stereo,"
+            f"adelay={delay}S:all=1[c{i}]"
+        )
+    parts.append(f"anullsrc=r={AUDIO_SAMPLE_RATE}:cl=stereo,atrim=end_sample={total}[z]")
+    chain = "[z]" + "".join(f"[c{i}]" for i in range(len(clips)))
+    parts.append(
+        f"{chain}amix=inputs={len(clips) + 1}:normalize=0:duration=first[mix];"
+        f"[mix]atrim=end_sample={total}[out]"
+    )
+
+    cmd = _ffmpeg() + ["-y", "-v", "error"]
+    for path, _, _ in clips:
+        cmd += ["-i", path]
+    cmd += ["-filter_complex", ";".join(parts), "-map", "[out]", "-c:a", "pcm_s16le", out_path]
+    subprocess.run(cmd, check=True)
 
 
 def write_concat_list(chunk_paths: list, list_path: str) -> None:
@@ -155,32 +190,25 @@ def render_video_chunked(
                 }
             )
 
-    audio_path = os.path.abspath(
-        os.path.join(cache_dir, f"audio_{audio_cache_key(manifest, remotion_dir)}.wav")
-    )
-    if os.path.exists(audio_path):
-        os.utime(audio_path)
-        print("cache hit: audio track")
-        audio_job = None
-    else:
-        audio_job = {"outPath": audio_path, "manifest": manifest}
     spec = {
         "entryPoint": "src/index.ts",
         "compositionId": "TikTokVideo",
         "chunks": jobs,
-        "audio": audio_job,
     }
     jobs_file = os.path.abspath(os.path.join(cache_dir, "chunk_jobs.json"))
     with open(jobs_file, "w", encoding="utf-8") as f:
         json.dump(spec, f, ensure_ascii=False)
 
     print(f"Rendering {len(jobs)}/{len(manifest['scenes'])} scene chunk(s) ({len(manifest['scenes']) - len(jobs)} cached)")
-    if jobs or audio_job:
+    if jobs:
         subprocess.run(
             ["node", "scripts/render-chunks.mjs", jobs_file],
             cwd=remotion_dir,
             check=True,
         )
+
+    audio_path = os.path.abspath(os.path.join(cache_dir, "audio_track.wav"))
+    build_audio_track(manifest, audio_path, remotion_dir)
 
     # Lossless video concat, then mux the single-pass audio track. 320k AAC
     # matches the Remotion CLI's default audio bitrate.

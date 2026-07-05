@@ -1,8 +1,10 @@
 import os
+import struct
 import time
+import wave
 
 from vidgen.chunked_render import (
-    audio_cache_key,
+    build_audio_track,
     code_tree_hash,
     prune_cache,
     scene_cache_key,
@@ -87,36 +89,100 @@ def test_prune_cache_removes_only_stale_cache_entries(tmp_path):
     assert other.exists()  # only cache chunks/audio are pruned
 
 
-def _audio_manifest(tmp_path, wav_bytes=b"RIFFxxxx", duration=120, caption="A"):
-    public_audio = tmp_path / "public" / "audio"
-    public_audio.mkdir(parents=True, exist_ok=True)
-    (public_audio / "scene_1.wav").write_bytes(wav_bytes)
-    return {
-        "fps": 30,
-        "width": 1080,
-        "height": 1920,
-        "scenes": [
+def _write_wav(path, samples):
+    with wave.open(str(path), "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(48000)
+        w.writeframes(struct.pack(f"<{len(samples)}h", *samples))
+
+
+def _read_wav(path):
+    """Returns (per-channel sample lists, channel count)."""
+    with wave.open(str(path)) as w:
+        n = w.getnchannels()
+        data = struct.unpack(f"<{w.getnframes() * n}h", w.readframes(w.getnframes()))
+    return [data[c::n] for c in range(n)], n
+
+
+def _audio_manifest(tmp_path, scenes):
+    (tmp_path / "public" / "audio").mkdir(parents=True, exist_ok=True)
+    return {"fps": 30, "width": 1080, "height": 1920, "scenes": scenes}
+
+
+def test_build_audio_track_places_clips_on_the_frame_grid(tmp_path):
+    # impulse at the clip's first sample; offset 3 frames into a 30-frame scene
+    manifest = _audio_manifest(
+        tmp_path,
+        [
             {
                 "id": 1,
-                "audioPath": "audio/scene_1.wav",
-                "audioOffsetFrames": 0,
+                "audioPath": "audio/a.wav",
+                "audioOffsetFrames": 3,
                 "extraAudio": [],
-                "durationInFrames": duration,
-                "caption": caption,
+                "durationInFrames": 30,
                 "visual": {},
             }
         ],
-    }
+    )
+    _write_wav(tmp_path / "public" / "audio" / "a.wav", [10000] + [0] * 99)
+    out = tmp_path / "track.wav"
+
+    build_audio_track(manifest, str(out), str(tmp_path))
+
+    channels, n = _read_wav(out)
+    assert n == 2
+    assert len(channels[0]) == 30 * 1600  # exactly durationInFrames long
+    for ch in channels:  # mono upmixed to both channels at -3dB (pan law)
+        assert abs(ch[3 * 1600] - 7071) <= 1
+        assert sum(abs(s) for s in ch) == abs(ch[3 * 1600])  # silence everywhere else
 
 
-def test_audio_cache_key_ignores_visual_only_changes(tmp_path):
-    a = audio_cache_key(_audio_manifest(tmp_path, caption="A"), str(tmp_path))
-    b = audio_cache_key(_audio_manifest(tmp_path, caption="B"), str(tmp_path))
-    assert a == b
+def test_build_audio_track_truncates_clips_at_scene_end(tmp_path):
+    # 1s clip inside a 6-frame scene must not bleed into the next scene
+    manifest = _audio_manifest(
+        tmp_path,
+        [
+            {
+                "id": 1,
+                "audioPath": "audio/long.wav",
+                "audioOffsetFrames": 0,
+                "extraAudio": [],
+                "durationInFrames": 6,
+                "visual": {},
+            },
+            {"id": 2, "audioPath": "", "extraAudio": [], "durationInFrames": 6, "visual": {}},
+        ],
+    )
+    _write_wav(tmp_path / "public" / "audio" / "long.wav", [5000] * 48000)
+    out = tmp_path / "track.wav"
+
+    build_audio_track(manifest, str(out), str(tmp_path))
+
+    left = _read_wav(out)[0][0]
+    assert len(left) == 12 * 1600
+    assert all(abs(s - 3536) <= 1 for s in left[: 6 * 1600])  # 5000 * 2**-0.5
+    assert all(s == 0 for s in left[6 * 1600 :])
 
 
-def test_audio_cache_key_tracks_timing_and_wav_content(tmp_path):
-    base = audio_cache_key(_audio_manifest(tmp_path), str(tmp_path))
-    longer = audio_cache_key(_audio_manifest(tmp_path, duration=150), str(tmp_path))
-    new_wav = audio_cache_key(_audio_manifest(tmp_path, wav_bytes=b"RIFFyyyy"), str(tmp_path))
-    assert len({base, longer, new_wav}) == 3
+def test_build_audio_track_sums_overlapping_clips_without_normalizing(tmp_path):
+    manifest = _audio_manifest(
+        tmp_path,
+        [
+            {
+                "id": 1,
+                "audioPath": "audio/a.wav",
+                "audioOffsetFrames": 0,
+                "extraAudio": [{"path": "audio/b.wav", "offsetFrames": 0}],
+                "durationInFrames": 30,
+                "visual": {},
+            }
+        ],
+    )
+    _write_wav(tmp_path / "public" / "audio" / "a.wav", [10000] + [0] * 99)
+    _write_wav(tmp_path / "public" / "audio" / "b.wav", [10000] + [0] * 99)
+    out = tmp_path / "track.wav"
+
+    build_audio_track(manifest, str(out), str(tmp_path))
+
+    assert abs(_read_wav(out)[0][0][0] - 14142) <= 2  # 2 * 10000 * 2**-0.5, unnormalized

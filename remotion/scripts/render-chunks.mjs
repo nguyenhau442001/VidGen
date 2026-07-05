@@ -1,5 +1,6 @@
-// Renders per-scene video chunks (muted) plus the full-manifest audio track,
-// driven by a jobs JSON file written by vidgen/chunked_render.py. Bundles the
+// Renders per-scene video chunks (muted), driven by a jobs JSON file
+// written by vidgen/chunked_render.py (the audio track is built separately
+// there with ffmpeg, straight from the manifest). Bundles the
 // project once and reuses a single headless browser across all renders, so
 // per-chunk overhead is bundling-free. Video/quality settings mirror the CLI
 // defaults previously used by `npx remotion render` (h264 CRF, jpeg frames,
@@ -11,8 +12,7 @@
 // {
 //   "entryPoint": "src/index.ts",
 //   "compositionId": "TikTokVideo",
-//   "chunks": [{ "name": "shot_01a", "outPath": "/abs/x.mp4", "manifest": {...} }],
-//   "audio":  { "outPath": "/abs/audio.wav", "manifest": {...} }
+//   "chunks": [{ "name": "shot_01a", "outPath": "/abs/x.mp4", "manifest": {...} }]
 // }
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -55,26 +55,6 @@ try {
     console.log(
       `chunk ${chunk.name}: ${composition.durationInFrames} frames in ${((Date.now() - t) / 1000).toFixed(1)}s`
     );
-  }
-
-  if (spec.audio) {
-    const inputProps = { manifest: spec.audio.manifest };
-    const composition = await selectComposition({
-      serveUrl,
-      id: spec.compositionId,
-      inputProps,
-      puppeteerInstance: browser,
-    });
-    const t = Date.now();
-    await renderMedia({
-      composition,
-      serveUrl,
-      codec: "wav",
-      outputLocation: spec.audio.outPath,
-      inputProps,
-      puppeteerInstance: browser,
-    });
-    console.log(`audio track in ${((Date.now() - t) / 1000).toFixed(1)}s`);
   }
 } finally {
   await browser.close({ silent: true }).catch(() => {});
