@@ -1,5 +1,6 @@
 import argparse
 import json
+import math
 import os
 import socket
 import subprocess
@@ -9,9 +10,8 @@ import webbrowser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from time import time as now
 
-from vieneu import Vieneu  # type: ignore
-
 from vidgen.chunked_render import render_video_chunked
+from vidgen.tts_speed_adjustor import synthesize as tts_synthesize
 from vidgen.manifest import (
     MAP_REF_H,
     MAP_REF_W,
@@ -434,9 +434,24 @@ def main():
         action="store_true",
         help="Skip pre-render manifest validation (emergency use only)",
     )
+    parser.add_argument(
+        "--speed",
+        type=float,
+        default=1.2,
+        help="Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace)",
+    )
+    parser.add_argument(
+        "--no-trim",
+        action="store_true",
+        help="Keep TTS silence (leading/trailing and long internal pauses)",
+    )
+    parser.add_argument(
+        "--target-dbfs",
+        type=float,
+        default=-15.0,
+        help="Normalize every voiceover clip to this RMS level in dBFS (soft-limited)",
+    )
     args = parser.parse_args()
-
-    tts = Vieneu()
 
     with open(args.script, encoding="utf-8") as f:
         script = json.load(f)
@@ -465,13 +480,22 @@ def main():
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
         output_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
-        audio = tts.infer(job["text"], voice="Xuân Vĩnh")  # type: ignore
-        tts.save(audio, output_path)  # type: ignore
+        tts_synthesize(
+            job["text"],
+            output_path,
+            voice="Xuân Vĩnh",
+            speed=args.speed,
+            trim_silence=not args.no_trim,
+            target_dbfs=args.target_dbfs,
+        )
         return job["id"]
 
     os.makedirs(WAV_DIR, exist_ok=True)
     start_time = now()
-    with ThreadPoolExecutor(max_workers=max(1, len(tts_jobs))) as executor:
+    # Capped fan-out: unbounded workers (one per job) ran every inference and
+    # its librosa post-processing concurrently, which exhausted machine memory
+    # on a 15-scene script and got the process killed mid-run.
+    with ThreadPoolExecutor(max_workers=min(3, max(1, len(tts_jobs)))) as executor:
         futures = {executor.submit(synthesize_job, job): job for job in tts_jobs}
         for future in as_completed(futures):
             job_id = future.result()
@@ -491,6 +515,32 @@ def main():
         audio_durations[job["id"]] = duration
         total_audio += duration
     print(f"Total audio duration: {total_audio:.2f}s")
+
+    # --- Tighten scene durations to the adjusted audio ---
+    # Authored duration_frames were paced for VieNeu's native tempo; after
+    # speed-up/silence-trim the voice ends well before the scene does, leaving
+    # dead air. Re-derive narrated scenes' durations from their actual audio:
+    # audio offset + audio length + the authored transition-out tail.
+    # build_render_manifest's caption reading floor (MAX_CAPTION_CPS) still
+    # clamps back up when the tightened duration is too short to read.
+    # Scenes with narration_per_criterion keep their authored duration — their
+    # segment clips land at authored at_frame offsets a shrunk scene would cut.
+    if args.speed != 1.0 or not args.no_trim:
+        fps = script.get("fps", 30)
+        for scene in script["scenes"]:
+            sid = scene["id"]
+            if (
+                sid not in audio_durations
+                or "duration_frames" not in scene
+                or scene.get("narration_per_criterion")
+            ):
+                continue
+            offset = (scene.get("narration_timing_frames") or [0])[0]
+            tail = scene.get("transition_out_delay_frames", 15)
+            tightened = offset + math.ceil(audio_durations[sid] * fps) + tail
+            if tightened < scene["duration_frames"]:
+                print(f"{sid}: duration {scene['duration_frames']} -> {tightened} frames")
+                scene["duration_frames"] = tightened
 
     # --- Copy audio to Remotion public/ ---
     audio_ids = [job["id"] for job in tts_jobs]
