@@ -4,6 +4,7 @@ import { TikTokVideo } from "./TikTokVideo";
 import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
+import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -306,6 +307,28 @@ export const Root: React.FC = () => {
           phase2Start: 115,
           accentColor: "#00c896",
           durationInFrames: 210,
+        }}
+      />
+      <Composition
+        id="GeohashReveal"
+        component={GeohashRevealScene}
+        durationInFrames={310}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          districts: [
+            { x: 4, y: 3, label: "Quận 1", demandLevel: 0.95 },
+            { x: 3, y: 3, label: "Quận 3", demandLevel: 0.8 },
+            { x: 5, y: 2, label: "Bình Thạnh", demandLevel: 0.7 },
+            { x: 3, y: 2, label: "Phú Nhuận", demandLevel: 0.65 },
+            { x: 5, y: 4, label: "Quận 4", demandLevel: 0.6 },
+            { x: 1, y: 5, label: "Quận 7", demandLevel: 0.35 },
+          ],
+          accentColor: "#22C55E",
+          gridRows: 7,
+          gridCols: 9,
+          durationInFrames: 310,
         }}
       />
       <Composition

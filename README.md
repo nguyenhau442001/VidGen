@@ -68,9 +68,9 @@ Every script shares the envelope `title` / `language` / `scenes[]`. Scenes can b
 
 Gotchas: unknown scene types render blank silently — only the types in `manifest.py`'s `TYPE_MAP` with props matching `remotion/src/types.ts` are valid. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 
-## Scene library (12 scene types + 2 covers)
+## Scene library (13 scene types + 2 covers)
 
-The video is assembled from **12 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`:
+The video is assembled from **13 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`:
 
 | Scene type | What it renders |
 |---|---|
@@ -81,6 +81,7 @@ The video is assembled from **12 reusable scene types** — the tool's "skills" 
 | `CharacterIconScene` | Animated character icon with poses and accessory icons |
 | `PhoneMockupScene` | Ride-hailing app phone UI (idle → loading → matched states) |
 | `MapPingScene` | Map with driver dots, distance labels, highlight/selection phases |
+| `GeohashRevealScene` | Abstract city grid whose cells ripple in, breathe as a demand heatmap, then show district labels |
 | `ScoreCardScene` | Score rows revealed with a stagger (supports per-row narration) |
 | `SplitViewScene` | Two-panel left/right comparison with captions |
 | `QuoteCalloutScene` | Large quote with an accent word, subtle or dark background |

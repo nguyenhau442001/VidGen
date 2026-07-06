@@ -40,6 +40,7 @@ export type ManifestScene =
   | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ErrorLogVisual }
   | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMockupVisual }
   | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: MapPingVisual }
+  | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GeohashRevealVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -97,6 +98,24 @@ export type MapPingVisual = {
 };
 
 export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
+
+// x/y are grid cell indices (column, row) into the gridCols×gridRows lattice,
+// not canvas fractions — the scene resolves them to pixel centers itself.
+export type GeohashDistrict = {
+  x: number;
+  y: number;
+  label: string;
+  demandLevel: number; // 0–1, controls cell brightness
+};
+
+export type GeohashRevealVisual = {
+  districts: GeohashDistrict[];
+  accentColor?: string; // default "#22C55E"
+  gridRows?: number; // default 7
+  gridCols?: number; // default 9
+};
+
+export type GeohashRevealSceneProps = GeohashRevealVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

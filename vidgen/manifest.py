@@ -34,6 +34,7 @@ TYPE_MAP = {
     "CharacterIconScene": "character_icon",
     "PhoneMockupScene": "phone_mockup",
     "MapPingScene": "map_ping",
+    "GeohashRevealScene": "geohash_reveal",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",
