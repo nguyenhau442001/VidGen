@@ -42,6 +42,7 @@ export type ManifestScene =
   | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: MapPingVisual }
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GeohashRevealVisual }
   | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DemandHeatmapVisual }
+  | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SignalFlowVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -135,6 +136,23 @@ export type DemandHeatmapVisual = {
 };
 
 export type DemandHeatmapSceneProps = DemandHeatmapVisual & { durationInFrames: number };
+
+// Node-graph scene: input signal nodes on the left stream particles into a
+// "brain" node on the right. Layout is fixed on the 750×1080 viewBox (same
+// slice-crop caveat as demand_heatmap: only x ≈ 71–679 is visible).
+export type SignalFlowSignal = {
+  icon: string; // emoji, e.g. "📊", "🌧️", "📅"
+  label: string; // Vietnamese label
+  color: string; // particle + node accent color
+};
+
+export type SignalFlowVisual = {
+  signals: SignalFlowSignal[];
+  outputLabel: string; // label next to brain node
+  accentColor?: string; // default "#22C55E"
+};
+
+export type SignalFlowSceneProps = SignalFlowVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

@@ -6,6 +6,7 @@ import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
+import { SignalFlowScene } from "./scenes/SignalFlowScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -348,6 +349,24 @@ export const Root: React.FC = () => {
             { x: 470, y: 700, radius: 78, intensity: 0.45 },
             { x: 340, y: 830, radius: 60, intensity: 0.35 },
           ],
+          accentColor: "#22C55E",
+          durationInFrames: 298,
+        }}
+      />
+      <Composition
+        id="SignalFlow"
+        component={SignalFlowScene}
+        durationInFrames={298}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          signals: [
+            { icon: "📊", label: "Dữ liệu lịch sử", color: "#61dafb" },
+            { icon: "🌧️", label: "Thời tiết", color: "#a78bfa" },
+            { icon: "📅", label: "Sự kiện & Lễ hội", color: "#fbbf24" },
+          ],
+          outputLabel: "Dự báo nhu cầu",
           accentColor: "#22C55E",
           durationInFrames: 298,
         }}

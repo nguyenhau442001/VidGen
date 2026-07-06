@@ -36,6 +36,7 @@ TYPE_MAP = {
     "MapPingScene": "map_ping",
     "GeohashRevealScene": "geohash_reveal",
     "DemandHeatmapScene": "demand_heatmap",
+    "SignalFlowScene": "signal_flow",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",
