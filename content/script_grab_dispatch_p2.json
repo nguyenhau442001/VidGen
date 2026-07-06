@@ -1,0 +1,370 @@
+{
+  "title": "grab_dispatch_p2",
+  "language": "vi",
+  "scenes": [
+    {
+      "id": "shot_01a",
+      "type": "ExplanationScene",
+      "duration_frames": 93,
+      "narration": "Tài xế biết trước cả bạn.",
+      "narration_timing_frames": [
+        5,
+        53
+      ],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "headline": "Bạn chưa mở app. Hệ thống **đã biết.**",
+        "body": "Và tài xế đã lăn bánh."
+      },
+      "sound_design": "deep whoosh in at frame 0, tension pad loop"
+    },
+    {
+      "id": "shot_01b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 290,
+      "narration": "Thứ Hai, tám giờ sáng. Bạn vừa ra khỏi nhà — chưa mở app. Một tài xế đã di chuyển về phía khu vực của bạn từ ba phút trước.",
+      "narration_timing_frames": [
+        10,
+        250
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#22C55E"
+      },
+      "sound_design": "ambient city morning, low volume"
+    },
+    {
+      "id": "shot_01c",
+      "type": "ExplanationScene",
+      "duration_frames": 226,
+      "narration": "Hệ thống không đọc được suy nghĩ của bạn. Nó không đoán từng cá nhân — nó dự đoán theo khu vực.",
+      "narration_timing_frames": [
+        10,
+        186
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "headline": "Không đoán **từng người.**",
+        "body": "Dự đoán theo khu vực — không phải cá nhân."
+      },
+      "sound_design": "subtle data hum fade in"
+    },
+    {
+      "id": "shot_02a",
+      "type": "MapPingScene",
+      "duration_frames": 311,
+      "narration": "Thành phố được chia thành hàng nghìn ô nhỏ — mỗi ô là một vùng địa lý cố định. Đây là đơn vị cơ bản để hệ thống tính toán nhu cầu.",
+      "narration_timing_frames": [
+        15,
+        271
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "drivers": [
+          {
+            "x": 375,
+            "y": 430,
+            "label": "Q1"
+          },
+          {
+            "x": 300,
+            "y": 360,
+            "label": "Q3"
+          },
+          {
+            "x": 250,
+            "y": 480,
+            "label": "Q5"
+          },
+          {
+            "x": 430,
+            "y": 620,
+            "label": "Q7"
+          },
+          {
+            "x": 470,
+            "y": 330,
+            "label": "Bình Thạnh"
+          },
+          {
+            "x": 560,
+            "y": 240,
+            "label": "Thủ Đức"
+          }
+        ]
+      },
+      "sound_design": "grid appear sfx at frame 15, soft pulse loop"
+    },
+    {
+      "id": "shot_02b",
+      "type": "MapPingScene",
+      "duration_frames": 298,
+      "narration": "Hệ thống liên tục tính toán: ô nào sắp có nhiều người gọi xe nhất? Ô nào đang thiếu tài xế? Chấm càng dày đặc — nhu cầu dự đoán càng cao.",
+      "narration_timing_frames": [
+        10,
+        266
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "drivers": [
+          {
+            "x": 390,
+            "y": 415,
+            "label": "Nhu cầu cao"
+          },
+          {
+            "x": 370,
+            "y": 400,
+            "label": ""
+          },
+          {
+            "x": 410,
+            "y": 410,
+            "label": ""
+          },
+          {
+            "x": 385,
+            "y": 445,
+            "label": ""
+          },
+          {
+            "x": 420,
+            "y": 380,
+            "label": ""
+          },
+          {
+            "x": 355,
+            "y": 430,
+            "label": ""
+          },
+          {
+            "x": 180,
+            "y": 700,
+            "label": ""
+          },
+          {
+            "x": 600,
+            "y": 650,
+            "label": ""
+          },
+          {
+            "x": 150,
+            "y": 250,
+            "label": ""
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#22C55E"
+      },
+      "sound_design": "soft data ping sfx at frames 60/120/180/240 as dot clusters thicken, stopping before transition"
+    },
+    {
+      "id": "shot_03a",
+      "type": "ExplanationScene",
+      "duration_frames": 298,
+      "narration": "Dữ liệu đầu vào đầu tiên: lịch sử. Hàng triệu chuyến đi trước đây tạo ra bản đồ thói quen — và sáng thứ Hai của bạn nằm gọn trong đó.",
+      "narration_timing_frames": [
+        10,
+        258
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "headline": "Tín hiệu 1: **Lịch sử**",
+        "body": "Hàng triệu chuyến đi → bản đồ thói quen."
+      },
+      "sound_design": "archive/rewind sfx subtle at frame 0"
+    },
+    {
+      "id": "shot_03b",
+      "type": "ExplanationScene",
+      "duration_frames": 195,
+      "narration": "Trời mưa — nhu cầu tăng gần gấp đôi. Thời tiết được nạp thẳng vào mô hình dự báo.",
+      "narration_timing_frames": [
+        8,
+        160
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "Trời mưa → nhu cầu **×2**",
+        "body": "Thời tiết tích hợp vào mô hình dự báo."
+      },
+      "sound_design": "rain sfx fade in at frame 0, soft"
+    },
+    {
+      "id": "shot_03c",
+      "type": "TerminalScene",
+      "duration_frames": 290,
+      "narration": "Có đêm nhạc lớn tối nay ở quận một. Hệ thống đã biết từ hôm qua — và điều phối tài xế đến khu vực đó từ trước chín giờ.",
+      "narration_timing_frames": [
+        10,
+        250
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "lines": [
+          "$ event_detector --date=today",
+          "> [DETECTED] Concert · Quận 1 · 21:00",
+          "> [DETECTED] Sự kiện lớn · dự kiến 8,000 người",
+          "> [ACTION]   Pre-position 34 drivers → Zone Q1",
+          "> [STATUS]   Drivers en route. ETA zone: 19:45"
+        ]
+      },
+      "sound_design": "keyboard typing sfx synced with line reveals (frames 0-80), crowd ambience very subtle underneath"
+    },
+    {
+      "id": "shot_04a",
+      "type": "PhoneMockupScene",
+      "duration_frames": 266,
+      "narration": "Tín hiệu thứ hai: thời gian thực. Bạn mở app — nhưng chưa gõ điểm đến, chưa đặt xe. Hệ thống đã ghi nhận hành động đó.",
+      "narration_timing_frames": [
+        10,
+        226
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#22C55E"
+      },
+      "sound_design": "phone unlock sfx at frame 10, soft UI tick as price appears"
+    },
+    {
+      "id": "shot_04b",
+      "type": "SplitViewScene",
+      "duration_frames": 346,
+      "narration": "Không chỉ một mình bạn. Hàng nghìn người trong cùng khu vực đang làm điều tương tự — mở app, nhìn giá, chưa đặt. Tổng hợp lại, đó là tín hiệu nhu cầu cực kỳ rõ ràng.",
+      "narration_timing_frames": [
+        10,
+        306
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "leftContent": {
+          "kind": "text",
+          "heading": "Một người dùng",
+          "body": "Mở app · Nhìn giá · Chưa đặt xe"
+        },
+        "rightContent": "map_dots_gathering",
+        "leftCaption": "Bạn thấy",
+        "rightCaption": "Hàng nghìn người cùng lúc",
+        "accentColor": "#22C55E"
+      },
+      "sound_design": "multiply/scale sfx at frame 60 as right panel fills"
+    },
+    {
+      "id": "shot_04c",
+      "type": "ExplanationScene",
+      "duration_frames": 290,
+      "narration": "Tín hiệu thứ ba: điều phối chủ động. Hệ thống không chờ yêu cầu xuất hiện — nó rải tài xế nhàn rỗi đến các khu vực sắp đông trước.",
+      "narration_timing_frames": [
+        10,
+        250
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "headline": "Tín hiệu 3: **Pre-positioning**",
+        "body": "Tài xế nhàn rỗi → rải đến zone nóng trước."
+      },
+      "sound_design": "navigation/routing sfx subtle at frame 0"
+    },
+    {
+      "id": "shot_04d",
+      "type": "MapPingScene",
+      "duration_frames": 281,
+      "narration": "Và đây là kết quả trên bản đồ: tài xế lặng lẽ di chuyển vào khu vực — trước khi bất kỳ yêu cầu nào xuất hiện.",
+      "narration_timing_frames": [
+        10,
+        226
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "drivers": [
+          {
+            "x": 300,
+            "y": 480,
+            "label": "1.2km"
+          },
+          {
+            "x": 500,
+            "y": 470,
+            "label": "900m"
+          },
+          {
+            "x": 350,
+            "y": 640,
+            "label": "1.5km"
+          },
+          {
+            "x": 470,
+            "y": 630,
+            "label": "800m"
+          },
+          {
+            "x": 260,
+            "y": 570,
+            "label": ""
+          },
+          {
+            "x": 540,
+            "y": 560,
+            "label": ""
+          }
+        ],
+        "accentColor": "#22C55E"
+      },
+      "sound_design": "car movement sfx soft, 3 distinct pings as drivers settle into zone"
+    },
+    {
+      "id": "shot_05a",
+      "type": "ExplanationScene",
+      "duration_frames": 131,
+      "narration": "Khi bạn đặt xe — tài xế đã ở gần đó rồi.",
+      "narration_timing_frames": [
+        10,
+        106
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "Tài xế đã lăn bánh **trước khi bạn bấm Book.**",
+        "body": "Lịch sử · Real-time · Pre-positioning"
+      },
+      "sound_design": "resolution chord sfx at frame 0"
+    },
+    {
+      "id": "shot_05b",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 277,
+      "narration": "Không phải may mắn. Đó là kết quả của một mô hình dự báo đang chạy liên tục, phản ứng với từng tín hiệu bạn vô tình phát ra.",
+      "narration_timing_frames": [
+        10,
+        242
+      ],
+      "transition_out_delay_frames": 35,
+      "props": {
+        "text": "Không phải may mắn. Một mô hình dự báo đang chạy liên tục — phản ứng với từng tín hiệu bạn vô tình phát ra",
+        "accentWord": "vô tình phát ra",
+        "backgroundStyle": "dark"
+      },
+      "sound_design": "low pulse under quote, fade to silence before outro"
+    },
+    {
+      "id": "shot_06a",
+      "type": "CharacterIconScene",
+      "duration_frames": 266,
+      "narration": "Phần ba: tại sao cuốc xe gần hơn đôi khi lại đến sau. Hệ thống gom nhiều cuốc cho một tài xế trên một tuyến hợp lý.",
+      "narration_timing_frames": [
+        10,
+        226
+      ],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "pose": "pointing",
+        "accompanyingIcon": "map-pin",
+        "accentColor": "#22C55E",
+        "topicLabel": "Tại sao cuốc gần hơn lại đến sau?",
+        "partLabel": "Phần 3/4"
+      },
+      "sound_design": "outro sting sfx at frame 0, logo whoosh at frame 210"
+    }
+  ]
+}

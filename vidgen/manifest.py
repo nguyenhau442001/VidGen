@@ -27,6 +27,10 @@ def scene_name_for(scene_id) -> str | None:
 # (explanation, terminal, ...) or the newer PascalCase Remotion component
 # names (MapPingScene, ...). Anything not listed here passes through as-is.
 TYPE_MAP = {
+    "ExplanationScene": "explanation",
+    "TerminalScene": "terminal",
+    "CodeScene": "code",
+    "ErrorLogScene": "error_log",
     "CharacterIconScene": "character_icon",
     "PhoneMockupScene": "phone_mockup",
     "MapPingScene": "map_ping",
