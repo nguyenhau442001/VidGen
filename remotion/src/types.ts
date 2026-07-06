@@ -41,6 +41,7 @@ export type ManifestScene =
   | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMockupVisual }
   | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: MapPingVisual }
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GeohashRevealVisual }
+  | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DemandHeatmapVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -116,6 +117,24 @@ export type GeohashRevealVisual = {
 };
 
 export type GeohashRevealSceneProps = GeohashRevealVisual & { durationInFrames: number };
+
+// x/y are viewBox coordinates on the scene's 750×1080 canvas. The SVG covers
+// the 1080×1920 frame with "slice" scaling, so only x ≈ 71–679 stays visible —
+// keep hotspots inside that band.
+export type DemandHotspot = {
+  x: number;
+  y: number;
+  radius: number; // base radius in px (viewBox units)
+  intensity: number; // 0–1, maps to color saturation
+  label?: string;
+};
+
+export type DemandHeatmapVisual = {
+  hotspots: DemandHotspot[];
+  accentColor?: string; // default "#22C55E"; intensity ≥ 0.55 burns "#ff4444"
+};
+
+export type DemandHeatmapSceneProps = DemandHeatmapVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

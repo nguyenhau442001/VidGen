@@ -8,6 +8,7 @@ import { ErrorLogScene } from "./scenes/ErrorLogScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
+import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { ScoreCardScene } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -100,6 +101,8 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <MapPingScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "geohash_reveal":
       return <GeohashRevealScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "demand_heatmap":
+      return <DemandHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "score_card":
       return <ScoreCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "split_view":

@@ -35,6 +35,7 @@ TYPE_MAP = {
     "PhoneMockupScene": "phone_mockup",
     "MapPingScene": "map_ping",
     "GeohashRevealScene": "geohash_reveal",
+    "DemandHeatmapScene": "demand_heatmap",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",

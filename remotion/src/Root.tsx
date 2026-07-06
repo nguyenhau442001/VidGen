@@ -5,6 +5,7 @@ import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
+import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -329,6 +330,26 @@ export const Root: React.FC = () => {
           gridRows: 7,
           gridCols: 9,
           durationInFrames: 310,
+        }}
+      />
+      <Composition
+        id="DemandHeatmap"
+        component={DemandHeatmapScene}
+        durationInFrames={298}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          hotspots: [
+            { x: 380, y: 430, radius: 110, intensity: 0.95, label: "Quận 1" },
+            { x: 300, y: 560, radius: 85, intensity: 0.8 },
+            { x: 490, y: 510, radius: 90, intensity: 0.7 },
+            { x: 250, y: 370, radius: 70, intensity: 0.5 },
+            { x: 470, y: 700, radius: 78, intensity: 0.45 },
+            { x: 340, y: 830, radius: 60, intensity: 0.35 },
+          ],
+          accentColor: "#22C55E",
+          durationInFrames: 298,
         }}
       />
       <Composition
