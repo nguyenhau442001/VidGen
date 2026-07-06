@@ -43,6 +43,7 @@ export type ManifestScene =
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GeohashRevealVisual }
   | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DemandHeatmapVisual }
   | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SignalFlowVisual }
+  | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RippleAggregateVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -153,6 +154,19 @@ export type SignalFlowVisual = {
 };
 
 export type SignalFlowSceneProps = SignalFlowVisual & { durationInFrames: number };
+
+// One phone taps → camera zooms out to a field of rippling phones that
+// converge on a hotspot. hotspotPosition is in the scene's 750×1080 viewBox
+// coordinates (same slice-crop caveat as demand_heatmap: x ≈ 71–679 visible).
+export type RippleAggregateVisual = {
+  singleLabel: string; // label shown phase 1, e.g. "Bạn thấy"
+  aggregateLabel: string; // label shown phase 2, e.g. "Hàng nghìn người cùng lúc"
+  phoneCount?: number; // default 28
+  accentColor?: string; // default "#22C55E"
+  hotspotPosition?: { x: number; y: number }; // default center
+};
+
+export type RippleAggregateSceneProps = RippleAggregateVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

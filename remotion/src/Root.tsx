@@ -7,6 +7,7 @@ import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
+import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -369,6 +370,21 @@ export const Root: React.FC = () => {
           outputLabel: "Dự báo nhu cầu",
           accentColor: "#22C55E",
           durationInFrames: 298,
+        }}
+      />
+      <Composition
+        id="RippleAggregate"
+        component={RippleAggregateScene}
+        durationInFrames={346}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          singleLabel: "Bạn thấy",
+          aggregateLabel: "8.431 lượt mở app / 5 phút",
+          phoneCount: 28,
+          accentColor: "#22C55E",
+          durationInFrames: 346,
         }}
       />
       <Composition

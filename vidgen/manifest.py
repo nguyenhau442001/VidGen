@@ -37,6 +37,7 @@ TYPE_MAP = {
     "GeohashRevealScene": "geohash_reveal",
     "DemandHeatmapScene": "demand_heatmap",
     "SignalFlowScene": "signal_flow",
+    "RippleAggregateScene": "ripple_aggregate",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",
