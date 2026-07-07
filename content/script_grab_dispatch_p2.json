@@ -52,7 +52,7 @@
     },
     {
       "id": "shot_02a",
-      "type": "MapPingScene",
+      "type": "GeohashRevealScene",
       "duration_frames": 311,
       "narration": "Thành phố được chia thành hàng nghìn ô nhỏ — mỗi ô là một vùng địa lý cố định. Đây là đơn vị cơ bản để hệ thống tính toán nhu cầu.",
       "narration_timing_frames": [
@@ -61,135 +61,136 @@
       ],
       "transition_out_delay_frames": 30,
       "props": {
-        "drivers": [
+        "districts": [
           {
-            "x": 375,
-            "y": 430,
-            "label": "Q1"
+            "x": 4,
+            "y": 3,
+            "label": "Q1",
+            "demandLevel": 0.95
           },
           {
-            "x": 300,
-            "y": 360,
-            "label": "Q3"
+            "x": 3,
+            "y": 3,
+            "label": "Q3",
+            "demandLevel": 0.8
           },
           {
-            "x": 250,
-            "y": 480,
-            "label": "Q5"
+            "x": 2,
+            "y": 4,
+            "label": "Q5",
+            "demandLevel": 0.6
           },
           {
-            "x": 430,
-            "y": 620,
-            "label": "Q7"
+            "x": 3,
+            "y": 5,
+            "label": "Q7",
+            "demandLevel": 0.5
           },
           {
-            "x": 470,
-            "y": 330,
-            "label": "Bình Thạnh"
+            "x": 5,
+            "y": 2,
+            "label": "Bình Thạnh",
+            "demandLevel": 0.7
           },
           {
-            "x": 560,
-            "y": 240,
-            "label": "Thủ Đức"
+            "x": 6,
+            "y": 1,
+            "label": "Thủ Đức",
+            "demandLevel": 0.55
           }
-        ]
+        ],
+        "accentColor": "#22C55E",
+        "gridRows": 7,
+        "gridCols": 9
       },
       "sound_design": "grid appear sfx at frame 15, soft pulse loop"
     },
     {
       "id": "shot_02b",
-      "type": "MapPingScene",
+      "type": "DemandHeatmapScene",
       "duration_frames": 298,
-      "narration": "Hệ thống liên tục tính toán: ô nào sắp có nhiều người gọi xe nhất? Ô nào đang thiếu tài xế? Chấm càng dày đặc — nhu cầu dự đoán càng cao.",
+      "narration": "Hệ thống liên tục tính toán: ô nào sắp có nhiều người gọi xe nhất? Ô nào đang thiếu tài xế? Vùng càng sáng — nhu cầu dự đoán càng cao.",
       "narration_timing_frames": [
         10,
         266
       ],
       "transition_out_delay_frames": 30,
       "props": {
-        "drivers": [
+        "hotspots": [
           {
             "x": 390,
             "y": 415,
+            "radius": 110,
+            "intensity": 0.95,
             "label": "Nhu cầu cao"
           },
           {
-            "x": 370,
-            "y": 400,
-            "label": ""
+            "x": 330,
+            "y": 500,
+            "radius": 85,
+            "intensity": 0.75
           },
           {
-            "x": 410,
-            "y": 410,
-            "label": ""
+            "x": 460,
+            "y": 460,
+            "radius": 90,
+            "intensity": 0.7
           },
           {
-            "x": 385,
-            "y": 445,
-            "label": ""
-          },
-          {
-            "x": 420,
-            "y": 380,
-            "label": ""
-          },
-          {
-            "x": 355,
-            "y": 430,
-            "label": ""
-          },
-          {
-            "x": 180,
+            "x": 200,
             "y": 700,
-            "label": ""
+            "radius": 65,
+            "intensity": 0.35
           },
           {
-            "x": 600,
+            "x": 560,
             "y": 650,
-            "label": ""
+            "radius": 70,
+            "intensity": 0.4
           },
           {
-            "x": 150,
-            "y": 250,
-            "label": ""
+            "x": 210,
+            "y": 280,
+            "radius": 60,
+            "intensity": 0.3
           }
         ],
-        "highlightedDriverIndex": 0,
         "accentColor": "#22C55E"
       },
-      "sound_design": "soft data ping sfx at frames 60/120/180/240 as dot clusters thicken, stopping before transition"
+      "sound_design": "soft data ping sfx at frames 60/120/180/240 as heat blobs breathe, stopping before transition"
     },
     {
       "id": "shot_03a",
-      "type": "ExplanationScene",
-      "duration_frames": 298,
-      "narration": "Dữ liệu đầu vào đầu tiên: lịch sử. Hàng triệu chuyến đi trước đây tạo ra bản đồ thói quen — và sáng thứ Hai của bạn nằm gọn trong đó.",
+      "type": "SignalFlowScene",
+      "duration_frames": 493,
+      "narration": "Dữ liệu đầu vào đầu tiên: lịch sử. Hàng triệu chuyến đi trước đây tạo ra bản đồ thói quen — và sáng thứ Hai của bạn nằm gọn trong đó. Trời mưa — nhu cầu tăng gần gấp đôi. Thời tiết được nạp thẳng vào mô hình dự báo.",
       "narration_timing_frames": [
         10,
-        258
+        453
       ],
       "transition_out_delay_frames": 30,
       "props": {
-        "headline": "Tín hiệu 1: **Lịch sử**",
-        "body": "Hàng triệu chuyến đi → bản đồ thói quen."
+        "signals": [
+          {
+            "icon": "📊",
+            "label": "Lịch sử",
+            "color": "#61dafb"
+          },
+          {
+            "icon": "🌧️",
+            "label": "Thời tiết",
+            "color": "#a78bfa"
+          },
+          {
+            "icon": "📅",
+            "label": "Sự kiện",
+            "color": "#fbbf24"
+          }
+        ],
+        "outputLabel": "Dự báo nhu cầu",
+        "accentColor": "#22C55E"
       },
-      "sound_design": "archive/rewind sfx subtle at frame 0"
-    },
-    {
-      "id": "shot_03b",
-      "type": "ExplanationScene",
-      "duration_frames": 195,
-      "narration": "Trời mưa — nhu cầu tăng gần gấp đôi. Thời tiết được nạp thẳng vào mô hình dự báo.",
-      "narration_timing_frames": [
-        8,
-        160
-      ],
-      "transition_out_delay_frames": 25,
-      "props": {
-        "headline": "Trời mưa → nhu cầu **×2**",
-        "body": "Thời tiết tích hợp vào mô hình dự báo."
-      },
-      "sound_design": "rain sfx fade in at frame 0, soft"
+      "sound_design": "archive/rewind sfx subtle at frame 0, rain sfx fade in soft around frame 300, particle stream hum underneath"
     },
     {
       "id": "shot_03c",
@@ -230,7 +231,7 @@
     },
     {
       "id": "shot_04b",
-      "type": "SplitViewScene",
+      "type": "RippleAggregateScene",
       "duration_frames": 346,
       "narration": "Không chỉ một mình bạn. Hàng nghìn người trong cùng khu vực đang làm điều tương tự — mở app, nhìn giá, chưa đặt. Tổng hợp lại, đó là tín hiệu nhu cầu cực kỳ rõ ràng.",
       "narration_timing_frames": [
@@ -239,17 +240,12 @@
       ],
       "transition_out_delay_frames": 30,
       "props": {
-        "leftContent": {
-          "kind": "text",
-          "heading": "Một người dùng",
-          "body": "Mở app · Nhìn giá · Chưa đặt xe"
-        },
-        "rightContent": "map_dots_gathering",
-        "leftCaption": "Bạn thấy",
-        "rightCaption": "Hàng nghìn người cùng lúc",
+        "singleLabel": "Bạn thấy",
+        "aggregateLabel": "Hàng nghìn người cùng lúc",
+        "phoneCount": 28,
         "accentColor": "#22C55E"
       },
-      "sound_design": "multiply/scale sfx at frame 60 as right panel fills"
+      "sound_design": "single tap sfx at frame 15, zoom-out whoosh at frame 60, layered ripple pings as field fills"
     },
     {
       "id": "shot_04c",
@@ -269,7 +265,7 @@
     },
     {
       "id": "shot_04d",
-      "type": "MapPingScene",
+      "type": "DriverSwarmScene",
       "duration_frames": 281,
       "narration": "Và đây là kết quả trên bản đồ: tài xế lặng lẽ di chuyển vào khu vực — trước khi bất kỳ yêu cầu nào xuất hiện.",
       "narration_timing_frames": [
@@ -280,43 +276,58 @@
       "props": {
         "drivers": [
           {
-            "x": 300,
-            "y": 480,
+            "startX": 150,
+            "startY": 260,
+            "endX": 300,
+            "endY": 480,
             "label": "1.2km"
           },
           {
-            "x": 500,
-            "y": 470,
+            "startX": 640,
+            "startY": 250,
+            "endX": 500,
+            "endY": 470,
             "label": "900m"
           },
           {
-            "x": 350,
-            "y": 640,
+            "startX": 140,
+            "startY": 850,
+            "endX": 350,
+            "endY": 640,
             "label": "1.5km"
           },
           {
-            "x": 470,
-            "y": 630,
+            "startX": 620,
+            "startY": 860,
+            "endX": 470,
+            "endY": 630,
             "label": "800m"
           },
           {
-            "x": 260,
-            "y": 570,
-            "label": ""
+            "startX": 100,
+            "startY": 560,
+            "endX": 260,
+            "endY": 570
           },
           {
-            "x": 540,
-            "y": 560,
-            "label": ""
+            "startX": 660,
+            "startY": 540,
+            "endX": 540,
+            "endY": 560
           }
         ],
+        "hotspot": {
+          "x": 375,
+          "y": 545,
+          "label": "Zone Q1"
+        },
         "accentColor": "#22C55E"
       },
       "sound_design": "car movement sfx soft, 3 distinct pings as drivers settle into zone"
     },
     {
       "id": "shot_05a",
-      "type": "ExplanationScene",
+      "type": "CounterBlastScene",
       "duration_frames": 131,
       "narration": "Khi bạn đặt xe — tài xế đã ở gần đó rồi.",
       "narration_timing_frames": [
@@ -325,10 +336,12 @@
       ],
       "transition_out_delay_frames": 25,
       "props": {
-        "headline": "Tài xế đã lăn bánh **trước khi bạn bấm Book.**",
-        "body": "Lịch sử · Real-time · Pre-positioning"
+        "finalValue": 34,
+        "unit": "tài xế",
+        "subLabel": "đã lăn bánh trước khi bạn bấm Book",
+        "accentColor": "#22C55E"
       },
-      "sound_design": "resolution chord sfx at frame 0"
+      "sound_design": "flash hit at frame 0, rapid tick sfx during count-up, lock-in thud at frame 90"
     },
     {
       "id": "shot_05b",
