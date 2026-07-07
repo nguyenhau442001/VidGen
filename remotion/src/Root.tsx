@@ -19,6 +19,7 @@ import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
+import PhoneMapScene from "./scenes/PhoneMapScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -484,6 +485,25 @@ export const Root: React.FC = () => {
           ],
           headline: "So sánh các Frontend Framework nổi tiếng nhất",
           accentWord: "Frontend Framework",
+          durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="PhoneMap"
+        component={PhoneMapScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          pins: [
+            { id: "user-1", x: 0.5, y: 0.6, label: "Vị trí của bạn", type: "user" },
+            { id: "driver-1", x: 0.25, y: 0.35, label: "Tài xế 1", type: "driver" },
+            { id: "driver-2", x: 0.7, y: 0.45, label: "Tài xế 2", type: "driver" },
+            { id: "zone-1", x: 0.5, y: 0.5, label: "Khu vực đón", type: "zone" }
+          ],
+          headline: "Tìm tài xế công nghệ gần bạn",
+          showRadius: true,
           durationInFrames: 150,
         }}
       />

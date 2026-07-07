@@ -53,7 +53,8 @@ export type ManifestScene =
   | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ZoomRevealVisual }
   | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitRevealVisual }
   | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AnimatedFlowVisual }
-  | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual };
+  | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual }
+  | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -323,3 +324,19 @@ export type BubbleComparatorVisual = {
 };
 
 export type BubbleComparatorSceneProps = BubbleComparatorVisual & { durationInFrames: number };
+
+export type PhoneMapPin = {
+  id: string;
+  x: number;
+  y: number;
+  label?: string;
+  type?: "driver" | "user" | "zone";
+};
+
+export type PhoneMapVisual = {
+  pins: PhoneMapPin[];
+  headline: string;
+  showRadius?: boolean;
+};
+
+export type PhoneMapSceneProps = PhoneMapVisual & { durationInFrames: number };

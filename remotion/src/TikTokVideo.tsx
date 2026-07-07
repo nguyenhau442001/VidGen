@@ -21,6 +21,7 @@ import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
+import PhoneMapScene from "./scenes/PhoneMapScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -154,5 +155,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <AnimatedFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "bubble_comparator":
       return <BubbleComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "phone_map":
+      return <PhoneMapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };
