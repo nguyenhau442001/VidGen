@@ -5,21 +5,30 @@ import { colors, BE_VIETNAM_PRO } from "../styles";
 
 const CANVAS_W = 1080;
 const CANVAS_H = 1920;
+const HEADLINE_COLOR = "#f8fafc";
+const SUBTEXT_COLOR = "rgba(226,232,240,0.7)";
+
+function truncateLine(line: string, maxChars: number): string {
+  if (line.length <= maxChars) return line;
+  const sliced = line.slice(0, maxChars);
+  const trimmed = sliced.replace(/\s+\S*$/, "");
+  return (trimmed || sliced) + "…";
+}
 
 // Splits on Vietnamese sentence-break punctuation into up to 3 lines;
-// truncates the last line with an ellipsis if there's overflow or it's too long.
+// truncates each line independently when it exceeds maxCharsPerLine,
+// and appends "…" to the last line if there were more parts than fit.
 function splitHeadlineLines(headline: string, maxLines = 3, maxCharsPerLine = 42): string[] {
   const rawParts = headline
     .split(/\.\s+|—/)
     .map((s) => s.trim())
     .filter(Boolean);
   const parts = rawParts.length > 0 ? rawParts : [headline];
-  const lines = parts.slice(0, maxLines);
+  const lines = parts.slice(0, maxLines).map((line) => truncateLine(line, maxCharsPerLine));
   const overflowed = parts.length > maxLines;
   const lastIndex = lines.length - 1;
-  if (lines[lastIndex] && (overflowed || lines[lastIndex].length > maxCharsPerLine)) {
-    const truncated = lines[lastIndex].slice(0, maxCharsPerLine);
-    lines[lastIndex] = truncated.replace(/\s+\S*$/, "") + "…";
+  if (overflowed && lines[lastIndex] && !lines[lastIndex].endsWith("…")) {
+    lines[lastIndex] = lines[lastIndex] + "…";
   }
   return lines;
 }
@@ -141,7 +150,7 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
               fontWeight: 700,
               fontSize: 72,
               lineHeight: 1.15,
-              color: "#f8fafc",
+              color: HEADLINE_COLOR,
             }}
           >
             {renderLineWithAccent(line, accentWord)}
@@ -160,7 +169,7 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
             fontFamily: BE_VIETNAM_PRO,
             fontWeight: 400,
             fontSize: 32,
-            color: "rgba(226,232,240,0.7)",
+            color: SUBTEXT_COLOR,
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
