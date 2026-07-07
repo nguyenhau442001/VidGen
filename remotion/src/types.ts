@@ -45,6 +45,7 @@ export type ManifestScene =
   | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SignalFlowVisual }
   | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RippleAggregateVisual }
   | { type: "driver_swarm"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverSwarmVisual }
+  | { type: "counter_blast"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CounterBlastVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -187,6 +188,19 @@ export type DriverSwarmVisual = {
 };
 
 export type DriverSwarmSceneProps = DriverSwarmVisual & { durationInFrames: number };
+
+// Big count-up reveal: 0 → finalValue with a flash, type-scale blast and a
+// lock-in pulse when the number lands. Pure HTML/CSS, centered.
+export type CounterBlastVisual = {
+  finalValue: number; // e.g. 8431
+  unit?: string; // e.g. "lượt mở app", "×2", "tài xế"
+  subLabel?: string; // smaller text below counter
+  prefix?: string; // e.g. "+" or "×" before number
+  accentColor?: string; // default "#22C55E"
+  countDuration?: number; // frames to count up, default 80
+};
+
+export type CounterBlastSceneProps = CounterBlastVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

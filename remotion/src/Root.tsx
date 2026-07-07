@@ -9,6 +9,7 @@ import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
 import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
 import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
+import { CounterBlastScene } from "./scenes/CounterBlastScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -407,6 +408,21 @@ export const Root: React.FC = () => {
           hotspot: { x: 375, y: 500, label: "Quận 1" },
           accentColor: "#22C55E",
           durationInFrames: 281,
+        }}
+      />
+      <Composition
+        id="CounterBlast"
+        component={CounterBlastScene}
+        durationInFrames={131}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          finalValue: 34,
+          unit: "tài xế",
+          subLabel: "đã lăn bánh trước khi bạn bấm Book",
+          accentColor: "#22C55E",
+          durationInFrames: 131,
         }}
       />
       <Composition

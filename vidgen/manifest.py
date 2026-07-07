@@ -39,6 +39,7 @@ TYPE_MAP = {
     "SignalFlowScene": "signal_flow",
     "RippleAggregateScene": "ripple_aggregate",
     "DriverSwarmScene": "driver_swarm",
+    "CounterBlastScene": "counter_blast",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",
