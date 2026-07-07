@@ -298,3 +298,17 @@ export type ZoomRevealVisual = {
   accentColor?: string;
   dotColor?: string;
 };
+
+export type GenericHookThumbnailVisual = {
+  headline: string;
+  accentWord?: string;
+  subtext?: string;
+  partLabel?: string;
+  channelName?: string;
+};
+
+export type GenericHookThumbnailSceneProps = GenericHookThumbnailVisual;
+
+export type ThumbnailSceneProps =
+  | ({ style: "characterIcon" } & CharacterIconCoverSceneProps)
+  | ({ style: "generic" } & GenericHookThumbnailSceneProps);
