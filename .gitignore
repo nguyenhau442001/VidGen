@@ -1,4 +1,5 @@
 .vscode/
+.worktrees/
 
 # Generated output files
 output/
