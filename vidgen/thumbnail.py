@@ -108,3 +108,63 @@ def _extract_character_icon_props(
         result["selectedLabel"] = f"{props['selectedPin']['label']} ✓"
 
     return result
+
+
+def generate_thumbnail(
+    script_path: str,
+    output_path: str,
+    scene_index: int = 0,
+    channel_name: str = "DevFasterr",
+    overwrite: bool = True,
+    remotion_dir: str = "remotion",
+) -> str:
+    """Render a thumbnail PNG from scenes[scene_index] of a VidGen script JSON.
+
+    Raises FileNotFoundError if script_path doesn't exist, RuntimeError if
+    npx is missing or the Remotion still render exits non-zero.
+    """
+    if not os.path.exists(script_path):
+        raise FileNotFoundError(f"Script not found: {script_path}")
+
+    output_path = os.path.abspath(output_path)
+    if not overwrite and os.path.exists(output_path):
+        print(f"Thumbnail already exists, skipping: {output_path}")
+        return output_path
+
+    with open(script_path, encoding="utf-8") as f:
+        script = json.load(f)
+
+    scene = script["scenes"][scene_index]
+    style = _style_for_scene(scene["type"])
+    if style == "characterIcon":
+        props = _extract_character_icon_props(script, scene_index, channel_name)
+    else:
+        props = _extract_generic_props(script, scene_index)
+        props["channelName"] = channel_name
+    props["style"] = style
+
+    print(f"🎨 Rendering thumbnail for: {script_path}")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    cmd = ["npx", "remotion", "still", "Thumbnail", output_path, f"--props={json.dumps(props)}"]
+    try:
+        result = subprocess.run(cmd, cwd=remotion_dir, capture_output=True, text=True)
+    except FileNotFoundError:
+        raise RuntimeError("npx not found. Run: npm install")
+
+    if result.returncode != 0:
+        stderr_tail = "\n".join(result.stderr.strip().splitlines()[-5:])
+        print(f"❌ Remotion error (exit {result.returncode}): {stderr_tail}")
+        raise RuntimeError(f"renderStill failed:\n{result.stderr}")
+
+    print(f"✅ Thumbnail saved: {output_path}")
+    return output_path
+
+
+if __name__ == "__main__":
+    import sys
+
+    script_arg = sys.argv[1]
+    slug = Path(script_arg).stem
+    out = f"output/thumbnails/{slug}_thumb.png"
+    generate_thumbnail(script_arg, out)
