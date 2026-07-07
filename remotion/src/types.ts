@@ -44,6 +44,7 @@ export type ManifestScene =
   | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DemandHeatmapVisual }
   | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SignalFlowVisual }
   | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RippleAggregateVisual }
+  | { type: "driver_swarm"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverSwarmVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
@@ -167,6 +168,25 @@ export type RippleAggregateVisual = {
 };
 
 export type RippleAggregateSceneProps = RippleAggregateVisual & { durationInFrames: number };
+
+// Drivers converge on a pulsing demand zone. All coordinates are in the
+// scene's 750×1080 viewBox (same slice-crop caveat as demand_heatmap:
+// only x ≈ 71–679 is visible).
+export type DriverSwarmDriver = {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  label?: string; // e.g. "800m", "1.2km"
+};
+
+export type DriverSwarmVisual = {
+  drivers: DriverSwarmDriver[];
+  hotspot: { x: number; y: number; label?: string };
+  accentColor?: string; // default "#22C55E"
+};
+
+export type DriverSwarmSceneProps = DriverSwarmVisual & { durationInFrames: number };
 
 export type ScoreCriteria = { label: string; score: number; maxScore: number };
 

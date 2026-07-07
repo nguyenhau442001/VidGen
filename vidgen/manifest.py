@@ -38,6 +38,7 @@ TYPE_MAP = {
     "DemandHeatmapScene": "demand_heatmap",
     "SignalFlowScene": "signal_flow",
     "RippleAggregateScene": "ripple_aggregate",
+    "DriverSwarmScene": "driver_swarm",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
     "QuoteCalloutScene": "quote_callout",

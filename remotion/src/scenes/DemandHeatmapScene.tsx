@@ -62,9 +62,10 @@ const saturatedColor = (hex: string, intensity: number): string => {
 };
 
 // ---------------------------------------------------------------------------
-// Subtle city grid — fades in over frames 0–20.
+// Subtle city grid — fades in over frames 0–20. Exported for other map-style
+// scenes on the same 750×1080 viewBox (e.g. DriverSwarmScene).
 // ---------------------------------------------------------------------------
-const CityGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
+export const CityGrid: React.FC<{ opacity: number }> = ({ opacity }) => {
   const verticals = [];
   for (let x = 0; x <= VB_W; x += GRID_STEP) {
     verticals.push(<line key={`v${x}`} x1={x} y1={0} x2={x} y2={VB_H} />);

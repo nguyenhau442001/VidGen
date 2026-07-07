@@ -11,6 +11,7 @@ import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
 import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
+import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
 import { ScoreCardScene } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -109,6 +110,8 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <SignalFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "ripple_aggregate":
       return <RippleAggregateScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "driver_swarm":
+      return <DriverSwarmScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "score_card":
       return <ScoreCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "split_view":

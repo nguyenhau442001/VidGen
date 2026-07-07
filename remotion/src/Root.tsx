@@ -8,6 +8,7 @@ import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
 import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
+import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
 import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
@@ -385,6 +386,27 @@ export const Root: React.FC = () => {
           phoneCount: 28,
           accentColor: "#22C55E",
           durationInFrames: 346,
+        }}
+      />
+      <Composition
+        id="DriverSwarm"
+        component={DriverSwarmScene}
+        durationInFrames={281}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          drivers: [
+            { startX: 140, startY: 200, endX: 300, endY: 430, label: "800m" },
+            { startX: 620, startY: 260, endX: 470, endY: 420, label: "1.2km" },
+            { startX: 130, startY: 800, endX: 290, endY: 590, label: "650m" },
+            { startX: 610, startY: 850, endX: 480, endY: 610, label: "900m" },
+            { startX: 370, startY: 120, endX: 375, endY: 350, label: "1.5km" },
+            { startX: 640, startY: 560, endX: 530, endY: 505, label: "400m" },
+          ],
+          hotspot: { x: 375, y: 500, label: "Quận 1" },
+          accentColor: "#22C55E",
+          durationInFrames: 281,
         }}
       />
       <Composition
