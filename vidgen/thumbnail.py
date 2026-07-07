@@ -53,9 +53,12 @@ def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
 
 
 def _split_into_three_lines(text: str) -> tuple[str, str, str]:
-    """Greedy word-boundary packing into 3 lines. line2's budget is tight
-    (10 chars) because CharacterIconCoverScene highlights it in a fixed
-    214px-wide box — overflow there looks broken, unlike lines 1/3."""
+    """line1/line2/line3 all render at the same 36px font size in
+    CharacterIconCoverScene's fixed 390px-wide canvas, so they share the
+    same tight budget. line2 additionally sits inside a fixed 214px
+    highlight box, which is why its budget is tighter still. Confirmed by
+    rendering a real script: content longer than ~16 chars visibly
+    overflows both edges of the frame at this font size."""
 
     def fill(budget: int, words: list, target: list) -> None:
         length = 0
@@ -69,16 +72,23 @@ def _split_into_three_lines(text: str) -> tuple[str, str, str]:
     remaining = text.split()
     line1_words: list = []
     line2_words: list = []
-    fill(18, remaining, line1_words)
+    line3_words: list = []
+    fill(16, remaining, line1_words)
     fill(10, remaining, line2_words)
-    line3_words = remaining
+    fill(16, remaining, line3_words)
 
     line3 = " ".join(line3_words)
-    if len(line3) > 24:
-        truncated = line3[:24].rsplit(" ", 1)[0]
-        line3 = truncated + "…"
+    if remaining:
+        line3 = (line3.rstrip() + "…") if line3 else "…"
 
     return " ".join(line1_words), " ".join(line2_words), line3
+
+
+def _truncate_subtitle(text: str, max_chars: int = 40) -> str:
+    if len(text) <= max_chars:
+        return text
+    truncated = text[:max_chars].rsplit(" ", 1)[0]
+    return truncated + "…"
 
 
 def _extract_character_icon_props(
@@ -95,7 +105,7 @@ def _extract_character_icon_props(
         "line1": line1,
         "line2": line2,
         "line3": line3,
-        "subtitle": scene.get("narration") or "",
+        "subtitle": _truncate_subtitle(scene.get("narration") or ""),
     }
 
     if props.get("accentColor"):

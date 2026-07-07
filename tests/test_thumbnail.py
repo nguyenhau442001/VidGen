@@ -3,6 +3,7 @@ from vidgen.thumbnail import (
     _extract_generic_props,
     _extract_character_icon_props,
     _split_into_three_lines,
+    _truncate_subtitle,
 )
 
 
@@ -133,3 +134,27 @@ def test_extract_character_icon_props_handles_explicit_null_narration():
     assert props["line1"] == ""
     assert props["line2"] == ""
     assert props["line3"] == ""
+
+
+def test_split_into_three_lines_line3_bounded_like_line1():
+    line1, line2, line3 = _split_into_three_lines(
+        "Tài xế cách bạn 200 mét vừa bị hệ thống bỏ qua"
+    )
+    assert line1 == "Tài xế cách bạn"
+    assert line2 == "200 mét"
+    assert line3 == "vừa bị hệ thống…"
+
+
+def test_extract_character_icon_props_truncates_long_subtitle():
+    script = {
+        "scenes": [
+            {
+                "type": "CharacterIconScene",
+                "narration": "Grab không chọn tài xế gần bạn nhất — nó chấm điểm họ như một kỳ thi",
+                "props": {},
+            }
+        ]
+    }
+    props = _extract_character_icon_props(script)
+    assert len(props["subtitle"]) <= 41
+    assert props["subtitle"].endswith("…")
