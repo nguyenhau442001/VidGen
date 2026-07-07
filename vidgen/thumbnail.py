@@ -87,7 +87,7 @@ def _extract_character_icon_props(
     scene = script["scenes"][scene_index]
     props = scene.get("props", {})
 
-    headline_source = scene.get("on_screen_text") or scene.get("narration", "")
+    headline_source = scene.get("on_screen_text") or scene.get("narration") or ""
     line1, line2, line3 = _split_into_three_lines(headline_source)
 
     result = {
@@ -95,7 +95,7 @@ def _extract_character_icon_props(
         "line1": line1,
         "line2": line2,
         "line3": line3,
-        "subtitle": scene.get("narration", ""),
+        "subtitle": scene.get("narration") or "",
     }
 
     if props.get("accentColor"):

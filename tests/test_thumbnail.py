@@ -115,3 +115,21 @@ def test_split_into_three_lines_short_text_preserves_all_words():
     line1, line2, line3 = _split_into_three_lines("Xe đã đến")
     combined = f"{line1} {line2} {line3}".split()
     assert combined == ["Xe", "đã", "đến"]
+
+
+def test_extract_character_icon_props_handles_explicit_null_narration():
+    script = {
+        "scenes": [
+            {
+                "type": "CharacterIconScene",
+                "narration": None,
+                "on_screen_text": None,
+                "props": {},
+            }
+        ]
+    }
+    props = _extract_character_icon_props(script)
+    assert props["subtitle"] == ""
+    assert props["line1"] == ""
+    assert props["line2"] == ""
+    assert props["line3"] == ""
