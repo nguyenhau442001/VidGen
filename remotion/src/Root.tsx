@@ -18,6 +18,7 @@ import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/Quote
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
+import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -465,6 +466,24 @@ export const Root: React.FC = () => {
             { from: "3", to: "4", label: "Xuất bản" }
           ],
           headline: "Quy trình làm việc Remotion",
+          durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="BubbleComparator"
+        component={BubbleComparatorScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          items: [
+            { label: "React", value: 120, unit: "k stars", color: "cyan" },
+            { label: "Vue", value: 95, unit: "k stars", color: "green" },
+            { label: "Angular", value: 65, unit: "k stars", color: "red" }
+          ],
+          headline: "So sánh các Frontend Framework nổi tiếng nhất",
+          accentWord: "Frontend Framework",
           durationInFrames: 150,
         }}
       />

@@ -20,6 +20,7 @@ import { QuoteCalloutScene } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
+import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -151,5 +152,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       );
     case "animated_flow":
       return <AnimatedFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "bubble_comparator":
+      return <BubbleComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

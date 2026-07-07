@@ -52,7 +52,8 @@ export type ManifestScene =
   | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: QuoteCalloutVisual }
   | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ZoomRevealVisual }
   | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitRevealVisual }
-  | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AnimatedFlowVisual };
+  | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AnimatedFlowVisual }
+  | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -307,3 +308,18 @@ export type AnimatedFlowVisual = {
 };
 
 export type AnimatedFlowSceneProps = AnimatedFlowVisual & { durationInFrames: number };
+
+export type BubbleComparatorItem = {
+  label: string;
+  value: number;
+  unit?: string;
+  color?: "green" | "cyan" | "red";
+};
+
+export type BubbleComparatorVisual = {
+  items: BubbleComparatorItem[];
+  headline: string;
+  accentWord: string;
+};
+
+export type BubbleComparatorSceneProps = BubbleComparatorVisual & { durationInFrames: number };
