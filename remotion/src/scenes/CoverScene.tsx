@@ -3,11 +3,11 @@ import { AbsoluteFill } from "remotion";
 import { colors, INTER, JETBRAINS_MONO, type as t } from "../styles";
 import { SafeZone } from "../SafeZone";
 
-export interface CoverSceneProps {
+export type CoverSceneProps = {
   headline: string; // supports **bold** → rendered in errorRed
   body: string;
   terminalLines: string[];
-}
+};
 
 function parseHighlight(text: string): { word: string; highlighted: boolean }[] {
   const segs: { text: string; highlighted: boolean }[] = [];

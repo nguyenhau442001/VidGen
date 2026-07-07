@@ -17,6 +17,7 @@ import { CharacterIconCoverScene } from "./scenes/CharacterIconCoverScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
+import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -184,7 +185,7 @@ export const Root: React.FC = () => {
         fps={defaultManifest.fps}
         width={defaultManifest.width}
         height={defaultManifest.height}
-        defaultProps={{ manifest: defaultManifest as RenderManifest }}
+        defaultProps={{ manifest: defaultManifest as unknown as RenderManifest }}
         calculateMetadata={async ({ props }) => {
           const manifest = props.manifest as RenderManifest;
           return {
@@ -441,6 +442,29 @@ export const Root: React.FC = () => {
           idleRange: [0, 44] as [number, number],
           loadingRange: [45, 89] as [number, number],
           matchedRange: [90, 149] as [number, number],
+          durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="AnimatedFlow"
+        component={AnimatedFlowScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          nodes: [
+            { id: "1", label: "Khởi tạo Project", sublabel: "npm init -y", color: "green" },
+            { id: "2", label: "Cài đặt Remotion", sublabel: "npm i remotion", color: "cyan" },
+            { id: "3", label: "Tạo Composition", sublabel: "Root.tsx", color: "neutral" },
+            { id: "4", label: "Render Video", sublabel: "npx remotion render", color: "neutral" }
+          ],
+          edges: [
+            { from: "1", to: "2", label: "Bước tiếp theo" },
+            { from: "2", to: "3", label: "Định cấu hình" },
+            { from: "3", to: "4", label: "Xuất bản" }
+          ],
+          headline: "Quy trình làm việc Remotion",
           durationInFrames: 150,
         }}
       />

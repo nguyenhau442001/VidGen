@@ -19,6 +19,7 @@ import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene } from "./scenes/SplitRevealScene";
+import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -148,5 +149,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
           rightCaption={scene.visual.rightCaption}
         />
       );
+    case "animated_flow":
+      return <AnimatedFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };
