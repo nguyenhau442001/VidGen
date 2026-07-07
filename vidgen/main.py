@@ -560,6 +560,13 @@ def main():
     render_video_chunked(manifest, video_output)
     print(f"Video rendered to {video_output}")
 
+    try:
+        from vidgen.thumbnail import generate_thumbnail
+
+        generate_thumbnail(args.script, video_output.replace(".mp4", "_thumb.png"))
+    except Exception as e:
+        print(f"⚠️  Thumbnail generation failed (non-fatal): {e}")
+
     # --- Open Remotion Studio in browser ---
     if not _port_open(STUDIO_PORT):
         subprocess.Popen(
