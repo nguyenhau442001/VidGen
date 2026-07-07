@@ -20,6 +20,7 @@ import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRe
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import PhoneMapScene from "./scenes/PhoneMapScene";
+import ConversationScene from "./scenes/ConversationScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -505,6 +506,23 @@ export const Root: React.FC = () => {
           headline: "Tìm tài xế công nghệ gần bạn",
           showRadius: true,
           durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="Conversation"
+        component={ConversationScene}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          messages: [
+            { side: "left", text: "Chào bạn! Cho mình hỏi cách cài đặt Remotion với?", sender: "Nguyễn Văn An" },
+            { side: "right", text: "Chào An! Bạn chỉ cần chạy lệnh `npm init video` là xong nhé.", delay: 10 },
+            { side: "left", text: "Ồ đơn giản vậy sao! Cảm ơn bạn nhiều nha.", sender: "Nguyễn Văn An", delay: 15 }
+          ],
+          headline: "Thảo luận về Remotion",
+          durationInFrames: 180,
         }}
       />
     </>

@@ -22,6 +22,7 @@ import { SplitRevealScene } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import PhoneMapScene from "./scenes/PhoneMapScene";
+import ConversationScene from "./scenes/ConversationScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -157,5 +158,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <BubbleComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "phone_map":
       return <PhoneMapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "conversation":
+      return <ConversationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

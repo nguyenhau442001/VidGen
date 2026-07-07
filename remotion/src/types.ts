@@ -54,7 +54,8 @@ export type ManifestScene =
   | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitRevealVisual }
   | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AnimatedFlowVisual }
   | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual }
-  | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual };
+  | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual }
+  | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -340,3 +341,17 @@ export type PhoneMapVisual = {
 };
 
 export type PhoneMapSceneProps = PhoneMapVisual & { durationInFrames: number };
+
+export type ConversationMessage = {
+  side: "left" | "right";
+  text: string;
+  sender?: string;
+  delay?: number;
+};
+
+export type ConversationVisual = {
+  messages: ConversationMessage[];
+  headline?: string;
+};
+
+export type ConversationSceneProps = ConversationVisual & { durationInFrames: number };
