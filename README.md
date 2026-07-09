@@ -66,11 +66,11 @@ Every script shares the envelope `title` / `language` / `scenes[]`. Scenes can b
 - **Flat schema** — each scene has `type`, `props`, `duration_frames`, `narration`, `narration_timing_frames`, optional `on_screen_text`, `transition_out_delay_frames`, `sound_design`.
 - **Nested motion-pipeline-1.0 schema** — `assets{}` + `sequences[].shots[]` with declarative `animations[]`; `flatten_script()` converts it in-memory (no intermediate file is ever written).
 
-Gotchas: unknown scene types render blank silently — only the types in `manifest.py`'s `TYPE_MAP` with props matching `remotion/src/types.ts` are valid. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
+Gotchas: unknown scene types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a scene's `type` as either the snake_case manifest key (e.g. `demand_heatmap`) or, for the 18 types listed in `manifest.py`'s `TYPE_MAP`, the PascalCase Remotion component name (e.g. `DemandHeatmapScene`) — `TYPE_MAP` translates the latter to the former. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 
-## Scene library (13 scene types + 2 covers)
+## Scene library (24 wired scene types + 2 covers)
 
-The video is assembled from **13 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`:
+The video is assembled from **24 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/TikTokVideo.tsx`'s scene switch:
 
 | Scene type | What it renders |
 |---|---|
@@ -82,13 +82,28 @@ The video is assembled from **13 reusable scene types** — the tool's "skills" 
 | `PhoneMockupScene` | Ride-hailing app phone UI (idle → loading → matched states) |
 | `MapPingScene` | Map with driver dots, distance labels, highlight/selection phases |
 | `GeohashRevealScene` | Abstract city grid whose cells ripple in, breathe as a demand heatmap, then show district labels |
+| `DemandHeatmapScene` | Pulsing heatmap blobs over a map, intensity-colored |
+| `SignalFlowScene` | Input signal nodes streaming particles into a central "brain" node |
+| `RippleAggregateScene` | One phone tap zooms out into a field of rippling phones converging on a hotspot |
+| `DriverSwarmScene` | Multiple drivers converging on a pulsing demand zone |
+| `CounterBlastScene` | Big count-up number reveal with a flash and lock-in pulse |
 | `ScoreCardScene` | Score rows revealed with a stagger (supports per-row narration) |
 | `SplitViewScene` | Two-panel left/right comparison with captions |
 | `QuoteCalloutScene` | Large quote with an accent word, subtle or dark background |
 | `ZoomRevealScene` | Camera pull-back from a focal element to a wider dot field |
 | `SplitRevealScene` | Full-screen content compresses left to reveal a right panel |
+| `AnimatedFlowScene` | Node graph with animated edges connecting labeled nodes |
+| `BubbleComparatorScene` | Sized bubbles comparing labeled values |
+| `PhoneMapScene` | Phone UI with map pins (driver/user/zone) |
+| `ConversationScene` | Chat-style message bubbles, left/right |
+| `BeforeAfterScene` | Two-panel before/after point comparison |
+| `GridHeatmapScene` | Cell grid revealing top-left to bottom-right by intensity |
+
+`AnimatedFlowScene`, `BubbleComparatorScene`, `PhoneMapScene`, `ConversationScene`, `BeforeAfterScene`, and `GridHeatmapScene` aren't in `TYPE_MAP` — author their `type` as the snake_case manifest key directly (e.g. `"type": "grid_heatmap"`).
 
 Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `output/thumbnails/`.
+
+Six more components exist in `remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`TikTokVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
 
 All compositions are browsable individually in Remotion Studio (`npx remotion studio` in `remotion/`).
 
@@ -122,4 +137,5 @@ remotion/   Remotion project (compositions, scene components, chunk renderer)
 output/     generated artifacts: audio, manifest, render cache, videos, thumbnails
 tests/      pytest suite for the pipeline
 docs/       design docs and implementation plans
+references/ hook pattern library used by vidgen/hook_selector.py
 ```
