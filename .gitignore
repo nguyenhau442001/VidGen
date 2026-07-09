@@ -1,5 +1,6 @@
 .vscode/
 .worktrees/
+.DS_Store
 
 # Generated output files
 output/
