@@ -18,11 +18,14 @@ const BG = "#0a0a0f";
 const LANE_LINE_COLOR = "#ffffff18";
 const DEFAULT_PACKET_COLOR = "#ffffff66";
 
+const LEFT_LABEL_X = 100;
 const PATH_START_X = 130;
 const PATH_END_X = 620;
+const RIGHT_LABEL_X = 630;
 const LANE_HEIGHT = 70;
 const MAX_LANES = 5;
 const DEFAULT_PACKET_COUNT = 4;
+const ENDPOINT_LABEL_BOTTOM_Y = VB_H - 140;
 
 const HEADLINE_TOP = 70;
 const LANE_FADE_STAGGER = 10;
@@ -204,7 +207,7 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
                   strokeWidth={1}
                 />
                 <text
-                  x={PATH_START_X - 20}
+                  x={LEFT_LABEL_X}
                   y={laneY}
                   textAnchor="end"
                   dominantBaseline="middle"
@@ -218,30 +221,34 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
               </g>
             );
           })}
-        </svg>
 
-        {(sourceLabel || targetLabel) && (
-          <div
-            style={{
-              position: "absolute",
-              bottom: 100,
-              left: 0,
-              width: VB_W,
-              display: "flex",
-              justifyContent: "space-between",
-              padding: `0 ${PATH_START_X - 40}px`,
-              boxSizing: "border-box",
-              fontFamily: `${INTER}, sans-serif`,
-              fontSize: 15,
-              fontWeight: 600,
-              color: "#ffffff88",
-              opacity: headlineOpacity,
-            }}
-          >
-            <span>{sourceLabel}</span>
-            <span>{targetLabel}</span>
-          </div>
-        )}
+          {sourceLabel && (
+            <text
+              x={PATH_START_X}
+              y={ENDPOINT_LABEL_BOTTOM_Y}
+              textAnchor="start"
+              fontSize={13}
+              fontWeight={500}
+              style={{ fill: "#ffffff", fontFamily: INTER }}
+              opacity={headlineOpacity}
+            >
+              {sourceLabel}
+            </text>
+          )}
+          {targetLabel && (
+            <text
+              x={RIGHT_LABEL_X}
+              y={ENDPOINT_LABEL_BOTTOM_Y}
+              textAnchor="start"
+              fontSize={13}
+              fontWeight={500}
+              style={{ fill: "#ffffff", fontFamily: INTER }}
+              opacity={headlineOpacity}
+            >
+              {targetLabel}
+            </text>
+          )}
+        </svg>
       </div>
     </AbsoluteFill>
   );
