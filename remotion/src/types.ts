@@ -56,7 +56,8 @@ export type ManifestScene =
   | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual }
   | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual }
   | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual }
-  | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual };
+  | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual }
+  | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -372,3 +373,14 @@ export type BeforeAfterVisual = {
 };
 
 export type BeforeAfterSceneProps = BeforeAfterVisual & { durationInFrames: number };
+
+// grid values are intensity 0–1; cells reveal top-left to bottom-right on
+// the scene's 750×1080 canvas (contain-fit into the 1080×1920 frame).
+export type GridHeatmapVisual = {
+  grid: number[][];
+  headline: string;
+  cellLabel?: string;
+  colorScheme?: "green" | "cyan";
+};
+
+export type GridHeatmapSceneProps = GridHeatmapVisual & { durationInFrames: number };

@@ -7,10 +7,14 @@ import {
   useVideoConfig,
 } from "remotion";
 import { colors, INTER, JETBRAINS_MONO } from "../styles";
+import { GridHeatmapSceneProps } from "../types";
 
 // ---------------------------------------------------------------------------
-// Constants
+// Virtual canvas — "contain" fit inside the real composition, matching
+// BubbleComparatorScene/TimelineScene conventions.
 // ---------------------------------------------------------------------------
+const VB_W = 750;
+const VB_H = 1080;
 
 const GRID_BOX_W = 620;
 const GRID_BOX_H = 700;
@@ -46,14 +50,6 @@ const cellColor = (
     : `hsla(${hue}, 100%, ${lightness}%, ${alpha})`;
 };
 
-export type GridHeatmapSceneProps = {
-  grid: number[][];
-  headline: string;
-  cellLabel?: string;
-  colorScheme?: "green" | "cyan";
-  durationInFrames: number;
-};
-
 const GridHeatmapScene: React.FC<GridHeatmapSceneProps> = ({
   grid,
   headline,
@@ -62,7 +58,13 @@ const GridHeatmapScene: React.FC<GridHeatmapSceneProps> = ({
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
+
+  const scale = Math.min(width / VB_W, height / VB_H);
+  const scaledWidth = VB_W * scale;
+  const scaledHeight = VB_H * scale;
+  const leftOffset = (width - scaledWidth) / 2;
+  const topOffset = (height - scaledHeight) / 2;
 
   const rows = grid.length;
   const cols = rows > 0 ? Math.max(...grid.map((r) => r.length)) : 0;
@@ -91,84 +93,106 @@ const GridHeatmapScene: React.FC<GridHeatmapSceneProps> = ({
   );
 
   return (
-    <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
-          top: 60,
-          width: "100%",
-          textAlign: "center",
-          color: "#ffffff",
-          fontFamily: `${INTER}, sans-serif`,
-          fontSize: 26,
-          fontWeight: 700,
-          opacity: headlineOpacity,
-          padding: "0 60px",
-          boxSizing: "border-box",
+          top: topOffset,
+          left: leftOffset,
+          width: VB_W,
+          height: VB_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
         }}
       >
-        {headline}
-      </div>
+        <div
+          style={{
+            position: "absolute",
+            top: 60,
+            width: "100%",
+            textAlign: "center",
+            color: "#ffffff",
+            fontFamily: `${INTER}, sans-serif`,
+            fontSize: 26,
+            fontWeight: 700,
+            opacity: headlineOpacity,
+            padding: "0 60px",
+            boxSizing: "border-box",
+          }}
+        >
+          {headline}
+        </div>
 
-      <div
-        style={{
-          position: "absolute",
-          top: (1080 - GRID_BOX_H) / 2,
-          left: (750 - GRID_BOX_W) / 2,
-          width: GRID_BOX_W,
-          height: GRID_BOX_H,
-          display: "grid",
-          gridTemplateColumns: `repeat(${Math.max(1, cols)}, ${cellW}px)`,
-          gridTemplateRows: `repeat(${Math.max(1, rows)}, ${cellH}px)`,
-          gap: CELL_GAP,
-        }}
-      >
-        {grid.map((row, r) =>
-          row.map((intensity, c) => {
-            const startFrame = WAVE_START + (r + c) * WAVE_STEP;
-            const reveal = spring({
-              frame: frame - startFrame,
-              fps,
-              config: { damping: 22 },
-            });
-            const revealOpacity = Math.min(1, reveal);
-            const revealScale = interpolate(reveal, [0, 1], [0.6, 1]);
+        <div
+          style={{
+            position: "absolute",
+            top: (VB_H - GRID_BOX_H) / 2,
+            left: (VB_W - GRID_BOX_W) / 2,
+            width: GRID_BOX_W,
+            height: GRID_BOX_H,
+            display: "grid",
+            gridTemplateColumns: `repeat(${Math.max(1, cols)}, ${cellW}px)`,
+            gridTemplateRows: `repeat(${Math.max(1, rows)}, ${cellH}px)`,
+            gap: CELL_GAP,
+          }}
+        >
+          {grid.map((row, r) =>
+            row.map((intensity, c) => {
+              const startFrame = WAVE_START + (r + c) * WAVE_STEP;
+              const reveal = spring({
+                frame: frame - startFrame,
+                fps,
+                config: { damping: 22 },
+              });
+              const revealOpacity = Math.min(1, reveal);
+              const revealScale = interpolate(reveal, [0, 1], [0.6, 1]);
 
-            const isHot = intensity > 0.8;
-            const hasGlow = intensity > 0.7;
+              const isHot = intensity > 0.8;
+              const hasGlow = intensity > 0.7;
 
-            const pulse =
-              isHot && frame >= pulseStart
-                ? 0.925 +
-                  0.075 *
-                    Math.sin(
-                      (2 * Math.PI * (frame - pulseStart)) / PULSE_PERIOD
-                    )
-                : 1;
+              const pulse =
+                isHot && frame >= pulseStart
+                  ? 0.925 +
+                    0.075 *
+                      Math.sin(
+                        (2 * Math.PI * (frame - pulseStart)) / PULSE_PERIOD
+                      )
+                  : 1;
 
-            const fill = cellColor(colorScheme, intensity);
+              const fill = cellColor(colorScheme, intensity);
 
-            return (
-              <div
-                key={`${r}-${c}`}
-                style={{
-                  backgroundColor: fill,
-                  borderRadius: CELL_RADIUS,
-                  opacity: revealOpacity * pulse,
-                  transform: `scale(${revealScale})`,
-                  boxShadow: hasGlow
-                    ? `0 0 8px ${cellColor(colorScheme, intensity, 0.5)}`
-                    : "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                }}
-              >
-                {showValues && (
-                  <>
-                    {cellLabel && (
+              return (
+                <div
+                  key={`${r}-${c}`}
+                  style={{
+                    backgroundColor: fill,
+                    borderRadius: CELL_RADIUS,
+                    opacity: revealOpacity * pulse,
+                    transform: `scale(${revealScale})`,
+                    boxShadow: hasGlow
+                      ? `0 0 8px ${cellColor(colorScheme, intensity, 0.5)}`
+                      : "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                  }}
+                >
+                  {showValues && (
+                    <>
+                      {cellLabel && (
+                        <span
+                          style={{
+                            fontFamily: `${JETBRAINS_MONO}, monospace`,
+                            fontSize: 10,
+                            color: "rgba(255,255,255,0.7)",
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {cellLabel}
+                        </span>
+                      )}
                       <span
                         style={{
                           fontFamily: `${JETBRAINS_MONO}, monospace`,
@@ -177,66 +201,56 @@ const GridHeatmapScene: React.FC<GridHeatmapSceneProps> = ({
                           lineHeight: 1.2,
                         }}
                       >
-                        {cellLabel}
+                        {intensity.toFixed(2)}
                       </span>
-                    )}
-                    <span
-                      style={{
-                        fontFamily: `${JETBRAINS_MONO}, monospace`,
-                        fontSize: 10,
-                        color: "rgba(255,255,255,0.7)",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {intensity.toFixed(2)}
-                    </span>
-                  </>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 60,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: 300,
-          opacity: legendOpacity,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 8,
-        }}
-      >
         <div
           style={{
+            position: "absolute",
+            bottom: 60,
+            left: "50%",
+            transform: "translateX(-50%)",
             width: 300,
-            height: 40,
-            borderRadius: 4,
-            background: `linear-gradient(90deg, ${cellColor(
-              colorScheme,
-              0
-            )}, ${cellColor(colorScheme, 1)})`,
-          }}
-        />
-        <div
-          style={{
-            width: "100%",
+            opacity: legendOpacity,
             display: "flex",
-            justifyContent: "space-between",
-            fontFamily: `${INTER}, sans-serif`,
-            fontSize: 14,
-            fontWeight: 600,
-            color: "rgba(255,255,255,0.7)",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
           }}
         >
-          <span>Low</span>
-          <span>Medium</span>
-          <span>High</span>
+          <div
+            style={{
+              width: 300,
+              height: 40,
+              borderRadius: 4,
+              background: `linear-gradient(90deg, ${cellColor(
+                colorScheme,
+                0
+              )}, ${cellColor(colorScheme, 1)})`,
+            }}
+          />
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: `${INTER}, sans-serif`,
+              fontSize: 14,
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.7)",
+            }}
+          >
+            <span>Low</span>
+            <span>Medium</span>
+            <span>High</span>
+          </div>
         </div>
       </div>
     </AbsoluteFill>

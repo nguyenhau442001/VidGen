@@ -22,6 +22,7 @@ import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import PhoneMapScene from "./scenes/PhoneMapScene";
 import ConversationScene from "./scenes/ConversationScene";
 import BeforeAfterScene from "./scenes/BeforeAfterScene";
+import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -553,6 +554,26 @@ export const Root: React.FC = () => {
           headline: "Trước và sau khi dùng TypeScript",
           accentWord: "TypeScript",
           durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="GridHeatmap"
+        component={GridHeatmapScene}
+        durationInFrames={200}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          grid: [
+            [0.1, 0.3, 0.5, 0.4, 0.2],
+            [0.2, 0.6, 0.85, 0.7, 0.3],
+            [0.4, 0.75, 0.95, 0.9, 0.5],
+            [0.3, 0.65, 0.8, 0.6, 0.35],
+            [0.15, 0.4, 0.55, 0.45, 0.2],
+          ],
+          headline: "Mật độ yêu cầu theo khu vực",
+          colorScheme: "green",
+          durationInFrames: 200,
         }}
       />
     </>
