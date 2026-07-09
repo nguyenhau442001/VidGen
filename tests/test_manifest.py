@@ -1,6 +1,6 @@
 import math
 import pytest
-from vidgen.manifest import build_render_manifest, FPS, FRAME_PADDING
+from vidgen.manifest import build_render_manifest, detect_dead_air, FPS, FRAME_PADDING
 
 
 def test_duration_frames_calculation():
@@ -131,6 +131,74 @@ def test_short_caption_leaves_audio_derived_duration_unchanged():
     manifest = build_render_manifest(script, {1: 3.0})
 
     assert manifest["scenes"][0]["durationInFrames"] == math.ceil(3.0 * FPS) + FRAME_PADDING
+
+
+# Real dead air: unlike validate_manifest()'s pre-TTS frame-math estimate
+# (main.py), detect_dead_air() checks actual synthesized audio length against
+# the manifest's final durationInFrames — the only check that covers
+# narration_per_criterion scenes and any scene the caption-reading floor
+# stretched back out after tightening shrank it.
+
+
+def test_detect_dead_air_clean_scene_reports_nothing():
+    script = {
+        "scenes": [
+            {
+                "id": 1,
+                "type": "explanation",
+                "narration": "một hai ba",
+                "narration_timing_frames": [0, 60],
+                "duration_frames": 70,
+                "visual": {},
+            }
+        ]
+    }
+    audio_durations = {1: 2.0}  # 60 frames @ 30fps, offset 0 -> ends at 70-60=10 < threshold
+
+    manifest = build_render_manifest(script, audio_durations)
+
+    assert detect_dead_air(script, manifest, audio_durations) == []
+
+
+def test_detect_dead_air_flags_trailing_silence_after_narration():
+    script = {
+        "scenes": [
+            {
+                "id": 1,
+                "type": "explanation",
+                "narration": "một hai ba",
+                "narration_timing_frames": [0, 60],
+                "duration_frames": 120,
+                "visual": {},
+            }
+        ]
+    }
+    audio_durations = {1: 2.0}  # 60 frames of audio, 60 frames of scene left over
+
+    manifest = build_render_manifest(script, audio_durations)
+    findings = detect_dead_air(script, manifest, audio_durations)
+
+    assert findings == [{"scene_id": 1, "dead_air_frames": 60, "dead_air_seconds": 2.0}]
+
+
+def test_detect_dead_air_catches_narration_per_criterion_gap_pre_tts_check_misses():
+    script = {
+        "scenes": [
+            {
+                "id": "shot_05",
+                "type": "ScoreCardScene",
+                "duration_frames": 200,
+                "narration_per_criterion": [{"text": "một", "at_frame": 0}],
+                "props": {},
+            }
+        ]
+    }
+    audio_durations = {"shot_05_seg0": 1.0}  # 30 frames of audio, scene runs to 200
+
+    manifest = build_render_manifest(script, audio_durations)
+    findings = detect_dead_air(script, manifest, audio_durations)
+
+    assert findings == [{"scene_id": "shot_05", "dead_air_frames": 170, "dead_air_seconds": 5.67}]
 
 
 def test_multi_scene_ordering():

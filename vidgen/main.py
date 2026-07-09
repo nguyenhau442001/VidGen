@@ -15,10 +15,12 @@ from vidgen.tts_speed_adjustor import synthesize as tts_synthesize
 from vidgen.manifest import (
     MAP_REF_H,
     MAP_REF_W,
+    MAX_DEAD_AIR_FRAMES,
     PRESET_MAP_DOTS_GATHERING,
     PRESET_PHONE_LOADING_TEXT,
     build_render_manifest,
     copy_audio_to_remotion_public,
+    detect_dead_air,
     wav_filename,
     write_render_manifest,
 )
@@ -352,7 +354,6 @@ def resolve_script(script: dict) -> dict:
 
 
 MIN_FRAMES_PER_WORD = 8  # 30fps / 8 ≈ 3.75 words/sec, a spoken-Vietnamese ceiling
-MAX_DEAD_AIR_FRAMES = 30  # 1s @ 30fps
 
 
 def validate_manifest(manifest: dict) -> None:
@@ -551,6 +552,13 @@ def main():
     manifest = build_render_manifest(script, audio_durations)
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
+
+    # --- Detect dead air (real audio vs final scene duration) ---
+    dead_air_findings = detect_dead_air(script, manifest, audio_durations)
+    if dead_air_findings:
+        print("\nDead air warnings:")
+        for f in dead_air_findings:
+            print(f"  - {f['scene_id']}: {f['dead_air_frames']} frames ({f['dead_air_seconds']}s) of dead air after audio ends")
 
     # --- Render video (per-scene chunks with caching) ---
     os.makedirs("output/video/mp4", exist_ok=True)

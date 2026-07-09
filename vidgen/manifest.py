@@ -13,6 +13,8 @@ FRAME_PADDING = 10
 # short TTS audio or an authored duration_frames can otherwise cut it early.
 MAX_CAPTION_CPS = 17
 
+MAX_DEAD_AIR_FRAMES = 30  # 1s @ 30fps
+
 # Shot ids follow "<scene>_<letter>" (e.g. "shot_01a", "shot_01b", "shot_01c"
 # all belong to scene "shot_01"). Ids without a trailing shot letter (plain
 # "shot_01", numeric legacy ids) aren't part of a multi-shot scene.
@@ -206,6 +208,48 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
             }
         )
     return {"fps": fps, "width": 1080, "height": 1920, "scenes": scenes}
+
+
+def detect_dead_air(
+    script: dict, manifest: dict, audio_durations: dict, threshold_frames: int = MAX_DEAD_AIR_FRAMES
+) -> list[dict]:
+    """Flags scenes where the manifest's final durationInFrames (post-tightening,
+    post-caption-clamp) runs threshold_frames or more past the last real audio
+    clip's end. Checked against actual synthesized audio rather than authored
+    frame math, so it catches trailing silence that a pre-TTS estimate can't:
+    narration_per_criterion scenes (kept at authored duration during tightening
+    in main.py) and any scene the caption-reading floor stretched back out
+    after tightening shrank it. Scenes with no audio at all are skipped — this
+    is about silence after speech, not scenes that are silent by design."""
+    fps = manifest.get("fps", FPS)
+    findings = []
+    for script_scene, manifest_scene in zip(script["scenes"], manifest["scenes"]):
+        sid = script_scene["id"]
+        audio_ends = []
+
+        if sid in audio_durations and script_scene.get("narration"):
+            offset = (script_scene.get("narration_timing_frames") or [0])[0]
+            audio_ends.append(offset + math.ceil(audio_durations[sid] * fps))
+
+        for seg_i, seg in enumerate(script_scene.get("narration_per_criterion", [])):
+            seg_id = f"{sid}_seg{seg_i}"
+            if seg_id in audio_durations:
+                audio_ends.append(seg.get("at_frame", 0) + math.ceil(audio_durations[seg_id] * fps))
+
+        if not audio_ends:
+            continue
+
+        dead_air = manifest_scene["durationInFrames"] - max(audio_ends)
+        if dead_air > threshold_frames:
+            findings.append(
+                {
+                    "scene_id": sid,
+                    "dead_air_frames": dead_air,
+                    "dead_air_seconds": round(dead_air / fps, 2),
+                }
+            )
+
+    return findings
 
 
 def write_render_manifest(manifest: dict, output_path: str) -> None:
