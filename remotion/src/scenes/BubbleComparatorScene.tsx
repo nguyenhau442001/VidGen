@@ -57,9 +57,13 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
   const { fps, width, height } = useVideoConfig();
 
   // 1. Scaled container to fit 750x1080 viewBox inside the 1080x1920 target composition
-  const scale = height / VB_H;
+  // ("contain" fit — the viewBox is wider-aspect than a 1080x1920 target, so scaling
+  // by height alone overflows the width and clips the sides)
+  const scale = Math.min(width / VB_W, height / VB_H);
   const scaledWidth = VB_W * scale;
+  const scaledHeight = VB_H * scale;
   const leftOffset = (width - scaledWidth) / 2;
+  const topOffset = (height - scaledHeight) / 2;
 
   // 2. Headline fade in (Frame 0-20)
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], {
@@ -111,7 +115,7 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
       <div
         style={{
           position: "absolute",
-          top: 0,
+          top: topOffset,
           left: leftOffset,
           width: VB_W,
           height: VB_H,
