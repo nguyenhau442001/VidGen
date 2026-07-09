@@ -2,7 +2,8 @@
   "name": "vidgen-remotion",
   "scripts": {
     "dev": "npx remotion studio",
-    "render": "npx remotion render TikTokVideo"
+    "render": "npx remotion render TikTokVideo",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@remotion/cli": "4.0.293",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@types/react": "^19",
-    "typescript": "^5"
+    "patch-package": "^8.0.1",
+    "typescript": "^7.0.2"
   }
 }
