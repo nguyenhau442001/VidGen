@@ -1,0 +1,334 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "Hook pattern library for VidGen autonomous script generation",
+    "usage": "Score each pattern against the topic. Pick highest scorer. Never use pattern already used in previous parts of a series.",
+    "scoring_weights": {
+      "topic_fit": 0.4,
+      "non_tech_accessible": 0.3,
+      "curiosity_gap": 0.3
+    }
+  },
+  "patterns": [
+    {
+      "id": "P01",
+      "name": "counterintuitive_fact",
+      "label": "Counterintuitive fact",
+      "description": "State a fact that directly contradicts the viewer's assumption. The contradiction must be resolvable only by watching the video.",
+      "formula": "[Expected outcome] — thực tế [unexpected outcome]. Tại sao?",
+      "examples": [
+        "Tài xế cách bạn 1.2km — Grab không chọn. Tại sao?",
+        "Index đôi khi làm DB chậm hơn.",
+        "32GB RAM, app vẫn chậm giây đầu."
+      ],
+      "best_for": ["algorithms", "databases", "system design", "optimization"],
+      "non_tech_score": 3,
+      "curiosity_gap": 5,
+      "visual_hint": "Show the expected result first (e.g. nearest driver), then cross it out and show actual result. Use BeforeAfterScene or AnimatedFlowScene."
+    },
+    {
+      "id": "P02",
+      "name": "invisible_everyday",
+      "label": "You use this every day but don't know how it works",
+      "description": "Reference something the viewer interacts with daily. The hook is that something familiar is secretly complex.",
+      "formula": "Cái [familiar object/action] này — nếu [surprising property]. Tại sao?",
+      "examples": [
+        "Cái ổ khoá xanh đó không giấu bạn đang vào đâu.",
+        "Cái ô vuông đen trắng này — nếu rách 30% vẫn đọc được.",
+        "Bấm Like — server chết ngay lúc đó. Like vẫn được lưu."
+      ],
+      "best_for": ["networking", "security", "encoding", "distributed systems", "mobile"],
+      "non_tech_score": 5,
+      "curiosity_gap": 4,
+      "visual_hint": "Open with a recognizable UI element (phone screen, QR code, lock icon). Zoom in to reveal hidden complexity. Use PhoneMapScene or ZoomRevealScene."
+    },
+    {
+      "id": "P03",
+      "name": "shocking_number",
+      "label": "Shocking number with human scale comparison",
+      "description": "Lead with a concrete number that implies massive scale. Immediately anchor it to a human-scale comparison so it lands emotionally.",
+      "formula": "[Specific number]. [Human-scale comparison in same timeframe].",
+      "examples": [
+        "Nháy mắt mất 150ms. Google đọc xong trang web của bạn trước đó.",
+        "Mỗi giây, Viettel gửi 11,000 SMS. Không có queue — tất cả rớt.",
+        "Một dòng config sai — Amazon mất 34 phút, thiệt hại 500 triệu đô."
+      ],
+      "best_for": ["scalability", "performance", "reliability", "SRE", "infrastructure"],
+      "non_tech_score": 4,
+      "curiosity_gap": 4,
+      "visual_hint": "Use CounterAnimScene for the number, then cut to human-scale comparison card. Number must be real — never estimate."
+    },
+    {
+      "id": "P04",
+      "name": "real_scenario",
+      "label": "Vivid real scenario with time pressure",
+      "description": "Drop the viewer into a specific moment with stakes. Time, place, and a problem that must be solved. No setup needed — start in the middle.",
+      "formula": "[Time/place]. [Person] [problem]. [Constraint that makes it hard].",
+      "examples": [
+        "11:58 tối. App crash. Log file: trống. Deploy sáng mai lúc 8 giờ.",
+        "Deploy thứ Sáu 5 giờ chiều. Thứ Hai: khách hàng không vào được app.",
+        "2 giờ sáng. Bạn đói. App phải tìm quán gần nhất trong 100 millisecond."
+      ],
+      "best_for": ["debugging", "SRE", "deployment", "on-call", "latency", "search"],
+      "non_tech_score": 4,
+      "curiosity_gap": 4,
+      "visual_hint": "Use ConversationScene or a clock/calendar visual. Atmosphere over explanation. Dark screen, red alert color, timestamp."
+    },
+    {
+      "id": "P05",
+      "name": "myth_bust",
+      "label": "Industry myth busted with evidence",
+      "description": "Name a widely-held belief in the tech community, then immediately contradict it with a real-world counterexample. Must be specific — not just 'it depends'.",
+      "formula": "Mọi người nghĩ [X]. [Company Y] làm [opposite] — vẫn phục vụ [scale].",
+      "examples": [
+        "Shopify phục vụ 10 triệu merchant — vẫn dùng monolith. Chưa chết.",
+        "MongoDB vs PostgreSQL — query phức tạp, Postgres thắng.",
+        "ChatGPT không đọc code bạn. Nó đoán chữ tiếp theo — đúng đến 99%."
+      ],
+      "best_for": ["architecture", "databases", "AI/ML", "best practices"],
+      "non_tech_score": 3,
+      "curiosity_gap": 5,
+      "visual_hint": "Use BeforeAfterScene with 'Myth' vs 'Reality' labels. Show the real company/benchmark as evidence, not just a claim."
+    },
+    {
+      "id": "P06",
+      "name": "cost_of_ignorance",
+      "label": "The hidden cost of not knowing this",
+      "description": "Frame the hook as a penalty the viewer is currently paying without knowing. Works best when the cost is measurable (money, time, latency, data loss).",
+      "formula": "Mỗi lần bạn [common action] — [hidden cost] đang xảy ra.",
+      "examples": [
+        "Mỗi lần app bạn gọi API mà không cache — user đợi thêm 300ms.",
+        "Mỗi lần JOIN không có index — DB scan toàn bảng, bill tăng.",
+        "Mỗi lần push code mà không có test — tech debt cộng thêm một ngày."
+      ],
+      "best_for": ["performance", "cost optimization", "caching", "testing", "databases"],
+      "non_tech_score": 3,
+      "curiosity_gap": 4,
+      "visual_hint": "Use AnimatedBarRaceScene or CounterAnimScene. Show the cost accumulating over time — visual must make the waste visceral."
+    },
+    {
+      "id": "P07",
+      "name": "simple_question_hard_answer",
+      "label": "Simple question, surprisingly hard answer",
+      "description": "Ask a question that sounds trivial but turns out to require deep systems thinking. The hook is the gap between question simplicity and answer complexity.",
+      "formula": "\"[Simple question any user might ask]\" — câu trả lời cần [N] hệ thống phối hợp.",
+      "examples": [
+        "\"Tìm kiếm gần đây nhất\" — câu trả lời cần 4 service phối hợp trong 80ms.",
+        "\"Còn bao nhiêu ghế?\" — câu hỏi đơn giản nhất của booking app, khó nhất để trả lời đúng.",
+        "\"Tin nhắn đã gửi\" — 3 trạng thái khác nhau, không ai đồng bộ."
+      ],
+      "best_for": ["distributed systems", "consistency", "booking systems", "messaging", "search"],
+      "non_tech_score": 5,
+      "curiosity_gap": 4,
+      "visual_hint": "Start with a phone UI showing the innocent question/UI element, then AnimatedFlowScene exploding into all the systems behind it."
+    },
+    {
+      "id": "P08",
+      "name": "two_truths_one_lie",
+      "label": "Two systems look identical, one will fail under load",
+      "description": "Present two architectures or approaches that appear equivalent on the surface. The hook is that one will catastrophically fail at a specific threshold.",
+      "formula": "Hai hệ thống trông giống nhau. Đến [threshold] — một cái sập.",
+      "examples": [
+        "Hai app đều handle 1000 user. Lên 100,000 — một cái sập. Cái nào?",
+        "Hai query trả về cùng kết quả. Một cái mất 3ms, một cái mất 3 phút.",
+        "Hai hệ thống payment đều pass test. Ngày sale — một cái mất tiền khách."
+      ],
+      "best_for": ["scalability", "load testing", "race conditions", "payment systems", "database"],
+      "non_tech_score": 3,
+      "curiosity_gap": 5,
+      "visual_hint": "Use BubbleComparatorScene or BeforeAfterScene. Both sides look identical at first, then one degrades. Animate the failure point."
+    },
+    {
+      "id": "P09",
+      "name": "the_invisible_third_party",
+      "label": "Someone you don't see is involved in every transaction",
+      "description": "Reveal a hidden actor in a process the viewer thinks is direct/bilateral. Creates unease and curiosity simultaneously.",
+      "formula": "Khi bạn [action], [hidden party] biết [sensitive info] — bạn không biết.",
+      "examples": [
+        "Khi bạn dùng Google Login — Google biết bạn đăng nhập vào app nào, lúc nào.",
+        "Khi app gọi Momo — 3 công ty đọc được số tiền bạn chuyển.",
+        "Font chữ trang web bạn đang đọc — Google server biết bạn đang ở đây."
+      ],
+      "best_for": ["OAuth", "privacy", "third-party SDKs", "CDN", "payment gateways"],
+      "non_tech_score": 5,
+      "curiosity_gap": 5,
+      "visual_hint": "PacketFlowScene with a hidden middle node lighting up. The reveal of the third party should be the visual punchline."
+    },
+    {
+      "id": "P10",
+      "name": "decision_regret",
+      "label": "One architectural decision made years ago still hurts today",
+      "description": "Frame a past technical decision as the root cause of current pain. Resonates with engineers who've inherited legacy systems.",
+      "formula": "[Year], ai đó quyết định [decision]. Đến nay — mỗi [timeframe] team mất [cost].",
+      "examples": [
+        "2015, ai đó dùng auto-increment ID. Giờ merge 2 database — không thể.",
+        "2018, ai đó store timezone như string. Mỗi tháng có 1 bug vào daylight saving.",
+        "2019, ai đó không version API. Giờ mỗi deploy — mobile app cũ bị break."
+      ],
+      "best_for": ["API design", "database schema", "backward compatibility", "migrations"],
+      "non_tech_score": 2,
+      "curiosity_gap": 4,
+      "visual_hint": "TimelineScene starting from the bad decision, showing compounding pain over time. Final node = today's problem."
+    },
+    {
+      "id": "P11",
+      "name": "the_accidental_genius",
+      "label": "A 'hack' that became the standard",
+      "description": "Tell the origin of a widely-used technology that started as an accidental or 'wrong' solution. Makes tech history feel human and accessible.",
+      "formula": "[Person/team] cần [X], làm [wrong/hacky thing] — cả ngành dùng nó đến nay.",
+      "examples": [
+        "Git không phải được thiết kế để dùng theo cách chúng ta đang dùng.",
+        "Cookie được tạo ra để giải quyết vấn đề shopping cart — không phải tracking.",
+        "JWT sinh ra vì ai đó không muốn query database mỗi request."
+      ],
+      "best_for": ["git", "web history", "auth", "protocols", "standards"],
+      "non_tech_score": 4,
+      "curiosity_gap": 3,
+      "visual_hint": "TimelineScene with origin story framing. Warm, narrative tone — this is a story hook, not a fear hook."
+    },
+    {
+      "id": "P12",
+      "name": "zoom_out_scale",
+      "label": "Your problem is one of N million — here's how it's actually solved",
+      "description": "Reframe a personal/team problem as an instance of a massive distributed challenge already solved at scale. Creates pride in learning the 'real' solution.",
+      "formula": "Vấn đề của bạn — [big tech] giải quyết cho [N] triệu người theo cách này.",
+      "examples": [
+        "Bạn đang sort một list. Spotify sort playlist cho 600 triệu người — không giống nhau.",
+        "Bạn validate form. Stripe validate 500 triệu card — không dùng regex.",
+        "Bạn handle timezone. Booking.com handle 220 quốc gia — một bảng lookup."
+      ],
+      "best_for": ["algorithms", "data structures", "validation", "localization", "personalization"],
+      "non_tech_score": 3,
+      "curiosity_gap": 4,
+      "visual_hint": "CounterAnimScene for the scale number, then cut to the elegant solution. Contrast personal scale vs production scale."
+    },
+    {
+      "id": "P13",
+      "name": "false_security",
+      "label": "You think you're protected — you're not",
+      "description": "Reveal a gap between perceived safety and actual vulnerability. High stakes, high emotion. Must be immediately actionable — not just FUD.",
+      "formula": "Bạn nghĩ [security measure] bảo vệ bạn. Không — [specific bypass].",
+      "examples": [
+        "Website hash password trước khi lưu. Hacker vẫn biết password của bạn.",
+        "2FA bằng SMS — có thể bypass trong 2 phút với SIM swap.",
+        "Private repo GitHub — secrets trong history vẫn bị tìm thấy."
+      ],
+      "best_for": ["security", "authentication", "secrets management", "privacy"],
+      "non_tech_score": 4,
+      "curiosity_gap": 5,
+      "visual_hint": "PhoneMapScene or a lock icon that cracks. Red accent color only in this pattern — it signals danger."
+    },
+    {
+      "id": "P14",
+      "name": "the_race_condition",
+      "label": "Two things happen at the same time — chaos",
+      "description": "Show that a system works perfectly in isolation but fails when two operations happen simultaneously. Concurrency bugs are universally relatable.",
+      "formula": "[Action 1] và [Action 2] xảy ra đúng lúc — [unexpected outcome].",
+      "examples": [
+        "Hai người mua vé cuối cùng cùng lúc — cả hai thanh toán thành công.",
+        "Hai server cùng tạo ID=1 — database không biết chọn cái nào.",
+        "Đặt hàng và hủy đơn trong cùng 50ms — đơn bị hủy nhưng tiền vẫn bị trừ."
+      ],
+      "best_for": ["concurrency", "transactions", "ACID", "distributed locks", "booking"],
+      "non_tech_score": 4,
+      "curiosity_gap": 5,
+      "visual_hint": "PacketFlowScene with two lanes colliding at a single node. AnimatedFlowScene works too — show the race as two parallel paths merging."
+    },
+    {
+      "id": "P15",
+      "name": "the_latency_thief",
+      "label": "Something you can't see is stealing milliseconds",
+      "description": "Personify latency as a hidden thief taking small amounts from every transaction. Works because loss aversion is universal.",
+      "formula": "Mỗi request, [hidden operation] lấy [Xms]. Nhân [N] triệu request — [total cost].",
+      "examples": [
+        "Mỗi request không có connection pool — mất 40ms để tạo kết nối DB. Nhân 1 triệu request.",
+        "Mỗi lần đọc config từ file — 5ms. Kubernetes restart 200 pod — 1000 giây lost.",
+        "Mỗi log line được serialize sang JSON — 0.3ms. 50,000 log/giây — 15 giây CPU/giây."
+      ],
+      "best_for": ["performance", "connection pooling", "logging", "serialization", "Kubernetes"],
+      "non_tech_score": 3,
+      "curiosity_gap": 4,
+      "visual_hint": "AnimatedBarRaceScene showing latency budget breakdown. Or PacketFlowScene with a drain node pulling off a percentage of each packet."
+    },
+    {
+      "id": "P16",
+      "name": "the_elegant_constraint",
+      "label": "A famous system works because of one weird constraint",
+      "description": "Reveal that a well-known system's reliability comes from an unexpected self-imposed limitation. Counterintuitive — the constraint IS the feature.",
+      "formula": "[Famous system] chỉ hoạt động đúng vì nó tự giới hạn [X]. Bỏ giới hạn đó — sập.",
+      "examples": [
+        "Kafka chỉ cho phép append — không update, không delete. Đó là lý do nó nhanh.",
+        "DNS TTL không phải bug — không có nó, mỗi query phải hỏi root server.",
+        "Git commit hash không thể thay đổi — đó là lý do history không bị giả mạo."
+      ],
+      "best_for": ["Kafka", "DNS", "git", "immutability", "append-only", "event sourcing"],
+      "non_tech_score": 3,
+      "curiosity_gap": 4,
+      "visual_hint": "BeforeAfterScene: left = without constraint (chaos), right = with constraint (clean). The constraint is the hero."
+    },
+    {
+      "id": "P17",
+      "name": "the_overnight_mystery",
+      "label": "Everything was fine yesterday — what changed?",
+      "description": "Open with a system that worked perfectly, then broke with no obvious cause. Taps into the universal debugging anxiety of 'nothing changed'.",
+      "formula": "Hôm qua: bình thường. Hôm nay: [error]. Không ai thay đổi gì cả.",
+      "examples": [
+        "Hôm qua: p99 latency 80ms. Hôm nay: 4000ms. Không ai deploy gì.",
+        "Hôm qua: build pass. Hôm nay: fail. Git log: không có commit mới.",
+        "Hôm qua: 0 error. Hôm nay: 50,000 NullPointerException. Code không đổi."
+      ],
+      "best_for": ["observability", "incident response", "dependencies", "time-based bugs", "DST"],
+      "non_tech_score": 3,
+      "curiosity_gap": 5,
+      "visual_hint": "TimelineScene with a sharp inflection point. Before the point: green. After: red. The mystery is why."
+    },
+    {
+      "id": "P18",
+      "name": "the_wrong_tool",
+      "label": "Everyone uses X for this — they're using the wrong tool",
+      "description": "Name a common tool/practice used for a specific purpose, then reveal a better alternative that most people don't know exists.",
+      "formula": "99% dev dùng [common tool] cho [use case]. Có [better tool] làm việc đó tốt hơn 10 lần.",
+      "examples": [
+        "99% dev dùng LIKE '%keyword%' để tìm kiếm. PostgreSQL có full-text search built-in.",
+        "99% dev dùng setTimeout để debounce. Web có requestAnimationFrame cho animation.",
+        "99% dev log sang file text. Structured logging + query trong 1 giây — không phải grep."
+      ],
+      "best_for": ["SQL", "JavaScript", "observability", "tooling", "developer productivity"],
+      "non_tech_score": 2,
+      "curiosity_gap": 4,
+      "visual_hint": "BubbleComparatorScene: wrong tool (large, red) vs right tool (smaller but glowing green). Or BeforeAfterScene with concrete benchmark."
+    },
+    {
+      "id": "P19",
+      "name": "the_butterfly_effect",
+      "label": "One tiny config change, cascading failure",
+      "description": "Show how a small, innocent-looking change propagates through a distributed system and causes disproportionate damage downstream.",
+      "formula": "[Tiny change] → [intermediate effect] → [intermediate effect] → [catastrophic outcome].",
+      "examples": [
+        "Tăng timeout từ 3s lên 30s → retry storm → DB connection pool cạn → toàn bộ service sập.",
+        "Thêm 1 field vào Kafka message → consumer cũ throw exception → queue backlog 10 triệu message.",
+        "Đổi múi giờ server → cron job chạy 2 lần → duplicate payment → khách hàng bị charge 2 lần."
+      ],
+      "best_for": ["distributed systems", "Kafka", "timeouts", "cascading failures", "cron", "timezone"],
+      "non_tech_score": 3,
+      "curiosity_gap": 5,
+      "visual_hint": "AnimatedFlowScene is perfect: show the small change at top, arrows propagating down, each node failing in turn — cascade animation."
+    },
+    {
+      "id": "P20",
+      "name": "the_shared_secret",
+      "label": "Insiders know this, the course never teaches it",
+      "description": "Position the video as insider knowledge that separates professionals from beginners. Creates FOMO and tribal belonging simultaneously.",
+      "formula": "Textbook dạy [X]. Senior engineer thực tế làm [Y] — không ai viết điều này ra.",
+      "examples": [
+        "Sách dạy normalize database. Production DB của Grab denormalize có chủ ý.",
+        "Tutorial dạy dùng ORM. Payment system của Momo viết raw SQL cho core transaction.",
+        "Course dạy REST API. Hệ thống realtime dùng WebSocket — không ai bảo bạn khi nào đổi."
+      ],
+      "best_for": ["database design", "API design", "architecture decisions", "system design interviews"],
+      "non_tech_score": 3,
+      "curiosity_gap": 4,
+      "visual_hint": "BeforeAfterScene: left = 'what courses teach', right = 'what pros actually do'. Right side has green accent — the insider knowledge."
+    }
+  ]
+}

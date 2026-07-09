@@ -111,6 +111,8 @@ Scripts and scene components in this repo are authored with Claude Code using tw
 - **`remotion`** — the AI video-production skill, used to design motion, scene pacing, and write the scene components and script JSONs.
 - **`superpowers`** (brainstorming → writing-plans → executing-plans) — used for feature design and implementation; the resulting design docs and plans live in `docs/superpowers/`.
 
+**Hook selection:** before writing a new script's first scene, run `python -m vidgen.hook_selector "<topic>"` (or `select_hook_pattern()` from `vidgen/hook_selector.py`). It scores the 20 patterns in `references/hook-patterns.json` against the topic and returns the best fit — pass `series_used_ids` for a multi-part series so no pattern repeats. Adapt the chosen `formula` to the topic in the first scene's `narration`; don't answer the question it raises until at least 40% through the video.
+
 ## Repo layout
 
 ```
