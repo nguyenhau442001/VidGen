@@ -23,6 +23,7 @@ import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import PhoneMapScene from "./scenes/PhoneMapScene";
 import ConversationScene from "./scenes/ConversationScene";
+import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -160,5 +161,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <PhoneMapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "conversation":
       return <ConversationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "before_after":
+      return <BeforeAfterScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

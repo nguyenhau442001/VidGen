@@ -21,6 +21,7 @@ import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
 import BubbleComparatorScene from "./scenes/BubbleComparatorScene";
 import PhoneMapScene from "./scenes/PhoneMapScene";
 import ConversationScene from "./scenes/ConversationScene";
+import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -523,6 +524,35 @@ export const Root: React.FC = () => {
           ],
           headline: "Thảo luận về Remotion",
           durationInFrames: 180,
+        }}
+      />
+      <Composition
+        id="BeforeAfter"
+        component={BeforeAfterScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          before: {
+            label: "TRƯỚC",
+            points: [
+              "Lỗi runtime khó phát hiện",
+              "Không có gợi ý kiểu dữ liệu",
+              "Khó refactor code lớn",
+            ],
+          },
+          after: {
+            label: "SAU",
+            points: [
+              "Bắt lỗi ngay khi code",
+              "Autocomplete thông minh",
+              "Refactor an toàn hơn",
+            ],
+          },
+          headline: "Trước và sau khi dùng TypeScript",
+          accentWord: "TypeScript",
+          durationInFrames: 150,
         }}
       />
     </>

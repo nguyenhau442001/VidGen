@@ -55,7 +55,8 @@ export type ManifestScene =
   | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AnimatedFlowVisual }
   | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BubbleComparatorVisual }
   | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual }
-  | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual };
+  | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual }
+  | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -355,3 +356,19 @@ export type ConversationVisual = {
 };
 
 export type ConversationSceneProps = ConversationVisual & { durationInFrames: number };
+
+export type BeforeAfterPanel = {
+  label: string;
+  points: string[];
+  color?: string;
+};
+
+export type BeforeAfterVisual = {
+  before: BeforeAfterPanel;
+  after: BeforeAfterPanel;
+  headline: string;
+  accentWord: string;
+  revealFrame?: number;
+};
+
+export type BeforeAfterSceneProps = BeforeAfterVisual & { durationInFrames: number };

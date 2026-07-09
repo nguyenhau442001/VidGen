@@ -7,6 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { INTER, JETBRAINS_MONO } from "../styles";
+import { BeforeAfterPanel, BeforeAfterSceneProps } from "../types";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — scaled to fit inside the real composition (see the
@@ -29,21 +30,6 @@ const BEFORE_ACCENT = "#ff6666";
 const AFTER_ACCENT = "#00ff41";
 const DIVIDER_COLOR = "#ffffff22";
 
-export interface BeforeAfterPanelData {
-  label: string;
-  points: string[];
-  color?: string;
-}
-
-export interface BeforeAfterSceneProps {
-  before: BeforeAfterPanelData;
-  after: BeforeAfterPanelData;
-  headline: string;
-  accentWord: string;
-  revealFrame?: number;
-  durationInFrames: number;
-}
-
 const renderHeadline = (headline: string, accentWord: string): React.ReactNode => {
   const index = headline.indexOf(accentWord);
   if (index === -1) {
@@ -64,7 +50,7 @@ const renderHeadline = (headline: string, accentWord: string): React.ReactNode =
 
 interface PanelProps {
   side: "left" | "right";
-  data: BeforeAfterPanelData;
+  data: BeforeAfterPanel;
   defaultLabel: string;
   defaultAccent: string;
   bg: string;
@@ -194,9 +180,13 @@ const BeforeAfterScene: React.FC<BeforeAfterSceneProps> = ({
   const { fps, width, height } = useVideoConfig();
 
   // Scaled container to fit the 750x1080 virtual canvas inside the real composition
-  const scale = height / VB_H;
+  // ("contain" fit — the virtual canvas is wider-aspect than a 1080x1920 target,
+  // so scaling by height alone would overflow and clip the sides)
+  const scale = Math.min(width / VB_W, height / VB_H);
   const scaledWidth = VB_W * scale;
+  const scaledHeight = VB_H * scale;
   const leftOffset = (width - scaledWidth) / 2;
+  const topOffset = (height - scaledHeight) / 2;
 
   // Frame 0-20: headline fade + slide up
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], {
@@ -227,7 +217,7 @@ const BeforeAfterScene: React.FC<BeforeAfterSceneProps> = ({
       <div
         style={{
           position: "absolute",
-          top: 0,
+          top: topOffset,
           left: leftOffset,
           width: VB_W,
           height: VB_H,
