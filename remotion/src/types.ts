@@ -65,7 +65,8 @@ export type ManifestScene =
   | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual }
   | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual }
   | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual }
-  | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual };
+  | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual }
+  | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -437,3 +438,24 @@ export type EventScanVisual = {
 };
 
 export type EventScanSceneProps = EventScanVisual & { durationInFrames: number };
+
+// Full-canvas field of driver pings spawning staggered across a faint
+// geohash grid while a clock ticks forward — "the dispatch system was
+// already running before you opened the app". Positions are seeded
+// deterministically (not authored per-driver) so the field looks organic
+// but renders identically frame to frame.
+export type DriverHeatmapTimestampMark = { frame: number; label: string };
+
+export type DriverHeatmapVisual = {
+  gridCellSize?: number; // px, default 105
+  gridOpacity?: number; // default 0.06
+  driverCount?: number; // default 140
+  spawnDuration?: number; // frames over which pings finish staggering in; default scales with durationInFrames
+  timestampSequence?: DriverHeatmapTimestampMark[]; // evenly spaced {frame, label} clock marks; default 6 marks 05:00:00 → 08:02:44
+  headlineRevealFrame?: number; // default scales with durationInFrames (~180/244)
+  captionRevealFrame?: number; // default scales with durationInFrames (~210/244)
+  accentColor?: string; // default "#00ff41"
+  topicLabel?: string; // default "THUẬT TOÁN ẨN"
+};
+
+export type DriverHeatmapSceneProps = DriverHeatmapVisual & { durationInFrames: number };

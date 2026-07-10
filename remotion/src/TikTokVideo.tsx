@@ -27,6 +27,7 @@ import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
 import { EventScanScene } from "./scenes/EventScanScene";
+import { DriverHeatmapScene } from "./scenes/DriverHeatmapScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -172,5 +173,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <RadarHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "event_scan":
       return <EventScanScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "driver_heatmap":
+      return <DriverHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };
