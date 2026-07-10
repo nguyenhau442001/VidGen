@@ -237,7 +237,7 @@ export const Root: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{
-          eyebrowText: "DevFasterr",
+          eyebrowText: "DevFaster",
         }}
       />
       <Composition

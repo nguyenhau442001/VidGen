@@ -542,14 +542,14 @@
       "id": "shot_07a",
       "type": "QuoteCalloutScene",
       "duration_frames": 260,
-      "narration": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFasterr để xem tiếp.",
+      "narration": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFaster để xem tiếp.",
       "narration_timing_frames": [
         10,
         250
       ],
       "transition_out_delay_frames": 20,
       "props": {
-        "text": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFasterr để xem tiếp.",
+        "text": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFaster để xem tiếp.",
         "accentWord": "Phần 3",
         "backgroundStyle": "gradient-subtle",
         "accentColor": "#00ff41"
