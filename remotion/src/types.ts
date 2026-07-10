@@ -66,7 +66,8 @@ export type ManifestScene =
   | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual }
   | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual }
   | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual }
-  | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual };
+  | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual }
+  | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StatComparatorVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -382,6 +383,29 @@ export type BeforeAfterVisual = {
 };
 
 export type BeforeAfterSceneProps = BeforeAfterVisual & { durationInFrames: number };
+
+export type StatComparatorVisual = {
+  headline: string;
+  accentWord: string;
+
+  beforeLabel: string;
+  beforeStat: string;
+  beforeStatNumber: number;
+  beforeStatUnit: string;
+  beforeSubtext: string;
+  beforeColor?: string;
+
+  afterLabel: string;
+  afterStat: string;
+  afterStatNumber: number;
+  afterStatUnit: string;
+  afterSubtext: string;
+  afterColor?: string;
+
+  deltaLabel?: string;
+};
+
+export type StatComparatorSceneProps = StatComparatorVisual & { durationInFrames: number };
 
 // grid values are intensity 0–1; cells reveal top-left to bottom-right on
 // the scene's 750×1080 canvas (contain-fit into the 1080×1920 frame).

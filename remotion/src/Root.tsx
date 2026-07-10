@@ -25,6 +25,7 @@ import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
 import { EventScanScene } from "./scenes/EventScanScene";
+import StatComparatorScene from "./scenes/StatComparatorScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -617,6 +618,30 @@ export const Root: React.FC = () => {
           actionText: "Điều 34 tài xế đến Q1 trước 21:00",
           accentColor: "#f59e0b",
           durationInFrames: 340,
+        }}
+      />
+      <Composition
+        id="StatComparator"
+        component={StatComparatorScene}
+        durationInFrames={330}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Vùng sẵn sàng rút ngắn thời gian chờ",
+          accentWord: "rút ngắn",
+          beforeLabel: "Không có vùng sẵn",
+          beforeStat: "8 phút",
+          beforeStatNumber: 8,
+          beforeStatUnit: "phút",
+          beforeSubtext: "Hủy chuyến: cao",
+          afterLabel: "Có vùng sẵn sàng",
+          afterStat: "2.5 phút",
+          afterStatNumber: 2.5,
+          afterStatUnit: "phút",
+          afterSubtext: "Hủy chuyến: -40%",
+          deltaLabel: "Hiệu quả gấp đôi — cùng số tài xế",
+          durationInFrames: 330,
         }}
       />
     </>

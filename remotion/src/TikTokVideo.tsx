@@ -28,6 +28,7 @@ import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
 import { EventScanScene } from "./scenes/EventScanScene";
 import { DriverHeatmapScene } from "./scenes/DriverHeatmapScene";
+import StatComparatorScene from "./scenes/StatComparatorScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -175,5 +176,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <EventScanScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "driver_heatmap":
       return <DriverHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "stat_comparator":
+      return <StatComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

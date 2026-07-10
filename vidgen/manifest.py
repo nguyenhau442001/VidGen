@@ -50,6 +50,7 @@ TYPE_MAP = {
     "RadarHookScene": "radar_hook",
     "EventScanScene": "event_scan",
     "DriverHeatmapScene": "driver_heatmap",
+    "StatComparatorScene": "stat_comparator",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
