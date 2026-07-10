@@ -139,7 +139,6 @@ tests/      pytest suite for the pipeline
 docs/       design docs and implementation plans
 references/ hook pattern library used by vidgen/hook_selector.py
 ```
-
 # 🤖 VidGen — Automation Coverage Roadmap
 
 > **Current coverage: ~40% → Target: 100% fully autonomous**
@@ -196,20 +195,47 @@ references/ hook pattern library used by vidgen/hook_selector.py
 
 **Problem:** Gate 1 quality scoring only exists in the prompt — no code assertion stops a low-quality script from proceeding to render.
 
-**Solution:** Add `gate1_assert()` to `main.py` before TTS is called
+**Solution:** Rule-based `score_script()` in pure Python — no API key required
 
 ```python
-def gate1_assert(script: dict, min_total: int = 22) -> None:
-    audit = score_script(script)   # calls Claude API to self-score
-    if audit["total"] < min_total or any(v < 4 for v in audit.values()):
-        raise ValueError(f"Gate 1 FAIL: {audit} — rewriting...")
+def score_script(script: dict) -> dict:
+    scenes = script["scenes"]
+    hook = scenes[0]
+    scores = {}
+
+    # Hook strength: word count of opening narration
+    hook_words = len(hook["narration"].split())
+    scores["hook"] = 5 if hook_words <= 10 else (3 if hook_words <= 15 else 1)
+
+    # Pacing: durationInFrames within valid range (90–360 frames = 3–12s)
+    bad_pacing = sum(1 for s in scenes
+                     if s["durationInFrames"] < 90 or s["durationInFrames"] > 360)
+    scores["pacing"] = 5 if bad_pacing == 0 else (3 if bad_pacing == 1 else 1)
+
+    # accentWord must be exact substring of headline
+    visual_ok = all(
+        s["props"].get("accentWord", "") in s["props"].get("headline", "")
+        for s in scenes if "props" in s
+    )
+    scores["visual"] = 5 if visual_ok else 1
+
+    # Scene count: 5–8 scenes for 70s target
+    scores["arc"] = 5 if 5 <= len(scenes) <= 8 else 2
+
+    scores["total"] = sum(v for k, v in scores.items() if k != "total")
+    return scores
+
+def gate1_assert(script: dict, min_total: int = 16) -> None:
+    audit = score_script(script)
+    if audit["total"] < min_total or any(v < 3 for k, v in audit.items() if k != "total"):
+        raise ValueError(f"Gate 1 FAIL: {audit} — fix script before render")
 ```
 
-Pipeline auto-blocks and Claude self-rewrites. Nothing renders until score ≥ 22/30 and all dimensions ≥ 4.
+Pure Python, zero dependencies, runs fully offline. Nothing renders until score passes.
 
-- [ ] Implement `score_script()` using Claude API
-- [ ] Implement `gate1_assert()` in `vidgen/main.py`
-- [ ] Add max rewrite retry limit (e.g. 3 attempts before human alert)
+- [ ] Implement `vidgen/gate1.py` with `score_script()` and `gate1_assert()`
+- [ ] Call `gate1_assert()` in `main.py` before TTS step
+- [ ] Add max rewrite retry limit (e.g. 3 attempts before surfacing error to user)
 
 ---
 
@@ -253,41 +279,69 @@ No separate TTS command needed — it becomes one step in the unified runner.
 
 **Problem:** After render, visual quality (legibility, contrast, pacing) is checked by eye. Not scalable.
 
-**Solution:** `gate2_visual.py` using ffmpeg frame extraction + Claude Vision
+**Solution:** `gate2_visual.py` using ffmpeg frame extraction + OpenCV — no API key required
 
 ```python
-import subprocess, base64
+import subprocess, cv2, numpy as np
 
 def extract_frames(mp4_path: str) -> list[str]:
-    """Extract keyframes at seconds 1, 3, 6, 10, 20 → base64"""
-    frames = []
+    """Extract keyframes at seconds 1, 3, 6, 10, 20 → local PNG paths"""
+    paths = []
     for t in [1, 3, 6, 10, 20]:
         out = f"/tmp/frame_{t}.png"
         subprocess.run([
             "ffmpeg", "-ss", str(t), "-i", mp4_path,
             "-frames:v", "1", out, "-y", "-loglevel", "quiet"
         ])
-        with open(out, "rb") as f:
-            frames.append(base64.b64encode(f.read()).decode())
-    return frames
+        paths.append(out)
+    return paths
 
 def gate2_assert(mp4_path: str) -> dict:
-    frames_b64 = extract_frames(mp4_path)
-    result = claude_vision_audit(frames_b64)  # Claude Vision checks legibility, contrast, pacing
-    if not result["pass"]:
-        raise ValueError(f"Gate 2 FAIL: {result['issues']}")
-    return result
+    issues = []
+
+    for path in extract_frames(mp4_path):
+        frame = cv2.imread(path)
+        if frame is None:
+            continue
+
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        t = int(path.split("_")[1].replace(".png", ""))
+
+        # Check 1: contrast (std deviation of grayscale — low = flat/washed out)
+        if gray.std() < 40:
+            issues.append(f"frame@{t}s: low contrast ({gray.std():.1f})")
+
+        # Check 2: sharpness (Laplacian variance — low = blurry text)
+        lap = cv2.Laplacian(gray, cv2.CV_64F).var()
+        if lap < 100:
+            issues.append(f"frame@{t}s: blurry text (lap={lap:.1f})")
+
+        # Check 3: background darkness (mean of darkest 10% of pixels)
+        flat = gray.flatten()
+        dark_mean = np.sort(flat)[:len(flat) // 10].mean()
+        if dark_mean > 80:
+            issues.append(f"frame@{t}s: background too bright ({dark_mean:.1f})")
+
+    if issues:
+        raise ValueError(f"Gate 2 FAIL: {issues}")
+    return {"pass": True, "checked_frames": 5}
 ```
 
-Claude Vision replaces the human eye. Max 2 self-correct cycles before escalating.
+OpenCV replaces the human eye. Max 2 self-correct cycles before escalating.
+
+**Dependencies (install once):**
+```bash
+pip install opencv-python numpy
+# ffmpeg must be available in PATH
+```
 
 **Visual dimensions checked automatically:**
-- Text legibility — no overflow, readable on dark background
-- Contrast & color — accent colors not competing
-- Information density — no scene has > 4 bullets
-- Scene pacing — no freeze-frame or too-fast cuts
+- Contrast — std deviation of grayscale ≥ 40
+- Sharpness / text legibility — Laplacian variance ≥ 100
+- Background darkness — darkest 10% pixel mean ≤ 80
 
 - [ ] Implement `vidgen/gate2_visual.py`
+- [ ] Add `opencv-python` and `numpy` to `requirements.txt`
 - [ ] Integrate `gate2_assert()` call after render step in `main.py`
 - [ ] Handle self-correct loop: fix JSON → re-render (max 2 cycles)
 
@@ -335,13 +389,15 @@ requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", json={
 cron 8pm
   → runner.py picks topic from queue
   → claude_script.py generates JSON
-  → gate1_assert() blocks if score < 22  (max 3 rewrites)
-  → tts_speed.py synthesizes audio (speed=1.2, silence=120ms)
+  → gate1_assert() blocks if score < 16  (rule-based Python, max 3 retries)
+  → tts_speed.py synthesizes audio    (speed=1.2, silence=120ms, WSOLA via librosa)
   → remotion renders .mp4
-  → gate2_assert() checks frames via ffmpeg + Claude Vision  (max 2 fix cycles)
+  → gate2_assert() checks frames      (ffmpeg + OpenCV, max 2 fix cycles)
   → publisher.py posts to TikTok / YouTube
   → Telegram bot notifies "✅ Video mới đã đăng"
 ```
+
+**No external API keys required for any pipeline step.**
 
 ---
 
