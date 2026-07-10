@@ -24,7 +24,7 @@
         "stats": [
           { "value": "3", "label": "Tài xế chờ sẵn" },
           { "value": "0", "label": "Lần mở app", "highlight": true },
-          { "value": "4s", "label": "Thời gian tài xế đến" }
+          { "value": "4 phút", "label": "Thời gian tài xế đến" }
         ]
       },
       "on_screen_text": "",
