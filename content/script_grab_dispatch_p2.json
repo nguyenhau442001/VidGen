@@ -475,7 +475,7 @@
       "id": "shot_05b",
       "type": "StatComparatorScene",
       "duration_frames": 332,
-      "narration": "Không có vùng sẵn, tài xế chạy xa, khách chờ tám phút, hủy chuyến cao. Có vùng sẵn sàng, tài xế đến trong hai phút rưỡi, hủy giảm bốn mươi phần trăm — hiệu quả gấp đôi.",
+      "narration": "Không có vùng sẵn sàng, khách chờ trung bình tám phút và tỷ lệ hủy cao. Khi hệ thống đặt tài xế trước vào đúng vùng, con số đó rút xuống còn hai phút rưỡi — hủy chuyến giảm bốn mươi phần trăm, cùng số tài xế.",
       "narration_timing_frames": [
         5,
         317
