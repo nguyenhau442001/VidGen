@@ -373,7 +373,15 @@ const PanelContent: React.FC<{
     return (
       <div style={{ opacity: fadeIn, textAlign: "center" }}>
         {panel.heading && (
-          <div style={{ ...t.label, color: accentColor, marginBottom: 20 }}>
+          <div
+            style={{
+              ...t.label,
+              fontSize: 32,
+              fontWeight: 800,
+              color: accentColor,
+              marginBottom: 24,
+            }}
+          >
             {panel.heading}
           </div>
         )}
