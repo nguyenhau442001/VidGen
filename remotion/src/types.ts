@@ -29,6 +29,9 @@ export type PhoneMockupVisual = {
   idleRange?: PhoneMockupStateRange;
   loadingRange?: PhoneMockupStateRange;
   matchedRange?: PhoneMockupStateRange;
+  // Idle-screen-only: animates a driver dot converging on the user's pin,
+  // for scenes whose narration describes a driver already en route.
+  showApproachingDriver?: boolean;
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };

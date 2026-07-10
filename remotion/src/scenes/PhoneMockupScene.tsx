@@ -64,12 +64,102 @@ function resolveState(
 // Sub-screens
 // ---------------------------------------------------------------------------
 
+// Converges a driver dot on the user's pin over the back ~80% of the scene,
+// with a GPS-style pulse ring and a dashed trail — the map otherwise has no
+// motion at all for the whole idle duration, which reads flat against a
+// narration that's specifically describing a driver already en route.
+const DriverApproachMarker: React.FC<{
+  accentColor: string;
+  frame: number;
+  fps: number;
+  durationInFrames: number;
+}> = ({ accentColor, frame, fps, durationInFrames }) => {
+  const enterFrame = Math.round(durationInFrames * 0.2);
+  const travelEnd = Math.max(enterFrame + 40, durationInFrames - 45);
+
+  const enter = spring({
+    frame: frame - enterFrame,
+    fps,
+    from: 0,
+    to: 1,
+    config: { stiffness: 260, damping: 20 },
+    durationInFrames: 18,
+  });
+  if (enter <= 0) return null;
+
+  const travel = interpolate(frame, [enterFrame, travelEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Start near the map's far corner (reads as "600m away"), arrive just
+  // beside the pin — stopping short keeps the pin as the visual anchor. Wide
+  // span on purpose: a short twitch wouldn't register as "en route" at this
+  // scale.
+  const startX = 94, startY = 6;
+  const endX = 54, endY = 44;
+  const x = startX + (endX - startX) * travel;
+  const y = startY + (endY - startY) * travel;
+
+  const pulsePhase = ((frame - enterFrame) % 40) / 40;
+  const angle = (Math.atan2(endY - startY, endX - startX) * 180) / Math.PI;
+
+  return (
+    <div style={{ position: "absolute", inset: 0, opacity: enter }}>
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        <line
+          x1={`${x}%`}
+          y1={`${y}%`}
+          x2="50%"
+          y2="46%"
+          stroke={accentColor}
+          strokeOpacity={0.3}
+          strokeWidth={2}
+          strokeDasharray="4 6"
+        />
+      </svg>
+      {/* Pulsing GPS ping ring */}
+      <div
+        style={{
+          position: "absolute",
+          left: `${x}%`,
+          top: `${y}%`,
+          width: 24,
+          height: 24,
+          borderRadius: "50%",
+          border: `2px solid ${accentColor}`,
+          transform: `translate(-50%, -50%) scale(${1 + pulsePhase * 1.4})`,
+          opacity: 0.6 * (1 - pulsePhase),
+        }}
+      />
+      {/* Driver marker */}
+      <div
+        style={{
+          position: "absolute",
+          left: `${x}%`,
+          top: `${y}%`,
+          transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+        }}
+      >
+        <svg width="24" height="17" viewBox="0 0 28 20" fill="none">
+          <rect x="2" y="6" width="24" height="12" rx="3" fill={accentColor} opacity={0.95} />
+          <rect x="6" y="2" width="14" height="8" rx="2" fill={accentColor} opacity={0.75} />
+          <circle cx="7" cy="18" r="3" fill="rgba(255,255,255,0.9)" />
+          <circle cx="21" cy="18" r="3" fill="rgba(255,255,255,0.9)" />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
 const IdleScreen: React.FC<{
   buttonLabel: string;
   accentColor: string;
   frame: number;
   fps: number;
-}> = ({ buttonLabel, accentColor, frame, fps }) => {
+  durationInFrames: number;
+  showApproachingDriver?: boolean;
+}> = ({ buttonLabel, accentColor, frame, fps, durationInFrames, showApproachingDriver }) => {
   const btnScale = spring({
     frame: frame - ENTER_FRAMES,
     fps,
@@ -147,6 +237,15 @@ const IdleScreen: React.FC<{
             <circle cx="16" cy="36" r="3" fill="rgba(0,0,0,0.25)" />
           </svg>
         </div>
+
+        {showApproachingDriver && (
+          <DriverApproachMarker
+            accentColor={accentColor}
+            frame={frame}
+            fps={fps}
+            durationInFrames={durationInFrames}
+          />
+        )}
       </div>
 
       {/* Bottom action area */}
@@ -516,6 +615,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   idleRange,
   loadingRange,
   matchedRange,
+  showApproachingDriver,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -683,6 +783,8 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   accentColor={accentColor}
                   frame={frame}
                   fps={fps}
+                  durationInFrames={durationInFrames}
+                  showApproachingDriver={showApproachingDriver}
                 />
               )}
               {effective === "loading" && (

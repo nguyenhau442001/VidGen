@@ -42,7 +42,8 @@
       "transition_out_delay_frames": 15,
       "props": {
         "screenState": "idle",
-        "accentColor": "#00ff41"
+        "accentColor": "#00ff41",
+        "showApproachingDriver": true
       },
       "on_screen_text": "600m — tài xế đang di chuyển về phía bạn",
       "on_screen_text_style": "caption_muted",
