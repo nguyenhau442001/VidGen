@@ -467,8 +467,8 @@ def main():
     if not args.skip_validation:
         validate_manifest(script)
 
-    title = script.get("title") or script.get("video_id") or "video"
-    video_filename = title.lower().replace(" ", "_") + ".mp4"
+    title = script.get("title") or script.get("video_id") or script.get("meta", {}).get("slug") or "video"
+    video_filename = title.lower().replace(" ", "_").replace("-", "_") + ".mp4"
     video_output = os.path.abspath(f"output/video/mp4/{video_filename}")
 
     tts_jobs = []
