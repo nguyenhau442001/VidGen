@@ -4,6 +4,7 @@ import math
 import os
 import socket
 import subprocess
+import sys
 import time
 import wave
 import webbrowser
@@ -25,13 +26,19 @@ from vidgen.manifest import (
     write_render_manifest,
 )
 
+# ── GATE IMPORTS ─────────────────────────────────────────────────────────────
+from vidgen.gate1 import gate1_assert, format_report as gate1_report
+from vidgen.gate2_visual import gate2_assert
+# ─────────────────────────────────────────────────────────────────────────────
+
 WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
 STUDIO_PORT = 3000
 
-# Animation types that mark a map dot as the shot's "highlighted" one, in the
-# sense MapPingVisual.highlightedDriverIndex expects (at most one at a time).
+MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
+MAX_GATE2_CYCLES = 2     # abort pipeline after this many Gate 2 fix cycles
+
 HIGHLIGHT_ANIM_TYPES = {"dot_color_set", "dot_pulse_ring"}
 
 
@@ -48,10 +55,6 @@ def _first_asset_of_type(shot, assets, asset_type):
 
 
 def _resolve_map_dot_ids(shot, assets):
-    """Map dots (drivers or batch customers) referenced by this shot, either
-    directly via asset_ids or as an animation target, in first-appearance
-    order. MapPingScene renders both roles identically (colored dot + label),
-    so both are included."""
     ids, seen = [], set()
 
     def add(aid):
@@ -63,7 +66,7 @@ def _resolve_map_dot_ids(shot, assets):
         add(aid)
     for anim in _anims(shot):
         if anim.get("type") == "dot_fade_out":
-            continue  # a removal cue, not a reason to show a dot
+            continue
         add(anim.get("target"))
         add(anim.get("from_asset"))
         add(anim.get("to_asset"))
@@ -74,7 +77,8 @@ def _resolve_map_dot_ids(shot, assets):
 
 def _resolve_label(shot, asset_id, asset):
     updates = [
-        a for a in _anims(shot) if a.get("type") == "label_update" and a.get("target") == asset_id
+        a for a in _anims(shot)
+        if a.get("type") == "label_update" and a.get("target") == asset_id
     ]
     if updates:
         updates.sort(key=lambda a: a.get("frame_start", 0))
@@ -83,10 +87,6 @@ def _resolve_label(shot, asset_id, asset):
 
 
 def _resolve_highlight(shot, dot_ids, assets):
-    """Find the most recent (by frame_start) animation in this shot that
-    marks one of this shot's dots as highlighted, returning (dot_id, color).
-    A dot_color_set that merely dims a dot back to its own rejected/default
-    color is not a highlight."""
     candidates = []
     for a in _anims(shot):
         t = a.get("type")
@@ -107,10 +107,6 @@ def _resolve_highlight(shot, dot_ids, assets):
 
 
 def _resolve_accent_color(shot, assets, default="#22C55E"):
-    """Fall back chain for a shot's accent color when no dot highlight
-    supplies one: any explicit color on an animation in the shot, then any
-    asset directly (or via attached_to) referenced by the shot, then a
-    global default."""
     for a in _anims(shot):
         color = a.get("color") or a.get("color_to")
         if color:
@@ -134,20 +130,14 @@ def _build_map_ping_props(shot, assets, highlight_state):
     for did in dot_ids:
         asset = assets[did]
         pos = asset["position"]
-        dots.append(
-            {
-                "x": round(pos["x"] * MAP_REF_W, 1),
-                "y": round(pos["y"] * MAP_REF_H, 1),
-                "label": _resolve_label(shot, did, asset),
-            }
-        )
+        dots.append({
+            "x": round(pos["x"] * MAP_REF_W, 1),
+            "y": round(pos["y"] * MAP_REF_H, 1),
+            "label": _resolve_label(shot, did, asset),
+        })
     props = {"drivers": dots}
-
     target, color = _resolve_highlight(shot, dot_ids, assets)
     if target is None and highlight_state.get("id") in dot_ids:
-        # Nothing re-colored in this shot — carry forward the last known
-        # highlight from earlier in this sequence (a static snapshot fact,
-        # not fabricated narrative knowledge).
         target, color = highlight_state["id"], highlight_state["color"]
     if target is not None:
         highlight_state["id"], highlight_state["color"] = target, color
@@ -169,7 +159,6 @@ def _build_phone_mockup_props(shot, assets):
     props = {"screenState": state}
     if phone.get("accent_color"):
         props["accentColor"] = phone["accent_color"]
-
     card_anims = [a for a in _anims(shot) if a.get("type") == "card_spring_up"]
     if card_anims:
         card = card_anims[-1]
@@ -197,7 +186,6 @@ def _build_score_card_props(shot, assets):
         for c in panel.get("criteria", [])
     ]
     props = {"criteria": criteria}
-
     reveals = sorted(
         (a for a in _anims(shot) if a.get("type") == "score_row_reveal"),
         key=lambda a: a.get("frame_start", 0),
@@ -215,7 +203,6 @@ def _build_split_view_props(shot, assets):
         props["leftContent"] = PRESET_PHONE_LOADING_TEXT
     if "map_reveal_right_half" in types_present:
         props["rightContent"] = PRESET_MAP_DOTS_GATHERING
-
     for a in _anims(shot):
         if a.get("type") != "caption_fade_in":
             continue
@@ -233,20 +220,11 @@ def _build_quote_callout_props(shot, assets):
     if accent_anims and accent_anims[-1].get("accent_word"):
         props["accentWord"] = accent_anims[-1]["accent_word"]
     types_present = {a.get("type") for a in _anims(shot)}
-    # A permanent fade to black (the world ending) reads as "dark"; a
-    # temporary translucent overlay over still-live content reads as the
-    # lighter "gradient-subtle" style.
     props["backgroundStyle"] = "dark" if "map_fade_to_black" in types_present else "gradient-subtle"
     return props
 
 
 def _build_zoom_reveal_props(shot, assets):
-    # focusElement/revealContent only have one real preset each today (see
-    # TikTokVideo.tsx's resolveFocusElement/resolveRevealContent) so there's
-    # nothing shot-specific to derive. zoomStartScale/zoomEndScale describe
-    # ZoomRevealScene's own internal dot-field zoom, a different coordinate
-    # space from the sequence's outer map camera keyframes, so they're left
-    # at the component's defaults rather than guessed.
     return {
         "focusElement": "selected_driver_dot",
         "revealContent": "city_dot_field",
@@ -265,55 +243,33 @@ def _build_split_reveal_props(shot, assets, highlight_state):
 
 
 PROP_BUILDERS = {
-    "MapPingScene": lambda shot, assets, hl: _build_map_ping_props(shot, assets, hl),
-    "PhoneMockupScene": lambda shot, assets, hl: _build_phone_mockup_props(shot, assets),
+    "MapPingScene":       lambda shot, assets, hl: _build_map_ping_props(shot, assets, hl),
+    "PhoneMockupScene":   lambda shot, assets, hl: _build_phone_mockup_props(shot, assets),
     "CharacterIconScene": lambda shot, assets, hl: _build_character_icon_props(shot, assets),
-    "ScoreCardScene": lambda shot, assets, hl: _build_score_card_props(shot, assets),
-    "SplitViewScene": lambda shot, assets, hl: _build_split_view_props(shot, assets),
-    "QuoteCalloutScene": lambda shot, assets, hl: _build_quote_callout_props(shot, assets),
-    "ZoomRevealScene": lambda shot, assets, hl: _build_zoom_reveal_props(shot, assets),
-    "SplitRevealScene": lambda shot, assets, hl: _build_split_reveal_props(shot, assets, hl),
+    "ScoreCardScene":     lambda shot, assets, hl: _build_score_card_props(shot, assets),
+    "SplitViewScene":     lambda shot, assets, hl: _build_split_view_props(shot, assets),
+    "QuoteCalloutScene":  lambda shot, assets, hl: _build_quote_callout_props(shot, assets),
+    "ZoomRevealScene":    lambda shot, assets, hl: _build_zoom_reveal_props(shot, assets),
+    "SplitRevealScene":   lambda shot, assets, hl: _build_split_reveal_props(shot, assets, hl),
 }
 
 
 def flatten_script(script: dict) -> dict:
-    """Flattens the nested "motion-pipeline-1.0" authoring schema (assets +
-    sequences[].shots[], with declarative animations[] and sequence-level
-    camera keyframes) into the flat scenes[] schema the rest of this module
-    consumes.
-
-    Each shot becomes one independent flat scene. Cross-shot continuity
-    (no_remount, continuous camera across a sequence) is intentionally NOT
-    reproduced: TikTokVideo.tsx renders scenes through Remotion's
-    Series.Sequence, which remounts a fresh component and resets frame 0 at
-    every scene boundary, so that continuity can't render correctly today
-    regardless of what this function emits. Per-shot props are instead
-    derived generically from each shot's own asset_ids/animations, with a
-    couple of narrow exceptions documented inline (e.g. MapPingScene
-    "highlight" state is carried forward within a sequence when a shot
-    doesn't re-color anything, since that's a static-snapshot fact rather
-    than fabricated narrative knowledge)."""
     assets = script.get("assets", {})
     fps = script.get("fps", 30)
     flat_scenes = []
-
     for seq in script["sequences"]:
-        # Reset per sequence: a highlight only carries forward between shots
-        # that share the same continuous world.
         highlight_state = {"id": None, "color": None}
-
         for shot in seq["shots"]:
             component = shot["component"]
             start, end = shot.get("frame_range", [0, 90])
             duration_frames = end - start
-
             builder = PROP_BUILDERS.get(component)
             if builder is None:
                 print(f"warning: no prop mapping for component {component!r} (shot {shot['id']}); using empty props")
                 props = {}
             else:
                 props = builder(shot, assets, highlight_state)
-
             flat_scene = {
                 "id": shot["id"],
                 "type": component,
@@ -330,9 +286,7 @@ def flatten_script(script: dict) -> dict:
                 flat_scene["on_screen_text_style"] = shot["on_screen_text_style"]
             if shot.get("sound_design"):
                 flat_scene["sound_design"] = shot["sound_design"]
-
             flat_scenes.append(flat_scene)
-
     return {
         "video_id": script["video_id"],
         "fps": fps,
@@ -343,53 +297,33 @@ def flatten_script(script: dict) -> dict:
 
 
 def resolve_script(script: dict) -> dict:
-    """Scripts in content/ may be authored in the flat scenes[] schema
-    directly, or in the nested motion-pipeline-1.0 schema (assets +
-    sequences[].shots[]). Flattens the latter in-memory; the former passes
-    through unchanged. Either way, a single content/script_<name>.json is
-    the only file this pipeline needs."""
     if "sequences" in script:
         return flatten_script(script)
     return script
 
 
-MIN_FRAMES_PER_WORD = 8  # 30fps / 8 ≈ 3.75 words/sec, a spoken-Vietnamese ceiling
+MIN_FRAMES_PER_WORD = 8
 
 
 def validate_manifest(manifest: dict) -> None:
-    """Checks locked narration timing against narration text for every scene
-    that has both, catching the word-count drift that has twice caused
-    clipped voiceover in production (timing gets locked before narration
-    text is finalized). Scenes without narration, or without an explicit
-    narration_timing_frames/duration_frames lock (e.g. legacy scripts whose
-    duration is derived from actual TTS audio later), have nothing to drift
-    against and are skipped."""
     rows = []
     errors = []
     warnings = []
-
     for scene in manifest.get("scenes", []):
         narration = scene.get("narration")
         timing = scene.get("narration_timing_frames")
         duration_frames = scene.get("duration_frames")
         if not narration or timing is None or duration_frames is None:
             continue
-
         scene_id = scene.get("id")
         words = len(narration.split())
-
         if not isinstance(timing, list) or len(timing) != 2:
-            raise ValueError(
-                f"{scene_id}: invalid narration_timing_frames = {timing}"
-        )
-    
+            raise ValueError(f"{scene_id}: invalid narration_timing_frames = {timing}")
         start, end = timing
-
         alloc_frames = end - start
         transition_delay = scene.get("transition_out_delay_frames", 0)
         safe_end = duration_frames - transition_delay
         dead_air = duration_frames - end - transition_delay
-
         statuses = []
         frames_per_word = alloc_frames / words if words else None
         if frames_per_word is not None and frames_per_word < MIN_FRAMES_PER_WORD:
@@ -404,19 +338,16 @@ def validate_manifest(manifest: dict) -> None:
         if dead_air > MAX_DEAD_AIR_FRAMES:
             warnings.append(f"{scene_id}: {dead_air} frames of dead air after narration ends")
             statuses.append("WARNING dead-air")
-
         rows.append((scene_id, words, alloc_frames, frames_per_word, ", ".join(statuses) or "OK"))
 
-    print(f"{'scene_id':<15}{'words':>6}{'alloc_f':>9}{'f/word':>9}  status")
+    print(f"{'scene_id':<15}{'words':>6}{'alloc_f':>9}{'f/word':>9} status")
     for scene_id, words, alloc_frames, frames_per_word, status in rows:
         f_per_word_str = f"{frames_per_word:.1f}" if frames_per_word is not None else "n/a"
-        print(f"{str(scene_id):<15}{words:>6}{alloc_frames:>9}{f_per_word_str:>9}  {status}")
-
+        print(f"{str(scene_id):<15}{words:>6}{alloc_frames:>9}{f_per_word_str:>9} {status}")
     if warnings:
         print("\nWarnings:")
         for w in warnings:
             print(f"  - {w}")
-
     if errors:
         raise ValueError("Manifest validation failed:\n" + "\n".join(f"  - {e}" for e in errors))
 
@@ -427,6 +358,63 @@ def _port_open(port: int) -> bool:
         return s.connect_ex(("localhost", port)) == 0
 
 
+# ── GATE 1 HELPER ────────────────────────────────────────────────────────────
+def _run_gate1(script: dict, script_path: str) -> None:
+    """Run Gate 1. Exits the process with a clear message if score fails.
+    No auto-rewrite (no Claude API) — user fixes the JSON manually."""
+    print("\n── Gate 1: Content Quality ──────────────────────────")
+    attempt = 0
+    while True:
+        try:
+            audit = gate1_assert(script)
+            print(gate1_report(audit))
+            break
+        except ValueError as e:
+            attempt += 1
+            print(e)
+            if attempt >= MAX_GATE1_RETRIES:
+                print(
+                    f"\n[Gate 1] Script at '{script_path}' failed {attempt} time(s).\n"
+                    "Fix the JSON manually and re-run the pipeline."
+                )
+                sys.exit(1)
+            # No auto-rewrite — just fail fast so user can edit
+            sys.exit(1)
+    print()
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── GATE 2 HELPER ────────────────────────────────────────────────────────────
+def _run_gate2(video_output: str) -> None:
+    """Run Gate 2. Exits the process with a clear message if visual checks fail.
+    No auto-re-render cycle (would need user to know which JSON props to fix).
+    """
+    print("\n── Gate 2: Visual Quality ───────────────────────────")
+    for cycle in range(1, MAX_GATE2_CYCLES + 1):
+        try:
+            result = gate2_assert(video_output)
+            print(result["report"])
+            break
+        except (FileNotFoundError, RuntimeError, EnvironmentError) as e:
+            # Hard infrastructure failures — no point retrying
+            print(f"[Gate 2] Infrastructure error: {e}")
+            sys.exit(1)
+        except ValueError as e:
+            print(e)
+            if cycle >= MAX_GATE2_CYCLES:
+                print(
+                    f"\n[Gate 2] Video '{video_output}' failed visual checks after "
+                    f"{cycle} inspection(s).\n"
+                    "Inspect the frame issues above, fix the scene JSON, and re-run."
+                )
+                sys.exit(1)
+            # Future: could trigger a targeted re-render here.
+            # For now, exit so the user can act on the specific issues.
+            sys.exit(1)
+    print()
+# ─────────────────────────────────────────────────────────────────────────────
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("script", nargs="?", default="content/sample_script.json")
@@ -434,6 +422,16 @@ def main():
         "--skip-validation",
         action="store_true",
         help="Skip pre-render manifest validation (emergency use only)",
+    )
+    parser.add_argument(
+        "--skip-gate1",
+        action="store_true",
+        help="Skip Gate 1 content quality check (emergency use only)",
+    )
+    parser.add_argument(
+        "--skip-gate2",
+        action="store_true",
+        help="Skip Gate 2 visual quality check (emergency use only)",
     )
     parser.add_argument(
         "--speed",
@@ -456,7 +454,15 @@ def main():
 
     with open(args.script, encoding="utf-8") as f:
         script = json.load(f)
+
     script = resolve_script(script)
+
+    # ── GATE 1: Content quality — runs before any TTS or render work ─────────
+    if not args.skip_gate1:
+        _run_gate1(script, args.script)
+    else:
+        print("[Gate 1] SKIPPED (--skip-gate1 flag set)")
+    # ─────────────────────────────────────────────────────────────────────────
 
     if not args.skip_validation:
         validate_manifest(script)
@@ -465,12 +471,6 @@ def main():
     video_filename = title.lower().replace(" ", "_") + ".mp4"
     video_output = os.path.abspath(f"output/video/mp4/{video_filename}")
 
-    # Every distinct line that needs its own TTS pass: each scene's main
-    # narration, plus one per narration_per_criterion segment. Each segment
-    # gets a separate clip (id "<scene_id>_seg<i>") so it can be placed at
-    # its own at_frame offset in the render manifest instead of sharing the
-    # scene's single audioPath — e.g. ScoreCardScene's per-row voiceover,
-    # which needs to land in sync with each row's own reveal frame.
     tts_jobs = []
     for scene in script["scenes"]:
         if scene.get("narration"):
@@ -493,9 +493,7 @@ def main():
 
     os.makedirs(WAV_DIR, exist_ok=True)
     start_time = now()
-    # Capped fan-out: unbounded workers (one per job) ran every inference and
-    # its librosa post-processing concurrently, which exhausted machine memory
-    # on a 15-scene script and got the process killed mid-run.
+
     with ThreadPoolExecutor(max_workers=min(3, max(1, len(tts_jobs)))) as executor:
         futures = {executor.submit(synthesize_job, job): job for job in tts_jobs}
         for future in as_completed(futures):
@@ -512,20 +510,12 @@ def main():
         wav_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
         with wave.open(wav_path) as wf:
             duration = wf.getnframes() / wf.getframerate()
-        print(f"{job['id']} audio duration: {duration:.2f}s")
-        audio_durations[job["id"]] = duration
-        total_audio += duration
+            print(f"{job['id']} audio duration: {duration:.2f}s")
+            audio_durations[job["id"]] = duration
+            total_audio += duration
     print(f"Total audio duration: {total_audio:.2f}s")
 
     # --- Tighten scene durations to the adjusted audio ---
-    # Authored duration_frames were paced for VieNeu's native tempo; after
-    # speed-up/silence-trim the voice ends well before the scene does, leaving
-    # dead air. Re-derive narrated scenes' durations from their actual audio:
-    # audio offset + audio length + the authored transition-out tail.
-    # build_render_manifest's caption reading floor (MAX_CAPTION_CPS) still
-    # clamps back up when the tightened duration is too short to read.
-    # Scenes with narration_per_criterion keep their authored duration — their
-    # segment clips land at authored at_frame offsets a shrunk scene would cut.
     if args.speed != 1.0 or not args.no_trim:
         fps = script.get("fps", 30)
         for scene in script["scenes"]:
@@ -553,20 +543,31 @@ def main():
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
 
-    # --- Detect dead air (real audio vs final scene duration) ---
+    # --- Detect dead air ---
     dead_air_findings = detect_dead_air(script, manifest, audio_durations)
     if dead_air_findings:
         print("\nDead air warnings:")
         for f in dead_air_findings:
-            print(f"  - {f['scene_id']}: {f['dead_air_frames']} frames ({f['dead_air_seconds']}s) of dead air after audio ends")
+            print(
+                f"  - {f['scene_id']}: {f['dead_air_frames']} frames "
+                f"({f['dead_air_seconds']}s) of dead air after audio ends"
+            )
 
-    # --- Render video (per-scene chunks with caching) ---
+    # --- Render video ---
     os.makedirs("output/video/mp4", exist_ok=True)
     if os.path.exists(video_output):
         os.remove(video_output)
         print(f"Deleted old video: {video_output}")
+
     render_video_chunked(manifest, video_output)
     print(f"Video rendered to {video_output}")
+
+    # ── GATE 2: Visual quality — runs after render, before Studio launch ─────
+    if not args.skip_gate2:
+        _run_gate2(video_output)
+    else:
+        print("[Gate 2] SKIPPED (--skip-gate2 flag set)")
+    # ─────────────────────────────────────────────────────────────────────────
 
     # --- Open Remotion Studio in browser ---
     if not _port_open(STUDIO_PORT):
