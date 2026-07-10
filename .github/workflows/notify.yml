@@ -1,0 +1,44 @@
+name: VidGen publish notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_name:
+        description: "Tên file video"
+        required: true
+        type: string
+      tiktok_status:
+        description: "Trạng thái publish"
+        required: true
+        type: string
+      publish_id:
+        description: "TikTok publish ID"
+        required: false
+        type: string
+      share_url:
+        description: "TikTok share URL"
+        required: false
+        type: string
+      duration:
+        description: "Thời gian pipeline (giây)"
+        required: false
+        type: string
+
+jobs:
+  notify:
+    name: "${{ inputs.tiktok_status == 'OK' && '✅' || '❌' }} ${{ inputs.video_name }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Log publish result"
+        run: |
+          echo "Video:      ${{ inputs.video_name }}"
+          echo "Status:     ${{ inputs.tiktok_status }}"
+          echo "Publish ID: ${{ inputs.publish_id }}"
+          echo "Share URL:  ${{ inputs.share_url }}"
+          echo "Duration:   ${{ inputs.duration }}s"
+
+      - name: "Fail job if publish failed (triggers GitHub failure email)"
+        if: ${{ inputs.tiktok_status != 'OK' }}
+        run: |
+          echo "TikTok publish FAILED for ${{ inputs.video_name }}"
+          exit 1
