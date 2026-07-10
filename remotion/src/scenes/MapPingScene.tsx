@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { MapPingAxis, MapPingSceneProps } from "../types";
+import { MapPingAxis, MapPingSceneProps, MapPingZone } from "../types";
 import { colors, INTER } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
 
@@ -740,6 +740,215 @@ const AxisComparisonDiagram: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Demand-heatmap mode: named zones step from a baseline demand multiplier to
+// a higher one at their own triggerFrame (e.g. rain landing on a district),
+// with an optional rain overlay and a city-wide radar-sweep ping layered on
+// top of each zone's own pulse.
+// ---------------------------------------------------------------------------
+
+// Fixed positions for known HCMC district ids used across scripts; unknown
+// ids spread across FALLBACK_POSITIONS by array index so authors never have
+// to hand-place coordinates.
+const ZONE_LAYOUT: Record<string, { nx: number; ny: number }> = {
+  q1: { nx: 0.4, ny: 0.62 },
+  q3: { nx: 0.64, ny: 0.4 },
+  binh_thanh: { nx: 0.26, ny: 0.34 },
+};
+
+const ZONE_FALLBACK_POSITIONS: { nx: number; ny: number }[] = [
+  { nx: 0.5, ny: 0.5 },
+  { nx: 0.3, ny: 0.62 },
+  { nx: 0.7, ny: 0.36 },
+  { nx: 0.3, ny: 0.3 },
+  { nx: 0.7, ny: 0.66 },
+];
+
+const zonePosition = (id: string, fallbackIndex: number) =>
+  ZONE_LAYOUT[id] ?? ZONE_FALLBACK_POSITIONS[fallbackIndex % ZONE_FALLBACK_POSITIONS.length];
+
+const ZONE_RISE_FRAMES = 34;
+const ZONE_PING_FRAMES = 30;
+
+const ZoneDot: React.FC<{
+  nx: number;
+  ny: number;
+  label: string;
+  demandBefore: number;
+  demandAfter: number;
+  triggerFrame: number;
+  frame: number;
+  fps: number;
+  enterFrame: number;
+  accentColor: string;
+}> = ({ nx, ny, label, demandBefore, demandAfter, triggerFrame, frame, fps, enterFrame, accentColor }) => {
+  const cx = toPx(nx, VW);
+  const cy = toPx(ny, VH);
+
+  const entrance = spring({
+    frame: frame - enterFrame,
+    fps,
+    from: 0,
+    to: 1,
+    config: { stiffness: 260, damping: 20 },
+    durationInFrames: 24,
+  });
+
+  const demandT = interpolate(frame, [triggerFrame, triggerFrame + ZONE_RISE_FRAMES], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const demand = demandBefore + (demandAfter - demandBefore) * demandT;
+
+  const baseR = 26 + demandBefore * 16;
+  const afterR = 26 + demandAfter * 16;
+  const r = baseR + (afterR - baseR) * demandT;
+
+  const heatOpacity = 0.3 + demandT * 0.5;
+  const ringPulse = 1 + Math.sin(frame * 0.14) * 0.12 * demandT;
+
+  const pingP = interpolate(frame, [triggerFrame, triggerFrame + ZONE_PING_FRAMES], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const pingOpacity = demandT > 0 && pingP < 1 ? (1 - pingP) * 0.55 : 0;
+
+  return (
+    <g transform={`translate(${cx},${cy})`} opacity={entrance}>
+      {pingOpacity > 0 && (
+        <circle r={r * (1 + pingP * 1.8)} fill="none" stroke={accentColor} strokeWidth={2.5} opacity={pingOpacity} />
+      )}
+      <circle r={r * 1.7 * ringPulse} fill={accentColor} opacity={0.14 * heatOpacity} />
+      <circle r={r * entrance} fill={accentColor} opacity={heatOpacity * entrance} />
+      <circle r={r * 0.32 * entrance} fill="rgba(255,255,255,0.7)" opacity={entrance} />
+
+      <text
+        y={-r - 20}
+        textAnchor="middle"
+        fontSize={26}
+        fontWeight={700}
+        paintOrder="stroke"
+        stroke={colors.bg}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        style={{ fill: "#fff", fontFamily: INTER }}
+      >
+        {label}
+      </text>
+      <text
+        y={r + 42}
+        textAnchor="middle"
+        fontSize={30}
+        fontWeight={800}
+        paintOrder="stroke"
+        stroke={colors.bg}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        style={{ fill: accentColor, fontFamily: INTER }}
+      >
+        {demand.toFixed(1)}x
+      </text>
+    </g>
+  );
+};
+
+// Diagonal rain streaks looping across the canvas; drops are deterministic
+// (seeded from index) so the pattern is stable across re-renders.
+const RAIN_DROPS = Array.from({ length: 70 }, (_, i) => ({
+  x: (i * 173) % VW,
+  y0: (i * 947) % (VH + 200),
+  len: 28 + (i % 5) * 11,
+  speed: 15 + (i % 4) * 4,
+}));
+
+const RainOverlay: React.FC<{ frame: number; opacity: number }> = ({ frame, opacity }) => {
+  if (opacity <= 0) return null;
+  return (
+    <>
+      {RAIN_DROPS.map((d, i) => {
+        const y = ((d.y0 + frame * d.speed) % (VH + 200)) - 100;
+        return (
+          <line
+            key={i}
+            x1={d.x}
+            y1={y}
+            x2={d.x - 9}
+            y2={y + d.len}
+            stroke="rgba(160,200,255,0.35)"
+            strokeWidth={2}
+            opacity={opacity}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+// A single expanding radar ring swept across the whole map, layered on top
+// of each zone's own trigger ping — reads as "the whole city reacting at
+// once" rather than three isolated blips.
+const GlobalPingSweep: React.FC<{ frame: number; range?: [number, number]; accentColor: string }> = ({
+  frame,
+  range,
+  accentColor,
+}) => {
+  if (!range) return null;
+  const [start, end] = range;
+  const span = Math.max(end - start, 1);
+  const p = interpolate(frame, [start, end], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const opacity = interpolate(
+    frame,
+    [start, start + span * 0.15, end - span * 0.15, end + 30],
+    [0, 0.35, 0.18, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+  if (opacity <= 0) return null;
+
+  const r = 60 + p * 620;
+  return (
+    <circle cx={VW / 2} cy={VH * 0.46} r={r} fill="none" stroke={accentColor} strokeWidth={2} opacity={opacity} />
+  );
+};
+
+const ZonesHeatmapDiagram: React.FC<{
+  zones: MapPingZone[];
+  accentColor: string;
+  weatherOverlay?: "rain";
+  animatePingFrames?: [number, number];
+  frame: number;
+  fps: number;
+}> = ({ zones, accentColor, weatherOverlay, animatePingFrames, frame, fps }) => {
+  const rainOpacity =
+    weatherOverlay === "rain"
+      ? interpolate(frame, [15, 45], [0, 0.85], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+      : 0;
+
+  return (
+    <>
+      {rainOpacity > 0 && <RainOverlay frame={frame} opacity={rainOpacity} />}
+      <GlobalPingSweep frame={frame} range={animatePingFrames} accentColor={accentColor} />
+      {zones.map((zone, i) => {
+        const { nx, ny } = zonePosition(zone.id, i);
+        return (
+          <ZoneDot
+            key={zone.id}
+            nx={nx}
+            ny={ny}
+            label={zone.label}
+            demandBefore={zone.demandBefore}
+            demandAfter={zone.demandAfter}
+            triggerFrame={zone.triggerFrame}
+            frame={frame}
+            fps={fps}
+            enterFrame={ENTER_FRAMES + i * 6}
+            accentColor={accentColor}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Phase status label (HTML overlay, sits in the safe zone)
 // ---------------------------------------------------------------------------
 const PhaseLabel: React.FC<{
@@ -852,6 +1061,9 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
   accentColor = ACCENT_DEFAULT,
   axis,
   roadConstraint,
+  zones,
+  weatherOverlay,
+  animatePingFrames,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -915,7 +1127,16 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
       >
         <MapGrid />
 
-        {axis ? (
+        {zones && zones.length ? (
+          <ZonesHeatmapDiagram
+            zones={zones}
+            accentColor={accentColor}
+            weatherOverlay={weatherOverlay}
+            animatePingFrames={animatePingFrames}
+            frame={frame}
+            fps={fps}
+          />
+        ) : axis ? (
           <AxisComparisonDiagram
             axis={axis}
             accentColor={accentColor}
@@ -1010,8 +1231,8 @@ export const MapPingScene: React.FC<MapPingSceneProps> = ({
           </>
         )}
 
-        {/* ── Customer dot (always on top) ── */}
-        <CustomerDot frame={frame} fps={fps} />
+        {/* ── Customer dot (always on top, not used in zones mode) ── */}
+        {!zones?.length && <CustomerDot frame={frame} fps={fps} />}
       </svg>
 
       {/* Phase status text overlay */}

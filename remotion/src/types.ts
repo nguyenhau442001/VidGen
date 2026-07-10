@@ -104,6 +104,19 @@ export type MapPingAxis = {
   drivers: MapPingAxisDriver[];
 };
 
+// Overhead demand-heatmap mode: a named zone (district) whose demand
+// multiplier steps from demandBefore to demandAfter at triggerFrame (e.g. a
+// weather event landing). id looks up a fixed on-canvas position; unknown
+// ids fall back to an auto-spread layout so authors don't have to hand-place
+// coordinates.
+export type MapPingZone = {
+  id: string;
+  label: string;
+  demandBefore: number;
+  demandAfter: number;
+  triggerFrame: number;
+};
+
 export type MapPingVisual = {
   drivers?: MapPingDriver[];
   highlightedDriverIndex?: number;
@@ -116,6 +129,13 @@ export type MapPingVisual = {
   // vector — the visual reason their route can't go straight to the rider.
   roadConstraint?: "median";
   axis?: MapPingAxis;
+  // Presence of `zones` switches the scene into the demand-heatmap mode
+  // (mutually exclusive with drivers/axis).
+  zones?: MapPingZone[];
+  weatherOverlay?: "rain";
+  // Extra city-wide radar-sweep ring drawn once across this frame range, on
+  // top of each zone's own trigger-frame ping.
+  animatePingFrames?: [number, number];
 };
 
 export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };

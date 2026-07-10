@@ -241,22 +241,27 @@
     },
     {
       "id": "shot_03c",
-      "type": "PhoneMockupScene",
+      "type": "MapPingScene",
       "duration_frames": 380,
-      "narration": "Tín hiệu thứ hai: thời tiết thời gian thực. Trời mưa lúc bảy giờ ba mươi — nhu cầu tăng một phẩy tám lần so với ngày nắng. Hệ thống nhận dữ liệu thời tiết mỗi mười lăm phút và điều chỉnh dự báo ngay.",
+      "narration": "Tín hiệu thứ hai: thời tiết thời gian thực. Trời mưa lúc bảy giờ ba mươi — nhu cầu tăng một phẩy tám lần. Hệ thống cập nhật dự báo mỗi mười lăm phút.",
       "narration_timing_frames": [
         5,
         365
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "screenState": "idle",
+        "zones": [
+          { "id": "q1", "label": "Q.1", "demandBefore": 1.0, "demandAfter": 1.8, "triggerFrame": 80 },
+          { "id": "q3", "label": "Q.3", "demandBefore": 1.0, "demandAfter": 1.6, "triggerFrame": 100 },
+          { "id": "binh_thanh", "label": "Bình Thạnh", "demandBefore": 1.0, "demandAfter": 1.9, "triggerFrame": 120 }
+        ],
         "accentColor": "#00ff41",
-        "weatherEffect": "rain"
+        "weatherOverlay": "rain",
+        "animatePingFrames": [80, 200]
       },
       "on_screen_text": "Mưa = nhu cầu tăng 1.8 lần",
       "on_screen_text_style": "headline_bold",
-      "sound_design": "rain sfx fade in at frame 30, demand multiplier counter tick frames 80-140, alert ding frame 150"
+      "sound_design": "rain ambience throughout, zone ping sfx at frames 80/100/120, multiplier counter tick 130-180"
     },
     {
       "id": "shot_03d",
