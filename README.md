@@ -18,6 +18,8 @@ Options:
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
 | `--target-dbfs` | `-15.0` | Normalize every voiceover clip to this RMS level (soft-limited) |
 | `--skip-validation` | off | Skip pre-render manifest validation (emergency use only) |
+| `--skip-gate1` | off | Skip Gate 1 content-quality check (emergency use only) |
+| `--skip-gate2` | off | Skip Gate 2 visual-quality check (emergency use only) |
 
 Tests: `pytest tests/`
 
@@ -28,8 +30,8 @@ content/script_<name>.json           ← the ONLY file authored/checked in per v
          │
          ▼
 ┌─ Python pipeline (vidgen/) ────────────────────────────────────────┐
-│  main.py               orchestrator: load → validate → TTS →       │
-│                        manifest → render → open Studio             │
+│  main.py               orchestrator: load → gate1 → validate →     │
+│                        TTS → manifest → render → gate2 → Studio    │
 │  tts_speed_adjustor.py VieNeu-TTS wrapper: WSOLA time-stretch      │
 │                        (pitch-preserved), silence trim, loudness   │
 │                        normalization                               │
@@ -66,11 +68,11 @@ Every script shares the envelope `title` / `language` / `scenes[]`. Scenes can b
 - **Flat schema** — each scene has `type`, `props`, `duration_frames`, `narration`, `narration_timing_frames`, optional `on_screen_text`, `transition_out_delay_frames`, `sound_design`.
 - **Nested motion-pipeline-1.0 schema** — `assets{}` + `sequences[].shots[]` with declarative `animations[]`; `flatten_script()` converts it in-memory (no intermediate file is ever written).
 
-Gotchas: unknown scene types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a scene's `type` as either the snake_case manifest key (e.g. `demand_heatmap`) or, for the 18 types listed in `manifest.py`'s `TYPE_MAP`, the PascalCase Remotion component name (e.g. `DemandHeatmapScene`) — `TYPE_MAP` translates the latter to the former. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
+Gotchas: unknown scene types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a scene's `type` as either the snake_case manifest key (e.g. `demand_heatmap`) or, for the 22 types listed in `manifest.py`'s `TYPE_MAP`, the PascalCase Remotion component name (e.g. `DemandHeatmapScene`) — `TYPE_MAP` translates the latter to the former. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 
-## Scene library (24 wired scene types + 2 covers)
+## Scene library (28 wired scene types + 2 covers)
 
-The video is assembled from **24 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/TikTokVideo.tsx`'s scene switch:
+The video is assembled from **28 reusable scene types** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/TikTokVideo.tsx`'s scene switch:
 
 | Scene type | What it renders |
 |---|---|
@@ -98,6 +100,10 @@ The video is assembled from **24 reusable scene types** — the tool's "skills" 
 | `ConversationScene` | Chat-style message bubbles, left/right |
 | `BeforeAfterScene` | Two-panel before/after point comparison |
 | `GridHeatmapScene` | Cell grid revealing top-left to bottom-right by intensity |
+| `RadarHookScene` | 3 driver blips connect to a central "you" dot on a rotating sweep radar, then headline + 3-cell stats row (hook framing alternative to `CharacterIconScene`) |
+| `EventScanScene` | Scanning beam sweeps a timeline panel, popping in "found" event cards, then a demand-multiplier badge and dispatch action line |
+| `DriverHeatmapScene` | Full-canvas field of driver pings spawning staggered over a faint geohash grid with a ticking clock overlay |
+| `StatComparatorScene` | Before/after stat cards with number, unit, and subtext per side, plus a delta callout |
 
 `AnimatedFlowScene`, `BubbleComparatorScene`, `PhoneMapScene`, `ConversationScene`, `BeforeAfterScene`, and `GridHeatmapScene` aren't in `TYPE_MAP` — author their `type` as the snake_case manifest key directly (e.g. `"type": "grid_heatmap"`).
 
@@ -112,12 +118,14 @@ All compositions are browsable individually in Remotion Studio (`npx remotion st
 `python -m vidgen.main content/script_<name>.json` runs these steps:
 
 1. **Load & resolve script** — parse the JSON; if it uses the nested motion-pipeline-1.0 schema, flatten it in-memory to flat `scenes[]`.
-2. **Validate** — check every narrated scene's locked timing against its text: ≥ 8 frames/word, no narration overflow past the scene's safe end, warn on > 1s dead air. Fails fast before any expensive work.
-3. **Synthesize voiceover** — one VieNeu-TTS pass per narration line (voice "Xuân Vĩnh"), plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.1× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
-4. **Tighten durations** — authored `duration_frames` were paced for native TTS tempo; narrated scenes shrink to `audio offset + actual audio length + transition tail` so the sped-up voice leaves no dead air.
-5. **Build the render manifest** — translate scene types and props into the exact component shapes, attach audio paths/offsets, and clamp any scene back up so its caption stays readable at 17 chars/sec. Written to `output/render_manifest.json`.
-6. **Render, chunked & cached** — each scene renders as its own muted MP4 chunk, cached by a content hash of the scene entry + the Remotion source tree; re-runs only re-render scenes that changed. The full audio track is built sample-exactly with a single ffmpeg filter graph, then the chunks are losslessly concatenated and the audio muxed on (AAC 320k).
-7. **Open Remotion Studio** — starts Studio on port 3000 if needed and opens the browser for review; Studio loads the same manifest, so the timeline matches the rendered MP4.
+2. **Gate 1: content quality** — rule-based scorer (`vidgen/gate1.py`, no API key) checks hook length, filler words, frame-range sanity, and duplicate scene types across 4 dimensions; aborts if the total score is < 16/20 or any dimension < 3. Skippable with `--skip-gate1`.
+3. **Validate** — check every narrated scene's locked timing against its text: ≥ 8 frames/word, no narration overflow past the scene's safe end, warn on > 1s dead air. Fails fast before any expensive work. Skippable with `--skip-validation`.
+4. **Synthesize voiceover** — one VieNeu-TTS pass per narration line (voice "Xuân Vĩnh"), plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.1× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
+5. **Tighten durations** — authored `duration_frames` were paced for native TTS tempo; narrated scenes shrink to `audio offset + actual audio length + transition tail` so the sped-up voice leaves no dead air.
+6. **Build the render manifest** — translate scene types and props into the exact component shapes, attach audio paths/offsets, and clamp any scene back up so its caption stays readable at 17 chars/sec. Written to `output/render_manifest.json`.
+7. **Render, chunked & cached** — each scene renders as its own muted MP4 chunk, cached by a content hash of the scene entry + the Remotion source tree; re-runs only re-render scenes that changed. The full audio track is built sample-exactly with a single ffmpeg filter graph, then the chunks are losslessly concatenated and the audio muxed on (AAC 320k).
+8. **Gate 2: visual quality** — extracts keyframes via ffmpeg and runs OpenCV checks (contrast, sharpness, background darkness) on the rendered MP4 (`vidgen/gate2_visual.py`, offline). Skippable with `--skip-gate2`.
+9. **Open Remotion Studio** — starts Studio on port 3000 if needed and opens the browser for review; Studio loads the same manifest, so the timeline matches the rendered MP4.
 
 ### Authoring workflow (Claude Code skills)
 
