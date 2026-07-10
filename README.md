@@ -14,7 +14,7 @@ Options:
 
 | Flag | Default | Description |
 |---|---|---|
-| `--speed` | `1.2` | Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
+| `--speed` | `1.1` | Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
 | `--target-dbfs` | `-15.0` | Normalize every voiceover clip to this RMS level (soft-limited) |
 | `--skip-validation` | off | Skip pre-render manifest validation (emergency use only) |
@@ -113,7 +113,7 @@ All compositions are browsable individually in Remotion Studio (`npx remotion st
 
 1. **Load & resolve script** — parse the JSON; if it uses the nested motion-pipeline-1.0 schema, flatten it in-memory to flat `scenes[]`.
 2. **Validate** — check every narrated scene's locked timing against its text: ≥ 8 frames/word, no narration overflow past the scene's safe end, warn on > 1s dead air. Fails fast before any expensive work.
-3. **Synthesize voiceover** — one VieNeu-TTS pass per narration line (voice "Xuân Vĩnh"), plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.2× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
+3. **Synthesize voiceover** — one VieNeu-TTS pass per narration line (voice "Xuân Vĩnh"), plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.1× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
 4. **Tighten durations** — authored `duration_frames` were paced for native TTS tempo; narrated scenes shrink to `audio offset + actual audio length + transition tail` so the sped-up voice leaves no dead air.
 5. **Build the render manifest** — translate scene types and props into the exact component shapes, attach audio paths/offsets, and clamp any scene back up so its caption stays readable at 17 chars/sec. Written to `output/render_manifest.json`.
 6. **Render, chunked & cached** — each scene renders as its own muted MP4 chunk, cached by a content hash of the scene entry + the Remotion source tree; re-runs only re-render scenes that changed. The full audio track is built sample-exactly with a single ffmpeg filter graph, then the chunks are losslessly concatenated and the audio muxed on (AAC 320k).
@@ -152,7 +152,7 @@ cron 8pm
   → runner.py        picks topic from topics_queue.json
   → hook_selector    generates script JSON
   → gate1_assert()   blocks render if content score < 16/20
-  → tts_speed        synthesizes audio  (speed=1.2, WSOLA pitch-preserve)
+  → tts_speed        synthesizes audio  (speed=1.1, WSOLA pitch-preserve)
   → remotion         renders .mp4
   → gate2_assert()   checks frames via ffmpeg + OpenCV
   → publisher.py     posts to TikTok (Direct Post API)

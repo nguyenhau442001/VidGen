@@ -436,7 +436,7 @@ def main():
     parser.add_argument(
         "--speed",
         type=float,
-        default=1.2,
+        default=1.1,
         help="Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace)",
     )
     parser.add_argument(
