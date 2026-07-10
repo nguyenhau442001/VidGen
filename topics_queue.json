@@ -1,0 +1,11 @@
+{
+  "_comment": "VidGen topic queue. Runner pops from 'pending' top-to-bottom. Finished topics move to 'done'. Edit this file to schedule new videos.",
+  "pending": [
+    "Tại sao QUIC nhanh hơn TCP",
+    "Thuật toán Redis pub/sub hoạt động thế nào",
+    "Tại sao Git rebase nguy hiểm hơn merge",
+    "WebSocket vs HTTP polling — khi nào dùng cái nào",
+    "Tại sao database index đôi khi làm chậm query"
+  ],
+  "done": []
+}
