@@ -31,13 +31,15 @@ const EXIT_FRAMES = 20;
 
 const ACCENT_DEFAULT = "#22C55E";
 
-// Layout: inputs stacked on the left, brain on the right, both centered on
-// the vertical middle of the visible band.
+// Layout: inputs stacked on the left, brain on the right. Vertical anchor
+// sits above true center (not VB_H/2) and spacing is tightened so the
+// bottom-most input's label clears Caption.tsx's bottom-anchored pill.
 const INPUT_X = 195;
 const INPUT_RADIUS = 54;
-const INPUT_SPACING = 220;
+const INPUT_SPACING = 190;
+const CONTENT_CENTER_Y = 460;
 const BRAIN_X = 545;
-const BRAIN_Y = VB_H / 2;
+const BRAIN_Y = CONTENT_CENTER_Y;
 const BRAIN_RADIUS = 85;
 
 const PARTICLES_PER_STREAM = 5;
@@ -86,7 +88,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
   const { fps } = useVideoConfig();
 
   const inputYs = signals.map(
-    (_, i) => VB_H / 2 + (i - (signals.length - 1) / 2) * INPUT_SPACING
+    (_, i) => CONTENT_CENTER_Y + (i - (signals.length - 1) / 2) * INPUT_SPACING
   );
 
   // Brain enters at BRAIN_START with a bloom: the glow overshoots wide while
