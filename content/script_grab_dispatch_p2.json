@@ -24,7 +24,7 @@
         "stats": [
           { "value": "3", "label": "Tài xế chờ sẵn" },
           { "value": "0", "label": "Lần mở app", "highlight": true },
-          { "value": "4s", "label": "ETA của bạn" }
+          { "value": "4s", "label": "Thời gian tài xế đến" }
         ]
       },
       "on_screen_text": "",
@@ -70,7 +70,7 @@
       "id": "shot_02a",
       "type": "GeohashRevealScene",
       "duration_frames": 366,
-      "narration": "Thành phố được chia thành hàng nghìn ô geohash — mỗi ô rộng khoảng năm trăm mét. Hệ thống không nghĩ theo từng người — nó nghĩ theo từng ô. Ô nào sắp bùng nhu cầu, ô nào đang thiếu tài xế.",
+      "narration": "Thành phố được chia thành hàng nghìn ô vuông nhỏ — mỗi ô rộng khoảng năm trăm mét. Hệ thống không nghĩ theo từng người — nó nghĩ theo từng ô. Ô nào sắp bùng nhu cầu, ô nào đang thiếu tài xế.",
       "narration_timing_frames": [
         15,
         351
@@ -323,7 +323,7 @@
       "id": "shot_04a",
       "type": "RippleAggregateScene",
       "duration_frames": 356,
-      "narration": "Nhưng tín hiệu mạnh nhất là hành vi thời gian thực. Bảy giờ năm mươi lăm — hàng nghìn người mở app Grab, xem giá, chưa đặt. Tổng hợp theo ô geohash — đó là demand signal rõ nhất hệ thống có.",
+      "narration": "Nhưng tín hiệu mạnh nhất là hành vi thời gian thực. Bảy giờ năm mươi lăm — hàng nghìn người mở app Grab, xem giá, chưa đặt. Tổng hợp theo từng ô vuông nhỏ — đó là demand signal rõ nhất hệ thống có.",
       "narration_timing_frames": [
         5,
         341
@@ -460,7 +460,7 @@
       "id": "shot_05b",
       "type": "SplitViewScene",
       "duration_frames": 332,
-      "narration": "Không có pre-positioning: ETA trung bình tám phút, hủy chuyến cao. Có pre-positioning: ETA hai phút rưỡi, tỷ lệ hủy giảm bốn mươi phần trăm. Một vòng dự đoán mỗi mười lăm phút tạo ra sự khác biệt đó.",
+      "narration": "Không có chờ sẵn tài xế: thời gian tài xế đến trung bình tám phút, hủy chuyến cao. Có chờ sẵn tài xế: thời gian tài xế đến hai phút rưỡi, tỷ lệ hủy giảm bốn mươi phần trăm. Một vòng dự đoán mỗi mười lăm phút tạo ra sự khác biệt đó.",
       "narration_timing_frames": [
         5,
         317
@@ -469,13 +469,13 @@
       "props": {
         "leftContent": {
           "kind": "text",
-          "heading": "Không pre-positioning",
-          "body": "Tài xế nhận lệnh → chạy từ xa · ETA trung bình: 8 phút · Tỷ lệ hủy chuyến: cao · Trải nghiệm khách: kém"
+          "heading": "Không chờ sẵn tài xế",
+          "body": "Tài xế nhận lệnh → chạy từ xa · Thời gian tài xế đến trung bình: 8 phút · Tỷ lệ hủy chuyến: cao · Trải nghiệm khách: kém"
         },
         "rightContent": {
           "kind": "text",
-          "heading": "Có pre-positioning",
-          "body": "Tài xế đã trong vùng sẵn · ETA trung bình: 2.5 phút · Tỷ lệ hủy giảm 40% · Cùng số tài xế — hiệu quả gấp đôi"
+          "heading": "Có chờ sẵn tài xế",
+          "body": "Tài xế đã trong vùng sẵn · Thời gian tài xế đến trung bình: 2.5 phút · Tỷ lệ hủy giảm 40% · Cùng số tài xế — hiệu quả gấp đôi"
         },
         "leftLabel": "Trước",
         "rightLabel": "Sau"
