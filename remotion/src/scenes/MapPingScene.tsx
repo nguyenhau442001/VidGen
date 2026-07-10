@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { MapPingAxis, MapPingSceneProps, MapPingZone } from "../types";
-import { colors, INTER } from "../styles";
+import { colors, INTER, SAFE_ZONE } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
 
 // ---------------------------------------------------------------------------
@@ -50,6 +50,12 @@ const AXIS_DEST_DIST_PX = 300;
 // edge, and a long label must not be allowed to run off it either.
 const AXIS_EDGE_MARGIN = 32;
 const AXIS_LABEL_GAP = DRIVER_R + 14;
+// The toward driver sits on the same vertical centerline as a bottom-anchored
+// on_screen_text caption (both horizontally centered), so its dot+label stack
+// must clear the caption's safe zone, not just the raw screen edge — this
+// scene has no visibility into whether a caption prop is set for this shot,
+// so it always reserves the room. ~160px covers a two-line headline_bold box.
+const AXIS_CAPTION_CLEARANCE = 160;
 // Rough average glyph width as a fraction of font size for Inter at the
 // weights used here — matches the `badge.length * 11 + 24` estimate already
 // used for the phase badge above, just parameterized by font size/weight.
@@ -612,7 +618,7 @@ const AxisComparisonDiagram: React.FC<{
   // label stack (~92px tall) stay above the bottom edge.
   const towardMaxPx = Math.max(
     0,
-    VH - AXIS_EDGE_MARGIN - 92 - riderY
+    VH - SAFE_ZONE.bottom - AXIS_CAPTION_CLEARANCE - 92 - riderY
   );
   const towardPx = towardDriver
     ? Math.min(towardDriver.distanceMeters * AXIS_METERS_TO_PX, towardMaxPx)
