@@ -473,29 +473,30 @@
     },
     {
       "id": "shot_05b",
-      "type": "SplitViewScene",
+      "type": "StatComparatorScene",
       "duration_frames": 332,
-      "narration": "Không có tài xế chờ sẵn, khách phải chờ lâu, trung bình tám phút, và nhiều chuyến bị hủy. Ngược lại, khi tài xế đã được bố trí trước, chỉ hai phút rưỡi là xe đến nơi, tỷ lệ hủy giảm gần một nửa. Một vòng dự đoán mỗi mười lăm phút đã biến trải nghiệm từ chờ đợi mệt mỏi thành nhanh chóng, tiện lợi.",
+      "narration": "Không có vùng sẵn sàng — tài xế chạy từ xa, khách chờ trung bình tám phút, hủy chuyến cao. Khi có vùng sẵn sàng — tài xế đã ở gần, xe đến trong hai phút rưỡi, tỷ lệ hủy giảm bốn mươi phần trăm — cùng số tài xế, hiệu quả gấp đôi.",
       "narration_timing_frames": [
         5,
         317
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "leftContent": {
-          "kind": "text",
-          "heading": "Không có tài xế chờ sẵn",
-          "body": "Tài xế nhận lệnh → chạy từ xa · Thời gian tài xế đến trung bình: 8 phút · Tỷ lệ hủy chuyến: cao · Trải nghiệm khách: kém"
-        },
-        "rightContent": {
-          "kind": "text",
-          "heading": "Có tài xế chờ sẵn",
-          "body": "Tài xế đã trong vùng sẵn · Thời gian tài xế đến trung bình: 2.5 phút · Tỷ lệ hủy giảm 40% · Cùng số tài xế — hiệu quả gấp đôi"
-        },
-        "leftLabel": "Trước",
-        "rightLabel": "Sau"
+        "headline": "Vùng sẵn sàng giúp tài xế đến nhanh gấp đôi",
+        "accentWord": "nhanh gấp đôi",
+        "beforeLabel": "Không có vùng sẵn",
+        "beforeStat": "8 phút",
+        "beforeStatNumber": 8,
+        "beforeStatUnit": "phút",
+        "beforeSubtext": "Hủy chuyến: cao · UX kém",
+        "afterLabel": "Có vùng sẵn sàng",
+        "afterStat": "2.5 phút",
+        "afterStatNumber": 2.5,
+        "afterStatUnit": "phút",
+        "afterSubtext": "Hủy chuyến: giảm 40% · Hiệu quả gấp đôi",
+        "deltaLabel": "Cùng số tài xế — hiệu quả gấp đôi"
       },
-      "sound_design": "split reveal frame 10, left panel muted tone, right panel positive ding frame 80, comparison complete sfx frame 200"
+      "sound_design": "muted tension tone frame 5, negative tick sfx on before-panel slide-in frame 20, before counter lock frame 120, positive reveal on after-panel slide-in frame 120, success ding on after counter lock frame 220, delta badge chime frame 230, completion sfx frame 320"
     },
     {
       "id": "shot_06a",
