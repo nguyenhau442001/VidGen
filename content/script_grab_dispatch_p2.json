@@ -537,6 +537,24 @@
       "on_screen_text": "Tài xế gần hơn — nhưng đến sau?",
       "on_screen_text_style": "headline_bold",
       "sound_design": "axis reveal frame 10, driver A vector draw frame 40, driver B vector draw frame 70, route highlight frame 100"
+    },
+    {
+      "id": "shot_07a",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 260,
+      "narration": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFasterr để xem tiếp.",
+      "narration_timing_frames": [
+        10,
+        250
+      ],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "text": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFasterr để xem tiếp.",
+        "accentWord": "Phần 3",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#00ff41"
+      },
+      "sound_design": "soft settle tone frame 0, accent chime on \"Phần 3\" pop, gentle fade to black at scene end"
     }
   ]
 }
