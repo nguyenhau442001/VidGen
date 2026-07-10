@@ -16,8 +16,8 @@ const BG = "#030d06";
 const ACCENT_DEFAULT = "#00ff41";
 const USER_COLOR_DEFAULT = "#ff6b35";
 
-const RADAR_SIZE = 620; // px diameter of the radar container
-const RADAR_TOP = SAFE_ZONE.top + 118;
+const RADAR_SIZE = 560; // px diameter of the radar container
+const RADAR_TOP = SAFE_ZONE.top + 70;
 
 const RING_RADII = [10, 20, 30, 40, 48]; // percent of radar container (viewBox 0-100)
 const SWEEP_DURATION_SECONDS = 4;
@@ -362,10 +362,10 @@ const StatsRow: React.FC<{
   stats: RadarHookSceneProps["stats"];
   accent: string;
   userColor: string;
-  top: number;
+  bottom: number;
   frame: number;
   fps: number;
-}> = ({ stats, accent, userColor, top, frame, fps }) => {
+}> = ({ stats, accent, userColor, bottom, frame, fps }) => {
   const entrance = spring({
     frame: frame - STATS_ENTER_FRAME,
     fps,
@@ -378,8 +378,11 @@ const StatsRow: React.FC<{
   return (
     <div
       style={{
+        // Anchored above Caption.tsx's own bottom-anchored pill (same
+        // convention as CharacterIconScene) so a tall headline_bold caption
+        // never overlaps the stats row.
         position: "absolute",
-        top,
+        bottom,
         left: 80,
         right: 80,
         display: "flex",
@@ -453,8 +456,6 @@ export const RadarHookScene: React.FC<RadarHookSceneProps> = ({
       })
     : 1;
 
-  const statsTop = RADAR_TOP + RADAR_SIZE + 40 + 200;
-
   return (
     <AbsoluteFill style={{ backgroundColor: BG, opacity: sceneOpacity }}>
       {/* Grid overlay */}
@@ -480,7 +481,14 @@ export const RadarHookScene: React.FC<RadarHookSceneProps> = ({
       <TopBadge text={topicLabel} accent={accentColor} frame={frame} fps={fps} />
       <Radar accent={accentColor} userColor={userColor} driverLabels={driverLabels} frame={frame} fps={fps} />
       <CopyBlock eyebrow={eyebrow} headline={headline} accent={accentColor} frame={frame} fps={fps} />
-      <StatsRow stats={stats} accent={accentColor} userColor={userColor} top={statsTop} frame={frame} fps={fps} />
+      <StatsRow
+        stats={stats}
+        accent={accentColor}
+        userColor={userColor}
+        bottom={SAFE_ZONE.bottom + 206}
+        frame={frame}
+        fps={fps}
+      />
     </AbsoluteFill>
   );
 };
