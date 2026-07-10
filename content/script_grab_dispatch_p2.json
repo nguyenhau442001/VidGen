@@ -330,7 +330,7 @@
             "label": "+31 tài xế khác"
           }
         ],
-        "nearestDriverIndex": 2
+        "highlightedDriverIndex": 2
       },
       "sound_design": "map load sfx frame 0, driver pins drop sequential frames 60-120, cluster form sfx frame 130"
     },
