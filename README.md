@@ -139,3 +139,220 @@ tests/      pytest suite for the pipeline
 docs/       design docs and implementation plans
 references/ hook pattern library used by vidgen/hook_selector.py
 ```
+
+# 🤖 VidGen — Automation Coverage Roadmap
+
+> **Current coverage: ~40% → Target: 100% fully autonomous**
+
+---
+
+## Pipeline Overview
+
+```
+[Topic Queue]
+      │
+  1. Topic trigger          ← GAP 1 (manual start)
+      │
+  2. Script generation      ✅ automated (Claude → JSON)
+      │
+  3. Gate 1 — content audit ← GAP 2 (score not enforced in code)
+      │
+  4. TTS synthesis          ← GAP 3 (speed/silence tuned manually)
+      │
+  5. Remotion render        ✅ automated (python -m vidgen.main)
+      │
+  6. Gate 2 — visual audit  ← GAP 4 (no ffmpeg frame check)
+      │
+  7. Publish / distribute   ← GAP 5 (manual upload)
+```
+
+---
+
+## GAP 1 — Autonomous Trigger (replace manual topic input)
+
+**Problem:** Pipeline must be started manually each time.
+
+**Solution:** `topic_queue.json` + cron job
+
+```json
+// topics_queue.json
+["Thuật toán Redis pub/sub", "Tại sao QUIC nhanh hơn TCP", "..."]
+```
+
+```bash
+# crontab — runs every evening at 8pm
+0 20 * * * cd ~/VidGen && python -m vidgen.runner --pick-next
+```
+
+`runner.py` pops the first topic from the queue and runs the full pipeline without human intervention.
+
+- [ ] Create `topics_queue.json`
+- [ ] Implement `vidgen/runner.py` with `--pick-next` flag
+- [ ] Register cron job
+
+---
+
+## GAP 2 — Gate 1 Score Enforcement (block bad scripts before render)
+
+**Problem:** Gate 1 quality scoring only exists in the prompt — no code assertion stops a low-quality script from proceeding to render.
+
+**Solution:** Add `gate1_assert()` to `main.py` before TTS is called
+
+```python
+def gate1_assert(script: dict, min_total: int = 22) -> None:
+    audit = score_script(script)   # calls Claude API to self-score
+    if audit["total"] < min_total or any(v < 4 for v in audit.values()):
+        raise ValueError(f"Gate 1 FAIL: {audit} — rewriting...")
+```
+
+Pipeline auto-blocks and Claude self-rewrites. Nothing renders until score ≥ 22/30 and all dimensions ≥ 4.
+
+- [ ] Implement `score_script()` using Claude API
+- [ ] Implement `gate1_assert()` in `vidgen/main.py`
+- [ ] Add max rewrite retry limit (e.g. 3 attempts before human alert)
+
+---
+
+## GAP 3 — TTS Speed Wrapper (replace manual speed tuning)
+
+**Problem:** TTS speed and silence trimming are configured manually each run.
+
+**Solution:** Call `synthesize_scenes()` inside `main.py` as a pipeline step
+
+```python
+# in vidgen/main.py — replace raw TTS call
+from vidgen.tts_speed import synthesize_scenes
+
+synthesize_scenes(
+    scenes=script["scenes"],
+    output_dir="public/audio",
+    speed=1.2,           # standard for ~70s format
+    max_silence_ms=120,  # auto-strip dead air
+)
+```
+
+No separate TTS command needed — it becomes one step in the unified runner.
+
+**Speed reference:**
+
+| Speed | Effect           | Use when                        |
+|-------|------------------|---------------------------------|
+| 1.0   | Normal pace      | Reference / debugging only      |
+| 1.15  | Slightly faster  | Dense narration, long sentences |
+| 1.2   | **Recommended**  | Standard short-form video       |
+| 1.25  | Aggressive       | Very short scenes < 4s          |
+| > 1.3 | ❌ Do NOT use   | Vietnamese tones degrade        |
+
+- [ ] Confirm `vidgen/tts_speed.py` is present in repo
+- [ ] Replace raw TTS call in `main.py` with `synthesize_scenes()`
+- [ ] Verify `librosa` and `soundfile` are in `requirements.txt`
+
+---
+
+## GAP 4 — Gate 2 Visual Audit (replace manual video review)
+
+**Problem:** After render, visual quality (legibility, contrast, pacing) is checked by eye. Not scalable.
+
+**Solution:** `gate2_visual.py` using ffmpeg frame extraction + Claude Vision
+
+```python
+import subprocess, base64
+
+def extract_frames(mp4_path: str) -> list[str]:
+    """Extract keyframes at seconds 1, 3, 6, 10, 20 → base64"""
+    frames = []
+    for t in [1, 3, 6, 10, 20]:
+        out = f"/tmp/frame_{t}.png"
+        subprocess.run([
+            "ffmpeg", "-ss", str(t), "-i", mp4_path,
+            "-frames:v", "1", out, "-y", "-loglevel", "quiet"
+        ])
+        with open(out, "rb") as f:
+            frames.append(base64.b64encode(f.read()).decode())
+    return frames
+
+def gate2_assert(mp4_path: str) -> dict:
+    frames_b64 = extract_frames(mp4_path)
+    result = claude_vision_audit(frames_b64)  # Claude Vision checks legibility, contrast, pacing
+    if not result["pass"]:
+        raise ValueError(f"Gate 2 FAIL: {result['issues']}")
+    return result
+```
+
+Claude Vision replaces the human eye. Max 2 self-correct cycles before escalating.
+
+**Visual dimensions checked automatically:**
+- Text legibility — no overflow, readable on dark background
+- Contrast & color — accent colors not competing
+- Information density — no scene has > 4 bullets
+- Scene pacing — no freeze-frame or too-fast cuts
+
+- [ ] Implement `vidgen/gate2_visual.py`
+- [ ] Integrate `gate2_assert()` call after render step in `main.py`
+- [ ] Handle self-correct loop: fix JSON → re-render (max 2 cycles)
+
+---
+
+## GAP 5 — Auto-Publish After Render (replace manual upload)
+
+**Problem:** After `.mp4` is produced and quality-verified, the file still has to be uploaded manually.
+
+**Solution (short-term):** CLI uploader post Gate 2 pass
+
+```python
+import subprocess
+
+subprocess.run([
+    "python", "-m", "tiktok_uploader",
+    "--video", f"out/{slug}.mp4",
+    "--title", script["scenes"][0]["props"]["headline"],
+    "--cookies", "cookies.txt"
+])
+```
+
+**Solution (long-term):** YouTube Data API v3 (official) or
+[tiktok-uploader](https://github.com/wkaisertexas/tiktok-uploader) integrated as a post-render step.
+
+**Notification after publish:**
+
+```python
+# Telegram bot ping on success
+requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", json={
+    "chat_id": CHAT_ID,
+    "text": f"✅ Video mới đã đăng: {slug}\n⏱ {duration}s | Gate1={gate1_score}/30"
+})
+```
+
+- [ ] Set up `tiktok_uploader` or YouTube API credentials
+- [ ] Implement `vidgen/publisher.py`
+- [ ] Add Telegram bot notification on success/failure
+
+---
+
+## Target Architecture — Fully Autonomous
+
+```
+cron 8pm
+  → runner.py picks topic from queue
+  → claude_script.py generates JSON
+  → gate1_assert() blocks if score < 22  (max 3 rewrites)
+  → tts_speed.py synthesizes audio (speed=1.2, silence=120ms)
+  → remotion renders .mp4
+  → gate2_assert() checks frames via ffmpeg + Claude Vision  (max 2 fix cycles)
+  → publisher.py posts to TikTok / YouTube
+  → Telegram bot notifies "✅ Video mới đã đăng"
+```
+
+---
+
+## Implementation Priority
+
+| Priority | Gap   | Effort | Impact                              |
+|----------|-------|--------|-------------------------------------|
+| 🔴 P0   | GAP 2 | Low    | Blocks bad scripts before render    |
+| 🔴 P0   | GAP 4 | Medium | Catches visual bugs before publish  |
+| 🟡 P1   | GAP 3 | Low    | Eliminates manual TTS tuning        |
+| 🟡 P1   | GAP 1 | Low    | Enables unattended overnight runs   |
+| 🟢 P2   | GAP 5 | Medium | Full end-to-end zero-touch pipeline |
+
+> **Start with GAP 2 + GAP 4 first** — quality gates must work before auto-publishing is safe.
