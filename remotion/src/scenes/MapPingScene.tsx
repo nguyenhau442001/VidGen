@@ -43,6 +43,19 @@ const OFF_AXIS_DIR = { x: -0.85, y: 0.53 };
 const AXIS_METERS_TO_PX = 0.55;
 const AXIS_DEST_DIST_PX = 300;
 
+// Keeps the axis-comparison driver dot *and* its text label fully inside the
+// frame regardless of the real-world distanceMeters a shot authors — that
+// value is illustrative, not to-scale, so a large enough number (e.g. a
+// driver 2+ km away) must not be allowed to push the dot past the canvas
+// edge, and a long label must not be allowed to run off it either.
+const AXIS_EDGE_MARGIN = 32;
+const AXIS_LABEL_GAP = DRIVER_R + 14;
+// Rough average glyph width as a fraction of font size for Inter at the
+// weights used here — matches the `badge.length * 11 + 24` estimate already
+// used for the phase badge above, just parameterized by font size/weight.
+const estimateTextWidth = (text: string, fontSize: number, bold: boolean) =>
+  text.length * fontSize * (bold ? 0.62 : 0.56);
+
 // ---------------------------------------------------------------------------
 // Street grid: [normalizedPos, isMajor]
 // ---------------------------------------------------------------------------
@@ -582,13 +595,49 @@ const AxisComparisonDiagram: React.FC<{
   const towardDriver = axis.drivers.find((d) => d.direction === "toward");
   const awayDriver = axis.drivers.find((d) => d.direction === "away");
 
+  // Widest line each driver's own label will render (distance / ETA /
+  // constraint note), used below to keep that specific label on-screen
+  // instead of guessing a single worst-case width for every shot.
+  const labelWidth = (d?: typeof towardDriver) =>
+    d
+      ? Math.max(
+          estimateTextWidth(d.label, 24, false),
+          d.etaLabel ? estimateTextWidth(d.etaLabel, 26, true) : 0,
+          d.constraintNote ? estimateTextWidth(d.constraintNote, 17, false) : 0
+        )
+      : 0;
+
+  // Toward driver sits straight below the rider (AXIS_DIR is purely
+  // vertical) — cap how far down that can push it so the dot plus its
+  // label stack (~92px tall) stay above the bottom edge.
+  const towardMaxPx = Math.max(
+    0,
+    VH - AXIS_EDGE_MARGIN - 92 - riderY
+  );
+  const towardPx = towardDriver
+    ? Math.min(towardDriver.distanceMeters * AXIS_METERS_TO_PX, towardMaxPx)
+    : 0;
+
+  // Away driver branches to the lower-left — cap how far that can push it so
+  // its own (left-anchored) label never runs past the left edge.
+  const awayMaxPx = awayDriver
+    ? Math.max(
+        0,
+        (riderX - AXIS_EDGE_MARGIN - labelWidth(awayDriver) - AXIS_LABEL_GAP) /
+          Math.abs(OFF_AXIS_DIR.x)
+      )
+    : 0;
+  const awayPx = awayDriver
+    ? Math.min(awayDriver.distanceMeters * AXIS_METERS_TO_PX, awayMaxPx)
+    : 0;
+
   const towardPos = towardDriver && {
-    x: riderX - AXIS_DIR.x * towardDriver.distanceMeters * AXIS_METERS_TO_PX,
-    y: riderY - AXIS_DIR.y * towardDriver.distanceMeters * AXIS_METERS_TO_PX,
+    x: riderX - AXIS_DIR.x * towardPx,
+    y: riderY - AXIS_DIR.y * towardPx,
   };
   const awayPos = awayDriver && {
-    x: riderX + OFF_AXIS_DIR.x * awayDriver.distanceMeters * AXIS_METERS_TO_PX,
-    y: riderY + OFF_AXIS_DIR.y * awayDriver.distanceMeters * AXIS_METERS_TO_PX,
+    x: riderX + OFF_AXIS_DIR.x * awayPx,
+    y: riderY + OFF_AXIS_DIR.y * awayPx,
   };
 
   // Perpendicular to the away driver's own vector — where a median glyph
