@@ -25,6 +25,7 @@ import PhoneMapScene from "./scenes/PhoneMapScene";
 import ConversationScene from "./scenes/ConversationScene";
 import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
+import { RadarHookScene } from "./scenes/RadarHookScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -166,5 +167,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <BeforeAfterScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "grid_heatmap":
       return <GridHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "radar_hook":
+      return <RadarHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

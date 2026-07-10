@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "Tại sao tài xế biết bạn có nhu cầu trước khi bạn mở app",
+    "slug": "radar-hook-demo",
+    "series": "grab-dispatch",
+    "part": 2
+  },
+  "scenes": [
+    {
+      "id": "shot_01a",
+      "type": "RadarHookScene",
+      "duration_frames": 121,
+      "narration": "Bạn chưa mở app. Hệ thống đã đặt tài xế chờ sẵn.",
+      "narration_timing_frames": [5, 101],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "topicLabel": "Thuật toán ẩn · Phần 2/4",
+        "eyebrow": "Điều đã xảy ra trước khi bạn biết",
+        "headline": "Chưa mở app.\nTài xế đã chờ sẵn rồi.",
+        "driverLabels": ["TX-4821", "TX-3302", "TX-0917"],
+        "stats": [
+          { "value": "3", "label": "Tài xế chờ sẵn" },
+          { "value": "0", "label": "Lần mở app", "highlight": true },
+          { "value": "4s", "label": "ETA của bạn" }
+        ]
+      },
+      "on_screen_text": "Bạn chưa mở app. Hệ thống đã biết.",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "deep whoosh in at frame 0, radar sweep hum loop, sub-bass hit at frame 30"
+    }
+  ]
+}

@@ -47,6 +47,7 @@ TYPE_MAP = {
     "QuoteCalloutScene": "quote_callout",
     "ZoomRevealScene": "zoom_reveal",
     "SplitRevealScene": "split_reveal",
+    "RadarHookScene": "radar_hook",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920

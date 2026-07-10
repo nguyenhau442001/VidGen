@@ -57,7 +57,8 @@ export type ManifestScene =
   | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PhoneMapVisual }
   | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual }
   | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual }
-  | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual };
+  | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual }
+  | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -384,3 +385,25 @@ export type GridHeatmapVisual = {
 };
 
 export type GridHeatmapSceneProps = GridHeatmapVisual & { durationInFrames: number };
+
+// Radar-style hook scene: 3 driver blips connect to a central "you" dot on a
+// rotating sweep radar, followed by an eyebrow/headline copy block and a
+// 3-cell stats row. Used as an alternative to CharacterIconScene's hook
+// framing for "hidden system tracks/predicts you" series (e.g. Grab dispatch).
+export type RadarHookStat = {
+  value: string;
+  label: string;
+  highlight?: boolean; // true → rendered in userColor instead of accentColor
+};
+
+export type RadarHookVisual = {
+  topicLabel: string;
+  eyebrow: string;
+  headline: string; // "\n"-separated into two lines
+  driverLabels?: string[]; // exactly 3, default ["TX-4821", "TX-3302", "TX-0917"]
+  stats: RadarHookStat[]; // exactly 3 cells
+  accentColor?: string; // default "#00ff41"
+  userColor?: string; // default "#ff6b35"
+};
+
+export type RadarHookSceneProps = RadarHookVisual & { durationInFrames: number };

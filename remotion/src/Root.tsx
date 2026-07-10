@@ -23,6 +23,7 @@ import PhoneMapScene from "./scenes/PhoneMapScene";
 import ConversationScene from "./scenes/ConversationScene";
 import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
+import { RadarHookScene } from "./scenes/RadarHookScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -574,6 +575,26 @@ export const Root: React.FC = () => {
           headline: "Mật độ yêu cầu theo khu vực",
           colorScheme: "green",
           durationInFrames: 200,
+        }}
+      />
+      <Composition
+        id="RadarHook"
+        component={RadarHookScene}
+        durationInFrames={121}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          topicLabel: "Thuật toán ẩn · Phần 2/4",
+          eyebrow: "Điều đã xảy ra trước khi bạn biết",
+          headline: "Chưa mở app.\nTài xế đã chờ sẵn rồi.",
+          driverLabels: ["TX-4821", "TX-3302", "TX-0917"],
+          stats: [
+            { label: "Tài xế chờ sẵn", value: "3" },
+            { label: "Lần mở app", value: "0", highlight: true },
+            { label: "ETA của bạn", value: "4s" },
+          ],
+          durationInFrames: 121,
         }}
       />
     </>
