@@ -32,6 +32,9 @@ export type PhoneMockupVisual = {
   // Idle-screen-only: animates a driver dot converging on the user's pin,
   // for scenes whose narration describes a driver already en route.
   showApproachingDriver?: boolean;
+  // Idle-screen-only: overlays animated falling rain on the map, for scenes
+  // whose narration describes live weather data driving demand.
+  weatherEffect?: "rain";
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };

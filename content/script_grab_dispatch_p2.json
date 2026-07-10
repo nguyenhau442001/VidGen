@@ -251,7 +251,8 @@
       "transition_out_delay_frames": 15,
       "props": {
         "screenState": "idle",
-        "accentColor": "#00ff41"
+        "accentColor": "#00ff41",
+        "weatherEffect": "rain"
       },
       "on_screen_text": "Mưa = nhu cầu tăng 1.8 lần",
       "on_screen_text_style": "headline_bold",

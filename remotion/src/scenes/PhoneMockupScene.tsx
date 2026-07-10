@@ -152,6 +152,64 @@ const DriverApproachMarker: React.FC<{
   );
 };
 
+// Deterministic pseudo-random stream (mulberry32) so raindrop layout is
+// stable across re-renders instead of reshuffling every frame.
+function mulberry32(seed: number): () => number {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const RAIN_DROP_COUNT = 34;
+const rand = mulberry32(20240611);
+const RAIN_DROPS = Array.from({ length: RAIN_DROP_COUNT }, () => ({
+  x: rand() * 100,
+  seed: rand() * 100,
+  speed: 1.6 + rand() * 1.2,
+  length: 14 + rand() * 14,
+  drift: -3 + rand() * 6,
+}));
+
+// Falling rain streaks over the map — the narration is specifically about
+// live weather data driving demand, so the idle map needs its own motion
+// cue rather than sitting static for the whole scene.
+const RainOverlay: React.FC<{ frame: number }> = ({ frame }) => (
+  <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+    {RAIN_DROPS.map((d, i) => {
+      const cyclePx = 340; // travel distance before looping back above the frame
+      const y = ((frame * d.speed + d.seed * 10) % cyclePx) - 40;
+      return (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${d.x + (y / cyclePx) * d.drift}%`,
+            top: y,
+            width: 2,
+            height: d.length,
+            borderRadius: 1,
+            background: "linear-gradient(rgba(140,200,255,0), rgba(140,200,255,0.55))",
+            transform: "rotate(8deg)",
+          }}
+        />
+      );
+    })}
+    {/* Cool wash + faint pulse to sell "rain" without obscuring the map */}
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        background: "rgba(70,120,190,0.06)",
+      }}
+    />
+  </div>
+);
+
 const IdleScreen: React.FC<{
   buttonLabel: string;
   accentColor: string;
@@ -159,7 +217,8 @@ const IdleScreen: React.FC<{
   fps: number;
   durationInFrames: number;
   showApproachingDriver?: boolean;
-}> = ({ buttonLabel, accentColor, frame, fps, durationInFrames, showApproachingDriver }) => {
+  weatherEffect?: "rain";
+}> = ({ buttonLabel, accentColor, frame, fps, durationInFrames, showApproachingDriver, weatherEffect }) => {
   const btnScale = spring({
     frame: frame - ENTER_FRAMES,
     fps,
@@ -246,6 +305,8 @@ const IdleScreen: React.FC<{
             durationInFrames={durationInFrames}
           />
         )}
+
+        {weatherEffect === "rain" && <RainOverlay frame={frame} />}
       </div>
 
       {/* Bottom action area */}
@@ -616,6 +677,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   loadingRange,
   matchedRange,
   showApproachingDriver,
+  weatherEffect,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -785,6 +847,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   fps={fps}
                   durationInFrames={durationInFrames}
                   showApproachingDriver={showApproachingDriver}
+                  weatherEffect={weatherEffect}
                 />
               )}
               {effective === "loading" && (
