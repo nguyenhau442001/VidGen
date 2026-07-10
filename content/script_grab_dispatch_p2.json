@@ -38,10 +38,8 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "08:00 — Thứ Hai",
-        "accentWord": "08:00",
         "screenState": "idle",
-        "overlayLabel": "App chưa mở"
+        "accentColor": "#00ff41"
       },
       "on_screen_text": "600m — tài xế đang di chuyển về phía bạn",
       "on_screen_text_style": "caption_muted",
@@ -58,10 +56,8 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Dự đoán chạy liên tục",
-        "accentWord": "liên tục",
-        "screenState": "prediction-overlay",
-        "overlayLabel": "Vòng dự báo: 05:00 AM"
+        "screenState": "idle",
+        "accentColor": "#00ff41"
       },
       "on_screen_text": "Hệ thống đã chạy từ 05:00 sáng",
       "on_screen_text_style": "caption_muted",
@@ -78,60 +74,58 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Geohash grid",
-        "accentWord": "grid",
-        "revealSequential": true,
-        "revealIntervalFrames": 8,
-        "zones": [
+        "districts": [
           {
+            "x": 4,
+            "y": 4,
             "label": "Q1",
-            "demandLevel": 0.95,
-            "lat": 10.776,
-            "lng": 106.7
+            "demandLevel": 0.95
           },
           {
+            "x": 2,
+            "y": 5,
             "label": "Q3",
-            "demandLevel": 0.8,
-            "lat": 10.762,
-            "lng": 106.682
+            "demandLevel": 0.8
           },
           {
+            "x": 1,
+            "y": 5,
             "label": "Q5",
-            "demandLevel": 0.6,
-            "lat": 10.755,
-            "lng": 106.668
+            "demandLevel": 0.6
           },
           {
+            "x": 4,
+            "y": 6,
             "label": "Q7",
-            "demandLevel": 0.45,
-            "lat": 10.737,
-            "lng": 106.698
+            "demandLevel": 0.45
           },
           {
+            "x": 5,
+            "y": 2,
             "label": "Bình Thạnh",
-            "demandLevel": 0.72,
-            "lat": 10.812,
-            "lng": 106.712
+            "demandLevel": 0.72
           },
           {
+            "x": 8,
+            "y": 0,
             "label": "Thủ Đức",
-            "demandLevel": 0.55,
-            "lat": 10.85,
-            "lng": 106.755
+            "demandLevel": 0.55
           },
           {
+            "x": 1,
+            "y": 1,
             "label": "Gò Vấp",
-            "demandLevel": 0.5,
-            "lat": 10.838,
-            "lng": 106.665
+            "demandLevel": 0.5
           },
           {
+            "x": 0,
+            "y": 3,
             "label": "Tân Bình",
-            "demandLevel": 0.65,
-            "lat": 10.8,
-            "lng": 106.652
+            "demandLevel": 0.65
           }
-        ]
+        ],
+        "gridRows": 7,
+        "gridCols": 9
       },
       "sound_design": "grid tile appear sfx each 8 frames, soft data pulse loop after reveal complete"
     },
@@ -146,64 +140,24 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Demand model",
-        "accentWord": "model",
-        "cycleLabel": "Mỗi 15 phút",
-        "nodes": [
+        "signals": [
           {
-            "id": "history",
+            "icon": "📊",
             "label": "Lịch sử",
-            "icon": "database",
-            "color": "#378ADD",
-            "lane": "input"
+            "color": "#378ADD"
           },
           {
-            "id": "weather",
+            "icon": "🌧️",
             "label": "Thời tiết",
-            "icon": "cloud",
-            "color": "#61dafb",
-            "lane": "input"
+            "color": "#61dafb"
           },
           {
-            "id": "events",
+            "icon": "📅",
             "label": "Sự kiện",
-            "icon": "calendar",
-            "color": "#f59e0b",
-            "lane": "input"
-          },
-          {
-            "id": "model",
-            "label": "ML Model",
-            "icon": "cpu",
-            "color": "#00ff41",
-            "lane": "process"
-          },
-          {
-            "id": "output",
-            "label": "Demand map",
-            "icon": "map",
-            "color": "#ffffff",
-            "lane": "output"
+            "color": "#f59e0b"
           }
         ],
-        "edges": [
-          {
-            "from": "history",
-            "to": "model"
-          },
-          {
-            "from": "weather",
-            "to": "model"
-          },
-          {
-            "from": "events",
-            "to": "model"
-          },
-          {
-            "from": "model",
-            "to": "output"
-          }
-        ]
+        "outputLabel": "Bản đồ nhu cầu"
       },
       "sound_design": "three input pings sequential frames 30 60 90, model process hum frames 100-180, output ding frame 200"
     },
@@ -218,45 +172,46 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Signal 1 — Lịch sử",
-        "accentWord": "Lịch sử",
-        "mode": "historical-replay",
-        "timeLabel": "Thứ Hai — 08:00",
         "hotspots": [
           {
-            "lat": 10.776,
-            "lng": 106.7,
+            "x": 333,
+            "y": 608,
+            "radius": 110,
             "intensity": 0.97,
             "label": "Q1 văn phòng"
           },
           {
-            "lat": 10.812,
-            "lng": 106.712,
+            "x": 391,
+            "y": 385,
+            "radius": 95,
             "intensity": 0.75,
             "label": "Bình Thạnh"
           },
           {
-            "lat": 10.8,
-            "lng": 106.652,
+            "x": 100,
+            "y": 460,
+            "radius": 90,
             "intensity": 0.68
           },
           {
-            "lat": 10.762,
-            "lng": 106.682,
+            "x": 246,
+            "y": 695,
+            "radius": 80,
             "intensity": 0.55
           },
           {
-            "lat": 10.85,
-            "lng": 106.755,
+            "x": 600,
+            "y": 150,
+            "radius": 70,
             "intensity": 0.42
           },
           {
-            "lat": 10.737,
-            "lng": 106.698,
+            "x": 323,
+            "y": 850,
+            "radius": 65,
             "intensity": 0.38
           }
-        ],
-        "animatePulse": true
+        ]
       },
       "on_screen_text": "Pattern lặp lại mỗi Thứ Hai — 08:00",
       "on_screen_text_style": "caption_muted",
@@ -273,13 +228,10 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "3,000,000+ chuyến / ngày",
-        "accentWord": "3,000,000+",
+        "finalValue": 3000000,
+        "unit": "chuyến / ngày",
         "subLabel": "mỗi chuyến = một dòng dữ liệu huấn luyện",
-        "countFrom": 0,
-        "countTo": 3000000,
-        "countDurationFrames": 90,
-        "formatThousands": true
+        "countDuration": 90
       },
       "sound_design": "flash hit at frame 0, rapid counter tick to frame 90, data stream sfx frames 100-200, settle thud frame 200"
     },
@@ -294,10 +246,8 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Signal 2 — Thời tiết",
-        "accentWord": "Thời tiết",
-        "screenState": "weather-alert",
-        "overlayLabel": "🌧 Mưa lớn — ×1.8 nhu cầu"
+        "screenState": "idle",
+        "accentColor": "#00ff41"
       },
       "on_screen_text": "Mưa = nhu cầu tăng 1.8 lần",
       "on_screen_text_style": "headline_bold",
@@ -305,7 +255,7 @@
     },
     {
       "id": "shot_03d",
-      "type": "TerminalScene",
+      "type": "CodeScene",
       "duration_frames": 340,
       "narration": "Tín hiệu thứ ba: sự kiện. Hệ thống quét lịch thành phố — đêm nhạc, trận bóng, hội chợ. Khi phát hiện sự kiện lớn, nó tăng hệ số nhu cầu và điều phối tài xế đến trước giờ tan.",
       "narration_timing_frames": [
@@ -335,42 +285,34 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "34 tài xế đã vào vị trí",
-        "accentWord": "34 tài xế",
-        "pings": [
+        "drivers": [
           {
-            "label": "Concert Q1 — 20:00",
-            "lat": 10.776,
-            "lng": 106.7,
-            "type": "event"
+            "x": 375,
+            "y": 500,
+            "label": "Concert Q1 — 20:00"
           },
           {
-            "label": "Tài xế D1 — 700m",
-            "lat": 10.783,
-            "lng": 106.693,
-            "type": "driver"
+            "x": 210,
+            "y": 450,
+            "label": "Tài xế D1 — 700m"
           },
           {
-            "label": "Tài xế D2 — 450m",
-            "lat": 10.771,
-            "lng": 106.707,
-            "type": "driver"
+            "x": 502,
+            "y": 400,
+            "label": "Tài xế D2 — 450m"
           },
           {
-            "label": "Tài xế D3 — 600m",
-            "lat": 10.781,
-            "lng": 106.71,
-            "type": "driver"
+            "x": 300,
+            "y": 650,
+            "label": "Tài xế D3 — 600m"
           },
           {
-            "label": "+31 tài xế khác",
-            "lat": 10.768,
-            "lng": 106.695,
-            "type": "driver-cluster"
+            "x": 460,
+            "y": 610,
+            "label": "+31 tài xế khác"
           }
         ],
-        "animateConverge": true,
-        "convergeAtFrame": 60
+        "nearestDriverIndex": 2
       },
       "sound_design": "map load sfx frame 0, driver pins drop sequential frames 60-120, cluster form sfx frame 130"
     },
@@ -385,14 +327,8 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Signal 4 — App opens",
-        "accentWord": "App opens",
-        "timeLabel": "07:55",
-        "singlePhone": true,
-        "aggregateCount": 1247,
-        "aggregateLabel": "lượt mở app / 5 phút",
-        "zoomOutAtFrame": 60,
-        "rippleLabel": "Hàng nghìn người — cùng khu vực"
+        "singleLabel": "07:55 — Bạn mở app",
+        "aggregateLabel": "1.247 lượt mở app / 5 phút"
       },
       "on_screen_text": "Chưa đặt xe — nhưng hệ thống đã ghi nhận",
       "on_screen_text_style": "caption_muted",
@@ -409,50 +345,46 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Live demand update",
-        "accentWord": "Live",
-        "highlightZone": "Q1",
-        "liveMode": true,
-        "counterLabel": "700 app opens / 5min",
-        "zones": [
+        "districts": [
           {
+            "x": 4,
+            "y": 4,
             "label": "Q1",
-            "demandLevel": 0.99,
-            "lat": 10.776,
-            "lng": 106.7,
-            "highlight": true
+            "demandLevel": 0.99
           },
           {
+            "x": 2,
+            "y": 5,
             "label": "Q3",
-            "demandLevel": 0.72,
-            "lat": 10.762,
-            "lng": 106.682
+            "demandLevel": 0.72
           },
           {
+            "x": 5,
+            "y": 2,
             "label": "Bình Thạnh",
-            "demandLevel": 0.68,
-            "lat": 10.812,
-            "lng": 106.712
+            "demandLevel": 0.68
           },
           {
+            "x": 0,
+            "y": 3,
             "label": "Tân Bình",
-            "demandLevel": 0.55,
-            "lat": 10.8,
-            "lng": 106.652
+            "demandLevel": 0.55
           },
           {
+            "x": 1,
+            "y": 5,
             "label": "Q5",
-            "demandLevel": 0.45,
-            "lat": 10.755,
-            "lng": 106.668
+            "demandLevel": 0.45
           },
           {
+            "x": 4,
+            "y": 6,
             "label": "Q7",
-            "demandLevel": 0.38,
-            "lat": 10.737,
-            "lng": 106.698
+            "demandLevel": 0.38
           }
-        ]
+        ],
+        "gridRows": 7,
+        "gridCols": 9
       },
       "on_screen_text": "×3 so với bình thường — model cập nhật ngay",
       "on_screen_text_style": "headline_bold",
@@ -469,59 +401,55 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Pre-positioning chủ động",
-        "accentWord": "chủ động",
-        "incentiveLabel": "+ Thưởng khu vực",
-        "targetZone": {
-          "label": "Zone Q1 — HOT",
-          "lat": 10.776,
-          "lng": 106.7
+        "hotspot": {
+          "x": 375,
+          "y": 500,
+          "label": "Zone Q1 — HOT"
         },
         "drivers": [
           {
-            "id": "d1",
-            "distance": "1.2km",
-            "eta": "4m",
-            "lat": 10.79,
-            "lng": 106.688
+            "startX": 675,
+            "startY": 500,
+            "endX": 515,
+            "endY": 500,
+            "label": "1.2km"
           },
           {
-            "id": "d2",
-            "distance": "900m",
-            "eta": "3m",
-            "lat": 10.769,
-            "lng": 106.715
+            "startX": 505,
+            "startY": 725,
+            "endX": 435,
+            "endY": 604,
+            "label": "900m"
           },
           {
-            "id": "d3",
-            "distance": "1.5km",
-            "eta": "5m",
-            "lat": 10.797,
-            "lng": 106.706
+            "startX": 215,
+            "startY": 777,
+            "endX": 300,
+            "endY": 630,
+            "label": "1.5km"
           },
           {
-            "id": "d4",
-            "distance": "800m",
-            "eta": "2m",
-            "lat": 10.784,
-            "lng": 106.693
+            "startX": 135,
+            "startY": 500,
+            "endX": 265,
+            "endY": 500,
+            "label": "800m"
           },
           {
-            "id": "d5",
-            "distance": "1.1km",
-            "eta": "3m",
-            "lat": 10.76,
-            "lng": 106.698
+            "startX": 230,
+            "startY": 249,
+            "endX": 307,
+            "endY": 383,
+            "label": "1.1km"
           },
           {
-            "id": "d6",
-            "distance": "700m",
-            "eta": "2m",
-            "lat": 10.78,
-            "lng": 106.708
+            "startX": 485,
+            "startY": 309,
+            "endX": 425,
+            "endY": 413,
+            "label": "700m"
           }
-        ],
-        "animateConvergeAtFrame": 30
+        ]
       },
       "sound_design": "incentive ping sfx each driver frame 30 50 70 90 110 130, convergence whoosh frame 180, settle ding frame 220"
     },
@@ -536,26 +464,18 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Kết quả đo được",
-        "accentWord": "Kết quả",
-        "left": {
-          "label": "Không pre-positioning",
-          "bullets": [
-            "Tài xế nhận lệnh → chạy từ xa",
-            "ETA trung bình: 8 phút",
-            "Tỷ lệ hủy chuyến: cao",
-            "Trải nghiệm khách: kém"
-          ]
+        "leftContent": {
+          "kind": "text",
+          "heading": "Không pre-positioning",
+          "body": "Tài xế nhận lệnh → chạy từ xa · ETA trung bình: 8 phút · Tỷ lệ hủy chuyến: cao · Trải nghiệm khách: kém"
         },
-        "right": {
-          "label": "Có pre-positioning",
-          "bullets": [
-            "Tài xế đã trong vùng sẵn",
-            "ETA trung bình: 2.5 phút",
-            "Tỷ lệ hủy giảm 40%",
-            "Cùng số tài xế — hiệu quả gấp đôi"
-          ]
-        }
+        "rightContent": {
+          "kind": "text",
+          "heading": "Có pre-positioning",
+          "body": "Tài xế đã trong vùng sẵn · ETA trung bình: 2.5 phút · Tỷ lệ hủy giảm 40% · Cùng số tài xế — hiệu quả gấp đôi"
+        },
+        "leftLabel": "Trước",
+        "rightLabel": "Sau"
       },
       "sound_design": "split reveal frame 10, left panel muted tone, right panel positive ding frame 80, comparison complete sfx frame 200"
     },
@@ -573,8 +493,8 @@
         "pose": "pointing",
         "accompanyingIcon": "map-pin",
         "accentColor": "#00ff41",
-        "topicLabel": "Batching & Routing",
-        "partLabel": "Phần 3/4"
+        "topicLabel": "Thuật toán ẩn",
+        "partLabel": "Phần 2/4"
       },
       "on_screen_text": "Tài xế gần hơn — nhưng đến sau?",
       "on_screen_text_style": "headline_bold",
