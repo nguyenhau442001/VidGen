@@ -22,6 +22,7 @@ from vidgen.manifest import (
     build_render_manifest,
     copy_audio_to_remotion_public,
     detect_dead_air,
+    detect_transition_silence,
     wav_filename,
     write_render_manifest,
 )
@@ -344,6 +345,14 @@ def validate_manifest(manifest: dict) -> None:
     for scene_id, words, alloc_frames, frames_per_word, status in rows:
         f_per_word_str = f"{frames_per_word:.1f}" if frames_per_word is not None else "n/a"
         print(f"{str(scene_id):<15}{words:>6}{alloc_frames:>9}{f_per_word_str:>9} {status}")
+
+    transition_findings = detect_transition_silence(manifest)
+    for tf in transition_findings:
+        warnings.append(
+            f"{tf['from_scene']} -> {tf['to_scene']}: {tf['gap_frames']} frames "
+            f"({tf['gap_seconds']}s) of silence across the scene boundary"
+        )
+
     if warnings:
         print("\nWarnings:")
         for w in warnings:

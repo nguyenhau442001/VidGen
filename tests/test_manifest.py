@@ -1,6 +1,6 @@
 import math
 import pytest
-from vidgen.manifest import build_render_manifest, detect_dead_air, FPS, FRAME_PADDING
+from vidgen.manifest import build_render_manifest, detect_dead_air, detect_transition_silence, FPS, FRAME_PADDING
 
 
 def test_duration_frames_calculation():
@@ -199,6 +199,47 @@ def test_detect_dead_air_catches_narration_per_criterion_gap_pre_tts_check_misse
     findings = detect_dead_air(script, manifest, audio_durations)
 
     assert findings == [{"scene_id": "shot_05", "dead_air_frames": 170, "dead_air_seconds": 5.67}]
+
+
+# Cross-scene silence: scenes render back-to-back in TikTokVideo's <Series>
+# with no overlap, so a short trailing gap in scene N can stack with a
+# slow-starting narration lead-in in scene N+1 into an audible pause that
+# neither validate_manifest() nor detect_dead_air() would catch on their own
+# (they only look at trailing silence within a single scene).
+
+
+def test_detect_transition_silence_clean_pair_reports_nothing():
+    script = {
+        "scenes": [
+            {"id": 1, "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 40},
+            {"id": 2, "narration": "hai", "narration_timing_frames": [10, 50], "duration_frames": 60},
+        ]
+    }
+    # trailing = 40-30 = 10, leading = 10 -> gap 20, under the 30-frame threshold
+    assert detect_transition_silence(script) == []
+
+
+def test_detect_transition_silence_flags_gap_across_boundary():
+    script = {
+        "scenes": [
+            {"id": "a", "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 50},
+            {"id": "b", "narration": "hai", "narration_timing_frames": [20, 60], "duration_frames": 80},
+        ]
+    }
+    # trailing = 50-30 = 20, leading = 20 -> gap 40, over the 30-frame threshold
+    findings = detect_transition_silence(script)
+
+    assert findings == [{"from_scene": "a", "to_scene": "b", "gap_frames": 40, "gap_seconds": 1.33}]
+
+
+def test_detect_transition_silence_skips_silent_by_design_scenes():
+    script = {
+        "scenes": [
+            {"id": "a", "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 200},
+            {"id": "b", "duration_frames": 90},  # no narration — visual-only, silent by design
+        ]
+    }
+    assert detect_transition_silence(script) == []
 
 
 def test_multi_scene_ordering():

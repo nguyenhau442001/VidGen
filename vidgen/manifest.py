@@ -253,6 +253,43 @@ def detect_dead_air(
     return findings
 
 
+def detect_transition_silence(script: dict, threshold_frames: int = MAX_DEAD_AIR_FRAMES) -> list[dict]:
+    """Flags the audible gap spanning a scene boundary: trailing silence at the
+    end of one scene (its narration_timing_frames end to its duration_frames
+    end) plus the narration lead-in of the next scene (its
+    narration_timing_frames start). Scenes render back-to-back in
+    TikTokVideo's <Series> with no overlap, so this is the silence a viewer
+    actually hears between two lines — validate_manifest's per-scene dead_air
+    check only looks at trailing silence within a single scene and would miss
+    a short trailing gap that stacks with a slow-starting next line. Scenes
+    without narration (visual-only, silent by design) are skipped on either
+    side, same carve-out as detect_dead_air."""
+    scenes = script.get("scenes", [])
+    findings = []
+    for cur, nxt in zip(scenes, scenes[1:]):
+        cur_timing = cur.get("narration_timing_frames")
+        cur_duration = cur.get("duration_frames")
+        nxt_timing = nxt.get("narration_timing_frames")
+        if not cur.get("narration") or cur_timing is None or cur_duration is None:
+            continue
+        if not nxt.get("narration") or nxt_timing is None:
+            continue
+
+        trailing = cur_duration - cur_timing[1]
+        leading = nxt_timing[0]
+        gap = trailing + leading
+        if gap > threshold_frames:
+            findings.append(
+                {
+                    "from_scene": cur["id"],
+                    "to_scene": nxt["id"],
+                    "gap_frames": gap,
+                    "gap_seconds": round(gap / FPS, 2),
+                }
+            )
+    return findings
+
+
 def write_render_manifest(manifest: dict, output_path: str) -> None:
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
