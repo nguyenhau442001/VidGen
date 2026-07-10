@@ -3,8 +3,11 @@ export type ExplanationVisual = {
   body: string;
 };
 
+export type TerminalLine = string | { text: string; highlight?: boolean };
+
 export type TerminalVisual = {
-  lines: string[];
+  lines: TerminalLine[];
+  accentColor?: string; // default "#00ff41"
 };
 
 export type CodeVisual = {

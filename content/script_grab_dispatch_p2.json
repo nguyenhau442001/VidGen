@@ -51,21 +51,18 @@
     },
     {
       "id": "shot_01c",
-      "type": "PhoneMockupScene",
+      "type": "TerminalScene",
       "duration_frames": 244,
       "narration": "Grab không đợi bạn ra lệnh. Hệ thống đã chạy vòng dự đoán từ ba tiếng trước — và đang chờ bạn xác nhận điều nó đã biết.",
-      "narration_timing_frames": [
-        5,
-        229
-      ],
-      "transition_out_delay_frames": 15,
       "props": {
-        "screenState": "idle",
-        "accentColor": "#00ff41"
+        "lines": [
+          { "text": "[05:00] Prediction cycle: RUNNING", "highlight": false },
+          { "text": "[05:47] Demand spike detected: Q.1", "highlight": false },
+          { "text": "[06:12] Drivers pre-positioned: 23", "highlight": false },
+          { "text": "[NOW]   Waiting for you...", "highlight": true }
+        ]
       },
-      "on_screen_text": "Hệ thống đã chạy từ 05:00 sáng",
-      "on_screen_text_style": "caption_muted",
-      "sound_design": "clock tick sfx subtle, prediction cycle hum under narration"
+      "sound_design": "keyboard clack per typed char, soft ambient hum, subtle confirm beep on the highlighted [NOW] line"
     },
     {
       "id": "shot_02a",

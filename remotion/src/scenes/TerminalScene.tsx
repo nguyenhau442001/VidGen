@@ -9,8 +9,9 @@ const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
 const CHARS_PER_FRAME = 3;
 
-export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInFrames }) => {
+export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, accentColor = colors.green, durationInFrames }) => {
   const frame = useCurrentFrame();
+  const items = lines.map((l) => (typeof l === "string" ? { text: l, highlight: false } : { highlight: false, ...l }));
 
   const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
   const sceneOpacity = interpolate(
@@ -27,9 +28,9 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
   // Each line starts typing after the previous one finishes
   const lineStartFrames: number[] = [];
   let cursor = ENTER_FRAMES;
-  for (const line of lines) {
+  for (const item of items) {
     lineStartFrames.push(cursor);
-    cursor += Math.ceil(line.length / CHARS_PER_FRAME) + 4;
+    cursor += Math.ceil(item.text.length / CHARS_PER_FRAME) + 4;
   }
 
   return (
@@ -40,7 +41,7 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
         transform: `translateY(${sceneY}px)`,
       }}
     >
-      <AmbientBackground accent={colors.cyan} />
+      <AmbientBackground accent={accentColor} />
       <SafeZone style={{ justifyContent: "center", alignItems: "center", fontFamily: JETBRAINS_MONO, paddingBottom: SAFE_ZONE.bottom + 240 }}>
       <div
         style={{
@@ -72,28 +73,24 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
 
         {/* Lines */}
         <div style={{ padding: "28px 32px", minHeight: 200 }}>
-          {lines.map((line, lineIdx) => {
-            const isCommand = line.startsWith("$ ") || line.trimStart().startsWith("// ");
-            const isFail = line.includes("❌") || line.trim().startsWith("✗");
-            const isSuccess = line.includes("✅") || line.trim().startsWith("✓");
-            const lineColor = isFail
-              ? colors.errorRed
-              : isSuccess
-              ? colors.green
-              : isCommand
-              ? colors.green
-              : colors.textDim;
+          {items.map((item, lineIdx) => {
+            const { text } = item;
+            const isCommand = text.startsWith("$ ") || text.trimStart().startsWith("// ");
+            const isFail = text.includes("❌") || text.trim().startsWith("✗");
+            const isSuccess = text.includes("✅") || text.trim().startsWith("✓");
+            const isAccented = item.highlight || isSuccess || isCommand;
+            const lineColor = isFail ? colors.errorRed : isAccented ? accentColor : colors.textDim;
             const startFrame = lineStartFrames[lineIdx];
             const charsToShow = Math.floor(
               interpolate(
                 frame,
-                [startFrame, startFrame + Math.max(1, Math.ceil(line.length / CHARS_PER_FRAME))],
-                [0, line.length],
+                [startFrame, startFrame + Math.max(1, Math.ceil(text.length / CHARS_PER_FRAME))],
+                [0, text.length],
                 { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
               )
             );
             const visible = frame >= startFrame;
-            const stillTyping = charsToShow < line.length;
+            const stillTyping = charsToShow < text.length;
 
             return (
               <div
@@ -101,18 +98,18 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({ lines, durationInF
                 style={{
                   ...t.terminal,
                   color: lineColor,
-                  fontWeight: isFail || isSuccess ? 700 : 400,
-                  textShadow: isFail || isSuccess ? `0 0 18px ${lineColor}66` : "none",
+                  fontWeight: isFail || isAccented ? 700 : 400,
+                  textShadow: isFail || isAccented ? `0 0 18px ${lineColor}66` : "none",
                   whiteSpace: "pre",
                   opacity: visible ? 1 : 0,
                   minHeight: "1.7em",
                 }}
               >
-                {line.slice(0, charsToShow)}
+                {text.slice(0, charsToShow)}
                 {visible && stillTyping && (
                   <span
                     style={{
-                      color: colors.green,
+                      color: accentColor,
                       opacity: Math.floor(frame / 8) % 2 === 0 ? 1 : 0,
                     }}
                   >
