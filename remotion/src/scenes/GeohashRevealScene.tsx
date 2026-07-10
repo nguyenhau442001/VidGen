@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { GeohashRevealSceneProps } from "../types";
-import { colors, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
 
 // ---------------------------------------------------------------------------
@@ -42,6 +42,16 @@ const GRID_RIGHT = 90;
 const CELL_GAP = 6;
 const CELL_ASPECT = 1.2; // height / width
 const GRID_CENTER_NY = 0.46;
+
+// Color legend — the grid encodes demand purely as fill opacity/color, which
+// reads as "just a heatmap" to non-technical viewers without a key. Sits in
+// the dead space between the top safe zone (244) and the grid's top edge.
+const LEGEND_START = 90;
+const LEGEND_FADE = 20;
+const LEGEND_SENTENCE_Y = 288;
+const LEGEND_BAR_Y = 328;
+const LEGEND_BAR_WIDTH = 220;
+const LEGEND_BAR_HEIGHT = 16;
 
 // Deterministic per-cell noise so breathing phases/speeds differ but every
 // render of the same frame is identical (Remotion renders frames in any order).
@@ -132,6 +142,13 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
     extrapolateRight: "clamp",
   });
 
+  const legendOpacity = interpolate(
+    frame,
+    [LEGEND_START, LEGEND_START + LEGEND_FADE],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
   // Breathing ramps in at BREATHE_START and stays alive until the fade-out —
   // labels in the last phase sit on a living heatmap, not a frozen one.
   const breatheAmount = interpolate(
@@ -207,7 +224,60 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
         viewBox={`0 0 ${VW} ${VH}`}
         style={{ position: "absolute", top: 0, left: 0 }}
       >
+        <defs>
+          <linearGradient id="demand-legend-gradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor={CELL_FILL} stopOpacity={0.15} />
+            <stop offset="100%" stopColor={accentColor} stopOpacity={1} />
+          </linearGradient>
+        </defs>
+
         <CityOutline opacity={outlineOpacity} />
+
+        {/* Color legend: darker/brighter cell = higher predicted demand */}
+        <g opacity={legendOpacity}>
+          <text
+            x={VW / 2}
+            y={LEGEND_SENTENCE_Y}
+            textAnchor="middle"
+            fontSize={24}
+            fontWeight={600}
+            style={{ fill: "rgba(255,255,255,0.6)", fontFamily: INTER }}
+          >
+            Màu càng đậm — nhu cầu càng cao
+          </text>
+          <rect
+            x={VW / 2 - LEGEND_BAR_WIDTH / 2}
+            y={LEGEND_BAR_Y - LEGEND_BAR_HEIGHT / 2}
+            width={LEGEND_BAR_WIDTH}
+            height={LEGEND_BAR_HEIGHT}
+            rx={LEGEND_BAR_HEIGHT / 2}
+            fill="url(#demand-legend-gradient)"
+            stroke={CELL_BORDER}
+            strokeWidth={1.5}
+          />
+          <text
+            x={VW / 2 - LEGEND_BAR_WIDTH / 2 - 14}
+            y={LEGEND_BAR_Y}
+            textAnchor="end"
+            dominantBaseline="central"
+            fontSize={18}
+            fontWeight={600}
+            style={{ fill: "rgba(255,255,255,0.45)", fontFamily: INTER }}
+          >
+            Nhạt
+          </text>
+          <text
+            x={VW / 2 + LEGEND_BAR_WIDTH / 2 + 14}
+            y={LEGEND_BAR_Y}
+            textAnchor="start"
+            dominantBaseline="central"
+            fontSize={18}
+            fontWeight={700}
+            style={{ fill: accentColor, fontFamily: INTER }}
+          >
+            Đậm
+          </text>
+        </g>
 
         {cells}
 
