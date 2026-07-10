@@ -16,8 +16,8 @@ const BG = "#030d06";
 const ACCENT_DEFAULT = "#00ff41";
 const USER_COLOR_DEFAULT = "#ff6b35";
 
-const RADAR_SIZE = 560; // px diameter of the radar container
-const RADAR_TOP = SAFE_ZONE.top + 70;
+const RADAR_SIZE = 520; // px diameter of the radar container
+const RADAR_TOP = SAFE_ZONE.top + 110;
 
 const RING_RADII = [10, 20, 30, 40, 48]; // percent of radar container (viewBox 0-100)
 const SWEEP_DURATION_SECONDS = 4;
