@@ -27,8 +27,7 @@
           { "value": "4s", "label": "ETA của bạn" }
         ]
       },
-      "on_screen_text": "Bạn chưa mở app. Hệ thống đã biết.",
-      "on_screen_text_style": "headline_bold",
+      "on_screen_text": "",
       "sound_design": "deep whoosh in at frame 0, radar sweep hum loop, sub-bass hit at frame 30"
     },
     {

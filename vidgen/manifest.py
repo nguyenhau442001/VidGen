@@ -177,7 +177,10 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
         if timing:
             audio_offset = timing[0]
 
-        caption = scene.get("on_screen_text") or narration or ""
+        # "on_screen_text" explicitly present (even "") means the author made a
+        # deliberate caption choice for this scene, including "no caption" —
+        # only fall back to narration when the key is absent entirely.
+        caption = scene["on_screen_text"] if "on_screen_text" in scene else (narration or "")
         if caption:
             min_reading_frames = math.ceil(len(caption) / MAX_CAPTION_CPS * fps)
             duration_frames = max(duration_frames, min_reading_frames)
