@@ -9,9 +9,12 @@
     {
       "id": "shot_01a",
       "type": "CharacterIconScene",
-      "duration_frames": 120,
+      "duration_frames": 121,
       "narration": "Bạn chưa mở app. Hệ thống đã đặt tài xế chờ sẵn.",
-      "narration_timing_frames": [5, 95],
+      "narration_timing_frames": [
+        5,
+        101
+      ],
       "transition_out_delay_frames": 20,
       "props": {
         "pose": "holding-phone",
@@ -27,9 +30,12 @@
     {
       "id": "shot_01b",
       "type": "PhoneMockupScene",
-      "duration_frames": 243,
+      "duration_frames": 292,
       "narration": "Thứ Hai, tám giờ sáng. Màn hình điện thoại bạn vẫn tối — chưa mở app, chưa gõ địa chỉ. Nhưng cách bạn sáu trăm mét, một tài xế vừa bắt đầu di chuyển.",
-      "narration_timing_frames": [5, 230],
+      "narration_timing_frames": [
+        5,
+        277
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "08:00 — Thứ Hai",
@@ -44,9 +50,12 @@
     {
       "id": "shot_01c",
       "type": "PhoneMockupScene",
-      "duration_frames": 200,
+      "duration_frames": 244,
       "narration": "Grab không đợi bạn ra lệnh. Hệ thống đã chạy vòng dự đoán từ ba tiếng trước — và đang chờ bạn xác nhận điều nó đã biết.",
-      "narration_timing_frames": [5, 185],
+      "narration_timing_frames": [
+        5,
+        229
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Dự đoán chạy liên tục",
@@ -61,9 +70,12 @@
     {
       "id": "shot_02a",
       "type": "GeohashRevealScene",
-      "duration_frames": 300,
+      "duration_frames": 366,
       "narration": "Thành phố được chia thành hàng nghìn ô geohash — mỗi ô rộng khoảng năm trăm mét. Hệ thống không nghĩ theo từng người — nó nghĩ theo từng ô. Ô nào sắp bùng nhu cầu, ô nào đang thiếu tài xế.",
-      "narration_timing_frames": [15, 285],
+      "narration_timing_frames": [
+        15,
+        351
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Geohash grid",
@@ -71,14 +83,54 @@
         "revealSequential": true,
         "revealIntervalFrames": 8,
         "zones": [
-          { "label": "Q1",         "demandLevel": 0.95, "lat": 10.776, "lng": 106.700 },
-          { "label": "Q3",         "demandLevel": 0.80, "lat": 10.762, "lng": 106.682 },
-          { "label": "Q5",         "demandLevel": 0.60, "lat": 10.755, "lng": 106.668 },
-          { "label": "Q7",         "demandLevel": 0.45, "lat": 10.737, "lng": 106.698 },
-          { "label": "Bình Thạnh", "demandLevel": 0.72, "lat": 10.812, "lng": 106.712 },
-          { "label": "Thủ Đức",    "demandLevel": 0.55, "lat": 10.850, "lng": 106.755 },
-          { "label": "Gò Vấp",     "demandLevel": 0.50, "lat": 10.838, "lng": 106.665 },
-          { "label": "Tân Bình",   "demandLevel": 0.65, "lat": 10.800, "lng": 106.652 }
+          {
+            "label": "Q1",
+            "demandLevel": 0.95,
+            "lat": 10.776,
+            "lng": 106.7
+          },
+          {
+            "label": "Q3",
+            "demandLevel": 0.8,
+            "lat": 10.762,
+            "lng": 106.682
+          },
+          {
+            "label": "Q5",
+            "demandLevel": 0.6,
+            "lat": 10.755,
+            "lng": 106.668
+          },
+          {
+            "label": "Q7",
+            "demandLevel": 0.45,
+            "lat": 10.737,
+            "lng": 106.698
+          },
+          {
+            "label": "Bình Thạnh",
+            "demandLevel": 0.72,
+            "lat": 10.812,
+            "lng": 106.712
+          },
+          {
+            "label": "Thủ Đức",
+            "demandLevel": 0.55,
+            "lat": 10.85,
+            "lng": 106.755
+          },
+          {
+            "label": "Gò Vấp",
+            "demandLevel": 0.5,
+            "lat": 10.838,
+            "lng": 106.665
+          },
+          {
+            "label": "Tân Bình",
+            "demandLevel": 0.65,
+            "lat": 10.8,
+            "lng": 106.652
+          }
         ]
       },
       "sound_design": "grid tile appear sfx each 8 frames, soft data pulse loop after reveal complete"
@@ -86,26 +138,71 @@
     {
       "id": "shot_02b",
       "type": "SignalFlowScene",
-      "duration_frames": 250,
+      "duration_frames": 300,
       "narration": "Mỗi mười lăm phút, mô hình chạy một lần. Ba nguồn tín hiệu đưa vào — lịch sử, thời tiết, sự kiện. Đầu ra là xác suất nhu cầu cho từng ô trên bản đồ.",
-      "narration_timing_frames": [5, 235],
+      "narration_timing_frames": [
+        5,
+        285
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Demand model",
         "accentWord": "model",
         "cycleLabel": "Mỗi 15 phút",
         "nodes": [
-          { "id": "history", "label": "Lịch sử",   "icon": "database", "color": "#378ADD", "lane": "input" },
-          { "id": "weather", "label": "Thời tiết",  "icon": "cloud",    "color": "#61dafb", "lane": "input" },
-          { "id": "events",  "label": "Sự kiện",    "icon": "calendar", "color": "#f59e0b", "lane": "input" },
-          { "id": "model",   "label": "ML Model",   "icon": "cpu",      "color": "#00ff41", "lane": "process" },
-          { "id": "output",  "label": "Demand map", "icon": "map",      "color": "#ffffff", "lane": "output" }
+          {
+            "id": "history",
+            "label": "Lịch sử",
+            "icon": "database",
+            "color": "#378ADD",
+            "lane": "input"
+          },
+          {
+            "id": "weather",
+            "label": "Thời tiết",
+            "icon": "cloud",
+            "color": "#61dafb",
+            "lane": "input"
+          },
+          {
+            "id": "events",
+            "label": "Sự kiện",
+            "icon": "calendar",
+            "color": "#f59e0b",
+            "lane": "input"
+          },
+          {
+            "id": "model",
+            "label": "ML Model",
+            "icon": "cpu",
+            "color": "#00ff41",
+            "lane": "process"
+          },
+          {
+            "id": "output",
+            "label": "Demand map",
+            "icon": "map",
+            "color": "#ffffff",
+            "lane": "output"
+          }
         ],
         "edges": [
-          { "from": "history", "to": "model" },
-          { "from": "weather", "to": "model" },
-          { "from": "events",  "to": "model" },
-          { "from": "model",   "to": "output" }
+          {
+            "from": "history",
+            "to": "model"
+          },
+          {
+            "from": "weather",
+            "to": "model"
+          },
+          {
+            "from": "events",
+            "to": "model"
+          },
+          {
+            "from": "model",
+            "to": "output"
+          }
         ]
       },
       "sound_design": "three input pings sequential frames 30 60 90, model process hum frames 100-180, output ding frame 200"
@@ -113,9 +210,12 @@
     {
       "id": "shot_03a",
       "type": "DemandHeatmapScene",
-      "duration_frames": 236,
+      "duration_frames": 284,
       "narration": "Tín hiệu thứ nhất: lịch sử. Sáng thứ Hai khu văn phòng quận một luôn tăng đột biến lúc tám giờ — hàng triệu chuyến trước đã chứng minh điều đó hàng tuần.",
-      "narration_timing_frames": [5, 220],
+      "narration_timing_frames": [
+        5,
+        269
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Signal 1 — Lịch sử",
@@ -123,12 +223,38 @@
         "mode": "historical-replay",
         "timeLabel": "Thứ Hai — 08:00",
         "hotspots": [
-          { "lat": 10.776, "lng": 106.700, "intensity": 0.97, "label": "Q1 văn phòng" },
-          { "lat": 10.812, "lng": 106.712, "intensity": 0.75, "label": "Bình Thạnh" },
-          { "lat": 10.800, "lng": 106.652, "intensity": 0.68 },
-          { "lat": 10.762, "lng": 106.682, "intensity": 0.55 },
-          { "lat": 10.850, "lng": 106.755, "intensity": 0.42 },
-          { "lat": 10.737, "lng": 106.698, "intensity": 0.38 }
+          {
+            "lat": 10.776,
+            "lng": 106.7,
+            "intensity": 0.97,
+            "label": "Q1 văn phòng"
+          },
+          {
+            "lat": 10.812,
+            "lng": 106.712,
+            "intensity": 0.75,
+            "label": "Bình Thạnh"
+          },
+          {
+            "lat": 10.8,
+            "lng": 106.652,
+            "intensity": 0.68
+          },
+          {
+            "lat": 10.762,
+            "lng": 106.682,
+            "intensity": 0.55
+          },
+          {
+            "lat": 10.85,
+            "lng": 106.755,
+            "intensity": 0.42
+          },
+          {
+            "lat": 10.737,
+            "lng": 106.698,
+            "intensity": 0.38
+          }
         ],
         "animatePulse": true
       },
@@ -139,9 +265,12 @@
     {
       "id": "shot_03b",
       "type": "CounterBlastScene",
-      "duration_frames": 265,
+      "duration_frames": 321,
       "narration": "Grab xử lý hơn ba triệu chuyến mỗi ngày tại Việt Nam. Mỗi chuyến để lại dấu vết — giờ xuất phát, điểm đón, thời gian chờ. Đó là dữ liệu huấn luyện mô hình dự báo.",
-      "narration_timing_frames": [10, 250],
+      "narration_timing_frames": [
+        10,
+        306
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "3,000,000+ chuyến / ngày",
@@ -157,9 +286,12 @@
     {
       "id": "shot_03c",
       "type": "PhoneMockupScene",
-      "duration_frames": 322,
+      "duration_frames": 380,
       "narration": "Tín hiệu thứ hai: thời tiết thời gian thực. Trời mưa lúc bảy giờ ba mươi — nhu cầu tăng một phẩy tám lần so với ngày nắng. Hệ thống nhận dữ liệu thời tiết mỗi mười lăm phút và điều chỉnh dự báo ngay.",
-      "narration_timing_frames": [5, 305],
+      "narration_timing_frames": [
+        5,
+        365
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Signal 2 — Thời tiết",
@@ -174,34 +306,68 @@
     {
       "id": "shot_03d",
       "type": "TerminalScene",
-      "duration_frames": 286,
+      "duration_frames": 340,
       "narration": "Tín hiệu thứ ba: sự kiện. Hệ thống quét lịch thành phố — đêm nhạc, trận bóng, hội chợ. Khi phát hiện sự kiện lớn, nó tăng hệ số nhu cầu và điều phối tài xế đến trước giờ tan.",
-      "narration_timing_frames": [5, 270],
+      "narration_timing_frames": [
+        5,
+        325
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Signal 3 — Sự kiện",
         "code": "$ event_detector.scan(city='HCM', lookahead='48h')\n\n[FOUND] Concert · Q1 · tonight 20:00 · est. 8,000 attendees\n[FOUND] Football · Bình Thạnh · Sat 19:30 · est. 12,000 fans\n\n→ demand_multiplier[Q1][20:00-22:00] = 2.3x\n→ ACTION: pre-position 34 drivers → Q1 before 21:00",
         "language": "bash",
-        "highlightLines": [5, 6]
+        "highlightLines": [
+          5,
+          6
+        ]
       },
       "sound_design": "terminal boot sfx frame 0, keyboard typing lines 1-4 frames 20-120, alert ping frame 130, action confirm ding frame 200"
     },
     {
       "id": "shot_03e",
       "type": "MapPingScene",
-      "duration_frames": 208,
+      "duration_frames": 252,
       "narration": "Tối nay có concert ở quận một. Hệ thống biết từ hôm qua — và đặt ba mươi bốn tài xế vào khu vực đó từ trước chín giờ.",
-      "narration_timing_frames": [5, 193],
+      "narration_timing_frames": [
+        5,
+        237
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "34 tài xế đã vào vị trí",
         "accentWord": "34 tài xế",
         "pings": [
-          { "label": "Concert Q1 — 20:00",    "lat": 10.776, "lng": 106.700, "type": "event" },
-          { "label": "Tài xế D1 — 700m",      "lat": 10.783, "lng": 106.693, "type": "driver" },
-          { "label": "Tài xế D2 — 450m",      "lat": 10.771, "lng": 106.707, "type": "driver" },
-          { "label": "Tài xế D3 — 600m",      "lat": 10.781, "lng": 106.710, "type": "driver" },
-          { "label": "+31 tài xế khác",        "lat": 10.768, "lng": 106.695, "type": "driver-cluster" }
+          {
+            "label": "Concert Q1 — 20:00",
+            "lat": 10.776,
+            "lng": 106.7,
+            "type": "event"
+          },
+          {
+            "label": "Tài xế D1 — 700m",
+            "lat": 10.783,
+            "lng": 106.693,
+            "type": "driver"
+          },
+          {
+            "label": "Tài xế D2 — 450m",
+            "lat": 10.771,
+            "lng": 106.707,
+            "type": "driver"
+          },
+          {
+            "label": "Tài xế D3 — 600m",
+            "lat": 10.781,
+            "lng": 106.71,
+            "type": "driver"
+          },
+          {
+            "label": "+31 tài xế khác",
+            "lat": 10.768,
+            "lng": 106.695,
+            "type": "driver-cluster"
+          }
         ],
         "animateConverge": true,
         "convergeAtFrame": 60
@@ -211,9 +377,12 @@
     {
       "id": "shot_04a",
       "type": "RippleAggregateScene",
-      "duration_frames": 293,
+      "duration_frames": 356,
       "narration": "Nhưng tín hiệu mạnh nhất là hành vi thời gian thực. Bảy giờ năm mươi lăm — hàng nghìn người mở app Grab, xem giá, chưa đặt. Tổng hợp theo ô geohash — đó là demand signal rõ nhất hệ thống có.",
-      "narration_timing_frames": [5, 278],
+      "narration_timing_frames": [
+        5,
+        341
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Signal 4 — App opens",
@@ -232,9 +401,12 @@
     {
       "id": "shot_04b",
       "type": "GeohashRevealScene",
-      "duration_frames": 286,
+      "duration_frames": 340,
       "narration": "Ô Q1 trung tâm: bảy trăm lượt mở app trong năm phút — gấp ba lần bình thường. Mô hình cập nhật xác suất ngay lập tức và đẩy gợi ý di chuyển đến tài xế nhàn rỗi gần nhất.",
-      "narration_timing_frames": [5, 270],
+      "narration_timing_frames": [
+        5,
+        325
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Live demand update",
@@ -243,12 +415,43 @@
         "liveMode": true,
         "counterLabel": "700 app opens / 5min",
         "zones": [
-          { "label": "Q1",         "demandLevel": 0.99, "lat": 10.776, "lng": 106.700, "highlight": true },
-          { "label": "Q3",         "demandLevel": 0.72, "lat": 10.762, "lng": 106.682 },
-          { "label": "Bình Thạnh", "demandLevel": 0.68, "lat": 10.812, "lng": 106.712 },
-          { "label": "Tân Bình",   "demandLevel": 0.55, "lat": 10.800, "lng": 106.652 },
-          { "label": "Q5",         "demandLevel": 0.45, "lat": 10.755, "lng": 106.668 },
-          { "label": "Q7",         "demandLevel": 0.38, "lat": 10.737, "lng": 106.698 }
+          {
+            "label": "Q1",
+            "demandLevel": 0.99,
+            "lat": 10.776,
+            "lng": 106.7,
+            "highlight": true
+          },
+          {
+            "label": "Q3",
+            "demandLevel": 0.72,
+            "lat": 10.762,
+            "lng": 106.682
+          },
+          {
+            "label": "Bình Thạnh",
+            "demandLevel": 0.68,
+            "lat": 10.812,
+            "lng": 106.712
+          },
+          {
+            "label": "Tân Bình",
+            "demandLevel": 0.55,
+            "lat": 10.8,
+            "lng": 106.652
+          },
+          {
+            "label": "Q5",
+            "demandLevel": 0.45,
+            "lat": 10.755,
+            "lng": 106.668
+          },
+          {
+            "label": "Q7",
+            "demandLevel": 0.38,
+            "lat": 10.737,
+            "lng": 106.698
+          }
         ]
       },
       "on_screen_text": "×3 so với bình thường — model cập nhật ngay",
@@ -258,22 +461,65 @@
     {
       "id": "shot_05a",
       "type": "DriverSwarmScene",
-      "duration_frames": 250,
+      "duration_frames": 300,
       "narration": "Tài xế nhàn rỗi nhận gợi ý vào vùng đỏ — kèm thưởng thêm nếu hoàn thành chuyến trong khu vực đó. Không phải lệnh bắt buộc. Là khuyến khích kinh tế có chủ đích.",
-      "narration_timing_frames": [5, 235],
+      "narration_timing_frames": [
+        5,
+        285
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Pre-positioning chủ động",
         "accentWord": "chủ động",
         "incentiveLabel": "+ Thưởng khu vực",
-        "targetZone": { "label": "Zone Q1 — HOT", "lat": 10.776, "lng": 106.700 },
+        "targetZone": {
+          "label": "Zone Q1 — HOT",
+          "lat": 10.776,
+          "lng": 106.7
+        },
         "drivers": [
-          { "id": "d1", "distance": "1.2km", "eta": "4m", "lat": 10.790, "lng": 106.688 },
-          { "id": "d2", "distance": "900m",  "eta": "3m", "lat": 10.769, "lng": 106.715 },
-          { "id": "d3", "distance": "1.5km", "eta": "5m", "lat": 10.797, "lng": 106.706 },
-          { "id": "d4", "distance": "800m",  "eta": "2m", "lat": 10.784, "lng": 106.693 },
-          { "id": "d5", "distance": "1.1km", "eta": "3m", "lat": 10.760, "lng": 106.698 },
-          { "id": "d6", "distance": "700m",  "eta": "2m", "lat": 10.780, "lng": 106.708 }
+          {
+            "id": "d1",
+            "distance": "1.2km",
+            "eta": "4m",
+            "lat": 10.79,
+            "lng": 106.688
+          },
+          {
+            "id": "d2",
+            "distance": "900m",
+            "eta": "3m",
+            "lat": 10.769,
+            "lng": 106.715
+          },
+          {
+            "id": "d3",
+            "distance": "1.5km",
+            "eta": "5m",
+            "lat": 10.797,
+            "lng": 106.706
+          },
+          {
+            "id": "d4",
+            "distance": "800m",
+            "eta": "2m",
+            "lat": 10.784,
+            "lng": 106.693
+          },
+          {
+            "id": "d5",
+            "distance": "1.1km",
+            "eta": "3m",
+            "lat": 10.76,
+            "lng": 106.698
+          },
+          {
+            "id": "d6",
+            "distance": "700m",
+            "eta": "2m",
+            "lat": 10.78,
+            "lng": 106.708
+          }
         ],
         "animateConvergeAtFrame": 30
       },
@@ -282,9 +528,12 @@
     {
       "id": "shot_05b",
       "type": "SplitViewScene",
-      "duration_frames": 279,
+      "duration_frames": 332,
       "narration": "Không có pre-positioning: ETA trung bình tám phút, hủy chuyến cao. Có pre-positioning: ETA hai phút rưỡi, tỷ lệ hủy giảm bốn mươi phần trăm. Một vòng dự đoán mỗi mười lăm phút tạo ra sự khác biệt đó.",
-      "narration_timing_frames": [5, 263],
+      "narration_timing_frames": [
+        5,
+        317
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "headline": "Kết quả đo được",
@@ -313,9 +562,12 @@
     {
       "id": "shot_06a",
       "type": "CharacterIconScene",
-      "duration_frames": 215,
+      "duration_frames": 260,
       "narration": "Phần ba: tại sao cuốc gần hơn đôi khi lại đến sau. Grab không luôn gán tài xế gần nhất — nó gộp nhiều cuốc vào một tuyến tối ưu.",
-      "narration_timing_frames": [5, 200],
+      "narration_timing_frames": [
+        5,
+        245
+      ],
       "transition_out_delay_frames": 15,
       "props": {
         "pose": "pointing",
