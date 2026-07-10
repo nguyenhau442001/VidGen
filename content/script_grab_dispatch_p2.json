@@ -17,7 +17,7 @@
       ],
       "transition_out_delay_frames": 20,
       "props": {
-        "topicLabel": "Thuật toán ẩn · Phần 2/4",
+        "topicLabel": "Thuật toán dự đoán · Phần 2/4",
         "eyebrow": "Điều đã xảy ra trước khi bạn biết",
         "headline": "Chưa mở app.\nTài xế đã chờ sẵn rồi.",
         "driverLabels": ["Tài xế 1", "Tài xế 2", "Tài xế 3"],
