@@ -499,7 +499,7 @@
     },
     {
       "id": "shot_06a",
-      "type": "CharacterIconScene",
+      "type": "MapPingScene",
       "duration_frames": 260,
       "narration": "Phần ba: tại sao cuốc gần hơn đôi khi lại đến sau. Grab không luôn gán tài xế gần nhất — nó gộp nhiều cuốc vào một tuyến tối ưu.",
       "narration_timing_frames": [
@@ -508,15 +508,32 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "pose": "pointing",
-        "accompanyingIcon": "map-pin",
-        "accentColor": "#00ff41",
-        "topicLabel": "Thuật toán ẩn",
-        "partLabel": "Phần 2/4"
+        "axis": {
+          "destinationLabel": "Điểm đón",
+          "drivers": [
+            {
+              "label": "Tài xế A — 0.8km",
+              "distanceMeters": 800,
+              "direction": "away",
+              "constraintNote": "Đang gộp cuốc khác trên tuyến tối ưu",
+              "etaSeconds": 360,
+              "etaLabel": "ETA: 6 phút"
+            },
+            {
+              "label": "Tài xế B — 2.1km",
+              "distanceMeters": 2100,
+              "direction": "toward",
+              "constraintNote": null,
+              "etaSeconds": 120,
+              "etaLabel": "ETA: 2 phút"
+            }
+          ]
+        },
+        "accentColor": "#00ff41"
       },
       "on_screen_text": "Tài xế gần hơn — nhưng đến sau?",
       "on_screen_text_style": "headline_bold",
-      "sound_design": "outro sting frame 0, series logo whoosh frame 150, tension tease pad fade out"
+      "sound_design": "axis reveal frame 10, driver A vector draw frame 40, driver B vector draw frame 70, route highlight frame 100"
     }
   ]
 }
