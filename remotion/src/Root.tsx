@@ -588,7 +588,7 @@ export const Root: React.FC = () => {
           topicLabel: "Thuật toán ẩn · Phần 2/4",
           eyebrow: "Điều đã xảy ra trước khi bạn biết",
           headline: "Chưa mở app.\nTài xế đã chờ sẵn rồi.",
-          driverLabels: ["TX-4821", "TX-3302", "TX-0917"],
+          driverLabels: ["Tài xế 1", "Tài xế 2", "Tài xế 3"],
           stats: [
             { label: "Tài xế chờ sẵn", value: "3" },
             { label: "Lần mở app", value: "0", highlight: true },

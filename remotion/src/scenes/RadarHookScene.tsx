@@ -35,7 +35,7 @@ const BLIP_ENTER_FRAMES = [20, 35, 50];
 const BLIP_BREATH_PERIOD = 60; // frames, 2s @ 30fps
 const BLIP_BREATH_OFFSET = 15; // frames, 0.5s @ 30fps
 
-const DEFAULT_DRIVER_LABELS = ["TX-4821", "TX-3302", "TX-0917"];
+const DEFAULT_DRIVER_LABELS = ["Tài xế 1", "Tài xế 2", "Tài xế 3"];
 
 const COPY_ENTER_FRAME = 8;
 const STATS_ENTER_FRAME = 60;
