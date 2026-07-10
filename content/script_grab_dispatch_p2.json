@@ -461,7 +461,7 @@
       "id": "shot_05b",
       "type": "SplitViewScene",
       "duration_frames": 332,
-      "narration": "Không có chờ sẵn tài xế: thời gian tài xế đến trung bình tám phút, hủy chuyến cao. Có chờ sẵn tài xế: thời gian tài xế đến hai phút rưỡi, tỷ lệ hủy giảm bốn mươi phần trăm. Một vòng dự đoán mỗi mười lăm phút tạo ra sự khác biệt đó.",
+      "narration": "Không có tài xế chờ sẵn, khách phải chờ lâu, trung bình tám phút, và nhiều chuyến bị hủy. Ngược lại, khi tài xế đã được bố trí trước, chỉ hai phút rưỡi là xe đến nơi, tỷ lệ hủy giảm gần một nửa. Một vòng dự đoán mỗi mười lăm phút đã biến trải nghiệm từ chờ đợi mệt mỏi thành nhanh chóng, tiện lợi.",
       "narration_timing_frames": [
         5,
         317
@@ -470,12 +470,12 @@
       "props": {
         "leftContent": {
           "kind": "text",
-          "heading": "Không chờ sẵn tài xế",
+          "heading": "Không có tài xế chờ sẵn",
           "body": "Tài xế nhận lệnh → chạy từ xa · Thời gian tài xế đến trung bình: 8 phút · Tỷ lệ hủy chuyến: cao · Trải nghiệm khách: kém"
         },
         "rightContent": {
           "kind": "text",
-          "heading": "Có chờ sẵn tài xế",
+          "heading": "Có tài xế chờ sẵn",
           "body": "Tài xế đã trong vùng sẵn · Thời gian tài xế đến trung bình: 2.5 phút · Tỷ lệ hủy giảm 40% · Cùng số tài xế — hiệu quả gấp đôi"
         },
         "leftLabel": "Trước",
