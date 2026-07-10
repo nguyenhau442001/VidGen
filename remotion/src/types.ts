@@ -64,7 +64,8 @@ export type ManifestScene =
   | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ConversationVisual }
   | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual }
   | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual }
-  | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual };
+  | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual }
+  | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -413,3 +414,26 @@ export type RadarHookVisual = {
 };
 
 export type RadarHookSceneProps = RadarHookVisual & { durationInFrames: number };
+
+// City-calendar "event scan" scene: a scanning beam sweeps a timeline panel,
+// each authored event pops in as a "found" card once the beam passes it, then
+// a demand-multiplier badge and a dispatch action line reveal in sequence.
+// Replaces a raw bash/code block for narration that describes the system
+// scanning for events (concerts, matches, fairs) rather than executing code.
+export type EventScanFound = {
+  icon?: "concert" | "sports" | "festival" | "generic"; // default "generic"
+  label: string; // e.g. "Concert · Quận 1"
+  meta: string; // e.g. "tối nay 20:00 · ~8.000 người"
+};
+
+export type EventScanVisual = {
+  eyebrow: string; // e.g. "TÍN HIỆU 3 · SỰ KIỆN"
+  scanLabel: string; // e.g. "Quét lịch thành phố · 48h tới"
+  events: EventScanFound[];
+  multiplierValue: string; // e.g. "2.3x"
+  multiplierLabel: string; // e.g. "Hệ số nhu cầu · Q1 20:00–22:00"
+  actionText: string; // e.g. "Điều 34 tài xế đến Q1 trước 21:00"
+  accentColor?: string; // default "#f59e0b" — matches the "Sự kiện" signal color used elsewhere
+};
+
+export type EventScanSceneProps = EventScanVisual & { durationInFrames: number };

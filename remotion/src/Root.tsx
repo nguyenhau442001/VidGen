@@ -24,6 +24,7 @@ import ConversationScene from "./scenes/ConversationScene";
 import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
+import { EventScanScene } from "./scenes/EventScanScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -595,6 +596,27 @@ export const Root: React.FC = () => {
             { label: "ETA của bạn", value: "4s" },
           ],
           durationInFrames: 121,
+        }}
+      />
+      <Composition
+        id="EventScan"
+        component={EventScanScene}
+        durationInFrames={340}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          eyebrow: "TÍN HIỆU 3 · SỰ KIỆN",
+          scanLabel: "Quét lịch thành phố · 48h tới",
+          events: [
+            { icon: "concert" as const, label: "Concert · Quận 1", meta: "Tối nay 20:00 · ~8.000 người" },
+            { icon: "sports" as const, label: "Bóng đá · Bình Thạnh", meta: "Thứ Bảy 19:30 · ~12.000 người" },
+          ],
+          multiplierValue: "2.3x",
+          multiplierLabel: "Hệ số nhu cầu · Q1 20:00–22:00",
+          actionText: "Điều 34 tài xế đến Q1 trước 21:00",
+          accentColor: "#f59e0b",
+          durationInFrames: 340,
         }}
       />
     </>

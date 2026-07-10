@@ -260,7 +260,7 @@
     },
     {
       "id": "shot_03d",
-      "type": "CodeScene",
+      "type": "EventScanScene",
       "duration_frames": 340,
       "narration": "Tín hiệu thứ ba: sự kiện. Hệ thống quét lịch thành phố — đêm nhạc, trận bóng, hội chợ. Khi phát hiện sự kiện lớn, nó tăng hệ số nhu cầu và điều phối tài xế đến trước giờ tan.",
       "narration_timing_frames": [
@@ -269,15 +269,28 @@
       ],
       "transition_out_delay_frames": 15,
       "props": {
-        "headline": "Signal 3 — Sự kiện",
-        "code": "$ event_detector.scan(city='HCM', lookahead='48h')\n\n[FOUND] Concert · Q1 · tonight 20:00 · est. 8,000 attendees\n[FOUND] Football · Bình Thạnh · Sat 19:30 · est. 12,000 fans\n\n→ demand_multiplier[Q1][20:00-22:00] = 2.3x\n→ ACTION: pre-position 34 drivers → Q1 before 21:00",
-        "language": "bash",
-        "highlightLines": [
-          5,
-          6
-        ]
+        "eyebrow": "TÍN HIỆU 3 · SỰ KIỆN",
+        "scanLabel": "Quét lịch thành phố · 48h tới",
+        "events": [
+          {
+            "icon": "concert",
+            "label": "Concert · Quận 1",
+            "meta": "Tối nay 20:00 · ~8.000 người"
+          },
+          {
+            "icon": "sports",
+            "label": "Bóng đá · Bình Thạnh",
+            "meta": "Thứ Bảy 19:30 · ~12.000 người"
+          }
+        ],
+        "multiplierValue": "2.3x",
+        "multiplierLabel": "Hệ số nhu cầu · Q1 20:00–22:00",
+        "actionText": "Điều 34 tài xế đến Q1 trước 21:00",
+        "accentColor": "#f59e0b"
       },
-      "sound_design": "terminal boot sfx frame 0, keyboard typing lines 1-4 frames 20-120, alert ping frame 130, action confirm ding frame 200"
+      "on_screen_text": "3 sự kiện lớn → hệ số nhu cầu x2.3",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "scan sweep hum loop, found chime each time an event card pops (frames ~40, ~155), multiplier count-up whoosh ~frame 230, dispatch confirm ding ~frame 285"
     },
     {
       "id": "shot_03e",
