@@ -148,3 +148,25 @@ def _build_video_resource(metadata: PublishMetadata) -> dict:
         )
 
     return body
+
+
+def _init_resumable_session(access_token: str, video_path: Path, metadata: PublishMetadata) -> str:
+    """Initialize a resumable upload session. Returns the upload URL."""
+    body = _build_video_resource(metadata)
+    resp = requests.post(
+        UPLOAD_URL,
+        params={"uploadType": "resumable", "part": "snippet,status"},
+        headers={
+            "Authorization":          f"Bearer {access_token}",
+            "Content-Type":           "application/json; charset=UTF-8",
+            "X-Upload-Content-Type":  "video/mp4",
+            "X-Upload-Content-Length": str(video_path.stat().st_size),
+        },
+        json=body,
+    )
+    if resp.status_code != 200 or "Location" not in resp.headers:
+        raise RuntimeError(f"Upload init failed (HTTP {resp.status_code}): {resp.text[:200]}")
+
+    upload_url = resp.headers["Location"]
+    print("[publisher_youtube] Upload session initialized")
+    return upload_url

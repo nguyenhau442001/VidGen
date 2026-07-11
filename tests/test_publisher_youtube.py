@@ -108,3 +108,27 @@ def test_build_video_resource_naive_schedule_time_treated_as_utc():
         title="T", privacy="public", schedule_time="2026-07-20T20:00:00",
     ))
     assert body["status"]["publishAt"] == "2026-07-20T20:00:00Z"
+
+
+def test_init_resumable_session_returns_location_header(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 1000)
+
+    with patch("vidgen.publisher_youtube.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, headers={"Location": "http://upload/session1"})
+        url = pub._init_resumable_session("tok", video, PublishMetadata(title="T"))
+
+    assert url == "http://upload/session1"
+    _, kwargs = mock_post.call_args
+    assert kwargs["headers"]["X-Upload-Content-Length"] == "1000"
+    assert kwargs["params"] == {"uploadType": "resumable", "part": "snippet,status"}
+
+
+def test_init_resumable_session_raises_without_location_header(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x")
+
+    with patch("vidgen.publisher_youtube.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, headers={}, text="no location")
+        with pytest.raises(RuntimeError, match="Upload init failed"):
+            pub._init_resumable_session("tok", video, PublishMetadata(title="T"))
