@@ -27,6 +27,7 @@ import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
 import { EventScanScene } from "./scenes/EventScanScene";
 import StatComparatorScene from "./scenes/StatComparatorScene";
+import { RouteTimelineScene } from "./scenes/RouteTimelineScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -400,6 +401,25 @@ export const Root: React.FC = () => {
           ],
           outputLabel: "Một tuyến gộp",
           accentColor: "#00ff41",
+          durationInFrames: 180,
+        }}
+      />
+      <Composition
+        id="RouteTimeline"
+        component={RouteTimelineScene}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          stops: [
+            { label: "Đón khách A" },
+            { label: "Đón khách B", sublabel: "+900m", highlight: true },
+            { label: "Trả khách A" },
+            { label: "Trả khách B" },
+          ],
+          accentColor: "#00ff41",
+          onScreenText: "Một tuyến, hai khách, một tài xế",
           durationInFrames: 180,
         }}
       />

@@ -71,7 +71,8 @@ export type ManifestScene =
   | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual }
   | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual }
   | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual }
-  | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StatComparatorVisual };
+  | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StatComparatorVisual }
+  | { type: "route_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RouteTimelineVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -526,3 +527,23 @@ export type DriverHeatmapVisual = {
 };
 
 export type DriverHeatmapSceneProps = DriverHeatmapVisual & { durationInFrames: number };
+
+// Sequential route-stop timeline: N stops (pickups/dropoffs) laid out on one
+// horizontal row, connected left-to-right by a drawn-in line — e.g. a single
+// driver serving an ordered pickup A → pickup B → dropoff A → dropoff B
+// route. Replaces map_ping for shots describing an ordered multi-stop route
+// rather than a driver-selection comparison.
+export type RouteTimelineStop = {
+  label: string;
+  sublabel?: string;
+  highlight?: boolean; // true → node uses accentColor + glow instead of lineColor
+};
+
+export type RouteTimelineVisual = {
+  stops: RouteTimelineStop[];
+  accentColor?: string; // default "#00ff41"
+  lineColor?: string; // default "rgba(255,255,255,0.15)"
+  onScreenText?: string; // small caption near the bottom, optional
+};
+
+export type RouteTimelineSceneProps = RouteTimelineVisual & { durationInFrames: number };
