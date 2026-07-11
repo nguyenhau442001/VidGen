@@ -130,3 +130,16 @@ def _build_finish_params(metadata: PublishMetadata, video_id: str) -> dict:
         params["video_state"] = "PUBLISHED"
 
     return params
+
+
+def _init_upload_session(page_token: str) -> tuple[str, str]:
+    """Start a Reels upload session. Returns (video_id, upload_url)."""
+    resp = requests.post(
+        f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/video_reels",
+        params={"upload_phase": "start", "access_token": page_token},
+    )
+    data = resp.json()
+    if resp.status_code != 200 or "video_id" not in data or "upload_url" not in data:
+        raise RuntimeError(f"Upload init failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    print(f"[publisher_facebook] Upload session initialized - video_id={data['video_id']}")
+    return data["video_id"], data["upload_url"]

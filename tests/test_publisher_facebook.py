@@ -66,3 +66,27 @@ def test_build_finish_params_schedule_too_far_raises():
     far = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=40)
     with pytest.raises(ValueError, match="between 10 minutes and 29 days"):
         pub._build_finish_params(PublishMetadata(title="T", schedule_time=far.isoformat()), "vid1")
+
+
+def test_init_upload_session_returns_video_id_and_upload_url(monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=lambda: {"video_id": "vid1", "upload_url": "http://rupload/vid1"},
+        )
+        video_id, upload_url = pub._init_upload_session("page-tok")
+
+    assert video_id == "vid1"
+    assert upload_url == "http://rupload/vid1"
+    args, kwargs = mock_post.call_args
+    assert args[0] == "https://graph.facebook.com/v25.0/page123/video_reels"
+    assert kwargs["params"] == {"upload_phase": "start", "access_token": "page-tok"}
+
+
+def test_init_upload_session_raises_on_failure(monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=400, json=lambda: {}, text="bad request")
+        with pytest.raises(RuntimeError, match="Upload init failed"):
+            pub._init_upload_session("page-tok")
