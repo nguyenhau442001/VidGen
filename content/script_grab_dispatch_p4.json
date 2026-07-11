@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "title": "Vì sao giá tăng đúng lúc bạn cần chuyến nhất",
+    "slug": "grab-dispatch-p4",
+    "series": "grab-dispatch",
+    "part": 4
+  },
+  "scenes": [
+    {
+      "id": "shot_01",
+      "type": "CharacterIconScene",
+      "duration_frames": 140,
+      "narration": "Giá cước vừa tăng gấp đôi — đúng lúc bạn cần xe nhất.",
+      "narration_timing_frames": [8, 125],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "pose": "holding-phone",
+        "accompanyingIcon": "phone",
+        "accentColor": "#00ff41",
+        "topicLabel": "Giá cước tăng",
+        "partLabel": "Phần 4/4"
+      },
+      "on_screen_text": "Vì sao giá luôn tăng đúng lúc bạn cần nhất",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "price-spike alert ping frame 0, phone glow pulse frame 30"
+    },
+    {
+      "id": "shot_02",
+      "type": "StatComparatorScene",
+      "duration_frames": 320,
+      "narration": "Bảy giờ tối, trời mưa: cùng một quãng đường ba cây số, sáng nay bạn trả bốn mươi lăm nghìn, bây giờ chín mươi lăm nghìn.",
+      "narration_timing_frames": [8, 305],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Cùng quãng đường, giá gấp đôi lúc cao điểm",
+        "accentWord": "gấp đôi",
+        "beforeLabel": "Sáng nay",
+        "beforeStat": "45.000đ",
+        "beforeStatNumber": 45000,
+        "beforeStatUnit": "đ",
+        "beforeSubtext": "Ít người đặt xe cùng lúc",
+        "afterLabel": "Bây giờ, trời mưa",
+        "afterStat": "95.000đ",
+        "afterStatNumber": 95000,
+        "afterStatUnit": "đ",
+        "afterSubtext": "Nhiều người đặt xe cùng lúc",
+        "deltaLabel": "Cùng 3km — chênh 50.000đ"
+      },
+      "on_screen_text": "45.000đ → 95.000đ cho cùng 3km",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "before panel slide-in frame 20, before counter lock frame 100, after panel slide-in frame 110, after counter lock frame 200, delta chime frame 220"
+    },
+    {
+      "id": "shot_03",
+      "type": "PhoneMockupScene",
+      "duration_frames": 320,
+      "narration": "Mưa đổ xuống, hàng nghìn người cùng mở app đặt xe một lúc. Số người cần xe tăng vọt trong khi số tài xế trống không đổi kịp.",
+      "narration_timing_frames": [8, 305],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#00ff41",
+        "weatherEffect": "rain",
+        "showApproachingDriver": true
+      },
+      "on_screen_text": "Cầu tăng vọt, cung không đổi kịp",
+      "on_screen_text_style": "caption_muted",
+      "sound_design": "rain ambience loop, notification burst sfx frames 40-100"
+    },
+    {
+      "id": "shot_04",
+      "type": "EventScanScene",
+      "duration_frames": 350,
+      "narration": "Mỗi vài giây, hệ thống quét ba tín hiệu: lượng khách đang chờ, số tài xế trống quanh khu vực, và sự kiện đang diễn ra — từ đó tính ra hệ số giá cho từng ô nhỏ.",
+      "narration_timing_frames": [8, 335],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "eyebrow": "TÍN HIỆU GIÁ",
+        "scanLabel": "Quét cung–cầu theo thời gian thực",
+        "events": [
+          { "icon": "generic", "label": "Khách chờ xe", "meta": "~1.200 yêu cầu/phút" },
+          { "icon": "generic", "label": "Tài xế trống", "meta": "chỉ còn ~340 xe" },
+          { "icon": "festival", "label": "Sự kiện · Quận 1", "meta": "concert vừa kết thúc 21:00" }
+        ],
+        "multiplierValue": "2.1x",
+        "multiplierLabel": "Hệ số giá · Quận 1 20:00–22:00",
+        "actionText": "Giá tự động điều chỉnh theo cung–cầu",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "scan beam sweep hum, event card pop-in stagger frames 40-160, multiplier badge chime frame 220"
+    },
+    {
+      "id": "shot_05",
+      "type": "SignalFlowScene",
+      "duration_frames": 320,
+      "narration": "Công thức không phức tạp: càng nhiều người chờ, càng ít tài xế trống, hệ số giá càng cao. Khi cung và cầu cân bằng trở lại, giá tự hạ về mức bình thường.",
+      "narration_timing_frames": [8, 305],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "signals": [
+          { "icon": "👥", "label": "Khách chờ", "color": "#00ff41" },
+          { "icon": "🚗", "label": "Tài xế trống", "color": "#61dafb" }
+        ],
+        "outputLabel": "Hệ số giá",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "two input pings sequential frames 30 60, model process hum frames 100-180, output ding frame 200"
+    },
+    {
+      "id": "shot_06",
+      "type": "DeltaArrowScene",
+      "duration_frames": 340,
+      "narration": "Giá cao hơn không chỉ để khách trả nhiều — nó là tín hiệu gọi tài xế: mười lăm phút sau, số tài xế online quanh khu vực đó tăng gần gấp đôi.",
+      "narration_timing_frames": [8, 325],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Giá cao hơn, tài xế đến nhanh gấp đôi",
+        "accentWord": "gấp đôi",
+        "beforeLabel": "Trước khi giá tăng",
+        "beforeValue": 40,
+        "beforeUnit": "tài xế",
+        "beforeSubtext": "Tài xế online quanh khu vực",
+        "afterLabel": "15 phút sau khi giá tăng",
+        "afterValue": 76,
+        "afterUnit": "tài xế",
+        "afterSubtext": "Tài xế đổ về đón giá cao",
+        "deltaLabel": "Gần gấp đôi tài xế chỉ sau 15 phút",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "40 → 76 tài xế chỉ sau 15 phút",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "before panel slide-in frame 20, before counter lock frame 100, after panel slide-in frame 110, after counter lock frame 200, delta chime frame 220"
+    },
+    {
+      "id": "shot_07",
+      "type": "CounterBlastScene",
+      "duration_frames": 300,
+      "narration": "Kết quả: thời gian chờ xe trung bình giảm bảy mươi phần trăm so với nếu giá không đổi lúc cao điểm — vì đủ tài xế xuất hiện đúng lúc khách cần.",
+      "narration_timing_frames": [8, 285],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "finalValue": 70,
+        "unit": "% giảm thời gian chờ xe",
+        "subLabel": "so với nếu giá không đổi lúc cao điểm",
+        "countDuration": 80
+      },
+      "on_screen_text": "-70% thời gian chờ nhờ giá linh hoạt",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "flash hit frame 0, counter tick to frame 80, lock-in pulse frame 85"
+    },
+    {
+      "id": "shot_08",
+      "type": "SystemLayerScene",
+      "duration_frames": 372,
+      "narration": "Bốn phần vừa rồi là một hệ thống duy nhất: chấm điểm tài xế theo tuyến, dự đoán nhu cầu trước, gộp cuốc cùng hướng, và định giá theo cung–cầu thời gian thực.",
+      "narration_timing_frames": [8, 357],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Bốn mảnh ghép của một hệ thống",
+        "layers": [
+          { "label": "Chấm điểm tài xế theo tuyến", "sublabel": "Phần 1" },
+          { "label": "Dự đoán nhu cầu trước khi mở app", "sublabel": "Phần 2" },
+          { "label": "Gộp nhiều cuốc lại với nhau", "sublabel": "Phần 3" },
+          { "label": "Định giá theo cung–cầu thời gian thực", "sublabel": "Phần 4 — hiện tại", "isActive": true }
+        ],
+        "bodyText": "Bốn lớp logic cùng chạy mỗi giây, cho hàng triệu chuyến mỗi ngày.",
+        "accentColor": "#00ff41",
+        "staggerFrames": 35
+      },
+      "on_screen_text": "",
+      "sound_design": "soft ambient swell throughout, settle tone frame 200"
+    },
+    {
+      "id": "shot_09",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 340,
+      "narration": "Giá tăng không phải ngẫu nhiên — đó là thuật toán đang cân bằng cung và cầu trong tích tắc. Theo dõi DevFaster để xem thêm thuật toán ẩn phía sau ứng dụng bạn dùng mỗi ngày.",
+      "narration_timing_frames": [8, 320],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "text": "Giá tăng không phải ngẫu nhiên — đó là thuật toán đang cân bằng cung và cầu trong tích tắc.",
+        "accentWord": "tích tắc",
+        "subtext": "Theo dõi DevFaster để xem thêm thuật toán ẩn phía sau ứng dụng bạn dùng mỗi ngày.",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "soft settle tone frame 0, accent chime on \"tích tắc\" pop frame 40, gentle fade to black at scene end"
+    }
+  ]
+}
