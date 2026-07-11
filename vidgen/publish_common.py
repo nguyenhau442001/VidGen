@@ -10,7 +10,10 @@ from __future__ import annotations
 import json
 import requests
 import time
+import urllib.parse
+import webbrowser
 from dataclasses import dataclass, field
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Callable, Optional, Tuple
 
@@ -148,3 +151,40 @@ def chunked_resumable_upload(
     # Unreachable in practice: the loop always returns on a non-308 response
     # or raises; total_size == 0 is rejected above.
     raise RuntimeError(f"Upload loop exited without a terminal response for {file_path}")
+
+
+def run_oauth_local_server(auth_url: str, port: int = 8080) -> str:
+    """
+    Opens auth_url in the browser, waits for the OAuth redirect to
+    localhost:{port}/..., and returns the `code` query param.
+    """
+    auth_code: list[str] = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            parsed = urllib.parse.urlparse(self.path)
+            params = urllib.parse.parse_qs(parsed.query)
+            if "code" in params:
+                auth_code.append(params["code"][0])
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b"<h2>Auth successful! You can close this tab.</h2>")
+            else:
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b"<h2>Auth failed - no code received.</h2>")
+
+        def log_message(self, *args):
+            pass  # suppress server logs
+
+    print("\nOpening auth page in browser...")
+    print(f"If it doesn't open, visit:\n{auth_url}\n")
+    webbrowser.open(auth_url)
+
+    print(f"Waiting for redirect to localhost:{port} ...")
+    server = HTTPServer(("localhost", port), Handler)
+    server.handle_request()
+
+    if not auth_code:
+        raise RuntimeError("No auth code received.")
+    return auth_code[0]

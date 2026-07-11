@@ -1,9 +1,12 @@
 import json
+import threading
+import time as time_module
+import urllib.request
 from unittest.mock import MagicMock, patch
 
 import pytest
 
-from vidgen.publish_common import PublishMetadata, load_tokens, save_tokens, notify_github, poll_until, chunked_resumable_upload
+from vidgen.publish_common import PublishMetadata, load_tokens, save_tokens, notify_github, poll_until, chunked_resumable_upload, run_oauth_local_server
 
 
 def test_publish_metadata_defaults():
@@ -158,3 +161,31 @@ def test_chunked_resumable_upload_raises_on_empty_file(tmp_path):
             chunked_resumable_upload("http://upload", video, chunk_size=10, put_headers_fn=lambda s, e, t: {})
 
     mock_put.assert_not_called()
+
+
+def test_run_oauth_local_server_returns_code_from_redirect():
+    def fire_redirect():
+        time_module.sleep(0.3)
+        urllib.request.urlopen("http://localhost:8099/callback?code=abc123")
+
+    threading.Thread(target=fire_redirect, daemon=True).start()
+
+    with patch("vidgen.publish_common.webbrowser.open"):
+        code = run_oauth_local_server("http://example.com/auth", port=8099)
+
+    assert code == "abc123"
+
+
+def test_run_oauth_local_server_raises_when_no_code_param():
+    def fire_bad_redirect():
+        time_module.sleep(0.3)
+        try:
+            urllib.request.urlopen("http://localhost:8098/callback?error=access_denied")
+        except Exception:
+            pass  # server responds 400, urlopen raises HTTPError - expected
+
+    threading.Thread(target=fire_bad_redirect, daemon=True).start()
+
+    with patch("vidgen.publish_common.webbrowser.open"):
+        with pytest.raises(RuntimeError, match="No auth code"):
+            run_oauth_local_server("http://example.com/auth", port=8098)
