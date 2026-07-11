@@ -74,7 +74,12 @@ export type ManifestScene =
   | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual }
   | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual }
   | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StatComparatorVisual }
-  | { type: "route_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RouteTimelineVisual };
+  | { type: "route_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RouteTimelineVisual }
+  | { type: "corridor_sweep"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CorridorSweepVisual }
+  | { type: "batch_decision_tree"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BatchDecisionTreeVisual }
+  | { type: "delta_arrow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DeltaArrowVisual }
+  | { type: "driver_consent"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverConsentVisual }
+  | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SystemLayerVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -550,3 +555,105 @@ export type RouteTimelineVisual = {
 };
 
 export type RouteTimelineSceneProps = RouteTimelineVisual & { durationInFrames: number };
+
+// Diagonal "corridor" sweep: a rotated band sweeps across the canvas, then
+// ride dots pop in inside it (merge-eligible) vs. outside it (dim, not
+// merged) — e.g. "only rides on the same travel corridor get bundled".
+// CorridorSweepSceneProps itself is declared in scenes/CorridorSweepScene.tsx.
+export type CorridorSweepVisual = {
+  corridorAngleDeg?: number; // default 20 (tilts right going down)
+  corridorWidthPx?: number; // default 280
+  rideCount?: number; // dots inside the corridor, default 8
+  outsideRideCount?: number; // dots outside the corridor, default 5
+  accentColor?: string; // default "#00ff41"
+  onScreenText?: string; // small caption near the bottom, optional
+};
+
+export type CorridorSweepSceneProps = CorridorSweepVisual & { durationInFrames: number };
+
+// AND-logic decision tree: N question nodes chained top→bottom by a "Có"
+// branch, each with a "Không" branch to its own reject terminal on the right
+// — e.g. the 4 conditions that must all hold for a ride to be batched.
+// DecisionNode/BatchDecisionTreeSceneProps themselves are declared in
+// scenes/BatchDecisionTreeScene.tsx.
+export type DecisionNode = {
+  question: string;
+  yesLabel?: string; // default "Có"
+  noLabel?: string; // default "Không"
+  noResult?: string; // per-node override for this node's reject terminal text
+};
+
+export type BatchDecisionTreeVisual = {
+  nodes: DecisionNode[];
+  finalYesLabel: string;
+  rejectLabel?: string; // default "❌ Tách cuốc"
+  accentColor?: string; // default "#00ff41"
+  rejectColor?: string; // default "#ff4444"
+  staggerFrames?: number; // default 40
+};
+
+export type BatchDecisionTreeSceneProps = BatchDecisionTreeVisual & { durationInFrames: number };
+
+// Two horizontal bars (before/after) stacked vertically, growing from 0 to
+// their normalized target width with a live counter, followed by a delta
+// arrow drawn from the "before" bar's right tip down to the "after" bar's
+// right tip — e.g. 9.4km vs 7.2km for the same two-rider batch.
+export type DeltaArrowVisual = {
+  headline: string;
+  accentWord: string;
+
+  beforeLabel: string;
+  beforeValue: number;
+  beforeUnit: string;
+  beforeSubtext?: string;
+
+  afterLabel: string;
+  afterValue: number;
+  afterUnit: string;
+  afterSubtext?: string;
+
+  deltaLabel: string;
+  accentColor?: string; // default "#00ff41"
+  beforeColor?: string; // default "rgba(255,68,68,0.7)"
+};
+
+export type DeltaArrowSceneProps = DeltaArrowVisual & { durationInFrames: number };
+
+// Phone notification card: a batch-consent prompt (accept/decline) the driver
+// receives, followed by a driver reply bubble if accepted — e.g. "the driver
+// can always decline a batched pickup". Replaces phone_mockup for shots about
+// driver-side consent rather than the rider-side matching flow.
+// DriverConsentSceneProps itself is declared in scenes/DriverConsentScene.tsx.
+export type DriverConsentVisual = {
+  notificationTitle: string;
+  detailLines: string[];
+  acceptLabel?: string; // default "Chấp nhận"
+  declineLabel?: string; // default "Từ chối"
+  driverReply?: string; // reply bubble text, only rendered when chosenAction === "accept"
+  chosenAction: "accept" | "decline";
+  accentColor?: string; // default "#00ff41"
+  onScreenText?: string; // small caption near the bottom, optional
+};
+
+export type DriverConsentSceneProps = DriverConsentVisual & { durationInFrames: number };
+
+// Recap scene: N horizontal layers stacked bottom→top representing the
+// stack of a system (e.g. the 3-part dispatch logic recap), one of which is
+// the current topic (isActive — rendered brighter, larger, glowing).
+// SystemLayerSceneProps itself is declared in scenes/SystemLayerScene.tsx.
+export type SystemLayer = {
+  label: string;
+  sublabel?: string;
+  isActive?: boolean; // true = current topic, rendered brightest/largest
+  color?: string; // override accent color for this layer when active
+};
+
+export type SystemLayerVisual = {
+  headline?: string;
+  layers: SystemLayer[]; // bottom → top (index 0 = bottom, rendered/enters first)
+  accentColor?: string; // default "#00ff41"
+  bodyText?: string; // optional caption below the stack
+  staggerFrames?: number; // frames between each layer's slide-in, default 35
+};
+
+export type SystemLayerSceneProps = SystemLayerVisual & { durationInFrames: number };

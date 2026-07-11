@@ -31,6 +31,11 @@ import { EventScanScene } from "./scenes/EventScanScene";
 import { DriverHeatmapScene } from "./scenes/DriverHeatmapScene";
 import StatComparatorScene from "./scenes/StatComparatorScene";
 import { RouteTimelineScene } from "./scenes/RouteTimelineScene";
+import { CorridorSweepScene } from "./scenes/CorridorSweepScene";
+import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
+import DeltaArrowScene from "./scenes/DeltaArrowScene";
+import { DriverConsentScene } from "./scenes/DriverConsentScene";
+import { SystemLayerScene } from "./scenes/SystemLayerScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 
@@ -184,5 +189,15 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <StatComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "route_timeline":
       return <RouteTimelineScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "corridor_sweep":
+      return <CorridorSweepScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "batch_decision_tree":
+      return <BatchDecisionTreeScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "delta_arrow":
+      return <DeltaArrowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "driver_consent":
+      return <DriverConsentScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "system_layer":
+      return <SystemLayerScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

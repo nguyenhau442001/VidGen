@@ -28,6 +28,11 @@ import { RadarHookScene } from "./scenes/RadarHookScene";
 import { EventScanScene } from "./scenes/EventScanScene";
 import StatComparatorScene from "./scenes/StatComparatorScene";
 import { RouteTimelineScene } from "./scenes/RouteTimelineScene";
+import { CorridorSweepScene } from "./scenes/CorridorSweepScene";
+import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
+import DeltaArrowScene from "./scenes/DeltaArrowScene";
+import { DriverConsentScene } from "./scenes/DriverConsentScene";
+import { SystemLayerScene } from "./scenes/SystemLayerScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -424,6 +429,23 @@ export const Root: React.FC = () => {
         }}
       />
       <Composition
+        id="CorridorSweep"
+        component={CorridorSweepScene}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          corridorAngleDeg: 20,
+          corridorWidthPx: 280,
+          rideCount: 8,
+          outsideRideCount: 5,
+          accentColor: "#00ff41",
+          onScreenText: "Chỉ gộp trong cùng hành lang di chuyển",
+          durationInFrames: 180,
+        }}
+      />
+      <Composition
         id="RippleAggregate"
         component={RippleAggregateScene}
         durationInFrames={346}
@@ -682,6 +704,90 @@ export const Root: React.FC = () => {
           afterSubtext: "Hủy chuyến: -40%",
           deltaLabel: "Hiệu quả gấp đôi — cùng số tài xế",
           durationInFrames: 330,
+        }}
+      />
+      <Composition
+        id="BatchDecisionTree"
+        component={BatchDecisionTreeScene}
+        durationInFrames={220}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          nodes: [
+            { question: "Cùng hướng di chuyển?" },
+            { question: "Detour tối đa 15%?" },
+            { question: "Chờ thêm ≤ 3 phút?" },
+            { question: "Còn chỗ trống trên xe?" },
+          ],
+          finalYesLabel: "✅ GỘP LÔ",
+          rejectLabel: "❌ Tách cuốc",
+          accentColor: "#00ff41",
+          rejectColor: "#ff4444",
+          staggerFrames: 40,
+          durationInFrames: 220,
+        }}
+      />
+      <Composition
+        id="DeltaArrow"
+        component={DeltaArrowScene}
+        durationInFrames={220}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Cùng phục vụ 2 khách, ít quãng đường hơn",
+          accentWord: "ít quãng đường hơn",
+          beforeLabel: "Không gộp · 2 tài xế",
+          beforeValue: 9.4,
+          beforeUnit: "km",
+          beforeSubtext: "Hai xe chạy riêng cho hai khách",
+          afterLabel: "Gộp lô · 1 tài xế",
+          afterValue: 7.2,
+          afterUnit: "km",
+          afterSubtext: "Một xe phục vụ cả hai trên cùng tuyến",
+          deltaLabel: "Ít hơn 2.2km cho cùng hai khách",
+          accentColor: "#00ff41",
+          durationInFrames: 220,
+        }}
+      />
+      <Composition
+        id="DriverConsent"
+        component={DriverConsentScene}
+        durationInFrames={220}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          notificationTitle: "Đón thêm 1 khách trên tuyến",
+          detailLines: ["+15,000đ thu nhập thêm", "+2 phút di chuyển thêm"],
+          acceptLabel: "Chấp nhận",
+          declineLabel: "Từ chối",
+          driverReply: "Đồng ý, thêm thu nhập 👍",
+          chosenAction: "accept" as const,
+          accentColor: "#00ff41",
+          onScreenText: "Tài xế luôn có thể từ chối gộp",
+          durationInFrames: 220,
+        }}
+      />
+      <Composition
+        id="SystemLayer"
+        component={SystemLayerScene}
+        durationInFrames={220}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Ba mảnh ghép của một hệ thống",
+          layers: [
+            { label: "Chấm điểm tài xế theo tuyến", sublabel: "Phần 1" },
+            { label: "Dự đoán nhu cầu trước khi mở app", sublabel: "Phần 2" },
+            { label: "Gộp nhiều cuốc lại với nhau", sublabel: "Phần 3 — hiện tại", isActive: true },
+          ],
+          bodyText: "Ba lớp logic cùng chạy mỗi giây, cho hàng triệu chuyến mỗi ngày.",
+          accentColor: "#00ff41",
+          staggerFrames: 35,
+          durationInFrames: 220,
         }}
       />
     </>
