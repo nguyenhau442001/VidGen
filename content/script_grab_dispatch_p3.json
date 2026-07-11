@@ -9,11 +9,11 @@
     {
       "id": "shot_01",
       "type": "MapPingScene",
-      "duration_frames": 130,
+      "duration_frames": 132,
       "narration": "Gọi xe. Tài xế đã biết có khách khác — bạn không biết.",
       "narration_timing_frames": [
         8,
-        110
+        112
       ],
       "transition_out_delay_frames": 20,
       "props": {
