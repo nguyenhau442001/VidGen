@@ -182,8 +182,8 @@ def run_oauth_local_server(auth_url: str, port: int = 8080) -> str:
     webbrowser.open(auth_url)
 
     print(f"Waiting for redirect to localhost:{port} ...")
-    server = HTTPServer(("localhost", port), Handler)
-    server.handle_request()
+    with HTTPServer(("localhost", port), Handler) as server:
+        server.handle_request()
 
     if not auth_code:
         raise RuntimeError("No auth code received.")
