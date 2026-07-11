@@ -9,6 +9,7 @@ import time
 import wave
 import webbrowser
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 from time import time as now
 
 from vidgen.chunked_render import render_video_chunked
@@ -37,6 +38,7 @@ WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
 BEATMAP_PATH = "output/beatmap.json"
+VIDEO_OUT_DIR = "remotion/out"
 STUDIO_PORT = 3000
 
 MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
@@ -478,9 +480,11 @@ def main():
     if not args.skip_validation:
         validate_manifest(script)
 
-    title = script.get("title") or script.get("video_id") or script.get("meta", {}).get("slug") or "video"
-    video_filename = title.lower().replace(" ", "_").replace("-", "_") + ".mp4"
-    video_output = os.path.abspath(f"output/video/mp4/{video_filename}")
+    script_stem = Path(args.script).stem
+    if script_stem.startswith("script_"):
+        script_stem = script_stem[len("script_"):]
+    video_filename = script_stem + ".mp4"
+    video_output = os.path.abspath(f"{VIDEO_OUT_DIR}/{video_filename}")
 
     tts_jobs = []
     for scene in script["scenes"]:
@@ -575,7 +579,7 @@ def main():
             )
 
     # --- Render video ---
-    os.makedirs("output/video/mp4", exist_ok=True)
+    os.makedirs(VIDEO_OUT_DIR, exist_ok=True)
     if os.path.exists(video_output):
         os.remove(video_output)
         print(f"Deleted old video: {video_output}")

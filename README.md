@@ -51,7 +51,7 @@ content/script_<name>.json           ← the ONLY file authored/checked in per v
 └────────────────────────────────────────────────────────────────────┘
          │
          ▼
-output/video/mp4/<title>.mp4  +  Remotion Studio (localhost:3000)
+remotion/out/<script>.mp4  +  Remotion Studio (localhost:3000)
 ```
 
 Key artifacts:
@@ -59,7 +59,7 @@ Key artifacts:
 - `output/audio/wav/scene_<id>.wav` — per-scene TTS clips (also copied to `remotion/public/audio/`)
 - `output/render_manifest.json` — the flat, fully-resolved render plan Remotion consumes (Studio imports it live; never hand-edit or write it from partial data)
 - `output/render_cache/` — per-scene MP4 chunks keyed by content hash, pruned after 14 days
-- `output/video/mp4/` — final videos; `output/thumbnails/` — cover stills
+- `remotion/out/` — final videos, named after the script file (e.g. `content/script_grab_dispatch_p4.json` → `remotion/out/grab_dispatch_p4.mp4`); `output/thumbnails/` — cover stills
 
 ### Script schema
 
