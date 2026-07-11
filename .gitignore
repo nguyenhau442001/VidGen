@@ -4,6 +4,7 @@
 .env
 .tiktok_tokens.json
 .youtube_tokens.json
+.facebook_tokens.json
 
 # Generated output files
 output/
