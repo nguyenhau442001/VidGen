@@ -8,8 +8,8 @@ on:
         required: true
         type: string
       tiktok_status:
-        description: "Trạng thái publish"
-        required: true
+        description: "Trạng thái publish (TikTok legacy)"
+        required: false
         type: string
       publish_id:
         description: "TikTok publish ID"
@@ -23,22 +23,41 @@ on:
         description: "Thời gian pipeline (giây)"
         required: false
         type: string
+      platform:
+        description: "Nền tảng publish (vd: youtube)"
+        required: false
+        type: string
+      status:
+        description: "Trạng thái publish (generic, dùng bởi các publisher mới)"
+        required: false
+        type: string
+      video_id:
+        description: "YouTube video ID"
+        required: false
+        type: string
+      url:
+        description: "YouTube video URL"
+        required: false
+        type: string
 
 jobs:
   notify:
-    name: "${{ inputs.tiktok_status == 'OK' && '✅' || '❌' }} ${{ inputs.video_name }}"
+    name: "${{ (inputs.status != '' && inputs.status || inputs.tiktok_status) == 'OK' && '✅' || '❌' }} ${{ inputs.video_name }}"
     runs-on: ubuntu-latest
     steps:
       - name: "Log publish result"
         run: |
           echo "Video:      ${{ inputs.video_name }}"
-          echo "Status:     ${{ inputs.tiktok_status }}"
+          echo "Status:     ${{ inputs.status != '' && inputs.status || inputs.tiktok_status }}"
+          echo "Platform:   ${{ inputs.platform }}"
           echo "Publish ID: ${{ inputs.publish_id }}"
           echo "Share URL:  ${{ inputs.share_url }}"
+          echo "Video ID:   ${{ inputs.video_id }}"
+          echo "URL:        ${{ inputs.url }}"
           echo "Duration:   ${{ inputs.duration }}s"
 
       - name: "Fail job if publish failed (triggers GitHub failure email)"
-        if: ${{ inputs.tiktok_status != 'OK' }}
+        if: ${{ (inputs.status != '' && inputs.status || inputs.tiktok_status) != 'OK' }}
         run: |
-          echo "TikTok publish FAILED for ${{ inputs.video_name }}"
+          echo "Publish FAILED for ${{ inputs.video_name }}"
           exit 1
