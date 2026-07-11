@@ -101,3 +101,46 @@ def poll_until(
         time.sleep(interval)
 
     raise RuntimeError(f"Polling did not complete after {max_attempts * interval}s")
+
+
+def chunked_resumable_upload(
+    upload_url: str,
+    file_path,
+    chunk_size: int,
+    put_headers_fn: Callable[[int, int, int], dict],
+):
+    """
+    PUTs file_path to upload_url following the resumable-upload protocol:
+    a 308 response's Range header gives the next start offset (retry only
+    the unsent remainder, not the whole file); any other 2xx response ends
+    the loop and is returned to the caller.
+
+    put_headers_fn(start, end, total_size) -> headers dict for that PUT.
+    """
+    file_path = Path(file_path)
+    total_size = file_path.stat().st_size
+    start = 0
+    last_resp = None
+
+    with open(file_path, "rb") as f:
+        while start < total_size:
+            end = min(start + chunk_size, total_size) - 1
+            f.seek(start)
+            chunk = f.read(end - start + 1)
+
+            resp = requests.put(upload_url, headers=put_headers_fn(start, end, total_size), data=chunk)
+            last_resp = resp
+
+            if resp.status_code == 308:
+                range_header = resp.headers.get("Range")
+                start = int(range_header.split("-")[1]) + 1 if range_header else end + 1
+                continue
+
+            if not (200 <= resp.status_code < 300):
+                raise RuntimeError(
+                    f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
+                )
+
+            start = end + 1
+
+    return last_resp
