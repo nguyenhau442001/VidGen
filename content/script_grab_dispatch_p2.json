@@ -67,11 +67,11 @@
     {
       "id": "shot_02a",
       "type": "GeohashRevealScene",
-      "duration_frames": 366,
+      "duration_frames": 376,
       "narration": "Thành phố được chia thành hàng nghìn ô vuông nhỏ — mỗi ô rộng khoảng năm trăm mét. Hệ thống không nghĩ theo từng người — nó nghĩ theo từng ô. Ô nào sắp bùng nhu cầu, ô nào đang thiếu tài xế.",
       "narration_timing_frames": [
         15,
-        351
+        361
       ],
       "transition_out_delay_frames": 15,
       "props": {
@@ -339,11 +339,11 @@
     {
       "id": "shot_04a",
       "type": "RippleAggregateScene",
-      "duration_frames": 356,
+      "duration_frames": 376,
       "narration": "Nhưng tín hiệu mạnh nhất là hành vi thời gian thực. Bảy giờ năm mươi lăm — hàng nghìn người mở app Grab, xem giá, chưa đặt. Tổng hợp theo từng ô vuông nhỏ — đó là demand signal rõ nhất hệ thống có.",
       "narration_timing_frames": [
         5,
-        341
+        361
       ],
       "transition_out_delay_frames": 15,
       "props": {
@@ -476,11 +476,11 @@
     {
       "id": "shot_05b",
       "type": "StatComparatorScene",
-      "duration_frames": 332,
+      "duration_frames": 400,
       "narration": "Không có vùng sẵn sàng, khách chờ trung bình tám phút và tỷ lệ hủy cao. Khi hệ thống đặt tài xế trước vào đúng vùng, con số đó rút xuống còn hai phút rưỡi — hủy chuyến giảm bốn mươi phần trăm, cùng số tài xế.",
       "narration_timing_frames": [
         5,
-        317
+        385
       ],
       "transition_out_delay_frames": 15,
       "props": {
@@ -545,7 +545,7 @@
       "narration": "Vì sao tài xế gần hơn vẫn đến sau — đó là Phần 3. Theo dõi DevFaster để xem tiếp.",
       "narration_timing_frames": [
         10,
-        250
+        238
       ],
       "transition_out_delay_frames": 20,
       "props": {

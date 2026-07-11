@@ -1,6 +1,8 @@
 .vscode/
 .worktrees/
 .DS_Store
+.env
+.tiktok_tokens.json
 
 # Generated output files
 output/
