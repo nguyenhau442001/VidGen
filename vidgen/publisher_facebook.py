@@ -271,3 +271,13 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
             extra={"duration": str(int(time.time() - _start_time))},
         )
         raise
+
+
+def delete_video_on_facebook(video_id: str) -> None:
+    """Delete a Reel/video from the Page by its video ID."""
+    page_token = _get_page_token()
+    resp = requests.delete(f"{GRAPH_BASE}/{video_id}", params={"access_token": page_token})
+    data = resp.json()
+    if resp.status_code != 200 or data.get("success") is not True:
+        raise RuntimeError(f"Delete failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    print(f"[publisher_facebook] Deleted video_id={video_id}")

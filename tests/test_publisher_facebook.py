@@ -228,3 +228,22 @@ def test_publish_video_on_facebook_notifies_and_reraises_on_failure(tmp_path, mo
             pub.publish_video_on_facebook(video, PublishMetadata(title="T"))
 
     assert "FAIL" in mock_notify.call_args.kwargs["status"]
+
+
+def test_delete_video_on_facebook_success(monkeypatch):
+    monkeypatch.setattr(pub, "_get_page_token", lambda: "page-tok")
+    with patch("vidgen.publisher_facebook.requests.delete") as mock_delete:
+        mock_delete.return_value = MagicMock(status_code=200, json=lambda: {"success": True})
+        pub.delete_video_on_facebook("vid1")
+
+    args, kwargs = mock_delete.call_args
+    assert args[0] == "https://graph.facebook.com/v25.0/vid1"
+    assert kwargs["params"] == {"access_token": "page-tok"}
+
+
+def test_delete_video_on_facebook_raises_on_failure(monkeypatch):
+    monkeypatch.setattr(pub, "_get_page_token", lambda: "page-tok")
+    with patch("vidgen.publisher_facebook.requests.delete") as mock_delete:
+        mock_delete.return_value = MagicMock(status_code=400, json=lambda: {"success": False}, text="error")
+        with pytest.raises(RuntimeError, match="Delete failed"):
+            pub.delete_video_on_facebook("vid1")
