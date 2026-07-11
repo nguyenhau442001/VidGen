@@ -90,3 +90,44 @@ def test_init_upload_session_raises_on_failure(monkeypatch):
         mock_post.return_value = MagicMock(status_code=400, json=lambda: {}, text="bad request")
         with pytest.raises(RuntimeError, match="Upload init failed"):
             pub._init_upload_session("page-tok")
+
+
+def test_upload_video_chunks_advances_offset_across_chunks(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"a" * 10 + b"b" * 10)  # 20 bytes, chunk_size patched to 10 -> 2 chunks
+
+    resp1 = MagicMock(status_code=200, json=lambda: {"success": True})
+    resp2 = MagicMock(status_code=200, json=lambda: {"success": True})
+
+    with patch("vidgen.publisher_facebook.CHUNK_SIZE", 10), \
+         patch("vidgen.publisher_facebook.requests.post", side_effect=[resp1, resp2]) as mock_post:
+        pub._upload_video_chunks("http://rupload/vid1", video, "page-tok")
+
+    assert mock_post.call_count == 2
+    first_headers = mock_post.call_args_list[0].kwargs["headers"]
+    second_headers = mock_post.call_args_list[1].kwargs["headers"]
+    assert first_headers["offset"] == "0"
+    assert second_headers["offset"] == "10"
+    assert first_headers["file_size"] == "20"
+    assert mock_post.call_args_list[0].kwargs["data"] == b"a" * 10
+    assert mock_post.call_args_list[1].kwargs["data"] == b"b" * 10
+
+
+def test_upload_video_chunks_raises_on_failure_response(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 10)
+
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"success": False}, text="rejected")
+        with pytest.raises(RuntimeError, match="Chunk upload failed"):
+            pub._upload_video_chunks("http://rupload/vid1", video, "page-tok")
+
+
+def test_upload_video_chunks_raises_on_empty_file(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"")
+
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        with pytest.raises(RuntimeError, match="empty file"):
+            pub._upload_video_chunks("http://rupload/vid1", video, "page-tok")
+    mock_post.assert_not_called()

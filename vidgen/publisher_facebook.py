@@ -143,3 +143,39 @@ def _init_upload_session(page_token: str) -> tuple[str, str]:
         raise RuntimeError(f"Upload init failed (HTTP {resp.status_code}): {resp.text[:200]}")
     print(f"[publisher_facebook] Upload session initialized - video_id={data['video_id']}")
     return data["video_id"], data["upload_url"]
+
+
+def _upload_video_chunks(upload_url: str, video_path: Path, page_token: str) -> None:
+    """
+    Uploads video_path to upload_url using Facebook's offset-based resumable
+    protocol: each chunk is POSTed with offset/file_size headers and a flat
+    {"success": true} response (unlike Google's Content-Range/308 protocol) -
+    start advances by the chunk's length after each success.
+    """
+    total_size = video_path.stat().st_size
+    if total_size == 0:
+        raise RuntimeError(f"Cannot upload empty file: {video_path}")
+
+    start = 0
+    with open(video_path, "rb") as f:
+        while start < total_size:
+            end = min(start + CHUNK_SIZE, total_size)
+            f.seek(start)
+            chunk = f.read(end - start)
+
+            resp = requests.post(
+                upload_url,
+                headers={
+                    "Authorization": f"OAuth {page_token}",
+                    "offset": str(start),
+                    "file_size": str(total_size),
+                },
+                data=chunk,
+            )
+            if resp.status_code != 200 or not resp.json().get("success"):
+                raise RuntimeError(
+                    f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
+                )
+            start = end
+
+    print("[publisher_facebook] Upload complete")
