@@ -95,3 +95,38 @@ def _get_page_token() -> str:
             "Run: python -m vidgen.publisher_facebook --setup-guide"
         )
     return page_token
+
+
+# -- Metadata mapping ------------------------------------------------------------
+
+def _build_finish_params(metadata: PublishMetadata, video_id: str) -> dict:
+    """Build the upload_phase=finish query params from PublishMetadata."""
+    if metadata.tags:
+        print("[publisher_facebook] Warning: --tags is ignored on Facebook Reels (no tags field; put hashtags in the description).")
+    if metadata.privacy and metadata.privacy != "public":
+        print(f"[publisher_facebook] Warning: --privacy={metadata.privacy} is ignored; Reels visibility follows the Page's own settings.")
+    if metadata.made_for_kids:
+        print("[publisher_facebook] Warning: --made-for-kids is ignored; Facebook Reels has no equivalent flag.")
+
+    params: dict = {
+        "video_id": video_id,
+        "upload_phase": "finish",
+        "title": metadata.title,
+        "description": metadata.description or metadata.title,
+    }
+
+    if metadata.schedule_time:
+        dt = datetime.datetime.fromisoformat(metadata.schedule_time)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=datetime.timezone.utc)
+        delta = (dt - datetime.datetime.now(datetime.timezone.utc)).total_seconds()
+        if delta < SCHEDULE_MIN_SECONDS or delta > SCHEDULE_MAX_SECONDS:
+            raise ValueError(
+                f"schedule_time must be between 10 minutes and 29 days from now (got {delta:.0f}s)"
+            )
+        params["video_state"] = "SCHEDULED"
+        params["scheduled_publish_time"] = int(dt.timestamp())
+    else:
+        params["video_state"] = "PUBLISHED"
+
+    return params
