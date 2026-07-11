@@ -3,6 +3,7 @@
 .DS_Store
 .env
 .tiktok_tokens.json
+.youtube_tokens.json
 
 # Generated output files
 output/
