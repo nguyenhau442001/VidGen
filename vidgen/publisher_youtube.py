@@ -37,6 +37,22 @@ from vidgen.publish_common import (
     save_tokens,
 )
 
+
+def _load_env_file() -> None:
+    """Load KEY=VALUE pairs from a .env file at the repo root, if present."""
+    env_file = Path(__file__).parent.parent / ".env"
+    if not env_file.exists():
+        return
+    for line in env_file.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            v = v.split("#", 1)[0].strip().strip('"').strip("'")
+            os.environ.setdefault(k.strip(), v)
+
+
+_load_env_file()
+
 # -- Config (set via env vars or .env file) -----------------------------------
 YOUTUBE_CLIENT_ID     = os.getenv("YOUTUBE_CLIENT_ID", "")
 YOUTUBE_CLIENT_SECRET = os.getenv("YOUTUBE_CLIENT_SECRET", "")
@@ -52,7 +68,10 @@ TOKEN_URL    = "https://oauth2.googleapis.com/token"
 AUTH_URL     = "https://accounts.google.com/o/oauth2/v2/auth"
 UPLOAD_URL   = "https://www.googleapis.com/upload/youtube/v3/videos"
 API_BASE     = "https://www.googleapis.com/youtube/v3"
-SCOPE        = "https://www.googleapis.com/auth/youtube.upload"
+SCOPE        = (
+    "https://www.googleapis.com/auth/youtube.upload "
+    "https://www.googleapis.com/auth/youtube.readonly"
+)
 REDIRECT_URI = "http://localhost:8080/callback"
 
 CATEGORY_ID_SCI_TECH = "28"
@@ -343,14 +362,6 @@ def _run_oauth_flow() -> None:
 
 
 def main() -> None:
-    env_file = Path(__file__).parent.parent / ".env"
-    if env_file.exists():
-        for line in env_file.read_text().splitlines():
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip())
-
     parser = argparse.ArgumentParser(description="VidGen YouTube publisher")
     parser.add_argument("video", nargs="?", help="Path to .mp4 file")
     parser.add_argument("--title", default="", help="Video title")
