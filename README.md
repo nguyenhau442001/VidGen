@@ -163,7 +163,8 @@ cron 8pm
   → tts_speed        synthesizes audio  (speed=1.1, WSOLA pitch-preserve)
   → remotion         renders .mp4
   → gate2_assert()   checks frames via ffmpeg + OpenCV
-  → publisher.py     posts to TikTok (Direct Post API)
+  → publisher.py            posts to TikTok (Direct Post API)
+  → publisher_youtube.py    posts to YouTube (Data API v3, Shorts) — run manually today, not yet cron-wired
   → notify.yml       GitHub Actions notifies on failure via email
 ```
 
@@ -176,7 +177,7 @@ cron 8pm
 | GAP 3 | TTS speed wrapper — auto speed + silence trim | ✅ Done | `vidgen/tts_speed_adjustor.py` |
 | GAP 4 | Gate 2 — visual quality enforcement | ✅ Done | `vidgen/gate2_visual.py` |
 | GAP 5 | Auto-publish — TikTok Direct Post API | 🔧 In progress | `vidgen/publisher.py` |
-| GAP 5 | Auto-publish — YouTube Data API v3 | 🔧 In progress | `vidgen/publisher_youtube.py`, `vidgen/publish_common.py` |
+| GAP 5 | Auto-publish — YouTube Data API v3 | ✅ Done | `vidgen/publisher_youtube.py`, `vidgen/publish_common.py` |
 | GAP 5 | Auto-publish — Facebook Graph API (Reels) | 🔲 Planned | — |
 
 ### Quick start
@@ -197,8 +198,11 @@ python -m vidgen.runner --list
 # Publish to TikTok (after OAuth setup)
 python -m vidgen.publisher out/video.mp4 --title "Tiêu đề #60scongnghe"
 
-# Publish to YouTube (after OAuth setup)
+# Publish to YouTube (one-time OAuth setup, then reusable)
+python -m vidgen.publisher_youtube --setup-guide           # print setup instructions
+python -m vidgen.publisher_youtube --oauth                 # run OAuth flow, save tokens
 python -m vidgen.publisher_youtube out/video.mp4 --title "Tiêu đề #Shorts"
+python -m vidgen.publisher_youtube --delete VIDEO_ID        # remove a published video
 ```
 
 ### Cron setup
@@ -215,9 +219,13 @@ crontab -e
 # .env (create at repo root)
 TIKTOK_CLIENT_KEY=...
 TIKTOK_CLIENT_SECRET=...
+YOUTUBE_CLIENT_ID=...
+YOUTUBE_CLIENT_SECRET=...
 GITHUB_REPO=nguyenhau442001/VidGen
 GITHUB_TOKEN=ghp_...        # scope: workflow
 ```
+
+YouTube tokens (access + refresh) are stored in `.youtube_tokens.json` after running `--oauth`; the publisher auto-refreshes the access token when it expires.
 
 ### Notification
 
