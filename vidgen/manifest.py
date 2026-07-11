@@ -51,6 +51,13 @@ TYPE_MAP = {
     "EventScanScene": "event_scan",
     "DriverHeatmapScene": "driver_heatmap",
     "StatComparatorScene": "stat_comparator",
+    "NetworkFlowScene": "network_flow",
+    "RouteTimelineScene": "route_timeline",
+    "CorridorSweepScene": "corridor_sweep",
+    "BatchDecisionTreeScene": "batch_decision_tree",
+    "DeltaArrowScene": "delta_arrow",
+    "DriverConsentScene": "driver_consent",
+    "SystemLayerScene": "system_layer",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
