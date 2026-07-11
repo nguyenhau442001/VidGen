@@ -7,6 +7,7 @@ import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
+import { NetworkFlowScene } from "./scenes/NetworkFlowScene";
 import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
 import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
 import { CounterBlastScene } from "./scenes/CounterBlastScene";
@@ -383,6 +384,23 @@ export const Root: React.FC = () => {
           outputLabel: "Dự báo nhu cầu",
           accentColor: "#22C55E",
           durationInFrames: 298,
+        }}
+      />
+      <Composition
+        id="NetworkFlow"
+        component={NetworkFlowScene}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          signals: [
+            { icon: "🅰️", label: "Cuốc A", color: "#00ff41" },
+            { icon: "🅱️", label: "Cuốc B", color: "#00ff41" },
+          ],
+          outputLabel: "Một tuyến gộp",
+          accentColor: "#00ff41",
+          durationInFrames: 180,
         }}
       />
       <Composition

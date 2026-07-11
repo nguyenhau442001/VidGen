@@ -10,6 +10,7 @@ import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
 import { DemandHeatmapScene } from "./scenes/DemandHeatmapScene";
 import { SignalFlowScene } from "./scenes/SignalFlowScene";
+import { NetworkFlowScene } from "./scenes/NetworkFlowScene";
 import { RippleAggregateScene } from "./scenes/RippleAggregateScene";
 import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
 import { CounterBlastScene } from "./scenes/CounterBlastScene";
@@ -119,6 +120,8 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <DemandHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "signal_flow":
       return <SignalFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "network_flow":
+      return <NetworkFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "ripple_aggregate":
       return <RippleAggregateScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "driver_swarm":

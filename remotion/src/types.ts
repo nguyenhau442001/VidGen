@@ -52,6 +52,7 @@ export type ManifestScene =
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GeohashRevealVisual }
   | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DemandHeatmapVisual }
   | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SignalFlowVisual }
+  | { type: "network_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: NetworkFlowVisual }
   | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RippleAggregateVisual }
   | { type: "driver_swarm"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverSwarmVisual }
   | { type: "counter_blast"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CounterBlastVisual }
@@ -195,6 +196,25 @@ export type SignalFlowVisual = {
 };
 
 export type SignalFlowSceneProps = SignalFlowVisual & { durationInFrames: number };
+
+// Merge scene: N input nodes converge into a single output node via cubic
+// Bezier connectors (e.g. two same-direction trips merged into one route).
+// Same 750×1080 viewBox slice-crop convention as signal_flow (only
+// x ≈ 71–679 is visible). NetworkFlowSceneProps itself is declared in
+// scenes/NetworkFlowScene.tsx.
+export type NetworkFlowSignal = {
+  icon: string; // emoji or text label, e.g. "🅰️"
+  label: string; // e.g. "Cuốc A"
+  color: string; // border/accent color for this input node
+};
+
+export type NetworkFlowVisual = {
+  signals: NetworkFlowSignal[];
+  outputLabel: string; // label on the merged output node
+  accentColor?: string; // default "#00ff41"
+};
+
+export type NetworkFlowSceneProps = NetworkFlowVisual & { durationInFrames: number };
 
 // One phone taps → camera zooms out to a field of rippling phones that
 // converge on a hotspot. hotspotPosition is in the scene's 750×1080 viewBox
