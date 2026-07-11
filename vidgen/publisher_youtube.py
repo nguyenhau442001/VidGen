@@ -70,7 +70,7 @@ UPLOAD_URL   = "https://www.googleapis.com/upload/youtube/v3/videos"
 API_BASE     = "https://www.googleapis.com/youtube/v3"
 SCOPE        = (
     "https://www.googleapis.com/auth/youtube.upload "
-    "https://www.googleapis.com/auth/youtube.readonly"
+    "https://www.googleapis.com/auth/youtube.force-ssl"
 )
 REDIRECT_URI = "http://localhost:8080/callback"
 
@@ -278,6 +278,19 @@ def publish_video_on_youtube(video_path, metadata: PublishMetadata) -> dict:
         raise
 
 
+def delete_video_on_youtube(video_id: str) -> None:
+    """Delete a video from the authenticated channel by its video ID."""
+    access_token = _get_valid_token()
+    resp = requests.delete(
+        f"{API_BASE}/videos",
+        params={"id": video_id},
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+    if resp.status_code != 204:
+        raise RuntimeError(f"Delete failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    print(f"[publisher_youtube] Deleted video_id={video_id}")
+
+
 SETUP_GUIDE = """
 === YouTube Publisher - One-time Setup Guide =============================
 
@@ -372,6 +385,7 @@ def main() -> None:
     parser.add_argument("--schedule", default=None, metavar="ISO_DATETIME", help="e.g. '2026-07-20T20:00:00'")
     parser.add_argument("--setup-guide", action="store_true", help="Print setup instructions")
     parser.add_argument("--oauth", action="store_true", help="Run OAuth flow to get tokens")
+    parser.add_argument("--delete", metavar="VIDEO_ID", help="Delete a video by ID instead of uploading")
 
     args = parser.parse_args()
 
@@ -381,6 +395,14 @@ def main() -> None:
 
     if args.oauth:
         _run_oauth_flow()
+        return
+
+    if args.delete:
+        try:
+            delete_video_on_youtube(args.delete)
+        except Exception as e:
+            print(f"\n[publisher_youtube] FAILED: {e}")
+            sys.exit(1)
         return
 
     if not args.video:
