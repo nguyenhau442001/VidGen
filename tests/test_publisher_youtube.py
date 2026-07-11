@@ -1,3 +1,6 @@
+import subprocess
+import sys
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -176,3 +179,22 @@ def test_publish_video_on_youtube_notifies_and_reraises_on_failure(tmp_path, mon
             pub.publish_video_on_youtube(video, PublishMetadata(title="T"))
 
     assert "FAIL" in mock_notify.call_args.kwargs["status"]
+
+
+def test_setup_guide_flag_prints_guide_and_exits_zero():
+    result = subprocess.run(
+        [sys.executable, "-m", "vidgen.publisher_youtube", "--setup-guide"],
+        capture_output=True, text=True, cwd=str(Path(__file__).parent.parent),
+    )
+    assert result.returncode == 0
+    assert "YouTube Data API v3" in result.stdout
+    assert "YOUTUBE_CLIENT_ID" in result.stdout
+
+
+def test_cli_without_video_or_flags_prints_help_and_exits_nonzero():
+    result = subprocess.run(
+        [sys.executable, "-m", "vidgen.publisher_youtube"],
+        capture_output=True, text=True, cwd=str(Path(__file__).parent.parent),
+    )
+    assert result.returncode != 0
+    assert "usage" in result.stdout.lower() or "usage" in result.stderr.lower()

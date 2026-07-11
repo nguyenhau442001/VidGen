@@ -176,7 +176,7 @@ cron 8pm
 | GAP 3 | TTS speed wrapper — auto speed + silence trim | ✅ Done | `vidgen/tts_speed_adjustor.py` |
 | GAP 4 | Gate 2 — visual quality enforcement | ✅ Done | `vidgen/gate2_visual.py` |
 | GAP 5 | Auto-publish — TikTok Direct Post API | 🔧 In progress | `vidgen/publisher.py` |
-| GAP 5 | Auto-publish — YouTube Data API v3 | 🔲 Planned | — |
+| GAP 5 | Auto-publish — YouTube Data API v3 | 🔧 In progress | `vidgen/publisher_youtube.py`, `vidgen/publish_common.py` |
 | GAP 5 | Auto-publish — Facebook Graph API (Reels) | 🔲 Planned | — |
 
 ### Quick start
@@ -196,6 +196,9 @@ python -m vidgen.runner --list
 
 # Publish to TikTok (after OAuth setup)
 python -m vidgen.publisher out/video.mp4 --title "Tiêu đề #60scongnghe"
+
+# Publish to YouTube (after OAuth setup)
+python -m vidgen.publisher_youtube out/video.mp4 --title "Tiêu đề #Shorts"
 ```
 
 ### Cron setup

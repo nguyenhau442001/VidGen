@@ -257,3 +257,142 @@ def publish_video_on_youtube(video_path, metadata: PublishMetadata) -> dict:
             extra={"duration": str(int(time.time() - _start_time))},
         )
         raise
+
+
+SETUP_GUIDE = """
+=== YouTube Publisher - One-time Setup Guide =============================
+
+  STEP 1 - Create a Google Cloud project + OAuth client
+  -------------------------------------------------------
+  1. Go to https://console.cloud.google.com/
+  2. Create a new project (or pick an existing one)
+  3. APIs & Services -> Library -> enable "YouTube Data API v3"
+  4. APIs & Services -> OAuth consent screen:
+       User type:     External
+       Publishing:    Testing  (refresh tokens expire after 7 days until
+                      you submit for verification - re-run --oauth weekly
+                      until then, same as TikTok's pending-audit fallback)
+       Test users:    add your own Google account
+  5. APIs & Services -> Credentials -> Create Credentials -> OAuth client ID
+       Application type: Desktop app
+  6. Save -> copy your CLIENT ID and CLIENT SECRET
+
+  STEP 2 - Add credentials to .env
+  -----------------------------------
+  Create/edit .env at your repo root:
+
+    YOUTUBE_CLIENT_ID=your_client_id_here
+    YOUTUBE_CLIENT_SECRET=your_client_secret_here
+    GITHUB_REPO=you/VidGen        # optional, for notify.yml
+    GITHUB_TOKEN=ghp_xxxxxxxxxxxx  # optional, for notify.yml
+
+  STEP 3 - Run OAuth flow to get access token
+  -----------------------------------------------
+    python -m vidgen.publisher_youtube --oauth
+
+  This saves access_token + refresh_token to .youtube_tokens.json
+
+  STEP 4 - Test
+  -----------------
+    python -m vidgen.publisher_youtube out/test.mp4 --title "Test #Shorts"
+
+============================================================================
+"""
+
+
+def _run_oauth_flow() -> None:
+    """Interactive OAuth flow - opens browser, waits for redirect, saves tokens."""
+    if not YOUTUBE_CLIENT_ID:
+        print("ERROR: YOUTUBE_CLIENT_ID not set. Add it to your .env file first.")
+        sys.exit(1)
+
+    auth_url = (
+        f"{AUTH_URL}?client_id={YOUTUBE_CLIENT_ID}"
+        f"&redirect_uri={urllib.parse.quote(REDIRECT_URI)}"
+        "&response_type=code"
+        f"&scope={urllib.parse.quote(SCOPE)}"
+        "&access_type=offline&prompt=consent"
+    )
+
+    code = run_oauth_local_server(auth_url, port=8080)
+
+    print("Auth code received. Exchanging for tokens...")
+    resp = requests.post(
+        TOKEN_URL,
+        data={
+            "client_id":     YOUTUBE_CLIENT_ID,
+            "client_secret": YOUTUBE_CLIENT_SECRET,
+            "code":          code,
+            "grant_type":    "authorization_code",
+            "redirect_uri":  REDIRECT_URI,
+        },
+    )
+    data = resp.json()
+    if resp.status_code != 200:
+        print(f"ERROR: Token exchange failed: {data}")
+        sys.exit(1)
+
+    tokens = {
+        "access_token":  data["access_token"],
+        "refresh_token": data["refresh_token"],
+        "expires_in":    data.get("expires_in", 3600),
+    }
+    save_tokens(TOKENS_FILE, tokens)
+    print("Setup complete! You can now run:")
+    print("  python -m vidgen.publisher_youtube out/video.mp4 --title 'Your title #Shorts'")
+
+
+def main() -> None:
+    env_file = Path(__file__).parent.parent / ".env"
+    if env_file.exists():
+        for line in env_file.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+    parser = argparse.ArgumentParser(description="VidGen YouTube publisher")
+    parser.add_argument("video", nargs="?", help="Path to .mp4 file")
+    parser.add_argument("--title", default="", help="Video title")
+    parser.add_argument("--description", default="", help="Video description (default: title)")
+    parser.add_argument("--tags", default="", help="Comma-separated tags")
+    parser.add_argument("--privacy", default="public", choices=["public", "unlisted", "private"])
+    parser.add_argument("--made-for-kids", action="store_true")
+    parser.add_argument("--schedule", default=None, metavar="ISO_DATETIME", help="e.g. '2026-07-20T20:00:00'")
+    parser.add_argument("--setup-guide", action="store_true", help="Print setup instructions")
+    parser.add_argument("--oauth", action="store_true", help="Run OAuth flow to get tokens")
+
+    args = parser.parse_args()
+
+    if args.setup_guide:
+        print(SETUP_GUIDE)
+        return
+
+    if args.oauth:
+        _run_oauth_flow()
+        return
+
+    if not args.video:
+        parser.print_help()
+        sys.exit(1)
+
+    title = args.title or Path(args.video).stem.replace("_", " ")
+    metadata = PublishMetadata(
+        title=title,
+        description=args.description or title,
+        tags=[t.strip() for t in args.tags.split(",") if t.strip()],
+        privacy=args.privacy,
+        made_for_kids=args.made_for_kids,
+        schedule_time=args.schedule,
+    )
+
+    try:
+        result = publish_video_on_youtube(args.video, metadata)
+        print(f"\nResult: {result}")
+    except Exception as e:
+        print(f"\n[publisher_youtube] FAILED: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
