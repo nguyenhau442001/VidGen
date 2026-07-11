@@ -170,3 +170,90 @@ def _init_resumable_session(access_token: str, video_path: Path, metadata: Publi
     upload_url = resp.headers["Location"]
     print("[publisher_youtube] Upload session initialized")
     return upload_url
+
+
+def publish_video_on_youtube(video_path, metadata: PublishMetadata) -> dict:
+    """
+    Full pipeline: token check -> init -> chunked upload -> poll -> notify.
+
+    Args:
+        video_path: Path to the rendered .mp4
+        metadata:   PublishMetadata (title/description/tags/privacy/etc.)
+
+    Returns:
+        dict with video_id, status, and url.
+    """
+    video_path = Path(video_path)
+    if not video_path.exists():
+        raise FileNotFoundError(f"Video not found: {video_path}")
+
+    print("\n-- YouTube Publish ----------------------------------")
+    print(f"   File:  {video_path.name} ({video_path.stat().st_size // 1024 // 1024} MB)")
+    print(f"   Title: {metadata.title[:60]}")
+
+    _start_time = time.time()
+
+    try:
+        access_token = _get_valid_token()
+        upload_url = _init_resumable_session(access_token, video_path, metadata)
+
+        final_resp = chunked_resumable_upload(
+            upload_url,
+            video_path,
+            CHUNK_SIZE,
+            put_headers_fn=lambda start, end, total: {
+                "Content-Range":  f"bytes {start}-{end}/{total}",
+                "Content-Length": str(end - start + 1),
+                "Content-Type":   "video/mp4",
+            },
+        )
+        video_id = final_resp.json()["id"]
+        print(f"[publisher_youtube] Upload complete - video_id={video_id}")
+
+        def _check_status():
+            resp = requests.get(
+                f"{API_BASE}/videos",
+                params={"part": "status,processingDetails", "id": video_id},
+                headers={"Authorization": f"Bearer {access_token}"},
+            )
+            resp.raise_for_status()
+            items = resp.json().get("items", [])
+            if not items:
+                return False, True, {"error": "video not found"}
+            processing = items[0].get("processingDetails", {}).get("processingStatus", "processing")
+            print(f"[publisher_youtube] Processing status: {processing}")
+            if processing == "succeeded":
+                return True, False, items[0]
+            if processing in ("failed", "terminated"):
+                return False, True, items[0]
+            return False, False, items[0]
+
+        poll_until(_check_status, interval=POLL_INTERVAL, max_attempts=POLL_MAX)
+
+        duration = str(int(time.time() - _start_time))
+        url = f"https://youtu.be/{video_id}"
+        print(f"\n[publisher_youtube] DONE in {duration}s: {url}")
+
+        notify_github(
+            video_name=video_path.name,
+            platform="youtube",
+            status="OK",
+            github_repo=GITHUB_REPO,
+            github_token=GITHUB_TOKEN,
+            github_workflow=GITHUB_WORKFLOW,
+            extra={"video_id": video_id, "url": url, "duration": duration},
+        )
+
+        return {"video_id": video_id, "status": "succeeded", "url": url}
+
+    except Exception as e:
+        notify_github(
+            video_name=video_path.name,
+            platform="youtube",
+            status=f"FAIL: {e}",
+            github_repo=GITHUB_REPO,
+            github_token=GITHUB_TOKEN,
+            github_workflow=GITHUB_WORKFLOW,
+            extra={"duration": str(int(time.time() - _start_time))},
+        )
+        raise

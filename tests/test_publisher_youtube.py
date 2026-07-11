@@ -132,3 +132,47 @@ def test_init_resumable_session_raises_without_location_header(tmp_path):
         mock_post.return_value = MagicMock(status_code=200, headers={}, text="no location")
         with pytest.raises(RuntimeError, match="Upload init failed"):
             pub._init_resumable_session("tok", video, PublishMetadata(title="T"))
+
+
+def test_publish_video_on_youtube_raises_for_missing_file(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        pub.publish_video_on_youtube(tmp_path / "missing.mp4", PublishMetadata(title="T"))
+
+
+def test_publish_video_on_youtube_happy_path(tmp_path, monkeypatch):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 100)
+
+    monkeypatch.setattr(pub, "_get_valid_token", lambda: "tok")
+    monkeypatch.setattr(pub, "_init_resumable_session", lambda token, path, meta: "http://upload/1")
+
+    upload_resp = MagicMock(status_code=200, json=lambda: {"id": "vid42"})
+    monkeypatch.setattr(pub, "chunked_resumable_upload", lambda *a, **kw: upload_resp)
+
+    status_resp = MagicMock(
+        status_code=200,
+        json=lambda: {"items": [{"processingDetails": {"processingStatus": "succeeded"}}]},
+    )
+    with patch("vidgen.publisher_youtube.requests.get", return_value=status_resp), \
+         patch("vidgen.publisher_youtube.notify_github") as mock_notify:
+        result = pub.publish_video_on_youtube(video, PublishMetadata(title="T"))
+
+    assert result == {"video_id": "vid42", "status": "succeeded", "url": "https://youtu.be/vid42"}
+    assert mock_notify.call_args.kwargs["status"] == "OK"
+    assert mock_notify.call_args.kwargs["platform"] == "youtube"
+
+
+def test_publish_video_on_youtube_notifies_and_reraises_on_failure(tmp_path, monkeypatch):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 10)
+
+    def boom():
+        raise RuntimeError("token refresh failed")
+
+    monkeypatch.setattr(pub, "_get_valid_token", boom)
+
+    with patch("vidgen.publisher_youtube.notify_github") as mock_notify:
+        with pytest.raises(RuntimeError, match="token refresh failed"):
+            pub.publish_video_on_youtube(video, PublishMetadata(title="T"))
+
+    assert "FAIL" in mock_notify.call_args.kwargs["status"]
