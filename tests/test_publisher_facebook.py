@@ -186,3 +186,45 @@ def test_check_publishing_status_in_progress():
         done, terminal_failure, data = pub._check_publishing_status("page-tok", "vid1")
     assert done is False
     assert terminal_failure is False
+
+
+def test_publish_video_on_facebook_raises_for_missing_file(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        pub.publish_video_on_facebook(tmp_path / "missing.mp4", PublishMetadata(title="T"))
+
+
+def test_publish_video_on_facebook_happy_path(tmp_path, monkeypatch):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 100)
+
+    monkeypatch.setattr(pub, "_get_page_token", lambda: "page-tok")
+    monkeypatch.setattr(pub, "_init_upload_session", lambda token: ("vid42", "http://rupload/vid42"))
+    monkeypatch.setattr(pub, "_upload_video_chunks", lambda url, path, token: None)
+    monkeypatch.setattr(pub, "_finish_upload", lambda token, vid, meta: None)
+    monkeypatch.setattr(
+        pub, "_check_publishing_status",
+        lambda token, vid: (True, False, {"publishing_phase": {"status": "complete"}}),
+    )
+
+    with patch("vidgen.publisher_facebook.notify_github") as mock_notify:
+        result = pub.publish_video_on_facebook(video, PublishMetadata(title="T"))
+
+    assert result == {"video_id": "vid42", "status": "succeeded", "url": "https://www.facebook.com/reel/vid42"}
+    assert mock_notify.call_args.kwargs["status"] == "OK"
+    assert mock_notify.call_args.kwargs["platform"] == "facebook"
+
+
+def test_publish_video_on_facebook_notifies_and_reraises_on_failure(tmp_path, monkeypatch):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 10)
+
+    def boom():
+        raise RuntimeError("no page token")
+
+    monkeypatch.setattr(pub, "_get_page_token", boom)
+
+    with patch("vidgen.publisher_facebook.notify_github") as mock_notify:
+        with pytest.raises(RuntimeError, match="no page token"):
+            pub.publish_video_on_facebook(video, PublishMetadata(title="T"))
+
+    assert "FAIL" in mock_notify.call_args.kwargs["status"]

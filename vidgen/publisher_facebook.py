@@ -206,3 +206,68 @@ def _check_publishing_status(page_token: str, video_id: str):
     if phase_status == "error":
         return False, True, status
     return False, False, status
+
+
+def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
+    """
+    Full pipeline: page token -> init session -> chunked upload -> finish ->
+    poll -> notify.
+
+    Args:
+        video_path: Path to the rendered .mp4
+        metadata:   PublishMetadata (title/description used; tags/privacy/
+                    made_for_kids are ignored with a warning - see
+                    _build_finish_params)
+
+    Returns:
+        dict with video_id, status, and url.
+    """
+    video_path = Path(video_path)
+    if not video_path.exists():
+        raise FileNotFoundError(f"Video not found: {video_path}")
+
+    print("\n-- Facebook Reels Publish -----------------------------")
+    print(f"   File:  {video_path.name} ({video_path.stat().st_size // 1024 // 1024} MB)")
+    print(f"   Title: {metadata.title[:60]}")
+
+    _start_time = time.time()
+
+    try:
+        page_token = _get_page_token()
+        video_id, upload_url = _init_upload_session(page_token)
+        _upload_video_chunks(upload_url, video_path, page_token)
+        _finish_upload(page_token, video_id, metadata)
+
+        poll_until(
+            lambda: _check_publishing_status(page_token, video_id),
+            interval=POLL_INTERVAL,
+            max_attempts=POLL_MAX,
+        )
+
+        duration = str(int(time.time() - _start_time))
+        url = f"https://www.facebook.com/reel/{video_id}"
+        print(f"\n[publisher_facebook] DONE in {duration}s: {url}")
+
+        notify_github(
+            video_name=video_path.name,
+            platform="facebook",
+            status="OK",
+            github_repo=GITHUB_REPO,
+            github_token=GITHUB_TOKEN,
+            github_workflow=GITHUB_WORKFLOW,
+            extra={"video_id": video_id, "url": url, "duration": duration},
+        )
+
+        return {"video_id": video_id, "status": "succeeded", "url": url}
+
+    except Exception as e:
+        notify_github(
+            video_name=video_path.name,
+            platform="facebook",
+            status=f"FAIL: {e}",
+            github_repo=GITHUB_REPO,
+            github_token=GITHUB_TOKEN,
+            github_workflow=GITHUB_WORKFLOW,
+            extra={"duration": str(int(time.time() - _start_time))},
+        )
+        raise
