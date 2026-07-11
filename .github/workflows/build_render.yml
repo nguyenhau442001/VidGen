@@ -1,0 +1,44 @@
+name: VidGen build & render
+
+# Runs the actual TTS + Remotion render pipeline. Needs VieNeu-TTS, ffmpeg
+# and the Remotion toolchain installed locally, so this targets a
+# self-hosted runner on the machine the pipeline already runs on (cron via
+# vidgen/runner.py) — there is no hosted-runner equivalent for this job.
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "Path to the content script JSON to render"
+        required: true
+        type: string
+      speed:
+        description: "Voiceover speed multiplier (blank = pipeline default)"
+        required: false
+        type: string
+
+jobs:
+  build-render:
+    name: "Build & render ${{ inputs.script }}"
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build + render
+        run: |
+          if [ -n "${{ inputs.speed }}" ]; then
+            scripts/ci_build_render.sh "${{ inputs.script }}" --speed "${{ inputs.speed }}"
+          else
+            scripts/ci_build_render.sh "${{ inputs.script }}"
+          fi
+        env:
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.NOTIFY_TOKEN }}
+
+      - name: Upload rendered video
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-video
+          path: output/video/mp4/*.mp4
+          if-no-files-found: ignore
