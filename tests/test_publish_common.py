@@ -1,7 +1,9 @@
 import json
 from unittest.mock import MagicMock, patch
 
-from vidgen.publish_common import PublishMetadata, load_tokens, save_tokens, notify_github
+import pytest
+
+from vidgen.publish_common import PublishMetadata, load_tokens, save_tokens, notify_github, poll_until
 
 
 def test_publish_metadata_defaults():
@@ -58,3 +60,32 @@ def test_notify_github_nonfatal_on_non_204(mock_post, capsys):
 def test_notify_github_swallows_request_exceptions(mock_post, capsys):
     notify_github("v.mp4", "youtube", "OK", github_repo="me/repo", github_token="tok")
     assert "non-fatal" in capsys.readouterr().out
+
+
+def test_poll_until_returns_data_when_done_immediately():
+    result = poll_until(lambda: (True, False, {"status": "ok"}), interval=0, max_attempts=3)
+    assert result == {"status": "ok"}
+
+
+def test_poll_until_retries_until_done():
+    calls = {"n": 0}
+
+    def check():
+        calls["n"] += 1
+        if calls["n"] < 3:
+            return False, False, {"status": "processing"}
+        return True, False, {"status": "ok"}
+
+    result = poll_until(check, interval=0, max_attempts=5)
+    assert result == {"status": "ok"}
+    assert calls["n"] == 3
+
+
+def test_poll_until_raises_on_terminal_failure():
+    with pytest.raises(RuntimeError, match="Polling failed"):
+        poll_until(lambda: (False, True, {"error": "bad"}), interval=0, max_attempts=3)
+
+
+def test_poll_until_raises_after_max_attempts():
+    with pytest.raises(RuntimeError, match="did not complete"):
+        poll_until(lambda: (False, False, {}), interval=0, max_attempts=2)

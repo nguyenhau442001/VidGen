@@ -9,9 +9,10 @@ from __future__ import annotations
 
 import json
 import requests
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional, Tuple
 
 
 @dataclass
@@ -80,3 +81,23 @@ def notify_github(
             print(f"[publish_common] GitHub notify failed (non-fatal): HTTP {resp.status_code} {resp.text[:100]}")
     except Exception as e:
         print(f"[publish_common] GitHub notify error (non-fatal): {e}")
+
+
+def poll_until(
+    check_fn: Callable[[], Tuple[bool, bool, dict]],
+    interval: int = 5,
+    max_attempts: int = 60,
+) -> dict:
+    """
+    Calls check_fn() repeatedly until it reports done or a terminal failure.
+    check_fn() -> (done, terminal_failure, data).
+    """
+    for attempt in range(1, max_attempts + 1):
+        done, terminal_failure, data = check_fn()
+        if done:
+            return data
+        if terminal_failure:
+            raise RuntimeError(f"Polling failed: {data}")
+        time.sleep(interval)
+
+    raise RuntimeError(f"Polling did not complete after {max_attempts * interval}s")
