@@ -131,3 +131,30 @@ def test_chunked_resumable_upload_raises_on_error_status(tmp_path):
         mock_put.return_value = MagicMock(status_code=500, text="server error")
         with pytest.raises(RuntimeError, match="Chunk upload failed"):
             chunked_resumable_upload("http://upload", video, chunk_size=10, put_headers_fn=lambda s, e, t: {})
+
+
+def test_chunked_resumable_upload_returns_immediately_on_early_2xx(tmp_path):
+    # 3 chunks worth of bytes, but the server accepts the whole upload on the
+    # first PUT. The loop must return right away instead of issuing further
+    # PUTs against an upload the server already completed.
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 30)  # chunk_size=10 -> would be 3 chunks if fully looped
+
+    resp_200 = MagicMock(status_code=200, json=lambda: {"id": "vid-early"})
+
+    with patch("vidgen.publish_common.requests.put", side_effect=[resp_200]) as mock_put:
+        resp = chunked_resumable_upload("http://upload", video, chunk_size=10, put_headers_fn=lambda s, e, t: {})
+
+    assert resp.json() == {"id": "vid-early"}
+    assert mock_put.call_count == 1  # stopped immediately, did not loop to exhaustion
+
+
+def test_chunked_resumable_upload_raises_on_empty_file(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"")
+
+    with patch("vidgen.publish_common.requests.put") as mock_put:
+        with pytest.raises(RuntimeError, match="empty file"):
+            chunked_resumable_upload("http://upload", video, chunk_size=10, put_headers_fn=lambda s, e, t: {})
+
+    mock_put.assert_not_called()

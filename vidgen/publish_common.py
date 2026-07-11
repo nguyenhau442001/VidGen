@@ -119,8 +119,11 @@ def chunked_resumable_upload(
     """
     file_path = Path(file_path)
     total_size = file_path.stat().st_size
+
+    if total_size == 0:
+        raise RuntimeError(f"Cannot upload empty file: {file_path}")
+
     start = 0
-    last_resp = None
 
     with open(file_path, "rb") as f:
         while start < total_size:
@@ -129,7 +132,6 @@ def chunked_resumable_upload(
             chunk = f.read(end - start + 1)
 
             resp = requests.put(upload_url, headers=put_headers_fn(start, end, total_size), data=chunk)
-            last_resp = resp
 
             if resp.status_code == 308:
                 range_header = resp.headers.get("Range")
@@ -141,6 +143,8 @@ def chunked_resumable_upload(
                     f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
                 )
 
-            start = end + 1
+            return resp
 
-    return last_resp
+    # Unreachable in practice: the loop always returns on a non-308 response
+    # or raises; total_size == 0 is rejected above.
+    raise RuntimeError(f"Upload loop exited without a terminal response for {file_path}")
