@@ -1,6 +1,8 @@
 export type ExplanationVisual = {
   headline: string;
-  body: string;
+  body?: string;
+  bullets?: string[];
+  accentWord?: string;
 };
 
 export type TerminalLine = string | { text: string; highlight?: boolean };
@@ -280,6 +282,7 @@ export type ScoreCardSceneProps = ScoreCardVisual & { durationInFrames: number }
 export type SplitPanelContent =
   | { kind: "loading"; text?: string }
   | { kind: "text"; heading?: string; body: string }
+  | { kind: "list"; items: string[]; highlightLast?: boolean }
   | { kind: "dots"; count?: number }
   | { kind: "road_diagram"; axis: MapPingAxis; roadConstraint?: "median" }
   | { kind: "eta_comparison"; axis: MapPingAxis };

@@ -47,74 +47,54 @@
     },
     {
       "id": "shot_01b",
-      "type": "TerminalScene",
+      "type": "SplitViewScene",
       "duration_frames": 274,
       "narration": "Ba triệu chuyến mỗi ngày. Grab không đoán mò — nó đọc hành vi của từng vùng, từng giờ, từng loại thời tiết. Và nó đã đọc bạn từ tuần trước.",
-      "narration_timing_frames": [
-        5,
-        259
-      ],
+      "narration_timing_frames": [5, 259],
       "transition_out_delay_frames": 15,
       "props": {
-        "lines": [
-          {
-            "text": "[FEATURE] user_zone=Q1  ·  hour=08:00  ·  day=Monday",
-            "highlight": false
-          },
-          {
-            "text": "[FEATURE] weather=clear  ·  last_ride=6_days_ago",
-            "highlight": false
-          },
-          {
-            "text": "[FEATURE] app_opens_nearby=1247  ·  event=none",
-            "highlight": false
-          },
-          {
-            "text": "[PREDICT] P(ride_request) = 0.91  ← ← ←",
-            "highlight": true
-          },
-          {
-            "text": "[ACTION]  pre_dispatch driver_id=D2847 · 600m away",
-            "highlight": false
-          }
-        ]
+        "left": {
+          "label": "Bạn nghĩ",
+          "lines": [
+            "Mở app",
+            "Tìm tài xế",
+            "Chờ vài phút"
+          ]
+        },
+        "right": {
+          "label": "Grab thấy",
+          "lines": [
+            "Q.1 · Thứ Hai · 8:00 sáng",
+            "Trời nắng · Chưa đặt 6 ngày",
+            "1.247 người mở app gần đây",
+            "→ Xác suất đặt xe: 91%"
+          ],
+          "highlight_last": true
+        }
       },
       "on_screen_text": "Grab đã đọc bạn trước khi bạn biết mình cần xe",
       "on_screen_text_style": "caption_muted",
-      "sound_design": "terminal boot sfx frame 0, rapid line-by-line type frames 10–80, tense anticipation hum builds frames 60–130, SLAM highlight pulse on PREDICT line frame 140, driver dispatch confirm ding frame 165, bass settle frame 195"
+      "sound_design": "soft reveal transition left panel frame 0, right panel lines appear one-by-one frames 20–80, accent pulse on 91% line frame 130, low confirm tone frame 160"
     },
     {
       "id": "shot_01c",
-      "type": "TerminalScene",
+      "type": "ExplanationScene",
       "duration_frames": 250,
       "narration": "Grab không đợi bạn ra lệnh. Hệ thống đã chạy vòng dự đoán từ ba tiếng trước — và đang chờ bạn xác nhận điều nó đã biết.",
-      "narration_timing_frames": [
-        5,
-        235
-      ],
+      "narration_timing_frames": [5, 235],
       "transition_out_delay_frames": 15,
       "props": {
-        "lines": [
-          {
-            "text": "[05:00] Prediction cycle: RUNNING",
-            "highlight": false
-          },
-          {
-            "text": "[05:47] Demand spike detected: Q.1",
-            "highlight": false
-          },
-          {
-            "text": "[06:12] Drivers pre-positioned: 23",
-            "highlight": false
-          },
-          {
-            "text": "[NOW]   Waiting for you...",
-            "highlight": true
-          }
+        "headline": "App chưa mở, Grab đã sẵn sàng",
+        "accentWord": "chưa mở",
+        "bullets": [
+          "5:00 SA — Mô hình dự báo cầu khởi động",
+          "5:47 SA — Phát hiện điểm nóng: Q.1",
+          "6:12 SA — 23 tài xế được điều vào sẵn",
+          "8:00 SA — Đang chờ bạn mở app..."
         ]
       },
       "on_screen_text": "",
-      "sound_design": "keyboard clack per typed char, soft ambient hum, subtle confirm beep on the highlighted [NOW] line"
+      "sound_design": "calm ambient, each bullet ticks in like a clock chime, subtle tension build on last bullet, soft anticipation hold"
     },
     {
       "id": "shot_02a",

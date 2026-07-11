@@ -47,7 +47,7 @@ const firstTerminal = manifestScenes.find(
 );
 const coverDefaultProps = {
   headline: hookScene.type === "explanation" ? hookScene.visual.headline : "",
-  body: hookScene.type === "explanation" ? hookScene.visual.body : "",
+  body: hookScene.type === "explanation" ? (hookScene.visual.body ?? "") : "",
   terminalLines: firstTerminal
     ? firstTerminal.visual.lines.map((l) => (typeof l === "string" ? l : l.text)).filter((l) => l.trim())
     : [],

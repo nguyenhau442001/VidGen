@@ -136,6 +136,14 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
             visual["leftLabel"] = visual.pop("leftCaption")
         if "rightCaption" in visual:
             visual["rightLabel"] = visual.pop("rightCaption")
+        # `left`/`right` is the authoring-friendly shorthand for a plain
+        # bulleted-list panel: {label, lines, highlight_last?} on each side.
+        for side in ("left", "right"):
+            if side in visual:
+                panel = visual.pop(side)
+                visual[f"{side}Panel"] = {"kind": "list", "items": panel["lines"], "highlightLast": panel.get("highlight_last", False)}
+                if panel.get("label"):
+                    visual[f"{side}Label"] = panel["label"]
         return visual
 
     if scene_type == "phone_mockup":

@@ -400,6 +400,39 @@ const PanelContent: React.FC<{
     );
   }
 
+  if (panel.kind === "list") {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 22, width: "100%" }}>
+        {panel.items.map((item, i) => {
+          const enterFrame = 6 + i * 8;
+          const isLast = panel.highlightLast && i === panel.items.length - 1;
+          const enter = interpolate(frame, [enterFrame, enterFrame + 14], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          });
+          const pulse = isLast ? 1 + Math.max(0, Math.sin((frame - enterFrame - 14) * 0.12)) * 0.04 : 1;
+          return (
+            <div
+              key={i}
+              style={{
+                opacity: enter,
+                transform: `translateY(${interpolate(enter, [0, 1], [10, 0])}px) scale(${pulse})`,
+                fontSize: isLast ? 26 : 21,
+                fontWeight: isLast ? 700 : 400,
+                lineHeight: 1.4,
+                color: isLast ? accentColor : colors.textPrimary,
+                fontFamily: INTER,
+                textAlign: "center",
+              }}
+            >
+              {item}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   if (panel.kind === "dots") {
     return <DotCluster frame={frame} count={panel.count ?? 18} accentColor={accentColor} />;
   }

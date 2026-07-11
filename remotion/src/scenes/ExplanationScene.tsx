@@ -28,6 +28,8 @@ function parseWords(text: string): { word: string; highlighted: boolean }[] {
 export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   headline,
   body,
+  bullets,
+  accentWord,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -45,8 +47,13 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
     extrapolateRight: "clamp",
   });
 
-  const headlineWords = parseWords(headline);
-  const bodyWords = parseWords(body);
+  // accentWord highlights a headline substring the same way other scenes'
+  // renderHeadline helpers do — folded into the existing **bold** markdown
+  // so it rides the same per-word spring stagger as the rest of the headline.
+  const effectiveHeadline =
+    accentWord && headline.includes(accentWord) ? headline.replace(accentWord, `**${accentWord}**`) : headline;
+  const headlineWords = parseWords(effectiveHeadline);
+  const bodyWords = parseWords(body ?? "");
 
   return (
     <AbsoluteFill
@@ -99,32 +106,73 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
         })}
       </div>
 
-      {/* Body — staggered spring per word, delayed after headline */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
-        {bodyWords.map(({ word, highlighted }, i) => {
-          const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
-          const s = spring({
-            frame: frame - delay,
-            fps,
-            config: { stiffness: 200, damping: 22 },
-            durationInFrames: 20,
-          });
-          return (
-            <span
-              key={i}
-              style={{
-                ...t.body,
-                color: highlighted ? colors.cyan : colors.textDim,
-                opacity: s,
-                transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
-                display: "inline-block",
-              }}
-            >
-              {word}
-            </span>
-          );
-        })}
-      </div>
+      {bullets && bullets.length > 0 ? (
+        /* Bullet list — one row ticks in at a time, delayed after headline */
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {bullets.map((line, i) => {
+            const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 8;
+            const s = spring({
+              frame: frame - delay,
+              fps,
+              config: { stiffness: 260, damping: 24 },
+              durationInFrames: 18,
+            });
+            const isLast = i === bullets.length - 1;
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 16,
+                  opacity: s,
+                  transform: `translateX(${interpolate(s, [0, 1], [-14, 0])}px)`,
+                }}
+              >
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    backgroundColor: isLast ? colors.cyan : colors.textDim,
+                    flexShrink: 0,
+                  }}
+                />
+                <span style={{ ...t.body, fontSize: 28, color: isLast ? colors.textPrimary : colors.textDim }}>
+                  {line}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        /* Body — staggered spring per word, delayed after headline */
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
+          {bodyWords.map(({ word, highlighted }, i) => {
+            const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
+            const s = spring({
+              frame: frame - delay,
+              fps,
+              config: { stiffness: 200, damping: 22 },
+              durationInFrames: 20,
+            });
+            return (
+              <span
+                key={i}
+                style={{
+                  ...t.body,
+                  color: highlighted ? colors.cyan : colors.textDim,
+                  opacity: s,
+                  transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
+                  display: "inline-block",
+                }}
+              >
+                {word}
+              </span>
+            );
+          })}
+        </div>
+      )}
       </SafeZone>
     </AbsoluteFill>
   );
