@@ -117,11 +117,15 @@ def _build_video_resource(metadata: PublishMetadata) -> dict:
     """Build the snippet/status JSON body for the resumable-init request."""
     title = metadata.title
     if "#shorts" not in title.lower():
-        title = f"{title} #Shorts"
+        suffix = " #Shorts"
+        # Truncate the base title first so the suffix always survives intact.
+        title = title[: 100 - len(suffix)] + suffix
+    else:
+        title = title[:100]
 
     body: dict = {
         "snippet": {
-            "title":       title[:100],
+            "title":       title,
             "description": metadata.description,
             "tags":        metadata.tags,
             "categoryId":  CATEGORY_ID_SCI_TECH,
@@ -135,7 +139,9 @@ def _build_video_resource(metadata: PublishMetadata) -> dict:
     if metadata.schedule_time:
         dt = datetime.datetime.fromisoformat(metadata.schedule_time)
         if dt.tzinfo is None:
-            dt = dt.astimezone()
+            # A naive schedule_time is treated as already being UTC, not the
+            # host machine's local timezone (which would be non-deterministic).
+            dt = dt.replace(tzinfo=datetime.timezone.utc)
         body["status"]["privacyStatus"] = "private"
         body["status"]["publishAt"] = (
             dt.astimezone(datetime.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")

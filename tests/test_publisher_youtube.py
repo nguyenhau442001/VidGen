@@ -91,3 +91,20 @@ def test_build_video_resource_schedule_forces_private_and_sets_publish_at():
     assert body["status"]["privacyStatus"] == "private"
     assert body["status"]["publishAt"].startswith("2026-07-20T")
     assert body["status"]["publishAt"].endswith("Z")
+
+
+def test_build_video_resource_truncation_preserves_shorts_tag():
+    # 97-char title + " #Shorts" (8 chars) = 105 chars, which would overflow
+    # 100 chars and sever the tag under naive `f"{title} #Shorts"`[:100] logic.
+    long_title = "A" * 97
+    body = pub._build_video_resource(PublishMetadata(title=long_title))
+    title = body["snippet"]["title"]
+    assert len(title) <= 100
+    assert title.endswith("#Shorts")
+
+
+def test_build_video_resource_naive_schedule_time_treated_as_utc():
+    body = pub._build_video_resource(PublishMetadata(
+        title="T", privacy="public", schedule_time="2026-07-20T20:00:00",
+    ))
+    assert body["status"]["publishAt"] == "2026-07-20T20:00:00Z"
