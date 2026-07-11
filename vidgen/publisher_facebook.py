@@ -179,3 +179,30 @@ def _upload_video_chunks(upload_url: str, video_path: Path, page_token: str) -> 
             start = end
 
     print("[publisher_facebook] Upload complete")
+
+
+def _finish_upload(page_token: str, video_id: str, metadata: PublishMetadata) -> None:
+    """Calls upload_phase=finish to publish (or schedule) the Reel."""
+    params = _build_finish_params(metadata, video_id)
+    params["access_token"] = page_token
+    resp = requests.post(f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/video_reels", params=params)
+    data = resp.json()
+    if resp.status_code != 200 or data.get("success") is not True:
+        raise RuntimeError(f"Publish finish failed (HTTP {resp.status_code}): {resp.text[:200]}")
+
+
+def _check_publishing_status(page_token: str, video_id: str):
+    """check_fn for poll_until: polls publishing_phase.status."""
+    resp = requests.get(
+        f"{GRAPH_BASE}/{video_id}",
+        params={"fields": "status", "access_token": page_token},
+    )
+    resp.raise_for_status()
+    status = resp.json().get("status", {})
+    phase_status = status.get("publishing_phase", {}).get("status", "in_progress")
+    print(f"[publisher_facebook] Publishing status: {phase_status}")
+    if phase_status == "complete":
+        return True, False, status
+    if phase_status == "error":
+        return False, True, status
+    return False, False, status

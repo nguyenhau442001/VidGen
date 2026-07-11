@@ -131,3 +131,58 @@ def test_upload_video_chunks_raises_on_empty_file(tmp_path):
         with pytest.raises(RuntimeError, match="empty file"):
             pub._upload_video_chunks("http://rupload/vid1", video, "page-tok")
     mock_post.assert_not_called()
+
+
+def test_finish_upload_success(monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"success": True})
+        pub._finish_upload("page-tok", "vid1", PublishMetadata(title="T"))
+
+    args, kwargs = mock_post.call_args
+    assert args[0] == "https://graph.facebook.com/v25.0/page123/video_reels"
+    assert kwargs["params"]["video_id"] == "vid1"
+    assert kwargs["params"]["upload_phase"] == "finish"
+    assert kwargs["params"]["access_token"] == "page-tok"
+
+
+def test_finish_upload_raises_when_not_success(monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"success": False}, text="rejected")
+        with pytest.raises(RuntimeError, match="Publish finish failed"):
+            pub._finish_upload("page-tok", "vid1", PublishMetadata(title="T"))
+
+
+def test_check_publishing_status_complete():
+    status_resp = MagicMock(
+        status_code=200,
+        json=lambda: {"status": {"publishing_phase": {"status": "complete"}}},
+    )
+    with patch("vidgen.publisher_facebook.requests.get", return_value=status_resp):
+        done, terminal_failure, data = pub._check_publishing_status("page-tok", "vid1")
+    assert done is True
+    assert terminal_failure is False
+
+
+def test_check_publishing_status_error():
+    status_resp = MagicMock(
+        status_code=200,
+        json=lambda: {"status": {"publishing_phase": {"status": "error", "error_reason": "bad video"}}},
+    )
+    with patch("vidgen.publisher_facebook.requests.get", return_value=status_resp):
+        done, terminal_failure, data = pub._check_publishing_status("page-tok", "vid1")
+    assert done is False
+    assert terminal_failure is True
+    assert data["publishing_phase"]["error_reason"] == "bad video"
+
+
+def test_check_publishing_status_in_progress():
+    status_resp = MagicMock(
+        status_code=200,
+        json=lambda: {"status": {"publishing_phase": {"status": "in_progress"}}},
+    )
+    with patch("vidgen.publisher_facebook.requests.get", return_value=status_resp):
+        done, terminal_failure, data = pub._check_publishing_status("page-tok", "vid1")
+    assert done is False
+    assert terminal_failure is False
