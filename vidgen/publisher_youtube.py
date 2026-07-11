@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime
 import os
 import sys
 import time
@@ -110,3 +111,34 @@ def _get_valid_token() -> str:
         return new_tokens["access_token"]
 
     return access_token
+
+
+def _build_video_resource(metadata: PublishMetadata) -> dict:
+    """Build the snippet/status JSON body for the resumable-init request."""
+    title = metadata.title
+    if "#shorts" not in title.lower():
+        title = f"{title} #Shorts"
+
+    body: dict = {
+        "snippet": {
+            "title":       title[:100],
+            "description": metadata.description,
+            "tags":        metadata.tags,
+            "categoryId":  CATEGORY_ID_SCI_TECH,
+        },
+        "status": {
+            "privacyStatus":          metadata.privacy,
+            "selfDeclaredMadeForKids": metadata.made_for_kids,
+        },
+    }
+
+    if metadata.schedule_time:
+        dt = datetime.datetime.fromisoformat(metadata.schedule_time)
+        if dt.tzinfo is None:
+            dt = dt.astimezone()
+        body["status"]["privacyStatus"] = "private"
+        body["status"]["publishAt"] = (
+            dt.astimezone(datetime.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+        )
+
+    return body

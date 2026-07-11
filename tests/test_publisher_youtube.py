@@ -58,3 +58,36 @@ def test_get_valid_token_refreshes_on_401(tmp_path, monkeypatch):
 
     assert token == "fresh-tok"
     assert __import__("json").loads(tokens_file.read_text())["access_token"] == "fresh-tok"
+
+
+from vidgen.publish_common import PublishMetadata
+
+
+def test_build_video_resource_appends_shorts_tag_when_missing():
+    body = pub._build_video_resource(PublishMetadata(title="Redis pub/sub"))
+    assert body["snippet"]["title"] == "Redis pub/sub #Shorts"
+
+
+def test_build_video_resource_does_not_duplicate_shorts_tag():
+    body = pub._build_video_resource(PublishMetadata(title="Redis pub/sub #Shorts"))
+    assert body["snippet"]["title"] == "Redis pub/sub #Shorts"
+
+
+def test_build_video_resource_maps_fields():
+    body = pub._build_video_resource(PublishMetadata(
+        title="T", description="D", tags=["redis", "tech"], privacy="unlisted", made_for_kids=True,
+    ))
+    assert body["snippet"]["description"] == "D"
+    assert body["snippet"]["tags"] == ["redis", "tech"]
+    assert body["snippet"]["categoryId"] == "28"
+    assert body["status"]["privacyStatus"] == "unlisted"
+    assert body["status"]["selfDeclaredMadeForKids"] is True
+
+
+def test_build_video_resource_schedule_forces_private_and_sets_publish_at():
+    body = pub._build_video_resource(PublishMetadata(
+        title="T", privacy="public", schedule_time="2026-07-20T20:00:00",
+    ))
+    assert body["status"]["privacyStatus"] == "private"
+    assert body["status"]["publishAt"].startswith("2026-07-20T")
+    assert body["status"]["publishAt"].endswith("Z")
