@@ -1,3 +1,7 @@
+import json
+import subprocess
+import sys
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -247,3 +251,60 @@ def test_delete_video_on_facebook_raises_on_failure(monkeypatch):
         mock_delete.return_value = MagicMock(status_code=400, json=lambda: {"success": False}, text="error")
         with pytest.raises(RuntimeError, match="Delete failed"):
             pub.delete_video_on_facebook("vid1")
+
+
+def test_setup_guide_flag_prints_guide_and_exits_zero():
+    result = subprocess.run(
+        [sys.executable, "-m", "vidgen.publisher_facebook", "--setup-guide"],
+        capture_output=True, text=True, cwd=str(Path(__file__).parent.parent),
+    )
+    assert result.returncode == 0
+    assert "Meta for Developers" in result.stdout
+    assert "FACEBOOK_APP_ID" in result.stdout
+
+
+def test_cli_without_video_or_flags_prints_help_and_exits_nonzero():
+    result = subprocess.run(
+        [sys.executable, "-m", "vidgen.publisher_facebook"],
+        capture_output=True, text=True, cwd=str(Path(__file__).parent.parent),
+    )
+    assert result.returncode != 0
+    assert "usage" in result.stdout.lower() or "usage" in result.stderr.lower()
+
+
+def test_run_oauth_flow_saves_page_token_for_matching_page(monkeypatch, tmp_path):
+    monkeypatch.setattr(pub, "FACEBOOK_APP_ID", "app-id")
+    monkeypatch.setattr(pub, "FACEBOOK_APP_SECRET", "app-secret")
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    tokens_file = tmp_path / "tokens.json"
+    monkeypatch.setattr(pub, "TOKENS_FILE", tokens_file)
+
+    code_resp = MagicMock(status_code=200, json=lambda: {"access_token": "short-lived"})
+    long_resp = MagicMock(status_code=200, json=lambda: {"access_token": "long-lived"})
+    accounts_resp = MagicMock(status_code=200, json=lambda: {"data": [
+        {"id": "page999", "access_token": "wrong-page-tok"},
+        {"id": "page123", "access_token": "right-page-tok"},
+    ]})
+
+    with patch("vidgen.publisher_facebook.run_oauth_local_server", return_value="auth-code"), \
+         patch("vidgen.publisher_facebook.requests.get", side_effect=[code_resp, long_resp, accounts_resp]):
+        pub._run_oauth_flow()
+
+    saved = json.loads(tokens_file.read_text())
+    assert saved == {"page_access_token": "right-page-tok", "page_id": "page123"}
+
+
+def test_run_oauth_flow_exits_when_page_not_found(monkeypatch, tmp_path):
+    monkeypatch.setattr(pub, "FACEBOOK_APP_ID", "app-id")
+    monkeypatch.setattr(pub, "FACEBOOK_APP_SECRET", "app-secret")
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
+    monkeypatch.setattr(pub, "TOKENS_FILE", tmp_path / "tokens.json")
+
+    code_resp = MagicMock(status_code=200, json=lambda: {"access_token": "short-lived"})
+    long_resp = MagicMock(status_code=200, json=lambda: {"access_token": "long-lived"})
+    accounts_resp = MagicMock(status_code=200, json=lambda: {"data": [{"id": "page999", "access_token": "x"}]})
+
+    with patch("vidgen.publisher_facebook.run_oauth_local_server", return_value="auth-code"), \
+         patch("vidgen.publisher_facebook.requests.get", side_effect=[code_resp, long_resp, accounts_resp]):
+        with pytest.raises(SystemExit):
+            pub._run_oauth_flow()

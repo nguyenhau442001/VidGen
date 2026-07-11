@@ -178,7 +178,7 @@ cron 8pm
 | GAP 4 | Gate 2 — visual quality enforcement | ✅ Done | `vidgen/gate2_visual.py` |
 | GAP 5 | Auto-publish — TikTok Direct Post API | 🔧 In progress | `vidgen/publisher.py` |
 | GAP 5 | Auto-publish — YouTube Data API v3 | ✅ Done | `vidgen/publisher_youtube.py`, `vidgen/publish_common.py` |
-| GAP 5 | Auto-publish — Facebook Graph API (Reels) | 🔲 Planned | — |
+| GAP 5 | Auto-publish — Facebook Graph API (Reels) | ✅ Done | `vidgen/publisher_facebook.py`, `vidgen/publish_common.py` |
 
 ### Quick start
 
@@ -203,6 +203,12 @@ python -m vidgen.publisher_youtube --setup-guide           # print setup instruc
 python -m vidgen.publisher_youtube --oauth                 # run OAuth flow, save tokens
 python -m vidgen.publisher_youtube out/video.mp4 --title "Tiêu đề #Shorts"
 python -m vidgen.publisher_youtube --delete VIDEO_ID        # remove a published video
+
+# Publish to Facebook Reels (one-time OAuth setup, then reusable)
+python -m vidgen.publisher_facebook --setup-guide           # print setup instructions
+python -m vidgen.publisher_facebook --oauth                 # run OAuth flow, save Page token
+python -m vidgen.publisher_facebook out/video.mp4 --title "Tiêu đề"
+python -m vidgen.publisher_facebook --delete VIDEO_ID        # remove a published video
 ```
 
 ### Cron setup

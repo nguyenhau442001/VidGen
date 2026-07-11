@@ -281,3 +281,164 @@ def delete_video_on_facebook(video_id: str) -> None:
     if resp.status_code != 200 or data.get("success") is not True:
         raise RuntimeError(f"Delete failed (HTTP {resp.status_code}): {resp.text[:200]}")
     print(f"[publisher_facebook] Deleted video_id={video_id}")
+
+
+SETUP_GUIDE = """
+=== Facebook Reels Publisher - One-time Setup Guide =======================
+
+  STEP 1 - Create a Meta for Developers app
+  -------------------------------------------
+  1. Go to https://developers.facebook.com/apps/
+  2. Create App -> type: Business
+  3. Add Product -> "Facebook Login for Business" -> Set Up
+  4. App Roles -> Roles -> confirm your account is listed as Admin
+     (Development-mode apps only work for accounts with a role on the
+     app - fine for a single-operator channel; publishing to Pages you
+     don't administer needs App Review, which is out of scope here)
+
+  STEP 2 - Find your Page ID
+  ------------------------------
+  Facebook Page -> About -> Page transparency -> Page ID
+  (or query GET /me/accounts once you have a user token)
+
+  STEP 3 - Add credentials to .env
+  -----------------------------------
+  Create/edit .env at your repo root:
+
+    FACEBOOK_APP_ID=your_app_id_here
+    FACEBOOK_APP_SECRET=your_app_secret_here
+    FACEBOOK_PAGE_ID=your_page_id_here
+    GITHUB_REPO=you/VidGen        # optional, for notify.yml
+    GITHUB_TOKEN=ghp_xxxxxxxxxxxx  # optional, for notify.yml
+
+  STEP 4 - Run OAuth flow to get a Page access token
+  -------------------------------------------------------
+    python -m vidgen.publisher_facebook --oauth
+
+  This exchanges your login for a long-lived Page access token and
+  saves it to .facebook_tokens.json. Page tokens derived this way don't
+  expire, so this is a one-time step (re-run only if access is revoked).
+
+  STEP 5 - Test
+  -----------------
+    python -m vidgen.publisher_facebook out/test.mp4 --title "Test"
+
+============================================================================
+"""
+
+
+def _run_oauth_flow() -> None:
+    """Interactive OAuth flow: Facebook Login -> long-lived user token -> Page token."""
+    if not FACEBOOK_APP_ID or not FACEBOOK_APP_SECRET:
+        print("ERROR: FACEBOOK_APP_ID/FACEBOOK_APP_SECRET not set. Add them to your .env file first.")
+        sys.exit(1)
+    if not FACEBOOK_PAGE_ID:
+        print("ERROR: FACEBOOK_PAGE_ID not set. Add it to your .env file first.")
+        sys.exit(1)
+
+    auth_url = (
+        f"{AUTH_URL}?client_id={FACEBOOK_APP_ID}"
+        f"&redirect_uri={urllib.parse.quote(REDIRECT_URI)}"
+        "&response_type=code"
+        f"&scope={urllib.parse.quote(SCOPE)}"
+    )
+    code = run_oauth_local_server(auth_url, port=8080)
+
+    print("Auth code received. Exchanging for a user access token...")
+    resp = requests.get(TOKEN_URL, params={
+        "client_id": FACEBOOK_APP_ID,
+        "client_secret": FACEBOOK_APP_SECRET,
+        "redirect_uri": REDIRECT_URI,
+        "code": code,
+    })
+    data = resp.json()
+    if resp.status_code != 200 or "access_token" not in data:
+        print(f"ERROR: Code exchange failed: {data}")
+        sys.exit(1)
+    short_lived_token = data["access_token"]
+
+    print("Exchanging for a long-lived user access token...")
+    resp = requests.get(TOKEN_URL, params={
+        "grant_type": "fb_exchange_token",
+        "client_id": FACEBOOK_APP_ID,
+        "client_secret": FACEBOOK_APP_SECRET,
+        "fb_exchange_token": short_lived_token,
+    })
+    data = resp.json()
+    if resp.status_code != 200 or "access_token" not in data:
+        print(f"ERROR: Long-lived token exchange failed: {data}")
+        sys.exit(1)
+    long_lived_user_token = data["access_token"]
+
+    print(f"Looking up Page access token for page {FACEBOOK_PAGE_ID}...")
+    resp = requests.get(f"{GRAPH_BASE}/me/accounts", params={"access_token": long_lived_user_token})
+    data = resp.json()
+    if resp.status_code != 200:
+        print(f"ERROR: Fetching pages failed: {data}")
+        sys.exit(1)
+
+    page = next((p for p in data.get("data", []) if p["id"] == FACEBOOK_PAGE_ID), None)
+    if not page:
+        print(f"ERROR: Page {FACEBOOK_PAGE_ID} not found in /me/accounts. Check that your account has a role on that Page.")
+        sys.exit(1)
+
+    save_tokens(TOKENS_FILE, {"page_access_token": page["access_token"], "page_id": FACEBOOK_PAGE_ID})
+    print("Setup complete! You can now run:")
+    print("  python -m vidgen.publisher_facebook out/video.mp4 --title 'Your title'")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="VidGen Facebook Reels publisher")
+    parser.add_argument("video", nargs="?", help="Path to .mp4 file")
+    parser.add_argument("--title", default="", help="Reel title")
+    parser.add_argument("--description", default="", help="Reel description (default: title)")
+    parser.add_argument("--tags", default="", help="Ignored on Facebook (no tags field on Reels)")
+    parser.add_argument("--privacy", default="public", choices=["public", "unlisted", "private"], help="Ignored on Facebook (Reels follow the Page's own visibility)")
+    parser.add_argument("--made-for-kids", action="store_true", help="Ignored on Facebook (no equivalent flag)")
+    parser.add_argument("--schedule", default=None, metavar="ISO_DATETIME", help="e.g. '2026-07-20T20:00:00' (must be 10min-29days out)")
+    parser.add_argument("--setup-guide", action="store_true", help="Print setup instructions")
+    parser.add_argument("--oauth", action="store_true", help="Run OAuth flow to get a Page access token")
+    parser.add_argument("--delete", metavar="VIDEO_ID", help="Delete a video by ID instead of uploading")
+
+    args = parser.parse_args()
+
+    if args.setup_guide:
+        print(SETUP_GUIDE)
+        return
+
+    if args.oauth:
+        _run_oauth_flow()
+        return
+
+    if args.delete:
+        try:
+            delete_video_on_facebook(args.delete)
+        except Exception as e:
+            print(f"\n[publisher_facebook] FAILED: {e}")
+            sys.exit(1)
+        return
+
+    if not args.video:
+        parser.print_help()
+        sys.exit(1)
+
+    title = args.title or Path(args.video).stem.replace("_", " ")
+    metadata = PublishMetadata(
+        title=title,
+        description=args.description or title,
+        tags=[t.strip() for t in args.tags.split(",") if t.strip()],
+        privacy=args.privacy,
+        made_for_kids=args.made_for_kids,
+        schedule_time=args.schedule,
+    )
+
+    try:
+        result = publish_video_on_facebook(args.video, metadata)
+        print(f"\nResult: {result}")
+    except Exception as e:
+        print(f"\n[publisher_facebook] FAILED: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
