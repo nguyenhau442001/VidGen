@@ -38,6 +38,7 @@ import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
+import { BeatMapOverlay } from "./BeatMapOverlay";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   return (
@@ -71,6 +72,7 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
         ))}
       </Series>
       <SafeZoneGuide />
+      <BeatMapOverlay manifest={manifest} />
     </AbsoluteFill>
   );
 };

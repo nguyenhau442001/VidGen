@@ -30,11 +30,13 @@ from vidgen.manifest import (
 # ── GATE IMPORTS ─────────────────────────────────────────────────────────────
 from vidgen.gate1 import gate1_assert, format_report as gate1_report
 from vidgen.gate2_visual import gate2_assert
+from vidgen.beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
 # ─────────────────────────────────────────────────────────────────────────────
 
 WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
 MANIFEST_PATH = "output/render_manifest.json"
+BEATMAP_PATH = "output/beatmap.json"
 STUDIO_PORT = 3000
 
 MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
@@ -552,6 +554,16 @@ def main():
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
 
+    # ── BEAT MAP: predicted-replay heuristic — advisory only, never blocks ───
+    beatmap = score_beatmap(script, manifest)
+    write_beatmap(beatmap, BEATMAP_PATH)
+    print(f"\n{beatmap_report(beatmap)}")
+    print(
+        f"Beat map written to {BEATMAP_PATH} — view it in Studio with "
+        f"REMOTION_BEAT_MAP=1 npx remotion studio (run from remotion/)"
+    )
+    # ─────────────────────────────────────────────────────────────────────────
+
     # --- Detect dead air ---
     dead_air_findings = detect_dead_air(script, manifest, audio_durations)
     if dead_air_findings:
@@ -578,15 +590,18 @@ def main():
         print("[Gate 2] SKIPPED (--skip-gate2 flag set)")
     # ─────────────────────────────────────────────────────────────────────────
 
-    # --- Open Remotion Studio in browser ---
+    # --- Open Remotion Studio in browser (beat map overlay on by default —
+    # this is the pre-publish review step the beat map exists for) ---
     if not _port_open(STUDIO_PORT):
+        studio_env = {**os.environ, "REMOTION_BEAT_MAP": "1"}
         subprocess.Popen(
             ["npx", "remotion", "studio"],
             cwd="remotion",
+            env=studio_env,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
-        print("Starting Remotion Studio...")
+        print("Starting Remotion Studio (beat map overlay on)...")
         while not _port_open(STUDIO_PORT):
             time.sleep(1)
 
