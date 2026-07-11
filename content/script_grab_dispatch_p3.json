@@ -1,0 +1,419 @@
+{
+  "meta": {
+    "title": "Vì sao tài xế gần hơn vẫn đến sau bạn",
+    "slug": "grab-dispatch-p3",
+    "series": "grab-dispatch",
+    "part": 3
+  },
+  "scenes": [
+    {
+      "id": "shot_01",
+      "type": "MapPingScene",
+      "duration_frames": 147,
+      "narration": "Tài xế gần hơn, vẫn đến sau. Grab gán theo tuyến, không khoảng cách.",
+      "narration_timing_frames": [
+        8,
+        127
+      ],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "axis": {
+          "destinationLabel": "Điểm đón",
+          "drivers": [
+            {
+              "label": "Tài xế A — 0.8km",
+              "distanceMeters": 800,
+              "direction": "away",
+              "constraintNote": "Đang gộp cuốc khác trên tuyến tối ưu",
+              "etaSeconds": 360,
+              "etaLabel": "ETA: 6 phút"
+            },
+            {
+              "label": "Tài xế B — 2.1km",
+              "distanceMeters": 2100,
+              "direction": "toward",
+              "constraintNote": null,
+              "etaSeconds": 120,
+              "etaLabel": "ETA: 2 phút"
+            }
+          ]
+        },
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "Tài xế gần hơn — nhưng đến sau. Vì sao?",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "soft recap whoosh frame 0, axis line draw frame 20, constraint note fade in frame 60"
+    },
+    {
+      "id": "shot_02",
+      "type": "PhoneMockupScene",
+      "duration_frames": 389,
+      "narration": "Grab gọi đây là gộp lô: thay vì gán tài xế gần nhất cho từng cuốc riêng lẻ, hệ thống ghép nhiều yêu cầu cùng hướng vào một tuyến, cho một tài xế phục vụ liên tiếp, thay vì để họ chạy rỗng.",
+      "narration_timing_frames": [
+        8,
+        374
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#00ff41",
+        "showApproachingDriver": true
+      },
+      "on_screen_text": "Gộp lô: ghép nhiều cuốc vào một tuyến",
+      "on_screen_text_style": "caption_muted",
+      "sound_design": "loading spinner hum, ping sfx frame 90 when batch candidate found"
+    },
+    {
+      "id": "shot_03",
+      "type": "SignalFlowScene",
+      "duration_frames": 389,
+      "narration": "Hai yêu cầu cùng điểm đón, cùng hướng đi, trong cùng khung giờ ngắn — thuật toán không tách chúng ra hai tài xế, nó gộp chung vào một tuyến, một tài xế phục vụ cả hai, cả hai đều đến đúng giờ.",
+      "narration_timing_frames": [
+        8,
+        374
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "signals": [
+          {
+            "icon": "🅰️",
+            "label": "Cuốc A",
+            "color": "#00ff41"
+          },
+          {
+            "icon": "🅱️",
+            "label": "Cuốc B",
+            "color": "#00ff41"
+          }
+        ],
+        "outputLabel": "Một tuyến gộp",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "node pop-in reqA frame 20, reqB frame 40, merge line draw into route frame 90, route node pulse settle frame 150"
+    },
+    {
+      "id": "shot_04",
+      "type": "MapPingScene",
+      "duration_frames": 380,
+      "narration": "Một tài xế, một tuyến: đón khách A, rẽ thêm chín trăm mét đón khách B trên đường, trả A trước, trả B sau — quãng đường thêm nhỏ hơn nhiều so với chạy hai chuyến riêng, không ai phải đợi lâu.",
+      "narration_timing_frames": [
+        8,
+        365
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "drivers": [
+          {
+            "x": 260,
+            "y": 460,
+            "label": "Đón khách A"
+          },
+          {
+            "x": 350,
+            "y": 560,
+            "label": "Đón khách B · +900m"
+          },
+          {
+            "x": 460,
+            "y": 650,
+            "label": "Trả khách A"
+          },
+          {
+            "x": 540,
+            "y": 730,
+            "label": "Trả khách B"
+          }
+        ],
+        "highlightedDriverIndex": 1
+      },
+      "on_screen_text": "Một tuyến, hai khách, một tài xế",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "route line draw sequential frames 20-160, pin drop sfx each stop, settle chime frame 180"
+    },
+    {
+      "id": "shot_05",
+      "type": "SplitViewScene",
+      "duration_frames": 372,
+      "narration": "Trước đây, thuật toán luôn ưu tiên tài xế gần nhất cho từng cuốc. Giờ đây, nó ưu tiên tuyến tối ưu: gộp những cuốc cùng hướng lại, kể cả khi tài xế được chọn không phải người gần bạn nhất.",
+      "narration_timing_frames": [
+        8,
+        357
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "leftContent": {
+          "kind": "text",
+          "heading": "Trước đây",
+          "body": "Luôn chọn tài xế gần nhất cho từng cuốc"
+        },
+        "rightContent": {
+          "kind": "text",
+          "heading": "Bây giờ",
+          "body": "Ưu tiên tuyến tối ưu, gộp cuốc cùng hướng"
+        },
+        "leftCaption": "Khoảng cách",
+        "rightCaption": "Tuyến tối ưu",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "Tư duy dispatch: từ khoảng cách sang tuyến tối ưu",
+      "on_screen_text_style": "caption_muted",
+      "sound_design": "before panel slide in frame 10, after panel slide in frame 90, accent word pulse frame 140"
+    },
+    {
+      "id": "shot_06",
+      "type": "GeohashRevealScene",
+      "duration_frames": 346,
+      "narration": "Hệ thống chỉ gộp cuốc trong cùng một hành lang di chuyển: vài ô địa lý liền kề, cùng hướng, cùng khung giờ. Ngoài hành lang đó, gộp sẽ làm chuyến đi chậm hơn thay vì nhanh hơn.",
+      "narration_timing_frames": [
+        8,
+        331
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "districts": [
+          {
+            "x": 2,
+            "y": 5,
+            "label": "Q1",
+            "demandLevel": 0.9
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "label": "",
+            "demandLevel": 0.85
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "label": "Q3",
+            "demandLevel": 0.8
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "label": "",
+            "demandLevel": 0.75
+          }
+        ],
+        "gridRows": 7,
+        "gridCols": 9
+      },
+      "on_screen_text": "Chỉ gộp trong cùng hành lang di chuyển",
+      "on_screen_text_style": "caption_muted",
+      "sound_design": "corridor cells ripple in sequential frames 20-100, soft hum loop after"
+    },
+    {
+      "id": "shot_07",
+      "type": "ScoreCardScene",
+      "duration_frames": 355,
+      "narration": "Không phải cuốc nào cũng được gộp. Hệ thống chỉ ghép khi hai yêu cầu cùng hướng, đường vòng thêm dưới mười lăm phần trăm, khách không phải chờ thêm quá ba phút, và xe vẫn còn chỗ trống.",
+      "narration_timing_frames": [
+        8,
+        340
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "criteria": [
+          {
+            "label": "Cùng hướng di chuyển",
+            "score": 5,
+            "maxScore": 5
+          },
+          {
+            "label": "Detour tối đa 15%",
+            "score": 4,
+            "maxScore": 5
+          },
+          {
+            "label": "Chờ thêm ≤ 3 phút",
+            "score": 4,
+            "maxScore": 5
+          },
+          {
+            "label": "Còn chỗ trống trên xe",
+            "score": 5,
+            "maxScore": 5
+          }
+        ],
+        "title": "Điều kiện để được gộp lô",
+        "staggerFrames": 35
+      },
+      "on_screen_text": "4 điều kiện để một cuốc được gộp",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "row reveal stagger sfx every 35 frames, final checkmark chime frame 200"
+    },
+    {
+      "id": "shot_08",
+      "type": "StatComparatorScene",
+      "duration_frames": 355,
+      "narration": "Ví dụ cụ thể: hai tài xế chạy riêng cho hai khách tốn tổng cộng chín phẩy tư ki lô mét. Một tài xế gộp cả hai cuốc trên cùng tuyến chỉ tốn bảy phẩy hai ki lô mét.",
+      "narration_timing_frames": [
+        8,
+        340
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Cùng phục vụ 2 khách, ít quãng đường hơn",
+        "accentWord": "ít quãng đường hơn",
+        "beforeLabel": "Không gộp · 2 tài xế",
+        "beforeStat": "9.4 km",
+        "beforeStatNumber": 9.4,
+        "beforeStatUnit": "km tổng",
+        "beforeSubtext": "Hai xe chạy riêng cho hai khách",
+        "afterLabel": "Gộp lô · 1 tài xế",
+        "afterStat": "7.2 km",
+        "afterStatNumber": 7.2,
+        "afterStatUnit": "km tổng",
+        "afterSubtext": "Một xe phục vụ cả hai trên cùng tuyến",
+        "deltaLabel": "Ít hơn 2.2km cho cùng hai khách"
+      },
+      "on_screen_text": "9.4km → 7.2km khi gộp đúng tuyến",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "before panel slide-in frame 20, before counter lock frame 100, after panel slide-in frame 110, after counter lock frame 200, delta chime frame 220"
+    },
+    {
+      "id": "shot_09",
+      "type": "CounterBlastScene",
+      "duration_frames": 372,
+      "narration": "Kết quả: gộp đúng hai cuốc cùng tuyến giúp tài xế tiết kiệm trung bình hai mươi ba phần trăm quãng đường so với chạy từng chuyến riêng lẻ. Nhân với hàng triệu chuyến mỗi ngày, con số đó rất lớn.",
+      "narration_timing_frames": [
+        8,
+        357
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "finalValue": 23,
+        "unit": "% quãng đường tiết kiệm",
+        "subLabel": "so với chạy hai chuyến riêng lẻ",
+        "countDuration": 80
+      },
+      "on_screen_text": "-23% quãng đường mỗi cuốc gộp",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "flash hit frame 0, counter tick to frame 80, lock-in pulse frame 85"
+    },
+    {
+      "id": "shot_10",
+      "type": "StatComparatorScene",
+      "duration_frames": 380,
+      "narration": "Không gộp lô, tài xế chạy rỗng sau mỗi cuốc rồi mới tìm khách tiếp. Có gộp lô, một tài xế phục vụ trung bình một phẩy sáu cuốc cùng lúc — cùng số tài xế, phục vụ được nhiều khách hơn.",
+      "narration_timing_frames": [
+        8,
+        365
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Gộp lô giúp hệ thống phục vụ nhiều hơn",
+        "accentWord": "nhiều hơn",
+        "beforeLabel": "Không gộp lô",
+        "beforeStat": "1.0 cuốc/chuyến",
+        "beforeStatNumber": 1.0,
+        "beforeStatUnit": "cuốc/chuyến",
+        "beforeSubtext": "Nhiều xe chạy rỗng giữa hai điểm",
+        "afterLabel": "Có gộp lô",
+        "afterStat": "1.6 cuốc/chuyến",
+        "afterStatNumber": 1.6,
+        "afterStatUnit": "cuốc/chuyến",
+        "afterSubtext": "Ít quãng đường rỗng hơn",
+        "deltaLabel": "Cùng số tài xế — phục vụ nhiều khách hơn"
+      },
+      "on_screen_text": "1.0 → 1.6 cuốc mỗi chuyến tài xế",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "before panel slide-in frame 20, before counter lock frame 100, after panel slide-in frame 110, after counter lock frame 200, delta chime frame 220"
+    },
+    {
+      "id": "shot_11",
+      "type": "PhoneMockupScene",
+      "duration_frames": 363,
+      "narration": "Tài xế cũng không bị ép. Ứng dụng hỏi trước: chấp nhận đón thêm khách trên tuyến, đổi lại thêm chút thu nhập — hay từ chối và tiếp tục cuốc hiện tại. Đa số đồng ý vì có lợi.",
+      "narration_timing_frames": [
+        8,
+        348
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "screenState": "matched",
+        "driverName": "Tài xế B",
+        "driverEta": "+2 phút · gộp thêm khách",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "Tài xế luôn có thể từ chối gộp",
+      "on_screen_text_style": "caption_muted",
+      "sound_design": "message pop-in left frame 10, message pop-in right frame 70, accept chime frame 90"
+    },
+    {
+      "id": "shot_12",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 249,
+      "narration": "Tài xế gần hơn vẫn có thể đến sau — vì hệ thống tối ưu cho hàng nghìn chuyến cùng lúc, không chỉ chuyến của bạn.",
+      "narration_timing_frames": [
+        8,
+        229
+      ],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "text": "Tài xế gần hơn vẫn có thể đến sau — vì hệ thống tối ưu cho hàng nghìn chuyến cùng lúc, không chỉ chuyến của bạn.",
+        "accentWord": "hàng nghìn chuyến",
+        "backgroundStyle": "dark",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "soft settle tone frame 0, accent chime on \"hàng nghìn chuyến\" pop"
+    },
+    {
+      "id": "shot_13",
+      "type": "DriverHeatmapScene",
+      "duration_frames": 363,
+      "narration": "Đây không phải một trường hợp cá biệt. Mỗi giờ, hệ thống gộp hàng chục nghìn cặp cuốc tương tự trên khắp thành phố — tự động, liên tục, theo thời gian thực, nên bạn hiếm khi phải chờ lâu.",
+      "narration_timing_frames": [
+        8,
+        348
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "driverCount": 180,
+        "topicLabel": "GỘP LÔ TOÀN THÀNH PHỐ"
+      },
+      "on_screen_text": "Hàng chục nghìn tuyến gộp mỗi giờ",
+      "on_screen_text_style": "headline_bold",
+      "sound_design": "ambient city pulse hum, ping spawn stagger throughout, clock tick each mark"
+    },
+    {
+      "id": "shot_14",
+      "type": "ExplanationScene",
+      "duration_frames": 372,
+      "narration": "Ba phần vừa rồi là một hệ thống duy nhất: chấm điểm tài xế theo tuyến, dự đoán nhu cầu trước khi bạn mở app, và gộp cuốc lại với nhau — chạy cùng lúc cho hàng triệu chuyến mỗi ngày.",
+      "narration_timing_frames": [
+        8,
+        357
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "Ba mảnh ghép của một hệ thống",
+        "body": "Chấm điểm tài xế theo tuyến — dự đoán nhu cầu trước khi bạn mở app — và **gộp nhiều cuốc lại với nhau**. Ba lớp logic cùng chạy mỗi giây, cho hàng triệu chuyến mỗi ngày."
+      },
+      "on_screen_text": "",
+      "sound_design": "soft ambient swell throughout, settle tone frame 200"
+    },
+    {
+      "id": "shot_15",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 300,
+      "narration": "Ba lớp logic đó quyết định luôn giá cước bạn thấy. Vì sao giá tăng đúng lúc bạn cần chuyến nhất — đó là Phần 4. Theo dõi DevFaster để xem tiếp.",
+      "narration_timing_frames": [
+        8,
+        280
+      ],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "text": "Ba lớp logic đó quyết định luôn giá cước bạn thấy. Vì sao giá tăng đúng lúc bạn cần chuyến nhất — đó là Phần 4. Theo dõi DevFaster để xem tiếp.",
+        "accentWord": "Phần 4",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#00ff41"
+      },
+      "on_screen_text": "",
+      "sound_design": "soft settle tone frame 0, accent chime on \"Phần 4\" pop, gentle fade to black at scene end"
+    }
+  ]
+}
