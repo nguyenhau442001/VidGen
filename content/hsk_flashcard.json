@@ -1,0 +1,105 @@
+{
+  "scenes": [
+    {
+      "id": "thumbnail",
+      "type": "HSKFlashCardThumbnailScene",
+      "narration": "",
+      "props": {
+        "titleTop": "HSK",
+        "range": "1 – 6",
+        "badgeText": "MIỄN PHÍ",
+        "count": "5000+",
+        "countSub": "Từ vựng",
+        "hanzi": "爱惜",
+        "pinyin": "àixī",
+        "meaning": "trân trọng, tiết kiệm",
+        "exampleZh": "要爱惜粮食，不要浪费。",
+        "exampleVi": "Phải trân trọng lương thực.",
+        "accentHanzi": "爱惜"
+      }
+    },
+    {
+      "id": "hook",
+      "type": "ExplanationScene",
+      "duration_frames": 150,
+      "narration": "Học HSK mà học trước quên sau? Mình vừa public miễn phí một website flashcard với hơn 5000 từ HSK.",
+      "props": {
+        "headline": "Vừa public — miễn phí",
+        "accentWord": "miễn phí",
+        "body": "5000+ từ HSK1–6 · Không cần app · Không cần đăng ký"
+      }
+    },
+    {
+      "id": "credibility",
+      "type": "ExplanationScene",
+      "duration_frames": 150,
+      "narration": "Mình tự build từ dữ liệu đến giao diện vì không muốn ai phải trả tiền chỉ để học từ vựng.",
+      "props": {
+        "headline": "Tự build — không vì lợi nhuận",
+        "accentWord": "Tự build",
+        "bullets": [
+          "5000 từ HSK1 → HSK6",
+          "Không quảng cáo, không popup",
+          "Không cần tài khoản"
+        ]
+      }
+    },
+    {
+      "id": "card-demo",
+      "type": "ExplanationScene",
+      "duration_frames": 210,
+      "narration": "Mỗi thẻ có chữ Hán, pinyin, nghĩa và câu ví dụ — nên bạn nhớ luôn cách dùng chứ không chỉ nhớ nghĩa.",
+      "props": {
+        "headline": "1 thẻ — 4 thông tin",
+        "accentWord": "4 thông tin",
+        "bullets": [
+          "Chữ Hán",
+          "Pinyin chuẩn",
+          "Nghĩa tiếng Việt",
+          "Câu ví dụ thực tế"
+        ]
+      }
+    },
+    {
+      "id": "hsk-range",
+      "type": "ExplanationScene",
+      "duration_frames": 150,
+      "narration": "Có đủ từ HSK1 đến HSK6. Muốn ôn cấp nào thì chọn đúng cấp đó.",
+      "props": {
+        "headline": "HSK1 đến HSK6 — đủ cả",
+        "accentWord": "đủ cả",
+        "bullets": [
+          "HSK1 · HSK2 · HSK3",
+          "HSK4 · HSK5 · HSK6",
+          "Tiến trình lưu riêng từng cấp"
+        ]
+      }
+    },
+    {
+      "id": "shuffle-progress",
+      "type": "ExplanationScene",
+      "duration_frames": 210,
+      "narration": "Nếu học đúng một thứ tự mỗi ngày thì rất dễ nhớ vị trí thay vì nhớ từ. Bật Shuffle lên là xong.",
+      "props": {
+        "headline": "Shuffle + tự động lưu",
+        "accentWord": "Shuffle",
+        "bullets": [
+          "🔀 Xáo trộn ngẫu nhiên",
+          "✅ Đã nhớ / ❌ Chưa nhớ",
+          "Lưu tự động — không mất data"
+        ]
+      }
+    },
+    {
+      "id": "cta",
+      "type": "ExplanationScene",
+      "duration_frames": 165,
+      "narration": "Link ở bio nếu bạn muốn dùng thử. Mình sẽ học HSK4 bằng đúng tool này và cập nhật kết quả sau mỗi tuần.",
+      "props": {
+        "headline": "Link bio — dùng thử ngay",
+        "accentWord": "Link bio",
+        "body": "Mình học HSK4 bằng tool này — cập nhật mỗi tuần"
+      }
+    }
+  ]
+}
