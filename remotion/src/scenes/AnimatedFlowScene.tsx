@@ -7,15 +7,21 @@ import {
   useVideoConfig,
 } from "remotion";
 import { AnimatedFlowSceneProps } from "../types";
-import { INTER } from "../styles";
+import { INTER, CAPTION_CLEAR_Y } from "../styles";
 
 const VB_W = 750;
 const VB_H = 1080;
+const SLICE_SCALE = 1920 / VB_H; // this scene scales its 750x1080 layer to fill the 1920-tall canvas
 
 const FLOW_START_Y = 280;
-const FLOW_END_Y = 920;
 const NODE_W = 280;
 const NODE_H = 56;
+// Nodes flow top-down from FLOW_START_Y, spaced evenly down to whichever is
+// tighter: FLOW_SPACING_MAX, or fitting the last node's bottom edge above
+// CAPTION_CLEAR_Y — so a 5-node chain never lands under Caption.tsx's pill
+// the way a canvas-centered layout would for larger N.
+const FLOW_SPACING_MAX = 160;
+const FLOW_BOTTOM_Y = CAPTION_CLEAR_Y / SLICE_SCALE - NODE_H / 2;
 
 const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
   nodes = [],
@@ -43,15 +49,14 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
   const headlineOpacity = headlineSpring;
   const headlineTranslateY = interpolate(headlineSpring, [0, 1], [30, 0]);
 
-  // 3. Node vertical positioning calculations (centered and evenly spaced)
+  // 3. Node vertical positioning: top-down from FLOW_START_Y, evenly spaced
   const N = nodes.length;
-  const spacing = N > 1 ? Math.min(180, (FLOW_END_Y - FLOW_START_Y) / (N - 1)) : 0;
-  const totalHeight = (N - 1) * spacing;
-  const startY = VB_H / 2 - totalHeight / 2;
+  const spacing =
+    N > 1 ? Math.min(FLOW_SPACING_MAX, (FLOW_BOTTOM_Y - FLOW_START_Y) / (N - 1)) : 0;
 
   const nodePositions = new Map<string, number>();
   nodes.forEach((node, i) => {
-    const y = N === 1 ? VB_H / 2 : startY + i * spacing;
+    const y = N === 1 ? (FLOW_START_Y + FLOW_BOTTOM_Y) / 2 : FLOW_START_Y + i * spacing;
     nodePositions.set(node.id, y);
   });
 

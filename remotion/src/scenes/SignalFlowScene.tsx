@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { SignalFlowSceneProps } from "../types";
-import { colors, INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO, CAPTION_CLEAR_Y } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -31,13 +31,21 @@ const EXIT_FRAMES = 20;
 
 const ACCENT_DEFAULT = "#22C55E";
 
-// Layout: inputs stacked on the left, brain on the right. Vertical anchor
-// sits above true center (not VB_H/2) and spacing is tightened so the
-// bottom-most input's label clears Caption.tsx's bottom-anchored pill.
+// Layout: inputs stacked on the left, brain on the right. The SVG fills the
+// canvas via preserveAspectRatio="slice" at scale = 1920 / VB_H, so
+// SIGNAL_BOTTOM_Y is derived from CAPTION_CLEAR_Y (real composition pixels)
+// such that the bottom-most input's label always maps at or above that
+// line — spacing shrinks below INPUT_SPACING_MAX (rather than overflowing)
+// as more signals are authored, so it stays clear of Caption.tsx's
+// bottom-anchored pill regardless of N.
 const INPUT_X = 195;
 const INPUT_RADIUS = 54;
-const INPUT_SPACING = 190;
-const CONTENT_CENTER_Y = 460;
+const INPUT_SPACING_MAX = 190;
+const LABEL_OFFSET_Y = 34; // label baseline below the input circle's edge
+const SLICE_SCALE = 1920 / VB_H;
+const SIGNAL_TOP_Y = 175;
+const SIGNAL_BOTTOM_Y = CAPTION_CLEAR_Y / SLICE_SCALE - INPUT_RADIUS - LABEL_OFFSET_Y;
+const CONTENT_CENTER_Y = (SIGNAL_TOP_Y + SIGNAL_BOTTOM_Y) / 2;
 const BRAIN_X = 545;
 const BRAIN_Y = CONTENT_CENTER_Y;
 const BRAIN_RADIUS = 85;
@@ -87,8 +95,12 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  const inputSpacing =
+    signals.length > 1
+      ? Math.min(INPUT_SPACING_MAX, (SIGNAL_BOTTOM_Y - SIGNAL_TOP_Y) / (signals.length - 1))
+      : 0;
   const inputYs = signals.map(
-    (_, i) => CONTENT_CENTER_Y + (i - (signals.length - 1) / 2) * INPUT_SPACING
+    (_, i) => CONTENT_CENTER_Y + (i - (signals.length - 1) / 2) * inputSpacing
   );
 
   // Brain enters at BRAIN_START with a bloom: the glow overshoots wide while

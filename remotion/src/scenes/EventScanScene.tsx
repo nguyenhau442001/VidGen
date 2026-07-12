@@ -16,9 +16,19 @@ const ACTION_COLOR = "#00ff41";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 15;
-const PANEL_TOP = SAFE_ZONE.top + 150;
+const PANEL_TOP = SAFE_ZONE.top + 120;
 const ROW_HEIGHT = 172;
 const ROW_GAP = 20;
+// The multiplier stat + action banner used to be anchored a fixed distance
+// from the bottom of the canvas (`bottom: SAFE_ZONE.bottom + 170`), which
+// only cleared Caption.tsx's pill for short one-line captions — this
+// project's longer narration-driven captions wrap to 4-6 lines and covered
+// the banner. Flowing both top-down from the panel instead keeps them
+// anchored to content above rather than to a caption height that isn't
+// known at layout time.
+const MULTIPLIER_GAP = 28;
+const MULTIPLIER_BLOCK_HEIGHT = 145; // stat number (88px) + gap + label (24px)
+const ACTION_GAP = 16;
 
 // ---------------------------------------------------------------------------
 // Color helpers
@@ -388,7 +398,7 @@ export const EventScanScene: React.FC<EventScanSceneProps> = ({
       <div
         style={{
           position: "absolute",
-          top: PANEL_TOP + panelHeight + 56,
+          top: PANEL_TOP + panelHeight + MULTIPLIER_GAP,
           left: SAFE_ZONE.left,
           right: SAFE_ZONE.right,
           display: "flex",
@@ -428,7 +438,7 @@ export const EventScanScene: React.FC<EventScanSceneProps> = ({
       <div
         style={{
           position: "absolute",
-          bottom: SAFE_ZONE.bottom + 170,
+          top: PANEL_TOP + panelHeight + MULTIPLIER_GAP + MULTIPLIER_BLOCK_HEIGHT + ACTION_GAP,
           left: SAFE_ZONE.left,
           right: SAFE_ZONE.right,
           display: "flex",

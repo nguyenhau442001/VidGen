@@ -74,6 +74,15 @@ export const SAFE_ZONE = {
   right: 154, // 130 icon-column + 24
 } as const;
 
+// Caption.tsx's pill is bottom-anchored at SAFE_ZONE.bottom and grows
+// upward with narration length — this project's longer Vietnamese captions
+// commonly wrap to 5-6 lines. Scenes with tall bottom content (node graphs,
+// signal diagrams, multi-row panels) must keep their lowest element's
+// bottom edge above this line (in the 1080x1920 composition) so it can
+// never land under the caption, not just clear of SAFE_ZONE.bottom's
+// TikTok-UI margin (which only guarantees room for a one-line caption).
+export const CAPTION_CLEAR_Y = 1216;
+
 export const type = {
   headline: { fontSize: 56, fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.025em" } as const,
   body: { fontSize: 32, fontWeight: 400, lineHeight: 1.5 } as const,
