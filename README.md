@@ -163,8 +163,8 @@ cron 8pm
   → tts_speed        synthesizes audio  (speed=1.1, WSOLA pitch-preserve)
   → remotion         renders .mp4
   → gate2_assert()   checks frames via ffmpeg + OpenCV
-  → publisher.py            posts to TikTok (Direct Post API)
-  → publisher_youtube.py    posts to YouTube (Data API v3, Shorts) — run manually today, not yet cron-wired
+  → publish_all.py          posts to Facebook + YouTube — run manually today, not yet cron-wired
+  → publisher.py            posts to TikTok (Direct Post API) — blocked on API audit approval
   → notify.yml       GitHub Actions notifies on failure via email
 ```
 
@@ -176,9 +176,11 @@ cron 8pm
 | GAP 2 | Gate 1 — content quality enforcement | ✅ Done | `vidgen/gate1.py` |
 | GAP 3 | TTS speed wrapper — auto speed + silence trim | ✅ Done | `vidgen/tts_speed_adjustor.py` |
 | GAP 4 | Gate 2 — visual quality enforcement | ✅ Done | `vidgen/gate2_visual.py` |
-| GAP 5 | Auto-publish — TikTok Direct Post API | 🔧 In progress | `vidgen/publisher.py` |
 | GAP 5 | Auto-publish — YouTube Data API v3 | ✅ Done | `vidgen/publisher_youtube.py`, `vidgen/publish_common.py` |
-| GAP 5 | Auto-publish — Facebook Graph API (Reels) | ✅ Done | `vidgen/publisher_facebook.py`, `vidgen/publish_common.py` |
+| GAP 5 | Auto-publish — Facebook Graph API (Page video) | ✅ Done | `vidgen/publisher_facebook.py`, `vidgen/publish_common.py` |
+| GAP 5 | Auto-publish — TikTok Direct Post API | ⏳ Waiting on API audit approval | `vidgen/publisher.py` |
+
+Facebook and YouTube auto-publish are working end-to-end (upload → poll → notify). `vidgen/publish_all.py` publishes to both with one command. TikTok is fully wired but held back pending TikTok's Direct Post API audit approval — flip the row above to ✅ and add it to `publish_all.py`'s `PLATFORMS` once that clears.
 
 ### Quick start
 
@@ -195,20 +197,23 @@ python -m vidgen.runner --pick-next --dry-run
 # Check queue status
 python -m vidgen.runner --list
 
-# Publish to TikTok (after OAuth setup)
-python -m vidgen.publisher out/video.mp4 --title "Tiêu đề #60scongnghe"
+# Publish to Facebook + YouTube in one shot (the everyday command)
+python -m vidgen.publish_all out/video.mp4 --title "Tiêu đề"
 
-# Publish to YouTube (one-time OAuth setup, then reusable)
+# Publish to YouTube only (one-time OAuth setup, then reusable)
 python -m vidgen.publisher_youtube --setup-guide           # print setup instructions
 python -m vidgen.publisher_youtube --oauth                 # run OAuth flow, save tokens
 python -m vidgen.publisher_youtube out/video.mp4 --title "Tiêu đề #Shorts"
 python -m vidgen.publisher_youtube --delete VIDEO_ID        # remove a published video
 
-# Publish to Facebook Reels (one-time OAuth setup, then reusable)
+# Publish to Facebook only (Page video, one-time OAuth setup, then reusable)
 python -m vidgen.publisher_facebook --setup-guide           # print setup instructions
 python -m vidgen.publisher_facebook --oauth                 # run OAuth flow, save Page token
 python -m vidgen.publisher_facebook out/video.mp4 --title "Tiêu đề"
 python -m vidgen.publisher_facebook --delete VIDEO_ID        # remove a published video
+
+# Publish to TikTok (blocked until Direct Post API audit is approved)
+python -m vidgen.publisher out/video.mp4 --title "Tiêu đề #60scongnghe"
 ```
 
 ### Cron setup
