@@ -248,3 +248,12 @@ GitHub emails you automatically when a publish fails. Silent on success.
 └── workflows/
     └── notify.yml
 ```
+
+### Topic Harvester
+
+python -m vidgen.topic_harvester --dry-run --top 5    # preview
+python -m vidgen.topic_harvester --push 2             # push the best 2 topics
+
+# Cron daily
+0 7  * * * cd /path/to/VidGen && python -m vidgen.topic_harvester --push 1
+0 20 * * * cd /path/to/VidGen && python -m vidgen.runner --pick-next
