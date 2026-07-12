@@ -27,6 +27,7 @@ import ConversationScene from "./scenes/ConversationScene";
 import BeforeAfterScene from "./scenes/BeforeAfterScene";
 import GridHeatmapScene from "./scenes/GridHeatmapScene";
 import { RadarHookScene } from "./scenes/RadarHookScene";
+import { AttackScene } from "./scenes/AttackScene";
 import { EventScanScene } from "./scenes/EventScanScene";
 import { DriverHeatmapScene } from "./scenes/DriverHeatmapScene";
 import StatComparatorScene from "./scenes/StatComparatorScene";
@@ -183,6 +184,8 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <GridHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "radar_hook":
       return <RadarHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "attack_hook":
+      return <AttackScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "event_scan":
       return <EventScanScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "driver_heatmap":

@@ -71,6 +71,7 @@ export type ManifestScene =
   | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BeforeAfterVisual }
   | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GridHeatmapVisual }
   | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: RadarHookVisual }
+  | { type: "attack_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: AttackVisual }
   | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: EventScanVisual }
   | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverHeatmapVisual }
   | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StatComparatorVisual }
@@ -491,6 +492,27 @@ export type RadarHookVisual = {
 };
 
 export type RadarHookSceneProps = RadarHookVisual & { durationInFrames: number };
+
+// Attack/breach hook scene: an alternative opener to RadarHookScene for
+// "something bad just happened, automatically" stories — an initial flash +
+// scanline punch, a fast-filling kill-chain stage meter (recon → exploit →
+// impact), then a glitch-slam headline and stats row. Built for jadepuffer
+// because RadarHookScene's slow rotating-sweep radar read as too calm for a
+// breaking-hack story; use it for any hook whose narration is about an
+// attack/incident rather than a hidden-tracking reveal.
+export type AttackStage = { value: string; label: string; highlight?: boolean };
+
+export type AttackVisual = {
+  topicLabel: string;
+  eyebrow: string;
+  headline: string; // "\n"-separated into two lines
+  stageLabels: string[]; // kill-chain stage chips, e.g. ["CVE-scan", "Cred-steal", "Encrypt"] — any length
+  stats: AttackStage[]; // exactly 3 cells
+  accentColor?: string; // default "#ef4444" — drives the stage meter, headline accent line, and stats
+  glitchColor?: string; // default "#61dafb" — the RGB-split color on the headline's glitch entrance and highlighted stats
+};
+
+export type AttackSceneProps = AttackVisual & { durationInFrames: number };
 
 // City-calendar "event scan" scene: a scanning beam sweeps a timeline panel,
 // each authored event pops in as a "found" card once the beam passes it, then

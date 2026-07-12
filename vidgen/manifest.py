@@ -48,6 +48,7 @@ TYPE_MAP = {
     "ZoomRevealScene": "zoom_reveal",
     "SplitRevealScene": "split_reveal",
     "RadarHookScene": "radar_hook",
+    "AttackScene": "attack_hook",
     "EventScanScene": "event_scan",
     "DriverHeatmapScene": "driver_heatmap",
     "StatComparatorScene": "stat_comparator",

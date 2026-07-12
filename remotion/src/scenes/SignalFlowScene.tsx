@@ -35,16 +35,26 @@ const ACCENT_DEFAULT = "#22C55E";
 // canvas via preserveAspectRatio="slice" at scale = 1920 / VB_H, so
 // SIGNAL_BOTTOM_Y is derived from CAPTION_CLEAR_Y (real composition pixels)
 // such that the bottom-most input's label always maps at or above that
-// line — spacing shrinks below INPUT_SPACING_MAX (rather than overflowing)
-// as more signals are authored, so it stays clear of Caption.tsx's
-// bottom-anchored pill regardless of N.
+// line. Spacing shrinks below INPUT_SPACING_MAX as more signals are
+// authored — but shrinking spacing alone isn't enough: at N=4 the label of
+// one node started overlapping the *next* node's circle (spacing tighter
+// than radius + label offset). Node radius / label offset / label font
+// therefore scale down together with spacing (see nodeScale below), so
+// each node shrinks to fit rather than colliding with its neighbor.
 const INPUT_X = 195;
-const INPUT_RADIUS = 54;
+const INPUT_RADIUS_MAX = 54;
 const INPUT_SPACING_MAX = 190;
-const LABEL_OFFSET_Y = 34; // label baseline below the input circle's edge
+const LABEL_OFFSET_Y_MAX = 34; // label baseline below the input circle's edge
+const LABEL_FONT_MAX = 22;
+const ICON_FONT_MAX = 42;
 const SLICE_SCALE = 1920 / VB_H;
 const SIGNAL_TOP_Y = 175;
-const SIGNAL_BOTTOM_Y = CAPTION_CLEAR_Y / SLICE_SCALE - INPUT_RADIUS - LABEL_OFFSET_Y;
+// Extra slack (beyond radius + label offset) for the label's own text
+// height/descent, so the label's full glyph box — not just its baseline —
+// clears CAPTION_CLEAR_Y.
+const LABEL_TEXT_SLACK = 16;
+const SIGNAL_BOTTOM_Y =
+  CAPTION_CLEAR_Y / SLICE_SCALE - INPUT_RADIUS_MAX - LABEL_OFFSET_Y_MAX - LABEL_TEXT_SLACK;
 const CONTENT_CENTER_Y = (SIGNAL_TOP_Y + SIGNAL_BOTTOM_Y) / 2;
 const BRAIN_X = 545;
 const BRAIN_Y = CONTENT_CENTER_Y;
@@ -99,6 +109,13 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
     signals.length > 1
       ? Math.min(INPUT_SPACING_MAX, (SIGNAL_BOTTOM_Y - SIGNAL_TOP_Y) / (signals.length - 1))
       : 0;
+  // Shrink the node itself (radius/label offset/fonts) proportionally as
+  // spacing tightens, so a smaller node never overlaps its neighbor.
+  const nodeScale = signals.length > 1 ? Math.min(1, inputSpacing / INPUT_SPACING_MAX) : 1;
+  const inputRadius = INPUT_RADIUS_MAX * nodeScale;
+  const labelOffsetY = LABEL_OFFSET_Y_MAX * nodeScale;
+  const labelFontSize = LABEL_FONT_MAX * nodeScale;
+  const iconFontSize = ICON_FONT_MAX * nodeScale;
   const inputYs = signals.map(
     (_, i) => CONTENT_CENTER_Y + (i - (signals.length - 1) / 2) * inputSpacing
   );
@@ -247,7 +264,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
           return (
             <g key={i} opacity={opacity} transform={`translate(${INPUT_X}, ${y}) scale(${scale})`}>
               <circle
-                r={INPUT_RADIUS}
+                r={inputRadius}
                 fill={rgba(s.color, 0.1)}
                 stroke={s.color}
                 strokeWidth={2}
@@ -255,14 +272,14 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
               <text
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize={42}
+                fontSize={iconFontSize}
               >
                 {s.icon}
               </text>
               <text
-                y={INPUT_RADIUS + 34}
+                y={inputRadius + labelOffsetY}
                 textAnchor="middle"
-                fontSize={22}
+                fontSize={labelFontSize}
                 fontWeight={600}
                 style={{ fill: colors.textPrimary, fontFamily: INTER }}
               >

@@ -2,21 +2,21 @@
   "scenes": [
     {
       "id": "hook",
-      "type": "RadarHookScene",
+      "type": "AttackScene",
       "narration": "AI vừa tự hack một công ty — không có hacker nào ngồi sau màn hình.",
       "duration_frames": 147,
       "props": {
         "topicLabel": "BREAKING · JULY 2026",
         "eyebrow": "LẦN ĐẦU TRONG LỊCH SỬ",
         "headline": "AI vừa tự hack\nkhông cần hacker",
-        "driverLabels": ["CVE-scan", "Cred-steal", "Encrypt"],
+        "stageLabels": ["CVE-scan", "Cred-steal", "Encrypt"],
         "stats": [
           { "value": "0", "label": "hacker cần", "highlight": true },
           { "value": "31s", "label": "tự debug", "highlight": false },
           { "value": "100%", "label": "tự động", "highlight": false }
         ],
         "accentColor": "#ef4444",
-        "userColor": "#f97316"
+        "glitchColor": "#f97316"
       }
     },
     {
