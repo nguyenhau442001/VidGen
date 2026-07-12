@@ -1,9 +1,10 @@
 import { loadFont as loadInterFont } from "@remotion/google-fonts/Inter";
 import { loadFont as loadJetBrainsMonoFont } from "@remotion/google-fonts/JetBrainsMono";
 import { loadFont as loadBeVietnamProFont } from "@remotion/google-fonts/BeVietnamPro";
+import { loadFont as loadNotoSerifSCFont } from "@remotion/google-fonts/NotoSerifSC";
 
 export const { fontFamily: INTER, waitUntilDone: waitForInter } = loadInterFont("normal", {
-  weights: ["400", "600", "700"],
+  weights: ["400", "600", "700", "900"],
   subsets: ["latin", "vietnamese"],
 });
 
@@ -15,8 +16,19 @@ export const { fontFamily: JETBRAINS_MONO, waitUntilDone: waitForJetBrainsMono }
 
 export const { fontFamily: BE_VIETNAM_PRO, waitUntilDone: waitForBeVietnamPro } =
   loadBeVietnamProFont("normal", {
-    weights: ["400", "500", "600", "700"],
+    weights: ["400", "500", "600", "700", "800", "900"],
     subsets: ["latin", "vietnamese"],
+  });
+
+// NotoSerifSC's actual runtime metadata splits CJK glyphs into numbered unicode-range
+// chunks (not the "chinese-simplified" name @remotion/google-fonts' .d.ts advertises,
+// which doesn't exist in this package version's data — hence the `as any`). These chunks
+// cover the specific hanzi used across HSKFlashCardThumbnailScene's default props
+// (汉字爱惜要粮食不浪费); add chunks here if new hanzi are introduced.
+export const { fontFamily: NOTO_SERIF_SC, waitUntilDone: waitForNotoSerifSC } =
+  loadNotoSerifSCFont("normal", {
+    weights: ["900"],
+    subsets: ["[109]", "[114]", "[115]", "[116]", "[117]", "[118]"] as any,
   });
 
 export type Theme = "dark" | "light";

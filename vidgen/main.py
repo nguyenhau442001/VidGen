@@ -594,6 +594,13 @@ def main():
         print("[Gate 2] SKIPPED (--skip-gate2 flag set)")
     # ─────────────────────────────────────────────────────────────────────────
 
+    try:
+        from vidgen.thumbnail import generate_thumbnail
+
+        generate_thumbnail(args.script, video_output.replace(".mp4", "_thumb.png"))
+    except Exception as e:
+        print(f"⚠️  Thumbnail generation failed (non-fatal): {e}")
+
     # --- Open Remotion Studio in browser (beat map overlay on by default —
     # this is the pre-publish review step the beat map exists for) ---
     if not _port_open(STUDIO_PORT):

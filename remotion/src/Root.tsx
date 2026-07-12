@@ -15,6 +15,7 @@ import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardSc
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { CharacterIconCoverScene } from "./scenes/CharacterIconCoverScene";
+import { ThumbnailScene } from "./scenes/ThumbnailScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
@@ -245,6 +246,21 @@ export const Root: React.FC = () => {
         height={1920}
         defaultProps={{
           eyebrowText: "DevFaster",
+        }}
+      />
+      <Composition
+        id="Thumbnail"
+        component={ThumbnailScene}
+        durationInFrames={1}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          style: "generic",
+          headline: "Tài xế biết trước cả bạn",
+          accentWord: "biết trước",
+          partLabel: "PHẦN 2 / 4",
+          channelName: "DevFasterr",
         }}
       />
       <Composition

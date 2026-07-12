@@ -679,3 +679,34 @@ export type SystemLayerVisual = {
 };
 
 export type SystemLayerSceneProps = SystemLayerVisual & { durationInFrames: number };
+
+export type GenericHookThumbnailVisual = {
+  headline: string;
+  accentWord?: string;
+  subtext?: string;
+  partLabel?: string;
+  channelName?: string;
+};
+
+export type GenericHookThumbnailSceneProps = GenericHookThumbnailVisual;
+
+export type HSKFlashCardThumbnailVisual = {
+  titleTop?: string;
+  range?: string;
+  badgeText?: string;
+  count?: string;
+  countSub?: string;
+  hanzi?: string;
+  pinyin?: string;
+  meaning?: string;
+  exampleZh?: string;
+  exampleVi?: string;
+  accentHanzi?: string;
+};
+
+export type HSKFlashCardThumbnailSceneProps = HSKFlashCardThumbnailVisual;
+
+export type ThumbnailSceneProps =
+  | ({ style: "characterIcon" } & CharacterIconCoverSceneProps)
+  | ({ style: "generic" } & GenericHookThumbnailSceneProps)
+  | ({ style: "hskFlashCard" } & HSKFlashCardThumbnailSceneProps);
