@@ -10,16 +10,24 @@ import vidgen.publisher_facebook as pub
 
 
 def test_get_page_token_raises_when_no_token_saved(tmp_path, monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ACCESS_TOKEN", "")
     monkeypatch.setattr(pub, "TOKENS_FILE", tmp_path / "none.json")
     with pytest.raises(RuntimeError, match="No Facebook Page access token"):
         pub._get_page_token()
 
 
 def test_get_page_token_returns_existing_token(tmp_path, monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ACCESS_TOKEN", "")
     tokens_file = tmp_path / "tokens.json"
     tokens_file.write_text('{"page_access_token": "page-tok", "page_id": "123"}')
     monkeypatch.setattr(pub, "TOKENS_FILE", tokens_file)
     assert pub._get_page_token() == "page-tok"
+
+
+def test_get_page_token_prefers_env_var(tmp_path, monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ACCESS_TOKEN", "env-tok")
+    monkeypatch.setattr(pub, "TOKENS_FILE", tmp_path / "none.json")
+    assert pub._get_page_token() == "env-tok"
 
 
 import datetime
@@ -102,26 +110,51 @@ def test_init_upload_session_raises_on_failure(tmp_path, monkeypatch):
             pub._init_upload_session("page-tok", video)
 
 
-def test_upload_video_chunks_advances_offset_and_returns_handle(tmp_path):
+def test_upload_video_chunks_sends_whole_file_in_one_post(tmp_path):
     video = tmp_path / "v.mp4"
-    video.write_bytes(b"a" * 10 + b"b" * 10)  # 20 bytes, chunk_size patched to 10 -> 2 chunks
+    video.write_bytes(b"a" * 20)
 
-    resp1 = MagicMock(status_code=200, json=lambda: {})
+    resp = MagicMock(status_code=200, json=lambda: {"h": "handle1"})
+
+    with patch("vidgen.publisher_facebook.requests.post", return_value=resp) as mock_post:
+        handle = pub._upload_video_chunks("upload:sess1", video, "page-tok")
+
+    assert handle == "handle1"
+    assert mock_post.call_count == 1
+    call = mock_post.call_args_list[0]
+    assert call.args[0] == "https://graph.facebook.com/v25.0/upload:sess1"
+    assert call.kwargs["headers"]["file_offset"] == "0"
+    assert call.kwargs["data"] == b"a" * 20
+
+
+def test_upload_video_chunks_resumes_from_server_reported_offset(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"a" * 10 + b"b" * 10)  # 20 bytes
+
+    resp1 = MagicMock(status_code=200, json=lambda: {"file_offset": "10"})
     resp2 = MagicMock(status_code=200, json=lambda: {"h": "handle1"})
 
-    with patch("vidgen.publisher_facebook.CHUNK_SIZE", 10), \
-         patch("vidgen.publisher_facebook.requests.post", side_effect=[resp1, resp2]) as mock_post:
+    with patch("vidgen.publisher_facebook.requests.post", side_effect=[resp1, resp2]) as mock_post:
         handle = pub._upload_video_chunks("upload:sess1", video, "page-tok")
 
     assert handle == "handle1"
     assert mock_post.call_count == 2
     first_call = mock_post.call_args_list[0]
     second_call = mock_post.call_args_list[1]
-    assert first_call.args[0] == "https://graph.facebook.com/v25.0/upload:sess1"
     assert first_call.kwargs["headers"]["file_offset"] == "0"
     assert second_call.kwargs["headers"]["file_offset"] == "10"
-    assert first_call.kwargs["data"] == b"a" * 10
+    assert first_call.kwargs["data"] == b"a" * 10 + b"b" * 10
     assert second_call.kwargs["data"] == b"b" * 10
+
+
+def test_upload_video_chunks_raises_when_offset_does_not_advance(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"x" * 10)
+
+    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
+        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"file_offset": "0"})
+        with pytest.raises(RuntimeError, match="stalled"):
+            pub._upload_video_chunks("upload:sess1", video, "page-tok")
 
 
 def test_upload_video_chunks_raises_on_failure_response(tmp_path):
@@ -150,7 +183,7 @@ def test_upload_video_chunks_raises_when_no_handle_returned(tmp_path):
 
     with patch("vidgen.publisher_facebook.requests.post") as mock_post:
         mock_post.return_value = MagicMock(status_code=200, json=lambda: {})
-        with pytest.raises(RuntimeError, match="no file handle"):
+        with pytest.raises(RuntimeError, match="stalled"):
             pub._upload_video_chunks("upload:sess1", video, "page-tok")
 
 

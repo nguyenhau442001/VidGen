@@ -73,7 +73,6 @@ TOKEN_URL    = f"{GRAPH_BASE}/oauth/access_token"
 REDIRECT_URI = "http://localhost:8080/callback"
 SCOPE        = "pages_show_list,pages_read_engagement,pages_manage_posts"
 
-CHUNK_SIZE    = 10 * 1024 * 1024
 POLL_INTERVAL = 5
 POLL_MAX      = 60
 
@@ -156,44 +155,44 @@ def _init_upload_session(page_token: str, video_path: Path) -> str:
 
 def _upload_video_chunks(upload_session_id: str, video_path: Path, page_token: str) -> str:
     """
-    Uploads video_path using Facebook's resumable upload protocol: each chunk
-    is POSTed to /{upload_session_id} with a file_offset header. The final
-    chunk's response carries the uploaded file handle ("h") needed to publish.
+    Uploads video_path using Facebook's resumable upload protocol. Per Meta's
+    docs, each POST to /{upload_session_id} must carry the *entire remaining*
+    file from file_offset (the API rejects arbitrarily-sized partial bodies
+    with "Partial request (did not match length of file)") - the client only
+    resumes from a smaller slice if the server reports a later file_offset
+    back (e.g. after a dropped connection).
     """
     total_size = video_path.stat().st_size
     if total_size == 0:
         raise RuntimeError(f"Cannot upload empty file: {video_path}")
 
-    file_handle = None
     start = 0
-    with open(video_path, "rb") as f:
-        while start < total_size:
-            end = min(start + CHUNK_SIZE, total_size)
+    while True:
+        with open(video_path, "rb") as f:
             f.seek(start)
-            chunk = f.read(end - start)
+            chunk = f.read()
 
-            resp = requests.post(
-                f"{GRAPH_BASE}/{upload_session_id}",
-                headers={
-                    "Authorization": f"OAuth {page_token}",
-                    "file_offset": str(start),
-                },
-                data=chunk,
+        resp = requests.post(
+            f"{GRAPH_BASE}/{upload_session_id}",
+            headers={
+                "Authorization": f"OAuth {page_token}",
+                "file_offset": str(start),
+            },
+            data=chunk,
+        )
+        data = resp.json()
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
             )
-            data = resp.json()
-            if resp.status_code != 200:
-                raise RuntimeError(
-                    f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
-                )
-            if "h" in data:
-                file_handle = data["h"]
-            start = end
+        if "h" in data:
+            print("[publisher_facebook] Upload complete")
+            return data["h"]
 
-    if not file_handle:
-        raise RuntimeError("Upload finished but no file handle ('h') was returned")
-
-    print("[publisher_facebook] Upload complete")
-    return file_handle
+        next_offset = int(data.get("file_offset", start))
+        if next_offset <= start:
+            raise RuntimeError(f"Upload stalled at offset {start}: unexpected response {data}")
+        start = next_offset
 
 
 def _finish_upload(page_token: str, file_handle: str, metadata: PublishMetadata) -> str:
