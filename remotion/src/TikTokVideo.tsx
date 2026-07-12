@@ -37,6 +37,11 @@ import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
 import DeltaArrowScene from "./scenes/DeltaArrowScene";
 import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
+import { HSKHookScene } from "./scenes/HSKHookScene";
+import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
+import { HSKCTAScene } from "./scenes/HSKCTAScene";
+import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
+import { HSKFlashCardThumbnailScene } from "./scenes/HSKFlashCardThumbnailScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
@@ -204,5 +209,15 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <DriverConsentScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "system_layer":
       return <SystemLayerScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "hsk_hook":
+      return <HSKHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "hsk_explanation":
+      return <HSKExplanationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "hsk_cta":
+      return <HSKCTAScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "hsk_screenshot":
+      return <HSKScreenshotScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "hsk_flashcard":
+      return <HSKFlashCardThumbnailScene {...scene.visual} />;
   }
 };

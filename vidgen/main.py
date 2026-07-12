@@ -470,15 +470,13 @@ def main():
 
     script = resolve_script(script)
 
-    # HSKFlashCardThumbnailScene (and any future thumbnail-only style) is
-    # dispatched exclusively through generate_thumbnail()'s separate Thumbnail
-    # composition, not TikTokVideo.tsx's TYPE_MAP switch — it has no manifest
-    # entry, so leaving it in script["scenes"] would render as a blank clip
-    # in the actual video. Strip it before TTS/gate/manifest/render see it;
-    # generate_thumbnail() re-reads args.script directly so it still sees it.
-    script["scenes"] = [
-        s for s in script["scenes"] if s["type"] != "HSKFlashCardThumbnailScene"
-    ]
+    # scenes[0] is reserved for generate_thumbnail(), which always reads that
+    # index directly from args.script — it's a static cover shot, never part
+    # of the video timeline. Strip only that slot (not every scene of the
+    # same type — HSKFlashCardThumbnailScene's visual is also reused as a
+    # regular in-video scene elsewhere, e.g. the HSK flashcard "hook" beat).
+    if script["scenes"] and script["scenes"][0]["type"] == "HSKFlashCardThumbnailScene":
+        script["scenes"] = script["scenes"][1:]
 
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:

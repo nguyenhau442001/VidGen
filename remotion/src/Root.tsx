@@ -34,6 +34,10 @@ import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
 import DeltaArrowScene from "./scenes/DeltaArrowScene";
 import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
+import { HSKHookScene } from "./scenes/HSKHookScene";
+import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
+import { HSKCTAScene } from "./scenes/HSKCTAScene";
+import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -804,6 +808,65 @@ export const Root: React.FC = () => {
           accentColor: "#00ff41",
           staggerFrames: 35,
           durationInFrames: 220,
+        }}
+      />
+      <Composition
+        id="HSKHook"
+        component={HSKHookScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Vừa public — miễn phí",
+          accentWord: "miễn phí",
+          body: "5000+ từ HSK1–6 · Không cần app · Không cần đăng ký",
+          durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="HSKExplanation"
+        component={HSKExplanationScene}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Tự build — không vì lợi nhuận",
+          accentWord: "Tự build",
+          bullets: [
+            "5000 từ HSK1 → HSK6",
+            "Không quảng cáo, không popup",
+            "Không cần tài khoản",
+          ],
+          durationInFrames: 150,
+        }}
+      />
+      <Composition
+        id="HSKCTA"
+        component={HSKCTAScene}
+        durationInFrames={165}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "Link bio — dùng thử ngay",
+          accentWord: "Link bio",
+          body: "Mình học HSK4 bằng tool này — cập nhật mỗi tuần",
+          durationInFrames: 165,
+        }}
+      />
+      <Composition
+        id="HSKScreenshot"
+        component={HSKScreenshotScene}
+        durationInFrames={90}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          imageSrc: "images/hsk_app_screenshot.png",
+          badgeText: "GIAO DIỆN THẬT",
+          durationInFrames: 90,
         }}
       />
     </>

@@ -5,6 +5,32 @@ export type ExplanationVisual = {
   accentWord?: string;
 };
 
+// HSK-branded variants of the hook/explanation/CTA trio — same shapes as
+// ExplanationVisual, only the components' visual styling differs (see
+// HSKHookScene/HSKExplanationScene/HSKCTAScene).
+export type HSKHookVisual = {
+  headline: string;
+  accentWord?: string;
+  body?: string;
+};
+
+export type HSKExplanationVisual = ExplanationVisual;
+
+export type HSKCTAVisual = {
+  headline: string;
+  accentWord?: string;
+  body?: string;
+};
+
+// Real product-screenshot proof beat — a browser-chrome frame around an
+// actual app screenshot, used to back up feature claims with real UI instead
+// of only illustrated bullets. imageSrc is a staticFile()-relative path
+// (e.g. "images/hsk_app_screenshot.png").
+export type HSKScreenshotVisual = {
+  imageSrc: string;
+  badgeText?: string;
+};
+
 export type TerminalLine = string | { text: string; highlight?: boolean };
 
 export type TerminalVisual = {
@@ -80,7 +106,12 @@ export type ManifestScene =
   | { type: "batch_decision_tree"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: BatchDecisionTreeVisual }
   | { type: "delta_arrow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DeltaArrowVisual }
   | { type: "driver_consent"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DriverConsentVisual }
-  | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SystemLayerVisual };
+  | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SystemLayerVisual }
+  | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKHookVisual }
+  | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKExplanationVisual }
+  | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKCTAVisual }
+  | { type: "hsk_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKScreenshotVisual }
+  | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKFlashCardThumbnailVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -90,6 +121,10 @@ export type RenderManifest = {
 };
 
 export type ExplanationSceneProps = ExplanationVisual & { durationInFrames: number };
+export type HSKHookSceneProps = HSKHookVisual & { durationInFrames: number };
+export type HSKExplanationSceneProps = HSKExplanationVisual & { durationInFrames: number };
+export type HSKCTASceneProps = HSKCTAVisual & { durationInFrames: number };
+export type HSKScreenshotSceneProps = HSKScreenshotVisual & { durationInFrames: number };
 export type TerminalSceneProps = TerminalVisual & { durationInFrames: number };
 export type CodeSceneProps = CodeVisual & { durationInFrames: number };
 export type ErrorLogSceneProps = ErrorLogVisual & { durationInFrames: number };

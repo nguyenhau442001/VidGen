@@ -59,6 +59,11 @@ TYPE_MAP = {
     "DeltaArrowScene": "delta_arrow",
     "DriverConsentScene": "driver_consent",
     "SystemLayerScene": "system_layer",
+    "HSKHookScene": "hsk_hook",
+    "HSKExplanationScene": "hsk_explanation",
+    "HSKCTAScene": "hsk_cta",
+    "HSKScreenshotScene": "hsk_screenshot",
+    "HSKFlashCardThumbnailScene": "hsk_flashcard",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
