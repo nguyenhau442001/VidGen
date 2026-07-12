@@ -54,9 +54,10 @@ def _load_env_file() -> None:
 _load_env_file()
 
 # -- Config (set via env vars or .env file) -----------------------------------
-FACEBOOK_APP_ID     = os.getenv("FACEBOOK_APP_ID", "")
-FACEBOOK_APP_SECRET = os.getenv("FACEBOOK_APP_SECRET", "")
-FACEBOOK_PAGE_ID    = os.getenv("FACEBOOK_PAGE_ID", "")
+FACEBOOK_APP_ID          = os.getenv("FACEBOOK_APP_ID", "")
+FACEBOOK_APP_SECRET      = os.getenv("FACEBOOK_APP_SECRET", "")
+FACEBOOK_PAGE_ID         = os.getenv("FACEBOOK_PAGE_ID", "")
+FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "")
 
 GITHUB_REPO     = os.getenv("GITHUB_REPO", "")
 GITHUB_TOKEN    = os.getenv("GITHUB_TOKEN", "")
@@ -86,15 +87,20 @@ FAILED_VIDEO_STATUSES = {"error", "upload_failed", "transcode_failed", "invalid"
 
 def _get_page_token() -> str:
     """
-    Return the saved Page access token. No refresh flow: Page tokens
-    derived from a long-lived user token are effectively permanent.
+    Return the Page access token: FACEBOOK_PAGE_ACCESS_TOKEN (.env) takes
+    priority, e.g. one pasted straight from Graph API Explorer, else fall
+    back to the token saved by --oauth. No refresh flow: long-lived Page
+    tokens are effectively permanent.
     """
+    if FACEBOOK_PAGE_ACCESS_TOKEN:
+        return FACEBOOK_PAGE_ACCESS_TOKEN
     tokens = load_tokens(TOKENS_FILE)
     page_token = tokens.get("page_access_token", "")
     if not page_token:
         raise RuntimeError(
             "No Facebook Page access token found.\n"
-            "Run: python -m vidgen.publisher_facebook --setup-guide"
+            "Set FACEBOOK_PAGE_ACCESS_TOKEN in .env, or run: "
+            "python -m vidgen.publisher_facebook --setup-guide"
         )
     return page_token
 
@@ -297,49 +303,47 @@ def delete_video_on_facebook(video_id: str) -> None:
 SETUP_GUIDE = """
 === Facebook Page Video Publisher - One-time Setup Guide ===================
 
-  STEP 1 - Create a Meta for Developers app
-  -------------------------------------------
-  1. Go to https://developers.facebook.com/apps/
-  2. Create App -> type: Business
-  3. Use cases -> Add -> "Manage Pages" -> Set Up
-     (NOT "Facebook Login for Business" - that product doesn't expose
-     the pages_* permissions video publishing needs)
-  4. In Manage Pages -> Permissions and features, click "+ Add" for:
-       - pages_show_list
-       - pages_read_engagement
-       - pages_manage_posts
-     Leave them on Standard Access (no App Review needed - Standard
-     Access already works for accounts with a role on the app).
-  5. App Roles -> Roles -> confirm your account is listed as Admin
-     (Development-mode apps only work for accounts with a role on the
-     app - fine for a single-operator channel; publishing to Pages you
-     don't administer needs App Review, which is out of scope here)
+  OPTION A (recommended) - Paste a token from Graph API Explorer
+  ----------------------------------------------------------------
+  1. Go to https://developers.facebook.com/tools/explorer/
+  2. Choose your app -> Get Page Access Token -> approve permissions
+     (pages_show_list, pages_read_engagement, pages_manage_posts)
+  3. Convert it to a long-lived token:
+       GET https://graph.facebook.com/oauth/access_token
+         ?grant_type=fb_exchange_token
+         &client_id=YOUR_APP_ID
+         &client_secret=YOUR_APP_SECRET
+         &fb_exchange_token=SHORT_LIVED_PAGE_TOKEN
+  4. Add it to .env at the repo root:
 
-  STEP 2 - Find your Page ID
-  ------------------------------
+       FACEBOOK_PAGE_ACCESS_TOKEN=your_long_lived_page_token
+       FACEBOOK_PAGE_ID=your_page_id_here
+       FACEBOOK_APP_ID=your_app_id_here   # still needed for the resumable upload session
+       GITHUB_REPO=you/VidGen             # optional, for notify.yml
+       GITHUB_TOKEN=ghp_xxxxxxxxxxxx       # optional, for notify.yml
+
+  That's it - FACEBOOK_PAGE_ACCESS_TOKEN in .env is used directly, no
+  --oauth run or .facebook_tokens.json needed.
+
+  OPTION B - Full OAuth flow (no manual token copy/paste)
+  ----------------------------------------------------------
+  1. Create a Meta for Developers app (Business type, "Manage Pages"
+     use case, NOT "Facebook Login for Business") and confirm your
+     account is an Admin under App Roles.
+  2. Add to .env: FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_PAGE_ID
+  3. Run:
+       python -m vidgen.publisher_facebook --oauth
+     This exchanges your login for a long-lived Page access token and
+     saves it to .facebook_tokens.json (used only if
+     FACEBOOK_PAGE_ACCESS_TOKEN is not set in .env).
+
+  STEP - Find your Page ID (either option)
+  --------------------------------------------
   Facebook Page -> About -> Page transparency -> Page ID
   (or query GET /me/accounts once you have a user token)
 
-  STEP 3 - Add credentials to .env
-  -----------------------------------
-  Create/edit .env at your repo root:
-
-    FACEBOOK_APP_ID=your_app_id_here
-    FACEBOOK_APP_SECRET=your_app_secret_here
-    FACEBOOK_PAGE_ID=your_page_id_here
-    GITHUB_REPO=you/VidGen        # optional, for notify.yml
-    GITHUB_TOKEN=ghp_xxxxxxxxxxxx  # optional, for notify.yml
-
-  STEP 4 - Run OAuth flow to get a Page access token
-  -------------------------------------------------------
-    python -m vidgen.publisher_facebook --oauth
-
-  This exchanges your login for a long-lived Page access token and
-  saves it to .facebook_tokens.json. Page tokens derived this way don't
-  expire, so this is a one-time step (re-run only if access is revoked).
-
-  STEP 5 - Test
-  -----------------
+  STEP - Test
+  ---------------
     python -m vidgen.publisher_facebook out/test.mp4 --title "Test"
 
 ============================================================================
