@@ -46,15 +46,31 @@ except ImportError:
 # this project's normal sparse moments.
 # ACCENT_GREEN_MIN's check also assumed a single fixed accent color required
 # on *every* sampled frame; this project deliberately varies accent color by
-# section (#00ff41 for the character/phone intro, #22C55E for the data-signal
-# scenes, plus scene types like CodeScene that carry no accent color at all by
-# design) — checked as "present somewhere across the sampled frames" instead.
+# section and by script (e.g. #00ff41/#22C55E for the data-signal scenes,
+# #ef4444/#f97316 for alert/incident-themed scripts, plus scene types like
+# CodeScene that carry no accent color at all by design) — checked as
+# "present somewhere across the sampled frames" instead. The set of colors
+# that count as a valid accent is not hardcoded here: it's read from
+# colors.json (the project's shared name → hex registry) so new scripts can
+# introduce a new palette by adding a name there, not by editing this file.
 # ---------------------------------------------------------------------------
 
 CONTRAST_MIN = 5.0         # grayscale std deviation — below = flat/washed out
 SHARPNESS_MIN = 5.0        # Laplacian variance — below = blurry text
 DARK_BG_MAX = 80.0         # mean of darkest 10% pixels — above = bg too bright
-ACCENT_COLORS = ["00ff41", "22c55e"]  # this project's actual accent greens
+
+_COLORS_PATH = os.path.join(os.path.dirname(__file__), "colors.json")
+with open(_COLORS_PATH, encoding="utf-8") as _f:
+    _COLOR_REGISTRY: dict[str, str] = json.load(_f)
+
+# "gray" is a neutral/muted comparison color (e.g. "before" stats), not an
+# eye-catching accent — every other registry entry counts.
+_NON_ACCENT_NAMES = {"gray"}
+ACCENT_COLORS = [
+    hexcolor.lstrip("#").lower()
+    for name, hexcolor in _COLOR_REGISTRY.items()
+    if name not in _NON_ACCENT_NAMES
+]
 ACCENT_GREEN_MIN = 0.003   # fraction of pixels near an accent color, in >=1 sampled frame
 KEYFRAME_SECONDS = [1, 3, 6, 10, 20, 35, 50, 65]  # sample across full 70s
 
@@ -258,7 +274,7 @@ def gate2_assert(mp4_path: str) -> dict:
             "║    • Low contrast  → check scene background color (#0a0a0f)",
             "║    • Blurry text   → increase font size or reduce headline length",
             "║    • Bright bg     → enforce dark background in scene components",
-            "║    • No accent     → verify accentWord in JSON matches #00ff41 in TSX",
+            "║    • No accent     → verify accentColor in JSON is a hex from vidgen/colors.json",
             "╚════════════════════════════════════════════════",
         ]
         raise ValueError("\n".join(lines))

@@ -19,7 +19,9 @@ export const { fontFamily: BE_VIETNAM_PRO, waitUntilDone: waitForBeVietnamPro } 
     subsets: ["latin", "vietnamese"],
   });
 
-export const colors = {
+export type Theme = "dark" | "light";
+
+export const colorsDark = {
   bg: "#0a0a0f",
   green: "#00ff41",
   cyan: "#61dafb",
@@ -30,6 +32,38 @@ export const colors = {
   terminalBorder: "rgba(255,255,255,0.08)",
   codeBg: "#0d1117",
 };
+
+export const colorsLight = {
+  bg: "#f8f9fa",            // nền trắng xám nhẹ — không chói
+  green: "#16a34a",         // xanh lá đậm — readable trên trắng
+  cyan: "#0284c7",          // xanh dương đậm
+  errorRed: "#dc2626",
+  textPrimary: "rgba(0,0,0,0.90)",
+  textDim: "rgba(0,0,0,0.45)",
+  terminalBg: "#1e1e2e",    // terminal vẫn dark — đọc code cần contrast cao
+  terminalBorder: "rgba(0,0,0,0.12)",
+  codeBg: "#1e1e2e",
+};
+
+// Backward-compat: `colors` vẫn là dark (không break code cũ)
+export const colors = colorsDark;
+
+// Khi theme="light", các accent màu neon (#ef4444 đỏ) cần được darkened một chút
+// để readable trên nền trắng. Không cần đổi trong JSON — xử lý ở component level.
+export function resolveAccent(accent: string, theme: Theme): string {
+  if (theme === "dark") return accent;
+  // Map neon → saturated dark variant
+  const lightMap: Record<string, string> = {
+    "#ef4444": "#b91c1c",   // red-500 → red-700
+    "#f97316": "#c2410c",   // orange-500 → orange-700
+    "#eab308": "#a16207",   // yellow-500 → yellow-700
+    "#00ff41": "#15803d",   // neon green → green-700
+    "#61dafb": "#0369a1",   // cyan → sky-700
+    "#22C55E": "#15803d",
+    "#22d3ee": "#0369a1",
+  };
+  return lightMap[accent] ?? accent;
+}
 
 // TikTok safe zone (1080×1920) — measured from real posted-video screenshots,
 // includes 24px inner breathing room so content isn't flush against the boundary.

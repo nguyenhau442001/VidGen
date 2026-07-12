@@ -1,0 +1,144 @@
+{
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "RadarHookScene",
+      "narration": "AI vừa tự hack một công ty — không có hacker nào ngồi sau màn hình.",
+      "duration_frames": 147,
+      "props": {
+        "topicLabel": "BREAKING · JULY 2026",
+        "eyebrow": "LẦN ĐẦU TRONG LỊCH SỬ",
+        "headline": "AI vừa tự hack\nkhông cần hacker",
+        "driverLabels": ["CVE-scan", "Cred-steal", "Encrypt"],
+        "stats": [
+          { "value": "0", "label": "hacker cần", "highlight": true },
+          { "value": "31s", "label": "tự debug", "highlight": false },
+          { "value": "100%", "label": "tự động", "highlight": false }
+        ],
+        "accentColor": "#ef4444",
+        "userColor": "#f97316"
+      }
+    },
+    {
+      "id": "blast",
+      "type": "CounterBlastScene",
+      "narration": "Lần đầu trong lịch sử, một AI agent tự hoàn thành toàn bộ vụ tấn công ransomware — dò thám, đánh cắp, mã hóa database — không cần con người điều khiển.",
+      "duration_frames": 294,
+      "props": {
+        "finalValue": 1,
+        "prefix": "#",
+        "unit": "vụ AI tự hack đầu tiên",
+        "subLabel": "Công bố bởi Sysdig · July 2026",
+        "accentColor": "#ef4444",
+        "countDuration": 45
+      }
+    },
+    {
+      "id": "who",
+      "type": "SignalFlowScene",
+      "narration": "Sysdig gọi nó là JadePuffer. Không phải malware truyền thống. Nó là LLM agent — cùng kiến trúc với Claude hay GPT. Khác biệt duy nhất: task đầu vào là tấn công, không phải hỗ trợ người dùng.",
+      "duration_frames": 350,
+      "props": {
+        "signals": [
+          { "label": "Reconnaissance", "color": "#f97316" },
+          { "label": "Cred Harvest", "color": "#ef4444" },
+          { "label": "Lateral Move", "color": "#eab308" },
+          { "label": "Persistence", "color": "#ef4444" }
+        ],
+        "outputLabel": "JadePuffer\nLLM Agent",
+        "accentColor": "#ef4444"
+      }
+    },
+    {
+      "id": "scan",
+      "type": "EventScanScene",
+      "narration": "Bước một: JadePuffer quét toàn internet tìm server Langflow chưa vá lỗ hổng CVE-2025-3248. Không cần zero-day đắt tiền — lỗi cũ từ năm ngoái, bị bỏ qua, là đủ để mở cửa vào hệ thống.",
+      "duration_frames": 331,
+      "props": {
+        "eyebrow": "BƯỚC 1 · TRINH SÁT",
+        "scanLabel": "Quét internet · tìm CVE-2025-3248",
+        "events": [
+          { "icon": "generic", "label": "Langflow server · Singapore", "meta": "CVE-2025-3248 · chưa vá · RCE" },
+          { "icon": "generic", "label": "Langflow server · Tokyo", "meta": "CVE-2025-3248 · chưa vá · RCE" },
+          { "icon": "generic", "label": "TARGET · MySQL + Nacos", "meta": "internet-exposed · default keys" }
+        ],
+        "multiplierValue": "847",
+        "multiplierLabel": "server dễ bị tấn công tìm thấy",
+        "actionText": "Chọn target · bắt đầu khai thác",
+        "accentColor": "#f97316"
+      }
+    },
+    {
+      "id": "chain",
+      "type": "animated_flow",
+      "narration": "Bước hai đến năm diễn ra liên tiếp, hoàn toàn tự động — đánh cắp API key từ environment, lateral move sang MySQL database bên cạnh, leo thang đặc quyền lên admin, thiết lập persistence. Không ai ngồi chờ.",
+      "duration_frames": 359,
+      "props": {
+        "nodes": [
+          { "id": "rce",  "label": "RCE", "sublabel": "Langflow exploit", "color": "cyan" },
+          { "id": "key",  "label": "API Key", "sublabel": "env credential", "color": "neutral" },
+          { "id": "db",   "label": "MySQL DB", "sublabel": "lateral move", "color": "neutral" },
+          { "id": "priv", "label": "Admin", "sublabel": "priv escalation", "color": "neutral" },
+          { "id": "enc",  "label": "Encrypted", "sublabel": "ransom note", "color": "green" }
+        ],
+        "edges": [
+          { "from": "rce",  "to": "key",  "label": "steal" },
+          { "from": "key",  "to": "db",   "label": "pivot" },
+          { "from": "db",   "to": "priv", "label": "escalate" },
+          { "from": "priv", "to": "enc",  "label": "encrypt" }
+        ],
+        "headline": "5 bước · 0 người điều khiển"
+      }
+    },
+    {
+      "id": "speed",
+      "type": "StatComparatorScene",
+      "narration": "Khi tạo admin account thất bại lần đầu, agent tự đọc error, viết lại payload đã sửa lỗi, và retry — thành công trong 31 giây. Không phải phút. Giây. Nhanh hơn bất kỳ hacker nào có thể đọc log.",
+      "duration_frames": 368,
+      "props": {
+        "headline": "Tốc độ phản xạ",
+        "accentWord": "phản xạ",
+
+        "beforeLabel": "Hacker thật",
+        "beforeStat": "5–10",
+        "beforeStatNumber": 7,
+        "beforeStatUnit": "phút",
+        "beforeSubtext": "đọc log → suy nghĩ → gõ lại payload",
+        "beforeColor": "#6b7280",
+
+        "afterLabel": "JadePuffer",
+        "afterStat": "31",
+        "afterStatNumber": 31,
+        "afterStatUnit": "giây",
+        "afterSubtext": "đọc error → viết lại → retry thành công",
+        "afterColor": "#ef4444",
+
+        "deltaLabel": "nhanh hơn 13× so với hacker thật"
+      }
+    },
+    {
+      "id": "quote",
+      "type": "QuoteCalloutScene",
+      "narration": "Sysdig kết luận: kỹ năng từng chỉ có ở hacker kỳ cựu — giờ chỉ cần một model biết gọi đúng tool vào đúng lúc. Toàn bộ database mã hóa sạch. Ransom note tự động được sinh ra.",
+      "duration_frames": 350,
+      "props": {
+        "text": "Kỹ năng của **hacker kỳ cựu** — giờ chỉ cần **một model** biết dùng đúng tool.",
+        "accentWord": "một model",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#ef4444"
+      }
+    },
+    {
+      "id": "cta",
+      "type": "QuoteCalloutScene",
+      "narration": "Agent bạn đang dùng mỗi ngày để viết code — và agent kẻ xấu đang dùng để tấn công hạ tầng — chạy trên cùng một kiến trúc. Điều duy nhất khác nhau là prompt đầu vào.",
+      "duration_frames": 340,
+      "props": {
+        "text": "Cùng kiến trúc. Cùng model. Khác **một thứ duy nhất**: prompt đầu vào.",
+        "accentWord": "một thứ duy nhất",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#f97316"
+      }
+    }
+  ]
+}
