@@ -79,133 +79,42 @@ def test_build_publish_params_schedule_too_far_raises():
         pub._build_publish_params(PublishMetadata(title="T", schedule_time=far.isoformat()))
 
 
-def test_init_upload_session_returns_upload_session_id(tmp_path, monkeypatch):
-    monkeypatch.setattr(pub, "FACEBOOK_APP_ID", "app123")
+def test_upload_video_posts_file_as_multipart_source(tmp_path, monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
     video = tmp_path / "v.mp4"
     video.write_bytes(b"x" * 20)
 
     with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"id": "upload:sess1"})
-        upload_session_id = pub._init_upload_session("page-tok", video)
+        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"id": "vid42"})
+        video_id = pub._upload_video("page-tok", video, PublishMetadata(title="T"))
 
-    assert upload_session_id == "upload:sess1"
+    assert video_id == "vid42"
     args, kwargs = mock_post.call_args
-    assert args[0] == "https://graph.facebook.com/v25.0/app123/uploads"
-    assert kwargs["params"] == {
-        "file_name": "v.mp4",
-        "file_length": 20,
-        "file_type": "video/mp4",
-        "access_token": "page-tok",
-    }
+    assert args[0] == "https://graph.facebook.com/v25.0/page123/videos"
+    assert kwargs["params"]["title"] == "T"
+    assert kwargs["params"]["access_token"] == "page-tok"
+    assert kwargs["files"]["source"][0] == "v.mp4"
 
 
-def test_init_upload_session_raises_on_failure(tmp_path, monkeypatch):
-    monkeypatch.setattr(pub, "FACEBOOK_APP_ID", "app123")
+def test_upload_video_raises_when_no_id(tmp_path, monkeypatch):
+    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
     video = tmp_path / "v.mp4"
     video.write_bytes(b"x" * 20)
-
-    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=400, json=lambda: {}, text="bad request")
-        with pytest.raises(RuntimeError, match="Upload init failed"):
-            pub._init_upload_session("page-tok", video)
-
-
-def test_upload_video_chunks_sends_whole_file_in_one_post(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"a" * 20)
-
-    resp = MagicMock(status_code=200, json=lambda: {"h": "handle1"})
-
-    with patch("vidgen.publisher_facebook.requests.post", return_value=resp) as mock_post:
-        handle = pub._upload_video_chunks("upload:sess1", video, "page-tok")
-
-    assert handle == "handle1"
-    assert mock_post.call_count == 1
-    call = mock_post.call_args_list[0]
-    assert call.args[0] == "https://graph.facebook.com/v25.0/upload:sess1"
-    assert call.kwargs["headers"]["file_offset"] == "0"
-    assert call.kwargs["data"] == b"a" * 20
-
-
-def test_upload_video_chunks_resumes_from_server_reported_offset(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"a" * 10 + b"b" * 10)  # 20 bytes
-
-    resp1 = MagicMock(status_code=200, json=lambda: {"file_offset": "10"})
-    resp2 = MagicMock(status_code=200, json=lambda: {"h": "handle1"})
-
-    with patch("vidgen.publisher_facebook.requests.post", side_effect=[resp1, resp2]) as mock_post:
-        handle = pub._upload_video_chunks("upload:sess1", video, "page-tok")
-
-    assert handle == "handle1"
-    assert mock_post.call_count == 2
-    first_call = mock_post.call_args_list[0]
-    second_call = mock_post.call_args_list[1]
-    assert first_call.kwargs["headers"]["file_offset"] == "0"
-    assert second_call.kwargs["headers"]["file_offset"] == "10"
-    assert first_call.kwargs["data"] == b"a" * 10 + b"b" * 10
-    assert second_call.kwargs["data"] == b"b" * 10
-
-
-def test_upload_video_chunks_raises_when_offset_does_not_advance(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"x" * 10)
-
-    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"file_offset": "0"})
-        with pytest.raises(RuntimeError, match="stalled"):
-            pub._upload_video_chunks("upload:sess1", video, "page-tok")
-
-
-def test_upload_video_chunks_raises_on_failure_response(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"x" * 10)
 
     with patch("vidgen.publisher_facebook.requests.post") as mock_post:
         mock_post.return_value = MagicMock(status_code=400, json=lambda: {}, text="rejected")
-        with pytest.raises(RuntimeError, match="Chunk upload failed"):
-            pub._upload_video_chunks("upload:sess1", video, "page-tok")
+        with pytest.raises(RuntimeError, match="Publish failed"):
+            pub._upload_video("page-tok", video, PublishMetadata(title="T"))
 
 
-def test_upload_video_chunks_raises_on_empty_file(tmp_path):
+def test_upload_video_raises_on_empty_file(tmp_path):
     video = tmp_path / "v.mp4"
     video.write_bytes(b"")
 
     with patch("vidgen.publisher_facebook.requests.post") as mock_post:
         with pytest.raises(RuntimeError, match="empty file"):
-            pub._upload_video_chunks("upload:sess1", video, "page-tok")
+            pub._upload_video("page-tok", video, PublishMetadata(title="T"))
     mock_post.assert_not_called()
-
-
-def test_upload_video_chunks_raises_when_no_handle_returned(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"x" * 10)
-
-    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=200, json=lambda: {})
-        with pytest.raises(RuntimeError, match="stalled"):
-            pub._upload_video_chunks("upload:sess1", video, "page-tok")
-
-
-def test_finish_upload_success(monkeypatch):
-    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
-    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=200, json=lambda: {"id": "vid42"})
-        video_id = pub._finish_upload("page-tok", "handle1", PublishMetadata(title="T"))
-
-    assert video_id == "vid42"
-    args, kwargs = mock_post.call_args
-    assert args[0] == "https://graph.facebook.com/v25.0/page123/videos"
-    assert kwargs["params"]["fbuploader_video_file_chunk"] == "handle1"
-    assert kwargs["params"]["access_token"] == "page-tok"
-
-
-def test_finish_upload_raises_when_no_id(monkeypatch):
-    monkeypatch.setattr(pub, "FACEBOOK_PAGE_ID", "page123")
-    with patch("vidgen.publisher_facebook.requests.post") as mock_post:
-        mock_post.return_value = MagicMock(status_code=400, json=lambda: {}, text="rejected")
-        with pytest.raises(RuntimeError, match="Publish failed"):
-            pub._finish_upload("page-tok", "handle1", PublishMetadata(title="T"))
 
 
 def test_check_publishing_status_ready():
@@ -252,9 +161,7 @@ def test_publish_video_on_facebook_happy_path(tmp_path, monkeypatch):
     video.write_bytes(b"x" * 100)
 
     monkeypatch.setattr(pub, "_get_page_token", lambda: "page-tok")
-    monkeypatch.setattr(pub, "_init_upload_session", lambda token, path: "upload:sess1")
-    monkeypatch.setattr(pub, "_upload_video_chunks", lambda session_id, path, token: "handle1")
-    monkeypatch.setattr(pub, "_finish_upload", lambda token, handle, meta: "vid42")
+    monkeypatch.setattr(pub, "_upload_video", lambda token, path, meta: "vid42")
     monkeypatch.setattr(
         pub, "_check_publishing_status",
         lambda token, vid: (True, False, {"video_status": "ready"}),

@@ -3,11 +3,12 @@ vidgen/publisher_facebook.py — Auto-publish to Facebook Page video feed (Graph
 
 Flow:
     1. Load the Page access token (long-lived, no refresh needed)
-    2. Init resumable upload session (/{APP_ID}/uploads) -> upload_session_id
-    3. Upload video in chunks (file_offset protocol)     -> file handle ("h")
-    4. Publish: POST /{PAGE_ID}/videos with the file handle (or schedule)
-    5. Poll status.video_status until "ready"
-    6. GitHub Actions notification -> trigger workflow, email on failure
+    2. Upload: POST /{PAGE_ID}/videos with the file as multipart "source"
+       (or schedule) - the resumable /{APP_ID}/uploads protocol reliably
+       returns "Video Upload Timeout" (code 390 / subcode 1363030) for
+       these clip sizes, so a single direct multipart upload is used instead
+    3. Poll status.video_status until "ready"
+    4. GitHub Actions notification -> trigger workflow, email on failure
 
 Setup (one-time):
     python -m vidgen.publisher_facebook --setup-guide
@@ -135,75 +136,23 @@ def _build_publish_params(metadata: PublishMetadata) -> dict:
     return params
 
 
-def _init_upload_session(page_token: str, video_path: Path) -> str:
-    """Start a resumable upload session. Returns the upload session id ("upload:...")."""
-    resp = requests.post(
-        f"{GRAPH_BASE}/{FACEBOOK_APP_ID}/uploads",
-        params={
-            "file_name": video_path.name,
-            "file_length": video_path.stat().st_size,
-            "file_type": "video/mp4",
-            "access_token": page_token,
-        },
-    )
-    data = resp.json()
-    if resp.status_code != 200 or "id" not in data:
-        raise RuntimeError(f"Upload init failed (HTTP {resp.status_code}): {resp.text[:200]}")
-    print(f"[publisher_facebook] Upload session initialized - {data['id']}")
-    return data["id"]
-
-
-def _upload_video_chunks(upload_session_id: str, video_path: Path, page_token: str) -> str:
-    """
-    Uploads video_path using Facebook's resumable upload protocol. Per Meta's
-    docs, each POST to /{upload_session_id} must carry the *entire remaining*
-    file from file_offset (the API rejects arbitrarily-sized partial bodies
-    with "Partial request (did not match length of file)") - the client only
-    resumes from a smaller slice if the server reports a later file_offset
-    back (e.g. after a dropped connection).
-    """
-    total_size = video_path.stat().st_size
-    if total_size == 0:
+def _upload_video(page_token: str, video_path: Path, metadata: PublishMetadata) -> str:
+    """Uploads (or schedules) video_path directly to the Page. Returns the new video_id."""
+    if video_path.stat().st_size == 0:
         raise RuntimeError(f"Cannot upload empty file: {video_path}")
 
-    start = 0
-    while True:
-        with open(video_path, "rb") as f:
-            f.seek(start)
-            chunk = f.read()
-
-        resp = requests.post(
-            f"{GRAPH_BASE}/{upload_session_id}",
-            headers={
-                "Authorization": f"OAuth {page_token}",
-                "file_offset": str(start),
-            },
-            data=chunk,
-        )
-        data = resp.json()
-        if resp.status_code != 200:
-            raise RuntimeError(
-                f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
-            )
-        if "h" in data:
-            print("[publisher_facebook] Upload complete")
-            return data["h"]
-
-        next_offset = int(data.get("file_offset", start))
-        if next_offset <= start:
-            raise RuntimeError(f"Upload stalled at offset {start}: unexpected response {data}")
-        start = next_offset
-
-
-def _finish_upload(page_token: str, file_handle: str, metadata: PublishMetadata) -> str:
-    """Publishes (or schedules) the uploaded video to the Page. Returns the new video_id."""
     params = _build_publish_params(metadata)
-    params["fbuploader_video_file_chunk"] = file_handle
     params["access_token"] = page_token
-    resp = requests.post(f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/videos", params=params)
+    with open(video_path, "rb") as f:
+        resp = requests.post(
+            f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/videos",
+            params=params,
+            files={"source": (video_path.name, f, "video/mp4")},
+        )
     data = resp.json()
     if resp.status_code != 200 or "id" not in data:
         raise RuntimeError(f"Publish failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    print("[publisher_facebook] Upload complete")
     return data["id"]
 
 
@@ -226,8 +175,7 @@ def _check_publishing_status(page_token: str, video_id: str):
 
 def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
     """
-    Full pipeline: page token -> init session -> chunked upload -> finish ->
-    poll -> notify.
+    Full pipeline: page token -> direct multipart upload -> poll -> notify.
 
     Args:
         video_path: Path to the rendered .mp4
@@ -250,9 +198,7 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
 
     try:
         page_token = _get_page_token()
-        upload_session_id = _init_upload_session(page_token, video_path)
-        file_handle = _upload_video_chunks(upload_session_id, video_path, page_token)
-        video_id = _finish_upload(page_token, file_handle, metadata)
+        video_id = _upload_video(page_token, video_path, metadata)
 
         poll_until(
             lambda: _check_publishing_status(page_token, video_id),
@@ -317,7 +263,6 @@ SETUP_GUIDE = """
 
        FACEBOOK_PAGE_ACCESS_TOKEN=your_long_lived_page_token
        FACEBOOK_PAGE_ID=your_page_id_here
-       FACEBOOK_APP_ID=your_app_id_here   # still needed for the resumable upload session
        GITHUB_REPO=you/VidGen             # optional, for notify.yml
        GITHUB_TOKEN=ghp_xxxxxxxxxxxx       # optional, for notify.yml
 
