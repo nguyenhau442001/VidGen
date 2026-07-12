@@ -6,6 +6,7 @@ from pathlib import Path
 
 SCENE_TYPE_TO_STYLE = {
     "CharacterIconScene": "characterIcon",
+    "HSKFlashCardThumbnailScene": "hskFlashCard",
 }
 
 BOLD_RE = re.compile(r"\*\*([^*]+)\*\*")
@@ -120,6 +121,11 @@ def _extract_character_icon_props(
     return result
 
 
+def _extract_hsk_flash_card_props(script: dict, scene_index: int = 0) -> dict:
+    scene = script["scenes"][scene_index]
+    return dict(scene.get("props", {}))
+
+
 def generate_thumbnail(
     script_path: str,
     output_path: str,
@@ -148,6 +154,8 @@ def generate_thumbnail(
     style = _style_for_scene(scene["type"])
     if style == "characterIcon":
         props = _extract_character_icon_props(script, scene_index, channel_name)
+    elif style == "hskFlashCard":
+        props = _extract_hsk_flash_card_props(script, scene_index)
     else:
         props = _extract_generic_props(script, scene_index)
         props["channelName"] = channel_name
