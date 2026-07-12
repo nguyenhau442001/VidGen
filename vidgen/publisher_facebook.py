@@ -1,12 +1,12 @@
 """
-vidgen/publisher_facebook.py — Auto-publish to Facebook Page Reels (Graph API)
+vidgen/publisher_facebook.py — Auto-publish to Facebook Page video feed (Graph API)
 
 Flow:
     1. Load the Page access token (long-lived, no refresh needed)
-    2. Init Reels upload session               -> video_id, upload_url
-    3. Upload video in chunks (offset protocol) -> uploaded
-    4. Finish phase: publish (or schedule) the Reel
-    5. Poll publishing_phase until "complete"
+    2. Init resumable upload session (/{APP_ID}/uploads) -> upload_session_id
+    3. Upload video in chunks (file_offset protocol)     -> file handle ("h")
+    4. Publish: POST /{PAGE_ID}/videos with the file handle (or schedule)
+    5. Poll status.video_status until "ready"
     6. GitHub Actions notification -> trigger workflow, email on failure
 
 Setup (one-time):
@@ -77,7 +77,9 @@ POLL_INTERVAL = 5
 POLL_MAX      = 60
 
 SCHEDULE_MIN_SECONDS = 10 * 60
-SCHEDULE_MAX_SECONDS = 29 * 24 * 60 * 60
+SCHEDULE_MAX_SECONDS = 180 * 24 * 60 * 60  # ~6 months, per Page videos API limit
+
+FAILED_VIDEO_STATUSES = {"error", "upload_failed", "transcode_failed", "invalid", "expired"}
 
 
 # -- Token management -----------------------------------------------------------
@@ -99,18 +101,16 @@ def _get_page_token() -> str:
 
 # -- Metadata mapping ------------------------------------------------------------
 
-def _build_finish_params(metadata: PublishMetadata, video_id: str) -> dict:
-    """Build the upload_phase=finish query params from PublishMetadata."""
+def _build_publish_params(metadata: PublishMetadata) -> dict:
+    """Build the /{PAGE_ID}/videos publish params from PublishMetadata."""
     if metadata.tags:
-        print("[publisher_facebook] Warning: --tags is ignored on Facebook Reels (no tags field; put hashtags in the description).")
+        print("[publisher_facebook] Warning: --tags is ignored on Facebook videos (no tags field; put hashtags in the description).")
     if metadata.privacy and metadata.privacy != "public":
-        print(f"[publisher_facebook] Warning: --privacy={metadata.privacy} is ignored; Reels visibility follows the Page's own settings.")
+        print(f"[publisher_facebook] Warning: --privacy={metadata.privacy} is ignored; Page video visibility follows the Page's own settings.")
     if metadata.made_for_kids:
-        print("[publisher_facebook] Warning: --made-for-kids is ignored; Facebook Reels has no equivalent flag.")
+        print("[publisher_facebook] Warning: --made-for-kids is ignored; Facebook Page videos have no equivalent flag.")
 
     params: dict = {
-        "video_id": video_id,
-        "upload_phase": "finish",
         "title": metadata.title,
         "description": metadata.description or metadata.title,
     }
@@ -122,40 +122,43 @@ def _build_finish_params(metadata: PublishMetadata, video_id: str) -> dict:
         delta = (dt - datetime.datetime.now(datetime.timezone.utc)).total_seconds()
         if delta < SCHEDULE_MIN_SECONDS or delta > SCHEDULE_MAX_SECONDS:
             raise ValueError(
-                f"schedule_time must be between 10 minutes and 29 days from now (got {delta:.0f}s)"
+                f"schedule_time must be between 10 minutes and 6 months from now (got {delta:.0f}s)"
             )
-        params["video_state"] = "SCHEDULED"
+        params["published"] = "false"
         params["scheduled_publish_time"] = int(dt.timestamp())
-    else:
-        params["video_state"] = "PUBLISHED"
 
     return params
 
 
-def _init_upload_session(page_token: str) -> tuple[str, str]:
-    """Start a Reels upload session. Returns (video_id, upload_url)."""
+def _init_upload_session(page_token: str, video_path: Path) -> str:
+    """Start a resumable upload session. Returns the upload session id ("upload:...")."""
     resp = requests.post(
-        f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/video_reels",
-        params={"upload_phase": "start", "access_token": page_token},
+        f"{GRAPH_BASE}/{FACEBOOK_APP_ID}/uploads",
+        params={
+            "file_name": video_path.name,
+            "file_length": video_path.stat().st_size,
+            "file_type": "video/mp4",
+            "access_token": page_token,
+        },
     )
     data = resp.json()
-    if resp.status_code != 200 or "video_id" not in data or "upload_url" not in data:
+    if resp.status_code != 200 or "id" not in data:
         raise RuntimeError(f"Upload init failed (HTTP {resp.status_code}): {resp.text[:200]}")
-    print(f"[publisher_facebook] Upload session initialized - video_id={data['video_id']}")
-    return data["video_id"], data["upload_url"]
+    print(f"[publisher_facebook] Upload session initialized - {data['id']}")
+    return data["id"]
 
 
-def _upload_video_chunks(upload_url: str, video_path: Path, page_token: str) -> None:
+def _upload_video_chunks(upload_session_id: str, video_path: Path, page_token: str) -> str:
     """
-    Uploads video_path to upload_url using Facebook's offset-based resumable
-    protocol: each chunk is POSTed with offset/file_size headers and a flat
-    {"success": true} response (unlike Google's Content-Range/308 protocol) -
-    start advances by the chunk's length after each success.
+    Uploads video_path using Facebook's resumable upload protocol: each chunk
+    is POSTed to /{upload_session_id} with a file_offset header. The final
+    chunk's response carries the uploaded file handle ("h") needed to publish.
     """
     total_size = video_path.stat().st_size
     if total_size == 0:
         raise RuntimeError(f"Cannot upload empty file: {video_path}")
 
+    file_handle = None
     start = 0
     with open(video_path, "rb") as f:
         while start < total_size:
@@ -164,46 +167,54 @@ def _upload_video_chunks(upload_url: str, video_path: Path, page_token: str) -> 
             chunk = f.read(end - start)
 
             resp = requests.post(
-                upload_url,
+                f"{GRAPH_BASE}/{upload_session_id}",
                 headers={
                     "Authorization": f"OAuth {page_token}",
-                    "offset": str(start),
-                    "file_size": str(total_size),
+                    "file_offset": str(start),
                 },
                 data=chunk,
             )
-            if resp.status_code != 200 or not resp.json().get("success"):
+            data = resp.json()
+            if resp.status_code != 200:
                 raise RuntimeError(
                     f"Chunk upload failed at offset {start} (HTTP {resp.status_code}): {resp.text[:200]}"
                 )
+            if "h" in data:
+                file_handle = data["h"]
             start = end
 
+    if not file_handle:
+        raise RuntimeError("Upload finished but no file handle ('h') was returned")
+
     print("[publisher_facebook] Upload complete")
+    return file_handle
 
 
-def _finish_upload(page_token: str, video_id: str, metadata: PublishMetadata) -> None:
-    """Calls upload_phase=finish to publish (or schedule) the Reel."""
-    params = _build_finish_params(metadata, video_id)
+def _finish_upload(page_token: str, file_handle: str, metadata: PublishMetadata) -> str:
+    """Publishes (or schedules) the uploaded video to the Page. Returns the new video_id."""
+    params = _build_publish_params(metadata)
+    params["fbuploader_video_file_chunk"] = file_handle
     params["access_token"] = page_token
-    resp = requests.post(f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/video_reels", params=params)
+    resp = requests.post(f"{GRAPH_BASE}/{FACEBOOK_PAGE_ID}/videos", params=params)
     data = resp.json()
-    if resp.status_code != 200 or data.get("success") is not True:
-        raise RuntimeError(f"Publish finish failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    if resp.status_code != 200 or "id" not in data:
+        raise RuntimeError(f"Publish failed (HTTP {resp.status_code}): {resp.text[:200]}")
+    return data["id"]
 
 
 def _check_publishing_status(page_token: str, video_id: str):
-    """check_fn for poll_until: polls publishing_phase.status."""
+    """check_fn for poll_until: polls status.video_status."""
     resp = requests.get(
         f"{GRAPH_BASE}/{video_id}",
         params={"fields": "status", "access_token": page_token},
     )
     resp.raise_for_status()
     status = resp.json().get("status", {})
-    phase_status = status.get("publishing_phase", {}).get("status", "in_progress")
-    print(f"[publisher_facebook] Publishing status: {phase_status}")
-    if phase_status == "complete":
+    video_status = status.get("video_status", "processing")
+    print(f"[publisher_facebook] Publishing status: {video_status}")
+    if video_status == "ready":
         return True, False, status
-    if phase_status == "error":
+    if video_status in FAILED_VIDEO_STATUSES:
         return False, True, status
     return False, False, status
 
@@ -226,7 +237,7 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
     if not video_path.exists():
         raise FileNotFoundError(f"Video not found: {video_path}")
 
-    print("\n-- Facebook Reels Publish -----------------------------")
+    print("\n-- Facebook Page Video Publish -----------------------------")
     print(f"   File:  {video_path.name} ({video_path.stat().st_size // 1024 // 1024} MB)")
     print(f"   Title: {metadata.title[:60]}")
 
@@ -234,9 +245,9 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
 
     try:
         page_token = _get_page_token()
-        video_id, upload_url = _init_upload_session(page_token)
-        _upload_video_chunks(upload_url, video_path, page_token)
-        _finish_upload(page_token, video_id, metadata)
+        upload_session_id = _init_upload_session(page_token, video_path)
+        file_handle = _upload_video_chunks(upload_session_id, video_path, page_token)
+        video_id = _finish_upload(page_token, file_handle, metadata)
 
         poll_until(
             lambda: _check_publishing_status(page_token, video_id),
@@ -245,7 +256,7 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
         )
 
         duration = str(int(time.time() - _start_time))
-        url = f"https://www.facebook.com/reel/{video_id}"
+        url = f"https://www.facebook.com/watch/?v={video_id}"
         print(f"\n[publisher_facebook] DONE in {duration}s: {url}")
 
         notify_github(
@@ -274,7 +285,7 @@ def publish_video_on_facebook(video_path, metadata: PublishMetadata) -> dict:
 
 
 def delete_video_on_facebook(video_id: str) -> None:
-    """Delete a Reel/video from the Page by its video ID."""
+    """Delete a video from the Page by its video ID."""
     page_token = _get_page_token()
     resp = requests.delete(f"{GRAPH_BASE}/{video_id}", params={"access_token": page_token})
     data = resp.json()
@@ -284,14 +295,22 @@ def delete_video_on_facebook(video_id: str) -> None:
 
 
 SETUP_GUIDE = """
-=== Facebook Reels Publisher - One-time Setup Guide =======================
+=== Facebook Page Video Publisher - One-time Setup Guide ===================
 
   STEP 1 - Create a Meta for Developers app
   -------------------------------------------
   1. Go to https://developers.facebook.com/apps/
   2. Create App -> type: Business
-  3. Add Product -> "Facebook Login for Business" -> Set Up
-  4. App Roles -> Roles -> confirm your account is listed as Admin
+  3. Use cases -> Add -> "Manage Pages" -> Set Up
+     (NOT "Facebook Login for Business" - that product doesn't expose
+     the pages_* permissions video publishing needs)
+  4. In Manage Pages -> Permissions and features, click "+ Add" for:
+       - pages_show_list
+       - pages_read_engagement
+       - pages_manage_posts
+     Leave them on Standard Access (no App Review needed - Standard
+     Access already works for accounts with a role on the app).
+  5. App Roles -> Roles -> confirm your account is listed as Admin
      (Development-mode apps only work for accounts with a role on the
      app - fine for a single-operator channel; publishing to Pages you
      don't administer needs App Review, which is out of scope here)
@@ -388,14 +407,14 @@ def _run_oauth_flow() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="VidGen Facebook Reels publisher")
+    parser = argparse.ArgumentParser(description="VidGen Facebook Page video publisher")
     parser.add_argument("video", nargs="?", help="Path to .mp4 file")
-    parser.add_argument("--title", default="", help="Reel title")
-    parser.add_argument("--description", default="", help="Reel description (default: title)")
-    parser.add_argument("--tags", default="", help="Ignored on Facebook (no tags field on Reels)")
-    parser.add_argument("--privacy", default="public", choices=["public", "unlisted", "private"], help="Ignored on Facebook (Reels follow the Page's own visibility)")
+    parser.add_argument("--title", default="", help="Video title")
+    parser.add_argument("--description", default="", help="Video description (default: title)")
+    parser.add_argument("--tags", default="", help="Ignored on Facebook (no tags field on Page videos)")
+    parser.add_argument("--privacy", default="public", choices=["public", "unlisted", "private"], help="Ignored on Facebook (Page videos follow the Page's own visibility)")
     parser.add_argument("--made-for-kids", action="store_true", help="Ignored on Facebook (no equivalent flag)")
-    parser.add_argument("--schedule", default=None, metavar="ISO_DATETIME", help="e.g. '2026-07-20T20:00:00' (must be 10min-29days out)")
+    parser.add_argument("--schedule", default=None, metavar="ISO_DATETIME", help="e.g. '2026-07-20T20:00:00' (must be 10min-6months out)")
     parser.add_argument("--setup-guide", action="store_true", help="Print setup instructions")
     parser.add_argument("--oauth", action="store_true", help="Run OAuth flow to get a Page access token")
     parser.add_argument("--delete", metavar="VIDEO_ID", help="Delete a video by ID instead of uploading")
