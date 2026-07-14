@@ -507,7 +507,7 @@ def main():
         tts_synthesize(
             job["text"],
             output_path,
-            voice="Xuân Vĩnh",
+            voice="Minh Đức",
             speed=args.speed,
             trim_silence=not args.no_trim,
             target_dbfs=args.target_dbfs,

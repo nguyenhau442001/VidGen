@@ -13,8 +13,8 @@ Cuộc trao đổi sai biến mất, token không cộng dồn thêm."""
 output_wav_file_name = "output/audio/wav/test_output.wav"
 
 start_time = time()
-# Synthesize speech using the built-in preset voice "Xuân Vĩnh"
-audio = tts.infer(text, voice="Xuân Vĩnh") # type: ignore
+# Synthesize speech using the built-in preset voice "Minh Đức"
+audio = tts.infer(text, voice="Minh Đức") # type: ignore
 # Write the generated waveform to disk as a .wav file
 tts.save(audio, output_wav_file_name) # type: ignore
 end_time = time()
