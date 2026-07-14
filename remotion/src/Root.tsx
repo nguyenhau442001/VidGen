@@ -880,7 +880,7 @@ export const Root: React.FC = () => {
         defaultProps={{
           rejectedRoute: { distance: "1.2 km", duration: "9 phút" },
           selectedRoute: { distance: "1.8 km", duration: "4 phút" },
-          headlineText: "Con đường 1.2km vừa bị Maps bỏ qua",
+          headlineText: "Con đường 1.2km vừa bị Google Maps bỏ qua",
           accentColor: "#1A73E8",
           durationInFrames: 165,
         }}

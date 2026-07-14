@@ -19,8 +19,41 @@ const RIGHT_STAGGER = 6;  // right panel enters this many frames after left
 const ENTER_FRAMES = 12;
 const EXIT_FRAMES = 10;
 
-const LEFT_BG = "#0d1117";   // colors.terminalBg
-const RIGHT_BG = "#07101e";  // slightly blue-tinted dark
+// Panel color themes — "dark" is the original terminal-chrome look (kept as
+// the default so code/diff comparisons like Grab-dispatch scripts render
+// unchanged); "light" is for non-code comparisons on the light channel theme,
+// where a full-bleed dark panel would otherwise read as a jarring dark patch.
+const PANEL_THEMES = {
+  dark: {
+    leftBg: "#0d1117",   // colors.terminalBg
+    rightBg: "#07101e",  // slightly blue-tinted dark
+    label: "rgba(255,255,255,0.35)",
+    divider: "rgba(255,255,255,0.10)",
+    roadFill: "rgba(255,255,255,0.04)",
+    roadStroke: "rgba(255,255,255,0.16)",
+    detourStroke: "rgba(255,255,255,0.4)",
+    constraintNote: "rgba(255,255,255,0.5)",
+    distanceDim: "rgba(255,255,255,0.55)",
+    spinnerTrack: "rgba(255,255,255,0.08)",
+    spinnerText: "rgba(255,255,255,0.6)",
+    pin: "#fff",
+  },
+  light: {
+    leftBg: "#eef1f4",
+    rightBg: "#e6ebf1",
+    label: "rgba(0,0,0,0.4)",
+    divider: "rgba(0,0,0,0.10)",
+    roadFill: "rgba(0,0,0,0.035)",
+    roadStroke: "rgba(0,0,0,0.14)",
+    detourStroke: "rgba(0,0,0,0.35)",
+    constraintNote: "rgba(0,0,0,0.5)",
+    distanceDim: "rgba(0,0,0,0.5)",
+    spinnerTrack: "rgba(0,0,0,0.08)",
+    spinnerText: "rgba(0,0,0,0.55)",
+    pin: "#202124",
+  },
+} satisfies Record<"dark" | "light", Record<string, string>>;
+type PanelTheme = { [K in keyof typeof PANEL_THEMES.dark]: string };
 
 // Safe zone insets (matching SafeZone component)
 const SAFE_TOP = 244;
@@ -91,7 +124,8 @@ const RoadConstraintDiagram: React.FC<{
   roadConstraint?: "median";
   accentColor: string;
   frame: number;
-}> = ({ axis, roadConstraint, accentColor, frame }) => {
+  theme: PanelTheme;
+}> = ({ axis, roadConstraint, accentColor, frame, theme }) => {
   const driver = axis.drivers.find((d) => d.direction === "away") ?? axis.drivers[0];
 
   const pinX = ROAD_VB_W / 2;
@@ -129,8 +163,8 @@ const RoadConstraintDiagram: React.FC<{
           width={roadHalfW * 2}
           height={roadBottom - roadTop}
           rx={18}
-          fill="rgba(255,255,255,0.04)"
-          stroke="rgba(255,255,255,0.16)"
+          fill={theme.roadFill}
+          stroke={theme.roadStroke}
           strokeWidth={2}
           opacity={roadIn}
         />
@@ -149,9 +183,9 @@ const RoadConstraintDiagram: React.FC<{
 
         {/* Pickup pin */}
         <g transform={`translate(${pinX},${pinY}) scale(${pinIn})`} opacity={pinIn}>
-          <line x1={0} y1={8} x2={0} y2={-22} stroke="#fff" strokeWidth={3} strokeLinecap="round" />
-          <path d="M 0 -22 L 18 -16 L 0 -10 Z" fill="#fff" />
-          <circle cx={0} cy={10} r={3.5} fill="#fff" />
+          <line x1={0} y1={8} x2={0} y2={-22} stroke={theme.pin} strokeWidth={3} strokeLinecap="round" />
+          <path d="M 0 -22 L 18 -16 L 0 -10 Z" fill={theme.pin} />
+          <circle cx={0} cy={10} r={3.5} fill={theme.pin} />
         </g>
 
         {/* Away driver dot, with a soft pulsing warning ring */}
@@ -180,7 +214,7 @@ const RoadConstraintDiagram: React.FC<{
             pinX + roadHalfW - 16
           } ${arrowEndY - 20}`}
           fill="none"
-          stroke="rgba(255,255,255,0.4)"
+          stroke={theme.detourStroke}
           strokeWidth={2.5}
           strokeDasharray="7 6"
           strokeLinecap="round"
@@ -199,7 +233,7 @@ const RoadConstraintDiagram: React.FC<{
                 fontFamily: INTER,
                 fontSize: 15,
                 fontWeight: 400,
-                color: "rgba(255,255,255,0.5)",
+                color: theme.constraintNote,
                 marginTop: 4,
                 maxWidth: 260,
               }}
@@ -233,7 +267,8 @@ const EtaRow: React.FC<{
   isWinner: boolean;
   color: string;
   rowFrame: number;
-}> = ({ driver, isWinner, color, rowFrame }) => {
+  theme: PanelTheme;
+}> = ({ driver, isWinner, color, rowFrame, theme }) => {
   const enter = interpolate(rowFrame, [0, 14], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const slideFrom = isWinner ? -18 : 18;
 
@@ -254,7 +289,7 @@ const EtaRow: React.FC<{
         padding: "16px 18px",
         borderRadius: 14,
         background: isWinner ? `${color}1a` : "transparent",
-        border: `1px solid ${isWinner ? color : "rgba(255,255,255,0.12)"}`,
+        border: `1px solid ${isWinner ? color : theme.divider}`,
         opacity: enter * (isWinner ? 1 : 0.6),
         transform: `translateX(${interpolate(enter, [0, 1], [slideFrom, 0])}px)`,
       }}
@@ -265,7 +300,7 @@ const EtaRow: React.FC<{
           flex: 1,
           fontFamily: INTER,
           fontSize: 15,
-          color: "rgba(255,255,255,0.55)",
+          color: theme.distanceDim,
           textDecoration: isWinner ? "none" : "line-through",
         }}
       >
@@ -278,7 +313,7 @@ const EtaRow: React.FC<{
   );
 };
 
-const EtaComparison: React.FC<{ axis: MapPingAxis; frame: number }> = ({ axis, frame }) => {
+const EtaComparison: React.FC<{ axis: MapPingAxis; frame: number; theme: PanelTheme }> = ({ axis, frame, theme }) => {
   const drivers = axis.drivers;
   const winner = drivers.reduce(
     (min, d) => ((d.etaSeconds ?? Infinity) < (min.etaSeconds ?? Infinity) ? d : min),
@@ -295,6 +330,7 @@ const EtaComparison: React.FC<{ axis: MapPingAxis; frame: number }> = ({ axis, f
           isWinner={d === winner}
           color={d === winner ? colors.green : colors.errorRed}
           rowFrame={Math.max(0, frame - (10 + i * 12))}
+          theme={theme}
         />
       ))}
     </div>
@@ -308,7 +344,8 @@ const PanelContent: React.FC<{
   panel: SplitPanelContent;
   frame: number;
   accentColor: string;
-}> = ({ panel, frame, accentColor }) => {
+  theme: PanelTheme;
+}> = ({ panel, frame, accentColor, theme }) => {
   if (panel.kind === "loading") {
     // Continuous spinner rotation — no clamp so it spins forever
     const rotation = interpolate(frame, [0, 60], [0, 360], {
@@ -337,7 +374,7 @@ const PanelContent: React.FC<{
           <circle
             cx="30" cy="30" r="24"
             fill="none"
-            stroke="rgba(255,255,255,0.08)"
+            stroke={theme.spinnerTrack}
             strokeWidth="5"
           />
           <circle
@@ -353,7 +390,7 @@ const PanelContent: React.FC<{
           style={{
             fontSize: 22,
             fontWeight: 500,
-            color: "rgba(255,255,255,0.6)",
+            color: theme.spinnerText,
             fontFamily: INTER,
             textAlign: "center",
             opacity: textOpacity,
@@ -444,12 +481,13 @@ const PanelContent: React.FC<{
         roadConstraint={panel.roadConstraint}
         accentColor={accentColor}
         frame={frame}
+        theme={theme}
       />
     );
   }
 
   if (panel.kind === "eta_comparison") {
-    return <EtaComparison axis={panel.axis} frame={frame} />;
+    return <EtaComparison axis={panel.axis} frame={frame} theme={theme} />;
   }
 
   return null;
@@ -468,7 +506,8 @@ const Panel: React.FC<{
   label?: string;
   labelOpacity: number;
   accentColor: string;
-}> = ({ side, slideX, bg, content, panelData, frame, label, labelOpacity, accentColor }) => {
+  theme: PanelTheme;
+}> = ({ side, slideX, bg, content, panelData, frame, label, labelOpacity, accentColor, theme }) => {
   const isLeft = side === "left";
 
   return (
@@ -507,7 +546,7 @@ const Panel: React.FC<{
           }}
         >
           {content ?? (panelData && (
-            <PanelContent panel={panelData} frame={frame} accentColor={accentColor} />
+            <PanelContent panel={panelData} frame={frame} accentColor={accentColor} theme={theme} />
           ))}
         </div>
 
@@ -527,7 +566,7 @@ const Panel: React.FC<{
               style={{
                 fontSize: 18,
                 fontWeight: 600,
-                color: "rgba(255,255,255,0.35)",
+                color: theme.label,
                 fontFamily: INTER,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
@@ -547,7 +586,7 @@ const Panel: React.FC<{
               top: 0,
               width: 1.5,
               height: "100%",
-              backgroundColor: "rgba(255,255,255,0.10)",
+              backgroundColor: theme.divider,
             }}
           />
         )}
@@ -573,11 +612,13 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
   durationInFrames,
   leftContent,
   rightContent,
+  panelTheme = "dark",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const accent = accentColor ?? colors.cyan;
+  const theme = PANEL_THEMES[panelTheme];
 
   // Scene fade in/out
   const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
@@ -624,8 +665,8 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
         {
           backgroundColor: colors.bg,
           opacity: sceneOpacity,
-          "--panel-left-bg": LEFT_BG,
-          "--panel-right-bg": RIGHT_BG,
+          "--panel-left-bg": theme.leftBg,
+          "--panel-right-bg": theme.rightBg,
           "--accent": accent,
         } as React.CSSProperties
       }
@@ -635,25 +676,27 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
       <Panel
         side="left"
         slideX={leftSlide}
-        bg={LEFT_BG}
+        bg={theme.leftBg}
         content={leftContent}
         panelData={leftPanel}
         frame={frame}
         label={leftLabel ?? "Bạn thấy"}
         labelOpacity={labelOpacity}
         accentColor={accent}
+        theme={theme}
       />
 
       <Panel
         side="right"
         slideX={rightSlide}
-        bg={RIGHT_BG}
+        bg={theme.rightBg}
         content={rightContent}
         panelData={rightPanel}
         frame={frame}
         label={rightLabel ?? "Hệ thống đang làm"}
         labelOpacity={labelOpacity}
         accentColor={accent}
+        theme={theme}
       />
     </AbsoluteFill>
   );

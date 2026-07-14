@@ -9,6 +9,7 @@ import {
 import { PhoneMockupSceneProps, PhoneMockupStateRange } from "../types";
 import { BE_VIETNAM_PRO, colors } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
+import { GoogleMapsIcon } from "../icons/GoogleMapsIcon";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -680,6 +681,8 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   matchedRange,
   showApproachingDriver,
   weatherEffect,
+  appName = "RideApp",
+  appIcon,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -824,8 +827,12 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                 borderBottom: `1px solid ${PHONE_BORDER}`,
                 flexShrink: 0,
                 backgroundColor: PHONE_BODY,
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
               }}
             >
+              {appIcon === "google_maps" && <GoogleMapsIcon size={16} />}
               <span
                 style={{
                   fontSize: 15,
@@ -835,7 +842,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   letterSpacing: "-0.02em",
                 }}
               >
-                RideApp
+                {appName}
               </span>
             </div>
 

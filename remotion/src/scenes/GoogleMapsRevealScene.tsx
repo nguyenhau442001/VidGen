@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { GoogleMapsRevealSceneProps, GoogleMapsRoute } from "../types";
 import { BE_VIETNAM_PRO, SAFE_ZONE } from "../styles";
+import { GoogleMapsIcon } from "../icons/GoogleMapsIcon";
 
 // ---------------------------------------------------------------------------
 // Scene timing — phase boundaries scale with the scene's actual duration
@@ -175,7 +176,7 @@ const MapsUI: React.FC<{
           whiteSpace: "nowrap",
         }}
       >
-        <div style={{ width: 8, height: 8, borderRadius: "50%", background: accent }} />
+        <GoogleMapsIcon size={20} />
         <span style={{ fontSize: 15, fontWeight: 700, color: TEXT_PRIMARY, fontFamily: BE_VIETNAM_PRO }}>
           Google Maps đề xuất
         </span>

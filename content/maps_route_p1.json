@@ -9,7 +9,7 @@
       "props": {
         "rejectedRoute": { "distance": "1.2 km", "duration": "9 phút" },
         "selectedRoute": { "distance": "1.8 km", "duration": "4 phút" },
-        "headlineText": "Con đường 1.2km vừa bị Maps bỏ qua",
+        "headlineText": "Con đường 1.2km vừa bị Google Maps bỏ qua",
         "accentColor": "#1A73E8"
       },
       "narration": "Google Maps biết con đường ngắn nhất — nhưng cố tình không chỉ cho bạn.",
@@ -26,9 +26,11 @@
       "duration_frames": 210,
       "props": {
         "screenState": "idle",
-        "accentColor": "#1A73E8"
+        "accentColor": "#1A73E8",
+        "appName": "Google Maps",
+        "appIcon": "google_maps"
       },
-      "narration": "Bạn nhìn thấy con đường ngắn hơn ngay trên bản đồ. Tại sao Maps không chọn nó?",
+      "narration": "Bạn nhìn thấy con đường ngắn hơn ngay trên bản đồ. Tại sao Google Maps không chọn nó?",
       "narration_timing_frames": [
         5,
         193
@@ -40,15 +42,17 @@
     {
       "id": "shot_01c",
       "type": "PhoneMockupScene",
-      "duration_frames": 145,
+      "duration_frames": 150,
       "props": {
         "screenState": "loading",
-        "accentColor": "#1A73E8"
+        "accentColor": "#1A73E8",
+        "appName": "Google Maps",
+        "appIcon": "google_maps"
       },
-      "narration": "Ngay khi bạn bấm Bắt đầu, Maps bắt đầu tính nhiều tuyến đường khác nhau.",
+      "narration": "Ngay khi bạn bấm Bắt đầu, Google Maps bắt đầu tính nhiều tuyến đường khác nhau.",
       "narration_timing_frames": [
         5,
-        130
+        135
       ],
       "sound_design": "button_tap sfx at frame 0, subtle routing tick loop underneath narration",
       "transition_out_delay_frames": 15
@@ -87,7 +91,7 @@
           }
         ]
       },
-      "narration": "Ai cũng nghĩ Maps chọn đường ngắn nhất — nhìn vào bản đồ, con đường 1.2km trông hiển nhiên hơn nhiều.",
+      "narration": "Ai cũng nghĩ Google Maps chọn đường ngắn nhất — nhìn vào bản đồ, con đường 1.2km trông hiển nhiên hơn nhiều.",
       "narration_timing_frames": [
         15,
         230
@@ -109,7 +113,7 @@
         "highlightedDriverIndex": 0,
         "accentColor": "#EA4335"
       },
-      "narration": "Nhưng Maps gần như không quan tâm con số 1.2 kilômét này. Đó mới là điều kỳ lạ.",
+      "narration": "Nhưng Google Maps gần như không quan tâm con số 1.2 kilômét này. Đó mới là điều kỳ lạ.",
       "narration_timing_frames": [
         8,
         170
@@ -124,8 +128,9 @@
         "leftContent": "road_constraint_diagram",
         "rightContent": "eta_comparison",
         "leftCaption": "Đường ngắn hơn",
-        "rightCaption": "Đường Maps chọn",
+        "rightCaption": "Đường Google Maps chọn",
         "roadConstraint": "traffic_jam",
+        "panelTheme": "light",
         "axis": {
           "destinationLabel": "Điểm đến",
           "drivers": [
@@ -176,7 +181,7 @@
         "highlightedDriverIndex": 1,
         "accentColor": "#1A73E8"
       },
-      "narration": "Bạn sẽ chọn đường nào? ... Maps cũng vậy.",
+      "narration": "Bạn sẽ chọn đường nào? ... Google Maps cũng vậy.",
       "narration_timing_frames": [
         20,
         175
@@ -205,7 +210,7 @@
         "highlightedDriverIndex": 1,
         "accentColor": "#1A73E8"
       },
-      "narration": "Đại lượng Maps tính không phải kilômét — mà là thời gian đến nơi thực tế.",
+      "narration": "Đại lượng Google Maps tính không phải kilômét — mà là thời gian đến nơi thực tế.",
       "narration_timing_frames": [
         10,
         172
@@ -216,16 +221,16 @@
     {
       "id": "shot_03a",
       "type": "ZoomRevealScene",
-      "duration_frames": 225,
+      "duration_frames": 231,
       "props": {
         "focusElement": "selected_route_line",
         "revealContent": "city_traffic_network",
         "accentColor": "#F59E0B"
       },
-      "narration": "Nhưng có một điều còn lạ hơn. Maps không chỉ tính đường cho riêng bạn — và đó là câu chuyện của phần sau.",
+      "narration": "Nhưng có một điều còn lạ hơn. Google Maps không chỉ tính đường cho riêng bạn — và đó là câu chuyện của phần sau.",
       "narration_timing_frames": [
         15,
-        210
+        216
       ],
       "transition_out_delay_frames": 10
     },
@@ -248,17 +253,19 @@
     {
       "id": "shot_05b",
       "type": "PhoneMockupScene",
-      "duration_frames": 210,
+      "duration_frames": 218,
       "props": {
         "screenState": "matched",
         "accentColor": "#1A73E8",
         "driverName": "Route tối ưu",
-        "driverEta": "4 phút"
+        "driverEta": "4 phút",
+        "appName": "Google Maps",
+        "appIcon": "google_maps"
       },
-      "narration": "Lần sau khi Maps chỉ đường vòng — nó không sai. Nó đang chọn đường nhanh nhất cho bạn, không phải ngắn nhất.",
+      "narration": "Lần sau khi Google Maps chỉ đường vòng — nó không sai. Nó đang chọn đường nhanh nhất cho bạn, không phải ngắn nhất.",
       "narration_timing_frames": [
         5,
-        190
+        198
       ],
       "transition_out_delay_frames": 15
     },
@@ -267,11 +274,11 @@
       "type": "QuoteCalloutScene",
       "duration_frames": 255,
       "props": {
-        "text": "Nhưng có những lúc Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào",
+        "text": "Nhưng có những lúc Google Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào",
         "accentWord": "vẫn cố tình đưa bạn vào",
         "backgroundStyle": "dark"
       },
-      "narration": "Nhưng có những lúc Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào. Lý do đó mới thật sự bất ngờ.",
+      "narration": "Nhưng có những lúc Google Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào. Lý do đó mới thật sự bất ngờ.",
       "narration_timing_frames": [
         10,
         238

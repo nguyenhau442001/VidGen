@@ -66,6 +66,10 @@ export type PhoneMockupVisual = {
   // Idle-screen-only: overlays animated falling rain on the map, for scenes
   // whose narration describes live weather data driving demand.
   weatherEffect?: "rain";
+  // App header branding — defaults to the generic "RideApp" label used by
+  // ride-hailing scripts. Set both to brand this mockup as Google Maps.
+  appName?: string;
+  appIcon?: "google_maps";
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };
@@ -345,6 +349,10 @@ export type SplitViewVisual = {
   leftLabel?: string;
   rightLabel?: string;
   accentColor?: string;
+  // Panels default to a dark "terminal chrome" look (right for code/diff
+  // comparisons). Set "light" for non-code comparisons on the light channel
+  // theme, where a dark panel would otherwise read as a jarring dark patch.
+  panelTheme?: "dark" | "light";
 };
 
 export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
