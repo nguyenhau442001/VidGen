@@ -70,6 +70,12 @@ export type PhoneMockupVisual = {
   // ride-hailing scripts. Set both to brand this mockup as Google Maps.
   appName?: string;
   appIcon?: "google_maps";
+  // Loading/matched screen copy — defaults to the ride-hailing "tìm tài xế"
+  // wording used by Grab dispatch scripts. Override for non-driver contexts
+  // (e.g. Google Maps route calculation) so the mockup doesn't drift back
+  // to talking about drivers.
+  loadingLabel?: string;
+  matchedStatusLabel?: string;
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };

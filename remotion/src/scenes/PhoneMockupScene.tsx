@@ -370,7 +370,8 @@ const IdleScreen: React.FC<{
 const LoadingScreen: React.FC<{
   accentColor: string;
   frame: number;
-}> = ({ accentColor, frame }) => {
+  label: string;
+}> = ({ accentColor, frame, label }) => {
   // Continuous rotation — extrapolateRight: "extend" removes the clamp
   const rotation = interpolate(frame, [0, 60], [0, 360], {
     extrapolateLeft: "extend",
@@ -429,7 +430,7 @@ const LoadingScreen: React.FC<{
           textAlign: "center",
         }}
       >
-        Đang tìm tài xế...
+        {label}
       </div>
 
       {/* Animated dots */}
@@ -457,7 +458,8 @@ const MatchedScreen: React.FC<{
   accentColor: string;
   cardY: number;
   cardOpacity: number;
-}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity }) => {
+  statusLabel: string;
+}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity, statusLabel }) => {
   // Derive initials for avatar
   const initials = driverName
     .split(" ")
@@ -541,7 +543,7 @@ const MatchedScreen: React.FC<{
               fontFamily: BE_VIETNAM_PRO,
             }}
           >
-            Đã tìm thấy tài xế
+            {statusLabel}
           </div>
 
           {/* Driver row */}
@@ -683,6 +685,8 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   weatherEffect,
   appName = "RideApp",
   appIcon,
+  loadingLabel = "Đang tìm tài xế...",
+  matchedStatusLabel = "Đã tìm thấy tài xế",
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -860,7 +864,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                 />
               )}
               {effective === "loading" && (
-                <LoadingScreen accentColor={accentColor} frame={frame} />
+                <LoadingScreen accentColor={accentColor} frame={frame} label={loadingLabel} />
               )}
               {effective === "matched" && (
                 <MatchedScreen
@@ -869,6 +873,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   accentColor={accentColor}
                   cardY={cardY}
                   cardOpacity={cardOpacity}
+                  statusLabel={matchedStatusLabel}
                 />
               )}
             </div>

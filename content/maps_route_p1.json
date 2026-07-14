@@ -28,7 +28,8 @@
         "screenState": "idle",
         "accentColor": "#1A73E8",
         "appName": "Google Maps",
-        "appIcon": "google_maps"
+        "appIcon": "google_maps",
+        "buttonLabel": "Bắt đầu"
       },
       "narration": "Bạn nhìn thấy con đường ngắn hơn ngay trên bản đồ. Tại sao Google Maps không chọn nó?",
       "narration_timing_frames": [
@@ -47,7 +48,8 @@
         "screenState": "loading",
         "accentColor": "#1A73E8",
         "appName": "Google Maps",
-        "appIcon": "google_maps"
+        "appIcon": "google_maps",
+        "loadingLabel": "Đang tính tuyến đường..."
       },
       "narration": "Ngay khi bạn bấm Bắt đầu, Google Maps bắt đầu tính nhiều tuyến đường khác nhau.",
       "narration_timing_frames": [
@@ -260,7 +262,8 @@
         "driverName": "Route tối ưu",
         "driverEta": "4 phút",
         "appName": "Google Maps",
-        "appIcon": "google_maps"
+        "appIcon": "google_maps",
+        "matchedStatusLabel": "Đã chọn tuyến đường"
       },
       "narration": "Lần sau khi Google Maps chỉ đường vòng — nó không sai. Nó đang chọn đường nhanh nhất cho bạn, không phải ngắn nhất.",
       "narration_timing_frames": [
