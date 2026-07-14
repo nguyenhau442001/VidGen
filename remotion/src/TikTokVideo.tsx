@@ -42,6 +42,16 @@ import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
 import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { HSKFlashCardThumbnailScene } from "./scenes/HSKFlashCardThumbnailScene";
+import { IconThreatScene } from "./scenes/IconThreatScene";
+import { StoryCardScene } from "./scenes/StoryCardScene";
+import { ComparisonScene } from "./scenes/ComparisonScene";
+import { PipelineVerticalScene } from "./scenes/PipelineVerticalScene";
+import { DiagramFlowScene } from "./scenes/DiagramFlowScene";
+import { TimelineStagesScene } from "./scenes/TimelineStagesScene";
+import { ScanAnimationScene } from "./scenes/ScanAnimationScene";
+import { ExceptionCardScene } from "./scenes/ExceptionCardScene";
+import { VerdictListScene } from "./scenes/VerdictListScene";
+import { PreviewTeaserScene } from "./scenes/PreviewTeaserScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
@@ -219,5 +229,25 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <HSKScreenshotScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "hsk_flashcard":
       return <HSKFlashCardThumbnailScene {...scene.visual} />;
+    case "icon_threat":
+      return <IconThreatScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "story_card":
+      return <StoryCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "comparison":
+      return <ComparisonScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "pipeline_vertical":
+      return <PipelineVerticalScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "diagram_flow":
+      return <DiagramFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "timeline_stages":
+      return <TimelineStagesScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "scan_animation":
+      return <ScanAnimationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "exception_card":
+      return <ExceptionCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "verdict_list":
+      return <VerdictListScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "preview_teaser":
+      return <PreviewTeaserScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

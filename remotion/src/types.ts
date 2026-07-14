@@ -111,7 +111,17 @@ export type ManifestScene =
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKCTAVisual }
   | { type: "hsk_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKScreenshotVisual }
-  | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKFlashCardThumbnailVisual };
+  | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: HSKFlashCardThumbnailVisual }
+  | { type: "icon_threat"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: IconThreatVisual }
+  | { type: "story_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StoryCardVisual }
+  | { type: "comparison"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ComparisonVisual }
+  | { type: "pipeline_vertical"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PipelineVerticalVisual }
+  | { type: "diagram_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: DiagramFlowVisual }
+  | { type: "timeline_stages"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: TimelineStagesVisual }
+  | { type: "scan_animation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScanAnimationVisual }
+  | { type: "exception_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ExceptionCardVisual }
+  | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: VerdictListVisual }
+  | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PreviewTeaserVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -494,6 +504,175 @@ export type StatComparatorVisual = {
 };
 
 export type StatComparatorSceneProps = StatComparatorVisual & { durationInFrames: number };
+
+// Personal-stakes beat: a short row of icon+label items the viewer
+// recognizes as their own ("old photos", "deleted messages"), followed by
+// a one-line verdict. Used right after a cold-open hook to make the threat
+// feel personal before the mechanism is explained.
+export type IconThreatItem = { icon: string; label: string };
+
+export type IconThreatVisual = {
+  headline: string;
+  accentWord?: string;
+  items: IconThreatItem[];
+  verdict?: string;
+  accentColor?: string; // default colors.cyan
+};
+
+export type IconThreatSceneProps = IconThreatVisual & { durationInFrames: number };
+
+// Real-world case card: year/flag/location framing a concrete incident,
+// its outcome, and a closing verdict line — used to back a claim with a
+// documented event instead of only theory.
+export type StoryCardVisual = {
+  headline: string;
+  accentWord?: string;
+  year: string;
+  flag: string;
+  location: string;
+  event: string;
+  outcome: string;
+  verdict?: string;
+  accentColor?: string; // default colors.green
+};
+
+export type StoryCardSceneProps = StoryCardVisual & { durationInFrames: number };
+
+// Cold-open face-off: two icon+label sides connected by a connector glyph,
+// with a brief glitch flicker on the losing side — "you did X, but Y is
+// still true" in one glance, before any explanation.
+export type ComparisonVisual = {
+  headline: string;
+  accentWord?: string;
+  subtext?: string;
+  visualEffect?: "glitch";
+  leftIcon: string;
+  leftLabel: string;
+  rightIcon: string;
+  rightLabel: string;
+  connector?: string; // default "→"
+};
+
+export type ComparisonSceneProps = ComparisonVisual & { durationInFrames: number };
+
+// Vertical step-by-step flow (e.g. file -> delete -> data block), each step
+// tagged with a status that drives its color treatment.
+export type PipelineStep = {
+  label: string;
+  icon: string;
+  status: "exists" | "deleted" | "still_here" | "neutral";
+  note?: string;
+};
+
+export type PipelineVerticalVisual = {
+  headline: string;
+  accentWord?: string;
+  steps: PipelineStep[];
+  accentColor?: string;
+};
+
+export type PipelineVerticalSceneProps = PipelineVerticalVisual & { durationInFrames: number };
+
+// Horizontal node diagram (e.g. filename -> inode -> data block), each node
+// with an icon/sublabel and a deleted/intact status, joined by an arrow,
+// with an optional footer punchline.
+export type DiagramFlowNode = {
+  label: string;
+  sublabel?: string;
+  icon: string;
+  status: "deleted" | "intact" | "neutral";
+};
+
+export type DiagramFlowVisual = {
+  headline: string;
+  accentWord?: string;
+  nodes: DiagramFlowNode[];
+  arrow?: string; // default "→"
+  footer?: string;
+};
+
+export type DiagramFlowSceneProps = DiagramFlowVisual & { durationInFrames: number };
+
+// Horizontal timeline of stages (e.g. delete -> available -> overwritten new
+// file -> gone for real), each stage tagged danger/warning/safe.
+export type TimelineStage = {
+  label: string;
+  icon: string;
+  state: "danger" | "warning" | "safe";
+};
+
+export type TimelineStagesVisual = {
+  headline: string;
+  accentWord?: string;
+  stages: TimelineStage[];
+  note?: string;
+};
+
+export type TimelineStagesSceneProps = TimelineStagesVisual & { durationInFrames: number };
+
+// Scanning-beam reveal: a sweep line passes over a raw-sector grid while
+// target file-signatures light up as "found", ending on a result + note.
+export type ScanAnimationVisual = {
+  headline: string;
+  accentWord?: string;
+  scanLabel: string;
+  targets: string[];
+  result: string;
+  note?: string;
+  accentColor?: string;
+};
+
+export type ScanAnimationSceneProps = ScanAnimationVisual & { durationInFrames: number };
+
+// Two-column recovery-odds comparator (e.g. HDD vs SSD+TRIM), each column a
+// labeled bar at a fixed height/percentage, with a caveat line pinned below
+// — the "but here's the exception" beat.
+export type ExceptionCardItem = {
+  label: string;
+  icon: string;
+  recovery: string;
+  bar: number; // 0-100
+};
+
+export type ExceptionCardVisual = {
+  headline: string;
+  accentWord?: string;
+  comparison: ExceptionCardItem[];
+  caveat?: string;
+};
+
+export type ExceptionCardSceneProps = ExceptionCardVisual & { durationInFrames: number };
+
+// Stacked checklist of actions vs verdicts (e.g. Empty Trash -> still
+// recoverable, Secure Erase -> gone for real), ending on a standard/citation
+// badge — the "here's the actual takeaway" beat.
+export type VerdictItem = {
+  action: string;
+  icon: string;
+  result: string;
+  color: "danger" | "safe";
+};
+
+export type VerdictListVisual = {
+  headline: string;
+  accentWord?: string;
+  verdicts: VerdictItem[];
+  standard?: string;
+};
+
+export type VerdictListSceneProps = VerdictListVisual & { durationInFrames: number };
+
+// Closing CTA teaser: headline + subtext, a short list of "next video"
+// preview items with a leading icon, and a channel tag.
+export type PreviewTeaserVisual = {
+  headline: string;
+  accentWord?: string;
+  subtext?: string;
+  preview: { items: string[]; icon?: string };
+  channel?: string;
+};
+
+export type PreviewTeaserSceneProps = PreviewTeaserVisual & { durationInFrames: number };
 
 // grid values are intensity 0–1; cells reveal top-left to bottom-right on
 // the scene's 750×1080 canvas (contain-fit into the 1080×1920 frame).

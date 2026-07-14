@@ -64,6 +64,18 @@ TYPE_MAP = {
     "HSKCTAScene": "hsk_cta",
     "HSKScreenshotScene": "hsk_screenshot",
     "HSKFlashCardThumbnailScene": "hsk_flashcard",
+    "IconThreatScene": "icon_threat",
+    "StoryCardScene": "story_card",
+    "HookScene": "comparison",
+    "ComparisonScene": "comparison",
+    "PipelineVerticalScene": "pipeline_vertical",
+    "DiagramFlowScene": "diagram_flow",
+    "TimelineStagesScene": "timeline_stages",
+    "ScanAnimationScene": "scan_animation",
+    "ExceptionCardScene": "exception_card",
+    "VerdictListScene": "verdict_list",
+    "CTAScene": "preview_teaser",
+    "PreviewTeaserScene": "preview_teaser",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920

@@ -1,0 +1,144 @@
+{
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "explanation",
+      "duration_frames": 180,
+      "narration": "ChatGPT không hiểu ngôn ngữ theo cách bộ não con người hoạt động.",
+      "props": {
+        "headline": "Không hiểu như con người",
+        "accentWord": "như con người",
+        "body": "Vậy nó làm gì để trả lời nhanh đến vậy?"
+      }
+    },
+    {
+      "id": "tension",
+      "type": "explanation",
+      "duration_frames": 308,
+      "narration": "Mỗi lần bạn nhắn tin, nó không đọc để hiểu — nó ước lượng khả năng xuất hiện của hàng nghìn lựa chọn tiếp theo, rồi chọn một theo phân phối xác suất đó. Lặp liên tục cho đến dấu chấm cuối cùng.",
+      "props": {
+        "headline": "Đọc ≠ Hiểu",
+        "accentWord": "≠",
+        "bullets": [
+          "Nhận câu của bạn làm đầu vào",
+          "Ước lượng xác suất hàng nghìn lựa chọn tiếp theo",
+          "Chọn một theo phân phối xác suất — lặp lại đến hết"
+        ]
+      }
+    },
+    {
+      "id": "reveal-1",
+      "type": "explanation",
+      "duration_frames": 272,
+      "narration": "Ví dụ: 'Hôm nay trời...' — model ước lượng hàng nghìn lựa chọn cùng lúc. Lựa chọn xác suất cao hơn được ưu tiên — nối vào câu — rồi lặp lại với câu vừa được cập nhật.",
+      "props": {
+        "headline": "Đoán từng bước một",
+        "accentWord": "Đoán",
+        "bullets": [
+          "\"Hôm nay trời...\" → ước lượng hàng nghìn lựa chọn tiếp theo",
+          "\"nắng\" 62% xác suất cao nhất → được chọn, nối vào câu",
+          "Lặp lại với câu vừa được cập nhật — đến dấu chấm"
+        ]
+      }
+    },
+    {
+      "id": "emergent",
+      "type": "explanation",
+      "duration_frames": 265,
+      "narration": "Và điều kỳ lạ là: khi làm việc này hàng tỷ lần, khả năng 'đoán từ' dần trở thành khả năng viết, lập trình và dịch thuật. Đoán từ — học pattern — xuất hiện năng lực.",
+      "props": {
+        "headline": "Đoán từ → Năng lực thật",
+        "accentWord": "Năng lực thật",
+        "bullets": [
+          "Hàng tỷ lần đoán → học được pattern ngôn ngữ sâu",
+          "Pattern sâu → viết, lập trình, dịch thuật",
+          "Hiện tượng này gọi là: emergent abilities"
+        ]
+      }
+    },
+    {
+      "id": "wow-twist",
+      "type": "explanation",
+      "duration_frames": 322,
+      "narration": "Nghe ngớ ngẩn — nhưng nguyên lý này, kết hợp với quy mô dữ liệu và quá trình huấn luyện, tạo ra sức mạnh thực sự: đạt điểm cao trong nhiều kỳ đánh giá chuyên môn, hỗ trợ lập trình, dịch hàng chục ngôn ngữ.",
+      "props": {
+        "headline": "Quy mô × Huấn luyện",
+        "accentWord": "Huấn luyện",
+        "bullets": [
+          "Dữ liệu: từ nghìn → hàng trăm tỷ token",
+          "Huấn luyện: từ 20% → 100% quy mô",
+          "Kết quả: một mô hình ngôn ngữ lớn (LLM)"
+        ]
+      }
+    },
+    {
+      "id": "reveal-2a",
+      "type": "explanation",
+      "duration_frames": 258,
+      "narration": "Tại sao nó ước lượng tốt đến vậy? Vì nó được huấn luyện trên khối lượng dữ liệu khổng lồ — sách, website, tài liệu được cấp phép và dữ liệu do con người tạo ra.",
+      "props": {
+        "headline": "Dữ liệu khổng lồ",
+        "accentWord": "khổng lồ",
+        "bullets": [
+          "Sách và tài liệu học thuật, nghiên cứu",
+          "Website và nguồn công khai",
+          "Tài liệu cấp phép + dữ liệu do con người tạo ra"
+        ]
+      }
+    },
+    {
+      "id": "reveal-2b",
+      "type": "explanation",
+      "duration_frames": 286,
+      "narration": "Bạn hỏi y khoa phức tạp — nó không tra sách, nó đoán theo pattern có trong tài liệu y học mà nó đã học. Nghe đúng vì pattern đúng — không phải vì nó thực sự hiểu y học.",
+      "props": {
+        "headline": "Pattern ≠ Hiểu biết",
+        "accentWord": "Pattern",
+        "bullets": [
+          "Hỏi y khoa → đoán theo tài liệu y học đã học (88% khớp)",
+          "Hỏi luật → đoán theo tài liệu pháp lý đã học (22% khớp)",
+          "Nghe đúng vì pattern đúng — không phải hiểu"
+        ]
+      }
+    },
+    {
+      "id": "aha",
+      "type": "split_view",
+      "duration_frames": 293,
+      "narration": "Đây là lý do nó hay sai mà vẫn tự tin. Theo mặc định, mô hình không tự kiểm chứng mọi câu trả lời trước khi tạo ra chúng. Pattern quen thì đúng. Pattern lạ — vẫn đoán, vẫn tự tin.",
+      "props": {
+        "headline": "Tự tin ≠ Đúng",
+        "accentWord": "Tự tin",
+        "leftLabel": "Pattern quen → Đúng",
+        "rightLabel": "Pattern lạ → Sai nhưng vẫn tự tin",
+        "leftContent": "Câu hỏi quen thuộc\n→ Pattern rõ ràng\n→ Kết quả chính xác",
+        "rightContent": "Câu hỏi lạ / mới\n→ Không tự kiểm chứng\n→ Sai — nhưng tone vẫn chắc chắn"
+      }
+    },
+    {
+      "id": "split",
+      "type": "split_view",
+      "duration_frames": 258,
+      "narration": "Nhưng biết điều này, bạn kiểm soát được nó. Cùng một câu hỏi — thay đổi cách đặt câu là bạn đang kích hoạt những pattern phù hợp hơn và nhận được kết quả khác hẳn.",
+      "props": {
+        "headline": "Prompt → Kích hoạt pattern",
+        "accentWord": "Kích hoạt",
+        "leftLabel": "Prompt chung chung",
+        "rightLabel": "Prompt cụ thể",
+        "leftContent": "\"Giải thích AI cho tôi\"\n→ Kích hoạt: pattern phổ thông\n→ Câu trả lời generic",
+        "rightContent": "\"Giải thích như tôi là dev Python\"\n→ Kích hoạt: pattern chuyên ngành\n→ Code + trade-off cụ thể"
+      }
+    },
+    {
+      "id": "cta",
+      "type": "explanation",
+      "duration_frames": 272,
+      "narration": "Hiểu cách AI hoạt động không giúp bạn tạo ra AI — nhưng nó giúp bạn kích hoạt đúng pattern và dùng AI tốt hơn 99% mọi người. Clip sau: prompt cụ thể luôn thắng prompt chung chung.",
+      "props": {
+        "headline": "Clip sau: Prompt Engineering",
+        "accentWord": "Prompt Engineering",
+        "body": "Dùng AI tốt hơn 99% mọi người — bắt đầu từ clip sau"
+      }
+    }
+  ]
+}
