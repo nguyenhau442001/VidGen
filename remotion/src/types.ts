@@ -76,6 +76,7 @@ export type PhoneMockupVisual = {
   // to talking about drivers.
   loadingLabel?: string;
   matchedStatusLabel?: string;
+  matchedConfirmLabel?: string;
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };

@@ -459,7 +459,8 @@ const MatchedScreen: React.FC<{
   cardY: number;
   cardOpacity: number;
   statusLabel: string;
-}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity, statusLabel }) => {
+  confirmLabel: string;
+}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity, statusLabel, confirmLabel }) => {
   // Derive initials for avatar
   const initials = driverName
     .split(" ")
@@ -659,7 +660,7 @@ const MatchedScreen: React.FC<{
                 fontFamily: BE_VIETNAM_PRO,
               }}
             >
-              Xác nhận chuyến đi
+              {confirmLabel}
             </span>
           </div>
         </div>
@@ -687,6 +688,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   appIcon,
   loadingLabel = "Đang tìm tài xế...",
   matchedStatusLabel = "Đã tìm thấy tài xế",
+  matchedConfirmLabel = "Xác nhận chuyến đi",
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -874,6 +876,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   cardY={cardY}
                   cardOpacity={cardOpacity}
                   statusLabel={matchedStatusLabel}
+                  confirmLabel={matchedConfirmLabel}
                 />
               )}
             </div>

@@ -263,7 +263,8 @@
         "driverEta": "4 phút",
         "appName": "Google Maps",
         "appIcon": "google_maps",
-        "matchedStatusLabel": "Đã chọn tuyến đường"
+        "matchedStatusLabel": "Đã chọn tuyến đường",
+        "matchedConfirmLabel": "Bắt đầu chỉ đường"
       },
       "narration": "Lần sau khi Google Maps chỉ đường vòng — nó không sai. Nó đang chọn đường nhanh nhất cho bạn, không phải ngắn nhất.",
       "narration_timing_frames": [
