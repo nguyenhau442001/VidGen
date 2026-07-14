@@ -38,6 +38,7 @@ import { HSKHookScene } from "./scenes/HSKHookScene";
 import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
 import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
+import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -867,6 +868,21 @@ export const Root: React.FC = () => {
           imageSrc: "images/hsk_app_screenshot.png",
           badgeText: "GIAO DIỆN THẬT",
           durationInFrames: 90,
+        }}
+      />
+      <Composition
+        id="GoogleMapsReveal"
+        component={GoogleMapsRevealScene}
+        durationInFrames={165}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          rejectedRoute: { distance: "1.2 km", duration: "9 phút" },
+          selectedRoute: { distance: "1.8 km", duration: "4 phút" },
+          headlineText: "Con đường 1.2km vừa bị Maps bỏ qua",
+          accentColor: "#1A73E8",
+          durationInFrames: 165,
         }}
       />
     </>

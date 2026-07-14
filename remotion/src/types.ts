@@ -121,7 +121,8 @@ export type ManifestScene =
   | { type: "scan_animation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScanAnimationVisual }
   | { type: "exception_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ExceptionCardVisual }
   | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: VerdictListVisual }
-  | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PreviewTeaserVisual };
+  | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PreviewTeaserVisual }
+  | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GoogleMapsRevealVisual };
 
 export type RenderManifest = {
   fps: number;
@@ -664,6 +665,21 @@ export type VerdictListSceneProps = VerdictListVisual & { durationInFrames: numb
 
 // Closing CTA teaser: headline + subtext, a short list of "next video"
 // preview items with a leading icon, and a channel tag.
+// Cold-open "someone using Google Maps" hook: a small person-holding-phone
+// illustration whose phone scales up to fill the frame, revealing a Google
+// Maps-style route screen with a shorter rejected route (dashed grey) next
+// to the longer selected route (solid blue) that Maps actually picked.
+export type GoogleMapsRoute = { distance: string; duration: string };
+
+export type GoogleMapsRevealVisual = {
+  rejectedRoute: GoogleMapsRoute;
+  selectedRoute: GoogleMapsRoute;
+  headlineText: string;
+  accentColor?: string; // default "#1A73E8"
+};
+
+export type GoogleMapsRevealSceneProps = GoogleMapsRevealVisual & { durationInFrames: number };
+
 export type PreviewTeaserVisual = {
   headline: string;
   accentWord?: string;

@@ -36,6 +36,7 @@ SCENE_COLORS = {
     "CounterBlastScene": ("#FCEBEB", "#791F1F"),
     "QuoteCalloutScene": ("#2C2C2A", "#B4B2A9"),
     "CharacterIconScene":("#E6F1FB", "#0C447C"),
+    "GoogleMapsRevealScene":("#E6F1FB", "#0C447C"),
 }
 
 DEFAULT_COLOR = ("#F1EFE8", "#5F5E5A")

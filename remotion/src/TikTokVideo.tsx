@@ -52,13 +52,15 @@ import { ScanAnimationScene } from "./scenes/ScanAnimationScene";
 import { ExceptionCardScene } from "./scenes/ExceptionCardScene";
 import { VerdictListScene } from "./scenes/VerdictListScene";
 import { PreviewTeaserScene } from "./scenes/PreviewTeaserScene";
+import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
+import { colors } from "./styles";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0f" }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <Series>
         {manifest.scenes.map((scene) => (
           <Series.Sequence
@@ -249,5 +251,7 @@ const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
       return <VerdictListScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
     case "preview_teaser":
       return <PreviewTeaserScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+    case "google_maps_reveal":
+      return <GoogleMapsRevealScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
   }
 };

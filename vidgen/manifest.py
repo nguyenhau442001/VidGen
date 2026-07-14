@@ -76,6 +76,7 @@ TYPE_MAP = {
     "VerdictListScene": "verdict_list",
     "CTAScene": "preview_teaser",
     "PreviewTeaserScene": "preview_teaser",
+    "GoogleMapsRevealScene": "google_maps_reveal",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920

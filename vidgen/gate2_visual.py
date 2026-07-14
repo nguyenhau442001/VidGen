@@ -34,16 +34,27 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# Thresholds  (tuned for VidGen dark-background style: bg=#0a0a0f)
+# Thresholds  (tuned for VidGen's channel-wide light-theme style adopted
+# 2026-07-14 — bg≈#f8f9fa via styles.ts's `colors` default; dark UI chrome
+# like terminal/phone panels stays dark by design and is small enough not to
+# dominate a sampled frame)
 #
 # CONTRAST_MIN/SHARPNESS_MIN were originally set to 40/80, which rejected
 # every one of 16 real sampled frames across both grab_dispatch_p1 (shipped)
 # and grab_dispatch_p2 — including frames visually confirmed fine (a single
 # soft-glow dot on a near-black background legitimately measures std≈6,
-# Laplacian≈6; this project's minimalist dark style has genuine breathing-room
+# Laplacian≈6; this project's minimalist style has genuine breathing-room
 # beats that aren't "washed out" or "blurry", just sparse by design). Floors
 # lowered to only catch a truly blank/solid-color frame (variance ≈0), not
 # this project's normal sparse moments.
+# LIGHT_BG_MIN replaces the old dark-theme DARK_BG_MAX check (which asserted
+# the darkest 10% of pixels stayed below 80 — i.e. genuinely dark background,
+# white text pops). Post migration the polarity flipped: scenes now render on
+# a light background with dark text, so the invariant worth catching is a
+# stray leftover dark-theme background (a scene component not migrated off
+# hardcoded dark literals), not a background that's "too bright" — checked by
+# requiring the *brightest* 10% of pixels (the background, now the light
+# majority) to be light enough that dark text still pops against it.
 # ACCENT_GREEN_MIN's check also assumed a single fixed accent color required
 # on *every* sampled frame; this project deliberately varies accent color by
 # section and by script (e.g. #00ff41/#22C55E for the data-signal scenes,
@@ -57,7 +68,7 @@ except ImportError:
 
 CONTRAST_MIN = 5.0         # grayscale std deviation — below = flat/washed out
 SHARPNESS_MIN = 5.0        # Laplacian variance — below = blurry text
-DARK_BG_MAX = 80.0         # mean of darkest 10% pixels — above = bg too bright
+LIGHT_BG_MIN = 180.0       # mean of brightest 10% pixels — below = bg not actually light
 
 _COLORS_PATH = os.path.join(os.path.dirname(__file__), "colors.json")
 with open(_COLORS_PATH, encoding="utf-8") as _f:
@@ -173,15 +184,16 @@ def _check_frame(t: int, path: str) -> dict:
     contrast = float(gray.std())
     lap_var = float(cv2.Laplacian(gray, cv2.CV_64F).var())
 
-    # ── Background darkness — kept as an immediate per-frame check; a truly
-    # bright background is a styling bug, not something transitions cause ──
+    # ── Background lightness — kept as an immediate per-frame check; a
+    # stray dark-theme background is a styling bug, not something transitions
+    # cause ──
     flat = gray.flatten()
     n10 = max(1, len(flat) // 10)
-    dark_mean = float(np.sort(flat)[:n10].mean())
-    if dark_mean > DARK_BG_MAX:
+    light_mean = float(np.sort(flat)[-n10:].mean())
+    if light_mean < LIGHT_BG_MIN:
         issues.append(
-            f"frame@{t}s: BACKGROUND TOO BRIGHT — dark_mean={dark_mean:.1f} "
-            f"(max {DARK_BG_MAX}). White text will not pop."
+            f"frame@{t}s: BACKGROUND TOO DARK — light_mean={light_mean:.1f} "
+            f"(min {LIGHT_BG_MIN}). Dark text will not pop."
         )
 
     return {
@@ -271,9 +283,9 @@ def gate2_assert(mp4_path: str) -> dict:
         lines += [
             "║",
             "║  Fix suggestions:",
-            "║    • Low contrast  → check scene background color (#0a0a0f)",
+            "║    • Low contrast  → check scene background color (colors.bg, ~#f8f9fa)",
             "║    • Blurry text   → increase font size or reduce headline length",
-            "║    • Bright bg     → enforce dark background in scene components",
+            "║    • Dark bg       → scene not migrated off hardcoded dark-theme literals",
             "║    • No accent     → verify accentColor in JSON is a hex from vidgen/colors.json",
             "╚════════════════════════════════════════════════",
         ]

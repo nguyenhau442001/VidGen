@@ -1,0 +1,282 @@
+{
+  "title": "maps_route_p1",
+  "language": "vi",
+  "scenes": [
+    {
+      "id": "shot_01a",
+      "type": "GoogleMapsRevealScene",
+      "duration_frames": 165,
+      "props": {
+        "rejectedRoute": { "distance": "1.2 km", "duration": "9 phút" },
+        "selectedRoute": { "distance": "1.8 km", "duration": "4 phút" },
+        "headlineText": "Con đường 1.2km vừa bị Maps bỏ qua",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Google Maps biết con đường ngắn nhất — nhưng cố tình không chỉ cho bạn.",
+      "narration_timing_frames": [
+        0,
+        148
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_01b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 210,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Bạn nhìn thấy con đường ngắn hơn ngay trên bản đồ. Tại sao Maps không chọn nó?",
+      "narration_timing_frames": [
+        5,
+        193
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Và bạn không bao giờ biết tại sao",
+      "on_screen_text_at_frame": 5
+    },
+    {
+      "id": "shot_01c",
+      "type": "PhoneMockupScene",
+      "duration_frames": 145,
+      "props": {
+        "screenState": "loading",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Ngay khi bạn bấm Bắt đầu, Maps bắt đầu tính nhiều tuyến đường khác nhau.",
+      "narration_timing_frames": [
+        5,
+        130
+      ],
+      "sound_design": "button_tap sfx at frame 0, subtle routing tick loop underneath narration",
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_02a",
+      "type": "MapPingScene",
+      "duration_frames": 70,
+      "props": {
+        "drivers": []
+      },
+      "narration": null,
+      "sound_design": "map whoosh/materialize sfx",
+      "transition_out_delay_frames": 0
+    },
+    {
+      "id": "shot_02b",
+      "type": "MapPingScene",
+      "duration_frames": 245,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 450.0,
+            "label": "Route A — 1.2km"
+          },
+          {
+            "x": 502.5,
+            "y": 330.0,
+            "label": "Route B — 1.8km"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          }
+        ]
+      },
+      "narration": "Ai cũng nghĩ Maps chọn đường ngắn nhất — nhìn vào bản đồ, con đường 1.2km trông hiển nhiên hơn nhiều.",
+      "narration_timing_frames": [
+        15,
+        230
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02c",
+      "type": "MapPingScene",
+      "duration_frames": 190,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 450.0,
+            "label": "1.2km"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#EA4335"
+      },
+      "narration": "Nhưng Maps gần như không quan tâm con số 1.2 kilômét này. Đó mới là điều kỳ lạ.",
+      "narration_timing_frames": [
+        8,
+        170
+      ],
+      "transition_out_delay_frames": 5
+    },
+    {
+      "id": "shot_02ea_show",
+      "type": "SplitViewScene",
+      "duration_frames": 240,
+      "props": {
+        "leftContent": "road_constraint_diagram",
+        "rightContent": "eta_comparison",
+        "leftCaption": "Đường ngắn hơn",
+        "rightCaption": "Đường Maps chọn",
+        "roadConstraint": "traffic_jam",
+        "axis": {
+          "destinationLabel": "Điểm đến",
+          "drivers": [
+            {
+              "label": "1.2km — đang kẹt xe, 8km/h",
+              "distanceMeters": 1200,
+              "direction": "toward",
+              "constraintNote": "Xe bò chậm",
+              "etaSeconds": 540,
+              "etaLabel": "9 phút"
+            },
+            {
+              "label": "1.8km — thông thoáng",
+              "distanceMeters": 1800,
+              "direction": "toward",
+              "constraintNote": null,
+              "etaSeconds": 240,
+              "etaLabel": "4 phút"
+            }
+          ]
+        },
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Con đường 1.2km — đang kẹt xe, tốc độ 8 kilômét một giờ — mất 9 phút. Con đường 1.8km — thông thoáng — chỉ 4 phút.",
+      "narration_timing_frames": [
+        8,
+        226
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02eb_conclude",
+      "type": "MapPingScene",
+      "duration_frames": 225,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 450.0,
+            "label": "9 phút"
+          },
+          {
+            "x": 502.5,
+            "y": 330.0,
+            "label": "4 phút"
+          }
+        ],
+        "highlightedDriverIndex": 1,
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Bạn sẽ chọn đường nào? ... Maps cũng vậy.",
+      "narration_timing_frames": [
+        20,
+        175
+      ],
+      "sound_design": "subtle pause beat at frame 20 before narration starts",
+      "on_screen_text": "Ngắn nhất ≠ Nhanh nhất",
+      "transition_out_delay_frames": 25
+    },
+    {
+      "id": "shot_02d_name",
+      "type": "MapPingScene",
+      "duration_frames": 210,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 450.0,
+            "label": "1.2km — 9 phút"
+          },
+          {
+            "x": 502.5,
+            "y": 330.0,
+            "label": "1.8km — 4 phút"
+          }
+        ],
+        "highlightedDriverIndex": 1,
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Đại lượng Maps tính không phải kilômét — mà là thời gian đến nơi thực tế.",
+      "narration_timing_frames": [
+        10,
+        172
+      ],
+      "on_screen_text": "Không phải km — là phút",
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_03a",
+      "type": "ZoomRevealScene",
+      "duration_frames": 225,
+      "props": {
+        "focusElement": "selected_route_line",
+        "revealContent": "city_traffic_network",
+        "accentColor": "#F59E0B"
+      },
+      "narration": "Nhưng có một điều còn lạ hơn. Maps không chỉ tính đường cho riêng bạn — và đó là câu chuyện của phần sau.",
+      "narration_timing_frames": [
+        15,
+        210
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_05a",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 260,
+      "props": {
+        "text": "Giống như điều tiết viên giao thông nhìn cả nút giao, không nhìn từng chiếc xe — để cả nút chạy được, đôi khi một xe phải đi vòng",
+        "accentWord": "cả nút giao",
+        "backgroundStyle": "gradient-subtle"
+      },
+      "narration": "Giống như điều tiết viên giao thông nhìn cả nút giao, không nhìn từng chiếc xe — để cả nút chạy được, đôi khi một xe phải đi vòng.",
+      "narration_timing_frames": [
+        10,
+        244
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_05b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 210,
+      "props": {
+        "screenState": "matched",
+        "accentColor": "#1A73E8",
+        "driverName": "Route tối ưu",
+        "driverEta": "4 phút"
+      },
+      "narration": "Lần sau khi Maps chỉ đường vòng — nó không sai. Nó đang chọn đường nhanh nhất cho bạn, không phải ngắn nhất.",
+      "narration_timing_frames": [
+        5,
+        190
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_05c",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 255,
+      "props": {
+        "text": "Nhưng có những lúc Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào",
+        "accentWord": "vẫn cố tình đưa bạn vào",
+        "backgroundStyle": "dark"
+      },
+      "narration": "Nhưng có những lúc Maps biết chắc tuyến đó sẽ kẹt — và vẫn cố tình đưa bạn vào. Lý do đó mới thật sự bất ngờ.",
+      "narration_timing_frames": [
+        10,
+        238
+      ],
+      "transition_out_delay_frames": 0
+    }
+  ]
+}
