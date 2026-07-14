@@ -250,7 +250,7 @@ export const Root: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{
-          eyebrowText: "DevFaster",
+          eyebrowText: "Ủa là sao",
         }}
       />
       <Composition
@@ -265,7 +265,7 @@ export const Root: React.FC = () => {
           headline: "Tài xế biết trước cả bạn",
           accentWord: "biết trước",
           partLabel: "PHẦN 2 / 4",
-          channelName: "DevFasterr",
+          channelName: "Ủa là sao",
         }}
       />
       <Composition

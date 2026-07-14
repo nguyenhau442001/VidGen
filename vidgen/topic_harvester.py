@@ -274,7 +274,7 @@ def _clean_product_name(raw: str) -> str:
 
 def _to_vn_topic(product_name: str, desc: str, source: str, is_ai_release: bool) -> str:
     """
-    Generate Vietnamese topic string matching DevFaster's 4 viral patterns.
+    Generate Vietnamese topic string matching Ủa là sao's 4 viral patterns.
 
     Args:
         product_name: Clean product name (already processed by _clean_product_name)

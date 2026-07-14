@@ -51,7 +51,7 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
   accentWord,
   subtext,
   partLabel,
-  channelName = "DevFasterr",
+  channelName = "Ủa là sao",
 }) => {
   const lines = splitHeadlineLines(headline);
 

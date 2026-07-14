@@ -93,7 +93,7 @@ def _truncate_subtitle(text: str, max_chars: int = 40) -> str:
 
 
 def _extract_character_icon_props(
-    script: dict, scene_index: int = 0, channel_name: str = "DevFasterr"
+    script: dict, scene_index: int = 0, channel_name: str = "Ủa là sao"
 ) -> dict:
     scene = script["scenes"][scene_index]
     props = scene.get("props", {})
@@ -130,7 +130,7 @@ def generate_thumbnail(
     script_path: str,
     output_path: str,
     scene_index: int = 0,
-    channel_name: str = "DevFasterr",
+    channel_name: str = "Ủa là sao",
     overwrite: bool = True,
     remotion_dir: str = "remotion",
 ) -> str:

@@ -88,12 +88,12 @@ def test_extract_character_icon_props_maps_fields():
             }
         ]
     }
-    props = _extract_character_icon_props(script, channel_name="DevFasterr")
+    props = _extract_character_icon_props(script, channel_name="Ủa là sao")
     assert props["accentColor"] == "#22C55E"
     assert props["seriesLabel"] == "Phần 1/4"
     assert props["rejectedLabel"] == "200m ✕"
     assert props["selectedLabel"] == "350m ✓"
-    assert props["eyebrowText"] == "DevFasterr"
+    assert props["eyebrowText"] == "Ủa là sao"
     assert props["subtitle"] == "Grab không chọn tài xế gần bạn nhất."
 
 
