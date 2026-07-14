@@ -25,9 +25,9 @@ const REJECTED_PIN_ENTER = ICON_STAGGER + 10;
 const SELECTED_PIN_ENTER = REJECTED_PIN_ENTER + 10;
 const PART_INDICATOR_ENTER = SELECTED_PIN_ENTER + 12;
 
-const SILHOUETTE_DEFAULT = "rgba(255,255,255,0.88)";
+const SILHOUETTE_DEFAULT = "rgba(0,0,0,0.88)";
 const ACCENT_DEFAULT = "#00c896";
-const MUTED_PIN = "rgba(255,255,255,0.32)";
+const MUTED_PIN = "rgba(0,0,0,0.32)";
 
 // Pin/convergence-dot positions, in character-local coordinates (offsets
 // from CHAR_X/CHAR_Y, defined further below) — mirrors the reference hook

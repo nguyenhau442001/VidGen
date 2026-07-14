@@ -211,8 +211,8 @@ export const BatchDecisionTreeScene: React.FC<BatchDecisionTreeSceneProps> = ({
                 width={NODE_W}
                 height={NODE_H}
                 rx={16}
-                fill="rgba(255,255,255,0.04)"
-                stroke="rgba(255,255,255,0.4)"
+                fill="rgba(0,0,0,0.04)"
+                stroke="rgba(0,0,0,0.4)"
                 strokeWidth={1}
               />
               <text

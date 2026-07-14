@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 import { BeforeAfterPanel, BeforeAfterSceneProps } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -23,12 +23,12 @@ const DIVIDER_X = 375;
 const PANEL_TOP = 190;
 const PANEL_HEIGHT = 760;
 
-const BG = "#0a0a0f";
-const BEFORE_BG = "#ff444408";
-const AFTER_BG = "#00ff4108";
-const BEFORE_ACCENT = "#ff6666";
-const AFTER_ACCENT = "#00ff41";
-const DIVIDER_COLOR = "#ffffff22";
+const BG = colors.bg;
+const BEFORE_BG = `${colors.errorRed}0c`;
+const AFTER_BG = `${colors.green}0c`;
+const BEFORE_ACCENT = colors.errorRed;
+const AFTER_ACCENT = colors.green;
+const DIVIDER_COLOR = "#00000022";
 
 const renderHeadline = (headline: string, accentWord: string): React.ReactNode => {
   const index = headline.indexOf(accentWord);
@@ -155,7 +155,7 @@ const Panel: React.FC<PanelProps> = ({
                   fontFamily: `${INTER}, sans-serif`,
                   fontSize: 14,
                   fontWeight: 400,
-                  color: "#ffffff",
+                  color: colors.textPrimary,
                   lineHeight: "20px",
                 }}
               >
@@ -232,7 +232,7 @@ const BeforeAfterScene: React.FC<BeforeAfterSceneProps> = ({
             top: 70,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 28,
             fontWeight: 700,
@@ -277,7 +277,7 @@ const BeforeAfterScene: React.FC<BeforeAfterSceneProps> = ({
             fontSize: 12,
             fontWeight: 500,
             letterSpacing: "0.1em",
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(0,0,0,0.4)",
             textTransform: "uppercase",
           }}
         >
@@ -295,7 +295,7 @@ const BeforeAfterScene: React.FC<BeforeAfterSceneProps> = ({
             fontSize: 12,
             fontWeight: 500,
             letterSpacing: "0.1em",
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(0,0,0,0.4)",
             textTransform: "uppercase",
           }}
         >

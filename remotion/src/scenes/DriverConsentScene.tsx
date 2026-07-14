@@ -198,8 +198,8 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
             width: `${CARD_WIDTH_FRACTION * 100}%`,
             padding: CARD_PADDING,
             borderRadius: 16,
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(0,0,0,0.06)",
+            border: "1px solid rgba(0,0,0,0.12)",
             opacity: cardOpacity,
             transform: `translateY(${cardTranslateY}px)`,
           }}
@@ -210,7 +210,7 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
               style={{
                 fontSize: 20,
                 fontWeight: 700,
-                color: "#fff",
+                color: colors.textPrimary,
                 fontFamily: `${INTER}, sans-serif`,
               }}
             >
@@ -231,7 +231,7 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
                   style={{
                     opacity,
                     fontSize: 16,
-                    color: "rgba(255,255,255,0.6)",
+                    color: "rgba(0,0,0,0.6)",
                     fontFamily: `${INTER}, sans-serif`,
                   }}
                 >
@@ -284,7 +284,7 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
             <span
               style={{
                 fontSize: 16,
-                color: "#fff",
+                color: colors.textPrimary,
                 fontFamily: `${INTER}, sans-serif`,
               }}
             >
@@ -308,7 +308,7 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
           <span
             style={{
               fontSize: 16,
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(0,0,0,0.5)",
               fontFamily: `${INTER}, sans-serif`,
               textAlign: "center",
             }}

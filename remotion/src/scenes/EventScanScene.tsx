@@ -127,8 +127,8 @@ const EventRow: React.FC<{
         position: "relative",
         height: ROW_HEIGHT,
         borderRadius: 16,
-        border: `1px solid ${revealed ? rgba(accent, 0.35) : "rgba(255,255,255,0.06)"}`,
-        backgroundColor: revealed ? rgba(accent, 0.06) : "rgba(255,255,255,0.02)",
+        border: `1px solid ${revealed ? rgba(accent, 0.35) : "rgba(0,0,0,0.06)"}`,
+        backgroundColor: revealed ? rgba(accent, 0.06) : "rgba(0,0,0,0.02)",
         overflow: "hidden",
         transform: `scale(${0.96 + 0.04 * pop})`,
       }}
@@ -146,8 +146,8 @@ const EventRow: React.FC<{
           padding: "0 28px",
         }}
       >
-        <div style={{ width: "46%", height: 20, borderRadius: 6, background: `rgba(255,255,255,${shimmerOpacity})` }} />
-        <div style={{ width: "68%", height: 16, borderRadius: 6, background: `rgba(255,255,255,${shimmerOpacity * 0.7})` }} />
+        <div style={{ width: "46%", height: 20, borderRadius: 6, background: `rgba(0,0,0,${shimmerOpacity})` }} />
+        <div style={{ width: "68%", height: 16, borderRadius: 6, background: `rgba(0,0,0,${shimmerOpacity * 0.7})` }} />
       </div>
 
       {/* Revealed content */}
@@ -193,7 +193,7 @@ const EventRow: React.FC<{
           <div
             style={{
               fontSize: 22,
-              color: "rgba(255,255,255,0.55)",
+              color: "rgba(0,0,0,0.55)",
               fontFamily: INTER,
             }}
           >
@@ -342,7 +342,7 @@ export const EventScanScene: React.FC<EventScanSceneProps> = ({
           <span
             style={{
               fontSize: 24,
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(0,0,0,0.6)",
               fontFamily: JETBRAINS_MONO,
             }}
           >
@@ -425,7 +425,7 @@ export const EventScanScene: React.FC<EventScanSceneProps> = ({
         <div
           style={{
             fontSize: 24,
-            color: "rgba(255,255,255,0.6)",
+            color: "rgba(0,0,0,0.6)",
             fontFamily: INTER,
             textAlign: "center",
           }}

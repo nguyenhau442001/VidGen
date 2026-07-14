@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { AnimatedFlowSceneProps } from "../types";
-import { INTER, CAPTION_CLEAR_Y } from "../styles";
+import { colors, INTER, CAPTION_CLEAR_Y } from "../styles";
 
 const VB_W = 750;
 const VB_H = 1080;
@@ -65,7 +65,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
   const edgesStartFrame = nodesEntranceStart + N * 12;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0f", overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
@@ -84,7 +84,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
             top: 130,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 28,
             fontWeight: 700,
@@ -119,7 +119,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
               markerHeight="6"
               orient="auto-start-reverse"
             >
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ffffff44" />
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#00000044" />
             </marker>
             <marker
               id="arrow-active"
@@ -130,7 +130,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
               markerHeight="6"
               orient="auto-start-reverse"
             >
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#00ff41" />
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill={colors.green} />
             </marker>
           </defs>
 
@@ -185,7 +185,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
                 {/* Background Inactive Path */}
                 <path
                   d={`M ${startX} ${startYEdge} L ${endX} ${endYEdge}`}
-                  stroke="#ffffff44"
+                  stroke="#00000044"
                   strokeWidth={2}
                   fill="none"
                   markerEnd="url(#arrow-inactive)"
@@ -195,7 +195,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
                 {edgeProgress > 0 && (
                   <path
                     d={`M ${startX} ${startYEdge} L ${endX} ${endYEdge}`}
-                    stroke="#00ff41"
+                    stroke={colors.green}
                     strokeWidth={2}
                     fill="none"
                     strokeDasharray={pathLength}
@@ -209,7 +209,7 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
                   <text
                     x={startX + 15}
                     y={midY}
-                    fill="#00ff41"
+                    fill={colors.green}
                     fontFamily={`${INTER}, sans-serif`}
                     fontSize={12}
                     fontWeight={500}
@@ -244,21 +244,21 @@ const AnimatedFlowScene: React.FC<AnimatedFlowSceneProps> = ({
 
           // Resolve color mapping
           const colorType = node.color || "neutral";
-          let border = "#ffffff22";
-          let bg = "#ffffff08";
-          let text = "#ffffff88";
-          let label = "#ffffff";
+          let border = "#00000022";
+          let bg = "#00000008";
+          let text = "#00000088";
+          let label: string = colors.textPrimary;
 
           if (colorType === "green") {
-            border = "#00ff41";
-            bg = "#00ff4112";
-            text = "#00ff41";
-            label = "#ffffff";
+            border = colors.green;
+            bg = `${colors.green}12`;
+            text = colors.green;
+            label = colors.textPrimary;
           } else if (colorType === "cyan") {
-            border = "#61dafb";
-            bg = "#61dafb12";
-            text = "#61dafb";
-            label = "#ffffff";
+            border = colors.cyan;
+            bg = `${colors.cyan}12`;
+            text = colors.cyan;
+            label = colors.textPrimary;
           }
 
           return (

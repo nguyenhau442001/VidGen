@@ -22,7 +22,7 @@ const SETTLE_GAP = 10;
 const SETTLE_DURATION = 20;
 
 const ACCENT_DEFAULT = "#00ff41";
-const LINE_COLOR_DEFAULT = "rgba(255,255,255,0.15)";
+const LINE_COLOR_DEFAULT = "rgba(0,0,0,0.15)";
 
 const NODE_RADIUS = 32; // 64px diameter
 const CENTER_Y_FRACTION = 0.45;
@@ -169,7 +169,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
                 textAnchor="middle"
                 fontSize={22}
                 fontWeight={500}
-                style={{ fill: "#fff", fontFamily: INTER }}
+                style={{ fill: colors.textPrimary, fontFamily: INTER }}
               >
                 {stop.label}
               </text>
@@ -179,7 +179,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
                   textAnchor="middle"
                   fontSize={16}
                   fontWeight={400}
-                  style={{ fill: "rgba(255,255,255,0.5)", fontFamily: INTER }}
+                  style={{ fill: "rgba(0,0,0,0.5)", fontFamily: INTER }}
                 >
                   {stop.sublabel}
                 </text>

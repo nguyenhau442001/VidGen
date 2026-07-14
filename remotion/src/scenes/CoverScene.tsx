@@ -49,7 +49,7 @@ export const CoverScene: React.FC<CoverSceneProps> = ({ headline, body, terminal
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+              "linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
           }}
         />
@@ -57,7 +57,7 @@ export const CoverScene: React.FC<CoverSceneProps> = ({ headline, body, terminal
 
       <SafeZone style={{ flexDirection: "column", alignItems: "flex-start", fontFamily: INTER }}>
         {/* Channel label */}
-        <div style={{ ...t.label, color: "rgba(255,255,255,0.35)", marginBottom: 56 }}>
+        <div style={{ ...t.label, color: "rgba(0,0,0,0.35)", marginBottom: 56 }}>
           60s Công Nghệ · Bảo Mật
         </div>
 

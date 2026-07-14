@@ -225,7 +225,10 @@ export const SplitRevealScene: React.FC<SplitRevealSceneProps> = ({
             style={{
               fontSize: 20,
               fontWeight: 500,
-              color: "var(--caption-color)",
+              // Unlike rightCaption (sits on the dark right panel), this
+              // caption sits directly over leftContent's own canvas (colors.bg,
+              // light), so it can't share --caption-color with the dark side.
+              color: colors.textPrimary,
               fontFamily: BE_VIETNAM_PRO,
             }}
           >

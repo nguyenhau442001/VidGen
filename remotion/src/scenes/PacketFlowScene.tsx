@@ -5,7 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { INTER } from "../styles";
+import { colors, INTER } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — 750x1080 portrait, authored 1:1 (no scaling needed since
@@ -14,9 +14,9 @@ import { INTER } from "../styles";
 const VB_W = 750;
 const VB_H = 1080;
 
-const BG = "#0a0a0f";
-const LANE_LINE_COLOR = "#ffffff18";
-const DEFAULT_PACKET_COLOR = "#ffffff66";
+const BG = colors.bg;
+const LANE_LINE_COLOR = "#00000018";
+const DEFAULT_PACKET_COLOR = "#00000066";
 
 const LEFT_LABEL_X = 100;
 const PATH_START_X = 130;
@@ -39,8 +39,8 @@ const EXIT_FRAMES = 15;
 type LaneColor = "green" | "cyan" | "amber";
 
 const LANE_COLORS: Record<LaneColor, string> = {
-  green: "#00ff41",
-  cyan: "#61dafb",
+  green: colors.green,
+  cyan: colors.cyan,
   amber: "#ffa500",
 };
 
@@ -123,7 +123,7 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
             top: HEADLINE_TOP,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 26,
             fontWeight: 700,
@@ -213,7 +213,7 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
                   dominantBaseline="middle"
                   fontSize={13}
                   fontWeight={500}
-                  style={{ fill: "#ffffff", fontFamily: INTER }}
+                  style={{ fill: colors.textPrimary, fontFamily: INTER }}
                 >
                   {lane.label}
                 </text>
@@ -229,7 +229,7 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
               textAnchor="start"
               fontSize={13}
               fontWeight={500}
-              style={{ fill: "#ffffff", fontFamily: INTER }}
+              style={{ fill: colors.textPrimary, fontFamily: INTER }}
               opacity={headlineOpacity}
             >
               {sourceLabel}
@@ -242,7 +242,7 @@ const PacketFlowScene: React.FC<PacketFlowSceneProps> = ({
               textAnchor="start"
               fontSize={13}
               fontWeight={500}
-              style={{ fill: "#ffffff", fontFamily: INTER }}
+              style={{ fill: colors.textPrimary, fontFamily: INTER }}
               opacity={headlineOpacity}
             >
               {targetLabel}

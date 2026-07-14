@@ -7,15 +7,15 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 
-const BG = "#0a0a0f";
+const BG = colors.bg;
 
 const COLOR_MAP: Record<"green" | "cyan", { text: string; shadow: string }> = {
-  green: { text: "#00ff41", shadow: "0 0 30px #00ff4166" },
-  cyan: { text: "#61dafb", shadow: "0 0 30px #61dafb66" },
+  green: { text: colors.green, shadow: `0 0 30px ${colors.green}66` },
+  cyan: { text: colors.cyan, shadow: `0 0 30px ${colors.cyan}66` },
 };
-const DEFAULT_COLOR = { text: "#ffffff", shadow: "none" };
+const DEFAULT_COLOR = { text: colors.textPrimary, shadow: "none" };
 
 export type CounterAnimSceneProps = {
   value: number;
@@ -98,7 +98,7 @@ const CounterAnimScene: React.FC<CounterAnimSceneProps> = ({
             top: 140,
             width: "100%",
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 28,
             fontWeight: 700,
@@ -163,7 +163,7 @@ const CounterAnimScene: React.FC<CounterAnimSceneProps> = ({
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 22,
             fontWeight: 500,
-            color: "rgba(255,255,255,0.5)",
+            color: "rgba(0,0,0,0.5)",
           }}
         >
           {unit}
@@ -175,7 +175,7 @@ const CounterAnimScene: React.FC<CounterAnimSceneProps> = ({
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 16,
             fontWeight: 400,
-            color: "#ffffff88",
+            color: "#00000088",
             textAlign: "center",
             maxWidth: 560,
           }}

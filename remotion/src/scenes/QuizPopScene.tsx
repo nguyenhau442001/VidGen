@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — 750x1080 portrait, "contain" fit inside the real
@@ -8,15 +8,15 @@ import { INTER, JETBRAINS_MONO } from "../styles";
 // ---------------------------------------------------------------------------
 const VB_W = 750;
 const VB_H = 1080;
-const BG = "#0a0a0f";
+const BG = colors.bg;
 
 const QUESTION_TOP = 180;
 const QUESTION_W = 680;
 const QUESTION_H = 120;
 const QUESTION_LEFT = (VB_W - QUESTION_W) / 2;
 const QUESTION_RADIUS = 16;
-const QUESTION_BORDER = "1px solid #ffffff22";
-const QUESTION_BG = "#ffffff06";
+const QUESTION_BORDER = "1px solid #00000022";
+const QUESTION_BG = "#00000006";
 const QUESTION_FONT_BASE = 22;
 const QUESTION_FONT_MIN = 18;
 const QUESTION_FONT_THRESHOLD = 60; // chars
@@ -28,13 +28,13 @@ const OPTION_GAP = 16;
 const OPTION_LEFT = (VB_W - OPTION_W) / 2;
 const OPTION_RADIUS = 12;
 
-const OPTION_BG_BASE = "#ffffff04";
-const OPTION_BG_CORRECT = "#00ff4118";
-const OPTION_BORDER_BASE = "#ffffff18";
-const OPTION_BORDER_CORRECT = "#00ff41ff";
-const LABEL_PREFIX_COLOR = "#ffffff44";
-const TEXT_COLOR_BASE = "#ffffffff";
-const TEXT_COLOR_CORRECT = "#00ff41ff";
+const OPTION_BG_BASE = "#00000004";
+const OPTION_BG_CORRECT = `${colors.green}18`;
+const OPTION_BORDER_BASE = "#00000018";
+const OPTION_BORDER_CORRECT = `${colors.green}ff`;
+const LABEL_PREFIX_COLOR = "#00000044";
+const TEXT_COLOR_BASE = "#000000e6";
+const TEXT_COLOR_CORRECT = `${colors.green}ff`;
 const INCORRECT_MIN_OPACITY = 0.35;
 
 const QUESTION_BOUNCE_FRAMES = 20;
@@ -48,7 +48,7 @@ const CORRECT_BOUNCE_DOWN_FRAMES = REVEAL_TRANSITION_FRAMES - CORRECT_BOUNCE_UP_
 const CONFETTI_START_OFFSET = REVEAL_TRANSITION_FRAMES; // burst starts at revealFrame+15
 const CONFETTI_DURATION = 30; // burst ends at revealFrame+45
 const CONFETTI_COUNT = 20;
-const CONFETTI_COLORS = ["#00ff41", "#61dafb", "#ffd700", "#ffffff"];
+const CONFETTI_COLORS = [colors.green, colors.cyan, "#ffd700", colors.errorRed];
 const CONFETTI_MIN_DIST = 80;
 const CONFETTI_DIST_RANGE = 80; // total travel distance 80-160px
 const CONFETTI_MIN_SIZE = 6;
@@ -206,7 +206,7 @@ const QuizPopScene: React.FC<QuizPopSceneProps> = ({
               fontFamily: `${INTER}, sans-serif`,
               fontWeight: 600,
               fontSize: questionFontSize(question),
-              color: "#ffffff",
+              color: colors.textPrimary,
               textAlign: "center",
               lineHeight: 1.3,
             }}

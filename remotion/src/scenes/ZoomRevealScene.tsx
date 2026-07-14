@@ -19,7 +19,7 @@ const VW = 1080;
 const VH = 1920;
 
 const ACCENT_DEFAULT = "#00c896";
-const DOT_DEFAULT = "rgba(255,255,255,0.45)";
+const DOT_DEFAULT = "rgba(0,0,0,0.45)";
 
 // ---------------------------------------------------------------------------
 // Duration helper — pass to calculateMetadata or use as a fixed durationInFrames.

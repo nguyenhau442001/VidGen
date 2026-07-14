@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { ConversationSceneProps } from "../types";
-import { INTER } from "../styles";
+import { colors, INTER } from "../styles";
 
 const VB_W = 750;
 const VB_H = 1080;
@@ -49,7 +49,7 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0f", overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
@@ -69,7 +69,7 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
               top: 100,
               width: VB_W,
               textAlign: "center",
-              color: "#ffffff",
+              color: colors.textPrimary,
               fontFamily: `${INTER}, sans-serif`,
               fontSize: 24,
               fontWeight: 600,
@@ -144,7 +144,7 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
                       fontFamily: `${INTER}, sans-serif`,
                       fontSize: 11,
                       fontWeight: 500,
-                      color: "rgba(255, 255, 255, 0.33)",
+                      color: "rgba(0, 0, 0, 0.33)",
                       marginBottom: 4,
                       marginLeft: 48, // offset to align with bubble (circle is 36px + 12px gap)
                     }}
@@ -198,9 +198,9 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
                         borderRadius: 18,
                         boxSizing: "border-box",
                         border: isRight
-                          ? "1px solid rgba(0, 255, 65, 0.27)"
-                          : "1px solid rgba(255, 255, 255, 0.09)",
-                        backgroundColor: isRight ? "rgba(0, 255, 65, 0.09)" : "#1e2028",
+                          ? `1px solid ${colors.green}44`
+                          : "1px solid rgba(0, 0, 0, 0.1)",
+                        backgroundColor: isRight ? `${colors.green}18` : "rgba(0, 0, 0, 0.06)",
                       }}
                     >
                       {[0, 1, 2].map((d) => {
@@ -221,7 +221,7 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
                               width: 7,
                               height: 7,
                               borderRadius: "50%",
-                              backgroundColor: "rgba(255, 255, 255, 0.4)",
+                              backgroundColor: "rgba(0, 0, 0, 0.4)",
                               transform: `translateY(${bounceY}px)`,
                             }}
                           />
@@ -239,9 +239,9 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
                         padding: "10px 16px",
                         boxSizing: "border-box",
                         border: isRight
-                          ? "1px solid rgba(0, 255, 65, 0.27)"
-                          : "1px solid rgba(255, 255, 255, 0.09)",
-                        backgroundColor: isRight ? "rgba(0, 255, 65, 0.09)" : "#1e2028",
+                          ? `1px solid ${colors.green}44`
+                          : "1px solid rgba(0, 0, 0, 0.1)",
+                        backgroundColor: isRight ? `${colors.green}18` : "rgba(0, 0, 0, 0.06)",
                         opacity: bubbleOpacity,
                         transform: `translateX(${bubbleTranslateX}px)`,
                         display: "flex",
@@ -254,7 +254,7 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
                           fontFamily: `${INTER}, sans-serif`,
                           fontSize: 15,
                           fontWeight: 500,
-                          color: isRight ? "#00ff41" : "#ffffff",
+                          color: isRight ? colors.green : colors.textPrimary,
                           lineHeight: 1.4,
                           wordBreak: "break-word",
                         }}

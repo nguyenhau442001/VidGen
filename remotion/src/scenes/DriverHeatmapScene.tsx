@@ -8,16 +8,16 @@ import {
   useVideoConfig,
 } from "remotion";
 import { DriverHeatmapSceneProps } from "../types";
-import { INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
+import { colors, INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 const VW = 1080;
 const VH = 1920;
-const BG = "#080c0a";
+const BG = colors.bg;
 
-const ACCENT_DEFAULT = "#00ff41";
+const ACCENT_DEFAULT = colors.green;
 const TOPIC_DEFAULT = "THUẬT TOÁN ẨN";
 
 const DEFAULT_DRIVER_COUNT = 140;
@@ -246,7 +246,7 @@ export const DriverHeatmapScene: React.FC<DriverHeatmapSceneProps> = ({
           transform: `translateY(${headlineY}px)`,
         }}
       >
-        <span style={{ fontSize: 22, fontWeight: 700, color: "#ffffff", fontFamily: INTER, letterSpacing: "-0.01em" }}>
+        <span style={{ fontSize: 22, fontWeight: 700, color: colors.textPrimary, fontFamily: INTER, letterSpacing: "-0.01em" }}>
           {HEADLINE_TEXT}
         </span>
       </div>
@@ -261,7 +261,7 @@ export const DriverHeatmapScene: React.FC<DriverHeatmapSceneProps> = ({
           opacity: captionEntrance * CAPTION_MAX_OPACITY,
         }}
       >
-        <span style={{ fontSize: 13, color: "#ffffff", fontFamily: INTER }}>{CAPTION_TEXT}</span>
+        <span style={{ fontSize: 13, color: colors.textPrimary, fontFamily: INTER }}>{CAPTION_TEXT}</span>
       </div>
 
       {/* Timestamp + driver count */}
@@ -278,7 +278,7 @@ export const DriverHeatmapScene: React.FC<DriverHeatmapSceneProps> = ({
         <span
           style={{
             fontSize: 13,
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(0,0,0,0.4)",
             fontFamily: JETBRAINS_MONO,
             fontVariantNumeric: "tabular-nums",
             letterSpacing: "0.02em",
@@ -289,7 +289,7 @@ export const DriverHeatmapScene: React.FC<DriverHeatmapSceneProps> = ({
         <span
           style={{
             fontSize: 13,
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(0,0,0,0.4)",
             fontFamily: JETBRAINS_MONO,
             fontVariantNumeric: "tabular-nums",
           }}

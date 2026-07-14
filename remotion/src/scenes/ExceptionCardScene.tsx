@@ -67,8 +67,8 @@ const Bar: React.FC<{ item: ExceptionCardItem; frame: number; fps: number; start
           display: "flex",
           alignItems: "flex-end",
           borderRadius: 14,
-          backgroundColor: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          backgroundColor: "rgba(0,0,0,0.03)",
+          border: "1px solid rgba(0,0,0,0.08)",
           overflow: "hidden",
         }}
       >

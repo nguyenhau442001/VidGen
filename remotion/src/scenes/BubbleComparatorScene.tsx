@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { BubbleComparatorSceneProps } from "../types";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 
 const VB_W = 750;
 const VB_H = 1080;
@@ -18,31 +18,31 @@ const getBubbleStyles = (color?: BubbleColor) => {
   switch (color) {
     case "green":
       return {
-        fill: "#00ff4118",
-        stroke: "#00ff41",
-        labelColor: "#00ff41",
-        valueColor: "#00ff41",
+        fill: `${colors.green}18`,
+        stroke: colors.green,
+        labelColor: colors.green,
+        valueColor: colors.green,
       };
     case "cyan":
       return {
-        fill: "#61dafb18",
-        stroke: "#61dafb",
-        labelColor: "#61dafb",
-        valueColor: "#61dafb",
+        fill: `${colors.cyan}18`,
+        stroke: colors.cyan,
+        labelColor: colors.cyan,
+        valueColor: colors.cyan,
       };
     case "red":
       return {
-        fill: "#ff444418",
-        stroke: "#ff4444",
-        labelColor: "#ff6666",
-        valueColor: "#ff4444",
+        fill: `${colors.errorRed}18`,
+        stroke: colors.errorRed,
+        labelColor: colors.errorRed,
+        valueColor: colors.errorRed,
       };
     default:
       return {
-        fill: "#ffffff08",
-        stroke: "#ffffff33",
-        labelColor: "#ffffff",
-        valueColor: "#ffffff33",
+        fill: "#00000008",
+        stroke: "#00000033",
+        labelColor: colors.textPrimary,
+        valueColor: "#00000033",
       };
   }
 };
@@ -84,8 +84,8 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
         {before}
         <span
           style={{
-            textShadow: "0 0 12px #00ff41",
-            color: "#00ff41",
+            textShadow: `0 0 12px ${colors.green}`,
+            color: colors.green,
           }}
         >
           {accentWord}
@@ -111,7 +111,7 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
   const cy = VB_H / 2;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0f", overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
@@ -130,7 +130,7 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
             top: 80,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 28,
             fontWeight: 700,
@@ -236,7 +236,7 @@ const BubbleComparatorScene: React.FC<BubbleComparatorSceneProps> = ({
                   <text
                     x={cx}
                     y={unitY}
-                    fill="#ffffff66"
+                    fill="#00000066"
                     fontFamily={`${INTER}, sans-serif`}
                     fontSize={11}
                     fontWeight={400}

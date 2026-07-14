@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — "contain" fit inside the real composition, matching
@@ -29,15 +29,15 @@ const GAP = DOT_SIZE / 2 + CONNECTOR_LEN;
 const BOX_WIDTH = 280;
 const MAX_ITEMS = 6;
 
-const BG = "#0a0a0f";
-const ACCENT = "#00ff41";
-const LINE_COLOR = "#ffffff18";
-const DOT_DEFAULT = "#ffffff33";
-const CONNECTOR_COLOR = "#ffffff22";
-const PILL_BG = "#ffffff0a";
-const PILL_BORDER_DEFAULT = "#ffffff22";
-const PILL_TEXT = "#ffffff88";
-const SUBLABEL_COLOR = "#ffffff55";
+const BG = colors.bg;
+const ACCENT = colors.green;
+const LINE_COLOR = "#00000018";
+const DOT_DEFAULT = "#00000033";
+const CONNECTOR_COLOR = "#00000022";
+const PILL_BG = "#0000000a";
+const PILL_BORDER_DEFAULT = "#00000022";
+const PILL_TEXT = "#00000088";
+const SUBLABEL_COLOR = "#00000055";
 
 export type TimelineItem = {
   year: string;
@@ -102,7 +102,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
 
   const dotColor = item.accent ? ACCENT : DOT_DEFAULT;
   const pillBorder = item.accent ? ACCENT : PILL_BORDER_DEFAULT;
-  const labelColor = item.accent ? ACCENT : "#ffffff";
+  const labelColor = item.accent ? ACCENT : colors.textPrimary;
 
   return (
     <React.Fragment>
@@ -251,7 +251,7 @@ const TimelineScene: React.FC<TimelineSceneProps> = ({
             top: HEADLINE_TOP,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 28,
             fontWeight: 700,

@@ -27,7 +27,7 @@ const GLOW_BASE_R = 28;
 
 const BAIT_COLOR = "#f5c542";
 const ACCENT_DEFAULT = "#00c896";
-const MUTED_DEFAULT = "rgba(255,255,255,0.28)";
+const MUTED_DEFAULT = "rgba(0,0,0,0.28)";
 
 const toPx = (n: number, dim: number) => n * dim;
 
@@ -93,7 +93,7 @@ const MapGrid: React.FC = () => (
             y={toPx(hy, VH) + 1}
             width={toPx(vx2 - vx, VW) - 2}
             height={toPx(hy2 - hy, VH) - 2}
-            fill="rgba(255,255,255,0.012)"
+            fill="rgba(0,0,0,0.012)"
           />
         );
       })
@@ -104,7 +104,7 @@ const MapGrid: React.FC = () => (
       <line
         key={`hs${y}`}
         x1={0} y1={toPx(y, VH)} x2={VW} y2={toPx(y, VH)}
-        stroke={major ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.04)"}
+        stroke={major ? "rgba(0,0,0,0.09)" : "rgba(0,0,0,0.04)"}
         strokeWidth={major ? 2.5 : 1.5}
       />
     ))}
@@ -114,7 +114,7 @@ const MapGrid: React.FC = () => (
       <line
         key={`vs${x}`}
         x1={toPx(x, VW)} y1={0} x2={toPx(x, VW)} y2={VH}
-        stroke={major ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.04)"}
+        stroke={major ? "rgba(0,0,0,0.09)" : "rgba(0,0,0,0.04)"}
         strokeWidth={major ? 2.5 : 1.5}
       />
     ))}
@@ -123,7 +123,7 @@ const MapGrid: React.FC = () => (
     <defs>
       <radialGradient id="mpVig" cx="50%" cy="46%" r="62%" gradientUnits="objectBoundingBox">
         <stop offset="0%" stopColor="transparent" />
-        <stop offset="100%" stopColor="#0a0a0f" stopOpacity={0.68} />
+        <stop offset="100%" stopColor={colors.bg} stopOpacity={0.68} />
       </radialGradient>
     </defs>
     <rect x={0} y={0} width={VW} height={VH} fill="url(#mpVig)" />
@@ -303,7 +303,7 @@ const DriverDot: React.FC<{
           strokeWidth={5}
           strokeLinejoin="round"
           style={{
-            fill: state !== "normal" ? dotColor : "rgba(255,255,255,0.4)",
+            fill: state !== "normal" ? dotColor : "rgba(0,0,0,0.4)",
             fontFamily: INTER,
           }}
           opacity={labelOpacity * entrance}
@@ -541,7 +541,7 @@ const AxisDriverLabel: React.FC<{
           stroke={colors.bg}
           strokeWidth={4}
           strokeLinejoin="round"
-          style={{ fill: "rgba(255,255,255,0.55)", fontFamily: INTER }}
+          style={{ fill: "rgba(0,0,0,0.55)", fontFamily: INTER }}
         >
           {constraintNote}
         </text>
@@ -674,14 +674,14 @@ const AxisComparisonDiagram: React.FC<{
           <path d="M0,0 L10,5 L0,10 Z" fill={MUTED_DEFAULT} />
         </marker>
         <marker id="axisArrowGhost" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 Z" fill="rgba(255,255,255,0.5)" />
+          <path d="M0,0 L10,5 L0,10 Z" fill="rgba(0,0,0,0.5)" />
         </marker>
       </defs>
 
       {/* Ground-truth axis: rider → destination */}
       <AxisSegment
         x1={riderX} y1={riderY} x2={destX} y2={destY}
-        color="rgba(255,255,255,0.5)"
+        color="rgba(0,0,0,0.5)"
         markerId="axisArrowGhost"
         dashed
         frame={frame}
@@ -784,7 +784,7 @@ const AxisComparisonDiagram: React.FC<{
             etaLabel={awayDriver.etaLabel}
             constraintNote={awayDriver.constraintNote}
             color={MUTED_DEFAULT}
-            mutedColor="rgba(255,255,255,0.4)"
+            mutedColor="rgba(0,0,0,0.4)"
             frame={frame}
             enterFrame={awayAnnotationEnter}
           />

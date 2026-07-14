@@ -102,7 +102,7 @@ export const DiagramFlowScene: React.FC<DiagramFlowSceneProps> = ({
                     width: "100%",
                     padding: "18px 26px",
                     borderRadius: 18,
-                    backgroundColor: "rgba(255,255,255,0.04)",
+                    backgroundColor: "rgba(0,0,0,0.04)",
                     border: `1px solid ${color}44`,
                     opacity: s,
                     transform: `translateY(${interpolate(s, [0, 1], [16, 0])}px)`,

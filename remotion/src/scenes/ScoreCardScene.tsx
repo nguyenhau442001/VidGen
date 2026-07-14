@@ -124,7 +124,7 @@ const CriteriaRow: React.FC<{
       <div
         style={{
           height: 6,
-          backgroundColor: "rgba(255,255,255,0.08)",
+          backgroundColor: "rgba(0,0,0,0.08)",
           borderRadius: 3,
           overflow: "hidden",
         }}
@@ -160,7 +160,7 @@ const DividerLine: React.FC<{ frame: number; drawStart: number }> = ({
     <div
       style={{
         height: 2,
-        backgroundColor: "rgba(255,255,255,0.14)",
+        backgroundColor: "rgba(0,0,0,0.14)",
         marginTop: 28,
         marginBottom: 24,
         transformOrigin: "0% 50%",

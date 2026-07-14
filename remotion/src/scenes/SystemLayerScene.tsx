@@ -170,7 +170,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
               x2={CANVAS_W / 2 + CONNECTOR_LENGTH / 2}
               y1={y}
               y2={y}
-              stroke="rgba(255,255,255,0.1)"
+              stroke="rgba(0,0,0,0.1)"
               strokeWidth={1}
               strokeDasharray="4 4"
               opacity={opacity}
@@ -199,8 +199,8 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
 
         const baseFillAlpha = isActive ? 0.1 : 0.05;
         const fillAlpha = baseFillAlpha + pulseAlphaBoost;
-        const background = isActive ? rgba(layerColor, fillAlpha) : `rgba(255,255,255,${fillAlpha})`;
-        const border = isActive ? `1px solid ${layerColor}` : "1px solid rgba(255,255,255,0.1)";
+        const background = isActive ? rgba(layerColor, fillAlpha) : `rgba(0,0,0,${fillAlpha})`;
+        const border = isActive ? `1px solid ${layerColor}` : "1px solid rgba(0,0,0,0.1)";
         const filter = isActive ? `drop-shadow(0 0 ${activeGlowPx}px ${rgba(layerColor, activeGlowAlpha)})` : undefined;
         const scale = isActive ? activeScale : 1;
 
@@ -233,7 +233,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
                 fontFamily: `${INTER}, sans-serif`,
                 fontSize: 18,
                 fontWeight: isActive ? 700 : 600,
-                color: isActive ? "#fff" : "rgba(255,255,255,0.5)",
+                color: isActive ? colors.textPrimary : "rgba(0,0,0,0.5)",
               }}
             >
               {layer.label}
@@ -245,7 +245,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
                   fontFamily: `${INTER}, sans-serif`,
                   fontSize: 13,
                   fontWeight: 500,
-                  color: isActive ? rgba(layerColor, 0.7) : "rgba(255,255,255,0.3)",
+                  color: isActive ? rgba(layerColor, 0.7) : "rgba(0,0,0,0.3)",
                 }}
               >
                 {layer.sublabel}
@@ -266,7 +266,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
             opacity: bodyTextOpacity,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 16,
-            color: "rgba(255,255,255,0.45)",
+            color: "rgba(0,0,0,0.45)",
             padding: "0 64px",
           }}
         >

@@ -106,8 +106,8 @@ export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
                   gap: 24,
                   padding: "22px 28px",
                   borderRadius: 20,
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  backgroundColor: "rgba(0,0,0,0.04)",
+                  border: "1px solid rgba(0,0,0,0.08)",
                   opacity: s,
                   transform: `translateX(${interpolate(s, [0, 1], [-30, 0])}px)`,
                 }}

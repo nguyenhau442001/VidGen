@@ -179,7 +179,7 @@ const Panel: React.FC<PanelProps> = ({
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 19,
             fontWeight: 500,
-            color: "rgba(255,255,255,0.5)",
+            color: "rgba(0,0,0,0.5)",
           }}
         >
           {unit}
@@ -191,7 +191,7 @@ const Panel: React.FC<PanelProps> = ({
           fontFamily: `${INTER}, sans-serif`,
           fontSize: 16,
           fontWeight: 400,
-          color: "rgba(255,255,255,0.7)",
+          color: "rgba(0,0,0,0.7)",
           textAlign: "center",
           lineHeight: 1.4,
           minHeight: 44,

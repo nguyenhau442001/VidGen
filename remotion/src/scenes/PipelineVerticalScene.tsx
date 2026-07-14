@@ -102,7 +102,7 @@ export const PipelineVerticalScene: React.FC<PipelineVerticalSceneProps> = ({
                     width: "100%",
                     padding: "20px 28px",
                     borderRadius: 18,
-                    backgroundColor: "rgba(255,255,255,0.04)",
+                    backgroundColor: "rgba(0,0,0,0.04)",
                     border: `1px solid ${color}44`,
                     opacity: s,
                     transform: `translateY(${interpolate(s, [0, 1], [16, 0])}px)`,

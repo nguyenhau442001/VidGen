@@ -138,7 +138,7 @@ export const CorridorSweepScene: React.FC<CorridorSweepSceneProps> = ({
       >
         <defs>
           <pattern id="corridor-dot-grid" width={GRID_SPACING} height={GRID_SPACING} patternUnits="userSpaceOnUse">
-            <circle cx={GRID_SPACING / 2} cy={GRID_SPACING / 2} r={1.5} fill="rgba(255,255,255,0.04)" />
+            <circle cx={GRID_SPACING / 2} cy={GRID_SPACING / 2} r={1.5} fill="rgba(0,0,0,0.04)" />
           </pattern>
           <clipPath id="corridor-sweep-clip">
             <rect
@@ -189,7 +189,7 @@ export const CorridorSweepScene: React.FC<CorridorSweepSceneProps> = ({
           });
           if (opacity <= 0) return null;
           return (
-            <circle key={i} cx={d.x} cy={d.y} r={DOT_RADIUS} fill="rgba(255,255,255,0.2)" opacity={opacity} />
+            <circle key={i} cx={d.x} cy={d.y} r={DOT_RADIUS} fill="rgba(0,0,0,0.2)" opacity={opacity} />
           );
         })}
 
@@ -228,7 +228,7 @@ export const CorridorSweepScene: React.FC<CorridorSweepSceneProps> = ({
             style={{
               fontSize: 20,
               fontWeight: 500,
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(0,0,0,0.6)",
               fontFamily: INTER,
               textAlign: "center",
             }}

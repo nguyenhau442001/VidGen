@@ -68,22 +68,22 @@ const CityOutline: React.FC<{ opacity: number }> = ({ opacity }) => (
   <g opacity={opacity}>
     <polygon
       points="140,420 380,330 690,360 930,470 990,860 900,1310 640,1520 300,1470 110,1150 90,720"
-      fill="rgba(255,255,255,0.015)"
-      stroke="rgba(255,255,255,0.08)"
+      fill="rgba(0,0,0,0.015)"
+      stroke="rgba(0,0,0,0.08)"
       strokeWidth={2}
       strokeLinejoin="round"
     />
     <polygon
       points="300,560 560,520 700,640 660,900 420,960 280,820"
       fill="none"
-      stroke="rgba(255,255,255,0.05)"
+      stroke="rgba(0,0,0,0.05)"
       strokeWidth={1.5}
       strokeLinejoin="round"
     />
     <polygon
       points="620,980 840,930 900,1130 760,1330 560,1260"
       fill="none"
-      stroke="rgba(255,255,255,0.05)"
+      stroke="rgba(0,0,0,0.05)"
       strokeWidth={1.5}
       strokeLinejoin="round"
     />
@@ -241,7 +241,7 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
             textAnchor="middle"
             fontSize={24}
             fontWeight={600}
-            style={{ fill: "rgba(255,255,255,0.6)", fontFamily: INTER }}
+            style={{ fill: "rgba(0,0,0,0.6)", fontFamily: INTER }}
           >
             Màu càng đậm — nhu cầu càng cao
           </text>
@@ -262,7 +262,7 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
             dominantBaseline="central"
             fontSize={18}
             fontWeight={600}
-            style={{ fill: "rgba(255,255,255,0.45)", fontFamily: INTER }}
+            style={{ fill: "rgba(0,0,0,0.45)", fontFamily: INTER }}
           >
             Nhạt
           </text>

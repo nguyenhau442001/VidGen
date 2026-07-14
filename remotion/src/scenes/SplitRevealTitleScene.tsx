@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { INTER } from "../styles";
+import { colors, INTER } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — 750x1080 portrait, "contain" fit inside the real
@@ -9,8 +9,8 @@ import { INTER } from "../styles";
 const VB_W = 750;
 const VB_H = 1080;
 
-const BG = "#0a0a0f";
-const GLOW_COLOR = "#00ff41";
+const BG = colors.bg;
+const GLOW_COLOR = colors.green;
 const GLOW_THICKNESS = 2;
 const GLOW_BOX_SHADOW = `0 0 12px ${GLOW_COLOR}, 0 0 24px ${GLOW_COLOR}66`;
 
@@ -112,7 +112,7 @@ const SplitRevealTitleScene: React.FC<SplitRevealTitleSceneProps> = ({
     fontFamily: `${INTER}, sans-serif`,
     fontWeight: 800,
     fontSize,
-    color: "#ffffff",
+    color: colors.textPrimary,
     whiteSpace: "nowrap",
     lineHeight: 1.15,
   };
@@ -239,7 +239,7 @@ const SplitRevealTitleScene: React.FC<SplitRevealTitleSceneProps> = ({
                 fontFamily: `${INTER}, sans-serif`,
                 fontWeight: 400,
                 fontSize: 20,
-                color: "#ffffff88",
+                color: "#00000088",
               }}
             >
               {subtitle}

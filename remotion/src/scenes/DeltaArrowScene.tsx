@@ -93,7 +93,7 @@ const BarRow: React.FC<BarRowProps> = ({
           fontFamily: `${INTER}, sans-serif`,
           fontSize: 16,
           fontWeight: 500,
-          color: "rgba(255,255,255,0.7)",
+          color: "rgba(0,0,0,0.7)",
           whiteSpace: "nowrap",
         }}
       >
@@ -122,13 +122,13 @@ const BarRow: React.FC<BarRowProps> = ({
           fontFamily: `${JETBRAINS_MONO}, monospace`,
           fontSize: 24,
           fontWeight: 700,
-          color: "#ffffff",
+          color: colors.textPrimary,
           whiteSpace: "nowrap",
           fontVariantNumeric: "tabular-nums",
         }}
       >
         {displayValue}
-        <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(255,255,255,0.6)", marginLeft: 4 }}>
+        <span style={{ fontSize: 16, fontWeight: 500, color: "rgba(0,0,0,0.6)", marginLeft: 4 }}>
           {unit}
         </span>
       </div>
@@ -142,7 +142,7 @@ const BarRow: React.FC<BarRowProps> = ({
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 14,
             fontWeight: 400,
-            color: "rgba(255,255,255,0.45)",
+            color: "rgba(0,0,0,0.45)",
             whiteSpace: "nowrap",
           }}
         >

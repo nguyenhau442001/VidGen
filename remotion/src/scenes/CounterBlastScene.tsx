@@ -167,7 +167,7 @@ export const CounterBlastScene: React.FC<CounterBlastSceneProps> = ({
             marginTop: 28,
             fontSize: 30,
             fontWeight: 500,
-            color: "rgba(255,255,255,0.75)",
+            color: "rgba(0,0,0,0.75)",
             fontFamily: INTER,
             textAlign: "center",
             maxWidth: 760,

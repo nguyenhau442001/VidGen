@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { PhoneMapSceneProps } from "../types";
-import { INTER } from "../styles";
+import { colors, INTER } from "../styles";
 
 const VB_W = 750;
 const VB_H = 1080;
@@ -53,7 +53,7 @@ const PhoneMapScene: React.FC<PhoneMapSceneProps> = ({
   const phoneOpacity = interpolate(phoneSpring, [0, 0.2, 1], [0, 1, 1]);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0f", overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
@@ -72,7 +72,7 @@ const PhoneMapScene: React.FC<PhoneMapSceneProps> = ({
             top: 120,
             width: VB_W,
             textAlign: "center",
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 26,
             fontWeight: 700,

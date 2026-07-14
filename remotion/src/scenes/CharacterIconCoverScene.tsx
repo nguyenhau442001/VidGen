@@ -16,8 +16,8 @@ const CANVAS_H = 700;
 const VISUAL_ZONE_H = CANVAS_H * 0.62; // 434
 
 const ACCENT_DEFAULT = "#22C55E";
-const SILHOUETTE_COLOR = "rgba(255,255,255,0.88)";
-const MUTED_PIN = "rgba(255,255,255,0.32)";
+const SILHOUETTE_COLOR = "rgba(0,0,0,0.88)";
+const MUTED_PIN = "rgba(0,0,0,0.32)";
 
 // Fixed brand tints for the typography block that are deliberately distinct
 // from `accent` (lighter green steps), per the cover design spec.

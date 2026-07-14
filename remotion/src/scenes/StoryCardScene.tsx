@@ -110,8 +110,8 @@ export const StoryCardScene: React.FC<StoryCardSceneProps> = ({
           style={{
             borderRadius: 24,
             padding: "36px 34px",
-            backgroundColor: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            backgroundColor: "rgba(0,0,0,0.04)",
+            border: "1px solid rgba(0,0,0,0.08)",
             opacity: Math.min(cardSpring, 1),
             transform: `translateY(${interpolate(cardSpring, [0, 1], [24, 0])}px) scale(${interpolate(
               cardSpring,

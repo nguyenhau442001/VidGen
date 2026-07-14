@@ -6,7 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { INTER, JETBRAINS_MONO } from "../styles";
+import { colors, INTER, JETBRAINS_MONO } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Virtual canvas — "contain" fit inside the real composition, matching
@@ -15,8 +15,8 @@ import { INTER, JETBRAINS_MONO } from "../styles";
 const VB_W = 750;
 const VB_H = 1080;
 
-const BG = "#0a0a0f";
-const GRID_LINE_COLOR = "#ffffff06";
+const BG = colors.bg;
+const GRID_LINE_COLOR = "#00000006";
 
 const HEADLINE_TOP = 80;
 const UNIT_TOP = 84;
@@ -36,11 +36,11 @@ const BAR_STAGGER = 10;
 type BarColor = "green" | "cyan" | "amber";
 
 const COLOR_MAP: Record<BarColor, { fill: string; stroke: string; label: string }> = {
-  green: { fill: "#00ff4133", stroke: "#00ff41", label: "#00ff41" },
-  cyan: { fill: "#61dafb33", stroke: "#61dafb", label: "#61dafb" },
+  green: { fill: `${colors.green}33`, stroke: colors.green, label: colors.green },
+  cyan: { fill: `${colors.cyan}33`, stroke: colors.cyan, label: colors.cyan },
   amber: { fill: "#ffa50033", stroke: "#ffa500", label: "#ffa500" },
 };
-const DEFAULT_COLOR = { fill: "#ffffff0a", stroke: "#ffffff44", label: "#ffffff" };
+const DEFAULT_COLOR = { fill: "#0000000a", stroke: "#00000044", label: colors.textPrimary };
 
 export type AnimatedBarRaceDatum = {
   label: string;
@@ -107,7 +107,7 @@ const BarRow: React.FC<BarRowProps> = ({ datum, index, y, maxValue, frame, fps }
           fontFamily: `${INTER}, sans-serif`,
           fontSize: 13,
           fontWeight: 500,
-          color: "#ffffff",
+          color: colors.textPrimary,
         }}
       >
         {datum.label}
@@ -207,7 +207,7 @@ const AnimatedBarRaceScene: React.FC<AnimatedBarRaceSceneProps> = ({
             top: HEADLINE_TOP,
             left: 0,
             width: VB_W,
-            color: "#ffffff",
+            color: colors.textPrimary,
             fontFamily: `${INTER}, sans-serif`,
             fontSize: 26,
             fontWeight: 700,
@@ -230,7 +230,7 @@ const AnimatedBarRaceScene: React.FC<AnimatedBarRaceSceneProps> = ({
               fontFamily: `${INTER}, sans-serif`,
               fontSize: 11,
               fontWeight: 400,
-              color: "#ffffff44",
+              color: "#00000044",
               opacity: headlineOpacity,
             }}
           >

@@ -113,8 +113,8 @@ export const PreviewTeaserScene: React.FC<PreviewTeaserSceneProps> = ({
                   gap: 18,
                   padding: "18px 26px",
                   borderRadius: 16,
-                  backgroundColor: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  backgroundColor: "rgba(0,0,0,0.04)",
+                  border: "1px solid rgba(0,0,0,0.08)",
                   opacity: s,
                   transform: `translateX(${interpolate(s, [0, 1], [-24, 0])}px)`,
                 }}

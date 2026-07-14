@@ -125,9 +125,9 @@ export const ScanAnimationScene: React.FC<ScanAnimationSceneProps> = ({
             overflow: "hidden",
             border: `1px solid ${accentColor}33`,
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
+              "linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)",
             backgroundSize: "36px 36px",
-            backgroundColor: "rgba(255,255,255,0.02)",
+            backgroundColor: "rgba(0,0,0,0.02)",
           }}
         >
           <div

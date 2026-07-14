@@ -382,6 +382,8 @@ const LoadingScreen: React.FC<{
   return (
     <div
       style={{
+        position: "absolute",
+        inset: 0,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

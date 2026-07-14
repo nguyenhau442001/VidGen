@@ -8,14 +8,14 @@ import {
   useVideoConfig,
 } from "remotion";
 import { AttackSceneProps } from "../types";
-import { INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
+import { colors, INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-const BG = "#07020a";
+const BG = colors.bg;
 const ACCENT_DEFAULT = "#ef4444";
-const GLITCH_DEFAULT = "#61dafb";
+const GLITCH_DEFAULT = colors.cyan;
 
 const FLASH_FRAMES = 8; // initial full-screen punch, decays fast
 const BADGE_ENTER_FRAME = 4;
@@ -59,9 +59,11 @@ const FlashPunch: React.FC<{ accent: string; frame: number }> = ({ accent, frame
   return (
     <AbsoluteFill
       style={{
+        // Normal blending (not "screen") — screen mode washes out to
+        // near-invisible against a light/near-white page background, since
+        // screen(lightColor, x) ≈ lightColor regardless of x.
         background: `radial-gradient(circle at 50% 38%, ${rgba(accent, 1)} 0%, ${BG} 72%)`,
         opacity,
-        mixBlendMode: "screen",
         pointerEvents: "none",
       }}
     />
@@ -78,7 +80,7 @@ const Scanlines: React.FC<{ frame: number }> = ({ frame }) => (
       position: "absolute",
       inset: 0,
       backgroundImage:
-        "repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 3px)",
+        "repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 3px)",
       backgroundPositionY: `${(frame * 1.5) % 6}px`,
       opacity: 0.3,
       pointerEvents: "none",
@@ -164,7 +166,7 @@ const BreachMeter: React.FC<{
 
   return (
     <div style={{ position: "absolute", top: BREACH_TOP, left: 80, right: 80 }}>
-      <div style={{ position: "relative", height: 4, borderRadius: 2, background: "rgba(255,255,255,0.08)" }}>
+      <div style={{ position: "relative", height: 4, borderRadius: 2, background: "rgba(0,0,0,0.08)" }}>
         <div
           style={{
             position: "absolute",
@@ -211,7 +213,7 @@ const BreachMeter: React.FC<{
                   width: 9,
                   height: 9,
                   borderRadius: "50%",
-                  background: active ? accent : "rgba(255,255,255,0.25)",
+                  background: active ? accent : "rgba(0,0,0,0.25)",
                   boxShadow: active ? `0 0 ${6 + flash * 10}px ${accent}` : "none",
                   marginBottom: 8,
                 }}
@@ -222,7 +224,7 @@ const BreachMeter: React.FC<{
                   fontWeight: 700,
                   letterSpacing: "0.08em",
                   fontFamily: JETBRAINS_MONO,
-                  color: active ? accent : "rgba(255,255,255,0.35)",
+                  color: active ? accent : "rgba(0,0,0,0.35)",
                 }}
               >
                 {label}
@@ -277,7 +279,7 @@ const HeadlineBlock: React.FC<{
             fontSize: 58,
             fontWeight: i === 0 ? 800 : 400,
             lineHeight: 1.25,
-            color: color ?? (i === 0 ? accent : "rgba(255,255,255,0.6)"),
+            color: color ?? (i === 0 ? accent : "rgba(0,0,0,0.6)"),
             fontFamily: INTER,
           }}
         >
@@ -303,7 +305,7 @@ const HeadlineBlock: React.FC<{
         style={{
           fontSize: 24,
           letterSpacing: "0.22em",
-          color: "rgba(255,255,255,0.4)",
+          color: "rgba(0,0,0,0.4)",
           fontFamily: INTER,
           marginBottom: 14,
         }}
@@ -313,13 +315,15 @@ const HeadlineBlock: React.FC<{
       <div style={{ position: "relative", transform: `scale(${scale})` }}>
         {inGlitch && (
           <>
+            {/* "multiply" (not "screen") — screen mode washes color ghosts
+                out to near-invisible against a light/near-white page. */}
             <div
               aria-hidden
               style={{
                 position: "absolute",
                 inset: 0,
                 transform: `translateX(${glitchMag * glitchSign}px)`,
-                mixBlendMode: "screen",
+                mixBlendMode: "multiply",
                 opacity: 0.7,
               }}
             >
@@ -331,7 +335,7 @@ const HeadlineBlock: React.FC<{
                 position: "absolute",
                 inset: 0,
                 transform: `translateX(${-glitchMag * glitchSign}px)`,
-                mixBlendMode: "screen",
+                mixBlendMode: "multiply",
                 opacity: 0.7,
               }}
             >
@@ -416,7 +420,7 @@ const StatsRow: React.FC<{
               style={{
                 fontSize: 19,
                 fontFamily: INTER,
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(0,0,0,0.5)",
                 textAlign: "center",
               }}
             >

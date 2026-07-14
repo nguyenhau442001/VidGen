@@ -57,8 +57,10 @@ export const colorsLight = {
   codeBg: "#1e1e2e",
 };
 
-// Backward-compat: `colors` vẫn là dark (không break code cũ)
-export const colors = colorsDark;
+// Channel default switched to light theme 2026-07-14 — bright, readable background
+// for all future videos instead of dark mode (dark mode was seen as niche/off-putting
+// to a broader audience). colorsDark stays exported for any scene that still needs it.
+export const colors = colorsLight;
 
 // Khi theme="light", các accent màu neon (#ef4444 đỏ) cần được darkened một chút
 // để readable trên nền trắng. Không cần đổi trong JSON — xử lý ở component level.

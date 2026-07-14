@@ -27,7 +27,7 @@ export const AmbientBackground: React.FC<{ accent: string }> = ({ accent }) => {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+            "linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
           backgroundPosition: `${driftX * 0.3}px ${driftY * 0.3}px`,
         }}

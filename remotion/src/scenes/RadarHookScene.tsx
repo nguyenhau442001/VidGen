@@ -7,13 +7,13 @@ import {
   useVideoConfig,
 } from "remotion";
 import { RadarHookSceneProps } from "../types";
-import { INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
+import { colors, INTER, JETBRAINS_MONO, SAFE_ZONE } from "../styles";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-const BG = "#030d06";
-const ACCENT_DEFAULT = "#00ff41";
+const BG = colors.bg;
+const ACCENT_DEFAULT = colors.green;
 const USER_COLOR_DEFAULT = "#ff6b35";
 
 const RADAR_SIZE = 520; // px diameter of the radar container
@@ -329,7 +329,7 @@ const CopyBlock: React.FC<{ eyebrow: string; headline: string; accent: string; f
         style={{
           fontSize: 26,
           letterSpacing: "0.25em",
-          color: "rgba(255,255,255,0.38)",
+          color: "rgba(0,0,0,0.38)",
           fontFamily: INTER,
         }}
       >
@@ -343,7 +343,7 @@ const CopyBlock: React.FC<{ eyebrow: string; headline: string; accent: string; f
               fontSize: 58,
               fontWeight: i === 0 ? 800 : 400,
               lineHeight: 1.25,
-              color: i === 0 ? accent : "rgba(255,255,255,0.55)",
+              color: i === 0 ? accent : "rgba(0,0,0,0.55)",
               fontFamily: INTER,
             }}
           >
@@ -420,7 +420,7 @@ const StatsRow: React.FC<{
             style={{
               fontSize: 19,
               fontFamily: INTER,
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(0,0,0,0.5)",
               textAlign: "center",
             }}
           >
@@ -474,7 +474,9 @@ export const RadarHookScene: React.FC<RadarHookSceneProps> = ({
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(ellipse at 50% 42%, transparent 40%, rgba(0,0,0,0.65) 100%)",
+          // Kept subtle (was 0.65 dark opacity) — a heavy dark vignette
+          // conflicts with the page staying visibly bright overall.
+          background: "radial-gradient(ellipse at 50% 42%, transparent 40%, rgba(0,0,0,0.08) 100%)",
         }}
       />
 
