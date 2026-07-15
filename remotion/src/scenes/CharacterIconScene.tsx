@@ -25,9 +25,9 @@ const REJECTED_PIN_ENTER = ICON_STAGGER + 10;
 const SELECTED_PIN_ENTER = REJECTED_PIN_ENTER + 10;
 const PART_INDICATOR_ENTER = SELECTED_PIN_ENTER + 12;
 
-const SILHOUETTE_DEFAULT = "rgba(0,0,0,0.88)";
+const SILHOUETTE_DEFAULT = "#173B6D";
 const ACCENT_DEFAULT = "#00c896";
-const MUTED_PIN = "rgba(0,0,0,0.32)";
+const MUTED_PIN = "#94A3B8";
 
 // Pin/convergence-dot positions, in character-local coordinates (offsets
 // from CHAR_X/CHAR_Y, defined further below) — mirrors the reference hook
@@ -239,7 +239,8 @@ const TopicBadge: React.FC<{ text: string; accent: string; frame: number; fps: n
           padding: "14px 32px",
           borderRadius: 999,
           border: `2px solid ${accent}`,
-          background: "rgba(10,10,15,0.55)",
+          background: "rgba(232, 242, 255, 0.92)",
+          boxShadow: `0 16px 42px ${accent}26`,
         }}
       >
         <span style={{ ...t.label, fontSize: 26, color: accent, fontFamily: INTER }}>{text}</span>
@@ -248,11 +249,12 @@ const TopicBadge: React.FC<{ text: string; accent: string; frame: number; fps: n
   );
 };
 
-const PartIndicator: React.FC<{ text: string; frame: number; fps: number; enterFrame: number }> = ({
+const PartIndicator: React.FC<{ text: string; frame: number; fps: number; enterFrame: number; accent: string }> = ({
   text,
   frame,
   fps,
   enterFrame,
+  accent,
 }) => {
   const entrance = spring({
     frame: frame - enterFrame,
@@ -281,11 +283,12 @@ const PartIndicator: React.FC<{ text: string; frame: number; fps: number; enterF
         style={{
           padding: "8px 20px",
           borderRadius: 999,
-          border: "1.5px solid rgba(255,255,255,0.25)",
-          background: "rgba(10,10,15,0.5)",
+          border: `1.5px solid ${accent}55`,
+          background: "rgba(232, 242, 255, 0.9)",
+          boxShadow: `0 10px 30px ${accent}20`,
         }}
       >
-        <span style={{ ...t.label, fontSize: 15, color: "rgba(255,255,255,0.55)", fontFamily: INTER }}>
+        <span style={{ ...t.label, fontSize: 15, color: accent, fontFamily: INTER }}>
           {text}
         </span>
       </div>
@@ -311,6 +314,8 @@ const DistancePin: React.FC<{
   enterFrame: number;
 }> = ({ x, y, toX, toY, label, state, accent, frame, fps, enterFrame }) => {
   const color = state === "selected" ? accent : MUTED_PIN;
+  const pillFill = state === "selected" ? "rgba(232,242,255,0.96)" : "rgba(255,255,255,0.96)";
+  const textColor = state === "selected" ? accent : "#64748B";
   const mark = state === "selected" ? "✓" : "✕";
   const text = `${label} ${mark}`;
 
@@ -343,7 +348,7 @@ const DistancePin: React.FC<{
           strokeWidth={2.5}
           strokeDasharray="6 6"
           strokeLinecap="round"
-          opacity={0.5}
+          opacity={0.75}
         />
       ) : (
         <line
@@ -360,7 +365,14 @@ const DistancePin: React.FC<{
       <circle cx={x} cy={anchorY} r={6} fill={color} />
 
       <g transform={`translate(${x - pillW / 2},${y - 26})`}>
-        <rect width={pillW} height={32} rx={16} fill="rgba(10,10,15,0.85)" stroke={color} strokeWidth={1.5} />
+        <rect
+          width={pillW}
+          height={32}
+          rx={16}
+          fill={pillFill}
+          stroke={color}
+          strokeWidth={1.5}
+        />
         <text
           x={pillW / 2}
           y={21}
@@ -368,7 +380,7 @@ const DistancePin: React.FC<{
           fontSize={17}
           fontWeight={700}
           fontFamily={INTER}
-          fill={color}
+          fill={textColor}
         >
           {text}
         </text>
@@ -575,7 +587,7 @@ export const CharacterIconScene: React.FC<CharacterIconSceneProps> = ({
 
       {topicLabel && <TopicBadge text={topicLabel} accent={accent} frame={frame} fps={fps} />}
       {partLabel && (
-        <PartIndicator text={partLabel} frame={frame} fps={fps} enterFrame={PART_INDICATOR_ENTER} />
+        <PartIndicator text={partLabel} frame={frame} fps={fps} enterFrame={PART_INDICATOR_ENTER} accent={accent} />
       )}
     </AbsoluteFill>
   );

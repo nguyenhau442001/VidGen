@@ -16,13 +16,13 @@ const CANVAS_H = 700;
 const VISUAL_ZONE_H = CANVAS_H * 0.62; // 434
 
 const ACCENT_DEFAULT = "#22C55E";
-const SILHOUETTE_COLOR = "rgba(0,0,0,0.88)";
-const MUTED_PIN = "rgba(0,0,0,0.32)";
+const SILHOUETTE_COLOR = "#173B6D";
+const MUTED_PIN = "#94A3B8";
 
 // Fixed brand tints for the typography block that are deliberately distinct
 // from `accent` (lighter green steps), per the cover design spec.
-const LINE2_COLOR = "#4ADE80";
-const SUBTITLE_COLOR = "#6EE7A0";
+const LINE2_COLOR = "#1A73E8";
+const SUBTITLE_COLOR = "#0F8A5F";
 
 const LINE1_DEFAULT = "Tài xế cách bạn";
 const LINE2_DEFAULT = "200 mét";
@@ -126,6 +126,7 @@ const DistancePin: React.FC<{
   accent: string;
 }> = ({ x, y, toX, toY, label, state, accent }) => {
   const color = state === "selected" ? accent : MUTED_PIN;
+  const fill = state === "selected" ? "rgba(232,242,255,0.96)" : "rgba(255,255,255,0.94)";
   const anchorY = y + 14;
   const pillW = label.length * 9 + 28;
 
@@ -144,7 +145,7 @@ const DistancePin: React.FC<{
       />
       <circle cx={x} cy={anchorY} r={5} fill={color} />
       <g transform={`translate(${x - pillW / 2},${y - 24})`}>
-        <rect width={pillW} height={28} rx={14} fill="rgba(10,10,15,0.85)" stroke={color} strokeWidth={1.5} />
+        <rect width={pillW} height={28} rx={14} fill={fill} stroke={color} strokeWidth={1.5} />
         <text
           x={pillW / 2}
           y={19}
@@ -213,8 +214,8 @@ export const CharacterIconCoverScene: React.FC<CharacterIconCoverSceneProps> = (
       >
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#FFFFFF" />
-            <stop offset="1" stopColor="#A3F0BF" />
+            <stop offset="0" stopColor="#12315F" />
+            <stop offset="1" stopColor="#1A73E8" />
           </linearGradient>
         </defs>
 
@@ -228,7 +229,7 @@ export const CharacterIconCoverScene: React.FC<CharacterIconCoverSceneProps> = (
                 width={eyebrowText.length * 7.2 + 32}
                 height={26}
                 rx={13}
-                fill="rgba(10,10,15,0.55)"
+                fill="rgba(232,242,255,0.94)"
                 stroke={accent}
                 strokeWidth={1.2}
               />

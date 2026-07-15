@@ -46,8 +46,10 @@ export const Caption: React.FC<{ text: string; durationInFrames: number; style?:
         style={{
           padding: "16px 40px",
           borderRadius: 16,
-          background: "rgba(0,0,0,0.65)",
+          background: "rgba(232, 242, 255, 0.94)",
+          border: "2px solid rgba(26, 115, 232, 0.28)",
           backdropFilter: "blur(12px)",
+          boxShadow: "0 18px 50px rgba(26, 115, 232, 0.16)",
           maxWidth,
           textAlign: "center",
         }}
@@ -56,7 +58,7 @@ export const Caption: React.FC<{ text: string; durationInFrames: number; style?:
           style={{
             fontSize,
             fontWeight,
-            color: "#fff",
+            color: "#12315f",
             lineHeight: 1.35,
             fontFamily: "Inter, system-ui, sans-serif",
           }}
