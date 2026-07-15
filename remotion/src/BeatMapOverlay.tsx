@@ -33,15 +33,16 @@ function scoreColor(score: number): string {
 // production output. Follows the same self-gating pattern as SafeZoneGuide.
 export const BeatMapOverlay: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   const frame = useCurrentFrame();
+  const shots = manifest.shots ?? manifest.scenes ?? [];
 
   if (process.env.REMOTION_BEAT_MAP !== "1") return null;
-  if (!beatmap.scenes.length || beatmap.scenes.length !== manifest.scenes.length) return null;
+  if (!beatmap.scenes.length || beatmap.scenes.length !== shots.length) return null;
 
-  const totalFrames = manifest.scenes.reduce((sum, s) => sum + s.durationInFrames, 0);
+  const totalFrames = shots.reduce((sum, s) => sum + s.durationInFrames, 0);
   if (totalFrames <= 0) return null;
 
   let cursor = 0;
-  const segments = manifest.scenes.map((mscene, i) => {
+  const segments = shots.map((mscene, i) => {
     const bm = beatmap.scenes[i];
     const startFrame = cursor;
     cursor += mscene.durationInFrames;

@@ -59,31 +59,32 @@ import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
+  const shots = manifest.shots ?? manifest.scenes ?? [];
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <Series>
-        {manifest.scenes.map((scene) => (
+        {shots.map((shot) => (
           <Series.Sequence
-            key={scene.id}
-            name={[String(scene.id), scene.sceneName, scene.label].filter(Boolean).join(" · ")}
-            durationInFrames={scene.durationInFrames}
+            key={shot.id}
+            name={[String(shot.id), shot.sceneName, shot.label].filter(Boolean).join(" · ")}
+            durationInFrames={shot.durationInFrames}
           >
-            {scene.audioPath && (
-              <Sequence from={scene.audioOffsetFrames ?? 0}>
-                <Audio src={staticFile(scene.audioPath)} />
+            {shot.audioPath && (
+              <Sequence from={shot.audioOffsetFrames ?? 0}>
+                <Audio src={staticFile(shot.audioPath)} />
               </Sequence>
             )}
-            {scene.extraAudio?.map((seg, i) => (
+            {shot.extraAudio?.map((seg, i) => (
               <Sequence key={i} from={seg.offsetFrames}>
                 <Audio src={staticFile(seg.path)} />
               </Sequence>
             ))}
-            <SceneRenderer scene={scene} />
-            {scene.caption && (
+            <SceneRenderer shot={shot} />
+            {shot.caption && (
               <Caption
-                text={scene.caption}
-                durationInFrames={scene.durationInFrames}
-                style={scene.captionStyle}
+                text={shot.caption}
+                durationInFrames={shot.durationInFrames}
+                style={shot.captionStyle}
               />
             )}
           </Series.Sequence>
@@ -126,132 +127,132 @@ function resolveRevealContent(
   }
 }
 
-const SceneRenderer: React.FC<{ scene: ManifestScene }> = ({ scene }) => {
-  switch (scene.type) {
+const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
+  switch (shot.type) {
     case "explanation":
-      return <ExplanationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ExplanationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "terminal":
-      return <TerminalScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <TerminalScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "code":
-      return <CodeScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <CodeScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "error_log":
-      return <ErrorLogScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ErrorLogScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "phone_mockup":
-      return <PhoneMockupScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <PhoneMockupScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "map_ping":
-      return <MapPingScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <MapPingScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "geohash_reveal":
-      return <GeohashRevealScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <GeohashRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "demand_heatmap":
-      return <DemandHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DemandHeatmapScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "signal_flow":
-      return <SignalFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <SignalFlowScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "network_flow":
-      return <NetworkFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <NetworkFlowScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "ripple_aggregate":
-      return <RippleAggregateScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <RippleAggregateScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "driver_swarm":
-      return <DriverSwarmScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DriverSwarmScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "counter_blast":
-      return <CounterBlastScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <CounterBlastScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "score_card":
-      return <ScoreCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ScoreCardScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "split_view":
-      return <SplitViewScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <SplitViewScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "character_icon":
-      return <CharacterIconScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <CharacterIconScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "quote_callout":
-      return <QuoteCalloutScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <QuoteCalloutScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "zoom_reveal":
       return (
         <ZoomRevealScene
-          focusElement={resolveFocusElement(scene.visual.focusElement, scene.visual.accentColor)}
-          revealContent={resolveRevealContent(scene.visual.revealContent, scene.visual, scene.durationInFrames)}
-          zoomStartScale={scene.visual.zoomStartScale}
-          zoomEndScale={scene.visual.zoomEndScale}
-          accentColor={scene.visual.accentColor}
-          dotColor={scene.visual.dotColor}
-          durationInFrames={scene.durationInFrames}
+          focusElement={resolveFocusElement(shot.visual.focusElement, shot.visual.accentColor)}
+          revealContent={resolveRevealContent(shot.visual.revealContent, shot.visual, shot.durationInFrames)}
+          zoomStartScale={shot.visual.zoomStartScale}
+          zoomEndScale={shot.visual.zoomEndScale}
+          accentColor={shot.visual.accentColor}
+          dotColor={shot.visual.dotColor}
+          durationInFrames={shot.durationInFrames}
         />
       );
     case "split_reveal":
       return (
         <SplitRevealScene
           leftContent={
-            <MapPingScene {...scene.visual.leftMapPing} durationInFrames={scene.durationInFrames} />
+            <MapPingScene {...shot.visual.leftMapPing} durationInFrames={shot.durationInFrames} />
           }
-          splitRatio={scene.visual.splitRatio}
-          revealDurationFrames={scene.visual.revealDurationFrames}
-          accentColor={scene.visual.accentColor}
-          leftCaption={scene.visual.leftCaption}
-          rightCaption={scene.visual.rightCaption}
+          splitRatio={shot.visual.splitRatio}
+          revealDurationFrames={shot.visual.revealDurationFrames}
+          accentColor={shot.visual.accentColor}
+          leftCaption={shot.visual.leftCaption}
+          rightCaption={shot.visual.rightCaption}
         />
       );
     case "animated_flow":
-      return <AnimatedFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <AnimatedFlowScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "bubble_comparator":
-      return <BubbleComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <BubbleComparatorScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "phone_map":
-      return <PhoneMapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <PhoneMapScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "conversation":
-      return <ConversationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ConversationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "before_after":
-      return <BeforeAfterScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <BeforeAfterScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "grid_heatmap":
-      return <GridHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <GridHeatmapScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "radar_hook":
-      return <RadarHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <RadarHookScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "attack_hook":
-      return <AttackScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <AttackScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "event_scan":
-      return <EventScanScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <EventScanScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "driver_heatmap":
-      return <DriverHeatmapScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DriverHeatmapScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "stat_comparator":
-      return <StatComparatorScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <StatComparatorScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "route_timeline":
-      return <RouteTimelineScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <RouteTimelineScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "corridor_sweep":
-      return <CorridorSweepScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <CorridorSweepScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "batch_decision_tree":
-      return <BatchDecisionTreeScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <BatchDecisionTreeScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "delta_arrow":
-      return <DeltaArrowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DeltaArrowScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "driver_consent":
-      return <DriverConsentScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DriverConsentScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "system_layer":
-      return <SystemLayerScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <SystemLayerScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_hook":
-      return <HSKHookScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <HSKHookScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_explanation":
-      return <HSKExplanationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <HSKExplanationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_cta":
-      return <HSKCTAScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <HSKCTAScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_screenshot":
-      return <HSKScreenshotScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <HSKScreenshotScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_flashcard":
-      return <HSKFlashCardThumbnailScene {...scene.visual} />;
+      return <HSKFlashCardThumbnailScene {...shot.visual} />;
     case "icon_threat":
-      return <IconThreatScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <IconThreatScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "story_card":
-      return <StoryCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <StoryCardScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "comparison":
-      return <ComparisonScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ComparisonScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "pipeline_vertical":
-      return <PipelineVerticalScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <PipelineVerticalScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "diagram_flow":
-      return <DiagramFlowScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <DiagramFlowScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "timeline_stages":
-      return <TimelineStagesScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <TimelineStagesScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "scan_animation":
-      return <ScanAnimationScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ScanAnimationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "exception_card":
-      return <ExceptionCardScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <ExceptionCardScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "verdict_list":
-      return <VerdictListScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <VerdictListScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "preview_teaser":
-      return <PreviewTeaserScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <PreviewTeaserScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "google_maps_reveal":
-      return <GoogleMapsRevealScene {...scene.visual} durationInFrames={scene.durationInFrames} />;
+      return <GoogleMapsRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
   }
 };

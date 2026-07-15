@@ -137,11 +137,16 @@ export type ManifestScene =
   | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PreviewTeaserVisual }
   | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GoogleMapsRevealVisual };
 
+// Shot is the canonical public term; ManifestScene remains as a compatibility
+// alias for the existing component registry and any older imports.
+export type ManifestShot = ManifestScene;
+
 export type RenderManifest = {
   fps: number;
   width: number;
   height: number;
-  scenes: ManifestScene[];
+  shots: ManifestShot[];
+  scenes?: ManifestShot[];
 };
 
 export type ExplanationSceneProps = ExplanationVisual & { durationInFrames: number };
