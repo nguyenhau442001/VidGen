@@ -6,6 +6,10 @@ def _script(scenes):
     return {"title": "Test Video", "fps": 30, "scenes": scenes}
 
 
+def _shot_script(shots):
+    return {"title": "Test Video", "fps": 30, "shots": shots}
+
+
 def test_empty_scenes_returns_empty_beatmap():
     script = _script([])
     manifest = build_render_manifest(script, {})
@@ -82,6 +86,18 @@ def test_hot_flags_exactly_top_n_scenes():
     scores = [s["score"] for s in beatmap["scenes"]]
     hot_scores = sorted([s["score"] for s in hot], reverse=True)
     assert hot_scores == sorted(scores, reverse=True)[:TOP_N_HOT]
+
+
+def test_score_beatmap_accepts_canonical_shots_schema():
+    script = _shot_script([
+        {"id": "s1", "type": "explanation", "narration": "Mở đầu.", "duration_frames": 150, "visual": {"headline": "H"}},
+        {"id": "s2", "type": "stat_comparator", "narration": "Con số.",
+         "duration_frames": 150, "visual": {}},
+    ])
+    manifest = build_render_manifest(script, {})
+    beatmap = score_beatmap(script, manifest)
+    assert len(beatmap["scenes"]) == 2
+    assert "numeric payoff" in beatmap["scenes"][1]["reasons"]
 
 
 def test_format_report_contains_scene_ids_and_scores():

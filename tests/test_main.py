@@ -5,7 +5,17 @@ from vidgen.main import resolve_script, validate_manifest
 
 def test_resolve_script_passes_through_flat_schema_unchanged():
     script = {"video_id": "v", "scenes": [{"id": 1, "type": "explanation"}]}
-    assert resolve_script(script) is script
+    resolved = resolve_script(script)
+    assert resolved is not script
+    assert resolved["shots"] == script["scenes"]
+    assert resolved["scenes"] == script["scenes"]
+
+
+def test_resolve_script_preserves_canonical_shots_schema():
+    script = {"video_id": "v", "shots": [{"id": 1, "type": "explanation"}]}
+    resolved = resolve_script(script)
+    assert resolved["shots"] == script["shots"]
+    assert resolved["scenes"] == script["shots"]
 
 
 def test_resolve_script_flattens_nested_motion_pipeline_schema():
@@ -36,6 +46,15 @@ def test_resolve_script_flattens_nested_motion_pipeline_schema():
         "fps": 30,
         "aspect_ratio": "9:16",
         "narration_language": "vi",
+        "shots": [
+            {
+                "id": "shot_01",
+                "type": "QuoteCalloutScene",
+                "duration_frames": 90,
+                "props": {"text": "Hello world", "backgroundStyle": "gradient-subtle"},
+                "narration": "Hello world",
+            }
+        ],
         "scenes": [
             {
                 "id": "shot_01",

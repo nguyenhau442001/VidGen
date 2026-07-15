@@ -39,6 +39,22 @@ def test_manifest_structure():
     assert manifest["height"] == 1920
 
 
+def test_manifest_structure_prefers_shots_alias():
+    script = {
+        "shots": [
+            {
+                "id": 2,
+                "type": "terminal",
+                "narration": "...",
+                "visual": {"lines": ["$ ls"]},
+            }
+        ]
+    }
+    manifest = build_render_manifest(script, {2: 2.0})
+    assert manifest["shots"][0]["type"] == "terminal"
+    assert manifest["scenes"][0]["type"] == "terminal"
+
+
 def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
     axis = {
         "destinationLabel": "Điểm đón",
