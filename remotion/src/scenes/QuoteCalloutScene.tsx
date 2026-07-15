@@ -199,7 +199,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
         {
           background:
             backgroundStyle === "gradient-subtle"
-              ? `radial-gradient(circle at 50% 38%, #12131c 0%, ${colors.bg} 65%)`
+              ? `radial-gradient(circle at 50% 42%, #E8F2FF 0%, #F8FBFF 52%, ${colors.bg} 100%)`
               : colors.bg,
           opacity: sceneOpacity,
           "--text-color": colors.textPrimary,
