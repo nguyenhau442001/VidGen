@@ -1,0 +1,405 @@
+{
+  "title": "Google Maps_route_p2",
+  "language": "vi",
+  "scenes": [
+    {
+      "id": "shot_01a",
+      "type": "CharacterIconScene",
+      "duration_frames": 160,
+      "props": {
+        "pose": "holding-phone",
+        "accompanyingIcon": "map",
+        "accentColor": "#1A73E8",
+        "topicLabel": "Thuật toán ẩn",
+        "partLabel": "Phần 2/3",
+        "rejectedPin": {
+          "label": "Kẹt xe"
+        },
+        "selectedPin": {
+          "label": "???"
+        }
+      },
+      "narration": "Google Maps biết tuyến này kẹt mà vẫn dẫn bạn vào.",
+      "narration_timing_frames": [
+        0,
+        144
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Google Maps biết - nhưng vẫn dẫn bạn vào",
+      "on_screen_text_style": "headline_bold"
+    },
+    {
+      "id": "shot_01b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 246,
+      "props": {
+        "screenState": "idle",
+        "accentColor": "#1A73E8",
+        "appName": "Google Maps",
+        "appIcon": "google_maps",
+        "buttonLabel": "Bắt đầu",
+        "phoneYOffset": -110
+      },
+      "narration": "Phần 1 mình đã biết: Google Maps không chọn đường ngắn nhất - nó chọn đường nhanh nhất. Nhưng câu đó chưa giải thích được điều này.",
+      "narration_timing_frames": [
+        5,
+        221
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_02a",
+      "type": "MapPingScene",
+      "duration_frames": 96,
+      "props": {
+        "drivers": []
+      },
+      "narration": "Cùng lúc đó, hàng chục nghìn người khác cũng mở bản đồ.",
+      "sound_design": "map whoosh/materialize sfx",
+      "transition_out_delay_frames": 0
+    },
+    {
+      "id": "shot_02b",
+      "type": "ZoomRevealScene",
+      "duration_frames": 295,
+      "props": {
+        "focusElement": "single_car_dot",
+        "revealContent": "city_traffic_network",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Khi bạn mở Google Maps - bạn không phải người duy nhất vừa mở Google Maps. Cùng lúc đó có thể còn hàng chục nghìn người khác đang làm điều tương tự.",
+      "narration_timing_frames": [
+        10,
+        275
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02c_a",
+      "type": "MapPingScene",
+      "duration_frames": 175,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "Tuyến A"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          },
+          {
+            "x": 502.5,
+            "y": 400.0,
+            "label": "Tuyến B"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#EA4335"
+      },
+      "narration": "Tất cả đều muốn tuyến nhanh nhất.",
+      "narration_timing_frames": [
+        8,
+        100
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_02c_b",
+      "type": "MapPingScene",
+      "duration_frames": 230,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "Tuyến A"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          },
+          {
+            "x": 502.5,
+            "y": 400.0,
+            "label": "Tuyến B"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#EA4335"
+      },
+      "narration": "Chính vì có quá nhiều người cùng chọn - nên nó không còn là tuyến nhanh nhất nữa.",
+      "narration_timing_frames": [
+        15,
+        215
+      ],
+      "transition_out_delay_frames": 10,
+      "on_screen_text": "Nghịch lý"
+    },
+    {
+      "id": "shot_02d",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 250,
+      "props": {
+        "text": "Vấn đề không phải tuyến nào nhanh nhất bây giờ - mà là tuyến nào vẫn nhanh sau 5 phút nữa",
+        "accentWord": "vẫn nhanh sau 5 phút nữa",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Vấn đề không phải tuyến nào nhanh nhất bây giờ - mà là tuyến nào vẫn nhanh sau 5 phút nữa.",
+      "narration_timing_frames": [
+        10,
+        220
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_02e",
+      "type": "MapPingScene",
+      "duration_frames": 275,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "A: 18 -> 31 phút"
+          },
+          {
+            "x": 502.5,
+            "y": 400.0,
+            "label": "B: 25 phút"
+          },
+          {
+            "x": 315.0,
+            "y": 640.0,
+            "label": "C: 26 phút"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#EA4335"
+      },
+      "narration": "Nếu ứng dụng đẩy tất cả vào tuyến A, chính lời gợi ý đó tạo thêm kẹt xe. ETA 18 phút có thể thành 31 phút.",
+      "narration_timing_frames": [
+        10,
+        250
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Lời gợi ý cũng tạo traffic"
+    },
+    {
+      "id": "shot_02f",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 215,
+      "props": {
+        "text": "Đây là feedback loop: app đổi hành vi người dùng, rồi hành vi đó đổi lại giao thông",
+        "accentWord": "feedback loop",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Đây là feedback loop: app đổi hành vi người dùng, rồi hành vi đó đổi lại giao thông.",
+      "narration_timing_frames": [
+        10,
+        180
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_03b",
+      "type": "MapPingScene",
+      "duration_frames": 285,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "Route A - 18%"
+          },
+          {
+            "x": 502.5,
+            "y": 330.0,
+            "label": "Route B - 32%"
+          },
+          {
+            "x": 375.0,
+            "y": 600.0,
+            "label": "Route C - 27%"
+          },
+          {
+            "x": 315.0,
+            "y": 720.0,
+            "label": "Route D - 23%"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          }
+        ],
+        "highlightedDriverIndex": 4,
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Vì vậy nó không phát một đáp án duy nhất. Nó phân bổ người dùng qua nhiều tuyến gần tương đương, để không tuyến nào bị nghẽn vì quá đông.",
+      "narration_timing_frames": [
+        8,
+        260
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Chia tải, không chỉ chỉ đường",
+      "sound_design": null
+    },
+    {
+      "id": "shot_03c_a",
+      "type": "MapPingScene",
+      "duration_frames": 225,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "24 phút"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          },
+          {
+            "x": 502.5,
+            "y": 400.0,
+            "label": "25 phút"
+          },
+          {
+            "x": 315.0,
+            "y": 280.0,
+            "label": "26 phút"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Mục tiêu thật sự không phải làm bạn nhanh nhất trong khoảnh khắc này.",
+      "narration_timing_frames": [
+        8,
+        170
+      ],
+      "transition_out_delay_frames": 15,
+      "sound_design": "music ducks at frame 150, subtle zoom in, 0.6s silence before cut"
+    },
+    {
+      "id": "shot_03c_b",
+      "type": "MapPingScene",
+      "duration_frames": 290,
+      "props": {
+        "drivers": [
+          {
+            "x": 210.0,
+            "y": 350.0,
+            "label": "24 phút"
+          },
+          {
+            "x": 375.0,
+            "y": 500.0,
+            "label": "Bạn"
+          },
+          {
+            "x": 502.5,
+            "y": 400.0,
+            "label": "25 phút"
+          },
+          {
+            "x": 315.0,
+            "y": 280.0,
+            "label": "26 phút"
+          }
+        ],
+        "highlightedDriverIndex": 0,
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Mà là giữ ETA của cả mạng đường ổn định. Một người chịu thêm 1 phút, đổi lại hàng nghìn người không cùng đổ vào một điểm nghẽn.",
+      "narration_timing_frames": [
+        5,
+        272
+      ],
+      "transition_out_delay_frames": 15,
+      "on_screen_text": "Ổn định toàn mạng đường"
+    },
+    {
+      "id": "shot_04a",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 185,
+      "props": {
+        "text": "Nếu ai cũng chen vào một quầy thu ngân - thì quầy đó sẽ thành quầy chậm nhất",
+        "accentWord": "quầy đó sẽ thành quầy chậm nhất",
+        "backgroundStyle": "gradient-subtle"
+      },
+      "narration": "Nếu ai cũng chen vào một quầy thu ngân - thì quầy đó sẽ thành quầy chậm nhất.",
+      "narration_timing_frames": [
+        10,
+        168
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_04b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 215,
+      "props": {
+        "screenState": "matched",
+        "accentColor": "#1A73E8",
+        "appName": "Google Maps",
+        "appIcon": "google_maps",
+        "driverName": "Tuyến cân bằng",
+        "driverEta": "24",
+        "matchedStatusLabel": "Đã tính tuyến đường",
+        "matchedKind": "route",
+        "matchedConfirmLabel": "Bắt đầu dẫn đường"
+      },
+      "narration": "Nên đôi khi tuyến bạn nhận không phải phương án ích kỷ nhất. Nó là phương án làm hệ thống ít vỡ nhất.",
+      "narration_timing_frames": [
+        5,
+        198
+      ],
+      "transition_out_delay_frames": 15
+    },
+    {
+      "id": "shot_sig",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 195,
+      "props": {
+        "text": "Và đây mới là phần đáng sợ: hệ thống phải dự đoán kẹt xe trước khi nó thật sự xuất hiện",
+        "accentWord": "trước khi nó thật sự xuất hiện",
+        "backgroundStyle": "dark"
+      },
+      "narration": "Và đây mới là phần đáng sợ: hệ thống phải dự đoán kẹt xe trước khi nó thật sự xuất hiện.",
+      "narration_timing_frames": [
+        10,
+        185
+      ],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_05c",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 260,
+      "props": {
+        "text": "Nhưng còn một câu hỏi lớn hơn: làm sao Google Maps biết một con đường sắp kẹt - khi lúc đó chưa có chiếc xe nào đứng yên?",
+        "accentWord": "chưa có chiếc xe nào đứng yên",
+        "backgroundStyle": "dark"
+      },
+      "narration": "Nhưng còn một câu hỏi lớn hơn: làm sao Google Maps biết một con đường sắp kẹt - khi lúc đó chưa có chiếc xe nào đứng yên?",
+      "narration_timing_frames": [
+        10,
+        243
+      ],
+      "transition_out_delay_frames": 0
+    }
+  ]
+}
