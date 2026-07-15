@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { GoogleMapsRevealSceneProps, GoogleMapsRoute } from "../types";
-import { BE_VIETNAM_PRO, SAFE_ZONE } from "../styles";
+import { ABOVE_CAPTION_BOTTOM, BE_VIETNAM_PRO, SAFE_ZONE } from "../styles";
 import { GoogleMapsIcon } from "../icons/GoogleMapsIcon";
 
 // ---------------------------------------------------------------------------
@@ -449,7 +449,7 @@ export const GoogleMapsRevealScene: React.FC<GoogleMapsRevealSceneProps> = ({
       <div
         style={{
           position: "absolute",
-          bottom: SAFE_ZONE.bottom + 90,
+          bottom: ABOVE_CAPTION_BOTTOM,
           left: SAFE_ZONE.left,
           right: SAFE_ZONE.right,
           textAlign: "center",

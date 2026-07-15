@@ -79,6 +79,7 @@ TYPE_MAP = {
     "CTAScene": "preview_teaser",
     "PreviewTeaserScene": "preview_teaser",
     "GoogleMapsRevealScene": "google_maps_reveal",
+    "TrafficCinematicScene": "traffic_cinematic",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
@@ -251,6 +252,12 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
             }
         )
     manifest = {"fps": fps, "width": 1080, "height": 1920, "shots": shots}
+    if script.get("soundtrack"):
+        soundtrack = script["soundtrack"]
+        manifest["soundtrack"] = {
+            "path": soundtrack["path"],
+            "volume": float(soundtrack.get("volume", 1.0)),
+        }
     return normalize_manifest_shots(manifest)
 
 
@@ -265,6 +272,11 @@ def detect_dead_air(
     in main.py) and any scene the caption-reading floor stretched back out
     after tightening shrank it. Scenes with no audio at all are skipped — this
     is about silence after speech, not scenes that are silent by design."""
+    # A continuous bed means a post-narration hold is sound design, not dead
+    # air. Keep the narration-gap audit strict for voice-only videos.
+    if manifest.get("soundtrack"):
+        return []
+
     fps = manifest.get("fps", FPS)
     findings = []
     for script_shot, manifest_shot in zip(script_shots(script), manifest_shots(manifest)):
@@ -307,6 +319,9 @@ def detect_transition_silence(script: dict, threshold_frames: int = MAX_DEAD_AIR
     a short trailing gap that stacks with a slow-starting next line. Scenes
     without narration (visual-only, silent by design) are skipped on either
     side, same carve-out as detect_dead_air."""
+    if script.get("soundtrack"):
+        return []
+
     scenes = script_shots(script)
     findings = []
     for cur, nxt in zip(scenes, scenes[1:]):

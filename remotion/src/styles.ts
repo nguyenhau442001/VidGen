@@ -97,6 +97,11 @@ export const SAFE_ZONE = {
 // TikTok-UI margin (which only guarantees room for a one-line caption).
 export const CAPTION_CLEAR_Y = 1216;
 
+// Bottom offset for short scene-owned labels/headlines that intentionally sit
+// just above the global Caption pill. The default two-line caption is about
+// 112px tall; this leaves another ~68px between the two text blocks.
+export const ABOVE_CAPTION_BOTTOM = SAFE_ZONE.bottom + 180;
+
 export const type = {
   headline: { fontSize: 56, fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.025em" } as const,
   body: { fontSize: 32, fontWeight: 400, lineHeight: 1.5 } as const,

@@ -129,20 +129,22 @@ export const DemandHeatmapScene: React.FC<DemandHeatmapSceneProps> = ({
       )
     : 1;
 
-  // Label still gets screen time on scenes shorter than the designed ~298.
-  const labelStart = Math.max(
-    BREATHE_START + 10,
-    Math.min(LABEL_START, durationInFrames - EXIT_FRAMES - LABEL_FADE - 20)
-  );
+  // Reserve a real hold before exit. On a 150-frame scene, the old lower
+  // bound forced the label to begin at frame 110 while exit started at 112,
+  // so the key cause label never became legible.
+  const labelFadeFrames = Math.min(LABEL_FADE, Math.max(12, Math.round(durationInFrames * 0.12)));
+  const labelHoldFrames = Math.max(20, Math.round(durationInFrames * 0.16));
+  const latestLabelStart = durationInFrames - EXIT_FRAMES - labelFadeFrames - labelHoldFrames;
+  const labelStart = Math.max(BLOBS_START + 30, Math.min(LABEL_START, latestLabelStart));
 
   const primary = hotspots[0];
   const labelOpacity = primary?.label
-    ? interpolate(frame, [labelStart, labelStart + LABEL_FADE], [0, 1], {
+    ? interpolate(frame, [labelStart, labelStart + labelFadeFrames], [0, 1], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
       })
     : 0;
-  const labelRise = interpolate(frame, [labelStart, labelStart + LABEL_FADE], [10, 0], {
+  const labelRise = interpolate(frame, [labelStart, labelStart + labelFadeFrames], [10, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

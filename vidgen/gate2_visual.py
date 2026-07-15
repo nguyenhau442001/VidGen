@@ -34,10 +34,9 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# Thresholds  (tuned for VidGen's channel-wide light-theme style adopted
-# 2026-07-14 — bg≈#f8f9fa via styles.ts's `colors` default; dark UI chrome
-# like terminal/phone panels stays dark by design and is small enough not to
-# dominate a sampled frame)
+# Thresholds support both the channel's default light theme and intentional
+# dark cinematic scenes. Theme polarity is not a quality signal by itself;
+# usable tonal separation is.
 #
 # CONTRAST_MIN/SHARPNESS_MIN were originally set to 40/80, which rejected
 # every one of 16 real sampled frames across both grab_dispatch_p1 (shipped)
@@ -68,7 +67,9 @@ except ImportError:
 
 CONTRAST_MIN = 5.0         # grayscale std deviation — below = flat/washed out
 SHARPNESS_MIN = 5.0        # Laplacian variance — below = blurry text
-LIGHT_BG_MIN = 180.0       # mean of brightest 10% pixels — below = bg not actually light
+LIGHT_BG_MIN = 180.0       # brightest-decile floor for a light composition
+DARK_BG_MAX = 75.0         # darkest-decile ceiling for a dark composition
+TONAL_RANGE_MIN = 35.0     # dark compositions still need visible highlights
 
 _COLORS_PATH = os.path.join(os.path.dirname(__file__), "colors.json")
 with open(_COLORS_PATH, encoding="utf-8") as _f:
@@ -82,7 +83,7 @@ ACCENT_COLORS = [
     for name, hexcolor in _COLOR_REGISTRY.items()
     if name not in _NON_ACCENT_NAMES
 ]
-ACCENT_GREEN_MIN = 0.003   # fraction of pixels near an accent color, in >=1 sampled frame
+ACCENT_GREEN_MIN = 0.0025  # slender cinematic lines can be visible below 0.3% coverage
 KEYFRAME_SECONDS = [1, 3, 6, 10, 20, 35, 50, 65]  # sample across full 70s
 
 
@@ -184,16 +185,21 @@ def _check_frame(t: int, path: str) -> dict:
     contrast = float(gray.std())
     lap_var = float(cv2.Laplacian(gray, cv2.CV_64F).var())
 
-    # ── Background lightness — kept as an immediate per-frame check; a
-    # stray dark-theme background is a styling bug, not something transitions
-    # cause ──
+    # Accept either a genuinely light frame or a genuinely dark cinematic
+    # frame with enough highlight separation. This rejects muddy mid-gray or
+    # nearly blank frames without forcing every video into one theme.
     flat = gray.flatten()
     n10 = max(1, len(flat) // 10)
-    light_mean = float(np.sort(flat)[-n10:].mean())
-    if light_mean < LIGHT_BG_MIN:
+    ordered = np.sort(flat)
+    light_mean = float(ordered[-n10:].mean())
+    dark_mean = float(ordered[:n10].mean())
+    is_light = light_mean >= LIGHT_BG_MIN
+    is_dark = dark_mean <= DARK_BG_MAX and light_mean - dark_mean >= TONAL_RANGE_MIN
+    if not (is_light or is_dark):
         issues.append(
-            f"frame@{t}s: BACKGROUND TOO DARK — light_mean={light_mean:.1f} "
-            f"(min {LIGHT_BG_MIN}). Dark text will not pop."
+            f"frame@{t}s: MUDDY BACKGROUND — dark_mean={dark_mean:.1f}, "
+            f"light_mean={light_mean:.1f}. Expected a light frame or a dark "
+            f"frame with at least {TONAL_RANGE_MIN:.0f} levels of separation."
         )
 
     return {
@@ -285,7 +291,7 @@ def gate2_assert(mp4_path: str) -> dict:
             "║  Fix suggestions:",
             "║    • Low contrast  → check scene background color (colors.bg, ~#f8f9fa)",
             "║    • Blurry text   → increase font size or reduce headline length",
-            "║    • Dark bg       → scene not migrated off hardcoded dark-theme literals",
+            "║    • Muddy bg      → increase separation between background and highlights",
             "║    • No accent     → verify accentColor in JSON is a hex from vidgen/colors.json",
             "╚════════════════════════════════════════════════",
         ]
@@ -298,7 +304,7 @@ def gate2_assert(mp4_path: str) -> dict:
         "report": (
             f"╔══ GATE 2 PASS ══════════════════════════════════\n"
             f"║  Checked {checked} frames  ✅\n"
-            f"║  Contrast ✅  Sharpness ✅  Dark BG ✅  Accent ✅\n"
+            f"║  Contrast ✅  Sharpness ✅  Background ✅  Accent ✅\n"
             f"╚════════════════════════════════════════════════"
         ),
     }

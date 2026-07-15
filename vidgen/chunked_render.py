@@ -81,14 +81,14 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
     offsets convert to whole samples (fps must divide 48000), so placement
     is sample-exact — Remotion's own audio-only pass quantized clip starts
     to whole milliseconds (±16-sample jitter); this is the accurate one.
-    Assumes bare <Audio> tags: any volume/trim field in the manifest means
-    the component semantics changed and this builder must be extended."""
+    Scene clips use bare <Audio> tags. The optional global soundtrack volume
+    is replicated explicitly in the filter graph."""
     fps = manifest["fps"]
     if AUDIO_SAMPLE_RATE % fps:
         raise ValueError(f"fps {fps} does not divide {AUDIO_SAMPLE_RATE}; offsets would not be sample-exact")
     spf = AUDIO_SAMPLE_RATE // fps
 
-    clips = []  # (abs_path, delay_samples, max_samples)
+    clips = []  # (abs_path, delay_samples, max_samples, gain)
     start_f = 0
     for shot in manifest_shots(manifest):
         dur_f = shot["durationInFrames"]
@@ -102,9 +102,20 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
             entries.append((seg["path"], seg["offsetFrames"]))
         for rel, off_f in entries:
             path = os.path.abspath(os.path.join(remotion_dir, "public", rel))
-            clips.append((path, (start_f + off_f) * spf, (dur_f - off_f) * spf))
+            clips.append((path, (start_f + off_f) * spf, (dur_f - off_f) * spf, 1.0))
         start_f += dur_f
     total = start_f * spf
+
+    soundtrack = manifest.get("soundtrack")
+    if soundtrack:
+        unknown = set(soundtrack) - {"path", "volume"}
+        if unknown:
+            raise ValueError(f"soundtrack has unsupported fields: {unknown}")
+        gain = float(soundtrack.get("volume", 1.0))
+        if not 0 <= gain <= 1:
+            raise ValueError("soundtrack volume must be between 0 and 1")
+        path = os.path.abspath(os.path.join(remotion_dir, "public", soundtrack["path"]))
+        clips.insert(0, (path, 0, total, gain))
 
     # Per clip: truncate at scene end, upmix mono→stereo (ffmpeg's default
     # -3dB pan law — bit-identical to what Remotion's pass produced), delay
@@ -112,10 +123,11 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
     # anchor is amix's *first* input so duration=first pins the exact
     # composition length; normalize=0 sums overlapping clips like Remotion.
     parts = []
-    for i, (_, delay, max_s) in enumerate(clips):
+    for i, (_, delay, max_s, gain) in enumerate(clips):
         parts.append(
             f"[{i}:a]atrim=end_sample={max_s},"
             f"aformat=sample_rates={AUDIO_SAMPLE_RATE}:channel_layouts=stereo,"
+            f"volume={gain},"
             f"adelay={delay}S:all=1[c{i}]"
         )
     parts.append(f"anullsrc=r={AUDIO_SAMPLE_RATE}:cl=stereo,atrim=end_sample={total}[z]")
@@ -126,7 +138,7 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
     )
 
     cmd = _ffmpeg() + ["-y", "-v", "error"]
-    for path, _, _ in clips:
+    for path, _, _, _ in clips:
         cmd += ["-i", path]
     cmd += ["-filter_complex", ";".join(parts), "-map", "[out]", "-c:a", "pcm_s16le", out_path]
     subprocess.run(cmd, check=True)

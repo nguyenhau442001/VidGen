@@ -1,0 +1,291 @@
+{
+  "title": "Google Maps Route - Phần 3/3: Thành phố dự báo",
+  "language": "vi",
+  "fps": 30,
+  "estimated_duration_seconds": 88.0,
+  "soundtrack": {
+    "path": "audio/maps_p3_cinematic_bed.wav",
+    "volume": 0.22
+  },
+  "shots": [
+    {
+      "id": "shot_01_future_traffic_hook",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 150,
+      "props": {
+        "phase": "flythrough",
+        "eyebrow": "PHẦN 3/3 · DỰ BÁO",
+        "headline": "Đường vẫn trống.\n6 phút nữa: kẹt.",
+        "subtext": "Điều gì khiến ETA đổi trước cả màu đường?",
+        "metrics": [
+          { "value": "24 phút", "label": "ETA hiện tại" },
+          { "value": "+7 phút", "label": "dự báo", "highlight": true },
+          { "value": "0", "label": "xe đứng yên" }
+        ],
+        "accentColor": "#61dafb",
+        "secondaryColor": "#4f8cff"
+      },
+      "narration": "Đường trống. Sáu phút nữa, nó có thể kẹt. Màu chưa đổi.",
+      "narration_timing_frames": [10, 142],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_02_same_route_eta_shift",
+      "type": "GoogleMapsRevealScene",
+      "duration_frames": 150,
+      "props": {
+        "rejectedRoute": { "distance": "6.4 km", "duration": "24 phút" },
+        "selectedRoute": { "distance": "6.4 km", "duration": "29 phút" },
+        "headlineText": "Cùng một tuyến. ETA đã đổi.",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Một xe chậm chưa đủ. Nhiều tín hiệu cùng đổi, ETA mới dịch chuyển.",
+      "narration_timing_frames": [10, 140],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_03_single_vehicle_tracking",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 140,
+      "props": {
+        "phase": "tracking",
+        "eyebrow": "TÍN HIỆU DI CHUYỂN",
+        "headline": "Mỗi chuyển động\nthành một tín hiệu",
+        "subtext": "Vị trí · tốc độ · hướng · thời điểm",
+        "accentColor": "#61dafb"
+      },
+      "narration": "Tín hiệu di chuyển ẩn danh gồm vị trí, tốc độ, hướng và thời điểm.",
+      "narration_timing_frames": [10, 132],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_04_multi_vehicle_trails",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 145,
+      "props": {
+        "phase": "swarm",
+        "eyebrow": "DỮ LIỆU TỔNG HỢP",
+        "headline": "Hàng nghìn tín hiệu\nlộ ra dòng chảy",
+        "vehicleCount": 28,
+        "accentColor": "#61dafb"
+      },
+      "narration": "Tổng hợp hàng nghìn tín hiệu, hệ thống thấy dòng xe đang hình thành.",
+      "narration_timing_frames": [10, 135],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_05_traffic_network_formation",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 150,
+      "props": {
+        "phase": "network",
+        "eyebrow": "KẾT NỐI CÁC DẤU VẾT",
+        "headline": "Xe riêng lẻ thành\nmạng giao thông",
+        "vehicleCount": 30,
+        "accentColor": "#61dafb"
+      },
+      "narration": "Nối chúng lại, từng chiếc xe biến thành một mạng giao thông đang chuyển động.",
+      "narration_timing_frames": [12, 140],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_06_city_brain_reveal",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 160,
+      "props": {
+        "phase": "brain",
+        "eyebrow": "ZOOM OUT",
+        "headline": "Thành phố như\nmột hệ thần kinh",
+        "subtext": "Đường là nhánh · giao lộ là điểm nối",
+        "vehicleCount": 32,
+        "accentColor": "#61dafb"
+      },
+      "narration": "Mỗi con đường như một nhánh, mỗi giao lộ như một điểm nối thần kinh.",
+      "narration_timing_frames": [18, 150],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_07_forecast_system",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 165,
+      "props": {
+        "phase": "converge",
+        "eyebrow": "HỆ THỐNG DỰ BÁO",
+        "headline": "Dữ liệu hội tụ\nvào hệ thống dự báo",
+        "subtext": "Tín hiệu từ khắp thành phố",
+        "accentColor": "#61dafb"
+      },
+      "narration": "Dữ liệu từ khắp thành phố liên tục hội tụ vào hệ thống dự báo.",
+      "narration_timing_frames": [18, 155],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_08_prediction_context",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 150,
+      "props": {
+        "phase": "brain",
+        "eyebrow": "BÊN TRONG DỰ BÁO",
+        "headline": "Kết hợp nhiều\nlớp dữ liệu",
+        "subtext": "Giao thông trực tiếp · lịch sử · mạng đường",
+        "vehicleCount": 28,
+        "accentColor": "#61dafb"
+      },
+      "narration": "Hệ thống kết hợp dữ liệu trực tiếp, lịch sử và mạng đường để dự báo.",
+      "narration_timing_frames": [12, 140],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_09_route_eta_predictions",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 170,
+      "props": {
+        "phase": "route_estimates",
+        "eyebrow": "DỰ BÁO THEO MẠNG ĐƯỜNG",
+        "headline": "Tính ETA cho\ntừng tuyến",
+        "scenarios": [
+          { "label": "Tuyến ngắn", "metric": "31 phút" },
+          { "label": "Tuyến ít xe", "metric": "26 phút" },
+          { "label": "Tuyến cao tốc", "metric": "28 phút" },
+          { "label": "Tuyến nội đô", "metric": "34 phút" }
+        ],
+        "accentColor": "#61dafb"
+      },
+      "narration": "Mô hình dự báo thời gian trên từng đoạn đường, rồi cộng lại cho mỗi tuyến.",
+      "narration_timing_frames": [15, 164],
+      "transition_out_delay_frames": 6
+    },
+    {
+      "id": "shot_10_route_ranking",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 165,
+      "props": {
+        "phase": "route_ranking",
+        "eyebrow": "XẾP HẠNG THEO ETA",
+        "headline": "Tuyến đến sớm nhất\nđược ưu tiên",
+        "scenarios": [
+          { "label": "Tuyến ngắn", "metric": "31 phút" },
+          { "label": "Tuyến ít xe", "metric": "26 phút", "highlight": true },
+          { "label": "Tuyến cao tốc", "metric": "28 phút" },
+          { "label": "Tuyến nội đô", "metric": "34 phút" }
+        ],
+        "accentColor": "#61dafb"
+      },
+      "narration": "Các tuyến được xếp hạng theo ETA dự báo. Tuyến đến sớm nhất được ưu tiên.",
+      "narration_timing_frames": [23, 155],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_11_result_broadcast",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 150,
+      "props": {
+        "phase": "broadcast",
+        "eyebrow": "DÒNG DỮ LIỆU ĐẢO CHIỀU",
+        "headline": "Dự báo quay lại\nđường phố",
+        "subtext": "ETA · route · cảnh báo · điều hướng",
+        "accentColor": "#61dafb"
+      },
+      "narration": "Kết quả quay lại: ETA, cảnh báo, và tuyến đường vừa tính lại.",
+      "narration_timing_frames": [12, 140],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_12_early_rerouting",
+      "type": "RouteTimelineScene",
+      "duration_frames": 155,
+      "props": {
+        "stops": [
+          { "label": "Hiện tại", "sublabel": "đường còn trống" },
+          { "label": "+3 phút", "sublabel": "dòng xe dồn" },
+          { "label": "+6 phút", "sublabel": "nguy cơ nghẽn", "highlight": true },
+          { "label": "Bây giờ", "sublabel": "đổi hướng sớm" }
+        ],
+        "accentColor": "#1A73E8",
+        "onScreenText": "Đổi hướng trước khi kẹt xe xuất hiện"
+      },
+      "narration": "Một số xe đổi hướng trước khi nút nghẽn hiện thành mảng đỏ trên bản đồ.",
+      "narration_timing_frames": [14, 143],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_13_route_and_eta_update",
+      "type": "GoogleMapsRevealScene",
+      "duration_frames": 155,
+      "props": {
+        "rejectedRoute": { "distance": "6.4 km", "duration": "31 phút" },
+        "selectedRoute": { "distance": "7.1 km", "duration": "26 phút" },
+        "headlineText": "Dài hơn 700m. Nhanh hơn 5 phút.",
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Tuyến cũ ngắn nhưng dự báo chậm. Tuyến mới dài hơn, đổi lại tới sớm.",
+      "narration_timing_frames": [10, 145],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_14_live_conditions_change",
+      "type": "DemandHeatmapScene",
+      "duration_frames": 150,
+      "props": {
+        "hotspots": [
+          { "x": 380, "y": 430, "radius": 110, "intensity": 0.95, "label": "Mưa + va chạm" },
+          { "x": 300, "y": 560, "radius": 85, "intensity": 0.8 },
+          { "x": 490, "y": 510, "radius": 90, "intensity": 0.7 },
+          { "x": 250, "y": 370, "radius": 70, "intensity": 0.5 },
+          { "x": 470, "y": 700, "radius": 78, "intensity": 0.45 }
+        ],
+        "accentColor": "#1A73E8"
+      },
+      "narration": "Mưa, va chạm và xe đổi hướng làm tốc độ trên từng đoạn đường thay đổi.",
+      "narration_timing_frames": [10, 138],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_15_continuous_recalculation",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 160,
+      "props": {
+        "phase": "recalculate",
+        "eyebrow": "FEEDBACK LOOP",
+        "headline": "Thành phố liên tục\ntính lại chính mình",
+        "subtext": "Dữ liệu → dự báo → chỉ dẫn → dữ liệu mới",
+        "vehicleCount": 30,
+        "accentColor": "#61dafb",
+        "secondaryColor": "#4f8cff"
+      },
+      "narration": "Dữ liệu mới đổi dự báo. Chỉ dẫn mới lại tạo thêm dữ liệu. Vòng lặp tiếp tục.",
+      "narration_timing_frames": [8, 152],
+      "transition_out_delay_frames": 8
+    },
+    {
+      "id": "shot_16_series_payoff",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 170,
+      "props": {
+        "phase": "finale",
+        "eyebrow": "GRAND FINALE",
+        "headline": "Không chờ đường\nchuyển đỏ",
+        "subtext": "Cố dự báo màu đỏ trước khi nó xuất hiện",
+        "vehicleCount": 36,
+        "accentColor": "#61dafb"
+      },
+      "narration": "Google Maps không chờ đường chuyển đỏ. Nó cố dự báo màu đỏ trước khi xuất hiện.",
+      "narration_timing_frames": [8, 160],
+      "transition_out_delay_frames": 10
+    },
+    {
+      "id": "shot_17_final_series_quote",
+      "type": "TrafficCinematicScene",
+      "duration_frames": 155,
+      "props": {
+        "phase": "endcard",
+        "eyebrow": "KẾT THÚC SERIES",
+        "headline": "Bạn thấy hiện tại.\nMaps tính vài phút tới.",
+        "accentColor": "#61dafb"
+      },
+      "narration": "Bạn thấy hiện tại. Google Maps tính vài phút tiếp theo.",
+      "narration_timing_frames": [8, 125],
+      "transition_out_delay_frames": 8
+    }
+  ]
+}

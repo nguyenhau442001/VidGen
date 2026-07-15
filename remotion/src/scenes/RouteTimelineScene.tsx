@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { RouteTimelineSceneProps, RouteTimelineStop } from "../types";
-import { colors, INTER, SAFE_ZONE } from "../styles";
+import { ABOVE_CAPTION_BOTTOM, colors, INTER, SAFE_ZONE } from "../styles";
 
 export type { RouteTimelineStop, RouteTimelineSceneProps };
 
@@ -20,6 +20,7 @@ const LINE_START_OFFSET = 15;
 const LINE_DRAW_DURATION = 35;
 const SETTLE_GAP = 10;
 const SETTLE_DURATION = 20;
+const FINAL_HOLD_FRAMES = 18;
 
 const ACCENT_DEFAULT = "#00ff41";
 const LINE_COLOR_DEFAULT = "rgba(0,0,0,0.15)";
@@ -47,6 +48,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
   accentColor = ACCENT_DEFAULT,
   lineColor = LINE_COLOR_DEFAULT,
   onScreenText,
+  durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -60,14 +62,23 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
       ? [(contentLeft + contentRight) / 2]
       : stops.map((_, i) => contentLeft + ((contentRight - contentLeft) / (n - 1)) * i);
 
-  const nodeStart = (i: number) => i * NODE_STAGGER;
-  const nodeEnd = (i: number) => nodeStart(i) + NODE_ENTER_DURATION;
-  const lineStart = (i: number) => nodeStart(i) + LINE_START_OFFSET;
-  const lineEnd = (i: number) => lineStart(i) + LINE_DRAW_DURATION;
+  // The authored 4-stop animation naturally ends at frame 180, but narration
+  // can produce shorter scenes. Compress every phase together and preserve a
+  // final hold so the last routing decision is readable before the cut.
+  const naturalLastNodeEnd = (n > 0 ? (n - 1) * NODE_STAGGER : 0) + NODE_ENTER_DURATION;
+  const naturalSettleEnd = naturalLastNodeEnd + SETTLE_GAP + SETTLE_DURATION;
+  const timingScale = Math.min(1, Math.max(0.35, (durationInFrames - FINAL_HOLD_FRAMES) / naturalSettleEnd));
+  const scaled = (frames: number) => Math.round(frames * timingScale);
+  const enterDuration = Math.max(1, scaled(NODE_ENTER_DURATION));
+
+  const nodeStart = (i: number) => scaled(i * NODE_STAGGER);
+  const nodeEnd = (i: number) => nodeStart(i) + enterDuration;
+  const lineStart = (i: number) => nodeStart(i) + scaled(LINE_START_OFFSET);
+  const lineEnd = (i: number) => lineStart(i) + Math.max(1, scaled(LINE_DRAW_DURATION));
 
   const lastNodeEnd = n > 0 ? nodeEnd(n - 1) : NODE_ENTER_DURATION;
-  const settleStart = lastNodeEnd + SETTLE_GAP;
-  const settleEnd = settleStart + SETTLE_DURATION;
+  const settleStart = lastNodeEnd + scaled(SETTLE_GAP);
+  const settleEnd = settleStart + Math.max(1, scaled(SETTLE_DURATION));
   const settleScale = interpolate(
     frame,
     [settleStart, (settleStart + settleEnd) / 2, settleEnd],
@@ -125,7 +136,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
             with a shared 1→1.05→1 pulse once the last one has entered */}
         {stops.map((stop, i) => {
           const start = nodeStart(i);
-          const opacity = interpolate(frame, [start, start + NODE_ENTER_DURATION], [0, 1], {
+          const opacity = interpolate(frame, [start, start + enterDuration], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           });
@@ -135,7 +146,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
             frame: Math.max(0, frame - start),
             fps,
             config: { stiffness: 200, damping: 13, mass: 0.6 },
-            durationInFrames: NODE_ENTER_DURATION,
+            durationInFrames: enterDuration,
           });
 
           const x = xs[i];
@@ -194,7 +205,7 @@ export const RouteTimelineScene: React.FC<RouteTimelineSceneProps> = ({
           style={{
             justifyContent: "flex-end",
             alignItems: "center",
-            paddingBottom: SAFE_ZONE.bottom,
+            paddingBottom: ABOVE_CAPTION_BOTTOM,
             paddingLeft: SAFE_ZONE.left,
             paddingRight: SAFE_ZONE.right,
             pointerEvents: "none",

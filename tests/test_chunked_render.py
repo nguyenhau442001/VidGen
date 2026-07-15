@@ -186,3 +186,19 @@ def test_build_audio_track_sums_overlapping_clips_without_normalizing(tmp_path):
     build_audio_track(manifest, str(out), str(tmp_path))
 
     assert abs(_read_wav(out)[0][0][0] - 14142) <= 2  # 2 * 10000 * 2**-0.5, unnormalized
+
+
+def test_build_audio_track_mixes_global_soundtrack_at_configured_volume(tmp_path):
+    manifest = _audio_manifest(
+        tmp_path,
+        [{"id": 1, "audioPath": "", "extraAudio": [], "durationInFrames": 30, "visual": {}}],
+    )
+    manifest["soundtrack"] = {"path": "audio/bed.wav", "volume": 0.25}
+    _write_wav(tmp_path / "public" / "audio" / "bed.wav", [10000] * 48000)
+    out = tmp_path / "track.wav"
+
+    build_audio_track(manifest, str(out), str(tmp_path))
+
+    left = _read_wav(out)[0][0]
+    assert len(left) == 30 * 1600
+    assert all(abs(sample - 1768) <= 2 for sample in left)  # 10000 * -3dB pan law * 0.25

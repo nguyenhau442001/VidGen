@@ -57,6 +57,52 @@ def test_manifest_structure_uses_shots_only():
     assert "scenes" not in manifest
 
 
+def test_manifest_preserves_optional_soundtrack():
+    script = {
+        "soundtrack": {"path": "audio/bed.wav", "volume": 0.2},
+        "shots": [
+            {
+                "id": 1,
+                "type": "explanation",
+                "narration": "...",
+                "visual": {"headline": "H"},
+            }
+        ],
+    }
+
+    manifest = build_render_manifest(script, {1: 1.0})
+
+    assert manifest["soundtrack"] == {"path": "audio/bed.wav", "volume": 0.2}
+
+
+def test_soundtrack_turns_post_narration_hold_into_sound_design():
+    script = {
+        "soundtrack": {"path": "audio/bed.wav", "volume": 0.2},
+        "shots": [
+            {
+                "id": 1,
+                "type": "explanation",
+                "duration_frames": 120,
+                "narration": "một câu ngắn",
+                "narration_timing_frames": [0, 30],
+                "visual": {"headline": "H"},
+            },
+            {
+                "id": 2,
+                "type": "explanation",
+                "duration_frames": 120,
+                "narration": "câu tiếp theo",
+                "narration_timing_frames": [30, 60],
+                "visual": {"headline": "H"},
+            },
+        ],
+    }
+    manifest = build_render_manifest(script, {1: 1.0, 2: 1.0})
+
+    assert detect_dead_air(script, manifest, {1: 1.0, 2: 1.0}) == []
+    assert detect_transition_silence(script) == []
+
+
 def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
     axis = {
         "destinationLabel": "Điểm đón",

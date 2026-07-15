@@ -135,7 +135,8 @@ export type ManifestScene =
   | { type: "exception_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ExceptionCardVisual }
   | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: VerdictListVisual }
   | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: PreviewTeaserVisual }
-  | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GoogleMapsRevealVisual };
+  | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GoogleMapsRevealVisual }
+  | { type: "traffic_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: TrafficCinematicVisual };
 
 // Shot is the canonical public term; ManifestScene remains as a compatibility
 // alias for the existing component registry and any older imports.
@@ -145,6 +146,7 @@ export type RenderManifest = {
   fps: number;
   width: number;
   height: number;
+  soundtrack?: { path: string; volume: number };
   shots: ManifestShot[];
 };
 
@@ -700,6 +702,43 @@ export type GoogleMapsRevealVisual = {
 };
 
 export type GoogleMapsRevealSceneProps = GoogleMapsRevealVisual & { durationInFrames: number };
+
+// Night-city cinematic used by the Google Maps Part 3 finale. One visual
+// language carries the camera from street-level trails into the city-brain
+// metaphor, then reverses the flow back toward updated routes.
+export type TrafficCinematicPhase =
+  | "flythrough"
+  | "tracking"
+  | "swarm"
+  | "network"
+  | "brain"
+  | "converge"
+  | "broadcast"
+  | "recalculate"
+  | "finale"
+  | "route_estimates"
+  | "route_ranking"
+  | "endcard";
+
+export type TrafficScenario = {
+  label: string;
+  metric: string;
+  highlight?: boolean;
+};
+
+export type TrafficCinematicVisual = {
+  phase: TrafficCinematicPhase;
+  eyebrow?: string;
+  headline: string;
+  subtext?: string;
+  metrics?: RadarHookStat[];
+  scenarios?: TrafficScenario[];
+  accentColor?: string;
+  secondaryColor?: string;
+  vehicleCount?: number;
+};
+
+export type TrafficCinematicSceneProps = TrafficCinematicVisual & { durationInFrames: number };
 
 export type PreviewTeaserVisual = {
   headline: string;

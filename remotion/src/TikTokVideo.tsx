@@ -53,6 +53,7 @@ import { ExceptionCardScene } from "./scenes/ExceptionCardScene";
 import { VerdictListScene } from "./scenes/VerdictListScene";
 import { PreviewTeaserScene } from "./scenes/PreviewTeaserScene";
 import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
+import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
@@ -62,6 +63,9 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
   const shots = manifest.shots;
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+      {manifest.soundtrack && (
+        <Audio src={staticFile(manifest.soundtrack.path)} volume={manifest.soundtrack.volume} />
+      )}
       <Series>
         {shots.map((shot) => (
           <Series.Sequence
@@ -254,5 +258,7 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <PreviewTeaserScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "google_maps_reveal":
       return <GoogleMapsRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "traffic_cinematic":
+      return <TrafficCinematicScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
   }
 };

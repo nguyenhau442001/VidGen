@@ -39,6 +39,7 @@ import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
 import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
+import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
@@ -883,6 +884,22 @@ export const Root: React.FC = () => {
           headlineText: "Con đường 1.2km vừa bị Google Maps bỏ qua",
           accentColor: "#1A73E8",
           durationInFrames: 165,
+        }}
+      />
+      <Composition
+        id="TrafficCinematic"
+        component={TrafficCinematicScene}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          phase: "brain",
+          eyebrow: "PHẦN 3/3 · DỰ BÁO",
+          headline: "Thành phố trở thành\nmột hệ thần kinh",
+          subtext: "Ẩn dụ thị giác cho dòng dữ liệu giao thông",
+          accentColor: "#61dafb",
+          durationInFrames: 180,
         }}
       />
     </>

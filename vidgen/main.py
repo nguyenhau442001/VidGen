@@ -14,7 +14,7 @@ from time import time as now
 
 from vidgen.chunked_render import render_video_chunked
 from vidgen.shot_api import normalize_script_shots, script_shots
-from vidgen.tts_speed_adjustor import synthesize as tts_synthesize
+from vidgen.tts_speed_adjustor import fit_wav_to_duration, synthesize as tts_synthesize
 from vidgen.manifest import (
     MAP_REF_H,
     MAP_REF_W,
@@ -531,6 +531,22 @@ def main():
 
     end_time = now()
     print(f"Total generation time: {end_time - start_time:.2f}s")
+
+    # VieNeu output duration varies between otherwise identical takes. Fit
+    # each real WAV to its authored narration window before measuring or
+    # muxing so speech can never be clipped at a shot boundary.
+    fps = script.get("fps", 30)
+    for shot in script_shots(script):
+        sid = shot["id"]
+        if not shot.get("narration") or "duration_frames" not in shot:
+            continue
+        offset = (shot.get("narration_timing_frames") or [0])[0]
+        tail = shot.get("transition_out_delay_frames", 0)
+        available_frames = shot["duration_frames"] - offset - tail
+        fit_wav_to_duration(
+            f"{WAV_DIR}/{wav_filename(sid)}",
+            max_duration_seconds=available_frames / fps,
+        )
 
     # --- Audio durations ---
     audio_durations: dict = {}
