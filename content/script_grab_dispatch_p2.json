@@ -22,7 +22,7 @@
       "FIX-C: Reordered shot_04_MERGED to scene 4 (twist now at ~42% mark); shot_02b reframed as mechanism explanation post-twist; shot_04_MERGED narration reframed (removed dangling 'Nhưng')"
     ]
   },
-  "scenes": [
+  "shots": [
     {
       "id": "shot_01a",
       "type": "RadarHookScene",

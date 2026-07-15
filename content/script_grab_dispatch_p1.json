@@ -1,7 +1,7 @@
 {
   "title": "grab_dispatch_p1",
   "language": "vi",
-  "scenes": [
+  "shots": [
     {
       "id": "shot_01a",
       "type": "CharacterIconScene",

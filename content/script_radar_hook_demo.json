@@ -5,7 +5,7 @@
     "series": "grab-dispatch",
     "part": 2
   },
-  "scenes": [
+  "shots": [
     {
       "id": "shot_01a",
       "type": "RadarHookScene",

@@ -5,7 +5,7 @@
     "series": "grab-dispatch",
     "part": 3
   },
-  "scenes": [
+  "shots": [
     {
       "id": "shot_01",
       "type": "MapPingScene",
