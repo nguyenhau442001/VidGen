@@ -1,16 +1,12 @@
-from vidgen.beatmap import score_beatmap, format_report, TOP_N_HOT
+from vidgen.beatmap import TOP_N_HOT, format_report, score_beatmap
 from vidgen.manifest import build_render_manifest
 
 
-def _script(scenes):
-    return {"title": "Test Video", "fps": 30, "scenes": scenes}
-
-
-def _shot_script(shots):
+def _script(shots):
     return {"title": "Test Video", "fps": 30, "shots": shots}
 
 
-def test_empty_scenes_returns_empty_beatmap():
+def test_empty_shots_returns_empty_beatmap():
     script = _script([])
     manifest = build_render_manifest(script, {})
     beatmap = score_beatmap(script, manifest)
@@ -68,16 +64,16 @@ def test_pattern_interrupt_flagged_when_type_differs_from_neighbors():
 
 
 def test_hot_flags_exactly_top_n_scenes():
-    scenes = [
+    shots = [
         {"id": f"s{i}", "type": "explanation", "narration": f"Câu chuyện số {i}.",
          "duration_frames": 150, "visual": {"headline": f"H{i}"}}
         for i in range(6)
     ]
     # Make one scene an unambiguous standout: numeric payoff + fast + dense.
-    scenes[3] = {"id": "s3", "type": "stat_comparator",
-                 "narration": "Con số này thay đổi mọi thứ hoàn toàn bất ngờ luôn đó bạn ơi thật sự.",
-                 "duration_frames": 90, "visual": {}}
-    script = _script(scenes)
+    shots[3] = {"id": "s3", "type": "stat_comparator",
+                "narration": "Con số này thay đổi mọi thứ hoàn toàn bất ngờ luôn đó bạn ơi thật sự.",
+                "duration_frames": 90, "visual": {}}
+    script = _script(shots)
     manifest = build_render_manifest(script, {})
     beatmap = score_beatmap(script, manifest)
     hot = [s for s in beatmap["scenes"] if s["hot"]]
@@ -89,7 +85,7 @@ def test_hot_flags_exactly_top_n_scenes():
 
 
 def test_score_beatmap_accepts_canonical_shots_schema():
-    script = _shot_script([
+    script = _script([
         {"id": "s1", "type": "explanation", "narration": "Mở đầu.", "duration_frames": 150, "visual": {"headline": "H"}},
         {"id": "s2", "type": "stat_comparator", "narration": "Con số.",
          "duration_frames": 150, "visual": {}},

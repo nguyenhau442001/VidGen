@@ -303,10 +303,12 @@ def flatten_script(script: dict) -> dict:
 
 
 def resolve_script(script: dict) -> dict:
+    if "scenes" in script:
+        raise ValueError("Legacy 'scenes' schema is no longer supported; rename it to 'shots'.")
     if "sequences" in script:
         return flatten_script(script)
-    if "shots" in script or "scenes" in script:
-        return normalize_script_shots(script)
+    if "shots" in script:
+        return script
     return script
 
 
@@ -481,7 +483,6 @@ def main():
     shots = script_shots(script)
     if shots and shots[0]["type"] == "HSKFlashCardThumbnailScene":
         script["shots"] = shots[1:]
-        script["scenes"] = script["shots"]
 
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:

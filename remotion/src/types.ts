@@ -146,7 +146,6 @@ export type RenderManifest = {
   width: number;
   height: number;
   shots: ManifestShot[];
-  scenes?: ManifestShot[];
 };
 
 export type ExplanationSceneProps = ExplanationVisual & { durationInFrames: number };

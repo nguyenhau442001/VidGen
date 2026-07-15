@@ -11,7 +11,7 @@ from vidgen.chunked_render import (
     write_concat_list,
 )
 
-MANIFEST = {"fps": 30, "width": 1080, "height": 1920, "scenes": []}
+MANIFEST = {"fps": 30, "width": 1080, "height": 1920, "shots": []}
 
 
 def _scene(**overrides):
@@ -107,7 +107,7 @@ def _read_wav(path):
 
 def _audio_manifest(tmp_path, scenes):
     (tmp_path / "public" / "audio").mkdir(parents=True, exist_ok=True)
-    return {"fps": 30, "width": 1080, "height": 1920, "scenes": scenes}
+    return {"fps": 30, "width": 1080, "height": 1920, "shots": scenes}
 
 
 def test_build_audio_track_places_clips_on_the_frame_grid(tmp_path):

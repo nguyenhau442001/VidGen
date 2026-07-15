@@ -18,7 +18,7 @@ def test_style_for_scene_defaults_to_generic():
 
 def test_extract_generic_props_accent_word_from_explicit_prop():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "type": "ExplanationScene",
                 "narration": "Tài xế biết trước cả bạn.",
@@ -38,7 +38,7 @@ def test_extract_generic_props_accent_word_from_explicit_prop():
 
 def test_extract_generic_props_accent_word_from_bold_markdown():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "type": "ExplanationScene",
                 "narration": "Bạn chưa mở app.",
@@ -53,7 +53,7 @@ def test_extract_generic_props_accent_word_from_bold_markdown():
 
 def test_extract_generic_props_part_label_found_in_later_scene():
     script = {
-        "scenes": [
+        "shots": [
             {"type": "ExplanationScene", "narration": "A.", "props": {"headline": "H"}},
             {"type": "PhoneMockupScene", "narration": "B", "props": {"partLabel": "Phần 3/4"}},
         ]
@@ -64,7 +64,7 @@ def test_extract_generic_props_part_label_found_in_later_scene():
 
 def test_extract_generic_props_no_part_label_omits_key():
     script = {
-        "scenes": [
+        "shots": [
             {"type": "ExplanationScene", "narration": "A.", "props": {"headline": "H"}},
         ]
     }
@@ -74,7 +74,7 @@ def test_extract_generic_props_no_part_label_omits_key():
 
 def test_extract_character_icon_props_maps_fields():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "type": "CharacterIconScene",
                 "narration": "Grab không chọn tài xế gần bạn nhất.",
@@ -120,7 +120,7 @@ def test_split_into_three_lines_short_text_preserves_all_words():
 
 def test_extract_character_icon_props_handles_explicit_null_narration():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "type": "CharacterIconScene",
                 "narration": None,
@@ -147,7 +147,7 @@ def test_split_into_three_lines_line3_bounded_like_line1():
 
 def test_extract_character_icon_props_truncates_long_subtitle():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "type": "CharacterIconScene",
                 "narration": "Grab không chọn tài xế gần bạn nhất — nó chấm điểm họ như một kỳ thi",

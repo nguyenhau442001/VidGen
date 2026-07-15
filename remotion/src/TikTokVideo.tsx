@@ -59,7 +59,7 @@ import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
 
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
-  const shots = manifest.shots ?? manifest.scenes ?? [];
+  const shots = manifest.shots;
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <Series>

@@ -63,7 +63,7 @@ Key artifacts:
 
 ### Script schema
 
-Every script shares the envelope `title` / `language` / `shots[]`. The loader still accepts legacy `scenes[]`, but `shots` is the canonical public container and `resolve_script()` normalizes everything to it:
+Every script shares the envelope `title` / `language` / `shots[]`. `shots` is the only public container, and `resolve_script()` keeps everything in that shape:
 
 - **Flat schema** — each shot has `type`, `props`, `duration_frames`, `narration`, `narration_timing_frames`, optional `on_screen_text`, `transition_out_delay_frames`, `sound_design`.
 - **Nested motion-pipeline-1.0 schema** — `assets{}` + `sequences[].shots[]` with declarative `animations[]`; `flatten_script()` converts it in-memory (no intermediate file is ever written).

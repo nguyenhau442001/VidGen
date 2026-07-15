@@ -51,7 +51,7 @@ Promise.all([waitForInter(), waitForJetBrainsMono(), waitForBeVietnamPro()]).the
 });
 
 // Derive cover props from the manifest: hook text from scene 1, terminal lines from first terminal scene
-const manifestShots = (defaultManifest as unknown as RenderManifest).shots ?? (defaultManifest as unknown as RenderManifest).scenes ?? [];
+const manifestShots = (defaultManifest as unknown as RenderManifest).shots;
 const hookScene = manifestShots[0];
   const firstTerminal = manifestShots.find(
     (s): s is Extract<ManifestScene, { type: "terminal" }> => s.type === "terminal"
@@ -215,7 +215,7 @@ export const Root: React.FC = () => {
             fps: manifest.fps,
             width: manifest.width,
             height: manifest.height,
-          durationInFrames: Math.max(1, (manifest.shots ?? manifest.scenes ?? []).reduce((s, sc) => s + sc.durationInFrames, 0)),
+          durationInFrames: Math.max(1, manifest.shots.reduce((s, sc) => s + sc.durationInFrames, 0)),
         };
       }}
       />

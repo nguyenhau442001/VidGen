@@ -1,11 +1,13 @@
 import math
+
 import pytest
-from vidgen.manifest import build_render_manifest, detect_dead_air, detect_transition_silence, FPS, FRAME_PADDING
+
+from vidgen.manifest import FPS, FRAME_PADDING, build_render_manifest, detect_dead_air, detect_transition_silence
 
 
 def test_duration_frames_calculation():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": 1,
                 "type": "explanation",
@@ -15,12 +17,12 @@ def test_duration_frames_calculation():
         ]
     }
     manifest = build_render_manifest(script, {1: 1.5})
-    assert manifest["scenes"][0]["durationInFrames"] == math.ceil(1.5 * FPS) + FRAME_PADDING
+    assert manifest["shots"][0]["durationInFrames"] == math.ceil(1.5 * FPS) + FRAME_PADDING
 
 
 def test_manifest_structure():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": 2,
                 "type": "terminal",
@@ -30,16 +32,16 @@ def test_manifest_structure():
         ]
     }
     manifest = build_render_manifest(script, {2: 2.0})
-    scene = manifest["scenes"][0]
-    assert scene["type"] == "terminal"
-    assert scene["audioPath"] == "audio/scene_2.wav"
-    assert scene["visual"] == {"lines": ["$ ls"]}
+    shot = manifest["shots"][0]
+    assert shot["type"] == "terminal"
+    assert shot["audioPath"] == "audio/scene_2.wav"
+    assert shot["visual"] == {"lines": ["$ ls"]}
     assert manifest["fps"] == FPS
     assert manifest["width"] == 1080
     assert manifest["height"] == 1920
 
 
-def test_manifest_structure_prefers_shots_alias():
+def test_manifest_structure_uses_shots_only():
     script = {
         "shots": [
             {
@@ -52,7 +54,7 @@ def test_manifest_structure_prefers_shots_alias():
     }
     manifest = build_render_manifest(script, {2: 2.0})
     assert manifest["shots"][0]["type"] == "terminal"
-    assert manifest["scenes"][0]["type"] == "terminal"
+    assert "scenes" not in manifest
 
 
 def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
@@ -64,7 +66,7 @@ def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
         ],
     }
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_02e_b",
                 "type": "SplitViewScene",
@@ -82,7 +84,7 @@ def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
     }
 
     manifest = build_render_manifest(script, {"shot_02e_b": 3.0})
-    visual = manifest["scenes"][0]["visual"]
+    visual = manifest["shots"][0]["visual"]
 
     assert visual["leftPanel"] == {"kind": "road_diagram", "axis": axis, "roadConstraint": "median"}
     assert visual["rightPanel"] == {"kind": "eta_comparison", "axis": axis}
@@ -102,7 +104,7 @@ def test_caption_reading_time_extends_short_audio_derived_duration():
         "tốt hơn cho bạn và cả những người xung quanh."
     )
     script = {
-        "scenes": [
+        "shots": [
             {"id": 1, "type": "explanation", "narration": narration, "visual": {}}
         ]
     }
@@ -111,13 +113,13 @@ def test_caption_reading_time_extends_short_audio_derived_duration():
 
     min_reading_frames = math.ceil(len(narration) / 17 * FPS)
     assert min_reading_frames > math.ceil(1.0 * FPS) + FRAME_PADDING  # rule actually binds
-    assert manifest["scenes"][0]["durationInFrames"] == min_reading_frames
+    assert manifest["shots"][0]["durationInFrames"] == min_reading_frames
 
 
 def test_caption_reading_time_extends_authored_duration_using_on_screen_text():
     on_screen_text = "Hệ thống không chọn tài xế gần nhất, mà chọn tài xế đến đón nhanh nhất."
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_04b",
                 "type": "QuoteCalloutScene",
@@ -134,31 +136,31 @@ def test_caption_reading_time_extends_authored_duration_using_on_screen_text():
     # The displayed caption is on_screen_text, not the short narration.
     min_reading_frames = math.ceil(len(on_screen_text) / 17 * FPS)
     assert min_reading_frames > 60  # rule actually binds
-    assert manifest["scenes"][0]["durationInFrames"] == min_reading_frames
+    assert manifest["shots"][0]["durationInFrames"] == min_reading_frames
 
 
 def test_short_caption_leaves_audio_derived_duration_unchanged():
     script = {
-        "scenes": [
+        "shots": [
             {"id": 1, "type": "explanation", "narration": "Ngắn gọn.", "visual": {}}
         ]
     }
 
     manifest = build_render_manifest(script, {1: 3.0})
 
-    assert manifest["scenes"][0]["durationInFrames"] == math.ceil(3.0 * FPS) + FRAME_PADDING
+    assert manifest["shots"][0]["durationInFrames"] == math.ceil(3.0 * FPS) + FRAME_PADDING
 
 
 # Real dead air: unlike validate_manifest()'s pre-TTS frame-math estimate
 # (main.py), detect_dead_air() checks actual synthesized audio length against
 # the manifest's final durationInFrames — the only check that covers
-# narration_per_criterion scenes and any scene the caption-reading floor
+# narration_per_criterion shots and any shot the caption-reading floor
 # stretched back out after tightening shrank it.
 
 
 def test_detect_dead_air_clean_scene_reports_nothing():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": 1,
                 "type": "explanation",
@@ -178,7 +180,7 @@ def test_detect_dead_air_clean_scene_reports_nothing():
 
 def test_detect_dead_air_flags_trailing_silence_after_narration():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": 1,
                 "type": "explanation",
@@ -199,7 +201,7 @@ def test_detect_dead_air_flags_trailing_silence_after_narration():
 
 def test_detect_dead_air_catches_narration_per_criterion_gap_pre_tts_check_misses():
     script = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_05",
                 "type": "ScoreCardScene",
@@ -217,16 +219,16 @@ def test_detect_dead_air_catches_narration_per_criterion_gap_pre_tts_check_misse
     assert findings == [{"scene_id": "shot_05", "dead_air_frames": 170, "dead_air_seconds": 5.67}]
 
 
-# Cross-scene silence: scenes render back-to-back in TikTokVideo's <Series>
-# with no overlap, so a short trailing gap in scene N can stack with a
-# slow-starting narration lead-in in scene N+1 into an audible pause that
+# Cross-scene silence: shots render back-to-back in TikTokVideo's <Series>
+# with no overlap, so a short trailing gap in shot N can stack with a
+# slow-starting narration lead-in in shot N+1 into an audible pause that
 # neither validate_manifest() nor detect_dead_air() would catch on their own
-# (they only look at trailing silence within a single scene).
+# (they only look at trailing silence within a single shot).
 
 
 def test_detect_transition_silence_clean_pair_reports_nothing():
     script = {
-        "scenes": [
+        "shots": [
             {"id": 1, "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 40},
             {"id": 2, "narration": "hai", "narration_timing_frames": [10, 50], "duration_frames": 60},
         ]
@@ -237,7 +239,7 @@ def test_detect_transition_silence_clean_pair_reports_nothing():
 
 def test_detect_transition_silence_flags_gap_across_boundary():
     script = {
-        "scenes": [
+        "shots": [
             {"id": "a", "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 50},
             {"id": "b", "narration": "hai", "narration_timing_frames": [20, 60], "duration_frames": 80},
         ]
@@ -250,7 +252,7 @@ def test_detect_transition_silence_flags_gap_across_boundary():
 
 def test_detect_transition_silence_skips_silent_by_design_scenes():
     script = {
-        "scenes": [
+        "shots": [
             {"id": "a", "narration": "một", "narration_timing_frames": [0, 30], "duration_frames": 200},
             {"id": "b", "duration_frames": 90},  # no narration — visual-only, silent by design
         ]
@@ -260,12 +262,12 @@ def test_detect_transition_silence_skips_silent_by_design_scenes():
 
 def test_multi_scene_ordering():
     script = {
-        "scenes": [
+        "shots": [
             {"id": 1, "type": "explanation", "narration": "...", "visual": {"headline": "A", "body": "B"}},
             {"id": 2, "type": "terminal", "narration": "...", "visual": {"lines": ["$ pwd"]}},
         ]
     }
     manifest = build_render_manifest(script, {1: 1.0, 2: 2.0})
-    assert len(manifest["scenes"]) == 2
-    assert manifest["scenes"][0]["id"] == 1
-    assert manifest["scenes"][1]["id"] == 2
+    assert len(manifest["shots"]) == 2
+    assert manifest["shots"][0]["id"] == 1
+    assert manifest["shots"][1]["id"] == 2

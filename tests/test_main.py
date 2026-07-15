@@ -4,18 +4,15 @@ from vidgen.main import resolve_script, validate_manifest
 
 
 def test_resolve_script_passes_through_flat_schema_unchanged():
-    script = {"video_id": "v", "scenes": [{"id": 1, "type": "explanation"}]}
-    resolved = resolve_script(script)
-    assert resolved is not script
-    assert resolved["shots"] == script["scenes"]
-    assert resolved["scenes"] == script["scenes"]
-
-
-def test_resolve_script_preserves_canonical_shots_schema():
     script = {"video_id": "v", "shots": [{"id": 1, "type": "explanation"}]}
     resolved = resolve_script(script)
-    assert resolved["shots"] == script["shots"]
-    assert resolved["scenes"] == script["shots"]
+    assert resolved is script
+
+
+def test_resolve_script_rejects_legacy_scenes_schema():
+    script = {"video_id": "v", "scenes": [{"id": 1, "type": "explanation"}]}
+    with pytest.raises(ValueError, match="scenes"):
+        resolve_script(script)
 
 
 def test_resolve_script_flattens_nested_motion_pipeline_schema():
@@ -55,21 +52,12 @@ def test_resolve_script_flattens_nested_motion_pipeline_schema():
                 "narration": "Hello world",
             }
         ],
-        "scenes": [
-            {
-                "id": "shot_01",
-                "type": "QuoteCalloutScene",
-                "duration_frames": 90,
-                "props": {"text": "Hello world", "backgroundStyle": "gradient-subtle"},
-                "narration": "Hello world",
-            }
-        ],
     }
 
 
 def test_validate_manifest_clean_passes():
     manifest = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_01a",
                 "narration": "một hai ba bốn năm",
@@ -85,7 +73,7 @@ def test_validate_manifest_clean_passes():
 
 def test_validate_manifest_word_count_error_raises():
     manifest = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_02b",
                 "narration": "một hai ba bốn năm sáu bảy tám chín mười",
@@ -102,7 +90,7 @@ def test_validate_manifest_word_count_error_raises():
 
 def test_validate_manifest_overflow_error_raises():
     manifest = {
-        "scenes": [
+        "shots": [
             {
                 "id": "shot_03a",
                 "narration": "một hai ba bốn năm",
