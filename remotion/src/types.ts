@@ -57,6 +57,7 @@ export type PhoneMockupVisual = {
   driverEta: string;
   accentColor: string;
   buttonLabel?: string;
+  phoneYOffset?: number;
   idleRange?: PhoneMockupStateRange;
   loadingRange?: PhoneMockupStateRange;
   matchedRange?: PhoneMockupStateRange;
@@ -77,6 +78,7 @@ export type PhoneMockupVisual = {
   loadingLabel?: string;
   matchedStatusLabel?: string;
   matchedConfirmLabel?: string;
+  matchedKind?: "driver" | "route";
 };
 
 export type ManifestExtraAudio = { path: string; offsetFrames: number };

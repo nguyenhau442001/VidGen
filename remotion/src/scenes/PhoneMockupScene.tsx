@@ -460,7 +460,8 @@ const MatchedScreen: React.FC<{
   cardOpacity: number;
   statusLabel: string;
   confirmLabel: string;
-}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity, statusLabel, confirmLabel }) => {
+  kind?: "driver" | "route";
+}> = ({ driverName, driverEta, accentColor, cardY, cardOpacity, statusLabel, confirmLabel, kind = "driver" }) => {
   // Derive initials for avatar
   const initials = driverName
     .split(" ")
@@ -547,9 +548,9 @@ const MatchedScreen: React.FC<{
             {statusLabel}
           </div>
 
-          {/* Driver row */}
+          {/* Result row */}
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
-            {/* Avatar */}
+            {/* Avatar / route glyph */}
             <div
               style={{
                 width: 52,
@@ -562,16 +563,29 @@ const MatchedScreen: React.FC<{
                 flexShrink: 0,
               }}
             >
-              <span
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#0a0a0f",
-                  fontFamily: BE_VIETNAM_PRO,
-                }}
-              >
-                {initials}
-              </span>
+              {kind === "route" ? (
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <path
+                    d="M7 23c6 0 4-16 12-16h4"
+                    stroke="#0a0a0f"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  <circle cx="7" cy="23" r="3" fill="#0a0a0f" />
+                  <path d="M22 4l4 3-4 3V4z" fill="#0a0a0f" />
+                </svg>
+              ) : (
+                <span
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "#0a0a0f",
+                    fontFamily: BE_VIETNAM_PRO,
+                  }}
+                >
+                  {initials}
+                </span>
+              )}
             </div>
 
             <div style={{ flex: 1 }}>
@@ -586,27 +600,39 @@ const MatchedScreen: React.FC<{
               >
                 {driverName}
               </div>
-              {/* Star rating */}
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <svg key={s} width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path
-                      d="M6 1l1.236 2.508L10 3.918l-2 1.948.472 2.753L6 7.258 3.528 8.619 4 5.866 2 3.918l2.764-.41L6 1z"
-                      fill={s <= 4 ? accentColor : "rgba(255,255,255,0.2)"}
-                    />
-                  </svg>
-                ))}
+              {kind === "route" ? (
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
+                    fontWeight: 600,
                     color: "rgba(255,255,255,0.45)",
                     fontFamily: BE_VIETNAM_PRO,
-                    marginLeft: 2,
                   }}
                 >
-                  4.8
+                  ETA dự kiến
                 </span>
-              </div>
+              ) : (
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <svg key={s} width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M6 1l1.236 2.508L10 3.918l-2 1.948.472 2.753L6 7.258 3.528 8.619 4 5.866 2 3.918l2.764-.41L6 1z"
+                        fill={s <= 4 ? accentColor : "rgba(255,255,255,0.2)"}
+                      />
+                    </svg>
+                  ))}
+                  <span
+                    style={{
+                      fontSize: 11,
+                      color: "rgba(255,255,255,0.45)",
+                      fontFamily: BE_VIETNAM_PRO,
+                      marginLeft: 2,
+                    }}
+                  >
+                    4.8
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* ETA badge */}
@@ -679,6 +705,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   driverEta,
   accentColor,
   buttonLabel = "Đặt xe",
+  phoneYOffset = 0,
   idleRange,
   loadingRange,
   matchedRange,
@@ -689,6 +716,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   loadingLabel = "Đang tìm tài xế...",
   matchedStatusLabel = "Đã tìm thấy tài xế",
   matchedConfirmLabel = "Xác nhận chuyến đi",
+  matchedKind = "driver",
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -758,6 +786,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
             position: "relative",
             overflow: "hidden",
             filter: "drop-shadow(0 12px 40px rgba(0,0,0,0.7))",
+            transform: `translateY(${phoneYOffset}px)`,
           }}
         >
           {/* Notch */}
@@ -877,6 +906,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   cardOpacity={cardOpacity}
                   statusLabel={matchedStatusLabel}
                   confirmLabel={matchedConfirmLabel}
+                  kind={matchedKind}
                 />
               )}
             </div>
