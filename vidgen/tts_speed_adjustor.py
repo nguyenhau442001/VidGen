@@ -42,6 +42,8 @@ from typing import Optional, Any
 
 import numpy as np
 
+from vidgen.shot_api import script_shots
+
 # ── optional heavy deps (fail loudly with helpful message) ────────────────────
 try:
     import librosa
@@ -285,7 +287,7 @@ def synthesize_scenes(
     Parameters
     ----------
     scenes : list[dict]
-        List of scene objects from script JSON (each must have 'id' and 'narration').
+        List of shot objects from script JSON (each must have 'id' and 'narration').
     output_dir : str | Path
         Directory where per-scene .wav files are saved.
         Files are named: <scene_id>.wav
@@ -307,7 +309,7 @@ def synthesize_scenes(
         scene_id = scene.get("id", "unknown")
         narration = scene.get("narration", "").strip()
         if not narration:
-            print(f"[tts_speed] ⚠️  Scene '{scene_id}' has no narration — skipping.")
+            print(f"[tts_speed] ⚠️  Shot '{scene_id}' has no narration — skipping.")
             continue
 
         out_path = output_dir / f"{scene_id}.wav"
@@ -322,7 +324,7 @@ def synthesize_scenes(
         )
         results[scene_id] = out_path
 
-    print(f"[tts_speed] 🎙  {len(results)}/{len(scenes)} scenes synthesized → {output_dir}")
+    print(f"[tts_speed] 🎙  {len(results)}/{len(scenes)} shots synthesized → {output_dir}")
     return results
 
 
@@ -344,7 +346,7 @@ if __name__ == "__main__":
 
     script_path = Path(args.script)
     script = json.loads(script_path.read_text(encoding="utf-8"))
-    scenes = script.get("scenes", [])
+    scenes = script_shots(script)
 
     voice_obj = None
     if args.voice:

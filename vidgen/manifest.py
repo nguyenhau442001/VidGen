@@ -4,6 +4,8 @@ import os
 import re
 import shutil
 
+from vidgen.shot_api import manifest_shots, normalize_manifest_shots, script_shots
+
 FPS = 30
 FRAME_PADDING = 10
 
@@ -192,51 +194,51 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
 
 def build_render_manifest(script: dict, audio_durations: dict) -> dict:
     fps = script.get("fps", FPS)
-    scenes = []
-    for i, scene in enumerate(script["scenes"], start=1):
-        sid = scene["id"]
-        scene_type = TYPE_MAP.get(scene["type"], scene["type"])
-        raw_props = scene.get("props", scene.get("visual", {}))
+    shots = []
+    for i, shot in enumerate(script_shots(script), start=1):
+        sid = shot["id"]
+        scene_type = TYPE_MAP.get(shot["type"], shot["type"])
+        raw_props = shot.get("props", shot.get("visual", {}))
         visual = _translate_visual(scene_type, raw_props)
 
-        narration = scene.get("narration")
+        narration = shot.get("narration")
         has_audio = sid in audio_durations and narration
 
-        if "duration_frames" in scene:
-            duration_frames = scene["duration_frames"]
+        if "duration_frames" in shot:
+            duration_frames = shot["duration_frames"]
         elif has_audio:
             duration_frames = math.ceil(audio_durations[sid] * fps) + FRAME_PADDING
         else:
             duration_frames = fps * 3  # fallback for silent, un-authored-duration scenes
 
         audio_offset = 0
-        timing = scene.get("narration_timing_frames")
+        timing = shot.get("narration_timing_frames")
         if timing:
             audio_offset = timing[0]
 
         # "on_screen_text" explicitly present (even "") means the author made a
-        # deliberate caption choice for this scene, including "no caption" —
+        # deliberate caption choice for this shot, including "no caption" —
         # only fall back to narration when the key is absent entirely.
-        caption = scene["on_screen_text"] if "on_screen_text" in scene else (narration or "")
+        caption = shot["on_screen_text"] if "on_screen_text" in shot else (narration or "")
         if caption:
             min_reading_frames = math.ceil(len(caption) / MAX_CAPTION_CPS * fps)
             duration_frames = max(duration_frames, min_reading_frames)
 
         # Staggered voiceover lines (e.g. ScoreCardScene's per-row narration)
         # each got their own TTS pass in main.py, keyed "<id>_seg<i>" — surface
-        # them as extra timed clips alongside the scene's single audioPath.
+        # them as extra timed clips alongside the shot's single audioPath.
         extra_audio = []
-        for seg_i, seg in enumerate(scene.get("narration_per_criterion", [])):
+        for seg_i, seg in enumerate(shot.get("narration_per_criterion", [])):
             seg_id = f"{sid}_seg{seg_i}"
             if seg_id in audio_durations:
                 extra_audio.append(
                     {"path": f"audio/{wav_filename(seg_id)}", "offsetFrames": seg.get("at_frame", 0)}
                 )
 
-        scenes.append(
+        shots.append(
             {
                 "id": i,
-                "label": str(sid),  # original script scene/shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
+                "label": str(sid),  # original script shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
                 "sceneName": scene_name_for(sid),
                 "type": scene_type,
                 "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
@@ -244,11 +246,12 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                 "extraAudio": extra_audio,
                 "durationInFrames": duration_frames,
                 "caption": caption,
-                "captionStyle": scene.get("on_screen_text_style"),
+                "captionStyle": shot.get("on_screen_text_style"),
                 "visual": visual,
             }
         )
-    return {"fps": fps, "width": 1080, "height": 1920, "scenes": scenes}
+    manifest = {"fps": fps, "width": 1080, "height": 1920, "shots": shots}
+    return normalize_manifest_shots(manifest)
 
 
 def detect_dead_air(
@@ -264,15 +267,15 @@ def detect_dead_air(
     is about silence after speech, not scenes that are silent by design."""
     fps = manifest.get("fps", FPS)
     findings = []
-    for script_scene, manifest_scene in zip(script["scenes"], manifest["scenes"]):
-        sid = script_scene["id"]
+    for script_shot, manifest_shot in zip(script_shots(script), manifest_shots(manifest)):
+        sid = script_shot["id"]
         audio_ends = []
 
-        if sid in audio_durations and script_scene.get("narration"):
-            offset = (script_scene.get("narration_timing_frames") or [0])[0]
+        if sid in audio_durations and script_shot.get("narration"):
+            offset = (script_shot.get("narration_timing_frames") or [0])[0]
             audio_ends.append(offset + math.ceil(audio_durations[sid] * fps))
 
-        for seg_i, seg in enumerate(script_scene.get("narration_per_criterion", [])):
+        for seg_i, seg in enumerate(script_shot.get("narration_per_criterion", [])):
             seg_id = f"{sid}_seg{seg_i}"
             if seg_id in audio_durations:
                 audio_ends.append(seg.get("at_frame", 0) + math.ceil(audio_durations[seg_id] * fps))
@@ -280,7 +283,7 @@ def detect_dead_air(
         if not audio_ends:
             continue
 
-        dead_air = manifest_scene["durationInFrames"] - max(audio_ends)
+        dead_air = manifest_shot["durationInFrames"] - max(audio_ends)
         if dead_air > threshold_frames:
             findings.append(
                 {
@@ -304,7 +307,7 @@ def detect_transition_silence(script: dict, threshold_frames: int = MAX_DEAD_AIR
     a short trailing gap that stacks with a slow-starting next line. Scenes
     without narration (visual-only, silent by design) are skipped on either
     side, same carve-out as detect_dead_air."""
-    scenes = script.get("scenes", [])
+    scenes = script_shots(script)
     findings = []
     for cur, nxt in zip(scenes, scenes[1:]):
         cur_timing = cur.get("narration_timing_frames")

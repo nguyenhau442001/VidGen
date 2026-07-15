@@ -18,6 +18,8 @@ import os
 import sys
 from pathlib import Path
 
+from vidgen.shot_api import script_shots
+
 # ── Scene type → visual description heuristic ──────────────────────────────
 
 SCENE_COLORS = {
@@ -309,7 +311,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 
 def build_html(script: dict, source_file: str) -> str:
-    scenes = script.get("scenes", [])
+    scenes = script_shots(script)
     meta   = script.get("meta", {})
     title  = meta.get("title", Path(source_file).stem)
 
@@ -373,7 +375,7 @@ def build_html(script: dict, source_file: str) -> str:
 # ── Terminal renderer ────────────────────────────────────────────────────────
 
 def build_text(script: dict, source_file: str) -> str:
-    scenes = script.get("scenes", [])
+    scenes = script_shots(script)
     meta   = script.get("meta", {})
     title  = meta.get("title", Path(source_file).stem)
 

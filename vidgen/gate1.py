@@ -18,12 +18,13 @@ import re
 import sys
 
 from vidgen.manifest import TYPE_MAP
+from vidgen.shot_api import script_shots
 
 # ---------------------------------------------------------------------------
 # Thresholds
 #
 # Calibrated against this project's actual shipped scripts (Vietnamese
-# narration, the 24-scene component library in remotion/src/types.ts, snake_case
+# narration, the 24-shot component library in remotion/src/types.ts, snake_case
 # `duration_frames`) rather than a generic English script template — scripts
 # here never use "HookScene"/"CTAScene" types, and Vietnamese on-screen text
 # is written with multi-syllable words (space-separated syllables), so raw
@@ -70,13 +71,13 @@ def score_script(script: dict) -> dict:
     Returns a dict: {dimension: score, ..., "total": int, "issues": [str]}
     Each dimension is scored 1–5.  Total max = 20.
     """
-    scenes: list[dict] = script.get("scenes", [])
+    scenes: list[dict] = script_shots(script)
     issues: list[str] = []
     scores: dict[str, int] = {}
 
     if not scenes:
         return {"hook": 1, "pacing": 1, "visual": 1, "arc": 1,
-                "total": 4, "issues": ["No scenes found in script"]}
+                "total": 4, "issues": ["No shots found in script"]}
 
     # ------------------------------------------------------------------
     # Dimension 1: Hook strength
@@ -107,9 +108,9 @@ def score_script(script: dict) -> dict:
         sid = s.get("id", "?")
         lo, hi = VALID_FRAME_RANGE
         if dur < lo:
-            bad_pacing.append(f"scene '{sid}': {dur} frames < {lo} (too fast)")
+            bad_pacing.append(f"shot '{sid}': {dur} frames < {lo} (too fast)")
         elif dur > hi:
-            bad_pacing.append(f"scene '{sid}': {dur} frames > {hi} (too slow)")
+            bad_pacing.append(f"shot '{sid}': {dur} frames > {hi} (too slow)")
 
     if not bad_pacing:
         scores["pacing"] = 5
@@ -135,33 +136,33 @@ def score_script(script: dict) -> dict:
         if accent and headline and accent not in headline:
             visual_score -= 1
             issues.append(
-                f"scene '{sid}': accentWord '{accent}' not found in headline '{headline}'"
+                f"shot '{sid}': accentWord '{accent}' not found in headline '{headline}'"
             )
 
         # Scene type must be registered
         if scene_type and scene_type not in VALID_SCENE_TYPES:
             visual_score -= 1
-            issues.append(f"scene '{sid}': unknown scene type '{scene_type}'")
+            issues.append(f"shot '{sid}': unknown scene type '{scene_type}'")
 
         # Headline word count ceiling
         if headline and len(headline.split()) > MAX_HEADLINE_WORDS:
             visual_score -= 1
             issues.append(
-                f"scene '{sid}': headline too long ({len(headline.split())} words, "
+                f"shot '{sid}': headline too long ({len(headline.split())} words, "
                 f"max {MAX_HEADLINE_WORDS})"
             )
 
     scores["visual"] = max(1, visual_score)
 
     # ------------------------------------------------------------------
-    # Dimension 4: Narrative arc (scene count + structure)
+    # Dimension 4: Narrative arc (shot count + structure)
     # ------------------------------------------------------------------
     arc_score = 5
     n = len(scenes)
 
-    # Target scene count scales with total video length, derived from the
+    # Target shot count scales with total video length, derived from the
     # same per-scene duration bounds used by the pacing dimension — a fixed
-    # "5-8 scenes" range doesn't generalize across a 30s explainer and a
+    # "5-8 shots" range doesn't generalize across a 30s explainer and a
     # 2-minute deep-dive like this project's multi-part scripts.
     total_frames = sum(s.get("duration_frames", 0) for s in scenes)
     lo_frame, hi_frame = VALID_FRAME_RANGE
@@ -173,16 +174,16 @@ def score_script(script: dict) -> dict:
 
     if not (lo_arc <= n <= hi_arc):
         arc_score -= 2
-        issues.append(f"arc: {n} scenes (target {lo_arc}–{hi_arc} given {total_frames} total frames)")
+        issues.append(f"arc: {n} shots (target {lo_arc}–{hi_arc} given {total_frames} total frames)")
 
-    # Narration must be present on every scene
+    # Narration must be present on every shot
     missing_narration = [
         s.get("id", "?") for s in scenes
         if not (s.get("narration") or "").strip() and not s.get("narration_per_criterion")
     ]
     if missing_narration:
         arc_score -= 1
-        issues.append(f"arc: missing narration on scenes: {missing_narration}")
+        issues.append(f"arc: missing narration on shots: {missing_narration}")
 
     scores["arc"] = max(1, arc_score)
 
@@ -208,7 +209,7 @@ def gate1_assert(
     fails. Returns the score dict on success.
 
     Args:
-        script:        Parsed VidGen script JSON (dict with "scenes" key).
+        script:        Parsed VidGen script JSON (dict with "shots" or legacy "scenes" key).
         min_total:     Minimum total score to pass (default 16/20).
         min_dimension: Minimum score for any single dimension (default 3).
 

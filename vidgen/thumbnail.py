@@ -4,6 +4,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from vidgen.shot_api import script_shots
+
 SCENE_TYPE_TO_STYLE = {
     "CharacterIconScene": "characterIcon",
     "HSKFlashCardThumbnailScene": "hskFlashCard",
@@ -28,7 +30,7 @@ def _strip_bold_markers(text: str) -> str:
 
 
 def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
-    scene = script["scenes"][scene_index]
+    scene = script_shots(script)[scene_index]
     props = scene.get("props", {})
     raw_headline = props.get("headline", "")
 
@@ -39,7 +41,7 @@ def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
     subtext = _strip_bold_markers(props.get("body") or raw_headline)
 
     part_label = None
-    for s in script["scenes"]:
+    for s in script_shots(script):
         label = s.get("props", {}).get("partLabel")
         if label:
             part_label = label
@@ -95,7 +97,7 @@ def _truncate_subtitle(text: str, max_chars: int = 40) -> str:
 def _extract_character_icon_props(
     script: dict, scene_index: int = 0, channel_name: str = "Ủa là sao"
 ) -> dict:
-    scene = script["scenes"][scene_index]
+    scene = script_shots(script)[scene_index]
     props = scene.get("props", {})
 
     headline_source = scene.get("on_screen_text") or scene.get("narration") or ""
@@ -122,7 +124,7 @@ def _extract_character_icon_props(
 
 
 def _extract_hsk_flash_card_props(script: dict, scene_index: int = 0) -> dict:
-    scene = script["scenes"][scene_index]
+    scene = script_shots(script)[scene_index]
     return dict(scene.get("props", {}))
 
 
@@ -150,7 +152,7 @@ def generate_thumbnail(
     with open(script_path, encoding="utf-8") as f:
         script = json.load(f)
 
-    scene = script["scenes"][scene_index]
+    scene = script_shots(script)[scene_index]
     style = _style_for_scene(scene["type"])
     if style == "characterIcon":
         props = _extract_character_icon_props(script, scene_index, channel_name)

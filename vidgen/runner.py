@@ -133,7 +133,7 @@ def _topic_to_slug(topic: str) -> str:
 
 def _generate_script(topic: str, slug: str, dry_run: bool) -> Path:
     """
-    Call hook_selector.py to generate a scene JSON for the given topic.
+    Call hook_selector.py to generate a shot JSON for the given topic.
     Returns the path to the written JSON file.
     """
     CONTENT_DIR.mkdir(parents=True, exist_ok=True)
@@ -154,7 +154,7 @@ def _generate_script(topic: str, slug: str, dry_run: bool) -> Path:
             "title": topic,
             "fps": 30,
             "narration_language": "vi",
-            "scenes": [
+            "shots": [
                 {
                     "id": "hook",
                     "type": "HookScene",

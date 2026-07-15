@@ -13,6 +13,7 @@ from pathlib import Path
 from time import time as now
 
 from vidgen.chunked_render import render_video_chunked
+from vidgen.shot_api import normalize_script_shots, script_shots
 from vidgen.tts_speed_adjustor import synthesize as tts_synthesize
 from vidgen.manifest import (
     MAP_REF_H,
@@ -262,7 +263,7 @@ PROP_BUILDERS = {
 def flatten_script(script: dict) -> dict:
     assets = script.get("assets", {})
     fps = script.get("fps", 30)
-    flat_scenes = []
+    flat_shots = []
     for seq in script["sequences"]:
         highlight_state = {"id": None, "color": None}
         for shot in seq["shots"]:
@@ -275,7 +276,7 @@ def flatten_script(script: dict) -> dict:
                 props = {}
             else:
                 props = builder(shot, assets, highlight_state)
-            flat_scene = {
+            flat_shot = {
                 "id": shot["id"],
                 "type": component,
                 "duration_frames": duration_frames,
@@ -284,26 +285,28 @@ def flatten_script(script: dict) -> dict:
             }
             timing = shot.get("narration_timing_frames")
             if timing:
-                flat_scene["narration_timing_frames"] = [f - start for f in timing]
+                flat_shot["narration_timing_frames"] = [f - start for f in timing]
             if shot.get("on_screen_text"):
-                flat_scene["on_screen_text"] = shot["on_screen_text"]
+                flat_shot["on_screen_text"] = shot["on_screen_text"]
             if shot.get("on_screen_text_style"):
-                flat_scene["on_screen_text_style"] = shot["on_screen_text_style"]
+                flat_shot["on_screen_text_style"] = shot["on_screen_text_style"]
             if shot.get("sound_design"):
-                flat_scene["sound_design"] = shot["sound_design"]
-            flat_scenes.append(flat_scene)
-    return {
+                flat_shot["sound_design"] = shot["sound_design"]
+            flat_shots.append(flat_shot)
+    return normalize_script_shots({
         "video_id": script["video_id"],
         "fps": fps,
         "aspect_ratio": script.get("aspect_ratio"),
         "narration_language": script.get("narration_language"),
-        "scenes": flat_scenes,
-    }
+        "shots": flat_shots,
+    })
 
 
 def resolve_script(script: dict) -> dict:
     if "sequences" in script:
         return flatten_script(script)
+    if "shots" in script or "scenes" in script:
+        return normalize_script_shots(script)
     return script
 
 
@@ -314,19 +317,19 @@ def validate_manifest(manifest: dict) -> None:
     rows = []
     errors = []
     warnings = []
-    for scene in manifest.get("scenes", []):
-        narration = scene.get("narration")
-        timing = scene.get("narration_timing_frames")
-        duration_frames = scene.get("duration_frames")
+    for shot in script_shots(manifest):
+        narration = shot.get("narration")
+        timing = shot.get("narration_timing_frames")
+        duration_frames = shot.get("duration_frames")
         if not narration or timing is None or duration_frames is None:
             continue
-        scene_id = scene.get("id")
+        scene_id = shot.get("id")
         words = len(narration.split())
         if not isinstance(timing, list) or len(timing) != 2:
             raise ValueError(f"{scene_id}: invalid narration_timing_frames = {timing}")
         start, end = timing
         alloc_frames = end - start
-        transition_delay = scene.get("transition_out_delay_frames", 0)
+        transition_delay = shot.get("transition_out_delay_frames", 0)
         safe_end = duration_frames - transition_delay
         dead_air = duration_frames - end - transition_delay
         statuses = []
@@ -470,13 +473,15 @@ def main():
 
     script = resolve_script(script)
 
-    # scenes[0] is reserved for generate_thumbnail(), which always reads that
+    # shots[0] is reserved for generate_thumbnail(), which always reads that
     # index directly from args.script — it's a static cover shot, never part
     # of the video timeline. Strip only that slot (not every scene of the
     # same type — HSKFlashCardThumbnailScene's visual is also reused as a
     # regular in-video scene elsewhere, e.g. the HSK flashcard "hook" beat).
-    if script["scenes"] and script["scenes"][0]["type"] == "HSKFlashCardThumbnailScene":
-        script["scenes"] = script["scenes"][1:]
+    shots = script_shots(script)
+    if shots and shots[0]["type"] == "HSKFlashCardThumbnailScene":
+        script["shots"] = shots[1:]
+        script["scenes"] = script["shots"]
 
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:
@@ -495,11 +500,11 @@ def main():
     video_output = os.path.abspath(f"{VIDEO_OUT_DIR}/{video_filename}")
 
     tts_jobs = []
-    for scene in script["scenes"]:
-        if scene.get("narration"):
-            tts_jobs.append({"id": scene["id"], "text": scene["narration"]})
-        for i, seg in enumerate(scene.get("narration_per_criterion", [])):
-            tts_jobs.append({"id": f"{scene['id']}_seg{i}", "text": seg["text"]})
+    for shot in script_shots(script):
+        if shot.get("narration"):
+            tts_jobs.append({"id": shot["id"], "text": shot["narration"]})
+        for i, seg in enumerate(shot.get("narration_per_criterion", [])):
+            tts_jobs.append({"id": f"{shot['id']}_seg{i}", "text": seg["text"]})
 
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
@@ -541,20 +546,20 @@ def main():
     # --- Tighten scene durations to the adjusted audio ---
     if args.speed != 1.0 or not args.no_trim:
         fps = script.get("fps", 30)
-        for scene in script["scenes"]:
-            sid = scene["id"]
+        for shot in script_shots(script):
+            sid = shot["id"]
             if (
                 sid not in audio_durations
-                or "duration_frames" not in scene
-                or scene.get("narration_per_criterion")
+                or "duration_frames" not in shot
+                or shot.get("narration_per_criterion")
             ):
                 continue
-            offset = (scene.get("narration_timing_frames") or [0])[0]
-            tail = scene.get("transition_out_delay_frames", 15)
+            offset = (shot.get("narration_timing_frames") or [0])[0]
+            tail = shot.get("transition_out_delay_frames", 15)
             tightened = offset + math.ceil(audio_durations[sid] * fps) + tail
-            if tightened < scene["duration_frames"]:
-                print(f"{sid}: duration {scene['duration_frames']} -> {tightened} frames")
-                scene["duration_frames"] = tightened
+            if tightened < shot["duration_frames"]:
+                print(f"{sid}: duration {shot['duration_frames']} -> {tightened} frames")
+                shot["duration_frames"] = tightened
 
     # --- Copy audio to Remotion public/ ---
     audio_ids = [job["id"] for job in tts_jobs]

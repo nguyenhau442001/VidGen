@@ -19,6 +19,8 @@ Usage:
 from __future__ import annotations
 import json
 
+from vidgen.shot_api import manifest_shots, script_shots
+
 # Scene types whose whole point is a number/stat/delta reveal — the moment
 # viewers rewind to re-read. Snake_case values from manifest.py's TYPE_MAP.
 PAYOFF_TYPES = {"stat_comparator", "counter_blast", "score_card", "delta_arrow"}
@@ -30,11 +32,11 @@ TOP_N_HOT = 3
 
 
 def score_beatmap(script: dict, manifest: dict) -> dict:
-    """Score every scene in a resolved script against its built render
+    """Score every shot in a resolved script against its built render
     manifest. Returns {"video_title": str, "scenes": [...]}; empty scenes
     list if script/manifest scene counts don't line up (never raises)."""
-    scenes = script.get("scenes", [])
-    manifest_scenes = manifest.get("scenes", [])
+    scenes = script_shots(script)
+    manifest_scenes = manifest_shots(manifest)
     fps = manifest.get("fps", 30)
 
     # Matches main.py's own title resolution — scripts may carry the title at
@@ -47,7 +49,7 @@ def score_beatmap(script: dict, manifest: dict) -> dict:
     if not scenes or len(scenes) != len(manifest_scenes):
         return {"video_title": video_title, "scenes": []}
 
-    # words-per-second per scene, plus this video's own average — a scene is
+    # words-per-second per shot, plus this video's own average — a shot is
     # only "dense" relative to its own video's pace, not some fixed WPS.
     wps_list = []
     for scene, mscene in zip(scenes, manifest_scenes):

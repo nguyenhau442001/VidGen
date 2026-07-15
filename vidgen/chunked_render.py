@@ -19,6 +19,8 @@ import shutil
 import subprocess
 import time
 
+from vidgen.shot_api import manifest_shots
+
 RENDER_CACHE_DIR = "output/render_cache"
 CACHE_MAX_AGE_DAYS = 14
 
@@ -88,12 +90,12 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
 
     clips = []  # (abs_path, delay_samples, max_samples)
     start_f = 0
-    for scene in manifest["scenes"]:
-        dur_f = scene["durationInFrames"]
+    for shot in manifest_shots(manifest):
+        dur_f = shot["durationInFrames"]
         entries = []
-        if scene.get("audioPath"):
-            entries.append((scene["audioPath"], scene.get("audioOffsetFrames") or 0))
-        for seg in scene.get("extraAudio") or []:
+        if shot.get("audioPath"):
+            entries.append((shot["audioPath"], shot.get("audioOffsetFrames") or 0))
+        for seg in shot.get("extraAudio") or []:
             unknown = set(seg) - {"path", "offsetFrames"}
             if unknown:
                 raise ValueError(f"extraAudio has fields this builder does not replicate: {unknown}")
@@ -168,11 +170,11 @@ def render_video_chunked(
 
     chunk_paths = []
     jobs = []
-    for scene in manifest["scenes"]:
-        key = scene_cache_key(scene, manifest, code_hash)
+    for shot in manifest_shots(manifest):
+        key = scene_cache_key(shot, manifest, code_hash)
         chunk_path = os.path.abspath(os.path.join(cache_dir, f"scene_{key}.mp4"))
         chunk_paths.append(chunk_path)
-        name = str(scene.get("label") or scene["id"])
+        name = str(shot.get("label") or shot["id"])
         if os.path.exists(chunk_path):
             os.utime(chunk_path)  # mark as recently used so pruning spares it
             print(f"cache hit: {name}")
@@ -185,7 +187,7 @@ def render_video_chunked(
                         "fps": manifest["fps"],
                         "width": manifest["width"],
                         "height": manifest["height"],
-                        "scenes": [scene],
+                        "shots": [shot],
                     },
                 }
             )
@@ -199,7 +201,8 @@ def render_video_chunked(
     with open(jobs_file, "w", encoding="utf-8") as f:
         json.dump(spec, f, ensure_ascii=False)
 
-    print(f"Rendering {len(jobs)}/{len(manifest['scenes'])} scene chunk(s) ({len(manifest['scenes']) - len(jobs)} cached)")
+    total_shots = len(manifest_shots(manifest))
+    print(f"Rendering {len(jobs)}/{total_shots} shot chunk(s) ({total_shots - len(jobs)} cached)")
     if jobs:
         subprocess.run(
             ["node", "scripts/render-chunks.mjs", jobs_file],
