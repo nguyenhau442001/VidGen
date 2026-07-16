@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Gemini TTS smoke test - Hàng xóm hét VÀO",
+    "slug": "gemini-tts-smoke-shot",
+    "source": "hang_xom_het_vao_truoc_tv",
+    "purpose": "one-shot Gemini 2.5 Flash TTS test"
+  },
+  "language": "vi",
+  "fps": 30,
+  "estimated_duration_seconds": 10,
+  "shots": [
+    {
+      "id": "shot_01_hook",
+      "type": "SplitApartmentScene",
+      "duration_frames": 300,
+      "narration": "Tại sao hàng xóm hét VÀO trước mình?",
+      "narration_timing_frames": [16, 250],
+      "transition_out_delay_frames": 12,
+      "sound_design": "long vocal shout 'Vàoooooooooooooooooo' at frame 0, room cheer swell frame 12, TV glow pulse frame 24",
+      "narration_per_criterion": [
+        {
+          "at_frame": 0,
+          "text": "Vàoooooooooooooooooo!"
+        }
+      ],
+      "props": {
+        "preset": "neighbor_alert_callback",
+        "headline": "Tại sao hàng xóm hét VÀO trước mình?",
+        "accentWord": "VÀO",
+        "subtext": "Một bên ăn mừng ngay, một bên còn buffer.",
+        "accentColor": "#00ff41",
+        "cameraMode": "pan",
+        "shoutSide": "left",
+        "leftApartment": {
+          "label": "Nhà hàng xóm",
+          "reaction": "cheering",
+          "tvState": "goal",
+          "hasRemote": false,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#00ff41",
+          "couchColor": "#203143",
+          "screenLabel": "GOAL!"
+        },
+        "rightApartment": {
+          "label": "Nhà mình",
+          "reaction": "watching",
+          "tvState": "buffering",
+          "hasRemote": true,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#61dafb",
+          "couchColor": "#2e2b3f",
+          "screenLabel": "LIVE+5s"
+        },
+        "timeline": [
+          { "frame": 20, "label": "Bên kia hét trước", "side": "left", "emphasis": "warning" },
+          { "frame": 60, "label": "Âm thanh qua tường", "side": "both", "emphasis": "warning" },
+          { "frame": 118, "label": "TV mình còn xoay vòng", "side": "right", "emphasis": "calm" },
+          { "frame": 168, "label": "Mới bắt đầu thấy bàn thắng", "side": "right", "emphasis": "impact" }
+        ],
+        "checklist": [
+          "Một nhà đã biết kết quả",
+          "Một nhà còn trễ 5 giây",
+          "Tường mỏng thành spoiler"
+        ],
+        "wallLabel": "TƯỜNG MỎNG"
+      }
+    }
+  ]
+}

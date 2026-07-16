@@ -520,7 +520,12 @@ def main():
     parser.add_argument(
         "--tts-voice",
         default=None,
-        help="Voice name/ID for the selected TTS provider (Gemini uses prebuilt voices like charon)",
+        help="Voice name/ID for the selected TTS provider",
+    )
+    parser.add_argument(
+        "--reuse-tts",
+        action="store_true",
+        help="Reuse existing WAV files instead of synthesizing them again",
     )
     parser.add_argument(
         "--no-trim",
@@ -568,7 +573,7 @@ def main():
     if not tts_voice and tts_provider == "viettel_ai":
         tts_voice = os.getenv("VIETTEL_AI_VOICE")
     if not tts_voice and tts_provider == "gemini":
-        tts_voice = os.getenv("GEMINI_TTS_VOICE") or "charon"
+        tts_voice = os.getenv("GEMINI_TTS_VOICE")
     print(f"[TTS] provider={tts_provider}, voice={tts_voice or '(default)'}")
 
     script_stem = Path(args.script).stem
@@ -588,6 +593,9 @@ def main():
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
         output_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
+        if args.reuse_tts and os.path.exists(output_path):
+            print(f"{job['id']} reusing existing {output_path}")
+            return job["id"]
         tts_synthesize(
             job["text"],
             output_path,

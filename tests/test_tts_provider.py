@@ -52,6 +52,64 @@ def test_audio_from_gemini_response_extracts_inline_audio(monkeypatch):
     np.testing.assert_allclose(samples, np.array([0.05, 0.05], dtype=np.float32))
 
 
+def test_audio_from_gemini_response_reports_non_audio_response():
+    response = {
+        "prompt_feedback": {"block_reason": "OTHER"},
+        "candidates": [
+            {
+                "finish_reason": "STOP",
+                "content": {
+                    "parts": [
+                        {
+                            "text": "I cannot synthesize audio for that request."
+                        }
+                    ]
+                },
+            }
+        ],
+    }
+
+    try:
+        tts._audio_from_gemini_response(response)
+    except RuntimeError as exc:
+        message = str(exc)
+    else:
+        raise AssertionError("Expected Gemini response without audio to fail")
+
+    assert "Response summary" in message
+    assert "finish_reason=STOP" in message
+    assert "I cannot synthesize audio" in message
+
+
+def test_gemini_tts_prompt_wraps_text_for_exact_speech(monkeypatch):
+    monkeypatch.delenv("GEMINI_TTS_PROMPT_TEMPLATE", raising=False)
+
+    prompt = tts._gemini_tts_prompt("Vàoooooooooooooooooo!")
+
+    assert "Say the following Vietnamese text exactly as written" in prompt
+    assert "native Vietnamese speaker" in prompt
+    assert "Vàoooooooooooooooooo!" in prompt
+
+
+def test_gemini_shout_prompt_handles_long_vao(monkeypatch):
+    monkeypatch.delenv("GEMINI_TTS_SHOUT_PROMPT_TEMPLATE", raising=False)
+
+    assert tts._is_gemini_shout_text("Vàoooooooooooooooooo!")
+    assert not tts._is_gemini_shout_text("Tại sao hàng xóm hét VÀO trước mình?")
+    assert "native Vietnamese speaker" in tts._gemini_shout_prompt("Vàoooooooooooooooooo!")
+    assert "about two seconds" in tts._gemini_shout_prompt("Vàoooooooooooooooooo!")
+
+
+def test_audio_from_pcm_bytes_uses_mime_rate_and_channels():
+    raw = np.array([0, 32767, -32768, 0], dtype="<i2").tobytes()
+
+    samples, sr = tts._audio_from_bytes(raw, "audio/pcm;rate=16000;channels=2")
+
+    assert sr == 16_000
+    assert samples.shape == (2, 2)
+    np.testing.assert_allclose(samples[0], [0.0, 32767 / 32768], atol=1e-6)
+
+
 def test_synthesize_dispatches_to_viettel_ai_when_requested(monkeypatch, tmp_path):
     calls = {}
 
@@ -95,7 +153,7 @@ def test_synthesize_dispatches_to_gemini_when_requested(monkeypatch, tmp_path):
     output = tts.synthesize(
         "xin chào",
         tmp_path / "gemini.wav",
-        voice="charon",
+        voice=None,
         speed=1.0,
         trim_silence=False,
         target_dbfs=None,
@@ -105,7 +163,7 @@ def test_synthesize_dispatches_to_gemini_when_requested(monkeypatch, tmp_path):
     assert calls == {
         "provider": "gemini",
         "text": "xin chào",
-        "voice": "charon",
+        "voice": None,
     }
     assert output.exists()
 

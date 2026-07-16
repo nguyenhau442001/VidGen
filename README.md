@@ -43,8 +43,10 @@ Set these env vars before running with `--tts-provider gemini`:
 
 - `GEMINI_API_KEY` or `GOOGLE_API_KEY` for Gemini API access
 - `GEMINI_TTS_MODEL` if you want to override the default `gemini-2.5-flash-preview-tts`
-- `GEMINI_TTS_VOICE` if you want a specific prebuilt voice such as `charon`
-- `GEMINI_TTS_LANGUAGE_CODE` if you want to force a language code like `vi-VN`
+- `GEMINI_TTS_VOICE` if you want to force a specific prebuilt voice
+- `GEMINI_TTS_LANGUAGE_CODE` if you want to override the default `vi-VN`
+
+Gemini's prebuilt voice names control timbre, so VidGen does not force one by default. It biases language/accent to Vietnamese with `vi-VN` and a native-speaker prompt.
 
 ## Architecture
 

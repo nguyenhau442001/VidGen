@@ -180,16 +180,16 @@ def _audio_from_vieneu(audio_spec: Any, tts: Vieneu) -> tuple[np.ndarray, int]:
 def _suffix_for_content_type(content_type: str | None) -> str:
     if not content_type:
         return ".bin"
-    content_type = content_type.split(";", 1)[0].strip().lower()
-    if content_type in {"audio/wav", "audio/x-wav"}:
+    base_type = content_type.split(";", 1)[0].strip().lower()
+    if base_type in {"audio/wav", "audio/x-wav"}:
         return ".wav"
-    if content_type in {"audio/mpeg", "audio/mp3"}:
+    if base_type in {"audio/mpeg", "audio/mp3"}:
         return ".mp3"
-    if content_type in {"audio/flac"}:
+    if base_type in {"audio/flac"}:
         return ".flac"
-    if content_type in {"audio/ogg", "audio/opus"}:
+    if base_type in {"audio/ogg", "audio/opus", "audio/ogg_opus"}:
         return ".ogg"
-    if content_type in {"application/octet-stream"}:
+    if base_type in {"audio/pcm", "audio/l16", "application/octet-stream"}:
         return ".bin"
     return ".bin"
 
@@ -228,7 +228,35 @@ def _read_audio_file(path: str | Path) -> tuple[np.ndarray, int]:
                 pass
 
 
+def _content_type_params(content_type: str | None) -> dict[str, str]:
+    if not content_type:
+        return {}
+    params = {}
+    for raw_part in content_type.split(";")[1:]:
+        key, _, value = raw_part.strip().partition("=")
+        if key and value:
+            params[key.lower()] = value.strip().strip('"')
+    return params
+
+
+def _audio_from_pcm_bytes(raw: bytes, content_type: str | None) -> tuple[np.ndarray, int]:
+    params = _content_type_params(content_type)
+    sr = int(params.get("rate") or params.get("sample_rate") or "24000")
+    channels = int(params.get("channels") or "1")
+    base_type = (content_type or "").split(";", 1)[0].strip().lower()
+    endian = ">i2" if base_type == "audio/l16" else "<i2"
+    samples = np.frombuffer(raw, dtype=np.dtype(endian)).astype(np.float32) / 32768.0
+    if channels > 1:
+        usable = (len(samples) // channels) * channels
+        samples = samples[:usable].reshape(-1, channels)
+    return samples, sr
+
+
 def _audio_from_bytes(raw: bytes, content_type: str | None = None) -> tuple[np.ndarray, int]:
+    base_type = (content_type or "").split(";", 1)[0].strip().lower()
+    if base_type in {"audio/pcm", "audio/l16"}:
+        return _audio_from_pcm_bytes(raw, content_type)
+
     suffix = _suffix_for_content_type(content_type)
     if suffix == ".bin":
         suffix = _suffix_for_audio_bytes(raw)
@@ -324,8 +352,12 @@ def _lookup_field(obj: Any, *names: str) -> Any:
                 return obj[name]
         return None
     for name in names:
-        if hasattr(obj, name):
+        try:
             return getattr(obj, name)
+        except AttributeError:
+            continue
+        except Exception:
+            continue
     return None
 
 
@@ -372,27 +404,109 @@ def _extract_gemini_audio_response(response: Any) -> tuple[bytes, str | None] | 
     return None
 
 
+def _clip_debug_value(value: Any, max_len: int = 180) -> str:
+    if value is None:
+        return "None"
+    text = str(value).replace("\n", "\\n")
+    return text if len(text) <= max_len else f"{text[:max_len]}..."
+
+
+def _summarize_gemini_response(response: Any) -> str:
+    lines = []
+    for field in ("response_id", "model_version"):
+        value = _lookup_field(response, field)
+        if value is not None:
+            lines.append(f"{field}={_clip_debug_value(value)}")
+
+    for field in ("prompt_feedback", "model_status"):
+        value = _lookup_field(response, field)
+        if value is not None:
+            lines.append(f"{field}={_clip_debug_value(value)}")
+
+    candidates = _lookup_field(response, "candidates") or []
+    lines.append(f"candidates={len(candidates)}")
+    for i, candidate in enumerate(candidates[:3]):
+        lines.append(
+            "candidate[{i}]: finish_reason={reason}, finish_message={message}".format(
+                i=i,
+                reason=_clip_debug_value(_lookup_field(candidate, "finish_reason")),
+                message=_clip_debug_value(_lookup_field(candidate, "finish_message")),
+            )
+        )
+        content = _lookup_field(candidate, "content")
+        parts = _lookup_field(content, "parts") or []
+        lines.append(f"candidate[{i}].parts={len(parts)}")
+        for j, part in enumerate(parts[:5]):
+            text = _lookup_field(part, "text")
+            inline_data = _lookup_field(part, "inline_data", "inlineData")
+            if inline_data is not None:
+                blob_data = _lookup_field(inline_data, "data")
+                blob_len = len(blob_data) if isinstance(blob_data, (bytes, bytearray, str, list)) else "unknown"
+                lines.append(
+                    "candidate[{i}].part[{j}]: inline_data mime={mime}, data_len={length}".format(
+                        i=i,
+                        j=j,
+                        mime=_clip_debug_value(_lookup_field(inline_data, "mime_type", "mimeType")),
+                        length=blob_len,
+                    )
+                )
+            elif text is not None:
+                lines.append(f"candidate[{i}].part[{j}]: text={_clip_debug_value(text)}")
+            else:
+                lines.append(f"candidate[{i}].part[{j}]: no text/inline_data")
+    return "; ".join(lines)
+
+
 def _audio_from_gemini_response(response: Any) -> tuple[np.ndarray, int]:
     extracted = _extract_gemini_audio_response(response)
     if extracted is None:
-        raise RuntimeError("Gemini TTS response did not contain inline audio data.")
+        raise RuntimeError(
+            "Gemini TTS response did not contain inline audio data. "
+            f"Response summary: {_summarize_gemini_response(response)}"
+        )
     raw, content_type = extracted
     return _audio_from_bytes(raw, content_type)
+
+
+def _gemini_tts_prompt(text: str) -> str:
+    template = os.getenv(
+        "GEMINI_TTS_PROMPT_TEMPLATE",
+        "Say the following Vietnamese text exactly as written, as a native Vietnamese speaker, "
+        "with natural short-form video delivery:\n{text}",
+    )
+    return template.format(text=text)
+
+
+def _is_gemini_shout_text(text: str) -> bool:
+    compact = " ".join(text.strip().lower().split())
+    if len(compact) > 36 or len(compact.split()) > 2:
+        return False
+    return ("vào" in compact or "vao" in compact) and ("ooo" in compact or "!" in compact)
+
+
+def _gemini_shout_prompt(text: str) -> str:
+    template = os.getenv(
+        "GEMINI_TTS_SHOUT_PROMPT_TEMPLATE",
+        "Produce a single excited Vietnamese football goal shout as a native Vietnamese speaker. "
+        "Say 'Vào!' with the final vowel stretched naturally for about two seconds. "
+        "Do not say anything else.",
+    )
+    return template.format(text=text)
 
 
 def _synthesize_with_gemini(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
     _, genai_types = _get_gemini_sdk()
     client = _get_gemini_client()
     model = os.getenv("GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
-    voice_name = _coerce_voice_name(voice, "GEMINI_TTS_VOICE") or "charon"
-    speech_config_kwargs: dict[str, Any] = {
-        "voice_config": genai_types.VoiceConfig(
+    voice_name = _coerce_voice_name(voice, "GEMINI_TTS_VOICE")
+    speech_config_kwargs: dict[str, Any] = {}
+    if voice_name:
+        speech_config_kwargs["voice_config"] = genai_types.VoiceConfig(
             prebuilt_voice_config=genai_types.PrebuiltVoiceConfig(voice_name=voice_name)
         )
-    }
-    language_code = os.getenv("GEMINI_TTS_LANGUAGE_CODE")
-    if language_code and language_code.strip():
-        speech_config_kwargs["language_code"] = language_code.strip()
+    language_code = (os.getenv("GEMINI_TTS_LANGUAGE_CODE") or "vi-VN").strip()
+    if language_code:
+        speech_config_kwargs["language_code"] = language_code
 
     config = genai_types.GenerateContentConfig(
         response_modalities=["audio"],
@@ -400,10 +514,27 @@ def _synthesize_with_gemini(text: str, voice: Any = None) -> tuple[np.ndarray, i
     )
     response = client.models.generate_content(
         model=model,
-        contents=text,
+        contents=_gemini_tts_prompt(text),
         config=config,
     )
-    return _audio_from_gemini_response(response)
+    try:
+        return _audio_from_gemini_response(response)
+    except RuntimeError as first_exc:
+        if not _is_gemini_shout_text(text):
+            raise
+
+        print("[tts_speed] Gemini TTS exact shout returned no audio; retrying as performed shout")
+        retry_response = client.models.generate_content(
+            model=model,
+            contents=_gemini_shout_prompt(text),
+            config=config,
+        )
+        try:
+            return _audio_from_gemini_response(retry_response)
+        except RuntimeError as retry_exc:
+            raise RuntimeError(
+                f"{first_exc} Retry as performed shout also failed: {retry_exc}"
+            ) from retry_exc
 
 
 def _synthesize_with_viettel_ai(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
@@ -688,7 +819,7 @@ def synthesize(
     voice : Any, optional
         Provider-specific voice token or object. VieNeu accepts a preset voice
         object, Viettel AI accepts a voice name, and Gemini accepts a prebuilt
-        voice name such as ``charon``.
+        voice name when explicitly configured.
     speed : float
         Playback speed multiplier. Default 1.2 (20% faster, pitch-preserved).
         Recommended range: 1.0–1.3. Do NOT exceed 1.3 for Vietnamese.
