@@ -242,7 +242,7 @@ const ApartmentRoom: React.FC<{
         <g opacity={0.12}>
           <rect x={-160} y={-58} width={320} height={166} rx={16} fill="none" stroke="#fff" />
         </g>
-        <text x={0} y={-106} textAnchor="middle" fontSize={22} fontWeight={900} style={{ fill: "#fff", fontFamily: INTER, letterSpacing: "0.08em" }}>
+        <text x={0} y={-96} textAnchor="middle" fontSize={20} fontWeight={900} style={{ fill: "#fff", fontFamily: INTER, letterSpacing: "0.08em" }}>
           {config.label}
         </text>
       </g>
@@ -266,27 +266,15 @@ const ApartmentRoom: React.FC<{
         hasSnack={config.hasSnack}
       />
 
-      {config.label ? (
-        <text
-          x={MID / 2}
-          y={1738}
-          textAnchor="middle"
-          fontSize={18}
-          fontWeight={700}
-          style={{ fill: "rgba(255,255,255,0.72)", fontFamily: INTER, letterSpacing: "0.12em" }}
-        >
-          {config.label}
-        </text>
-      ) : null}
       {reaction === "startled" ? (
-        <text x={MID / 2} y={1190} textAnchor="middle" fontSize={42} fontWeight={900} style={{ fill: accent, fontFamily: BE_VIETNAM_PRO }}>
+        <text x={MID / 2} y={1150} textAnchor="middle" fontSize={42} fontWeight={900} style={{ fill: accent, fontFamily: BE_VIETNAM_PRO }}>
           ỦA?
         </text>
       ) : null}
       {reaction === "cheering" ? (
         <text
           x={MID / 2}
-          y={1190}
+          y={1150}
           textAnchor="middle"
           fontSize={42 * shoutScale}
           fontWeight={900}
@@ -300,7 +288,7 @@ const ApartmentRoom: React.FC<{
         </text>
       ) : null}
       {frame >= waveHitFrame && side === "right" ? (
-        <text x={MID / 2} y={1190} textAnchor="middle" fontSize={38} fontWeight={900} style={{ fill: "#fff", fontFamily: BE_VIETNAM_PRO, opacity: roomPulse }}>
+        <text x={MID / 2} y={1150} textAnchor="middle" fontSize={38} fontWeight={900} style={{ fill: "#fff", fontFamily: BE_VIETNAM_PRO, opacity: roomPulse }}>
           HỠI ÔI
         </text>
       ) : null}
@@ -359,7 +347,14 @@ export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
     frame: Math.min(sceneDuration - 1, Math.max(0, item.frame)),
   }));
 
-  const checklistItems = checklist ?? ["Một căn đã biết trước", "Một căn vẫn còn trễ", "TV giữ vài giây để tránh đứng hình"];
+  const checklistItems = (checklist ?? ["Một căn đã biết trước", "Một căn vẫn còn trễ", "TV giữ vài giây để tránh đứng hình"]).map(
+    (item, index) =>
+      typeof item === "string"
+        ? { text: item, reveal_frame: index * 14, style: "default" as const }
+        : { style: "default" as const, ...item }
+  );
+  const maxChecklistFrame = Math.max(...checklistItems.map((item) => item.reveal_frame ?? 0), 1);
+  const checklistFrameScale = maxChecklistFrame > sceneDuration - 12 ? (sceneDuration - 12) / maxChecklistFrame : 1;
   const checklistProgress = resolvedTimeline.map((item, i) =>
     frame >= item.frame ? 1 : interpolate(frame, [Math.max(0, item.frame - 8), item.frame], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
   );
@@ -481,24 +476,41 @@ export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
           opacity: interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
         }}
       >
-        {checklistItems.map((item, i) => (
+        {checklistItems.map((item, i) => {
+          const revealFrame = Math.round((item.reveal_frame ?? i * 14) * checklistFrameScale);
+          const itemOpacity = interpolate(frame, [revealFrame, revealFrame + 8], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          });
+          const itemLift = interpolate(frame, [revealFrame, revealFrame + 8], [8, 0], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          });
+          return (
           <div
             key={i}
             style={{
               padding: "10px 16px",
               borderRadius: 999,
-              background: i % 2 === 0 ? "rgba(0,0,0,0.34)" : "rgba(255,255,255,0.1)",
-              border: `1px solid ${i % 2 === 0 ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.08)"}`,
-              color: "#fff",
+              background: item.style === "warning" ? "rgba(255,184,0,0.14)" : i % 2 === 0 ? "rgba(0,0,0,0.34)" : "rgba(255,255,255,0.1)",
+              border: `1px solid ${item.style === "warning" ? "rgba(255,184,0,0.45)" : i % 2 === 0 ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.08)"}`,
+              color: item.style === "warning" ? "#ffd166" : "#fff",
               fontSize: 16,
               fontWeight: 700,
               fontFamily: INTER,
               letterSpacing: "0.01em",
+              maxWidth: "100%",
+              textAlign: "center",
+              whiteSpace: "normal",
+              overflowWrap: "anywhere",
+              opacity: itemOpacity,
+              transform: `translateY(${itemLift}px)`,
             }}
           >
-            {item}
+            {item.text}
           </div>
-        ))}
+          );
+        })}
       </div>
     </AbsoluteFill>
   );

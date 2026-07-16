@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { GoalOrbJourneyNode, GoalOrbJourneySceneProps, GoalOrbJourneyTarget } from "../types";
-import { BE_VIETNAM_PRO, INTER } from "../styles";
+import { BE_VIETNAM_PRO, CAPTION_CLEAR_Y, INTER } from "../styles";
 import {
   cameraShake,
   clamp,
@@ -130,8 +130,17 @@ export const GoalOrbJourneyScene: React.FC<GoalOrbJourneySceneProps> = ({
 }) => {
   const frame = useCurrentFrame();
   const duration = Math.max(1, durationInFrames);
-  const nodes = (routeNodes?.length ? routeNodes : DEFAULT_NODES).slice();
-  const finalTargets = targets?.length ? targets : DEFAULT_TARGETS;
+  // Node/target labels render below their marker (see NodeMark/TargetHouse),
+  // so clamp authored y so the label — not just the marker — clears the
+  // caption pill's danger zone instead of landing under it.
+  const nodes = (routeNodes?.length ? routeNodes : DEFAULT_NODES).map((n) => ({
+    ...n,
+    y: Math.min(n.y, CAPTION_CLEAR_Y - 40),
+  }));
+  const finalTargets = (targets?.length ? targets : DEFAULT_TARGETS).map((t) => ({
+    ...t,
+    y: Math.min(t.y, CAPTION_CLEAR_Y - 84),
+  }));
 
   const birthEnd = Math.round(duration * 0.13);
   const splitEnd = Math.round(duration * 0.25);

@@ -102,7 +102,14 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
             entries.append((seg["path"], seg["offsetFrames"]))
         for rel, off_f in entries:
             path = os.path.abspath(os.path.join(remotion_dir, "public", rel))
-            clips.append((path, (start_f + off_f) * spf, (dur_f - off_f) * spf, 1.0))
+            max_f = dur_f - off_f
+            if max_f <= 0:
+                raise ValueError(
+                    f"shot '{shot.get('label', shot.get('id'))}': audio clip {rel!r} starts at "
+                    f"offset {off_f}f but the scene is only {dur_f}f long — the clip's start "
+                    "is past the scene's end. Extend duration_frames or move the clip earlier."
+                )
+            clips.append((path, (start_f + off_f) * spf, max_f * spf, 1.0))
         start_f += dur_f
     total = start_f * spf
 

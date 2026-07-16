@@ -209,7 +209,7 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
     return dict(props)
 
 
-def build_render_manifest(script: dict, audio_durations: dict) -> dict:
+def build_render_manifest(script: dict, audio_durations: dict, word_timings: dict | None = None) -> dict:
     fps = script.get("fps", FPS)
     shots = []
     for i, shot in enumerate(script_shots(script), start=1):
@@ -257,6 +257,15 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                 extra_audio.append(
                     {"path": f"audio/{wav_filename(seg_id)}", "offsetFrames": seg.get("at_frame", 0)}
                 )
+        for dlg_i, line in enumerate(raw_props.get("dialogue", [])):
+            dlg_id = f"{sid}_dlg{dlg_i}"
+            if dlg_id in audio_durations:
+                extra_audio.append(
+                    {
+                        "path": f"audio/{wav_filename(dlg_id)}",
+                        "offsetFrames": line.get("start_frame", line.get("frame", 0)),
+                    }
+                )
 
         shots.append(
             {
@@ -270,6 +279,7 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                 "durationInFrames": duration_frames,
                 "caption": caption,
                 "captionStyle": shot.get("on_screen_text_style"),
+                "captionWords": (word_timings or {}).get(sid, []),
                 "visual": visual,
             }
         )
@@ -313,6 +323,13 @@ def detect_dead_air(
             seg_id = f"{sid}_seg{seg_i}"
             if seg_id in audio_durations:
                 audio_ends.append(seg.get("at_frame", 0) + math.ceil(audio_durations[seg_id] * fps))
+
+        raw_props = script_shot.get("props", script_shot.get("visual", {}))
+        for dlg_i, line in enumerate(raw_props.get("dialogue", [])):
+            dlg_id = f"{sid}_dlg{dlg_i}"
+            if dlg_id in audio_durations:
+                start = line.get("start_frame", line.get("frame", 0))
+                audio_ends.append(start + math.ceil(audio_durations[dlg_id] * fps))
 
         if not audio_ends:
             continue

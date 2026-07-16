@@ -13,6 +13,7 @@ from pathlib import Path
 from time import time as now
 
 from vidgen.chunked_render import render_video_chunked
+from vidgen.karaoke_align import align_words
 from vidgen.shot_api import normalize_script_shots, script_shots
 from vidgen.tts_speed_adjustor import (
     fit_wav_to_duration,
@@ -515,7 +516,7 @@ def main():
     parser.add_argument(
         "--tts-provider",
         default=None,
-        help="TTS provider: vieneu, viettel_ai, or gemini (defaults to VIDGEN_TTS_PROVIDER)",
+        help="TTS provider: vieneu, viettel_ai, say, or gemini (defaults to VIDGEN_TTS_PROVIDER)",
     )
     parser.add_argument(
         "--tts-voice",
@@ -537,6 +538,11 @@ def main():
         type=float,
         default=-15.0,
         help="Normalize every voiceover clip to this RMS level in dBFS (soft-limited)",
+    )
+    parser.add_argument(
+        "--no-karaoke",
+        action="store_true",
+        help="Skip word-level forced alignment (karaoke caption highlighting)",
     )
     args = parser.parse_args()
 
@@ -572,6 +578,8 @@ def main():
         tts_voice = "Minh Đức"
     if not tts_voice and tts_provider == "viettel_ai":
         tts_voice = os.getenv("VIETTEL_AI_VOICE")
+    if not tts_voice and tts_provider == "say":
+        tts_voice = os.getenv("MACOS_SAY_VOICE", "Linh")
     if not tts_voice and tts_provider == "gemini":
         tts_voice = os.getenv("GEMINI_TTS_VOICE")
     print(f"[TTS] provider={tts_provider}, voice={tts_voice or '(default)'}")
@@ -589,6 +597,9 @@ def main():
             tts_jobs.append({"id": shot["id"], "text": shot["narration"], "speed": scene_speed})
         for i, seg in enumerate(shot.get("narration_per_criterion", [])):
             tts_jobs.append({"id": f"{shot['id']}_seg{i}", "text": seg["text"], "speed": scene_speed})
+        for i, line in enumerate(shot.get("props", {}).get("dialogue", [])):
+            if line.get("text"):
+                tts_jobs.append({"id": f"{shot['id']}_dlg{i}", "text": line["text"], "speed": scene_speed})
 
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
@@ -635,6 +646,26 @@ def main():
             max_duration_seconds=available_frames / fps,
         )
 
+    # Same fit pass for dialogue lines (e.g. WallPortalScene commentary):
+    # each line's window runs to the next line's start_frame, or scene end
+    # for the last line, so overlapping TTS takes never bleed into each other.
+    for shot in script_shots(script):
+        sid = shot["id"]
+        dialogue = shot.get("props", {}).get("dialogue", [])
+        if not dialogue or "duration_frames" not in shot:
+            continue
+        starts = [line.get("start_frame", line.get("frame", 0)) for line in dialogue]
+        tail = shot.get("transition_out_delay_frames", 0)
+        for i, start in enumerate(starts):
+            dlg_id = f"{sid}_dlg{i}"
+            wav_path = f"{WAV_DIR}/{wav_filename(dlg_id)}"
+            if not os.path.exists(wav_path):
+                continue
+            next_start = starts[i + 1] if i + 1 < len(starts) else shot["duration_frames"] - tail
+            available_frames = next_start - start
+            if available_frames > 0:
+                fit_wav_to_duration(wav_path, max_duration_seconds=available_frames / fps)
+
     # --- Audio durations ---
     audio_durations: dict = {}
     total_audio = 0.0
@@ -656,6 +687,12 @@ def main():
                 sid not in audio_durations
                 or "duration_frames" not in shot
                 or shot.get("narration_per_criterion")
+                # Dialogue lines (e.g. WallPortalScene commentary) are timed
+                # against the scene's own frame grid independently of the
+                # main narration track — tightening to narration length alone
+                # can shrink the scene shorter than a late dialogue line's
+                # start, which then produces a negative ffmpeg atrim window.
+                or shot.get("props", {}).get("dialogue")
             ):
                 continue
             offset = (shot.get("narration_timing_frames") or [0])[0]
@@ -665,13 +702,29 @@ def main():
                 print(f"{sid}: duration {shot['duration_frames']} -> {tightened} frames")
                 shot["duration_frames"] = tightened
 
+    # --- Word-level alignment for karaoke caption highlighting ---
+    word_timings: dict = {}
+    if not args.no_karaoke:
+        fps = script.get("fps", 30)
+        for shot in script_shots(script):
+            sid = shot["id"]
+            narration = shot.get("narration")
+            if not narration or sid not in audio_durations:
+                continue
+            wav_path = f"{WAV_DIR}/{wav_filename(sid)}"
+            offset = (shot.get("narration_timing_frames") or [0])[0]
+            timings = align_words(wav_path, narration, fps=fps, frame_offset=offset)
+            if timings:
+                word_timings[sid] = timings
+                print(f"[karaoke_align] {sid}: {len(timings)} words aligned")
+
     # --- Copy audio to Remotion public/ ---
     audio_ids = [job["id"] for job in tts_jobs]
     copy_audio_to_remotion_public(audio_ids, WAV_DIR, REMOTION_PUBLIC_AUDIO)
     print(f"Copied {len(audio_ids)} WAV file(s) to {REMOTION_PUBLIC_AUDIO}/")
 
     # --- Write render manifest ---
-    manifest = build_render_manifest(script, audio_durations)
+    manifest = build_render_manifest(script, audio_durations, word_timings=word_timings)
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
 

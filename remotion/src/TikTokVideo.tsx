@@ -93,6 +93,7 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
                 text={shot.caption}
                 durationInFrames={shot.durationInFrames}
                 style={shot.captionStyle}
+                words={shot.captionWords}
               />
             )}
           </Series.Sequence>

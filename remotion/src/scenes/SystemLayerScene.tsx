@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { SystemLayerSceneProps, SystemLayer } from "../types";
-import { colors, INTER } from "../styles";
+import { CAPTION_CLEAR_Y, colors, INTER } from "../styles";
 
 export type { SystemLayerSceneProps, SystemLayer };
 
@@ -24,8 +24,11 @@ const CANVAS_H = 1920;
 
 const HEADLINE_TOP_FRACTION = 0.15;
 const STACK_TOP_FRACTION = 0.3;
-const STACK_BOTTOM_FRACTION = 0.7;
-const BODY_TEXT_TOP_FRACTION = 0.72;
+// Stack bottom and bodyText must clear CAPTION_CLEAR_Y (the bottom caption
+// pill can grow to 5-6 lines for long Vietnamese narration) — derive both
+// fractions from it instead of hardcoded values that land past it.
+const STACK_BOTTOM_FRACTION = (CAPTION_CLEAR_Y - 130) / CANVAS_H;
+const BODY_TEXT_TOP_FRACTION = (CAPTION_CLEAR_Y - 90) / CANVAS_H;
 
 const BASE_LAYER_W = CANVAS_W * 0.85;
 const BASE_LAYER_H = 80;

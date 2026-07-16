@@ -126,16 +126,19 @@ def normalize_tts_provider(provider: str | None) -> str:
         "vieneu_tts": "vieneu",
         "viettel": "viettel_ai",
         "viettel_ai": "viettel_ai",
+        "say": "say",
+        "macos_say": "say",
+        "osx_say": "say",
         "gemini_tts": "gemini",
         "google_gemini": "gemini",
         "gemini_2_5_flash_tts": "gemini",
         "gemini_2_5_flash_preview_tts": "gemini",
     }
     normalized = aliases.get(value, value)
-    if normalized not in {"vieneu", "viettel_ai", "gemini"}:
+    if normalized not in {"vieneu", "viettel_ai", "gemini", "say"}:
         raise ValueError(
             f"Unsupported TTS provider '{provider}'. "
-            "Use 'vieneu', 'viettel_ai', or 'gemini'."
+            "Use 'vieneu', 'viettel_ai', 'gemini', or 'say'."
         )
     return normalized
 
@@ -597,6 +600,26 @@ def _synthesize_with_vieneu(text: str, voice: Any = None) -> tuple[np.ndarray, i
     return _audio_from_vieneu(audio_spec, tts)
 
 
+def _synthesize_with_macos_say(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
+    voice_name = _coerce_voice_name(voice, "MACOS_SAY_VOICE") or "Linh"
+    with tempfile.NamedTemporaryFile(suffix=".aiff", delete=False) as tmp:
+        out_path = tmp.name
+    try:
+        subprocess.run(
+            ["say", "-v", voice_name, "-o", out_path, text],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        samples, sr = sf.read(out_path, dtype="float32", always_2d=False)
+        return samples, sr
+    finally:
+        try:
+            os.unlink(out_path)
+        except FileNotFoundError:
+            pass
+
+
 def _time_stretch(samples: np.ndarray, sr: int, speed: float) -> np.ndarray:
     """
     Pitch-preserving time-stretch using librosa's WSOLA implementation.
@@ -807,7 +830,7 @@ def synthesize(
     provider: str = "vieneu",
 ) -> Path:
     """
-    Synthesize text with VieNeu-TTS, Viettel AI TTS, or Gemini TTS, apply
+    Synthesize text with VieNeu-TTS, Viettel AI TTS, macOS `say`, or Gemini TTS, apply
     speed-up and silence trimming, then save to output_path as a WAV file.
 
     Parameters
@@ -838,7 +861,8 @@ def synthesize(
     provider : str
         Internal TTS backend. ``vieneu`` keeps the current default behavior.
         ``viettel_ai`` uses the Viettel AI HTTP endpoint configured through
-        environment variables. ``gemini`` uses Gemini 2.5 Flash TTS via the
+        environment variables. ``say`` uses the local macOS speech synthesizer
+        and is fully offline. ``gemini`` uses Gemini 2.5 Flash TTS via the
         Google GenAI SDK.
 
     Returns
@@ -856,6 +880,8 @@ def synthesize(
         samples, sr = _synthesize_with_vieneu(text, voice)
     elif provider_key == "viettel_ai":
         samples, sr = _synthesize_with_viettel_ai(text, voice)
+    elif provider_key == "say":
+        samples, sr = _synthesize_with_macos_say(text, voice)
     else:
         samples, sr = _synthesize_with_gemini(text, voice)
 
@@ -967,7 +993,7 @@ def synthesize_scenes(
         Forwarded to synthesize() unless a scene provides its own ``tts_speed``.
     provider : str
         Internal TTS backend. ``vieneu`` keeps the current default behavior.
-        ``viettel_ai`` and ``gemini`` follow the same provider contract.
+        ``viettel_ai``, ``say``, and ``gemini`` follow the same provider contract.
         ``gemini`` uses Gemini 2.5 Flash TTS.
 
     Returns

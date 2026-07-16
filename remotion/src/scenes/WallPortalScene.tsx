@@ -79,29 +79,56 @@ const Booth: React.FC<{
 
 const DialogueBubble: React.FC<{
   frame: number;
-  item: WallPortalDialogue;
+  item: WallPortalDialogue & { frame: number; side: "left" | "right" };
   accent: string;
 }> = ({ frame, item, accent }) => {
   const enter = spring({ frame: frame - item.frame, fps: 30, config: { stiffness: 220, damping: 18 }, durationInFrames: 18 });
   if (enter <= 0) return null;
   const x = item.side === "left" ? 112 : 650;
-  const bubbleW = Math.min(320, Math.max(190, item.text.length * 12 + 30));
+  const words = item.text.split(/\s+/);
+  const lines = words.reduce<string[]>((result, word) => {
+    const last = result[result.length - 1];
+    if (!last || `${last} ${word}`.length > 24) result.push(word);
+    else result[result.length - 1] = `${last} ${word}`;
+    return result;
+  }, []);
+  const bubbleW = Math.min(350, Math.max(190, Math.max(...lines.map((line) => line.length)) * 12 + 34));
+  const bubbleH = lines.length > 1 ? 112 : 86;
   return (
     <g opacity={enter} transform={`translate(${x}, ${item.side === "left" ? 650 : 690})`}>
-      <rect x={0} y={0} width={bubbleW} height={86} rx={22} fill="rgba(255,255,255,0.94)" />
-      <path d={item.side === "left" ? "M 70 86 L 96 86 L 68 118 Z" : `M ${bubbleW - 70} 86 L ${bubbleW - 44} 86 L ${bubbleW - 66} 120 Z`} fill="rgba(255,255,255,0.94)" />
+      <rect x={0} y={0} width={bubbleW} height={bubbleH} rx={22} fill="rgba(255,255,255,0.94)" />
+      <path d={item.side === "left" ? `M 70 ${bubbleH} L 96 ${bubbleH} L 68 ${bubbleH + 32} Z` : `M ${bubbleW - 70} ${bubbleH} L ${bubbleW - 44} ${bubbleH} L ${bubbleW - 66} ${bubbleH + 34} Z`} fill="rgba(255,255,255,0.94)" />
       <text
         x={bubbleW / 2}
-        y={52}
+        y={lines.length > 1 ? 42 : 52}
         textAnchor="middle"
-        fontSize={24}
+        fontSize={lines.length > 1 ? 21 : 24}
         fontWeight={900}
         style={{ fill: accent, fontFamily: BE_VIETNAM_PRO }}
       >
-        {item.text}
+        {lines.map((line, index) => (
+          <tspan key={line} x={bubbleW / 2} dy={index === 0 ? 0 : 30}>{line}</tspan>
+        ))}
       </text>
     </g>
   );
+};
+
+// Dialogue can carry any number of lines (commentary exchanges routinely run
+// 4+), but each side has one fixed bubble slot — so only the most recent
+// line whose frame has arrived is shown per side, instead of hard-coding
+// three slots and silently dropping every line past index 2.
+const latestPerSide = (
+  items: Array<WallPortalDialogue & { frame: number; side: "left" | "right" }>,
+  frame: number,
+) => {
+  const latest: Partial<Record<"left" | "right", WallPortalDialogue & { frame: number; side: "left" | "right" }>> = {};
+  for (const item of items) {
+    if (item.frame > frame) continue;
+    const current = latest[item.side];
+    if (!current || item.frame >= current.frame) latest[item.side] = item;
+  }
+  return latest;
 };
 
 export const WallPortalScene: React.FC<WallPortalSceneProps> = ({
@@ -135,7 +162,14 @@ export const WallPortalScene: React.FC<WallPortalSceneProps> = ({
   const offsetX = camera.x + (push * -34) + 0;
   const offsetY = camera.y + (push * -10);
 
-  const items = dialogue?.length ? dialogue : DEFAULT_DIALOGUE;
+  const rawItems = dialogue?.length ? dialogue : DEFAULT_DIALOGUE;
+  const maxDialogueFrame = Math.max(...rawItems.map((item) => item.frame ?? item.start_frame ?? 0), 1);
+  const dialogueFrameScale = maxDialogueFrame > duration - 16 ? (duration - 16) / maxDialogueFrame : 1;
+  const items = rawItems.map((item, index) => ({
+    ...item,
+    frame: Math.round((item.frame ?? item.start_frame ?? index * 30) * dialogueFrameScale),
+    side: item.side ?? (item.speaker === "host" ? "left" : "right"),
+  }));
   const boothVisible = preset === "commentary_booth";
 
   return (
@@ -206,9 +240,15 @@ export const WallPortalScene: React.FC<WallPortalSceneProps> = ({
             {leftLabel}  ·  {rightLabel}
           </text>
 
-          <DialogueBubble frame={frame} item={items[0]} accent={accentColor} />
-          <DialogueBubble frame={frame} item={items[1] ?? items[0]} accent={accentColor} />
-          <DialogueBubble frame={frame} item={items[2] ?? items[items.length - 1]} accent={accentColor} />
+          {(() => {
+            const latest = latestPerSide(items, frame);
+            return (
+              <>
+                {latest.left ? <DialogueBubble frame={frame} item={latest.left} accent={accentColor} /> : null}
+                {latest.right ? <DialogueBubble frame={frame} item={latest.right} accent={accentColor} /> : null}
+              </>
+            );
+          })()}
 
           <text x={MID} y={1020} textAnchor="middle" fontSize={18} fontWeight={800} style={{ fill: "rgba(255,255,255,0.68)", fontFamily: INTER }}>
             {portalLabel}
