@@ -1,7 +1,7 @@
 """
 vidgen/tts_speed.py
 ───────────────────
-Speed wrapper for VieNeu-TTS.
+Speed wrapper for VieNeu-TTS and optional Viettel AI TTS.
 
 VieNeu's `tts.infer()` has no built-in speed/rate parameter.
 This module adds a post-processing step: WSOLA time-stretch via
@@ -34,21 +34,26 @@ Speed guidance:
 
 from __future__ import annotations
 
+import base64
+import binascii
+import json
 import os
 import subprocess
 import tempfile
 import warnings
 from pathlib import Path
 from typing import Optional, Any
+from urllib import error as urllib_error
+from urllib import request as urllib_request
 
 import numpy as np
+import soundfile as sf
 
 from vidgen.shot_api import script_shots
 
 # ── optional heavy deps (fail loudly with helpful message) ────────────────────
 try:
     import librosa
-    import soundfile as sf
 except ImportError as e:
     raise ImportError(
         "tts_speed requires librosa and soundfile.\n"
@@ -74,6 +79,39 @@ def _get_tts() -> Vieneu:
     return _tts_instance
 
 
+def normalize_tts_provider(provider: str | None) -> str:
+    """Normalize provider aliases into the internal provider key."""
+    value = (provider or os.getenv("VIDGEN_TTS_PROVIDER") or "vieneu").strip().lower().replace("-", "_")
+    aliases = {
+        "vie_neu": "vieneu",
+        "vieneu_tts": "vieneu",
+        "viettel": "viettel_ai",
+        "viettel_ai": "viettel_ai",
+    }
+    normalized = aliases.get(value, value)
+    if normalized not in {"vieneu", "viettel_ai"}:
+        raise ValueError(
+            f"Unsupported TTS provider '{provider}'. "
+            "Use 'vieneu' or 'viettel_ai'."
+        )
+    return normalized
+
+
+def _coerce_voice_name(voice: Any, env_var: str) -> str | None:
+    if voice is None:
+        value = os.getenv(env_var)
+        return value.strip() if value and value.strip() else None
+    if isinstance(voice, str):
+        value = voice.strip()
+        return value or None
+    for attr in ("name", "display_name", "voice_id", "id"):
+        value = getattr(voice, attr, None)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    value = str(voice).strip()
+    return value or None
+
+
 # ── core helpers ──────────────────────────────────────────────────────────────
 
 def _audio_from_vieneu(audio_spec: Any, tts: Vieneu) -> tuple[np.ndarray, int]:
@@ -94,6 +132,204 @@ def _audio_from_vieneu(audio_spec: Any, tts: Vieneu) -> tuple[np.ndarray, int]:
     finally:
         os.unlink(tmp_path)
     return samples, sr
+
+
+def _suffix_for_content_type(content_type: str | None) -> str:
+    if not content_type:
+        return ".bin"
+    content_type = content_type.split(";", 1)[0].strip().lower()
+    if content_type in {"audio/wav", "audio/x-wav"}:
+        return ".wav"
+    if content_type in {"audio/mpeg", "audio/mp3"}:
+        return ".mp3"
+    if content_type in {"audio/flac"}:
+        return ".flac"
+    if content_type in {"audio/ogg", "audio/opus"}:
+        return ".ogg"
+    if content_type in {"application/octet-stream"}:
+        return ".bin"
+    return ".bin"
+
+
+def _suffix_for_audio_bytes(raw: bytes) -> str:
+    if raw.startswith(b"RIFF"):
+        return ".wav"
+    if raw.startswith(b"fLaC"):
+        return ".flac"
+    if raw.startswith(b"OggS"):
+        return ".ogg"
+    if raw.startswith(b"ID3") or raw[:2] == b"\xff\xfb":
+        return ".mp3"
+    return ".bin"
+
+
+def _read_audio_file(path: str | Path) -> tuple[np.ndarray, int]:
+    try:
+        samples, sr = sf.read(str(path), dtype="float32", always_2d=False)
+        return samples, sr
+    except Exception:
+        converted_path = f"{path}.wav"
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", str(path), "-vn", converted_path],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        try:
+            samples, sr = sf.read(converted_path, dtype="float32", always_2d=False)
+            return samples, sr
+        finally:
+            try:
+                os.unlink(converted_path)
+            except FileNotFoundError:
+                pass
+
+
+def _audio_from_bytes(raw: bytes, content_type: str | None = None) -> tuple[np.ndarray, int]:
+    suffix = _suffix_for_content_type(content_type)
+    if suffix == ".bin":
+        suffix = _suffix_for_audio_bytes(raw)
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+        tmp.write(raw)
+        tmp_path = tmp.name
+    try:
+        return _read_audio_file(tmp_path)
+    finally:
+        try:
+            os.unlink(tmp_path)
+        except FileNotFoundError:
+            pass
+
+
+def _decode_base64_string(value: str) -> bytes | None:
+    compact = "".join(value.split())
+    if len(compact) < 16:
+        return None
+    try:
+        return base64.b64decode(compact, validate=True)
+    except (binascii.Error, ValueError):
+        return None
+
+
+def _extract_remote_audio_source(payload: Any) -> tuple[str, str | bytes] | None:
+    if isinstance(payload, dict):
+        for key in ("audio_url", "download_url", "url", "file_url", "audioUri"):
+            value = payload.get(key)
+            if isinstance(value, str) and value.startswith(("http://", "https://")):
+                return ("url", value)
+
+        for key in ("audio", "audio_base64", "base64", "data", "result", "content"):
+            value = payload.get(key)
+            if isinstance(value, str):
+                if value.startswith("data:"):
+                    _, _, encoded = value.partition(",")
+                    decoded = _decode_base64_string(encoded)
+                    if decoded is not None:
+                        return ("bytes", decoded)
+                decoded = _decode_base64_string(value)
+                if decoded is not None:
+                    return ("bytes", decoded)
+
+        for value in payload.values():
+            nested = _extract_remote_audio_source(value)
+            if nested is not None:
+                return nested
+
+    if isinstance(payload, list):
+        for item in payload:
+            nested = _extract_remote_audio_source(item)
+            if nested is not None:
+                return nested
+
+    return None
+
+
+def _download_url_audio(url: str) -> tuple[np.ndarray, int]:
+    with urllib_request.urlopen(url, timeout=120) as resp:
+        raw = resp.read()
+        content_type = resp.headers.get_content_type()
+    return _audio_from_bytes(raw, content_type)
+
+
+def _audio_from_viettel_ai_response(raw: bytes, content_type: str | None) -> tuple[np.ndarray, int]:
+    if content_type and content_type.startswith("audio/"):
+        return _audio_from_bytes(raw, content_type)
+
+    stripped = raw.lstrip()
+    if stripped.startswith((b"{", b"[")):
+        payload = json.loads(raw.decode("utf-8"))
+        source = _extract_remote_audio_source(payload)
+        if source is None:
+            raise RuntimeError(
+                "Viettel AI TTS response did not contain audio. "
+                f"Top-level keys: {list(payload)[:8] if isinstance(payload, dict) else type(payload).__name__}"
+            )
+        kind, value = source
+        if kind == "url":
+            return _download_url_audio(value)
+        return _audio_from_bytes(value, content_type)
+
+    return _audio_from_bytes(raw, content_type)
+
+
+def _synthesize_with_viettel_ai(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
+    endpoint = os.getenv("VIETTEL_AI_TTS_URL", "https://viettelai.vn/tts/speech_synthesis")
+
+    payload: dict[str, Any] = {
+        "text": text,
+        "speed": 1.0,
+        "tts_return_option": int(os.getenv("VIETTEL_AI_RETURN_OPTION", "3")),
+        "without_filter": os.getenv("VIETTEL_AI_WITHOUT_FILTER", "false").lower() == "true",
+    }
+    voice_name = _coerce_voice_name(voice, "VIETTEL_AI_VOICE")
+    if voice_name:
+        payload["voice"] = voice_name
+
+    token = os.getenv("VIETTEL_AI_TOKEN") or os.getenv("VIETTEL_AI_API_KEY")
+    if token:
+        payload["token"] = token
+
+    extra_body = os.getenv("VIETTEL_AI_EXTRA_BODY_JSON")
+    if extra_body:
+        payload.update(json.loads(extra_body))
+
+    headers: dict[str, str] = {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "audio/*, application/json",
+    }
+
+    extra_headers = os.getenv("VIETTEL_AI_EXTRA_HEADERS_JSON")
+    if extra_headers:
+        headers.update(json.loads(extra_headers))
+
+    request = urllib_request.Request(
+        endpoint,
+        data=json.dumps(payload).encode("utf-8"),
+        headers=headers,
+        method="POST",
+    )
+
+    timeout_s = float(os.getenv("VIETTEL_AI_TIMEOUT_SECONDS", "120"))
+    try:
+        with urllib_request.urlopen(request, timeout=timeout_s) as resp:
+            raw = resp.read()
+            content_type = resp.headers.get_content_type()
+    except urllib_error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(
+            f"Viettel AI TTS failed with HTTP {exc.code}: {body[:500]}"
+        ) from exc
+
+    return _audio_from_viettel_ai_response(raw, content_type)
+
+
+def _synthesize_with_vieneu(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
+    tts = _get_tts()
+    infer_kwargs: dict[str, Any] = {"text": text}
+    if voice is not None:
+        infer_kwargs["voice"] = voice
+    audio_spec = tts.infer(**infer_kwargs)
+    return _audio_from_vieneu(audio_spec, tts)
 
 
 def _time_stretch(samples: np.ndarray, sr: int, speed: float) -> np.ndarray:
@@ -303,10 +539,11 @@ def synthesize(
     max_silence_ms: int = 120,
     top_db: int = 30,
     target_dbfs: float | None = -15.0,
+    provider: str = "vieneu",
 ) -> Path:
     """
-    Synthesize text with VieNeu-TTS, apply speed-up and silence trimming,
-    then save to output_path as a WAV file.
+    Synthesize text with VieNeu-TTS or Viettel AI TTS, apply speed-up and
+    silence trimming, then save to output_path as a WAV file.
 
     Parameters
     ----------
@@ -332,6 +569,10 @@ def synthesize(
         lands at the same loudness regardless of TTS take variation, near
         the ~-14 LUFS platforms normalize to. None disables normalization
         (clip keeps the model's native level, RMS-restored after stretch).
+    provider : str
+        Internal TTS backend. ``vieneu`` keeps the current default behavior.
+        ``viettel_ai`` uses the Viettel AI HTTP endpoint configured through
+        environment variables.
 
     Returns
     -------
@@ -341,15 +582,13 @@ def synthesize(
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    tts = _get_tts()
+    provider_key = normalize_tts_provider(provider)
 
     # ── 1. Synthesize ──────────────────────────────────────────────────────────
-    infer_kwargs: dict[str, Any] = {"text": text}
-    if voice is not None:
-        infer_kwargs["voice"] = voice
-
-    audio_spec = tts.infer(**infer_kwargs)
-    samples, sr = _audio_from_vieneu(audio_spec, tts)
+    if provider_key == "vieneu":
+        samples, sr = _synthesize_with_vieneu(text, voice)
+    else:
+        samples, sr = _synthesize_with_viettel_ai(text, voice)
 
     # ── 2. Time-stretch (pitch-corrected speedup) ──────────────────────────────
     samples = _time_stretch(samples, sr, speed)
@@ -425,6 +664,7 @@ def synthesize_scenes(
     trim_silence: bool = True,
     max_silence_ms: int = 120,
     target_dbfs: float | None = -15.0,
+    provider: str = "vieneu",
 ) -> dict[str, Path]:
     """
     Batch synthesize all scenes from a VidGen script dict.
@@ -437,9 +677,11 @@ def synthesize_scenes(
         Directory where per-scene .wav files are saved.
         Files are named: <scene_id>.wav
     voice : Any, optional
-        Shared VieNeu voice for all scenes.
+        Shared voice token for all scenes.
     speed, trim_silence, max_silence_ms :
         Forwarded to synthesize().
+    provider : str
+        Internal TTS backend. ``vieneu`` keeps the current default behavior.
 
     Returns
     -------
@@ -466,6 +708,7 @@ def synthesize_scenes(
             trim_silence=trim_silence,
             max_silence_ms=max_silence_ms,
             target_dbfs=target_dbfs,
+            provider=provider,
         )
         results[scene_id] = out_path
 
@@ -485,6 +728,7 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", default="audio", help="Output directory for WAV files")
     parser.add_argument("--speed", type=float, default=1.2, help="Speed multiplier (default 1.2)")
     parser.add_argument("--voice", default=None, help="Preset voice ID (e.g. 'Binh')")
+    parser.add_argument("--provider", default=None, help="TTS provider: vieneu or viettel_ai")
     parser.add_argument("--no-trim", action="store_true", help="Disable silence trimming")
     parser.add_argument("--max-silence-ms", type=int, default=120)
     args = parser.parse_args()
@@ -506,4 +750,5 @@ if __name__ == "__main__":
         speed=args.speed,
         trim_silence=not args.no_trim,
         max_silence_ms=args.max_silence_ms,
+        provider=normalize_tts_provider(args.provider),
     )

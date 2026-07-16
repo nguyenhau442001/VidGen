@@ -1,0 +1,410 @@
+{
+  "title": "Nếu công nghệ biết nói #1 — Crush đã Seen",
+  "language": "vi",
+  "fps": 30,
+  "shots": [
+    {
+      "id": "shot_01_seen_hook",
+      "duration_frames": 105,
+      "narration": "Seen rồi. Nhưng đó mới chỉ là dấu hiệu.",
+      "narration_timing_frames": [
+        0,
+        95
+      ],
+      "transition_out_delay_frames": 10,
+      "type": "conversation",
+      "props": {
+        "headline": "Seen rồi. Sao vẫn đau?",
+        "messages": [
+          {
+            "side": "right",
+            "sender": "User",
+            "text": "...Nó seen rồi."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_02_user_reaction",
+      "duration_frames": 120,
+      "narration": "Messenger biết kiểu gì? Câu trả lời nằm bên trong.",
+      "narration_timing_frames": [
+        0,
+        106
+      ],
+      "transition_out_delay_frames": 14,
+      "type": "conversation",
+      "props": {
+        "headline": "Messenger biết kiểu gì?",
+        "messages": [
+          {
+            "side": "right",
+            "sender": "User",
+            "text": "Khoan..."
+          },
+          {
+            "side": "right",
+            "sender": "User",
+            "text": "Messenger biết kiểu gì?"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_03_enter_phone",
+      "duration_frames": 105,
+      "narration": "Muốn biết à? Đi vào bên trong Messenger.",
+      "narration_timing_frames": [
+        0,
+        97
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "quote_callout",
+      "props": {
+        "text": "Muốn biết à? Đi vào bên trong Messenger.",
+        "accentWord": "Messenger",
+        "backgroundStyle": "gradient-subtle"
+      }
+    },
+    {
+      "id": "shot_04_packet_highway_reveal",
+      "duration_frames": 105,
+      "narration": "Một gói tin, không phải phép màu.",
+      "narration_timing_frames": [
+        0,
+        99
+      ],
+      "transition_out_delay_frames": 6,
+      "type": "conversation",
+      "props": {
+        "headline": "Một gói tin, không phải phép màu.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Packet",
+            "text": "Nhường đường! Drama tình cảm!"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_05_server_office_establishing",
+      "duration_frames": 105,
+      "narration": "Server nhận rồi ghi nhận.",
+      "narration_timing_frames": [
+        0,
+        97
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "conversation",
+      "props": {
+        "headline": "Server ghi nhận ngay.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Packet",
+            "text": "Sếp! Read Receipt!"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_06_server_reads_receipt",
+      "duration_frames": 105,
+      "narration": "Database luôn ghi lạnh lùng: đã lưu.",
+      "narration_timing_frames": [
+        0,
+        97
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "conversation",
+      "props": {
+        "headline": "Database lưu READ.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Đưa đây."
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Ờ."
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Database."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_07_database_library",
+      "duration_frames": 135,
+      "narration": "Lưu xong rồi mới đồng bộ Seen về lại máy bạn.",
+      "narration_timing_frames": [
+        0,
+        127
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "explanation",
+      "props": {
+        "headline": "Đã lưu rồi.",
+        "bullets": [
+          "Server chuyển READ",
+          "Database giữ trạng thái",
+          "Seen quay lại máy bạn"
+        ],
+        "accentWord": "lưu"
+      }
+    },
+    {
+      "id": "shot_08_notification_wakes",
+      "duration_frames": 105,
+      "narration": "Notification dậy trước, rồi thấy drama sau.",
+      "narration_timing_frames": [
+        0,
+        95
+      ],
+      "transition_out_delay_frames": 10,
+      "type": "conversation",
+      "props": {
+        "headline": "Notification dậy trước.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Dậy."
+          },
+          {
+            "side": "left",
+            "sender": "Notification",
+            "text": "Có drama?"
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Đi báo."
+          },
+          {
+            "side": "left",
+            "sender": "Notification",
+            "text": "Em thích việc này."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_09_router_checkpoint",
+      "duration_frames": 120,
+      "narration": "Router chỉ nhận đúng thứ hợp lệ.",
+      "narration_timing_frames": [
+        0,
+        114
+      ],
+      "transition_out_delay_frames": 6,
+      "type": "conversation",
+      "props": {
+        "headline": "Router kiểm tra giấy tờ.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Router",
+            "text": "Giấy tờ."
+          },
+          {
+            "side": "left",
+            "sender": "Notification",
+            "text": "Server gửi."
+          },
+          {
+            "side": "left",
+            "sender": "Router",
+            "text": "Qua."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_10_firewall_gate",
+      "duration_frames": 105,
+      "narration": "Firewall hỏi nguồn. Messenger trả lời.",
+      "narration_timing_frames": [
+        0,
+        95
+      ],
+      "transition_out_delay_frames": 10,
+      "type": "conversation",
+      "props": {
+        "headline": "Firewall hỏi nguồn.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Firewall",
+            "text": "Nguồn?"
+          },
+          {
+            "side": "left",
+            "sender": "Notification",
+            "text": "Messenger."
+          },
+          {
+            "side": "left",
+            "sender": "Firewall",
+            "text": "Hợp lệ. Qua."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_11_fiber_travel",
+      "duration_frames": 90,
+      "narration": "Đường đi qua cáp quang, không qua cảm xúc.",
+      "narration_timing_frames": [
+        0,
+        82
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "explanation",
+      "props": {
+        "headline": "Đường đi qua cáp quang.",
+        "body": "Dữ liệu đi qua cáp quang, rồi vào hệ thống phía sau.",
+        "accentWord": "cáp quang"
+      }
+    },
+    {
+      "id": "shot_12_seen_delivered",
+      "duration_frames": 105,
+      "narration": "Seen và Delivered chỉ là trạng thái.",
+      "narration_timing_frames": [
+        0,
+        105
+      ],
+      "transition_out_delay_frames": 0,
+      "type": "quote_callout",
+      "props": {
+        "text": "Seen và Delivered chỉ là trạng thái.",
+        "accentWord": "Seen",
+        "backgroundStyle": "dark"
+      }
+    },
+    {
+      "id": "shot_13_user_denial",
+      "duration_frames": 90,
+      "narration": "Bạn vẫn có thể tự an ủi mình.",
+      "narration_timing_frames": [
+        0,
+        90
+      ],
+      "transition_out_delay_frames": 0,
+      "type": "conversation",
+      "props": {
+        "headline": "Tự an ủi cũng được.",
+        "messages": [
+          {
+            "side": "right",
+            "sender": "User",
+            "text": "Ít nhất... chắc cô ấy đang bận."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_14_server_log_twist",
+      "duration_frames": 180,
+      "narration": "Không. Nó mở bốn lần rồi.",
+      "narration_timing_frames": [
+        0,
+        168
+      ],
+      "transition_out_delay_frames": 12,
+      "type": "conversation",
+      "props": {
+        "headline": "Mở bốn lần rồi.",
+        "messages": [
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "À... không."
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Nó mở bốn lần."
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Không rep."
+          },
+          {
+            "side": "left",
+            "sender": "Server",
+            "text": "Xin lỗi bro."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_15_read_receipt_explanation",
+      "duration_frames": 225,
+      "narration": "Read Receipt gửi xác nhận, rồi Seen quay lại.",
+      "narration_timing_frames": [
+        0,
+        217
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "explanation",
+      "props": {
+        "headline": "Read Receipt gửi xác nhận.",
+        "bullets": [
+          "Phone gửi READ",
+          "Server lưu trạng thái",
+          "Seen quay lại máy bạn"
+        ],
+        "accentWord": "Read Receipt"
+      }
+    },
+    {
+      "id": "shot_16_end_punchline",
+      "duration_frames": 165,
+      "narration": "Tao chỉ biết nó đã được đọc.",
+      "narration_timing_frames": [
+        0,
+        147
+      ],
+      "transition_out_delay_frames": 18,
+      "type": "quote_callout",
+      "props": {
+        "text": "Tao chỉ biết nó đã được đọc.",
+        "accentWord": "được đọc",
+        "backgroundStyle": "dark"
+      }
+    },
+    {
+      "id": "shot_17_end_card",
+      "duration_frames": 75,
+      "narration": "Tập sau: vì sao vẫn im lặng?",
+      "narration_timing_frames": [
+        0,
+        67
+      ],
+      "transition_out_delay_frames": 8,
+      "type": "preview_teaser",
+      "props": {
+        "headline": "Tập sau: vì sao vẫn im lặng?",
+        "subtext": "Seen không phải câu trả lời cuối.",
+        "preview": {
+          "items": [
+            "Bên trong Read Receipt",
+            "Vì sao Seen xuất hiện",
+            "Tập tiếp theo"
+          ],
+          "icon": "→"
+        },
+        "channel": "if-tech-could-talk"
+      }
+    }
+  ]
+}

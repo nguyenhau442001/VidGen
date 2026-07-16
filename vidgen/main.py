@@ -14,7 +14,11 @@ from time import time as now
 
 from vidgen.chunked_render import render_video_chunked
 from vidgen.shot_api import normalize_script_shots, script_shots
-from vidgen.tts_speed_adjustor import fit_wav_to_duration, synthesize as tts_synthesize
+from vidgen.tts_speed_adjustor import (
+    fit_wav_to_duration,
+    normalize_tts_provider,
+    synthesize as tts_synthesize,
+)
 from vidgen.manifest import (
     MAP_REF_H,
     MAP_REF_W,
@@ -458,6 +462,16 @@ def main():
         help="Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace)",
     )
     parser.add_argument(
+        "--tts-provider",
+        default=None,
+        help="TTS provider: vieneu or viettel_ai (defaults to VIDGEN_TTS_PROVIDER)",
+    )
+    parser.add_argument(
+        "--tts-voice",
+        default=None,
+        help="Voice name/ID for the selected TTS provider",
+    )
+    parser.add_argument(
         "--no-trim",
         action="store_true",
         help="Keep TTS silence (leading/trailing and long internal pauses)",
@@ -494,6 +508,14 @@ def main():
     if not args.skip_validation:
         validate_manifest(script)
 
+    tts_provider = normalize_tts_provider(args.tts_provider)
+    tts_voice = args.tts_voice or os.getenv("VIDGEN_TTS_VOICE")
+    if not tts_voice and tts_provider == "vieneu":
+        tts_voice = "Minh Đức"
+    if not tts_voice and tts_provider == "viettel_ai":
+        tts_voice = os.getenv("VIETTEL_AI_VOICE")
+    print(f"[TTS] provider={tts_provider}, voice={tts_voice or '(default)'}")
+
     script_stem = Path(args.script).stem
     if script_stem.startswith("script_"):
         script_stem = script_stem[len("script_"):]
@@ -513,10 +535,11 @@ def main():
         tts_synthesize(
             job["text"],
             output_path,
-            voice="Minh Đức",
+            voice=tts_voice,
             speed=args.speed,
             trim_silence=not args.no_trim,
             target_dbfs=args.target_dbfs,
+            provider=tts_provider,
         )
         return job["id"]
 
