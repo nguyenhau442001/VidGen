@@ -228,6 +228,21 @@ def _load_caption_source(video_path: Path, source_path: str | Path | None = None
     return {}, None
 
 
+def _topic_from_path(path: str | Path | None) -> str:
+    if not path:
+        return ""
+
+    stem = Path(path).stem
+    if stem == "render_manifest":
+        return ""
+    if stem.startswith("script_"):
+        stem = stem[len("script_"):]
+    if stem.endswith(".gate1_llm"):
+        stem = stem[: -len(".gate1_llm")]
+
+    return re.sub(r"[_-]+", " ", stem).strip()
+
+
 def _scene_signal_score(scene: dict) -> int:
     score = 0
     for key in ("narration", "on_screen_text", "caption"):
@@ -261,12 +276,13 @@ def _scene_summary(scene: dict) -> str:
     return " | ".join(parts)
 
 
-def _build_caption_brief(source: dict, video_path: Path) -> dict:
+def _build_caption_brief(source: dict, video_path: Path, source_path: str | Path | None = None) -> dict:
     shots = source.get("shots") or source.get("scenes") or []
     topic = (
         source.get("title")
         or source.get("meta", {}).get("title")
-        or video_path.stem.replace("_", " ")
+        or _topic_from_path(source_path)
+        or _topic_from_path(video_path)
     ).strip()
 
     scored = [(idx, shot, _scene_signal_score(shot)) for idx, shot in enumerate(shots)]
@@ -392,7 +408,7 @@ def _compose_caption(caption: str, hashtags: list[str], limit: int = 2200) -> st
 
 def _generate_tiktok_caption(video_path: Path, source_path: str | Path | None = None) -> str:
     source, resolved_source = _load_caption_source(video_path, source_path)
-    brief = _build_caption_brief(source, video_path)
+    brief = _build_caption_brief(source, video_path, resolved_source or source_path)
 
     try:
         raw = _call_caption_model(_build_caption_messages(brief))
@@ -644,6 +660,7 @@ def publish_tiktok(
     privacy: str = PRIVACY_PUBLIC,
     schedule_time: Optional[str] = None,
     source_path: str | Path | None = None,
+    auto_caption: bool = False,
 ) -> dict:
     """
     Full pipeline: token check → init → upload → publish → poll → notify.
@@ -654,6 +671,7 @@ def publish_tiktok(
         privacy:       One of PRIVACY_PUBLIC / PRIVACY_FRIENDS / PRIVACY_FOLLOWERS / PRIVACY_SELF
         schedule_time: ISO-8601 string for scheduled post, or None for immediate
         source_path:   Optional script/manifest JSON used for caption generation
+        auto_caption:  Force LLM caption generation even when title is provided
 
     Returns:
         dict with publish_id, status, and share_url (if available)
@@ -664,7 +682,8 @@ def publish_tiktok(
 
     print(f"\n── TikTok Publish ───────────────────────────────────")
     print(f"   File:    {video_path.name} ({video_path.stat().st_size // 1024 // 1024} MB)")
-    caption_preview = title[:60] + ("..." if len(title) > 60 else "") if title.strip() else "<auto-generate>"
+    should_auto_caption = auto_caption or not title.strip()
+    caption_preview = "<auto-generate>" if should_auto_caption else title[:60] + ("..." if len(title) > 60 else "")
     print(f"   Caption: {caption_preview}")
     print(f"   Privacy: {privacy}")
 
@@ -690,7 +709,7 @@ def publish_tiktok(
         _upload_chunks(video_path, upload_url, CHUNK_SIZE)
 
         # 5. Build caption right before publish, then post it
-        caption = title.strip() if title and title.strip() else _generate_tiktok_caption(video_path, source_path)
+        caption = _generate_tiktok_caption(video_path, source_path) if should_auto_caption else title.strip()
         print(f"   Final caption: {caption[:80]}{'...' if len(caption) > 80 else ''}")
         _publish(access_token, publish_id, caption, privacy, schedule_time)
 
@@ -876,7 +895,12 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="VidGen TikTok publisher")
     parser.add_argument("video", nargs="?", help="Path to .mp4 file")
-    parser.add_argument("--title", default="", help="Caption override (blank = auto-generate from source script)")
+    parser.add_argument("--title", default="", help="Manual caption override")
+    parser.add_argument(
+        "--auto-caption",
+        action="store_true",
+        help="Generate caption + 3 hashtags from topic, hook narration, and key scenes",
+    )
     parser.add_argument("--source", default=None, help="Optional script/manifest JSON for auto caption generation")
     parser.add_argument(
         "--privacy",
@@ -916,6 +940,7 @@ def main() -> None:
             privacy=args.privacy,
             schedule_time=args.schedule,
             source_path=args.source,
+            auto_caption=args.auto_caption,
         )
         print(f"\nResult: {result}")
     except Exception as e:
