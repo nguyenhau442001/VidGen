@@ -461,6 +461,8 @@ def gate1_llm_assert(
     min_total: int = MIN_TOTAL_SCORE,
     min_dimension: int = MIN_DIMENSION_SCORE,
     auto_rewrite: bool = True,
+    verbose: bool = True,
+    return_metadata: bool = False,
 ) -> dict:
     """
     Run LLM viral score check. Optionally auto-rewrites script if it fails.
@@ -471,22 +473,34 @@ def gate1_llm_assert(
         min_total:     Minimum total score (default 30/40).
         min_dimension: Minimum per-dimension score (default 7/10).
         auto_rewrite:  If True, call LLM to rewrite failing scripts.
+        verbose:       If True, print the per-attempt report to stdout.
+        return_metadata: If True, return a dict with the script and result metadata.
 
     Returns:
-        The (possibly rewritten) script dict that passed the gate.
+        The (possibly rewritten) script dict that passed the gate, or a metadata
+        dict when return_metadata=True.
 
     Raises:
         ValueError: if script fails after all retries.
         RuntimeError: if API call fails.
     """
     current_script = script
+    rewrote = False
 
     for attempt in range(1, max_retries + 2):  # +2: first eval + max_retries rewrites
-        print(f"\n── Gate 1 LLM: Viral Score (attempt {attempt}) ──────────────")
         result = viral_score(current_script, min_total=min_total, min_dimension=min_dimension)
-        print(result["report"])
+        if verbose:
+            print(f"\n── Gate 1 LLM: Viral Score (attempt {attempt}) ──────────────")
+            print(result["report"])
 
         if result["pass"]:
+            if return_metadata:
+                return {
+                    "script": current_script,
+                    "result": result,
+                    "attempts": attempt,
+                    "rewrote": rewrote,
+                }
             return current_script
 
         # Failed
@@ -499,10 +513,13 @@ def gate1_llm_assert(
                 "Fix the script manually and re-run."
             )
 
-        print(f"\n[Gate 1 LLM] Score too low ({result['total']}/40). Rewriting script...")
+        if verbose:
+            print(f"\n[Gate 1 LLM] Score too low ({result['total']}/40). Rewriting script...")
         try:
             current_script = _rewrite_script(current_script, result["issues"], result["total"], min_total=min_total)
-            print("[Gate 1 LLM] Rewrite complete. Re-evaluating...")
+            rewrote = True
+            if verbose:
+                print("[Gate 1 LLM] Rewrite complete. Re-evaluating...")
         except (json.JSONDecodeError, KeyError) as e:
             raise ValueError(f"[Gate 1 LLM] Rewrite produced invalid JSON: {e}") from e
 
