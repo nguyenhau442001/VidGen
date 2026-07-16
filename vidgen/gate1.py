@@ -31,7 +31,7 @@ from vidgen.shot_api import script_shots
 # whitespace word counts run higher than an English equivalent.
 # ---------------------------------------------------------------------------
 
-MIN_TOTAL_SCORE = 16        # out of 20 (4 dimensions × 5 max each)
+MIN_TOTAL_SCORE = 16        # out of 25 (5 dimensions × 5 max each)
 MIN_DIMENSION_SCORE = 3     # every dimension must be at least this
 VALID_FRAME_RANGE = (90, 390)  # 3s–13s per scene @ 30fps
 MAX_HOOK_WORDS = 20         # hook narration word count ceiling
@@ -50,6 +50,17 @@ VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
 }
 ACCENT_COLOR = "#00ff41"
 
+HOOK_BEAT_MARKERS = (
+    "tại sao", "vì sao", "sao", "không phải", "tưởng", "nhưng",
+    "thực ra", "thật ra", "ngược", "đừng", "bất ngờ", "sốc",
+    "càng", "điều gì", "lý do", "sự thật",
+)
+CTA_BEAT_MARKERS = (
+    "xem phần tiếp theo", "phần tiếp theo", "xem tiếp", "phần sau",
+    "tập sau", "để xem", "xem thêm", "follow", "theo dõi", "subscribe",
+    "bình luận", "comment", "đừng bỏ lỡ", "còn một", "còn nữa",
+)
+
 
 def _tokens(text: str) -> list[str]:
     return re.findall(r"[^\s.,!?—\-]+", text.lower())
@@ -61,23 +72,38 @@ def _filler_hits(text: str) -> list[str]:
     return [w for w in FILLER_WORDS if f" {w} " in joined]
 
 
+def _contains_marker(text: str, marker: str) -> bool:
+    lowered = (text or "").lower()
+    if " " in marker:
+        return marker in lowered
+    return re.search(rf"\b{re.escape(marker)}\b", lowered) is not None
+
+
+def _looks_like_hook(text: str) -> bool:
+    return any(_contains_marker(text, marker) for marker in HOOK_BEAT_MARKERS)
+
+
+def _looks_like_cta(text: str) -> bool:
+    return any(_contains_marker(text, marker) for marker in CTA_BEAT_MARKERS)
+
+
 # ---------------------------------------------------------------------------
 # Scorer
 # ---------------------------------------------------------------------------
 
 def score_script(script: dict) -> dict:
     """
-    Score a VidGen script JSON across 4 dimensions.
+    Score a VidGen script JSON across 5 dimensions.
     Returns a dict: {dimension: score, ..., "total": int, "issues": [str]}
-    Each dimension is scored 1–5.  Total max = 20.
+    Each dimension is scored 1–5.  Total max = 25.
     """
     scenes: list[dict] = script_shots(script)
     issues: list[str] = []
     scores: dict[str, int] = {}
 
     if not scenes:
-        return {"hook": 1, "pacing": 1, "visual": 1, "arc": 1,
-                "total": 4, "issues": ["No shots found in script"]}
+        return {"hook": 1, "pacing": 1, "visual": 1, "arc": 1, "beat_order": 1,
+                "total": 5, "issues": ["No shots found in script"]}
 
     # ------------------------------------------------------------------
     # Dimension 1: Hook strength
@@ -188,9 +214,42 @@ def score_script(script: dict) -> dict:
     scores["arc"] = max(1, arc_score)
 
     # ------------------------------------------------------------------
+    # Dimension 5: Beat order
+    # ------------------------------------------------------------------
+    beat_order_score = 5
+    first_scene = scenes[0]
+    last_scene = scenes[-1]
+    first_narration = (first_scene.get("narration") or "").strip()
+    last_narration = (last_scene.get("narration") or "").strip()
+
+    first_ok = _looks_like_hook(first_narration)
+    last_ok = _looks_like_cta(last_narration)
+
+    if not first_ok:
+        beat_order_score -= 3
+        issues.append(
+            f"beat_order: scene đầu '{first_scene.get('id', '?')}' chưa có hook pattern rõ ràng — "
+            f"'{first_narration or '(none)'}'"
+        )
+    if not last_ok:
+        beat_order_score -= 3
+        issues.append(
+            f"beat_order: scene cuối '{last_scene.get('id', '?')}' chưa có CTA/open loop rõ ràng — "
+            f"'{last_narration or '(none)'}'"
+        )
+
+    scores["beat_order"] = max(1, beat_order_score)
+
+    # ------------------------------------------------------------------
     # Total
     # ------------------------------------------------------------------
-    scores["total"] = scores["hook"] + scores["pacing"] + scores["visual"] + scores["arc"]
+    scores["total"] = (
+        scores["hook"]
+        + scores["pacing"]
+        + scores["visual"]
+        + scores["arc"]
+        + scores["beat_order"]
+    )
     scores["issues"] = issues
     return scores
 
@@ -210,7 +269,7 @@ def gate1_assert(
 
     Args:
         script:        Parsed VidGen script JSON (dict with "shots" or legacy "scenes" key).
-        min_total:     Minimum total score to pass (default 16/20).
+        min_total:     Minimum total score to pass (default 16/25).
         min_dimension: Minimum score for any single dimension (default 3).
 
     Raises:
@@ -225,7 +284,7 @@ def gate1_assert(
     if total_fail or failed_dims:
         lines = [
             "╔══ GATE 1 FAIL ══════════════════════════════════",
-            f"║  Total:  {audit['total']}/20  (min {min_total})"
+            f"║  Total:  {audit['total']}/25  (min {min_total})"
               + ("  ❌" if total_fail else "  ✅"),
         ]
         for dim, score in dim_scores.items():
@@ -247,7 +306,7 @@ def format_report(audit: dict) -> str:
     dim_scores = {k: v for k, v in audit.items() if k not in ("total", "issues")}
     lines = [
         "╔══ GATE 1 PASS ══════════════════════════════════",
-        f"║  Total:  {audit['total']}/20  ✅",
+        f"║  Total:  {audit['total']}/25  ✅",
     ]
     for dim, score in dim_scores.items():
         bar = "█" * score + "░" * (5 - score)
