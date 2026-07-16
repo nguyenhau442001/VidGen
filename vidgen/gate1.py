@@ -50,15 +50,20 @@ VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
 }
 ACCENT_COLOR = "#00ff41"
 
-HOOK_BEAT_MARKERS = (
-    "tại sao", "vì sao", "sao", "không phải", "tưởng", "nhưng",
-    "thực ra", "thật ra", "ngược", "đừng", "bất ngờ", "sốc",
-    "càng", "điều gì", "lý do", "sự thật",
+HOOK_STRONG_MARKERS = (
+    "tại sao", "vì sao", "không phải", "thực ra", "thật ra",
+    "bất ngờ", "sốc", "lý do", "sự thật", "điều gì",
 )
-CTA_BEAT_MARKERS = (
-    "xem phần tiếp theo", "phần tiếp theo", "xem tiếp", "phần sau",
-    "tập sau", "để xem", "xem thêm", "follow", "theo dõi", "subscribe",
-    "bình luận", "comment", "đừng bỏ lỡ", "còn một", "còn nữa",
+HOOK_WEAK_MARKERS = (
+    "sao", "tưởng", "nhưng", "ngược", "đừng", "càng",
+)
+CTA_STRONG_MARKERS = (
+    "xem phần tiếp theo", "phần tiếp theo", "xem tiếp", "tập sau",
+    "để xem", "xem thêm", "follow", "theo dõi", "subscribe",
+    "bình luận", "comment", "đừng bỏ lỡ",
+)
+CTA_WEAK_MARKERS = (
+    "phần sau", "còn một", "còn nữa",
 )
 
 
@@ -80,11 +85,21 @@ def _contains_marker(text: str, marker: str) -> bool:
 
 
 def _looks_like_hook(text: str) -> bool:
-    return any(_contains_marker(text, marker) for marker in HOOK_BEAT_MARKERS)
+    words = len(_tokens(text))
+    if any(_contains_marker(text, marker) for marker in HOOK_STRONG_MARKERS):
+        return True
+    if words < 4:
+        return False
+    return any(_contains_marker(text, marker) for marker in HOOK_WEAK_MARKERS)
 
 
 def _looks_like_cta(text: str) -> bool:
-    return any(_contains_marker(text, marker) for marker in CTA_BEAT_MARKERS)
+    words = len(_tokens(text))
+    if any(_contains_marker(text, marker) for marker in CTA_STRONG_MARKERS):
+        return True
+    if words < 4:
+        return False
+    return any(_contains_marker(text, marker) for marker in CTA_WEAK_MARKERS)
 
 
 # ---------------------------------------------------------------------------

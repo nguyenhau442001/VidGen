@@ -1,6 +1,6 @@
 import pytest
 
-from vidgen.gate1 import gate1_assert, score_script
+from vidgen.gate1 import gate1_assert, score_script, _looks_like_cta, _looks_like_hook
 
 
 def _script(shots):
@@ -93,3 +93,13 @@ def test_gate1_assert_fails_when_first_and_last_scenes_are_generic():
     assert "beat_order" in message
     assert "scene đầu" in message
     assert "scene cuối" in message
+
+
+def test_short_hook_and_cta_markers_do_not_overmatch():
+    assert not _looks_like_hook("Sao?")
+    assert not _looks_like_cta("Còn nữa.")
+
+
+def test_short_strong_hook_and_cta_still_match():
+    assert _looks_like_hook("Tại sao?")
+    assert _looks_like_cta("Xem tiếp.")
