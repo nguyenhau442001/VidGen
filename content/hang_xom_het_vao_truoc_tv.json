@@ -14,8 +14,15 @@
       "type": "SplitApartmentScene",
       "duration_frames": 300,
       "narration": "Tại sao hàng xóm hét VÀO trước mình?",
-      "narration_timing_frames": [8, 250],
+      "narration_timing_frames": [16, 250],
       "transition_out_delay_frames": 12,
+      "sound_design": "long vocal shout 'Vàoooooooooooooooooo' at frame 0, room cheer swell frame 12, TV glow pulse frame 24",
+      "narration_per_criterion": [
+        {
+          "at_frame": 0,
+          "text": "Vàoooooooooooooooooo!"
+        }
+      ],
       "props": {
         "preset": "neighbor_alert_callback",
         "headline": "Tại sao hàng xóm hét VÀO trước mình?",

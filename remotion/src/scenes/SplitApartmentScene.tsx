@@ -200,6 +200,15 @@ const ApartmentRoom: React.FC<{
   const roomTint = side === "left" ? "rgba(40, 82, 42, 0.28)" : "rgba(24, 42, 76, 0.3)";
   const wallTint = side === "left" ? "rgba(29, 38, 43, 0.96)" : "rgba(23, 22, 38, 0.96)";
   const reaction = config.reaction ?? (side === "left" ? "cheering" : "watching");
+  const shoutScale =
+    reaction === "cheering"
+      ? interpolate(frame, [0, Math.max(1, goalFrame)], [1.05, side === "left" ? 2.55 : 1.75], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        })
+      : reaction === "startled"
+        ? interpolate(frame, [0, 28], [0.95, 1.08], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+        : 1;
 
   return (
     <g transform={`translate(${x0 + cameraJitter.x * (side === "left" ? -0.2 : 0.2)}, ${cameraJitter.y})`}>
@@ -275,7 +284,18 @@ const ApartmentRoom: React.FC<{
         </text>
       ) : null}
       {reaction === "cheering" ? (
-        <text x={MID / 2} y={1190} textAnchor="middle" fontSize={42} fontWeight={900} style={{ fill: accent, fontFamily: BE_VIETNAM_PRO }}>
+        <text
+          x={MID / 2}
+          y={1190}
+          textAnchor="middle"
+          fontSize={42 * shoutScale}
+          fontWeight={900}
+          style={{
+            fill: accent,
+            fontFamily: BE_VIETNAM_PRO,
+            textShadow: `0 0 ${18 * shoutScale}px ${accent}`,
+          }}
+        >
           VÀO!
         </text>
       ) : null}
