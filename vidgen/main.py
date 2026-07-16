@@ -515,12 +515,12 @@ def main():
     parser.add_argument(
         "--tts-provider",
         default=None,
-        help="TTS provider: vieneu or viettel_ai (defaults to VIDGEN_TTS_PROVIDER)",
+        help="TTS provider: vieneu, viettel_ai, or gemini (defaults to VIDGEN_TTS_PROVIDER)",
     )
     parser.add_argument(
         "--tts-voice",
         default=None,
-        help="Voice name/ID for the selected TTS provider",
+        help="Voice name/ID for the selected TTS provider (Gemini uses prebuilt voices like charon)",
     )
     parser.add_argument(
         "--no-trim",
@@ -567,6 +567,8 @@ def main():
         tts_voice = "Minh Đức"
     if not tts_voice and tts_provider == "viettel_ai":
         tts_voice = os.getenv("VIETTEL_AI_VOICE")
+    if not tts_voice and tts_provider == "gemini":
+        tts_voice = os.getenv("GEMINI_TTS_VOICE") or "charon"
     print(f"[TTS] provider={tts_provider}, voice={tts_voice or '(default)'}")
 
     script_stem = Path(args.script).stem

@@ -1,7 +1,7 @@
 """
 vidgen/tts_speed.py
 ───────────────────
-Speed wrapper for VieNeu-TTS and optional Viettel AI TTS.
+Speed wrapper for VieNeu-TTS, optional Viettel AI TTS, and Gemini TTS.
 
 VieNeu's `tts.infer()` has no built-in speed/rate parameter.
 This module adds a post-processing step: WSOLA time-stretch via
@@ -70,6 +70,9 @@ except ImportError as e:
 
 # ── module-level singleton — reuse across calls to avoid re-loading model ─────
 _tts_instance: Optional[Vieneu] = None
+_gemini_sdk: Any = None
+_gemini_types: Any = None
+_gemini_client: Any = None
 
 
 def _get_tts() -> Vieneu:
@@ -79,20 +82,60 @@ def _get_tts() -> Vieneu:
     return _tts_instance
 
 
+def _get_gemini_sdk() -> tuple[Any, Any]:
+    global _gemini_sdk, _gemini_types
+    if _gemini_sdk is None or _gemini_types is None:
+        try:
+            from google import genai as genai_sdk
+            from google.genai import types as genai_types
+        except ImportError as e:
+            raise ImportError(
+                "Gemini TTS requires the google-genai package.\n"
+                "Install with: pip install google-genai"
+            ) from e
+        _gemini_sdk = genai_sdk
+        _gemini_types = genai_types
+    return _gemini_sdk, _gemini_types
+
+
+def _get_gemini_client() -> Any:
+    global _gemini_client
+    if _gemini_client is None:
+        genai_sdk, _ = _get_gemini_sdk()
+        api_key = (
+            os.getenv("GEMINI_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
+            or os.getenv("GOOGLE_GENAI_API_KEY")
+        )
+        client_kwargs: dict[str, Any] = {}
+        if api_key:
+            client_kwargs["api_key"] = api_key
+        _gemini_client = genai_sdk.Client(**client_kwargs)
+    return _gemini_client
+
+
 def normalize_tts_provider(provider: str | None) -> str:
     """Normalize provider aliases into the internal provider key."""
-    value = (provider or os.getenv("VIDGEN_TTS_PROVIDER") or "vieneu").strip().lower().replace("-", "_")
+    value = (
+        provider
+        or os.getenv("VIDGEN_TTS_PROVIDER")
+        or "vieneu"
+    ).strip().lower().replace("-", "_").replace(".", "_")
     aliases = {
         "vie_neu": "vieneu",
         "vieneu_tts": "vieneu",
         "viettel": "viettel_ai",
         "viettel_ai": "viettel_ai",
+        "gemini_tts": "gemini",
+        "google_gemini": "gemini",
+        "gemini_2_5_flash_tts": "gemini",
+        "gemini_2_5_flash_preview_tts": "gemini",
     }
     normalized = aliases.get(value, value)
-    if normalized not in {"vieneu", "viettel_ai"}:
+    if normalized not in {"vieneu", "viettel_ai", "gemini"}:
         raise ValueError(
             f"Unsupported TTS provider '{provider}'. "
-            "Use 'vieneu' or 'viettel_ai'."
+            "Use 'vieneu', 'viettel_ai', or 'gemini'."
         )
     return normalized
 
@@ -270,6 +313,97 @@ def _audio_from_viettel_ai_response(raw: bytes, content_type: str | None) -> tup
         return _audio_from_bytes(value, content_type)
 
     return _audio_from_bytes(raw, content_type)
+
+
+def _lookup_field(obj: Any, *names: str) -> Any:
+    if obj is None:
+        return None
+    if isinstance(obj, dict):
+        for name in names:
+            if name in obj:
+                return obj[name]
+        return None
+    for name in names:
+        if hasattr(obj, name):
+            return getattr(obj, name)
+    return None
+
+
+def _blob_to_bytes(blob: Any) -> tuple[bytes | None, str | None]:
+    if blob is None:
+        return None, None
+    data = _lookup_field(blob, "data")
+    mime_type = _lookup_field(blob, "mime_type", "mimeType")
+    if data is None:
+        return None, mime_type
+    if isinstance(data, memoryview):
+        data = data.tobytes()
+    if isinstance(data, bytearray):
+        data = bytes(data)
+    if isinstance(data, str):
+        decoded = _decode_base64_string(data)
+        if decoded is not None:
+            data = decoded
+        else:
+            data = data.encode("utf-8")
+    if isinstance(data, list):
+        try:
+            data = bytes(data)
+        except Exception:
+            return None, mime_type
+    if not isinstance(data, (bytes, bytearray)):
+        return None, mime_type
+    return bytes(data), mime_type
+
+
+def _extract_gemini_audio_response(response: Any) -> tuple[bytes, str | None] | None:
+    candidates = _lookup_field(response, "candidates") or []
+    for candidate in candidates:
+        content = _lookup_field(candidate, "content")
+        parts = _lookup_field(content, "parts") or []
+        for part in parts:
+            raw, mime_type = _blob_to_bytes(_lookup_field(part, "inline_data", "inlineData"))
+            if raw is not None:
+                return raw, mime_type
+
+    raw, mime_type = _blob_to_bytes(_lookup_field(response, "inline_data", "inlineData"))
+    if raw is not None:
+        return raw, mime_type
+    return None
+
+
+def _audio_from_gemini_response(response: Any) -> tuple[np.ndarray, int]:
+    extracted = _extract_gemini_audio_response(response)
+    if extracted is None:
+        raise RuntimeError("Gemini TTS response did not contain inline audio data.")
+    raw, content_type = extracted
+    return _audio_from_bytes(raw, content_type)
+
+
+def _synthesize_with_gemini(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
+    _, genai_types = _get_gemini_sdk()
+    client = _get_gemini_client()
+    model = os.getenv("GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
+    voice_name = _coerce_voice_name(voice, "GEMINI_TTS_VOICE") or "charon"
+    speech_config_kwargs: dict[str, Any] = {
+        "voice_config": genai_types.VoiceConfig(
+            prebuilt_voice_config=genai_types.PrebuiltVoiceConfig(voice_name=voice_name)
+        )
+    }
+    language_code = os.getenv("GEMINI_TTS_LANGUAGE_CODE")
+    if language_code and language_code.strip():
+        speech_config_kwargs["language_code"] = language_code.strip()
+
+    config = genai_types.GenerateContentConfig(
+        response_modalities=["audio"],
+        speech_config=genai_types.SpeechConfig(**speech_config_kwargs),
+    )
+    response = client.models.generate_content(
+        model=model,
+        contents=text,
+        config=config,
+    )
+    return _audio_from_gemini_response(response)
 
 
 def _synthesize_with_viettel_ai(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
@@ -542,8 +676,8 @@ def synthesize(
     provider: str = "vieneu",
 ) -> Path:
     """
-    Synthesize text with VieNeu-TTS or Viettel AI TTS, apply speed-up and
-    silence trimming, then save to output_path as a WAV file.
+    Synthesize text with VieNeu-TTS, Viettel AI TTS, or Gemini TTS, apply
+    speed-up and silence trimming, then save to output_path as a WAV file.
 
     Parameters
     ----------
@@ -552,8 +686,9 @@ def synthesize(
     output_path : str | Path
         Destination .wav file. Parent directory is created if needed.
     voice : Any, optional
-        VieNeu voice object from tts.get_preset_voice() or tts.encode_reference().
-        If None, uses VieNeu's default voice.
+        Provider-specific voice token or object. VieNeu accepts a preset voice
+        object, Viettel AI accepts a voice name, and Gemini accepts a prebuilt
+        voice name such as ``charon``.
     speed : float
         Playback speed multiplier. Default 1.2 (20% faster, pitch-preserved).
         Recommended range: 1.0–1.3. Do NOT exceed 1.3 for Vietnamese.
@@ -572,7 +707,8 @@ def synthesize(
     provider : str
         Internal TTS backend. ``vieneu`` keeps the current default behavior.
         ``viettel_ai`` uses the Viettel AI HTTP endpoint configured through
-        environment variables.
+        environment variables. ``gemini`` uses Gemini 2.5 Flash TTS via the
+        Google GenAI SDK.
 
     Returns
     -------
@@ -587,8 +723,10 @@ def synthesize(
     # ── 1. Synthesize ──────────────────────────────────────────────────────────
     if provider_key == "vieneu":
         samples, sr = _synthesize_with_vieneu(text, voice)
-    else:
+    elif provider_key == "viettel_ai":
         samples, sr = _synthesize_with_viettel_ai(text, voice)
+    else:
+        samples, sr = _synthesize_with_gemini(text, voice)
 
     # ── 2. Time-stretch (pitch-corrected speedup) ──────────────────────────────
     samples = _time_stretch(samples, sr, speed)
@@ -693,11 +831,13 @@ def synthesize_scenes(
         Directory where per-scene .wav files are saved.
         Files are named: <scene_id>.wav
     voice : Any, optional
-        Shared voice token for all scenes.
+        Shared voice token for all scenes, interpreted by the selected provider.
     speed, trim_silence, max_silence_ms :
         Forwarded to synthesize() unless a scene provides its own ``tts_speed``.
     provider : str
         Internal TTS backend. ``vieneu`` keeps the current default behavior.
+        ``viettel_ai`` and ``gemini`` follow the same provider contract.
+        ``gemini`` uses Gemini 2.5 Flash TTS.
 
     Returns
     -------
@@ -739,13 +879,13 @@ if __name__ == "__main__":
     import json
 
     parser = argparse.ArgumentParser(
-        description="VieNeu-TTS speed wrapper — synthesize a VidGen script JSON"
+        description="VieNeu / Viettel AI / Gemini TTS speed wrapper — synthesize a VidGen script JSON"
     )
     parser.add_argument("script", help="Path to VidGen script JSON (content/*.json)")
     parser.add_argument("--output-dir", default="audio", help="Output directory for WAV files")
     parser.add_argument("--speed", type=float, default=1.2, help="Speed multiplier (default 1.2)")
-    parser.add_argument("--voice", default=None, help="Preset voice ID (e.g. 'Binh')")
-    parser.add_argument("--provider", default=None, help="TTS provider: vieneu or viettel_ai")
+    parser.add_argument("--voice", default=None, help="Voice name / preset ID for the selected provider")
+    parser.add_argument("--provider", default=None, help="TTS provider: vieneu, viettel_ai, or gemini")
     parser.add_argument("--no-trim", action="store_true", help="Disable silence trimming")
     parser.add_argument("--max-silence-ms", type=int, default=120)
     args = parser.parse_args()
