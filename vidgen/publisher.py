@@ -22,6 +22,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -47,6 +48,11 @@ UPLOAD_BASE     = "https://open-upload.tiktokapis.com"
 CHUNK_SIZE      = 10 * 1024 * 1024   # 10 MB per chunk (TikTok min: 5 MB)
 POLL_INTERVAL   = 5                   # seconds between status checks
 POLL_MAX        = 60                  # max poll attempts (~5 minutes)
+
+CAPTION_MODEL = os.getenv("ANTHROPIC_CAPTION_MODEL", "claude-sonnet-4-6")
+CAPTION_API_URL = "https://api.anthropic.com/v1/messages"
+CAPTION_API_VERSION = "2023-06-01"
+CAPTION_MAX_TOKENS = 512
 
 # ── Privacy options ───────────────────────────────────────────────────────────
 PRIVACY_PUBLIC       = "PUBLIC_TO_EVERYONE"
@@ -146,6 +152,275 @@ def _get_creator_info(access_token: str) -> dict:
     if data.get("error", {}).get("code") != "ok":
         raise RuntimeError(f"Creator info failed: {data}")
     return data["data"]
+
+
+# ── Auto caption generation ──────────────────────────────────────────────────
+
+CAPTION_SYSTEM_PROMPT = """Bạn là copywriter TikTok cho video công nghệ ngắn.
+Trả về JSON thuần túy, không markdown, không giải thích ngoài JSON.
+
+Mục tiêu:
+- Viết một caption ngắn, tự nhiên, gây tò mò.
+- Sinh đúng 3 hashtag liên quan, không generic rác.
+- Ưu tiên topic + hook narration + key scenes đã cung cấp.
+
+Output format:
+{
+  "caption": "chuỗi text caption",
+  "hashtags": ["#tag1", "#tag2", "#tag3"]
+}
+
+Rules:
+- caption nên gọn, sắc, dễ đọc trên mobile.
+- hashtags phải chính xác 3 phần tử, mỗi phần tử là một hashtag hợp lệ.
+- Không dùng markdown, list, hay code fence."""
+
+
+def _strip_markdown_fences(text: str) -> str:
+    """Remove ```json fences while preserving plain text."""
+    cleaned = text.strip()
+    if cleaned.startswith("```"):
+        cleaned = "\n".join(cleaned.split("\n")[1:])
+    if cleaned.endswith("```"):
+        cleaned = "\n".join(cleaned.split("\n")[:-1])
+    return cleaned.strip()
+
+
+def _normalize_hashtag(tag: str) -> str:
+    """Coerce a model-generated token into a plain hashtag."""
+    cleaned = re.sub(r"\s+", "", str(tag)).strip().lstrip("#")
+    cleaned = re.sub(r"[^\wÀ-ỹ]+", "", cleaned, flags=re.UNICODE)
+    return f"#{cleaned}" if cleaned else ""
+
+
+def _dedupe_preserve_order(items: list[str]) -> list[str]:
+    seen = set()
+    result = []
+    for item in items:
+        if item and item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+
+def _caption_source_candidates(video_path: Path, source_path: str | Path | None = None) -> list[Path]:
+    repo_root = Path(__file__).parent.parent
+    stem = video_path.stem
+    candidates: list[Path] = []
+
+    if source_path:
+        candidates.append(Path(source_path))
+
+    candidates.extend([
+        repo_root / "content" / f"script_{stem}.json",
+        repo_root / "content" / f"{stem}.json",
+        repo_root / "output" / "render_manifest.json",
+    ])
+
+    return candidates
+
+
+def _load_caption_source(video_path: Path, source_path: str | Path | None = None) -> tuple[dict, Path | None]:
+    for candidate in _caption_source_candidates(video_path, source_path):
+        if candidate.exists():
+            with open(candidate, encoding="utf-8") as f:
+                return json.load(f), candidate
+    return {}, None
+
+
+def _scene_signal_score(scene: dict) -> int:
+    score = 0
+    for key in ("narration", "on_screen_text", "caption"):
+        value = scene.get(key)
+        if value:
+            score += len(str(value).split())
+    visual = scene.get("props") or scene.get("visual") or {}
+    for key in ("headline", "body", "topicLabel", "partLabel", "leftCaption", "rightCaption"):
+        if visual.get(key):
+            score += 2
+    return score
+
+
+def _scene_summary(scene: dict) -> str:
+    visual = scene.get("props") or scene.get("visual") or {}
+    parts = [
+        f"id={scene.get('id', '?')}",
+        f"type={scene.get('type', '?')}",
+    ]
+
+    for key in ("narration", "on_screen_text", "caption"):
+        value = scene.get(key)
+        if value:
+            parts.append(f"{key}={value}")
+
+    for key in ("headline", "body", "topicLabel", "partLabel", "leftCaption", "rightCaption", "screenState"):
+        value = visual.get(key)
+        if value:
+            parts.append(f"{key}={value}")
+
+    return " | ".join(parts)
+
+
+def _build_caption_brief(source: dict, video_path: Path) -> dict:
+    shots = source.get("shots") or source.get("scenes") or []
+    topic = (
+        source.get("title")
+        or source.get("meta", {}).get("title")
+        or video_path.stem.replace("_", " ")
+    ).strip()
+
+    scored = [(idx, shot, _scene_signal_score(shot)) for idx, shot in enumerate(shots)]
+    signal_shots = [item for item in scored if item[2] > 0]
+    if not signal_shots:
+        signal_shots = scored
+
+    key_indices: list[int] = []
+    if signal_shots:
+        anchors = [signal_shots[0][0], signal_shots[len(signal_shots) // 2][0], signal_shots[-1][0]]
+        for idx in anchors:
+            if idx not in key_indices:
+                key_indices.append(idx)
+
+    key_scenes = [_scene_summary(shots[idx]) for idx in key_indices if idx < len(shots)]
+    hook_narration = ""
+    for shot in shots:
+        hook_narration = shot.get("narration") or shot.get("on_screen_text") or shot.get("caption") or ""
+        if hook_narration:
+            break
+
+    return {
+        "topic": topic,
+        "hook_narration": hook_narration,
+        "key_scenes": key_scenes,
+        "source_count": len(shots),
+    }
+
+
+def _build_caption_messages(brief: dict) -> list[dict]:
+    key_scenes = "\n".join(
+        f"{i + 1}. {scene}" for i, scene in enumerate(brief["key_scenes"])
+    ) or "1. Không có key scenes rõ ràng."
+
+    user_prompt = f"""Tạo caption TikTok bằng tiếng Việt từ dữ liệu sau.
+
+TOPIC:
+{brief['topic']}
+
+HOOK NARRATION:
+{brief['hook_narration'] or 'N/A'}
+
+KEY SCENES:
+{key_scenes}
+
+Yêu cầu:
+- Viết caption tự nhiên, sắc, có curiosity.
+- Dựa trên topic + hook + key scenes, không lan man.
+- Sinh đúng 3 hashtag, liên quan trực tiếp.
+- Trả về JSON với keys caption và hashtags."""
+
+    return [{"role": "user", "content": user_prompt}]
+
+
+def _call_caption_model(messages: list[dict]) -> str:
+    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY not set")
+
+    resp = requests.post(
+        CAPTION_API_URL,
+        headers={
+            "Content-Type": "application/json",
+            "anthropic-version": CAPTION_API_VERSION,
+            "x-api-key": api_key,
+        },
+        json={
+            "model": CAPTION_MODEL,
+            "max_tokens": CAPTION_MAX_TOKENS,
+            "system": CAPTION_SYSTEM_PROMPT,
+            "messages": messages,
+        },
+        timeout=60,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if data.get("error"):
+        raise RuntimeError(f"Caption generation failed: {data}")
+
+    content = data.get("content", [])
+    return "".join(block.get("text", "") for block in content if block.get("type") == "text")
+
+
+def _fallback_caption(brief: dict) -> tuple[str, list[str]]:
+    topic_words = [w for w in re.findall(r"[\wÀ-ỹ]+", brief["topic"].lower()) if len(w) > 2]
+    topic_hash = _normalize_hashtag("".join(topic_words[:2])) if topic_words else "#vidgen"
+    hook_hash = _normalize_hashtag("".join(re.findall(r"[\wÀ-ỹ]+", brief["hook_narration"].lower())[:2])) if brief["hook_narration"] else "#tiktoktech"
+    scene_words = []
+    for scene in brief["key_scenes"]:
+        scene_words.extend(re.findall(r"[\wÀ-ỹ]+", scene.lower()))
+    scene_hash = _normalize_hashtag("".join(w for w in scene_words if len(w) > 2)[:18]) if scene_words else "#congnghe"
+
+    hashtags = _dedupe_preserve_order([tag for tag in [topic_hash, hook_hash, scene_hash] if tag])[:3]
+    while len(hashtags) < 3:
+        hashtags.append(["#vidgen", "#congnghe", "#tiktoktech"][len(hashtags)])
+
+    caption = brief["hook_narration"] or brief["topic"]
+    return caption, hashtags[:3]
+
+
+def _compose_caption(caption: str, hashtags: list[str], limit: int = 2200) -> str:
+    hashtags = _dedupe_preserve_order([tag for tag in (_normalize_hashtag(tag) for tag in hashtags) if tag])[:3]
+    if len(hashtags) < 3:
+        fallback = ["#vidgen", "#congnghe", "#tiktoktech"]
+        for tag in fallback:
+            if len(hashtags) >= 3:
+                break
+            if tag not in hashtags:
+                hashtags.append(tag)
+
+    tag_block = " ".join(hashtags)
+    caption = caption.strip()
+    if not caption:
+        return tag_block[:limit]
+
+    room = max(0, limit - len(tag_block) - 1)
+    if len(caption) > room:
+        caption = caption[: max(0, room - 1)].rstrip(" ,;:-—")
+        caption = caption + "…"
+
+    return f"{caption}\n{tag_block}"
+
+
+def _generate_tiktok_caption(video_path: Path, source_path: str | Path | None = None) -> str:
+    source, resolved_source = _load_caption_source(video_path, source_path)
+    brief = _build_caption_brief(source, video_path)
+
+    try:
+        raw = _call_caption_model(_build_caption_messages(brief))
+        payload = json.loads(_strip_markdown_fences(raw))
+        caption = str(payload.get("caption", "")).strip()
+        hashtags = [tag for tag in (_normalize_hashtag(tag) for tag in payload.get("hashtags", [])) if tag]
+        hashtags = _dedupe_preserve_order(hashtags)[:3]
+        if len(hashtags) < 3:
+            _, fallback_hashtags = _fallback_caption(brief)
+            for tag in fallback_hashtags:
+                if len(hashtags) >= 3:
+                    break
+                if tag not in hashtags:
+                    hashtags.append(tag)
+
+        if not caption:
+            raise RuntimeError("Caption model returned an empty caption")
+
+        final_caption = _compose_caption(caption, hashtags)
+        print(
+            "[publisher] Caption generated"
+            + (f" from {resolved_source.name}" if resolved_source else " from auto-detect")
+        )
+        return final_caption
+    except Exception as e:
+        fallback_caption, fallback_hashtags = _fallback_caption(brief)
+        print(f"[publisher] Caption generation failed ({e}) — using fallback")
+        return _compose_caption(fallback_caption, fallback_hashtags)
 
 
 # ── Step 1: Initialize upload ─────────────────────────────────────────────────
@@ -368,15 +643,17 @@ def publish_tiktok(
     title: str,
     privacy: str = PRIVACY_PUBLIC,
     schedule_time: Optional[str] = None,
+    source_path: str | Path | None = None,
 ) -> dict:
     """
     Full pipeline: token check → init → upload → publish → poll → notify.
 
     Args:
         video_path:    Path to the rendered .mp4
-        title:         Caption / title (hashtags included here)
+        title:         Caption override; when blank, auto-generate from the source script
         privacy:       One of PRIVACY_PUBLIC / PRIVACY_FRIENDS / PRIVACY_FOLLOWERS / PRIVACY_SELF
         schedule_time: ISO-8601 string for scheduled post, or None for immediate
+        source_path:   Optional script/manifest JSON used for caption generation
 
     Returns:
         dict with publish_id, status, and share_url (if available)
@@ -387,7 +664,8 @@ def publish_tiktok(
 
     print(f"\n── TikTok Publish ───────────────────────────────────")
     print(f"   File:    {video_path.name} ({video_path.stat().st_size // 1024 // 1024} MB)")
-    print(f"   Title:   {title[:60]}{'...' if len(title) > 60 else ''}")
+    caption_preview = title[:60] + ("..." if len(title) > 60 else "") if title.strip() else "<auto-generate>"
+    print(f"   Caption: {caption_preview}")
     print(f"   Privacy: {privacy}")
 
     _start_time = time.time()
@@ -411,8 +689,10 @@ def publish_tiktok(
         # 4. Upload chunks
         _upload_chunks(video_path, upload_url, CHUNK_SIZE)
 
-        # 5. Publish (title + privacy + optional schedule)
-        _publish(access_token, publish_id, title, privacy, schedule_time)
+        # 5. Build caption right before publish, then post it
+        caption = title.strip() if title and title.strip() else _generate_tiktok_caption(video_path, source_path)
+        print(f"   Final caption: {caption[:80]}{'...' if len(caption) > 80 else ''}")
+        _publish(access_token, publish_id, caption, privacy, schedule_time)
 
         # 6. Poll status
         result = _poll_status(access_token, publish_id)
@@ -538,7 +818,7 @@ def _run_oauth_flow() -> None:
             else:
                 self.send_response(400)
                 self.end_headers()
-                self.wfile.write(b"<h2>Auth failed — no code received.</h2>")
+                self.wfile.write(b"<h2>Auth failed - no code received.</h2>")
 
         def log_message(self, *args):
             pass   # suppress server logs
@@ -596,7 +876,8 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="VidGen TikTok publisher")
     parser.add_argument("video", nargs="?", help="Path to .mp4 file")
-    parser.add_argument("--title", default="", help="Caption / title (include hashtags here)")
+    parser.add_argument("--title", default="", help="Caption override (blank = auto-generate from source script)")
+    parser.add_argument("--source", default=None, help="Optional script/manifest JSON for auto caption generation")
     parser.add_argument(
         "--privacy",
         default=PRIVACY_PUBLIC,
@@ -626,7 +907,7 @@ def main() -> None:
         parser.print_help()
         sys.exit(1)
 
-    title = args.title or Path(args.video).stem.replace("_", " ")
+    title = args.title or ""
 
     try:
         result = publish_tiktok(
@@ -634,6 +915,7 @@ def main() -> None:
             title=title,
             privacy=args.privacy,
             schedule_time=args.schedule,
+            source_path=args.source,
         )
         print(f"\nResult: {result}")
     except Exception as e:
