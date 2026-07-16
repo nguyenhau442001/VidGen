@@ -613,6 +613,22 @@ def synthesize(
     return output_path.resolve()
 
 
+def resolve_scene_tts_speed(scene: dict, default_speed: float) -> float:
+    """Return the per-scene TTS speed, falling back to the global default."""
+    raw_speed = scene.get("tts_speed", default_speed)
+    if raw_speed is None:
+        raw_speed = default_speed
+    try:
+        speed = float(raw_speed)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"Invalid tts_speed for scene {scene.get('id', '?')}: {raw_speed!r}"
+        ) from exc
+    if speed <= 0:
+        raise ValueError(f"Invalid tts_speed for scene {scene.get('id', '?')}: {speed}")
+    return speed
+
+
 def fit_wav_to_duration(
     wav_path: str | Path,
     max_duration_seconds: float,
@@ -679,7 +695,7 @@ def synthesize_scenes(
     voice : Any, optional
         Shared voice token for all scenes.
     speed, trim_silence, max_silence_ms :
-        Forwarded to synthesize().
+        Forwarded to synthesize() unless a scene provides its own ``tts_speed``.
     provider : str
         Internal TTS backend. ``vieneu`` keeps the current default behavior.
 
@@ -700,11 +716,12 @@ def synthesize_scenes(
             continue
 
         out_path = output_dir / f"{scene_id}.wav"
+        scene_speed = resolve_scene_tts_speed(scene, speed)
         synthesize(
             text=narration,
             output_path=out_path,
             voice=voice,
-            speed=speed,
+            speed=scene_speed,
             trim_silence=trim_silence,
             max_silence_ms=max_silence_ms,
             target_dbfs=target_dbfs,

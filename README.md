@@ -14,7 +14,7 @@ Options:
 
 | Flag | Default | Description |
 |---|---|---|
-| `--speed` | `1.1` | Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
+| `--speed` | `1.1` | Default voiceover speed multiplier, pitch-preserved. Per-shot `tts_speed` overrides this when present (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
 | `--tts-provider` | `VIDGEN_TTS_PROVIDER` | `vieneu` or `viettel_ai` |
 | `--tts-voice` | `VIDGEN_TTS_VOICE` | Voice name/ID for the selected provider |
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
@@ -79,8 +79,29 @@ Key artifacts:
 
 Every script shares the envelope `title` / `language` / `shots[]`. `shots` is the only public container, and `resolve_script()` keeps everything in that shape:
 
-- **Flat schema** — each shot has `type`, `props`, `duration_frames`, `narration`, `narration_timing_frames`, optional `on_screen_text`, `transition_out_delay_frames`, `sound_design`.
+- **Flat schema** — each shot has `type`, `props`, `duration_frames`, `narration`, `narration_timing_frames`, optional `on_screen_text`, `transition_out_delay_frames`, `sound_design`, `tts_speed` (per-shot TTS override).
 - **Nested motion-pipeline-1.0 schema** — `assets{}` + `sequences[].shots[]` with declarative `animations[]`; `flatten_script()` converts it in-memory (no intermediate file is ever written).
+
+Example:
+
+```json
+{
+  "shots": [
+    {
+      "id": "hook",
+      "type": "QuoteCalloutScene",
+      "narration": "Hook chạy nhanh hơn một chút",
+      "tts_speed": 1.25
+    },
+    {
+      "id": "cta",
+      "type": "QuoteCalloutScene",
+      "narration": "CTA chậm lại để nghe rõ hơn",
+      "tts_speed": 0.95
+    }
+  ]
+}
+```
 
 Gotchas: unknown shot types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a shot's `type` as either the snake_case manifest key (e.g. `demand_heatmap`) or, for the 22 types listed in `manifest.py`'s `TYPE_MAP`, the PascalCase Remotion component name (e.g. `DemandHeatmapScene`) — `TYPE_MAP` translates the latter to the former. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 

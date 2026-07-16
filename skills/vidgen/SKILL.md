@@ -394,12 +394,19 @@ import json
 
 script = json.loads(open("content/<slug>.json").read())
 synthesize_scenes(
-    scenes=script["scenes"],
+    scenes=script["shots"],
     output_dir="public/audio",
     speed=1.2,
     trim_silence=True,
     max_silence_ms=120,
 )
+```
+
+Per-shot overrides are supported too:
+
+```python
+script["shots"][0]["tts_speed"] = 1.25  # hook
+script["shots"][-1]["tts_speed"] = 0.95  # CTA
 ```
 
 **Speed parameter guide:**

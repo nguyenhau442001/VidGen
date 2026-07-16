@@ -71,3 +71,41 @@ def test_synthesize_dispatches_to_vieneu_by_default(monkeypatch, tmp_path):
         "voice": "Minh Đức",
     }
     assert output.exists()
+
+
+def test_synthesize_scenes_uses_scene_tts_speed_over_global(monkeypatch, tmp_path):
+    calls = []
+
+    def fake_synthesize(
+        text,
+        output_path,
+        voice=None,
+        speed=1.2,
+        trim_silence=True,
+        max_silence_ms=120,
+        top_db=30,
+        target_dbfs=-15.0,
+        provider="vieneu",
+    ):
+        calls.append((text, output_path.name, speed))
+        return output_path
+
+    monkeypatch.setattr(tts, "synthesize", fake_synthesize)
+
+    results = tts.synthesize_scenes(
+        scenes=[
+            {"id": "hook", "narration": "mở bài", "tts_speed": 1.25},
+            {"id": "cta", "narration": "kết bài"},
+        ],
+        output_dir=tmp_path,
+        speed=1.1,
+        trim_silence=False,
+        target_dbfs=None,
+    )
+
+    assert calls == [
+        ("mở bài", "hook.wav", 1.25),
+        ("kết bài", "cta.wav", 1.1),
+    ]
+    assert results["hook"] == tmp_path / "hook.wav"
+    assert results["cta"] == tmp_path / "cta.wav"

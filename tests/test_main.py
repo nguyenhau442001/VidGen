@@ -33,6 +33,7 @@ def test_resolve_script_flattens_nested_motion_pipeline_schema():
                         "component": "QuoteCalloutScene",
                         "frame_range": [0, 90],
                         "narration": "Hello world",
+                        "tts_speed": 1.25,
                     }
                 ]
             }
@@ -53,6 +54,7 @@ def test_resolve_script_flattens_nested_motion_pipeline_schema():
                 "duration_frames": 90,
                 "props": {"text": "Hello world", "backgroundStyle": "gradient-subtle"},
                 "narration": "Hello world",
+                "tts_speed": 1.25,
             }
         ],
     }

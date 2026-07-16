@@ -17,6 +17,7 @@ from vidgen.shot_api import normalize_script_shots, script_shots
 from vidgen.tts_speed_adjustor import (
     fit_wav_to_duration,
     normalize_tts_provider,
+    resolve_scene_tts_speed,
     synthesize as tts_synthesize,
 )
 from vidgen.manifest import (
@@ -299,6 +300,8 @@ def flatten_script(script: dict) -> dict:
                 flat_shot["on_screen_text_style"] = shot["on_screen_text_style"]
             if shot.get("sound_design"):
                 flat_shot["sound_design"] = shot["sound_design"]
+            if "tts_speed" in shot:
+                flat_shot["tts_speed"] = shot["tts_speed"]
             flat_shots.append(flat_shot)
     return normalize_script_shots({
         "video_id": script["video_id"],
@@ -574,10 +577,11 @@ def main():
 
     tts_jobs = []
     for shot in script_shots(script):
+        scene_speed = resolve_scene_tts_speed(shot, args.speed)
         if shot.get("narration"):
-            tts_jobs.append({"id": shot["id"], "text": shot["narration"]})
+            tts_jobs.append({"id": shot["id"], "text": shot["narration"], "speed": scene_speed})
         for i, seg in enumerate(shot.get("narration_per_criterion", [])):
-            tts_jobs.append({"id": f"{shot['id']}_seg{i}", "text": seg["text"]})
+            tts_jobs.append({"id": f"{shot['id']}_seg{i}", "text": seg["text"], "speed": scene_speed})
 
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
@@ -586,7 +590,7 @@ def main():
             job["text"],
             output_path,
             voice=tts_voice,
-            speed=args.speed,
+            speed=job["speed"],
             trim_silence=not args.no_trim,
             target_dbfs=args.target_dbfs,
             provider=tts_provider,
@@ -634,7 +638,7 @@ def main():
     print(f"Total audio duration: {total_audio:.2f}s")
 
     # --- Tighten scene durations to the adjusted audio ---
-    if args.speed != 1.0 or not args.no_trim:
+    if not args.no_trim or any(abs(job["speed"] - 1.0) > 1e-9 for job in tts_jobs):
         fps = script.get("fps", 30)
         for shot in script_shots(script):
             sid = shot["id"]
