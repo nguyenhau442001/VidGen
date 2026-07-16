@@ -1,6 +1,7 @@
 import pytest
+from unittest.mock import patch
 
-from vidgen.main import resolve_script, validate_manifest
+from vidgen.main import _run_gate1_llm, resolve_script, validate_manifest
 
 
 def test_resolve_script_passes_through_flat_schema_unchanged():
@@ -103,3 +104,18 @@ def test_validate_manifest_overflow_error_raises():
 
     with pytest.raises(ValueError, match="shot_03a"):
         validate_manifest(manifest)
+
+
+def test_run_gate1_llm_returns_rewritten_script():
+    script = {"video_id": "v", "shots": []}
+    rewritten = {"video_id": "v2", "shots": [{"id": "s1"}]}
+
+    with patch("vidgen.main.gate1_llm_assert", return_value=rewritten) as mock_gate:
+        result = _run_gate1_llm(script, "content/v.json")
+
+    assert result is rewritten
+    mock_gate.assert_called_once_with(
+        script,
+        max_retries=2,
+        auto_rewrite=True,
+    )

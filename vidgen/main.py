@@ -35,6 +35,7 @@ from vidgen.manifest import (
 
 # ── GATE IMPORTS ─────────────────────────────────────────────────────────────
 from vidgen.gate1 import gate1_assert, format_report as gate1_report
+from vidgen.gate1_llm import gate1_llm_assert
 from vidgen.gate2_visual import gate2_assert
 from vidgen.beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
 # ─────────────────────────────────────────────────────────────────────────────
@@ -47,6 +48,7 @@ VIDEO_OUT_DIR = "remotion/out"
 STUDIO_PORT = 3000
 
 MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
+MAX_GATE1_LLM_RETRIES = 2  # abort pipeline after this many LLM rewrite retries
 MAX_GATE2_CYCLES = 2     # abort pipeline after this many Gate 2 fix cycles
 
 HIGHLIGHT_ANIM_TYPES = {"dot_color_set", "dot_pulse_ring"}
@@ -406,6 +408,31 @@ def _run_gate1(script: dict, script_path: str) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
+# ── GATE 1 LLM HELPER ────────────────────────────────────────────────────────
+def _run_gate1_llm(script: dict, script_path: str) -> dict:
+    """Run Gate 1 LLM. Returns a possibly rewritten script that passed."""
+    print("\n── Gate 1 LLM: Viral Quality ─────────────────────────")
+    try:
+        rewritten = gate1_llm_assert(
+            script,
+            max_retries=MAX_GATE1_LLM_RETRIES,
+            auto_rewrite=True,
+        )
+        print()
+        return rewritten
+    except ValueError as e:
+        print(e)
+        print(
+            f"\n[Gate 1 LLM] Script at '{script_path}' failed viral quality checks.\n"
+            "Fix the script manually or inspect the rewrite issues above, then re-run."
+        )
+        sys.exit(1)
+    except RuntimeError as e:
+        print(f"[Gate 1 LLM] API error: {e}")
+        sys.exit(2)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
 # ── GATE 2 HELPER ────────────────────────────────────────────────────────────
 def _run_gate2(video_output: str) -> None:
     """Run Gate 2. Exits the process with a clear message if visual checks fail.
@@ -501,8 +528,10 @@ def main():
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:
         _run_gate1(script, args.script)
+        script = _run_gate1_llm(script, args.script)
     else:
         print("[Gate 1] SKIPPED (--skip-gate1 flag set)")
+        print("[Gate 1 LLM] SKIPPED (--skip-gate1 flag set)")
     # ─────────────────────────────────────────────────────────────────────────
 
     if not args.skip_validation:
