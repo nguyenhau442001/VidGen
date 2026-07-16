@@ -285,7 +285,7 @@ export const GoalOrbJourneyScene: React.FC<GoalOrbJourneySceneProps> = ({
         <ImpactFlash frame={frame} startFrame={branchEnd - 6} color={accentColor} strength={0.8} />
       </svg>
 
-      <div style={{ position: "absolute", top: 106, left: 92, right: 92, zIndex: 20 }}>
+      <div style={{ position: "absolute", top: 88, left: 92, right: 92, zIndex: 20 }}>
         <TextPunchIn frame={frame} headline={headline} accentWord={accentWord} subtext={subtext} accentColor={accentColor} align="center" />
       </div>
 
@@ -294,7 +294,7 @@ export const GoalOrbJourneyScene: React.FC<GoalOrbJourneySceneProps> = ({
           position: "absolute",
           left: 94,
           right: 94,
-          top: 214,
+          top: 260,
           display: "flex",
           justifyContent: "center",
           gap: 12,
@@ -305,9 +305,6 @@ export const GoalOrbJourneyScene: React.FC<GoalOrbJourneySceneProps> = ({
       >
         <div style={{ padding: "10px 16px", borderRadius: 999, background: "rgba(0,0,0,0.35)", color: "#fff", fontFamily: INTER, fontWeight: 800, fontSize: 16 }}>
           {statusText}
-        </div>
-        <div style={{ padding: "10px 16px", borderRadius: 999, background: "rgba(255,255,255,0.08)", color: "#fff", fontFamily: INTER, fontWeight: 800, fontSize: 16 }}>
-          {mode.replaceAll("_", " ")}
         </div>
       </div>
     </AbsoluteFill>

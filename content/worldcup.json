@@ -73,6 +73,8 @@
       "transition_out_delay_frames": 15,
       "props": {
         "preset": "neighbor_celebration",
+        "headline": "Bàn thắng cũ tới trước",
+        "accentWord": "cũ",
         "cameraMode": "pan",
         "shoutSide": "right",
         "leftApartment": {

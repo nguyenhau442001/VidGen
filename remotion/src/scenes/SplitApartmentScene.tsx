@@ -298,9 +298,9 @@ const ApartmentRoom: React.FC<{
 
 export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
   preset = "shockwave_hook",
-  headline = "Hai TV, hai nhịp khác nhau",
-  accentWord = "khác nhau",
-  subtext = "Một bên hét trước, một bên vẫn còn buffer.",
+  headline,
+  accentWord,
+  subtext,
   accentColor = "#61dafb",
   cameraMode = "static",
   shoutSide = "left",
@@ -347,11 +347,10 @@ export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
     frame: Math.min(sceneDuration - 1, Math.max(0, item.frame)),
   }));
 
-  const checklistItems = (checklist ?? ["Một căn đã biết trước", "Một căn vẫn còn trễ", "TV giữ vài giây để tránh đứng hình"]).map(
-    (item, index) =>
-      typeof item === "string"
-        ? { text: item, reveal_frame: index * 14, style: "default" as const }
-        : { style: "default" as const, ...item }
+  const checklistItems = (checklist ?? []).map((item, index) =>
+    typeof item === "string"
+      ? { text: item, reveal_frame: index * 14, style: "default" as const }
+      : { style: "default" as const, ...item }
   );
   const maxChecklistFrame = Math.max(...checklistItems.map((item) => item.reveal_frame ?? 0), 1);
   const checklistFrameScale = maxChecklistFrame > sceneDuration - 12 ? (sceneDuration - 12) / maxChecklistFrame : 1;
@@ -450,24 +449,34 @@ export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
         <ImpactFlash frame={frame} startFrame={goalFrame} color={accentColor} strength={frame < catchupFrame ? 0.7 : 1} />
       </svg>
 
-      <div
-        style={{
-          position: "absolute",
-          left: 96,
-          right: 96,
-          top: 110,
-          zIndex: 20,
-        }}
-      >
-        <TextPunchIn frame={frame} headline={headline} accentWord={accentWord} subtext={subtext} accentColor={accentColor} align="center" />
-      </div>
+      {headline ? (
+        <div
+          style={{
+            position: "absolute",
+            left: 96,
+            right: 96,
+            top: 96,
+            zIndex: 20,
+          }}
+        >
+          <TextPunchIn
+            frame={frame}
+            headline={headline}
+            accentWord={accentWord}
+            subtext={checklistItems.length ? undefined : subtext}
+            accentColor={accentColor}
+            align="center"
+          />
+        </div>
+      ) : null}
 
+      {checklistItems.length ? (
       <div
         style={{
           position: "absolute",
           left: 94,
           right: 94,
-          top: 206,
+          top: headline ? 194 : 96,
           display: "flex",
           justifyContent: "center",
           gap: 12,
@@ -512,6 +521,7 @@ export const SplitApartmentScene: React.FC<SplitApartmentSceneProps> = ({
           );
         })}
       </div>
+      ) : null}
     </AbsoluteFill>
   );
 };

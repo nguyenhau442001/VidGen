@@ -347,7 +347,7 @@ export const StadiumGoalScene: React.FC<StadiumGoalSceneProps> = ({
         </g>
       </svg>
 
-      <div style={{ position: "absolute", top: 100, left: 90, right: 90, zIndex: 20 }}>
+      <div style={{ position: "absolute", top: 88, left: 90, right: 90, zIndex: 20 }}>
         <TextPunchIn frame={frame} headline={headline} accentWord={accentWord} subtext={subtext} accentColor={accentColor} align="center" />
       </div>
 
@@ -356,7 +356,7 @@ export const StadiumGoalScene: React.FC<StadiumGoalSceneProps> = ({
           position: "absolute",
           left: 94,
           right: 94,
-          top: 210,
+          top: 260,
           display: "flex",
           justifyContent: "center",
           gap: 12,
