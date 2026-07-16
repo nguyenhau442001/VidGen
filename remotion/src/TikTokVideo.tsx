@@ -16,6 +16,10 @@ import { DriverSwarmScene } from "./scenes/DriverSwarmScene";
 import { CounterBlastScene } from "./scenes/CounterBlastScene";
 import { ScoreCardScene } from "./scenes/ScoreCardScene";
 import { SplitViewScene } from "./scenes/SplitViewScene";
+import { SplitApartmentScene } from "./scenes/SplitApartmentScene";
+import { WallPortalScene } from "./scenes/WallPortalScene";
+import { StadiumGoalScene } from "./scenes/StadiumGoalScene";
+import { GoalOrbJourneyScene } from "./scenes/GoalOrbJourneyScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
@@ -163,6 +167,14 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <ScoreCardScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "split_view":
       return <SplitViewScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "split_apartment":
+      return <SplitApartmentScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "wall_portal":
+      return <WallPortalScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "stadium_goal":
+      return <StadiumGoalScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "goal_orb_journey":
+      return <GoalOrbJourneyScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "character_icon":
       return <CharacterIconScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "quote_callout":
@@ -260,5 +272,7 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <GoogleMapsRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "traffic_cinematic":
       return <TrafficCinematicScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    default:
+      throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }
 };

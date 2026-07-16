@@ -105,7 +105,7 @@ Example:
 
 Gotchas: unknown shot types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a shot's `type` as either the snake_case manifest key (e.g. `demand_heatmap`) or, for the 22 types listed in `manifest.py`'s `TYPE_MAP`, the PascalCase Remotion component name (e.g. `DemandHeatmapScene`) — `TYPE_MAP` translates the latter to the former. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 
-## Shot library (28 wired shot types + 2 covers)
+## Shot library (32 wired shot types + 2 covers)
 
 The video is assembled from **28 reusable shot templates** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/TikTokVideo.tsx`'s shot switch:
 
@@ -126,6 +126,10 @@ The video is assembled from **28 reusable shot templates** — the tool's "skill
 | `CounterBlastScene` | Big count-up number reveal with a flash and lock-in pulse |
 | `ScoreCardScene` | Score rows revealed with a stagger (supports per-row narration) |
 | `SplitViewScene` | Two-panel left/right comparison with captions |
+| `SplitApartmentScene` | Two apartments side by side with TV lag, wall shockwave, and room reactions |
+| `WallPortalScene` | A wall crack, door, or energy portal opens into another space |
+| `StadiumGoalScene` | Cinematic football goal build-up, shot, flight, impact, and freeze frame |
+| `GoalOrbJourneyScene` | A glowing goal orb relays through the city and branches to multiple targets |
 | `QuoteCalloutScene` | Large quote with an accent word, subtle or dark background |
 | `ZoomRevealScene` | Camera pull-back from a focal element to a wider dot field |
 | `SplitRevealScene` | Full-screen content compresses left to reveal a right panel |

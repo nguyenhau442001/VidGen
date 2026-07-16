@@ -46,6 +46,10 @@ TYPE_MAP = {
     "CounterBlastScene": "counter_blast",
     "ScoreCardScene": "score_card",
     "SplitViewScene": "split_view",
+    "SplitApartmentScene": "split_apartment",
+    "WallPortalScene": "wall_portal",
+    "StadiumGoalScene": "stadium_goal",
+    "GoalOrbJourneyScene": "goal_orb_journey",
     "QuoteCalloutScene": "quote_callout",
     "ZoomRevealScene": "zoom_reveal",
     "SplitRevealScene": "split_reveal",
@@ -80,6 +84,18 @@ TYPE_MAP = {
     "PreviewTeaserScene": "preview_teaser",
     "GoogleMapsRevealScene": "google_maps_reveal",
     "TrafficCinematicScene": "traffic_cinematic",
+}
+
+# Valid render-time scene types include the registered PascalCase aliases,
+# the snake_case manifest keys, and the few direct snake_case scene types that
+# never had a PascalCase alias.
+VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
+    "animated_flow",
+    "bubble_comparator",
+    "phone_map",
+    "conversation",
+    "before_after",
+    "grid_heatmap",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
@@ -198,7 +214,13 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
     shots = []
     for i, shot in enumerate(script_shots(script), start=1):
         sid = shot["id"]
-        scene_type = TYPE_MAP.get(shot["type"], shot["type"])
+        authored_type = shot["type"]
+        if authored_type not in VALID_SCENE_TYPES:
+            raise ValueError(
+                f"shot '{sid}': unknown scene type '{authored_type}'. "
+                f"Expected one of {sorted(VALID_SCENE_TYPES)}"
+            )
+        scene_type = TYPE_MAP.get(authored_type, authored_type)
         raw_props = shot.get("props", shot.get("visual", {}))
         visual = _translate_visual(scene_type, raw_props)
 

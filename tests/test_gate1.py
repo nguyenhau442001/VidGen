@@ -103,3 +103,33 @@ def test_short_hook_and_cta_markers_do_not_overmatch():
 def test_short_strong_hook_and_cta_still_match():
     assert _looks_like_hook("Tại sao?")
     assert _looks_like_cta("Xem tiếp.")
+
+
+def test_new_cinematic_scene_types_are_valid_for_gate1():
+    script = _script([
+        {
+            "id": "s1",
+            "type": "StadiumGoalScene",
+            "duration_frames": 120,
+            "narration": "Tại sao bàn thắng đến nhanh hơn mắt bạn?",
+            "props": {"headline": "Hook", "accentWord": "Hook"},
+        },
+        {
+            "id": "s2",
+            "type": "GoalOrbJourneyScene",
+            "duration_frames": 120,
+            "narration": "Quả bóng sáng chạy qua nhiều chặng trước khi tới nhà bạn.",
+            "props": {"headline": "Orb", "accentWord": "Orb"},
+        },
+        {
+            "id": "s3",
+            "type": "SplitApartmentScene",
+            "duration_frames": 120,
+            "narration": "Còn một lớp trễ nữa, xem tiếp.",
+            "props": {"headline": "CTA", "accentWord": "CTA"},
+        },
+    ])
+
+    audit = gate1_assert(script)
+
+    assert audit["visual"] == 5

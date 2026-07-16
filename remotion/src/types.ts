@@ -99,6 +99,10 @@ export type ManifestScene =
   | { type: "counter_blast"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CounterBlastVisual }
   | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ScoreCardVisual }
   | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitViewVisual }
+  | { type: "split_apartment"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: SplitApartmentVisual }
+  | { type: "wall_portal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: WallPortalVisual }
+  | { type: "stadium_goal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: StadiumGoalVisual }
+  | { type: "goal_orb_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: GoalOrbJourneyVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: CharacterIconVisual }
   | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: QuoteCalloutVisual }
   | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; visual: ZoomRevealVisual }
@@ -371,6 +375,151 @@ export type SplitViewVisual = {
 };
 
 export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
+
+export type SplitApartmentReaction = "calm" | "watching" | "startled" | "cheering" | "frozen";
+export type SplitApartmentTvState = "live" | "buffering" | "goal" | "delay" | "replay" | "freeze";
+export type SplitApartmentCameraMode = "static" | "pan";
+export type SplitApartmentPreset =
+  | "shockwave_hook"
+  | "neighbor_celebration"
+  | "delayed_goal"
+  | "cross_wall_pan"
+  | "neighbor_alert_callback";
+
+export type SplitApartmentSide = {
+  label: string;
+  reaction?: SplitApartmentReaction;
+  tvState?: SplitApartmentTvState;
+  hasRemote?: boolean;
+  hasDrink?: boolean;
+  hasSnack?: boolean;
+  accentColor?: string;
+  couchColor?: string;
+  screenLabel?: string;
+};
+
+export type SplitApartmentTimelineEvent = {
+  frame: number;
+  label: string;
+  side?: "left" | "right" | "both";
+  emphasis?: "calm" | "warning" | "impact";
+};
+
+export type SplitApartmentVisual = {
+  preset?: SplitApartmentPreset;
+  headline?: string;
+  accentWord?: string;
+  subtext?: string;
+  accentColor?: string;
+  cameraMode?: SplitApartmentCameraMode;
+  shoutSide?: "left" | "right";
+  leftApartment?: SplitApartmentSide;
+  rightApartment?: SplitApartmentSide;
+  timeline?: SplitApartmentTimelineEvent[];
+  checklist?: string[];
+  wallLabel?: string;
+};
+
+export type SplitApartmentSceneProps = SplitApartmentVisual & { durationInFrames: number };
+
+export type WallPortalDialogue = {
+  frame: number;
+  side: "left" | "right";
+  text: string;
+};
+
+export type WallPortalPreset = "commentary_booth";
+export type WallPortalMode = "static" | "push-through";
+export type WallPortalStyle = "crack" | "door" | "circle" | "energy";
+
+export type WallPortalVisual = {
+  preset?: WallPortalPreset;
+  headline?: string;
+  accentWord?: string;
+  subtext?: string;
+  accentColor?: string;
+  secondaryColor?: string;
+  cameraMode?: WallPortalMode;
+  portalStyle?: WallPortalStyle;
+  leftLabel?: string;
+  rightLabel?: string;
+  portalLabel?: string;
+  dialogue?: WallPortalDialogue[];
+  boilerplate?: string;
+};
+
+export type WallPortalSceneProps = WallPortalVisual & { durationInFrames: number };
+
+export type StadiumGoalCameraMode = "low_pitch" | "behind_striker" | "ball_follow" | "behind_goal" | "crowd_push";
+export type StadiumGoalPhaseHint = "build_up" | "striker_run" | "shot" | "ball_flight" | "goal_impact" | "net_shake" | "crowd_explosion" | "freeze_goal";
+
+export type StadiumGoalScoreboard = {
+  homeLabel?: string;
+  awayLabel?: string;
+  homeScore?: number;
+  awayScore?: number;
+  minute?: string;
+};
+
+export type StadiumGoalVisual = {
+  phaseHint?: StadiumGoalPhaseHint;
+  cameraMode?: StadiumGoalCameraMode;
+  headline?: string;
+  accentWord?: string;
+  subtext?: string;
+  accentColor?: string;
+  secondaryColor?: string;
+  scoreboard?: StadiumGoalScoreboard;
+  strikerLabel?: string;
+  keeperLabel?: string;
+  crowdLabel?: string;
+  confetti?: boolean;
+  freezeLabel?: string;
+  ballLabel?: string;
+};
+
+export type StadiumGoalSceneProps = StadiumGoalVisual & { durationInFrames: number };
+
+export type GoalOrbJourneyMode =
+  | "birth_from_goal"
+  | "split_into_fragments"
+  | "relay_passes"
+  | "city_flight"
+  | "counterattack"
+  | "branch_to_targets"
+  | "arrival_impact";
+
+export type GoalOrbJourneyNode = {
+  x: number;
+  y: number;
+  label: string;
+  kind?: "stadium" | "relay" | "house" | "target";
+};
+
+export type GoalOrbJourneyTarget = {
+  x: number;
+  y: number;
+  label: string;
+  kind?: "house" | "tv";
+  arriveOffsetFrames?: number;
+};
+
+export type GoalOrbJourneyVisual = {
+  mode?: GoalOrbJourneyMode;
+  headline?: string;
+  accentWord?: string;
+  subtext?: string;
+  accentColor?: string;
+  secondaryColor?: string;
+  trailColor?: string;
+  cameraFollow?: "ball" | "lag";
+  routeNodes?: GoalOrbJourneyNode[];
+  targets?: GoalOrbJourneyTarget[];
+  statusText?: string;
+  branchLabels?: [string, string];
+};
+
+export type GoalOrbJourneySceneProps = GoalOrbJourneyVisual & { durationInFrames: number };
 
 export type CharacterIconDistancePin = { label: string };
 

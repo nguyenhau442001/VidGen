@@ -138,6 +138,74 @@ def test_split_view_road_constraint_diagram_preset_resolves_axis_data():
     assert "roadConstraint" not in visual
 
 
+def test_new_cinematic_scene_types_translate_to_manifest_keys():
+    script = {
+        "shots": [
+            {
+                "id": "shot_goal",
+                "type": "StadiumGoalScene",
+                "duration_frames": 120,
+                "narration": "...",
+                "props": {"headline": "GOAL", "accentWord": "GOAL"},
+            },
+            {
+                "id": "shot_orb",
+                "type": "GoalOrbJourneyScene",
+                "duration_frames": 120,
+                "narration": "...",
+                "props": {"headline": "Orb"},
+            },
+        ]
+    }
+
+    manifest = build_render_manifest(script, {"shot_goal": 2.0, "shot_orb": 2.0})
+
+    assert manifest["shots"][0]["type"] == "stadium_goal"
+    assert manifest["shots"][1]["type"] == "goal_orb_journey"
+    assert manifest["shots"][0]["visual"]["headline"] == "GOAL"
+
+
+def test_unknown_scene_type_fails_fast_during_manifest_build():
+    script = {
+        "shots": [
+            {
+                "id": "shot_bad",
+                "type": "NoSuchScene",
+                "duration_frames": 120,
+                "narration": "...",
+                "props": {},
+            }
+        ]
+    }
+
+    with pytest.raises(ValueError) as ctx:
+        build_render_manifest(script, {"shot_bad": 2.0})
+
+    assert "unknown scene type" in str(ctx.value)
+
+
+def test_direct_snake_case_scene_types_still_build():
+    script = {
+        "shots": [
+            {
+                "id": "shot_flow",
+                "type": "animated_flow",
+                "duration_frames": 120,
+                "narration": "...",
+                "props": {
+                    "headline": "Flow",
+                    "nodes": [{"id": "a", "label": "A"}],
+                    "edges": [],
+                },
+            }
+        ]
+    }
+
+    manifest = build_render_manifest(script, {"shot_flow": 2.0})
+
+    assert manifest["shots"][0]["type"] == "animated_flow"
+
+
 # Reading-speed floor: a caption must stay on screen at least
 # len(caption) / 17 chars-per-second, or viewers can't finish reading it
 # before the scene cuts. 17 CPS is the standard subtitle ceiling (spaces
