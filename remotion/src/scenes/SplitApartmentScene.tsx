@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { SplitApartmentSceneProps, SplitApartmentSide, SplitApartmentTimelineEvent } from "../types";
 import { BE_VIETNAM_PRO, INTER } from "../styles";
 import {
