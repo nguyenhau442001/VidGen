@@ -2,6 +2,7 @@ import argparse
 import json
 import math
 import os
+import shutil
 import socket
 import subprocess
 import sys
@@ -534,6 +535,16 @@ def main():
         help="Reuse existing WAV files instead of synthesizing them again",
     )
     parser.add_argument(
+        "--prebuilt-audio-dir",
+        default=None,
+        help=(
+            "Directory of prebuilt per-scene WAV files (e.g. input/audio/wav). "
+            "Each scene's audio is looked up by filename — scene_01_shout_through_wall "
+            "uses scene_01_shout_through_wall.wav. When set, no TTS is synthesized for "
+            "any scene that has a matching file in this directory."
+        ),
+    )
+    parser.add_argument(
         "--no-trim",
         action="store_true",
         help="Keep TTS silence (leading/trailing and long internal pauses)",
@@ -612,6 +623,16 @@ def main():
     # --- Audio synthesis (parallel) ---
     def synthesize_job(job: dict) -> str:
         output_path = f"{WAV_DIR}/{wav_filename(job['id'])}"
+        if args.prebuilt_audio_dir:
+            prebuilt_path = os.path.join(args.prebuilt_audio_dir, wav_filename(job["id"]))
+            if not os.path.exists(prebuilt_path):
+                raise FileNotFoundError(
+                    f"--prebuilt-audio-dir set but no prebuilt WAV found for "
+                    f"'{job['id']}' (expected {prebuilt_path})"
+                )
+            shutil.copyfile(prebuilt_path, output_path)
+            print(f"{job['id']} using prebuilt {prebuilt_path}")
+            return job["id"]
         if args.reuse_tts and os.path.exists(output_path):
             print(f"{job['id']} reusing existing {output_path}")
             return job["id"]
