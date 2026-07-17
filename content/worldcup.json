@@ -13,7 +13,7 @@
         94
       ],
       "transition_out_delay_frames": 8,
-      "on_screen_text": "NHÀ BÊN HÉT RỒI. TV MÌNH CHƯA SÚT?!",
+      "on_screen_text": "",
       "props": {
         "preset": "shockwave_hook",
         "cameraMode": "crash_zoom",
@@ -137,7 +137,8 @@
           "sound": "football_kick_windup",
           "volume": 0.7
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_03_missing_seconds_mystery",
@@ -204,7 +205,8 @@
           "sound": "comedic_hit",
           "volume": 0.7
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_04_goal_explosion",
@@ -269,7 +271,8 @@
           "sound": "orb_birth_riser",
           "volume": 0.7
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_05_culprit_1_encoder",
@@ -340,7 +343,8 @@
           "sound": "fragments_launch",
           "volume": 0.75
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_06_culprit_2_route",
@@ -434,7 +438,8 @@
           "sound": "neighbor_goal_shout_muffled",
           "volume": 0.65
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_07_culprit_3_your_tv",
@@ -552,7 +557,8 @@
           "sound": "delivery_success_chime",
           "volume": 0.72
         }
-      ]
+      ],
+      "on_screen_text": ""
     },
     {
       "id": "scene_08_neighbor_alert_final",
@@ -653,7 +659,8 @@
           "sound": "cut_to_black",
           "volume": 0.8
         }
-      ]
+      ],
+      "on_screen_text": ""
     }
   ],
   "editorial_notes": {
