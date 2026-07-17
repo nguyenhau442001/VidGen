@@ -503,6 +503,11 @@ def main():
         help="Skip Gate 1 content quality check (emergency use only)",
     )
     parser.add_argument(
+        "--skip-gate1-llm",
+        action="store_true",
+        help="Skip the Gate 1 LLM viral-quality check (use when ANTHROPIC_API_KEY is unavailable)",
+    )
+    parser.add_argument(
         "--skip-gate2",
         action="store_true",
         help="Skip Gate 2 visual quality check (emergency use only)",
@@ -563,7 +568,10 @@ def main():
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:
         _run_gate1(script, args.script)
-        script = _run_gate1_llm(script, args.script)
+        if not args.skip_gate1_llm:
+            script = _run_gate1_llm(script, args.script)
+        else:
+            print("[Gate 1 LLM] SKIPPED (--skip-gate1-llm flag set)")
     else:
         print("[Gate 1] SKIPPED (--skip-gate1 flag set)")
         print("[Gate 1 LLM] SKIPPED (--skip-gate1 flag set)")
@@ -598,7 +606,7 @@ def main():
         for i, seg in enumerate(shot.get("narration_per_criterion", [])):
             tts_jobs.append({"id": f"{shot['id']}_seg{i}", "text": seg["text"], "speed": scene_speed})
         for i, line in enumerate(shot.get("props", {}).get("dialogue", [])):
-            if line.get("text"):
+            if line.get("text") and not line.get("mute"):
                 tts_jobs.append({"id": f"{shot['id']}_dlg{i}", "text": line["text"], "speed": scene_speed})
 
     # --- Audio synthesis (parallel) ---

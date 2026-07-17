@@ -6,22 +6,22 @@
     {
       "id": "scene_01_shout_through_wall",
       "type": "split_apartment",
-      "duration_frames": 90,
-      "narration": "Vào! Vào rồi bà con ơi!!!",
+      "duration_frames": 130,
+      "narration": "Vào, vào rồi!...... Khoan khoan, sao cầu thủ trên TV nhà mình còn chưa sút?",
       "narration_timing_frames": [
         0,
-        50
+        105
       ],
-      "transition_out_delay_frames": 15,
-      "on_screen_text": "VÀO RỒI BÀ CON ƠI!",
+      "transition_out_delay_frames": 8,
+      "on_screen_text": "NHÀ BÊN HÉT RỒI. TV MÌNH CHƯA SÚT?!",
       "props": {
         "preset": "shockwave_hook",
-        "cameraMode": "static",
+        "cameraMode": "crash_zoom",
         "shoutSide": "right",
         "leftApartment": {
           "label": "NHÀ BẠN",
           "reaction": "startled",
-          "tvState": "live",
+          "tvState": "build_up",
           "hasRemote": true,
           "hasDrink": true,
           "hasSnack": true,
@@ -36,7 +36,7 @@
           "hasSnack": true,
           "accentColor": "#00ff41"
         },
-        "wallLabel": "TƯỜNG MỎNG"
+        "wallLabel": "TIẾNG HÉT XUYÊN TƯỜNG"
       },
       "sound_design": [
         {
@@ -45,42 +45,47 @@
           "volume": 1.0
         },
         {
-          "frame": 4,
+          "frame": 3,
           "sound": "low_wall_rumble",
           "volume": 0.7
         },
         {
-          "frame": 12,
+          "frame": 6,
+          "sound": "crowd_cheer_muffled",
+          "volume": 0.65
+        },
+        {
+          "frame": 10,
           "sound": "remote_drop",
           "volume": 0.65
         },
         {
-          "frame": 75,
+          "frame": 70,
           "sound": "comedic_record_stop",
-          "volume": 0.55
+          "volume": 0.5
         }
       ]
     },
     {
       "id": "scene_02_neighbor_finished_celebrating",
       "type": "split_apartment",
-      "duration_frames": 145,
-      "narration": "Hàng xóm hét xong, ôm nhau xong, cụng ly bia rồi... nhà bạn mới sút.",
+      "duration_frames": 168,
+      "narration": "Cùng một trận, hai nhà sát vách. Hàng xóm ăn mừng xong… nhà bạn mới thấy bóng vào lưới.",
       "narration_timing_frames": [
         0,
-        122
+        152
       ],
-      "transition_out_delay_frames": 15,
+      "transition_out_delay_frames": 8,
       "props": {
         "preset": "neighbor_celebration",
-        "headline": "Bàn thắng cũ tới trước",
-        "accentWord": "cũ",
+        "headline": "CÙNG TRẬN. KHÁC THỜI ĐIỂM.",
+        "accentWord": "KHÁC THỜI ĐIỂM",
         "cameraMode": "pan",
         "shoutSide": "right",
         "leftApartment": {
           "label": "NHÀ BẠN",
           "reaction": "watching",
-          "tvState": "live",
+          "tvState": "windup",
           "hasRemote": true,
           "hasDrink": true,
           "hasSnack": true,
@@ -88,8 +93,8 @@
         },
         "rightApartment": {
           "label": "NHÀ HÀNG XÓM",
-          "reaction": "cheering",
-          "tvState": "goal",
+          "reaction": "celebration_sequence",
+          "tvState": "replay",
           "hasRemote": false,
           "hasDrink": true,
           "hasSnack": true,
@@ -97,20 +102,16 @@
         },
         "checklist": [
           {
-            "text": "HÉT XONG",
-            "reveal_frame": 24
+            "text": "NHÀ BÊN: BÓNG ĐÃ VÀO",
+            "reveal_frame": 18
           },
           {
-            "text": "ÔM NHAU XONG",
-            "reveal_frame": 56
+            "text": "NHÀ BÊN: ĂN MỪNG XONG",
+            "reveal_frame": 48
           },
           {
-            "text": "CỤNG LY BIA XONG",
-            "reveal_frame": 86
-          },
-          {
-            "text": "NHÀ BẠN: ĐANG CHUẨN BỊ SÚT…",
-            "reveal_frame": 112,
+            "text": "NHÀ BẠN: CẦU THỦ LẤY ĐÀ",
+            "reveal_frame": 88,
             "style": "warning"
           }
         ]
@@ -122,167 +123,105 @@
           "volume": 0.65
         },
         {
-          "frame": 60,
+          "frame": 46,
           "sound": "hug_thump",
           "volume": 0.35
         },
         {
-          "frame": 165,
-          "sound": "beer_glass_clink",
+          "frame": 74,
+          "sound": "water_sip",
           "volume": 0.4
         },
         {
-          "frame": 220,
+          "frame": 96,
           "sound": "football_kick_windup",
-          "volume": 0.55
+          "volume": 0.7
         }
       ]
     },
     {
-      "id": "scene_03_commentator_in_the_wall",
+      "id": "scene_03_missing_seconds_mystery",
       "type": "wall_portal",
-      "duration_frames": 377,
-      "narration": "Cùng một trận đấu. Hai căn nhà sát nhau. Sao bàn thắng tới nhà hàng xóm trước?",
+      "duration_frames": 234,
+      "narration": "Không, nhà hàng xóm không đến từ tương lai. Vậy tại sao lại có sự chênh lệch về thời gian này?",
       "narration_timing_frames": [
-        12,
-        156
+        0,
+        176
       ],
-      "transition_out_delay_frames": 20,
+      "transition_out_delay_frames": 10,
       "props": {
         "preset": "commentary_booth",
-        "headline": "BÌNH LUẬN VIÊN KHÔNG MỜI",
-        "accentWord": "KHÔNG MỜI",
-        "subtext": "Cùng một trận, nhưng lệch vài giây.",
+        "headline": "VÀI GIÂY TRỐN ĐI ĐÂU?",
+        "accentWord": "TRỐN",
+        "subtext": "Cùng một trận đấu, hai luồng phát, hai độ trễ.",
         "accentColor": "#61dafb",
         "secondaryColor": "#00ff41",
         "cameraMode": "push-through",
         "portalStyle": "crack",
         "leftLabel": "NHÀ BẠN",
         "rightLabel": "NHÀ HÀNG XÓM",
-        "portalLabel": "BÌNH LUẬN VIÊN XUYÊN TƯỜNG",
+        "portalLabel": "TRỰC TIẾP… NHƯNG KHÔNG CÙNG LÚC",
         "boilerplate": "commentary booth",
         "dialogue": [
           {
             "speaker": "guest",
             "text": "Cầu thủ đang lấy đà…",
-            "start_frame": 168
+            "start_frame": 96,
+            "mute": true
           },
           {
             "speaker": "host",
-            "text": "Ừ, tôi đang thấy.",
-            "start_frame": 212
+            "text": "Nhà bên ăn mừng xong rồi.",
+            "start_frame": 132,
+            "mute": true
           },
           {
             "speaker": "guest",
-            "text": "Không. Tôi đang kể lại tám giây trước.",
-            "start_frame": 249
-          },
-          {
-            "speaker": "guest",
-            "text": "Vào! Vào rồi bà con ơi!!!",
-            "start_frame": 314
+            "text": "Bình tĩnh. Đi lần theo dấu vết nào.",
+            "start_frame": 168,
+            "mute": true
           }
         ]
       },
       "sound_design": [
         {
-          "frame": 10,
+          "frame": 5,
           "sound": "wall_crack_magic",
-          "volume": 0.65
+          "volume": 0.6
         },
         {
-          "frame": 30,
+          "frame": 18,
           "sound": "portal_open",
-          "volume": 0.65
+          "volume": 0.7
         },
         {
-          "frame": 314,
-          "sound": "commentator_goal_shout",
-          "volume": 1.0
-        },
-        {
-          "frame": 340,
-          "sound": "comedic_hit",
-          "volume": 0.5
-        }
-      ]
-    },
-    {
-      "id": "scene_04_three_timelines",
-      "type": "timeline_stages",
-      "duration_frames": 130,
-      "narration": "Thật ra, cả ba nơi xem cùng một trận... nhưng lệch nhau vài giây.",
-      "narration_timing_frames": [
-        0,
-        118
-      ],
-      "transition_out_delay_frames": 10,
-      "props": {
-        "headline": "CÙNG MỘT TRẬN, KHÁC THỜI ĐIỂM",
-        "accentWord": "KHÁC THỜI ĐIỂM",
-        "stages": [
-          {
-            "label": "SÂN BÓNG · BÓNG VÀO",
-            "icon": "🏟️",
-            "state": "danger"
-          },
-          {
-            "label": "HÀNG XÓM · HÉT TRƯỚC",
-            "icon": "📣",
-            "state": "warning"
-          },
-          {
-            "label": "NHÀ BẠN · VẪN LẤY ĐÀ",
-            "icon": "📺",
-            "state": "safe"
-          }
-        ],
-        "note": "Cùng một trận, chỉ lệch vài giây."
-      },
-      "sound_design": [
-        {
-          "frame": 0,
-          "sound": "time_freeze",
+          "frame": 124,
+          "sound": "timeline_reveal",
           "volume": 0.55
         },
         {
-          "frame": 28,
-          "sound": "timeline_marker",
-          "volume": 0.35
-        },
-        {
-          "frame": 78,
-          "sound": "timeline_marker",
-          "volume": 0.35
-        },
-        {
-          "frame": 130,
-          "sound": "timeline_marker",
-          "volume": 0.35
-        },
-        {
-          "frame": 190,
-          "sound": "stadium_transition_riser",
-          "volume": 0.65
+          "frame": 156,
+          "sound": "comedic_hit",
+          "volume": 0.7
         }
       ]
     },
     {
-      "id": "scene_05_goal_explosion",
+      "id": "scene_04_goal_explosion",
       "type": "stadium_goal",
-      "duration_frames": 170,
-      "narration": "Bóng chạm lưới, sân nổ tung. Và hình của bàn thắng cũng lập tức lên đường.",
+      "duration_frames": 204,
+      "narration": "Tại sân, bàn thắng là tức thì. Nhưng để có thể đưa bàn thắng đó lên được màn hình ti vi của bạn thì đó là cả một quá trình.",
       "narration_timing_frames": [
-        18,
-        154
+        44,
+        188
       ],
-      "transition_out_delay_frames": 15,
+      "transition_out_delay_frames": 8,
       "props": {
-        "phaseHint": "crowd_explosion",
+        "phaseHint": "full_goal_sequence",
         "cameraMode": "ball_follow",
         "headline": "BÀN THẮNG LÊN ĐƯỜNG",
         "accentWord": "LÊN ĐƯỜNG",
-        "subtext": "Bóng chạm lưới là cả hệ thống chạy ngay.",
+        "subtext": "Từ sân vận động đến màn hình nhà bạn.",
         "accentColor": "#00ff41",
         "secondaryColor": "#61dafb",
         "scoreboard": {
@@ -294,133 +233,130 @@
         },
         "strikerLabel": "CẦU THỦ",
         "keeperLabel": "THỦ MÔN",
-        "crowdLabel": "SÂN BÓNG",
+        "crowdLabel": "KHÁN ĐÀI",
         "confetti": true,
-        "freezeLabel": "FREEZE GOAL",
-        "ballLabel": "BÀN THẮNG"
+        "freezeLabel": "GIÂY ĐẦU TIÊN RƠI TẠI ĐÂY",
+        "ballLabel": "TÍN HIỆU BÀN THẮNG"
       },
       "sound_design": [
         {
           "frame": 0,
           "sound": "stadium_tension",
-          "volume": 0.7
+          "volume": 0.75
         },
         {
-          "frame": 85,
+          "frame": 28,
           "sound": "kick_impact",
-          "volume": 0.9
+          "volume": 0.95
         },
         {
-          "frame": 128,
+          "frame": 48,
           "sound": "net_snap",
           "volume": 0.85
         },
         {
-          "frame": 132,
+          "frame": 52,
           "sound": "stadium_goal_roar",
           "volume": 1.0
         },
         {
-          "frame": 215,
+          "frame": 118,
           "sound": "freeze_suction",
           "volume": 0.55
         },
         {
-          "frame": 250,
+          "frame": 150,
           "sound": "orb_birth_riser",
           "volume": 0.7
         }
       ]
     },
     {
-      "id": "scene_06_internet_cannot_carry_stadium",
-      "type": "diagram_flow",
-      "duration_frames": 180,
-      "narration": "Internet không bê nguyên sân bóng tới nhà bạn. Nó phải chia nhỏ, rồi chuyển từng phần.",
+      "id": "scene_05_culprit_1_encoder",
+      "type": "pipeline_vertical",
+      "duration_frames": 210,
+      "narration": "Thủ phạm đầu tiên: máy nén. Video phải được ép nhỏ, cắt thành từng mảnh rồi mới gửi đi.",
       "narration_timing_frames": [
-        16,
-        162
+        10,
+        194
       ],
-      "transition_out_delay_frames": 15,
+      "transition_out_delay_frames": 8,
       "props": {
-        "headline": "Internet không bê nguyên sân bóng",
-        "accentWord": "không bê",
-        "nodes": [
+        "headline": "THỦ PHẠM 1: MÁY NÉN",
+        "accentWord": "MÁY NÉN",
+        "accentColor": "#00ff41",
+        "steps": [
           {
-            "label": "SÂN BÓNG",
-            "sublabel": "Toàn bộ trận đấu",
-            "icon": "🏟️",
-            "status": "intact"
+            "label": "CAMERA GHI HÌNH",
+            "icon": "🎥",
+            "status": "exists"
           },
           {
-            "label": "NÉN LẠI",
-            "sublabel": "Chia thành mảnh nhỏ",
-            "icon": "📦",
-            "status": "neutral"
+            "label": "ÉP NHỎ (NÉN)",
+            "icon": "🗜️",
+            "status": "still_here",
+            "note": "Mất một nhịp"
           },
           {
-            "label": "GỬI TỪNG PHẦN",
-            "sublabel": "Không bê nguyên khối",
+            "label": "CẮT THÀNH MẢNH",
+            "icon": "✂️",
+            "status": "still_here"
+          },
+          {
+            "label": "GỬI ĐI",
             "icon": "📡",
-            "status": "neutral"
-          },
-          {
-            "label": "TV NHÀ BẠN",
-            "sublabel": "Ghép lại để phát",
-            "icon": "📺",
-            "status": "intact"
+            "status": "exists"
           }
-        ],
-        "footer": "Mỗi mảnh đến đúng lúc."
+        ]
       },
       "sound_design": [
         {
-          "frame": 20,
+          "frame": 5,
           "sound": "heavy_lift",
-          "volume": 0.55
+          "volume": 0.5
         },
         {
-          "frame": 70,
+          "frame": 35,
           "sound": "wobble_creaks",
-          "volume": 0.55
+          "volume": 0.5
         },
         {
-          "frame": 125,
+          "frame": 86,
           "sound": "objects_falling",
+          "volume": 0.6
+        },
+        {
+          "frame": 112,
+          "sound": "comedic_collapse",
           "volume": 0.65
         },
         {
-          "frame": 155,
-          "sound": "comedic_collapse",
-          "volume": 0.7
-        },
-        {
-          "frame": 215,
+          "frame": 136,
           "sound": "magic_split",
           "volume": 0.7
         },
         {
-          "frame": 255,
+          "frame": 164,
           "sound": "fragments_launch",
           "volume": 0.75
         }
       ]
     },
     {
-      "id": "scene_07_goal_counterattack",
+      "id": "scene_06_culprit_2_route",
       "type": "goal_orb_journey",
-      "duration_frames": 184,
-      "narration": "Từng phần chuyền rất nhanh. Một đường chuyền, rồi thêm một đường. Bàn thắng đang phản công về TV nhà bạn.",
+      "duration_frames": 260,
+      "narration": "Thủ phạm hai: đường đi. Từ sân bóng, tín hiệu phải chạy qua nhà mạng rồi mới tới được TV. Mỗi nhà một đường — độ trễ đã khác.",
       "narration_timing_frames": [
         0,
-        172
+        240
       ],
-      "transition_out_delay_frames": 12,
+      "transition_out_delay_frames": 8,
       "props": {
-        "mode": "counterattack",
-        "headline": "BÀN THẮNG PHẢN CÔNG",
-        "accentWord": "PHẢN CÔNG",
-        "subtext": "Từng chặng một, bóng lao về TV nhà bạn.",
+        "mode": "branch_to_targets",
+        "headline": "THỦ PHẠM 2: ĐƯỜNG ĐI",
+        "accentWord": "ĐƯỜNG ĐI",
+        "subtext": "Nguồn phát khác nhau, về đích khác nhau.",
         "accentColor": "#00ff41",
         "secondaryColor": "#61dafb",
         "trailColor": "#f5c542",
@@ -429,174 +365,146 @@
           {
             "x": 130,
             "y": 1498,
-            "label": "Sân bóng",
+            "label": "SÂN BÓNG",
             "kind": "stadium"
           },
           {
-            "x": 389,
-            "y": 1114,
-            "label": "Relay 1",
+            "x": 575,
+            "y": 930,
+            "label": "NHÀ MẠNG",
             "kind": "relay"
-          },
-          {
-            "x": 670,
-            "y": 768,
-            "label": "Relay 2",
-            "kind": "relay"
-          },
-          {
-            "x": 842,
-            "y": 1114,
-            "label": "Thành phố",
-            "kind": "relay"
-          },
-          {
-            "x": 562,
-            "y": 461,
-            "label": "Nhà bạn",
-            "kind": "house"
           }
         ],
-        "statusText": "TV giữ sẵn vài giây để tránh đứng hình",
         "branchLabels": [
-          "TV nhà bạn",
-          "TV hàng xóm"
-        ]
-      },
-      "sound_design": [
-        {
-          "frame": 0,
-          "sound": "counterattack_drums",
-          "volume": 0.6
-        },
-        {
-          "frame": 45,
-          "sound": "orb_pass",
-          "volume": 0.65
-        },
-        {
-          "frame": 105,
-          "sound": "orb_pass",
-          "volume": 0.65
-        },
-        {
-          "frame": 168,
-          "sound": "orb_pass",
-          "volume": 0.65
-        },
-        {
-          "frame": 225,
-          "sound": "city_flyby",
-          "volume": 0.6
-        },
-        {
-          "frame": 292,
-          "sound": "route_branch_riser",
-          "volume": 0.7
-        }
-      ]
-    },
-    {
-      "id": "scene_08_two_routes_two_homes",
-      "type": "goal_orb_journey",
-      "duration_frames": 180,
-      "narration": "Đường đi tới mỗi nhà không giống nhau. Hàng xóm nhận trước. TV nhà bạn vẫn báo: đang trên đường.",
-      "narration_timing_frames": [
-        0,
-        168
-      ],
-      "transition_out_delay_frames": 12,
-      "props": {
-        "mode": "branch_to_targets",
-        "headline": "HAI NHÀ, HAI TỐC ĐỘ",
-        "accentWord": "HAI TỐC ĐỘ",
-        "subtext": "Hàng xóm tới trước, nhà bạn tới sau.",
-        "accentColor": "#00ff41",
-        "secondaryColor": "#61dafb",
-        "trailColor": "#f5c542",
-        "cameraFollow": "lag",
-        "branchLabels": [
-          "HÀNG XÓM",
-          "NHÀ BẠN"
+          "LUỒNG A",
+          "LUỒNG B"
         ],
         "targets": [
           {
             "x": 850,
             "y": 780,
-            "label": "TV hàng xóm",
+            "label": "TV HÀNG XÓM",
             "kind": "tv",
             "arriveOffsetFrames": 0
           },
           {
             "x": 860,
             "y": 1120,
-            "label": "TV nhà bạn",
+            "label": "TV NHÀ BẠN",
             "kind": "tv",
-            "arriveOffsetFrames": 12
+            "arriveOffsetFrames": 210
           }
         ],
-        "statusText": "Dự kiến đến sau hàng xóm 8 giây"
+        "statusText": "KHÁC APP • KHÁC MẠNG • KHÁC THIẾT BỊ • KHÁC BỘ ĐỆM",
+        "displayedDelaySeconds": 7
       },
       "sound_design": [
         {
           "frame": 0,
+          "sound": "counterattack_drums",
+          "volume": 0.55
+        },
+        {
+          "frame": 32,
+          "sound": "orb_pass",
+          "volume": 0.65
+        },
+        {
+          "frame": 72,
+          "sound": "orb_pass",
+          "volume": 0.65
+        },
+        {
+          "frame": 112,
+          "sound": "city_flyby",
+          "volume": 0.55
+        },
+        {
+          "frame": 150,
           "sound": "route_split",
           "volume": 0.7
         },
         {
-          "frame": 95,
+          "frame": 184,
           "sound": "delivery_success_chime",
           "volume": 0.75
         },
         {
-          "frame": 110,
+          "frame": 200,
           "sound": "neighbor_goal_shout_muffled",
           "volume": 0.65
-        },
-        {
-          "frame": 180,
-          "sound": "viewer_route_struggle",
-          "volume": 0.45
-        },
-        {
-          "frame": 255,
-          "sound": "tv_arrival_soft",
-          "volume": 0.55
         }
       ]
     },
     {
-      "id": "scene_09_inside_the_tv",
-      "type": "system_layer",
-      "duration_frames": 220,
-      "narration": "Hình tới nơi chưa chắc chiếu ngay. TV giữ vài giây. Lỡ Internet hụt hơi, vẫn còn hình để phát tiếp.",
+      "id": "scene_07_culprit_3_your_tv",
+      "type": "split_apartment",
+      "duration_frames": 395,
+      "narration": "Và thủ phạm lớn nhất… đang ở ngay phòng khách: chính chiếc TV. Nó cố tình giữ vài giây trong bộ đệm — trong trường hợp mạng chập chờn, hình ảnh vẫn sẽ giữ được sắc nét. Mạng yếu hơn nữa, TV có hai đường cứu trận đấu: giảm nét — hình mờ hơn, hoặc tăng bộ đệm — bạn xem chậm hơn. Miễn là không bao giờ đứng hình.",
       "narration_timing_frames": [
-        35,
-        204
+        0,
+        387
       ],
-      "transition_out_delay_frames": 15,
+      "transition_out_delay_frames": 8,
       "props": {
-        "headline": "TV giữ vài giây",
-        "layers": [
+        "preset": "quality_tradeoff",
+        "headline": "THỦ PHẠM CUỐI: CHIẾC TV",
+        "accentWord": "CHIẾC TV",
+        "cameraMode": "clock_rewind_then_pixelate",
+        "shoutSide": "right",
+        "leftApartment": {
+          "label": "NHÀ BẠN",
+          "reaction": "squinting",
+          "tvState": "pixelated",
+          "hasRemote": true,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#61dafb",
+          "screenLabel": "22 Ô VUÔNG + 1 Ô VUÔNG"
+        },
+        "rightApartment": {
+          "label": "NHÀ HÀNG XÓM",
+          "reaction": "watching_replay",
+          "tvState": "clear",
+          "hasRemote": false,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#00ff41",
+          "screenLabel": "KHÔNG BỊ ẢNH HƯỞNG"
+        },
+        "timeline": [
           {
-            "label": "Internet",
-            "sublabel": "Nguồn phát",
-            "color": "#61dafb"
+            "frame": 25,
+            "label": "TV GIỮ VÀI GIÂY TRONG BỘ ĐỆM",
+            "side": "left",
+            "emphasis": "warning"
           },
           {
-            "label": "Bộ đệm",
-            "sublabel": "Giữ thêm vài giây",
-            "isActive": true,
-            "color": "#00ff41"
+            "frame": 70,
+            "label": "NHÀ BẠN: MẠNG YẾU",
+            "side": "left",
+            "emphasis": "warning"
           },
           {
-            "label": "Màn hình",
-            "sublabel": "Chiếu tiếp mượt hơn",
-            "color": "#61dafb"
+            "frame": 115,
+            "label": "CÁCH 1: GIẢM NÉT → MỜ",
+            "side": "left",
+            "emphasis": "warning"
+          },
+          {
+            "frame": 165,
+            "label": "CÁCH 2: THÊM ĐỆM → CHẬM",
+            "side": "left",
+            "emphasis": "warning"
+          },
+          {
+            "frame": 226,
+            "label": "MỤC TIÊU: KHÔNG ĐỨNG HÌNH",
+            "side": "both",
+            "emphasis": "impact"
           }
         ],
-        "accentColor": "#00ff41",
-        "bodyText": "Lỡ Internet hụt hơi, TV vẫn còn hình để phát."
+        "wallLabel": "ĐỔI TỐC ĐỘ LẤY SỰ ỔN ĐỊNH"
       },
       "sound_design": [
         {
@@ -605,281 +513,104 @@
           "volume": 0.65
         },
         {
-          "frame": 45,
+          "frame": 30,
           "sound": "cards_stack",
           "volume": 0.45
         },
         {
-          "frame": 95,
-          "sound": "glass_knock",
-          "volume": 0.55
-        },
-        {
-          "frame": 238,
-          "sound": "internet_breathing",
-          "volume": 0.55
-        },
-        {
-          "frame": 270,
-          "sound": "smooth_playback",
-          "volume": 0.45
-        }
-      ]
-    },
-    {
-      "id": "scene_10_smooth_or_fast",
-      "type": "comparison",
-      "duration_frames": 166,
-      "narration": "Mượt hơn nghĩa là chậm hơn vài giây. Internet đang nói: muốn xem mượt? Được. Nhưng phải chờ.",
-      "narration_timing_frames": [
-        0,
-        152
-      ],
-      "transition_out_delay_frames": 12,
-      "props": {
-        "headline": "MƯỢT HƠN, CHẬM HƠN",
-        "accentWord": "MƯỢT",
-        "subtext": "Muốn mượt thì phải giữ lại vài giây.",
-        "leftIcon": "🕊️",
-        "leftLabel": "MƯỢT",
-        "rightIcon": "⚡",
-        "rightLabel": "NHANH",
-        "connector": "→"
-      },
-      "sound_design": [
-        {
-          "frame": 0,
+          "frame": 94,
           "sound": "music_drop_reflective",
           "volume": 0.4
         },
         {
-          "frame": 70,
-          "sound": "choice_reveal",
-          "volume": 0.5
-        },
-        {
-          "frame": 105,
+          "frame": 106,
           "sound": "selection_click",
           "volume": 0.5
         },
         {
-          "frame": 145,
-          "sound": "clock_rewind",
-          "volume": 0.65
-        },
-        {
-          "frame": 250,
-          "sound": "neighbor_shout_distant",
-          "volume": 0.3
-        }
-      ]
-    },
-    {
-      "id": "scene_11_pixel_football",
-      "type": "diagram_flow",
-      "duration_frames": 150,
-      "narration": "Yếu hơn nữa, hình mờ dần... thành 22 ô vuông đuổi theo một ô vuông khác.",
-      "narration_timing_frames": [
-        0,
-        136
-      ],
-      "transition_out_delay_frames": 10,
-      "props": {
-        "headline": "Internet yếu hơn nữa",
-        "accentWord": "yếu hơn",
-        "nodes": [
-          {
-            "label": "HÌNH RÕ",
-            "sublabel": "Còn đủ chi tiết",
-            "icon": "📺",
-            "status": "intact"
-          },
-          {
-            "label": "MẤT CHI TIẾT",
-            "sublabel": "Mỗi khung hình bị nén",
-            "icon": "📉",
-            "status": "neutral"
-          },
-          {
-            "label": "PIXEL HÓA",
-            "sublabel": "Biến thành ô vuông",
-            "icon": "◼️",
-            "status": "deleted"
-          },
-          {
-            "label": "22 Ô VUÔNG",
-            "sublabel": "Đuổi theo 1 ô vuông",
-            "icon": "⚽",
-            "status": "deleted"
-          }
-        ],
-        "footer": "Không rõ ai đang có bóng nữa."
-      },
-      "sound_design": [
-        {
-          "frame": 0,
+          "frame": 115,
           "sound": "video_quality_drop",
           "volume": 0.55
         },
         {
-          "frame": 80,
-          "sound": "digital_crunch",
-          "volume": 0.45
-        },
-        {
-          "frame": 150,
+          "frame": 132,
           "sound": "retro_game_bleeps",
-          "volume": 0.55
+          "volume": 0.7
         },
         {
           "frame": 165,
-          "sound": "comedic_whistle",
+          "sound": "clock_rewind",
+          "volume": 0.7
+        },
+        {
+          "frame": 226,
+          "sound": "smooth_playback",
           "volume": 0.5
+        },
+        {
+          "frame": 226,
+          "sound": "delivery_success_chime",
+          "volume": 0.72
         }
       ]
     },
     {
-      "id": "scene_12_goal_finally_arrives",
+      "id": "scene_08_neighbor_alert_final",
       "type": "split_apartment",
-      "duration_frames": 98,
-      "narration": "Cuối cùng, bàn thắng cũng đến TV nhà bạn.",
+      "duration_frames": 332,
+      "narration": "Hàng xóm không biết trước tương lai — tín hiệu chỉ về đích sớm hơn. Hệ thống báo bàn nhanh nhất vẫn là tiếng hét xuyên tường.",
       "narration_timing_frames": [
         0,
-        78
-      ],
-      "transition_out_delay_frames": 8,
-      "props": {
-        "preset": "delayed_goal",
-        "cameraMode": "static",
-        "shoutSide": "left",
-        "leftApartment": {
-          "label": "NHÀ BẠN",
-          "reaction": "cheering",
-          "tvState": "goal",
-          "hasRemote": true,
-          "hasDrink": true,
-          "hasSnack": true,
-          "accentColor": "#00ff41"
-        },
-        "rightApartment": {
-          "label": "NHÀ HÀNG XÓM",
-          "reaction": "watching",
-          "tvState": "replay",
-          "hasRemote": true,
-          "hasDrink": true,
-          "hasSnack": true,
-          "accentColor": "#61dafb"
-        }
-      },
-      "sound_design": [
-        {
-          "frame": 50,
-          "sound": "goal_arrival_riser",
-          "volume": 0.65
-        },
-        {
-          "frame": 64,
-          "sound": "tv_goal_impact",
-          "volume": 0.8
-        },
-        {
-          "frame": 70,
-          "sound": "viewer_inhale_to_shout",
-          "volume": 0.5
-        },
-        {
-          "frame": 132,
-          "sound": "var_interrupt",
-          "volume": 0.85
-        }
-      ]
-    },
-    {
-      "id": "scene_13_var_draft",
-      "type": "verdict_list",
-      "duration_frames": 184,
-      "narration": "Nhưng nghe hàng xóm hét cũng đừng mừng vội. Bàn thắng chưa qua VAR chỉ là bản nháp.",
-      "narration_timing_frames": [
-        20,
-        170
+        312
       ],
       "transition_out_delay_frames": 12,
       "props": {
-        "headline": "ĂN MỪNG TRƯỚC VAR?",
-        "accentWord": "VAR",
-        "verdicts": [
+        "preset": "neighbor_alert_callback",
+        "headline": "HÀNG XÓM ALERT™",
+        "accentWord": "ALERT",
+        "subtext": "Nhanh hơn push notification. Không có nút tắt.",
+        "cameraMode": "hero_product_reveal",
+        "shoutSide": "right",
+        "leftApartment": {
+          "label": "NHÀ BẠN",
+          "reaction": "ready_before_tv",
+          "tvState": "windup",
+          "hasRemote": true,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#61dafb",
+          "screenLabel": "SẮP VÀO"
+        },
+        "rightApartment": {
+          "label": "NHÀ HÀNG XÓM",
+          "reaction": "cheering",
+          "tvState": "goal",
+          "hasRemote": false,
+          "hasDrink": true,
+          "hasSnack": true,
+          "accentColor": "#00ff41",
+          "screenLabel": "VÀO!"
+        },
+        "checklist": [
           {
-            "action": "Hét ăn mừng",
-            "icon": "🎉",
-            "result": "BẢN NHÁP",
-            "color": "danger"
+            "text": "Không phải tương lai",
+            "reveal_frame": 28
           },
           {
-            "action": "Chờ VAR",
-            "icon": "📺",
-            "result": "MỚI TÍNH",
-            "color": "safe"
+            "text": "Chỉ là tín hiệu tới sớm hơn",
+            "reveal_frame": 68
           },
           {
-            "action": "Công nhận bàn thắng",
-            "icon": "✅",
-            "result": "CHỐT SỔ",
-            "color": "safe"
+            "text": "Nhanh hơn thông báo điện thoại",
+            "reveal_frame": 112
+          },
+          {
+            "text": "KHÔNG CÓ NÚT TẮT",
+            "reveal_frame": 156,
+            "style": "warning"
           }
         ],
-        "standard": "Ăn mừng sau VAR"
-      },
-      "sound_design": [
-        {
-          "frame": 0,
-          "sound": "viewer_goal_shout_start",
-          "volume": 0.75
-        },
-        {
-          "frame": 35,
-          "sound": "hard_audio_cut",
-          "volume": 0.9
-        },
-        {
-          "frame": 65,
-          "sound": "var_scan",
-          "volume": 0.55
-        },
-        {
-          "frame": 118,
-          "sound": "analysis_beeps",
-          "volume": 0.45
-        },
-        {
-          "frame": 190,
-          "sound": "document_stamp_draft",
-          "volume": 0.7
-        }
-      ]
-    },
-    {
-      "id": "scene_14_neighbor_alert",
-      "type": "preview_teaser",
-      "duration_frames": 334,
-      "narration": "Nhưng còn một bí mật nữa: cùng một trận, sao có người xem 4K, có người xem thành 22 ô vuông?",
-      "narration_timing_frames": [
-        0,
-        316
-      ],
-      "transition_out_delay_frames": 18,
-      "props": {
-        "headline": "CÒN MỘT BÍ MẬT",
-        "accentWord": "BÍ MẬT",
-        "subtext": "Lần sau mình bóc tiếp vì sao cùng một trận có người 4K, có người pixel.",
-        "preview": {
-          "items": [
-            "Wi-Fi đầy cột",
-            "Vẫn trễ vài giây",
-            "Buffer giữ hình"
-          ],
-          "icon": "🔔"
-        },
-        "channel": "worldcup"
+        "wallLabel": "HÀNG XÓM ALERT™"
       },
       "sound_design": [
         {
@@ -888,41 +619,47 @@
           "volume": 0.85
         },
         {
-          "frame": 35,
+          "frame": 24,
           "sound": "product_launch_riser",
           "volume": 0.55
         },
         {
-          "frame": 45,
+          "frame": 38,
           "sound": "hero_reveal",
           "volume": 0.65
         },
         {
-          "frame": 100,
+          "frame": 68,
           "sound": "feature_chime",
           "volume": 0.4
         },
         {
-          "frame": 134,
+          "frame": 112,
           "sound": "feature_chime",
           "volume": 0.4
         },
         {
-          "frame": 168,
-          "sound": "feature_chime",
-          "volume": 0.4
-        },
-        {
-          "frame": 250,
+          "frame": 156,
           "sound": "warning_buzzer_soft",
           "volume": 0.55
         },
         {
-          "frame": 300,
-          "sound": "comedic_button_search",
+          "frame": 200,
+          "sound": "orb_birth_riser",
           "volume": 0.45
+        },
+        {
+          "frame": 246,
+          "sound": "cut_to_black",
+          "volume": 0.8
         }
       ]
     }
-  ]
+  ],
+  "editorial_notes": {
+    "target_duration_seconds": 62.5,
+    "tone": "giải thích công nghệ bằng hài tình huống — truy tìm 'vài giây bị mất' như phim trinh thám",
+    "retention_pattern": "hook → phóng đại → mở loop 'vài giây trốn đi đâu' → thủ phạm 1 (máy nén) → thủ phạm 2 (đường đi) → twist: thủ phạm cuối là chính chiếc TV + trade-off mờ/chậm → payoff",
+    "technical_thesis": "Độ trễ cộng dồn từ capture/encode, distribution/network, và lớn nhất là player buffer; chênh lệch giữa hai nhà do nguồn phát, ứng dụng, mạng, thiết bị và cấu hình bộ đệm. TV tối ưu 'không đứng hình', không tối ưu 'nhanh nhất'."
+  }
 }
