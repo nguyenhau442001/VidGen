@@ -243,7 +243,10 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
         # deliberate caption choice for this shot, including "no caption" —
         # only fall back to narration when the key is absent entirely.
         caption = shot["on_screen_text"] if "on_screen_text" in shot else (narration or "")
-        if caption:
+        has_karaoke = bool((word_timings or {}).get(sid))
+        if caption and not has_karaoke:
+            # Karaoke word-highlight reveals text in sync with speech, so the
+            # static "whole block, read it in one glance" floor doesn't apply.
             min_reading_frames = math.ceil(len(caption) / MAX_CAPTION_CPS * fps)
             duration_frames = max(duration_frames, min_reading_frames)
 
