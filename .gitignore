@@ -11,8 +11,8 @@ output/
 remotion/public/audio/
 
 # Python bytecode
-vidgen/__pycache__/*
-tests/__pycache__/*
+__pycache__/
+*.py[cod]
 
 # Remotion Studio local state
 remotion/out/
