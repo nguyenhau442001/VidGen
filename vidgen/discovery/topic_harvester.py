@@ -1,8 +1,8 @@
 """
-vidgen/topic_harvester.py — AI News + Trending Topic Harvester
+vidgen/discovery/topic_harvester.py — AI News + Trending Topic Harvester
 
 Scrapes AI release news, GitHub trending repos, and npm packages. Scores
-each item and picks the best topic to push into topics_queue.json.
+each item and writes optional ideas to resources/topics_queue.json for human review.
 
 Sources (no API key required, no RSS that blocks scripts):
   • GitHub Search API  — AI/LLM repos created/updated this week
@@ -17,10 +17,9 @@ Scoring:
   • Recency             → decay by hours since published
 
 Usage:
-    python -m vidgen.topic_harvester              # score + push best topic
-    python -m vidgen.topic_harvester --dry-run    # show top 5, don't push
-    python -m vidgen.topic_harvester --top 10     # show top N topics
-    python -m vidgen.topic_harvester --push N     # push top N to queue
+    python -m vidgen.discovery.topic_harvester --dry-run
+    python -m vidgen.discovery.topic_harvester --top 10
+    python -m vidgen.discovery.topic_harvester --push N
 
 Exit codes:
     0  — topic pushed (or dry-run completed)
@@ -42,10 +41,11 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
 
+from vidgen.config.project_paths import OUTPUT_DIR, RESOURCES_DIR
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
-REPO_ROOT  = Path(__file__).resolve().parent.parent
-QUEUE_FILE = REPO_ROOT / "topics_queue.json"
-CACHE_FILE = REPO_ROOT / "output" / "harvester_cache.json"
+QUEUE_FILE = RESOURCES_DIR / "topics_queue.json"
+CACHE_FILE = OUTPUT_DIR / "harvester_cache.json"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
