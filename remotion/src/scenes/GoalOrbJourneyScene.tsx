@@ -264,7 +264,13 @@ export const GoalOrbJourneyScene: React.FC<GoalOrbJourneySceneProps> = ({
 
           <g opacity={0.8}>
             <path
-              d={`M ${nodes[0].x} ${nodes[0].y} C ${nodes[1].x - 20} ${nodes[1].y - 100}, ${nodes[2].x - 20} ${nodes[2].y - 72}, ${nodes[nodes.length - 1].x} ${nodes[nodes.length - 1].y}`}
+              d={(() => {
+                const first = nodes[0];
+                const last = nodes[nodes.length - 1];
+                const ctrl1 = nodes[Math.min(1, nodes.length - 1)];
+                const ctrl2 = nodes[Math.min(2, nodes.length - 1)];
+                return `M ${first.x} ${first.y} C ${ctrl1.x - 20} ${ctrl1.y - 100}, ${ctrl2.x - 20} ${ctrl2.y - 72}, ${last.x} ${last.y}`;
+              })()}
               fill="none"
               stroke={accentColor}
               strokeWidth={6}

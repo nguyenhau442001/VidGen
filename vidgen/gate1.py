@@ -57,14 +57,6 @@ HOOK_STRONG_MARKERS = (
 HOOK_WEAK_MARKERS = (
     "sao", "tưởng", "nhưng", "ngược", "đừng", "càng",
 )
-CTA_STRONG_MARKERS = (
-    "xem phần tiếp theo", "phần tiếp theo", "xem tiếp", "tập sau",
-    "để xem", "xem thêm", "follow", "theo dõi", "subscribe",
-    "bình luận", "comment", "đừng bỏ lỡ",
-)
-CTA_WEAK_MARKERS = (
-    "phần sau", "còn một", "còn nữa",
-)
 
 
 def _tokens(text: str) -> list[str]:
@@ -91,15 +83,6 @@ def _looks_like_hook(text: str) -> bool:
     if words < 4:
         return False
     return any(_contains_marker(text, marker) for marker in HOOK_WEAK_MARKERS)
-
-
-def _looks_like_cta(text: str) -> bool:
-    words = len(_tokens(text))
-    if any(_contains_marker(text, marker) for marker in CTA_STRONG_MARKERS):
-        return True
-    if words < 4:
-        return False
-    return any(_contains_marker(text, marker) for marker in CTA_WEAK_MARKERS)
 
 
 # ---------------------------------------------------------------------------
@@ -233,24 +216,15 @@ def score_script(script: dict) -> dict:
     # ------------------------------------------------------------------
     beat_order_score = 5
     first_scene = scenes[0]
-    last_scene = scenes[-1]
     first_narration = (first_scene.get("narration") or "").strip()
-    last_narration = (last_scene.get("narration") or "").strip()
 
     first_ok = _looks_like_hook(first_narration)
-    last_ok = _looks_like_cta(last_narration)
 
     if not first_ok:
         beat_order_score -= 3
         issues.append(
             f"beat_order: scene đầu '{first_scene.get('id', '?')}' chưa có hook pattern rõ ràng — "
             f"'{first_narration or '(none)'}'"
-        )
-    if not last_ok:
-        beat_order_score -= 3
-        issues.append(
-            f"beat_order: scene cuối '{last_scene.get('id', '?')}' chưa có CTA/open loop rõ ràng — "
-            f"'{last_narration or '(none)'}'"
         )
 
     scores["beat_order"] = max(1, beat_order_score)
