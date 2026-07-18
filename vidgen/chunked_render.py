@@ -96,7 +96,7 @@ def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remoti
         if shot.get("audioPath"):
             entries.append((shot["audioPath"], shot.get("audioOffsetFrames") or 0))
         for seg in shot.get("extraAudio") or []:
-            unknown = set(seg) - {"path", "offsetFrames"}
+            unknown = set(seg) - {"path", "previewPath", "offsetFrames"}
             if unknown:
                 raise ValueError(f"extraAudio has fields this builder does not replicate: {unknown}")
             entries.append((seg["path"], seg["offsetFrames"]))

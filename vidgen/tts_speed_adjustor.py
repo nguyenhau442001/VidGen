@@ -214,6 +214,8 @@ def _suffix_for_audio_bytes(raw: bytes) -> str:
 def _read_audio_file(path: str | Path) -> tuple[np.ndarray, int]:
     try:
         samples, sr = sf.read(str(path), dtype="float32", always_2d=False)
+        if np.size(samples) == 0:
+            raise ValueError("decoded audio was empty")
         return samples, sr
     except Exception:
         converted_path = f"{path}.wav"
@@ -613,8 +615,7 @@ def _synthesize_with_macos_say(text: str, voice: Any = None) -> tuple[np.ndarray
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
-        samples, sr = sf.read(out_path, dtype="float32", always_2d=False)
-        return samples, sr
+        return _read_audio_file(out_path)
     finally:
         try:
             os.unlink(out_path)

@@ -173,7 +173,7 @@ def test_build_audio_track_sums_overlapping_clips_without_normalizing(tmp_path):
                 "id": 1,
                 "audioPath": "audio/a.wav",
                 "audioOffsetFrames": 0,
-                "extraAudio": [{"path": "audio/b.wav", "offsetFrames": 0}],
+                "extraAudio": [{"path": "audio/b.wav", "previewPath": "audio/b.mp3", "offsetFrames": 0}],
                 "durationInFrames": 30,
                 "visual": {},
             }
