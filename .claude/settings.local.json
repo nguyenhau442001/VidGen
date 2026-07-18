@@ -1,0 +1,77 @@
+{
+  "permissions": {
+    "allow": [
+      "// VERSION CONTROL",
+      "Bash(git *)",
+      "Bash(gh repo *)",
+
+      "// PYTHON",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(pip show *)",
+
+      "// NODE / REMOTION",
+      "Bash(npx remotion *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+
+      "// MEDIA",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)",
+
+      "// SYSTEM READ-ONLY",
+      "Bash(ps *)",
+      "Bash(grep *)",
+      "Bash(awk *)",
+      "Bash(sed *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(echo *)",
+      "Bash(lsof *)",
+      "Bash(sysctl *)",
+      "Bash(vm_stat)",
+      "Bash(jobs -l)",
+      "Bash(command -v *)",
+      "Bash(which *)",
+      "Bash(sort *)",
+      "Bash(shasum *)",
+
+      "// FILE OPERATIONS",
+      "Bash(mkdir -p *)",
+      "Bash(chmod +x *)",
+      "Bash(bash -n *)",
+      "Bash(tee *)",
+      "Bash(xargs *)",
+      "Bash(open *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+
+      "// PROCESS MANAGEMENT",
+      "Bash(kill *)",
+      "Bash(pkill *)",
+
+      "// PROJECT SCRIPTS",
+      "Bash(bash scripts/*)",
+      "Bash(bash skills/*)",
+      "Bash(bash .claude/*)",
+
+      "// PROJECT FILE ACCESS",
+      "Read(./**)",
+      "Write(./**)",
+      "Edit(./**)",
+
+      "// SERVICES",
+      "Bash(wrangler --version)",
+      "Bash(wrangler whoami *)",
+      "Bash(wrangler pages *)",
+      "WebFetch(domain:developers.facebook.com)",
+      "WebSearch",
+      "Skill(run)"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(git push --force *)",
+      "Bash(rm -rf *)"
+    ]
+  }
+}
