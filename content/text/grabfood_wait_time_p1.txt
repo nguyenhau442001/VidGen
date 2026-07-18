@@ -1,0 +1,289 @@
+# GRABFOOD PHẦN 1
+
+## THỜI GIAN CHỜ CŨNG CÓ GIÁ?
+
+---
+
+## Cảnh 1 — Nghịch lý mở đầu
+
+**Hình ảnh:**
+
+Một quán cơm gà cách nhà đúng 3 km.
+
+Trên màn hình GrabFood xuất hiện ba lựa chọn:
+
+* **Ưu tiên:** 23 phút — 22.000 đồng
+* **Nhanh:** 29 phút — 12.000 đồng
+* **Tiết kiệm:** tối đa 44 phút — 9.000 đồng
+
+**Chữ lớn trên màn hình:**
+
+**“GrabFood không chỉ giao đồ ăn —
+nó biến thời gian chờ của bạn thành một món hàng.”**
+
+**Voice-over:**
+
+“ỦA LÀ SAO?! Bạn đang đói rã rời, quán cơm gà chỉ cách nhà đúng ba cây số, nhưng chọn gói Tiết kiệm thì ứng dụng lại báo phải chờ tới… bốn mươi bốn phút?!”
+
+---
+
+## Cảnh 2 — Bằng chứng từ ứng dụng
+
+**Hình ảnh:**
+
+Hiển thị ảnh chụp thực tế trên ứng dụng.
+
+Camera lần lượt phóng lớn vào:
+
+* Khoảng cách **3 km**
+* Ưu tiên: **23 phút**
+* Nhanh: **29 phút**
+* Tiết kiệm: **tối đa 44 phút**
+
+**Voice-over:**
+
+“Cùng một món ăn, cùng một địa chỉ, nhưng ba lựa chọn giao hàng lại báo ba mốc thời gian khác nhau.”
+
+**Chữ nhỏ trên màn hình:**
+
+*Thời gian và phí giao hàng có thể thay đổi tùy địa điểm, thời điểm và tình trạng đơn hàng.*
+
+---
+
+## Cảnh 3 — Gói Tiết kiệm có thể đi chung tuyến
+
+**Hình ảnh:**
+
+Trên bản đồ ứng dụng, biểu tượng tài xế đang di chuyển về phía nhà khách hàng.
+
+Sau đó, tài xế bất ngờ rẽ sang một nhánh khác trên tuyến.
+
+Khách hàng nhìn màn hình với vẻ khó hiểu.
+
+**Chữ trên màn hình:**
+
+# **GÓI TIẾT KIỆM
+
+CÓ THỂ ĐI CHUNG TUYẾN**
+
+**Voice-over:**
+
+“Khi bạn chọn Tiết kiệm, đơn hàng có thể được hệ thống ghép vào một tuyến giao chung với những đơn phù hợp khác.”
+
+“Tài xế lúc này có thể phải ghé thêm điểm lấy món hoặc điểm giao, thay vì chạy thẳng về phía bạn.”
+
+“Vì vậy, thấy tài xế đổi hướng chưa chắc có nghĩa là chú ấy đang đi sai đường.”
+
+---
+
+## Cảnh 4 — Một tài xế, nhiều điểm dừng
+
+**Hình ảnh:**
+
+Tuyến giao hàng hiển thị một ví dụ:
+
+**Lấy cơm gà của bạn**
+↓
+**Ghé quán trà sữa lấy thêm đơn**
+↓
+**Giao trà sữa cho một khách hàng khác**
+↓
+**Tiếp tục di chuyển về phía nhà bạn**
+
+Các điểm dừng lần lượt sáng lên trên bản đồ.
+
+**Chữ trên màn hình:**
+
+**TUYẾN GIAO NHIỀU ĐIỂM DỪNG**
+
+**Chữ nhỏ:**
+
+*Ví dụ minh họa một tuyến giao gộp.*
+
+**Voice-over:**
+
+“Đây là một tuyến giao nhiều điểm dừng.”
+
+“Một tài xế có thể lấy và giao nhiều đơn trong cùng một hành trình. Vì vậy, nhà bạn chưa chắc đã là điểm dừng tiếp theo.”
+
+“Trên bản đồ, bạn chỉ thấy một chấm nhỏ liên tục đổi hướng. Nhưng phía sau đó là cả một chuỗi nhiệm vụ mà tài xế phải hoàn thành.”
+
+---
+
+## Cảnh 5 — Bạn nhìn một khoảng cách, hệ thống nhìn cả tuyến
+
+**Hình ảnh:**
+
+Màn hình chia làm đôi.
+
+### Bên trái — Góc nhìn của khách
+
+Một đường thẳng nối từ quán tới nhà:
+
+**QUÁN → NHÀ: 3 KM**
+
+### Bên phải — Góc nhìn của hệ thống
+
+Một mạng lưới gồm:
+
+* Vị trí hiện tại của tài xế
+* Các điểm lấy món
+* Các điểm giao hàng
+* Thời gian chờ tại nhà hàng
+* Tình trạng giao thông
+* Điều kiện thời tiết
+
+**Chữ trên màn hình:**
+
+**BẠN THẤY 3 KM.
+HỆ THỐNG THẤY CẢ MỘT HÀNH TRÌNH.**
+
+**Voice-over:**
+
+“Bạn chỉ nhìn thấy quãng đường ba cây số từ quán đến nhà.”
+
+“Nhưng hệ thống phải tính cả vị trí hiện tại của tài xế, các điểm lấy và giao món, thời gian chờ tại quán cùng tình trạng đường ngoài thực tế.”
+
+“Ba cây số của món ăn chưa chắc đã là toàn bộ quãng đường người tài xế phải chạy.”
+
+---
+
+## Cảnh 6 — Hệ thống kết hợp nhiều tín hiệu
+
+**Hình ảnh:**
+
+Các dòng dữ liệu đổ về trung tâm xử lý:
+
+* Vị trí tài xế
+* Thời gian chuẩn bị món
+* Giao thông
+* Thời tiết
+* Vị trí và mức độ tương thích giữa các điểm giao
+
+Hệ thống tạo ra nhiều phương án tuyến đường rồi chọn một tuyến giao gộp.
+
+**Voice-over:**
+
+“Để kết hợp các đơn phù hợp, thuật toán phải xử lý nhiều tín hiệu cùng lúc.”
+
+“Từ đó, hệ thống tìm một phương án có thể kết nối nhiều điểm lấy và giao trong cùng một hành trình.”
+
+---
+
+## Cảnh 7 — Vì sao phải gộp đơn?
+
+**Hình ảnh:**
+
+So sánh hai mô hình.
+
+### Giao tách biệt
+
+Hai tài xế chạy hai tuyến riêng, có nhiều đoạn đường trùng nhau.
+
+### Giao gộp — Batching
+
+Một tài xế hoàn thành hai đơn trên một tuyến phù hợp hơn.
+
+Các đoạn đường trùng được làm mờ.
+
+**Voice-over:**
+
+“Thay vì cần hai tài xế chạy qua những đoạn đường gần giống nhau, hệ thống có thể gộp các đơn phù hợp để một người xử lý trong cùng một tuyến.”
+
+“Cách này giúp giảm những quãng đường bị trùng, phục vụ thêm đơn và tạo ra lựa chọn giao hàng với mức phí thấp hơn.”
+
+“Khách hàng đổi thời gian chờ lấy mức phí tiết kiệm hơn.”
+
+“Còn tài xế nhận một tuyến nhiều điểm hơn, với cơ hội hoàn thành thêm đơn trong cùng một hành trình.”
+
+---
+
+## Cảnh 8 — Kết luận
+
+**Hình ảnh:**
+
+Màn hình hiển thị một cán cân.
+
+### Một bên
+
+* Chi phí giao hàng thấp hơn
+* Ít tuyến đường bị trùng
+* Nhiều đơn được xử lý hơn
+
+### Bên còn lại
+
+* Đồng hồ đếm thời gian
+* Hộp cơm đang nguội
+* Tuyến đường nhiều điểm dừng của tài xế
+
+**Voice-over:**
+
+“Cơ chế này đôi khi có thể khiến cả người mua lẫn tài xế cảm thấy bị động.”
+
+“Người mua phải chờ lâu hơn để đổi lấy mức phí thấp hơn. Còn tài xế phải xử lý nhiều điểm dừng hơn trong cùng một hành trình.”
+
+“Nhưng phía sau mỗi chấm nhỏ đang chạy trên bản đồ là một người thật…”
+
+“Đang đứng chờ nhà hàng làm món.”
+
+“Đang giữ cho hộp cơm không bị đổ.”
+
+“Đang chạy giữa trời nắng, trời mưa và những con đường kẹt cứng.”
+
+“Đang cố hoàn thành cả một tuyến giao mà bạn không thể nhìn thấy.”
+
+**Hình ảnh:**
+
+Biểu tượng tài xế trên bản đồ dần biến thành một người tài xế thật đang chạy xe trên đường.
+
+**Chữ kết và Voice-over:**
+
+**“Bạn đang đợi một bữa ăn.
+Còn chú tài xế đang chạy cả một hành trình.”**
+
+---
+
+## Teaser Phần 2 — Ma trận giữ chân tài xế
+
+**Hình ảnh:**
+
+Giữ màn hình tối và im lặng khoảng một giây sau câu kết.
+
+Điện thoại của tài xế bất ngờ rung lên.
+
+Một đơn hàng mới xuất hiện.
+
+Các lớp giao diện lần lượt bao quanh tài xế:
+
+* Thời gian online
+* Số chuyến đã hoàn thành
+* Chuỗi chuyến liên tiếp
+* Mốc thưởng tiếp theo
+* Nhiệm vụ còn thiếu
+* Đồng hồ đếm ngược
+* “Chỉ còn một chuyến nữa”
+
+Các ô dữ liệu kết nối thành một mạng lưới giống như ma trận.
+
+**Lưu ý hình ảnh:**
+
+Chỉ sử dụng những cơ chế có ảnh chụp, tài liệu hoặc bằng chứng thực tế từ ứng dụng Grab Driver. Không ghép các tính năng thuộc những thời điểm hoặc thị trường khác nhau thành một giao diện giả định.
+
+**Voice-over:**
+
+“Nhưng tuyến đường nhiều điểm dừng mới chỉ là phần bạn có thể nhìn thấy.”
+
+“Phía sau mỗi cuốc xe còn có một ma trận khác: nhiệm vụ, phần thưởng và những mục tiêu liên tục xuất hiện phía trước.”
+
+“Chúng chỉ giúp tài xế kiếm thêm…”
+
+“Hay còn khiến họ luôn muốn chạy thêm một chuyến nữa?”
+
+**Chữ teaser:**
+
+# GRABFOOD PHẦN 2
+
+## MA TRẬN GIỮ CHÂN TÀI XẾ
+
+**“Grab không chỉ phân đơn cho tài xế —
+nó biến mỗi chuyến xe thành một trò chơi giữ chân họ?”**

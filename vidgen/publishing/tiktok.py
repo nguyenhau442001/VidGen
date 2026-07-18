@@ -212,8 +212,8 @@ def _caption_source_candidates(video_path: Path, source_path: str | Path | None 
         candidates.append(Path(source_path))
 
     candidates.extend([
-        repo_root / "content" / f"script_{stem}.json",
-        repo_root / "content" / f"{stem}.json",
+        repo_root / "content" / "json" / f"script_{stem}.json",
+        repo_root / "content" / "json" / f"{stem}.json",
         repo_root / "output" / "render_manifest.json",
     ])
 

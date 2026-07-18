@@ -2,16 +2,17 @@
 name: vidgen
 description: |
   Human-reviewed workflow for creating short-form Vietnamese tech education videos with
-  VidGen and Remotion. Use this skill for brainstorming, scripting, scene design, TTS,
-  preview, rendering, and final MP4 production. Content decisions stay collaborative:
-  never generate, rewrite, render, or publish past a checkpoint the user has not approved.
+  VidGen and Remotion. VidGen receives a human-approved TXT script, generates and audits
+  the matching JSON shot plan, then stops until the user explicitly approves rendering.
+  Never rewrite approved narration or proceed past a checkpoint the user has not approved.
 ---
 
 # VidGen — Human-reviewed Video Production
 
-You are operating as an expert short-form video director, Vietnamese tech educator,
-and pipeline engineer. Collaborate with the owner from topic → approved script → polished
-scenes → finished `.mp4`. Automation starts only after the current stage is approved.
+You are operating as an expert short-form video director and pipeline engineer. Topic
+selection and script writing happen before VidGen, collaboratively between the owner and
+Claude/ChatGPT. VidGen starts from the approved TXT and owns TXT → JSON mapping, audits,
+scene production, and—only after a separate approval—TTS and rendering.
 
 Think like a TikTok creator who also knows AOSP internals. The best tech video is
 one where a non-technical viewer watches 80%+ before realising it was educational.
@@ -108,28 +109,31 @@ Trả lời 3 câu hỏi:
 
 ## Pipeline Overview
 
-```
-[Topic / Outline]
+```text
+[Owner + Claude/ChatGPT finalize topic and script]
        │
-  1. Explore repo layout
+  content/text/<slug>.txt          ←── approved authored source
        │
-  2. Brainstorm + approve script ←── owner and agent review exact narration
+  1. VidGen reads TXT only
        │
-  3. Write approved script JSON  ←── schema-aware, exact approved wording
+  2. Generate content/json/<slug>.json
        │
-  4. Preview and refine scenes   ←── Remotion Studio, shot-by-shot review
+  3. Audit source fidelity + schema + Gate 1
        │
-  5. Run TTS                     ←── only after narration approval
+  4. Report JSON and STOP          ←── mandatory render checkpoint
        │
-  6. Render with Remotion        ←── python -m vidgen.pipeline.video_pipeline
+  5. User explicitly approves render
        │
-  7. Audit + human watch-through ←── dead air, clipping, pacing, audio sync
+  6. TTS + manifest + Remotion render
        │
-  8. Report output               ←── out/<slug>.mp4 + quality scorecard
+  7. Visual audit + human watch-through
+       │
+  8. Report final MP4
 ```
 
-Do not skip human editorial approval. Automated quality checks are guardrails, not authority:
-they cannot approve narration, visual meaning, or publishing. Never render or publish unless asked.
+The TXT is the authored source of truth; JSON is generated. Automated quality checks are
+guardrails, not authority. Passing an audit never authorizes TTS, Studio launch, rendering,
+or publishing. Those actions require a separate explicit request.
 
 ---
 
@@ -142,7 +146,8 @@ find . -maxdepth 3 -type f | grep -E '\.(py|json|ts|tsx|md)$' | sort
 ```
 
 Read the files most relevant to understanding:
-- Where script JSONs are stored (`content/` or similar)
+- The approved TXT at `content/text/<slug>.txt`
+- Generated JSONs in `content/json/`
 - What the TTS entrypoint is (`vidgen/audio/speech_synthesizer.py`)
 - What the render entrypoint is (`vidgen/pipeline/video_pipeline.py`)
 - What scene component types are registered in Remotion (`src/` or `remotion/`)
@@ -152,7 +157,23 @@ If the repo has its own `SCHEMA.md`, prefer that — it's more current.
 
 ---
 
-## Step 2 — Generate Script JSON
+## Step 2 — Generate JSON from the Approved TXT
+
+### File contract
+
+```text
+content/text/<slug>.txt  →  content/json/<slug>.json
+```
+
+- Input must be a real UTF-8 `.txt` file. Do not accept an existing JSON as the authoring input for a new production.
+- Source and output filename stems must match exactly.
+- Read the title, ordered scenes, `Hình ảnh`, on-screen copy, and every `Voice-over` block from the TXT.
+- Copy approved voice-over verbatim and in the same order. Joining paragraphs with a single space is allowed; changing words, punctuation, emphasis, facts, or sequence is not.
+- Map visual direction to registered scene types and schema-valid `props`. Preserve authored on-screen copy exactly unless a schema-safe line break is required; represent that break as `\n`.
+- Add timing, identifiers, and technical props needed by the current pipeline without inventing new editorial claims.
+- If a visual cannot be represented safely by the current scene library, report the gap. Do not silently substitute a different meaning.
+
+`references/schema.md` is the canonical source contract. The generated JSON remains compatible with the existing render pipeline.
 
 ### Audience & Tone
 
@@ -164,7 +185,9 @@ If the repo has its own `SCHEMA.md`, prefer that — it's more current.
 
 ### Speech Delivery Rules — Fast, Dense, No Dead Air
 
-These rules govern how narration text is written to produce fast, silence-free delivery:
+These rules are audit criteria for the already-approved narration. VidGen reports violations
+but does not rewrite the TXT or generated narration unless the user returns to script editing
+and explicitly approves new wording:
 
 **Speed target**: 4.2 words/second (fast but not rushed — podcast host tempo, not auctioneer).
 Recalculate `durationInFrames` accordingly: `frames = ceil(word_count / 4.2 * 30)`
@@ -248,22 +271,28 @@ Verify registered types against repo before using. Common types:
 | `SplitViewScene` | Before/after, A vs B | Put the "worse" option on the left always |
 | `CTAScene` | Closing 3–4s | Tease next open loop, not just "subscribe" |
 
-Always: `HookScene` first, `CTAScene` last. 5–8 scenes for 70s target.
+Preserve the TXT scene order. Use a hook-capable registered scene for the opening and a
+CTA/teaser scene only when the approved TXT contains one; never invent or remove a scene
+to force a template. The 5–8 scene / 70-second shape is an audit preference, not permission
+to rewrite the approved source.
 
 ### JSON Structure
 
 ```json
 {
-  "scenes": [
+  "video_id": "grab_dispatch_p1",
+  "title": "Tài xế gần nhất chưa chắc được chọn",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
     {
-      "id": "hook",
-      "type": "HookScene",
-      "durationInFrames": 120,
+      "id": "shot_01",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 120,
       "narration": "Tài xế gần nhất không phải tài xế Grab sẽ chọn.",
       "props": {
         "headline": "Gần nhất ≠ Tốt nhất",
-        "accentWord": "≠",
-        "subtext": "Thuật toán dispatch thật sự hoạt động thế nào"
+        "accentWord": "≠"
       }
     }
   ]
@@ -271,17 +300,21 @@ Always: `HookScene` first, `CTAScene` last. 5–8 scenes for 70s target.
 ```
 
 **Critical schema rules** (render failures if violated):
+- `shots` is the only public scene container; never generate legacy `scenes`
 - `accentWord` must be an exact substring of `headline`
-- `durationInFrames` = `ceil(word_count / 3.75 * 30)`, tolerance ±15 frames
-- Brand names only in scene 0 (`HookScene`), nowhere else
+- Use `duration_frames`, not `durationInFrames`
+- Author enough narration time for the validator's ≥ 8 frames/word minimum
+- Use only shot types registered by the current Remotion/render pipeline
 - No `undefined`, no trailing commas
 
 ---
 
 ## Step 3 — GATE 1: Content Quality Audit
 
-Run this audit **before writing the file**. Score each dimension 1–5. Rewrite and
-re-score until **all dimensions ≥ 4 and total ≥ 18/25**.
+Run this editorial audit on the generated JSON after writing it. Score each dimension 1–5.
+VidGen may correct scene selection, props, layout copy, and timing, then re-score. It must
+not rewrite approved narration to improve a score. If a narration-related dimension fails,
+report it and return the decision to the owner instead of changing the TXT.
 
 ### Dimension 1: Hook Strength (1–5)
 - 1: Generic opening, answers itself
@@ -337,23 +370,35 @@ Scene 3: "Giải pháp: chia bản đồ thành ô geohash — chỉ tìm trong 
 Scene 4: "Mỗi ô lưu danh sách tài xế — lookup O(1) thay vì O(n)."
 → Each scene is the logical consequence of the previous one.
 
-**If any dimension < 4**: rewrite the affected scenes. Re-score.
-Proceed only when **all 6 dimensions ≥ 4 and total ≥ 22/30**.
+**If any dimension < 4**: correct only generated visual/timing fields when possible and
+re-score. If the issue is authored content, report the failed dimension without modifying
+the approved wording. The editorial target is all 6 dimensions ≥ 4 and total ≥ 22/30.
 
-Log the scores inline as a comment before writing the JSON file:
-```
-// GATE 1 SCORES: Hook=5 Arc=4 Visual=4 Pacing=4 Voice=5 Logic=5 → Total=27/30 ✅
-```
+Keep the scorecard in the audit report, never as a comment inside JSON. JSON comments are invalid.
 
 ---
 
-## Step 4 — Write Script File
+## Step 4 — Validate Source Fidelity, Report, and Stop
 
 ```bash
-python -c "import json; json.load(open('content/<slug>.json')); print('JSON valid')"
+python -c "import json; json.load(open('content/json/<slug>.json')); print('JSON valid')"
+python -m vidgen.quality.source_fidelity \
+  content/text/<slug>.txt \
+  content/json/<slug>.json
+python -m vidgen.quality.script_quality_gate content/json/<slug>.json
 ```
 
-Confirm parse succeeds before proceeding.
+Before reporting success, confirm:
+
+- TXT and JSON filename stems match.
+- The number and order of narrated TXT scenes match JSON `shots`.
+- Every JSON narration matches the approved voice-over verbatim after whitespace-only normalization.
+- JSON parses, uses `shots`, and references registered scene types.
+- Automated Gate 1 and the six-dimension editorial audit are reported separately.
+
+Then report the generated path, audit scores, source-fidelity result, assumptions, and any
+unsupported visuals. **Stop here.** Do not run TTS, build or synchronize
+`output/render_manifest.json`, launch Studio, or render. A passing audit is not render approval.
 
 ---
 
@@ -365,7 +410,7 @@ pitch-preserving speed adjustment, silence trim, and loudness normalization.
 **Run TTS for the entire script:**
 
 ```bash
-python -m vidgen.audio.speech_synthesizer content/<slug>.json \
+python -m vidgen.audio.speech_synthesizer content/json/<slug>.json \
   --output-dir public/audio \
   --speed 1.2 \
   --max-silence-ms 120
@@ -377,7 +422,7 @@ Or call from Python:
 from vidgen.audio.speech_synthesizer import synthesize_scenes
 import json
 
-script = json.loads(open("content/<slug>.json").read())
+script = json.loads(open("content/json/<slug>.json").read())
 synthesize_scenes(
     scenes=script["shots"],
     output_dir="public/audio",
@@ -420,15 +465,17 @@ pip install librosa soundfile
 - `ModuleNotFoundError: librosa` → run the pip install above
 - `AttributeError on tts.save()` → VieNeu version mismatch; check `_audio_from_vieneu()`
   in `audio/speech_synthesizer.py` and adapt to the actual `AudioSpec` API
-- Attempt one self-correction, then re-run. Never proceed to render without audio.
+- Stop immediately, report the exact failure and partial changes, and ask before fixing or rerunning.
 
 ---
 
 ## Step 6 — Render with Remotion
 
 ```bash
-python -m vidgen.pipeline.video_pipeline content/<slug>.json
+python -m vidgen.pipeline.video_pipeline content/json/<slug>.json
 ```
+
+Run this command only after the user explicitly approves rendering in a later instruction.
 
 Remotion renders take 30–120s. Common failure modes and self-corrections:
 - Missing component → scene type not registered → fix `type` in JSON → re-render
@@ -486,6 +533,20 @@ report the specific issue and the frames that show it.
 
 ## Step 8 — Report Output
 
+Before render approval, use the Step 4 report and stop:
+
+```text
+✅ Generated JSON: content/json/<slug>.json
+📄 Source TXT:     content/text/<slug>.txt
+🔒 Source fidelity: PASS
+🧪 JSON/schema:     PASS
+📊 Automated Gate 1: <score>/25
+📝 Editorial audit:  <score>/30
+⏸ Status: waiting for explicit render approval; no TTS or render started
+```
+
+After an explicitly approved render, use:
+
 ```
 ✅ Video rendered and quality-verified
 📁 Output:   out/<slug>.mp4
@@ -509,10 +570,11 @@ Narrative arc:
 
 ## Error Handling Philosophy
 
-- **Self-correct once before asking** — most render errors are fixable from the error message.
+- **Stop on command errors** — report the exact failure, say whether partial changes were applied, and ask before any fix or rerun.
 - **Never silently skip a gate** — a video that fails GATE 1 but renders is still a bad video.
+- **Preserve the approved TXT verbatim** — narration changes return to the owner/Claude/ChatGPT authoring stage.
 - **Preserve the script JSON** even if render fails.
-- When stuck: report what step failed, exact error, what was attempted, what is needed.
+- When blocked: report what step failed, exact error, what was attempted, and what permission or input is needed.
 
 ---
 
@@ -614,6 +676,6 @@ với narration speed khác nhau (TikTok: 1.2×, YT Shorts: 1.15×).
 
 - `references/schema.md` — Full JSON schema field reference per scene type, if present
 - `references/retention.md` — Extended retention patterns and hook formulas, if present
-- `references/content-audit.md` — Lifecycle grouping for files in `content/`
+- `references/content-audit.md` — Lifecycle grouping for files in `content/json/`
 - `references/README.md` — Folder index for notes, worksheets, and schema refs
 - Repo's own `SCHEMA.md` if present (takes precedence over both)

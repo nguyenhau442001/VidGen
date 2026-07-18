@@ -7,7 +7,7 @@ Drop this file into your vidgen/ package directory.
 Usage:
     from vidgen.quality.script_quality_gate import gate1_assert, score_script
 
-    script = json.load(open("content/my-topic.json"))
+    script = json.load(open("content/json/my-topic.json"))
     gate1_assert(script)          # raises ValueError if score too low
     report = score_script(script) # returns dict with per-dimension scores
 """
@@ -305,7 +305,7 @@ def format_report(audit: dict) -> str:
 
 
 # ---------------------------------------------------------------------------
-# CLI usage: python -m vidgen.quality.script_quality_gate content/my-topic.json
+# CLI usage: python -m vidgen.quality.script_quality_gate content/json/my-topic.json
 # ---------------------------------------------------------------------------
 
 def main() -> None:

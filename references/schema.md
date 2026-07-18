@@ -1,6 +1,29 @@
 # VidGen Schema Reference
 
-This repo uses a shot-first script contract: the live pipeline reads `content/*.json`, resolves the script, then builds a render manifest for Remotion.
+This repo uses a two-file authoring contract:
+
+- `content/text/<slug>.txt` is the human-approved source of truth.
+- VidGen reads that TXT and generates `content/json/<slug>.json` using the shot-first schema below.
+
+The generated JSON is audited before any TTS or render work. Only after explicit user approval does the live render pipeline read it and build a Remotion manifest.
+
+## TXT source contract
+
+The TXT is a UTF-8 Markdown-style production script. It should include a title and ordered scenes. Each scene may contain:
+
+- `Hình ảnh` — the approved visual direction
+- `Chữ ... trên màn hình` — authored on-screen copy
+- `Voice-over` — approved narration
+
+VidGen may translate visual direction into registered scene types and schema-valid `props`, but must not paraphrase, shorten, reorder, or invent voice-over. Multiple voice-over paragraphs in one scene are joined in their authored order. If the TXT is ambiguous or cannot map safely to the current shot library, stop and report the gap instead of silently changing the script.
+
+The source and output stems must match exactly:
+
+```text
+content/text/grabfood_wait_time_p1.txt
+                      ↓
+content/json/grabfood_wait_time_p1.json
+```
 
 ## Top-level script fields
 
@@ -14,7 +37,7 @@ Common:
 - `language` - usually `vi`
 - `fps` - optional override, otherwise default 30
 
-Legacy / optional metadata seen in `content/`:
+Legacy / optional metadata seen in `content/json/`:
 
 - `video_id`
 - `narration_language`

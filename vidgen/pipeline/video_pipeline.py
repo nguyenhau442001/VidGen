@@ -114,7 +114,7 @@ def _run_gate2(video_output: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("script", nargs="?", default="content/sample_script.json")
+    parser.add_argument("script", nargs="?", default="content/json/sample_script.json")
     parser.add_argument(
         "--skip-validation",
         action="store_true",

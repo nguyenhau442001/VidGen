@@ -2,13 +2,13 @@
 """
 preview_av.py — Two Column AV preview for VidGen scripts
 
-Reads a VidGen content/*.json file and renders a Two Column AV table
+Reads a generated VidGen content/json/*.json file and renders a Two Column AV table
 as either an HTML file (default) or plain terminal text (--text flag).
 
 Usage:
-    python -m vidgen.presentation.av_preview_report content/script_grab_dispatch_p2.json
-    python -m vidgen.presentation.av_preview_report content/script_grab_dispatch_p2.json --text
-    python -m vidgen.presentation.av_preview_report content/script_grab_dispatch_p2.json --out preview.html
+    python -m vidgen.presentation.av_preview_report content/json/script_grab_dispatch_p2.json
+    python -m vidgen.presentation.av_preview_report content/json/script_grab_dispatch_p2.json --text
+    python -m vidgen.presentation.av_preview_report content/json/script_grab_dispatch_p2.json --out preview.html
 """
 
 import argparse
@@ -449,7 +449,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="VidGen Two Column AV preview — render script JSON as AV table"
     )
-    parser.add_argument("script", help="Path to content/*.json script file")
+    parser.add_argument("script", help="Path to generated content/json/*.json script file")
     parser.add_argument(
         "--text", action="store_true",
         help="Print plain text table to stdout instead of writing HTML"

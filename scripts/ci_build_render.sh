@@ -9,8 +9,8 @@
 # the same inbox the same way.
 #
 # Usage:
-#   scripts/ci_build_render.sh content/script_grab_dispatch_p3.json
-#   scripts/ci_build_render.sh content/script_grab_dispatch_p3.json --speed 1.1
+#   scripts/ci_build_render.sh content/json/script_grab_dispatch_p3.json
+#   scripts/ci_build_render.sh content/json/script_grab_dispatch_p3.json --speed 1.1
 #
 # Requires VieNeu-TTS + Remotion + ffmpeg locally, so this is meant for a
 # self-hosted runner (or a developer machine) — not a hosted GitHub runner.
@@ -35,7 +35,7 @@ fi
 
 SCRIPT_PATH="${1:-}"
 if [[ -z "$SCRIPT_PATH" ]]; then
-  echo "Usage: $0 <content/script_name.json> [extra video_pipeline args...]" >&2
+  echo "Usage: $0 <content/json/script_name.json> [extra video_pipeline args...]" >&2
   exit 2
 fi
 shift || true
