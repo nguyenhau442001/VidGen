@@ -1,6 +1,8 @@
 import numpy as np
 
 from vidgen.audio import speech_synthesizer as tts
+from vidgen.audio import audio_processing
+from vidgen.audio.providers import gemini
 
 
 def test_normalize_tts_provider_accepts_aliases(monkeypatch):
@@ -27,7 +29,7 @@ def test_audio_from_gemini_response_extracts_inline_audio(monkeypatch):
         calls["content_type"] = content_type
         return np.array([0.05, 0.05], dtype=np.float32), 8_000
 
-    monkeypatch.setattr(tts, "_audio_from_bytes", fake_audio_from_bytes)
+    monkeypatch.setattr(gemini, "audio_from_bytes", fake_audio_from_bytes)
 
     response = {
         "candidates": [
@@ -46,7 +48,7 @@ def test_audio_from_gemini_response_extracts_inline_audio(monkeypatch):
         ]
     }
 
-    samples, sr = tts._audio_from_gemini_response(response)
+    samples, sr = gemini.audio_from_response(response)
 
     assert calls == {
         "raw": b"RIFFdemo",
@@ -74,7 +76,7 @@ def test_audio_from_gemini_response_reports_non_audio_response():
     }
 
     try:
-        tts._audio_from_gemini_response(response)
+        gemini.audio_from_response(response)
     except RuntimeError as exc:
         message = str(exc)
     else:
@@ -88,7 +90,7 @@ def test_audio_from_gemini_response_reports_non_audio_response():
 def test_gemini_tts_prompt_wraps_text_for_exact_speech(monkeypatch):
     monkeypatch.delenv("GEMINI_TTS_PROMPT_TEMPLATE", raising=False)
 
-    prompt = tts._gemini_tts_prompt("Vàoooooooooooooooooo!")
+    prompt = gemini._gemini_tts_prompt("Vàoooooooooooooooooo!")
 
     assert "Say the following Vietnamese text exactly as written" in prompt
     assert "native Vietnamese speaker" in prompt
@@ -98,16 +100,18 @@ def test_gemini_tts_prompt_wraps_text_for_exact_speech(monkeypatch):
 def test_gemini_shout_prompt_handles_long_vao(monkeypatch):
     monkeypatch.delenv("GEMINI_TTS_SHOUT_PROMPT_TEMPLATE", raising=False)
 
-    assert tts._is_gemini_shout_text("Vàoooooooooooooooooo!")
-    assert not tts._is_gemini_shout_text("Tại sao hàng xóm hét VÀO trước mình?")
-    assert "native Vietnamese speaker" in tts._gemini_shout_prompt("Vàoooooooooooooooooo!")
-    assert "about two seconds" in tts._gemini_shout_prompt("Vàoooooooooooooooooo!")
+    assert gemini._is_gemini_shout_text("Vàoooooooooooooooooo!")
+    assert not gemini._is_gemini_shout_text("Tại sao hàng xóm hét VÀO trước mình?")
+    assert "native Vietnamese speaker" in gemini._gemini_shout_prompt("Vàoooooooooooooooooo!")
+    assert "about two seconds" in gemini._gemini_shout_prompt("Vàoooooooooooooooooo!")
 
 
 def test_audio_from_pcm_bytes_uses_mime_rate_and_channels():
     raw = np.array([0, 32767, -32768, 0], dtype="<i2").tobytes()
 
-    samples, sr = tts._audio_from_bytes(raw, "audio/pcm;rate=16000;channels=2")
+    samples, sr = audio_processing.audio_from_bytes(
+        raw, "audio/pcm;rate=16000;channels=2"
+    )
 
     assert sr == 16_000
     assert samples.shape == (2, 2)
@@ -123,7 +127,7 @@ def test_synthesize_dispatches_to_viettel_ai_when_requested(monkeypatch, tmp_pat
         calls["voice"] = voice
         return np.array([0.05, 0.05], dtype=np.float32), 8_000
 
-    monkeypatch.setattr(tts, "_synthesize_with_viettel_ai", fake_viettel)
+    monkeypatch.setattr(tts.viettel, "synthesize", fake_viettel)
 
     output = tts.synthesize(
         "xin chào",
@@ -152,7 +156,7 @@ def test_synthesize_dispatches_to_gemini_when_requested(monkeypatch, tmp_path):
         calls["voice"] = voice
         return np.array([0.05, 0.05], dtype=np.float32), 8_000
 
-    monkeypatch.setattr(tts, "_synthesize_with_gemini", fake_gemini)
+    monkeypatch.setattr(tts.gemini, "synthesize", fake_gemini)
 
     output = tts.synthesize(
         "xin chào",
@@ -184,8 +188,8 @@ def test_synthesize_dispatches_to_vieneu_by_default(monkeypatch, tmp_path):
     def fake_viettel(*args, **kwargs):
         raise AssertionError("Viettel backend should not be used by default")
 
-    monkeypatch.setattr(tts, "_synthesize_with_vieneu", fake_vieneu)
-    monkeypatch.setattr(tts, "_synthesize_with_viettel_ai", fake_viettel)
+    monkeypatch.setattr(tts.vieneu, "synthesize", fake_vieneu)
+    monkeypatch.setattr(tts.viettel, "synthesize", fake_viettel)
 
     output = tts.synthesize(
         "xin chào",
