@@ -81,7 +81,7 @@ export type PhoneMockupVisual = {
   matchedKind?: "driver" | "route";
 };
 
-export type ManifestExtraAudio = { path: string; offsetFrames: number };
+export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestCaptionWord = { text: string; startFrame: number; endFrame: number };
 
@@ -107,6 +107,14 @@ export type ManifestScene =
   | { type: "goal_orb_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GoalOrbJourneyVisual }
   | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: CharacterIconVisual }
   | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: QuoteCalloutVisual }
+  | { type: "grabfood_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GrabFoodScreenshotVisual }
+  | { type: "driver_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverJourneyVisual }
+  | { type: "shared_route_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SharedRouteRevealVisual }
+  | { type: "multi_stop_delivery"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: MultiStopDeliveryVisual }
+  | { type: "batch_merge_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: BatchMergeCinematicVisual }
+  | { type: "route_optimizer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: RouteOptimizerVisual }
+  | { type: "journey_perspective"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: JourneyPerspectiveVisual }
+  | { type: "driver_matrix_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverMatrixTeaserVisual }
   | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ZoomRevealVisual }
   | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SplitRevealVisual }
   | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: AnimatedFlowVisual }
@@ -568,9 +576,98 @@ export type QuoteCalloutVisual = {
   accentWord?: string;
   backgroundStyle?: "dark" | "gradient-subtle";
   accentColor?: string;
+  screenshotPath?: string;
 };
 
 export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };
+
+export type GrabFoodScreenshotVisual = {
+  screenshotPath: string;
+  mode: "hook" | "evidence";
+  headline: string;
+  accentWord?: string;
+  disclaimer?: string;
+  restaurantLabel?: string;
+};
+
+export type GrabFoodScreenshotSceneProps = GrabFoodScreenshotVisual & { durationInFrames: number };
+
+export type DriverJourneyTradeoff = {
+  label: string;
+  value: string;
+};
+
+export type DriverJourneyVisual = {
+  headline: string;
+  customerTradeoff: DriverJourneyTradeoff;
+  driverTradeoff: DriverJourneyTradeoff;
+  tasks: string[];
+  closingLine: string;
+};
+
+export type DriverJourneySceneProps = DriverJourneyVisual & { durationInFrames: number };
+
+export type SharedRouteRevealVisual = {
+  headline: string;
+  detourLabel: string;
+  revealText: string;
+  restaurantLabel?: string;
+};
+
+export type SharedRouteRevealSceneProps = SharedRouteRevealVisual & { durationInFrames: number };
+
+export type MultiStopDeliveryVisual = {
+  stops: RouteTimelineStop[];
+  headline: string;
+  footer: string;
+  accentColor?: string;
+};
+
+export type MultiStopDeliverySceneProps = MultiStopDeliveryVisual & { durationInFrames: number };
+
+export type BatchMergeCinematicVisual = {
+  headline: string;
+  beforeLabel: string;
+  afterLabel: string;
+  stats: Array<{ value: string; label: string }>;
+};
+
+export type BatchMergeCinematicSceneProps = BatchMergeCinematicVisual & { durationInFrames: number };
+
+export type RouteOptimizerVisual = {
+  headline: string;
+  signals: SignalFlowSignal[];
+  candidates: Array<{
+    label: string;
+    score: number;
+    path: string;
+    selected?: boolean;
+  }>;
+  outputLabel: string;
+};
+
+export type RouteOptimizerSceneProps = RouteOptimizerVisual & { durationInFrames: number };
+
+export type JourneyPerspectiveVisual = {
+  customerHeadline: string;
+  systemHeadline: string;
+  distanceLabel: string;
+  factors: string[];
+  closingLine: string;
+};
+
+export type JourneyPerspectiveSceneProps = JourneyPerspectiveVisual & { durationInFrames: number };
+
+export type DriverMatrixTeaserVisual = {
+  eyebrow: string;
+  title: string;
+  notificationText: string;
+  nodes: Array<{ icon: string; label: string }>;
+  pulseText: string;
+  question: string;
+};
+
+export type DriverMatrixTeaserSceneProps = DriverMatrixTeaserVisual & { durationInFrames: number };
 
 // leftMapPing is rendered as a live MapPingScene in SplitRevealScene's left
 // panel (manifest visuals must stay JSON-serializable, so it's data here,

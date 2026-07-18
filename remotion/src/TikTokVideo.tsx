@@ -22,6 +22,14 @@ import { StadiumGoalScene } from "./scenes/StadiumGoalScene";
 import { GoalOrbJourneyScene } from "./scenes/GoalOrbJourneyScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { QuoteCalloutScene } from "./scenes/QuoteCalloutScene";
+import { GrabFoodScreenshotScene } from "./scenes/GrabFoodScreenshotScene";
+import { DriverJourneyScene } from "./scenes/DriverJourneyScene";
+import { SharedRouteRevealScene } from "./scenes/SharedRouteRevealScene";
+import { MultiStopDeliveryScene } from "./scenes/MultiStopDeliveryScene";
+import { BatchMergeCinematicScene } from "./scenes/BatchMergeCinematicScene";
+import { RouteOptimizerScene } from "./scenes/RouteOptimizerScene";
+import { JourneyPerspectiveScene } from "./scenes/JourneyPerspectiveScene";
+import { DriverMatrixTeaserScene } from "./scenes/DriverMatrixTeaserScene";
 import { ZoomRevealScene, FocalDot, DotField } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene } from "./scenes/SplitRevealScene";
 import AnimatedFlowScene from "./scenes/AnimatedFlowScene";
@@ -63,8 +71,12 @@ import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
 
+type ManifestShotWithPreviewAudio = ManifestScene & {
+  previewAudioPath?: string;
+};
+
 export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
-  const shots = manifest.shots;
+  const shots = manifest.shots as ManifestShotWithPreviewAudio[];
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       {manifest.soundtrack && (
@@ -77,14 +89,14 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
             name={[String(shot.id), shot.sceneName, shot.label].filter(Boolean).join(" · ")}
             durationInFrames={shot.durationInFrames}
           >
-            {shot.audioPath && (
+            {(shot.previewAudioPath ?? shot.audioPath) && (
               <Sequence from={shot.audioOffsetFrames ?? 0}>
-                <Audio src={staticFile(shot.audioPath)} />
+                <Audio src={staticFile(shot.previewAudioPath ?? shot.audioPath)} />
               </Sequence>
             )}
             {shot.extraAudio?.map((seg, i) => (
               <Sequence key={i} from={seg.offsetFrames}>
-                <Audio src={staticFile(seg.path)} />
+                <Audio src={staticFile(seg.previewPath ?? seg.path)} />
               </Sequence>
             ))}
             <SceneRenderer shot={shot} />
@@ -180,6 +192,22 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <CharacterIconScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "quote_callout":
       return <QuoteCalloutScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "grabfood_screenshot":
+      return <GrabFoodScreenshotScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "driver_journey":
+      return <DriverJourneyScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "shared_route_reveal":
+      return <SharedRouteRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "multi_stop_delivery":
+      return <MultiStopDeliveryScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "batch_merge_cinematic":
+      return <BatchMergeCinematicScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "route_optimizer":
+      return <RouteOptimizerScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "journey_perspective":
+      return <JourneyPerspectiveScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "driver_matrix_teaser":
+      return <DriverMatrixTeaserScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "zoom_reveal":
       return (
         <ZoomRevealScene

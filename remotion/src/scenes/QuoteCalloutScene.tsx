@@ -1,13 +1,15 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { QuoteCalloutSceneProps } from "../types";
-import { colors, BE_VIETNAM_PRO } from "../styles";
+import { colors, colorsDark, BE_VIETNAM_PRO } from "../styles";
 import { SafeZone } from "../SafeZone";
 
 // ---------------------------------------------------------------------------
@@ -159,6 +161,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
   accentWord,
   backgroundStyle = "dark",
   accentColor,
+  screenshotPath,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -192,6 +195,16 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
   });
 
   const fontSize = getFontSizeForLength(text.length);
+  const hasScreenshot = Boolean(screenshotPath);
+
+  const contextOpacity = interpolate(frame, [8, 22], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const quoteOpacity = interpolate(frame, [70, 88], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill
@@ -200,17 +213,42 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
           background:
             backgroundStyle === "gradient-subtle"
               ? `radial-gradient(circle at 50% 42%, #E8F2FF 0%, #F8FBFF 52%, ${colors.bg} 100%)`
-              : colors.bg,
+              : colorsDark.bg,
           opacity: sceneOpacity,
-          "--text-color": colors.textPrimary,
+          "--text-color": backgroundStyle === "dark" ? colorsDark.textPrimary : colors.textPrimary,
           "--accent-color": accent,
-          "--bg-color": colors.bg,
+          "--bg-color": backgroundStyle === "dark" ? colorsDark.bg : colors.bg,
         } as React.CSSProperties
       }
     >
       <BackgroundMotion frame={frame} accent={accent} backgroundStyle={backgroundStyle} />
 
-      <SafeZone style={{ justifyContent: "center", alignItems: "center" }}>
+      <SafeZone
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          gap: hasScreenshot ? 46 : 0,
+        }}
+      >
+        {screenshotPath && (
+          <div
+            style={{
+              width: 850,
+              height: 720,
+              overflow: "hidden",
+              borderRadius: 34,
+              opacity: contextOpacity,
+              background: "#fff",
+              border: "2px solid rgba(15, 23, 42, 0.1)",
+              boxShadow: "0 24px 70px rgba(15, 23, 42, 0.16)",
+            }}
+          >
+            <Img
+              src={staticFile(screenshotPath)}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
+        )}
         <div
           style={{
             maxWidth: MAX_TEXT_WIDTH,
@@ -218,11 +256,11 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
             textWrap: "balance",
             fontFamily: BE_VIETNAM_PRO,
             fontWeight: 700,
-            fontSize,
+            fontSize: hasScreenshot ? 43 : fontSize,
             lineHeight: 1.32,
             letterSpacing: "-0.01em",
             color: "var(--text-color)",
-            opacity: textOpacity,
+            opacity: hasScreenshot ? quoteOpacity : textOpacity,
             transform: `scale(${textScale})`,
           }}
         >

@@ -3,6 +3,7 @@ import math
 import os
 import re
 import shutil
+import subprocess
 
 from vidgen.shot_api import manifest_shots, normalize_manifest_shots, script_shots
 
@@ -51,6 +52,14 @@ TYPE_MAP = {
     "StadiumGoalScene": "stadium_goal",
     "GoalOrbJourneyScene": "goal_orb_journey",
     "QuoteCalloutScene": "quote_callout",
+    "GrabFoodScreenshotScene": "grabfood_screenshot",
+    "DriverJourneyScene": "driver_journey",
+    "SharedRouteRevealScene": "shared_route_reveal",
+    "MultiStopDeliveryScene": "multi_stop_delivery",
+    "BatchMergeCinematicScene": "batch_merge_cinematic",
+    "RouteOptimizerScene": "route_optimizer",
+    "JourneyPerspectiveScene": "journey_perspective",
+    "DriverMatrixTeaserScene": "driver_matrix_teaser",
     "ZoomRevealScene": "zoom_reveal",
     "SplitRevealScene": "split_reveal",
     "RadarHookScene": "radar_hook",
@@ -131,6 +140,13 @@ def wav_filename(scene_id) -> str:
     sid = str(scene_id)
     stem = sid if sid.startswith("scene_") else f"scene_{sid}"
     return f"{stem}.wav"
+
+
+def preview_audio_filename(scene_id) -> str:
+    """Browser-friendly preview audio filename for Studio playback."""
+    sid = str(scene_id)
+    stem = sid if sid.startswith("scene_") else f"scene_{sid}"
+    return f"{stem}.mp3"
 
 
 def _resolve_split_panel(value, axis_shared=None):
@@ -258,7 +274,11 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
             seg_id = f"{sid}_seg{seg_i}"
             if seg_id in audio_durations:
                 extra_audio.append(
-                    {"path": f"audio/{wav_filename(seg_id)}", "offsetFrames": seg.get("at_frame", 0)}
+                    {
+                        "path": f"audio/{wav_filename(seg_id)}",
+                        "previewPath": f"audio/{preview_audio_filename(seg_id)}",
+                        "offsetFrames": seg.get("at_frame", 0),
+                    }
                 )
         for dlg_i, line in enumerate(raw_props.get("dialogue", [])):
             dlg_id = f"{sid}_dlg{dlg_i}"
@@ -266,6 +286,7 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
                 extra_audio.append(
                     {
                         "path": f"audio/{wav_filename(dlg_id)}",
+                        "previewPath": f"audio/{preview_audio_filename(dlg_id)}",
                         "offsetFrames": line.get("start_frame", line.get("frame", 0)),
                     }
                 )
@@ -277,6 +298,7 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
                 "sceneName": scene_name_for(sid),
                 "type": scene_type,
                 "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
+                "previewAudioPath": f"audio/{preview_audio_filename(sid)}" if has_audio else "",
                 "audioOffsetFrames": audio_offset,
                 "extraAudio": extra_audio,
                 "durationInFrames": duration_frames,
@@ -396,6 +418,33 @@ def write_render_manifest(manifest: dict, output_path: str) -> None:
         json.dump(manifest, f, indent=2, ensure_ascii=False)
 
 
+def _ffmpeg() -> list:
+    if shutil.which("ffmpeg"):
+        return ["ffmpeg"]
+    return ["npx", "remotion", "ffmpeg"]
+
+
+def _transcode_preview_audio(src: str, dst: str) -> None:
+    cmd = _ffmpeg() + [
+        "-y",
+        "-v",
+        "error",
+        "-i",
+        src,
+        "-vn",
+        "-ac",
+        "1",
+        "-ar",
+        "48000",
+        "-c:a",
+        "libmp3lame",
+        "-q:a",
+        "5",
+        dst,
+    ]
+    subprocess.run(cmd, check=True)
+
+
 def copy_audio_to_remotion_public(scene_ids: list, wav_dir: str, public_audio_dir: str) -> None:
     os.makedirs(public_audio_dir, exist_ok=True)
     for sid in scene_ids:
@@ -405,3 +454,5 @@ def copy_audio_to_remotion_public(scene_ids: list, wav_dir: str, public_audio_di
             continue
         dst = os.path.join(public_audio_dir, filename)
         shutil.copy2(src, dst)
+        preview_dst = os.path.join(public_audio_dir, preview_audio_filename(sid))
+        _transcode_preview_audio(src, preview_dst)

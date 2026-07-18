@@ -35,6 +35,7 @@ def test_manifest_structure():
     shot = manifest["shots"][0]
     assert shot["type"] == "terminal"
     assert shot["audioPath"] == "audio/scene_2.wav"
+    assert shot["previewAudioPath"] == "audio/scene_2.mp3"
     assert shot["visual"] == {"lines": ["$ ls"]}
     assert manifest["fps"] == FPS
     assert manifest["width"] == 1080
