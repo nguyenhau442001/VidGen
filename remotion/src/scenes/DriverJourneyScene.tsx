@@ -113,8 +113,9 @@ export const DriverJourneyScene: React.FC<DriverJourneySceneProps> = ({
               });
               const scale = spring({ frame: frame - start, fps, config: { damping: 16, stiffness: 150 } });
               return (
-                <div
-                  key={task}
+              <div
+                key={task}
+                data-layout-audit={`driver-task-${index}`}
                   style={{
                     height: 78,
                     boxSizing: "border-box",
@@ -142,6 +143,7 @@ export const DriverJourneyScene: React.FC<DriverJourneySceneProps> = ({
         </div>
 
         <div
+          data-layout-audit="driver-closing-line"
           style={{
             position: "absolute",
             bottom: 250,

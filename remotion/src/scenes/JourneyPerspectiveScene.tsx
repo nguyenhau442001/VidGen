@@ -153,8 +153,9 @@ export const JourneyPerspectiveScene: React.FC<JourneyPerspectiveSceneProps> = (
           {factors.map((factor, index) => {
             const enter = spring({ frame: frame - durationInFrames * 0.46 - index * 10, fps, config: { damping: 15, stiffness: 165 } });
             return (
-              <div
-                key={factor}
+            <div
+              key={factor}
+              data-layout-audit={`journey-factor-${index}`}
                 style={{
                   minHeight: 58,
                   boxSizing: "border-box",

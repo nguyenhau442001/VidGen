@@ -70,6 +70,7 @@ import { Caption } from "./Caption";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
+import { LayoutAudit } from "./LayoutAudit";
 
 type ManifestShotWithPreviewAudio = ManifestScene & {
   previewAudioPath?: string;
@@ -79,6 +80,7 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
   const shots = manifest.shots as ManifestShotWithPreviewAudio[];
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+      <LayoutAudit />
       {manifest.soundtrack && (
         <Audio src={staticFile(manifest.soundtrack.path)} volume={manifest.soundtrack.volume} />
       )}

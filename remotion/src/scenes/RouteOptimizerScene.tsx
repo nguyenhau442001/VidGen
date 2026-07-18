@@ -117,6 +117,7 @@ export const RouteOptimizerScene: React.FC<RouteOptimizerSceneProps> = ({
             return (
               <div
                 key={signal.label}
+                data-layout-audit={`optimizer-signal-${index}`}
                 style={{
                   position: "absolute",
                   left: position.x,
@@ -159,6 +160,7 @@ export const RouteOptimizerScene: React.FC<RouteOptimizerSceneProps> = ({
               return (
                 <div
                   key={candidate.label}
+                  data-layout-audit={`optimizer-candidate-${index}`}
                   style={{
                     position: "relative",
                     minHeight: 205,

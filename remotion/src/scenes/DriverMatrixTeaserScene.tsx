@@ -89,6 +89,7 @@ export const DriverMatrixTeaserScene: React.FC<DriverMatrixTeaserSceneProps> = (
         </div>
 
         <div
+          data-layout-audit="driver-matrix-notification"
           style={{
             position: "absolute",
             zIndex: 5,
@@ -157,6 +158,7 @@ export const DriverMatrixTeaserScene: React.FC<DriverMatrixTeaserSceneProps> = (
             return (
               <div
                 key={node.label}
+                data-layout-audit={`driver-matrix-node-${index}`}
                 style={{
                   position: "absolute",
                   left: position.x,
@@ -185,6 +187,7 @@ export const DriverMatrixTeaserScene: React.FC<DriverMatrixTeaserSceneProps> = (
         </div>
 
         <div
+          data-layout-audit="driver-matrix-pulse"
           style={{
             position: "absolute",
             bottom: 330,

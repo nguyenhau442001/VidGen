@@ -2,6 +2,7 @@
   "name": "vidgen-remotion",
   "scripts": {
     "dev": "npx remotion studio",
+    "audit:layout": "node scripts/audit-layout.mjs ../output/render_manifest.json",
     "render": "npx remotion render TikTokVideo",
     "postinstall": "patch-package"
   },

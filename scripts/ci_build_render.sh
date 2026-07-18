@@ -75,6 +75,12 @@ START_TS=$(date +%s)
 if "$PYTHON_BIN" -m vidgen.pipeline.video_pipeline "$SCRIPT_PATH" "$@"; then
   DURATION=$(( $(date +%s) - START_TS ))
   echo "[ci] Pipeline OK in ${DURATION}s"
+  echo "── Browser layout audit ─────────────────────────────"
+  if ! npm --prefix remotion run audit:layout; then
+    echo "[ci] Layout audit FAILED" >&2
+    notify_github "FAIL: layout overflow" "$DURATION"
+    exit 1
+  fi
   notify_github "OK" "$DURATION"
   exit 0
 else

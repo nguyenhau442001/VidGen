@@ -23,7 +23,11 @@ Options:
 | `--skip-gate1` | off | Skip Gate 1 content-quality check (emergency use only) |
 | `--skip-gate2` | off | Skip Gate 2 visual-quality check (emergency use only) |
 
-Tests: `pytest tests/`
+Fast tests: `pytest tests/`
+
+Real browser layout audit: `npm --prefix remotion run audit:layout`. It renders the
+start, middle, and end of every shot and fails when any marked text container has
+`scrollWidth > clientWidth` or `scrollHeight > clientHeight`.
 
 ### Viettel AI setup
 
