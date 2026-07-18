@@ -17,7 +17,6 @@ from vidgen.audio.karaoke_aligner import align_words
 from vidgen.audio.speech_synthesizer import (
     DEFAULT_VIENEU_VOICE,
     fit_wav_to_duration,
-    normalize_tts_provider,
     resolve_scene_tts_speed,
     synthesize as tts_synthesize,
 )
@@ -138,14 +137,9 @@ def main():
         help="Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace)",
     )
     parser.add_argument(
-        "--tts-provider",
-        default=None,
-        help="TTS provider: vieneu, viettel_ai, say, or gemini (defaults to VIDGEN_TTS_PROVIDER)",
-    )
-    parser.add_argument(
         "--tts-voice",
         default=None,
-        help="Voice name/ID for the selected TTS provider",
+        help="VieNeu preset voice name",
     )
     parser.add_argument(
         "--reuse-tts",
@@ -204,17 +198,10 @@ def main():
     if not args.skip_validation:
         validate_manifest(script)
 
-    tts_provider = normalize_tts_provider(args.tts_provider)
     tts_voice = args.tts_voice or os.getenv("VIDGEN_TTS_VOICE")
-    if not tts_voice and tts_provider == "vieneu":
+    if not tts_voice:
         tts_voice = DEFAULT_VIENEU_VOICE
-    if not tts_voice and tts_provider == "viettel_ai":
-        tts_voice = os.getenv("VIETTEL_AI_VOICE")
-    if not tts_voice and tts_provider == "say":
-        tts_voice = os.getenv("MACOS_SAY_VOICE", "Linh")
-    if not tts_voice and tts_provider == "gemini":
-        tts_voice = os.getenv("GEMINI_TTS_VOICE")
-    print(f"[TTS] provider={tts_provider}, voice={tts_voice or '(default)'}")
+    print(f"[TTS] provider=vieneu, voice={tts_voice}")
 
     script_stem = Path(args.script).stem
     if script_stem.startswith("script_"):
@@ -256,7 +243,6 @@ def main():
             speed=job["speed"],
             trim_silence=not args.no_trim,
             target_dbfs=args.target_dbfs,
-            provider=tts_provider,
         )
         return job["id"]
 

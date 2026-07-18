@@ -44,3 +44,4 @@ def synthesize(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
     if voice is not None:
         infer_kwargs["voice"] = voice
     return _audio_from_spec(tts.infer(**infer_kwargs), tts)
+

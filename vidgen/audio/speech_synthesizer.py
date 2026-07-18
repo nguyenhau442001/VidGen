@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 from typing import Any
 
@@ -11,44 +10,10 @@ import numpy as np
 import soundfile as sf
 
 from vidgen.audio import audio_processing
-from vidgen.audio.providers import gemini, macos, vieneu, viettel
+from vidgen.audio import vieneu_tts
 from vidgen.pipeline.shot_schema import script_shots
 
-DEFAULT_VIENEU_VOICE = vieneu.DEFAULT_VOICE
-
-
-def normalize_tts_provider(provider: str | None) -> str:
-    """Normalize provider aliases into the internal provider key."""
-    value = (provider or os.getenv("VIDGEN_TTS_PROVIDER") or "vieneu")
-    value = value.strip().lower().replace("-", "_").replace(".", "_")
-    aliases = {
-        "vie_neu": "vieneu",
-        "vieneu_tts": "vieneu",
-        "viettel": "viettel_ai",
-        "macos_say": "say",
-        "osx_say": "say",
-        "gemini_tts": "gemini",
-        "google_gemini": "gemini",
-        "gemini_2_5_flash_tts": "gemini",
-        "gemini_2_5_flash_preview_tts": "gemini",
-    }
-    normalized = aliases.get(value, value)
-    if normalized not in {"vieneu", "viettel_ai", "gemini", "say"}:
-        raise ValueError(
-            f"Unsupported TTS provider '{provider}'. "
-            "Use 'vieneu', 'viettel_ai', 'gemini', or 'say'."
-        )
-    return normalized
-
-
-def _provider_synthesize(provider: str, text: str, voice: Any) -> tuple[np.ndarray, int]:
-    backends = {
-        "vieneu": vieneu.synthesize,
-        "viettel_ai": viettel.synthesize,
-        "gemini": gemini.synthesize,
-        "say": macos.synthesize,
-    }
-    return backends[provider](text, voice)
+DEFAULT_VIENEU_VOICE = vieneu_tts.DEFAULT_VOICE
 
 
 def synthesize(
@@ -60,14 +25,12 @@ def synthesize(
     max_silence_ms: int = 120,
     top_db: int = 30,
     target_dbfs: float | None = -15.0,
-    provider: str = "vieneu",
 ) -> Path:
     """Synthesize, pace, normalize, and save one narration clip as WAV."""
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    provider_key = normalize_tts_provider(provider)
-    samples, sr = _provider_synthesize(provider_key, text, voice)
+    samples, sr = vieneu_tts.synthesize(text, voice)
     samples = audio_processing.time_stretch(samples, sr, speed)
     if trim_silence:
         samples = audio_processing.trim_silence(
@@ -150,7 +113,6 @@ def synthesize_scenes(
     trim_silence: bool = True,
     max_silence_ms: int = 120,
     target_dbfs: float | None = -15.0,
-    provider: str = "vieneu",
 ) -> dict[str, Path]:
     """Synthesize every narrated shot in a VidGen script."""
     output_dir = Path(output_dir)
@@ -173,7 +135,6 @@ def synthesize_scenes(
             trim_silence=trim_silence,
             max_silence_ms=max_silence_ms,
             target_dbfs=target_dbfs,
-            provider=provider,
         )
         results[scene_id] = out_path
 
@@ -191,16 +152,14 @@ def main() -> None:
     parser.add_argument("--output-dir", default="audio")
     parser.add_argument("--speed", type=float, default=1.2)
     parser.add_argument("--voice", default=None)
-    parser.add_argument("--provider", default=None)
     parser.add_argument("--no-trim", action="store_true")
     parser.add_argument("--max-silence-ms", type=int, default=120)
     args = parser.parse_args()
 
     script = json.loads(Path(args.script).read_text(encoding="utf-8"))
-    provider = normalize_tts_provider(args.provider)
     voice: Any = args.voice
-    if args.voice and provider == "vieneu":
-        voice = vieneu.get_tts().get_preset_voice(args.voice)
+    if args.voice:
+        voice = vieneu_tts.get_tts().get_preset_voice(args.voice)
         print(f"[tts] Using VieNeu preset voice: {args.voice}")
 
     synthesize_scenes(
@@ -210,7 +169,6 @@ def main() -> None:
         speed=args.speed,
         trim_silence=not args.no_trim,
         max_silence_ms=args.max_silence_ms,
-        provider=provider,
     )
 
 

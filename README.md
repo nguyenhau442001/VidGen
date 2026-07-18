@@ -1,6 +1,6 @@
 # VidGen
 
-Generate short-form (TikTok-style, 1080×1920) videos from a single JSON script — synthesizes Vietnamese voiceover with VieNeu-TTS and the `Thanh Bình` voice by default, or Viettel AI TTS / Gemini 2.5 Flash TTS when configured, renders cinematic shots with captions via Remotion, and opens the result in Remotion Studio.
+Generate short-form (TikTok-style, 1080×1920) videos from a single JSON script — synthesizes Vietnamese voiceover with VieNeu-TTS and the `Thanh Bình` voice by default, renders cinematic shots with captions via Remotion, and opens the result in Remotion Studio.
 
 The core principle: **one authored file per video** in `content/`, one command, one MP4 out. Everything in between (`output/`) is generated and disposable.
 
@@ -15,8 +15,7 @@ Options:
 | Flag | Default | Description |
 |---|---|---|
 | `--speed` | `1.1` | Default voiceover speed multiplier, pitch-preserved. Per-shot `tts_speed` overrides this when present (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
-| `--tts-provider` | `VIDGEN_TTS_PROVIDER` | `vieneu`, `viettel_ai`, or `gemini` |
-| `--tts-voice` | `Thanh Bình` for VieNeu | Voice name/ID for the selected provider. `VIDGEN_TTS_VOICE` overrides the channel default |
+| `--tts-voice` | `Thanh Bình` | VieNeu preset voice. `VIDGEN_TTS_VOICE` overrides the channel default |
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
 | `--target-dbfs` | `-15.0` | Normalize every voiceover clip to this RMS level (soft-limited) |
 | `--skip-validation` | off | Skip pre-render manifest validation (emergency use only) |
@@ -29,29 +28,6 @@ Real browser layout audit: `npm --prefix remotion run audit:layout`. It renders 
 start, middle, and end of every shot and fails when any marked text container has
 `scrollWidth > clientWidth` or `scrollHeight > clientHeight`.
 
-### Viettel AI setup
-
-Set these env vars before running with `--tts-provider viettel_ai`:
-
-- `VIETTEL_AI_TTS_URL` if you want to override the default `https://viettelai.vn/tts/speech_synthesis`
-- `VIETTEL_AI_TOKEN` for the dashboard token
-- `VIETTEL_AI_VOICE` if you want a default voice code like `hcm-diemmy`
-- `VIETTEL_AI_RETURN_OPTION` if you want `1`, `2`, or `3` instead of the default `3`
-- `VIETTEL_AI_WITHOUT_FILTER=true` if you want to disable the quality filter
-- `VIETTEL_AI_EXTRA_BODY_JSON` if your account expects extra request fields
-- `VIETTEL_AI_EXTRA_HEADERS_JSON` if you need custom headers
-
-### Gemini TTS setup
-
-Set these env vars before running with `--tts-provider gemini`:
-
-- `GEMINI_API_KEY` or `GOOGLE_API_KEY` for Gemini API access
-- `GEMINI_TTS_MODEL` if you want to override the default `gemini-2.5-flash-preview-tts`
-- `GEMINI_TTS_VOICE` if you want to force a specific prebuilt voice
-- `GEMINI_TTS_LANGUAGE_CODE` if you want to override the default `vi-VN`
-
-Gemini's prebuilt voice names control timbre, so VidGen does not force one by default. It biases language/accent to Vietnamese with `vi-VN` and a native-speaker prompt.
-
 ## Architecture
 
 ```
@@ -62,7 +38,9 @@ content/script_<name>.json           ← the ONLY file authored/checked in per v
 │  pipeline/video_pipeline.py          production orchestrator       │
 │  pipeline/render_manifest_builder.py script → Remotion contract    │
 │  pipeline/chunked_video_renderer.py  chunk render + ffmpeg mux     │
-│  audio/speech_synthesizer.py         TTS, trim, speed, loudness     │
+│  audio/vieneu_tts.py                  VieNeu model adapter           │
+│  audio/speech_synthesizer.py         TTS orchestration              │
+│  audio/audio_processing.py           trim, speed, loudness          │
 │  quality/                             script and rendered audits     │
 │  presentation/                        thumbnail and A/V previews     │
 │  publishing/                          explicit platform publishers   │
@@ -172,7 +150,7 @@ All compositions are browsable individually in Remotion Studio (`npx remotion st
 1. **Load & resolve script** — parse the JSON; if it uses the nested motion-pipeline-1.0 schema, flatten it in-memory to flat `shots[]`.
 2. **Script quality check** — `vidgen/quality/script_quality_gate.py` catches structural mistakes before expensive synthesis. It is a safety net, not a substitute for human editorial review.
 3. **Validate** — check every narrated shot's locked timing against its text: ≥ 8 frames/word, no narration overflow past the shot's safe end, warn on > 1s dead air. Fails fast before any expensive work. Skippable with `--skip-validation`.
-4. **Synthesize voiceover** — one TTS pass per narration line using the configured provider (`vieneu` by default, `viettel_ai` or `gemini` when enabled), plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.1× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
+4. **Synthesize voiceover** — one VieNeu-TTS pass per narration line, plus one per `narration_per_criterion` segment. Runs in parallel, capped at 3 workers (unbounded workers exhausted memory). Each clip is then sped up 1.1× with pitch-preserving WSOLA, silence-trimmed, and normalized to −15 dBFS.
 5. **Tighten durations** — authored `duration_frames` were paced for native TTS tempo; narrated shots shrink to `audio offset + actual audio length + transition tail` so the sped-up voice leaves no dead air.
 6. **Build the render manifest** — translate shot types and props into the exact component shapes, attach audio paths/offsets, and clamp any shot back up so its caption stays readable at 17 chars/sec. Written to `output/render_manifest.json`.
 7. **Render, chunked & cached** — each shot renders as its own muted MP4 chunk, cached by a content hash of the shot entry + the Remotion source tree; re-runs only re-render shots that changed. The full audio track is built sample-exactly with a single ffmpeg filter graph, then the chunks are losslessly concatenated and the audio muxed on (AAC 320k).
