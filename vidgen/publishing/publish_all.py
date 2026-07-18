@@ -1,12 +1,12 @@
 """
-vidgen/publish_all.py — Publish one video to every ready platform in a single command.
+vidgen/publishing/publish_all.py — Publish one video to every ready platform.
 
 Currently: Facebook + YouTube (both live). TikTok is wired in publisher.py but
 excluded here until its Direct Post API access is approved — add it back to
 PLATFORMS once GAP 5 / TikTok flips to done in the README.
 
 Usage:
-    python -m vidgen.publish_all out/video.mp4 --title "Tiêu đề video"
+    python -m vidgen.publishing.publish_all out/video.mp4 --title "Tiêu đề video"
 """
 
 from __future__ import annotations
@@ -15,9 +15,9 @@ import argparse
 import sys
 from pathlib import Path
 
-from vidgen.publish_common import PublishMetadata
-from vidgen.publisher_facebook import publish_video_on_facebook
-from vidgen.publisher_youtube import publish_video_on_youtube
+from vidgen.publishing.common import PublishMetadata
+from vidgen.publishing.facebook import publish_video_on_facebook
+from vidgen.publishing.youtube import publish_video_on_youtube
 
 PLATFORMS = {
     "facebook": publish_video_on_facebook,

@@ -1,5 +1,5 @@
 """
-vidgen/publish_common.py — shared primitives for platform publishers
+vidgen/publishing/common.py — shared primitives for platform publishers
 (TikTok/YouTube/Facebook): metadata shape, OAuth local-server callback,
 token file I/O, chunked resumable upload, generic status polling, and a
 generalized GitHub Actions failure notification.

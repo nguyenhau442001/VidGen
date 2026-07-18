@@ -1,5 +1,5 @@
 """
-vidgen/publisher_facebook.py — Auto-publish to Facebook Page video feed (Graph API)
+vidgen/publishing/facebook.py — Publish to Facebook Page video feed (Graph API)
 
 Flow:
     1. Load the Page access token (long-lived, no refresh needed)
@@ -11,10 +11,10 @@ Flow:
     4. GitHub Actions notification -> trigger workflow, email on failure
 
 Setup (one-time):
-    python -m vidgen.publisher_facebook --setup-guide
+    python -m vidgen.publishing.facebook --setup-guide
 
 Usage:
-    python -m vidgen.publisher_facebook out/my-topic.mp4 --title "Tieu de"
+    python -m vidgen.publishing.facebook out/my-topic.mp4 --title "Tieu de"
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from pathlib import Path
 
 import requests
 
-from vidgen.publish_common import (
+from vidgen.publishing.common import (
     PublishMetadata,
     load_tokens,
     notify_github,
@@ -100,7 +100,7 @@ def _get_page_token() -> str:
         raise RuntimeError(
             "No Facebook Page access token found.\n"
             "Set FACEBOOK_PAGE_ACCESS_TOKEN in .env, or run: "
-            "python -m vidgen.publisher_facebook --setup-guide"
+            "python -m vidgen.publishing.facebook --setup-guide"
         )
     return page_token
 
@@ -276,7 +276,7 @@ SETUP_GUIDE = """
      account is an Admin under App Roles.
   2. Add to .env: FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_PAGE_ID
   3. Run:
-       python -m vidgen.publisher_facebook --oauth
+       python -m vidgen.publishing.facebook --oauth
      This exchanges your login for a long-lived Page access token and
      saves it to .facebook_tokens.json (used only if
      FACEBOOK_PAGE_ACCESS_TOKEN is not set in .env).
@@ -288,7 +288,7 @@ SETUP_GUIDE = """
 
   STEP - Test
   ---------------
-    python -m vidgen.publisher_facebook out/test.mp4 --title "Test"
+    python -m vidgen.publishing.facebook out/test.mp4 --title "Test"
 
 ============================================================================
 """
@@ -351,7 +351,7 @@ def _run_oauth_flow() -> None:
 
     save_tokens(TOKENS_FILE, {"page_access_token": page["access_token"], "page_id": FACEBOOK_PAGE_ID})
     print("Setup complete! You can now run:")
-    print("  python -m vidgen.publisher_facebook out/video.mp4 --title 'Your title'")
+    print("  python -m vidgen.publishing.facebook out/video.mp4 --title 'Your title'")
 
 
 def main() -> None:

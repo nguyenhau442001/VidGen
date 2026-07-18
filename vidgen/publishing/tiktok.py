@@ -1,5 +1,5 @@
 """
-vidgen/publisher.py — Auto-publish to TikTok (Direct Post mode)
+vidgen/publishing/tiktok.py — Publish to TikTok (Direct Post mode)
 
 Flow:
     1. Initialize upload session  → TikTok returns upload_url
@@ -9,11 +9,11 @@ Flow:
     5. GitHub Actions notification → trigger workflow, email on failure
 
 Setup (one-time):
-    See SETUP.md or run: python -m vidgen.publisher --setup-guide
+    See SETUP.md or run: python -m vidgen.publishing.tiktok --setup-guide
 
 Usage:
-    python -m vidgen.publisher out/my-topic.mp4 --title "Tiêu đề video #tech"
-    python -m vidgen.publisher out/my-topic.mp4 --title "..." --schedule "2026-07-11T20:00:00"
+    python -m vidgen.publishing.tiktok out/my-topic.mp4 --title "Tiêu đề video #tech"
+    python -m vidgen.publishing.tiktok out/my-topic.mp4 --title "..." --schedule "2026-07-11T20:00:00"
 """
 
 from __future__ import annotations
@@ -111,7 +111,7 @@ def _get_valid_token() -> str:
     if not access_token:
         raise RuntimeError(
             "No TikTok access token found.\n"
-            "Run: python -m vidgen.publisher --setup-guide\n"
+            "Run: python -m vidgen.publishing.tiktok --setup-guide\n"
             "to complete the OAuth flow and get your tokens."
         )
 
@@ -777,7 +777,7 @@ SETUP_GUIDE = """
 ║  ─────────────────────────────────────────────
 ║  Run this helper to open the auth URL and exchange the code:
 ║
-║    python -m vidgen.publisher --oauth
+║    python -m vidgen.publishing.tiktok --oauth
 ║
 ║  This saves access_token + refresh_token to .tiktok_tokens.json
 ║
@@ -793,7 +793,7 @@ SETUP_GUIDE = """
 ║
 ║  STEP 5 — Test
 ║  ───────────────
-║    python -m vidgen.publisher out/test.mp4 --title "Test #60scongnghe"
+║    python -m vidgen.publishing.tiktok out/test.mp4 --title "Test #60scongnghe"
 ║
 ╚═════════════════════════════════════════════════════════════════════════
 """
@@ -878,7 +878,7 @@ def _run_oauth_flow() -> None:
     _save_tokens(tokens)
     print(f"\nTokens saved to {TOKENS_FILE}")
     print("Setup complete! You can now run:")
-    print("  python -m vidgen.publisher out/video.mp4 --title 'Your title #hashtag'")
+    print("  python -m vidgen.publishing.tiktok out/video.mp4 --title 'Your title #hashtag'")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────

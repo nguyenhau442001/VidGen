@@ -1,5 +1,5 @@
 """
-vidgen/publisher_youtube.py — Auto-publish to YouTube (Data API v3, Shorts)
+vidgen/publishing/youtube.py — Publish to YouTube (Data API v3, Shorts)
 
 Flow:
     1. Get a valid access token (refresh if expired)
@@ -9,10 +9,10 @@ Flow:
     5. GitHub Actions notification -> trigger workflow, email on failure
 
 Setup (one-time):
-    python -m vidgen.publisher_youtube --setup-guide
+    python -m vidgen.publishing.youtube --setup-guide
 
 Usage:
-    python -m vidgen.publisher_youtube out/my-topic.mp4 --title "Tieu de #Shorts"
+    python -m vidgen.publishing.youtube out/my-topic.mp4 --title "Tieu de #Shorts"
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ from pathlib import Path
 
 import requests
 
-from vidgen.publish_common import (
+from vidgen.publishing.common import (
     PublishMetadata,
     chunked_resumable_upload,
     load_tokens,
@@ -111,7 +111,7 @@ def _get_valid_token() -> str:
     if not access_token:
         raise RuntimeError(
             "No YouTube access token found.\n"
-            "Run: python -m vidgen.publisher_youtube --setup-guide"
+            "Run: python -m vidgen.publishing.youtube --setup-guide"
         )
 
     resp = requests.get(
@@ -320,13 +320,13 @@ SETUP_GUIDE = """
 
   STEP 3 - Run OAuth flow to get access token
   -----------------------------------------------
-    python -m vidgen.publisher_youtube --oauth
+    python -m vidgen.publishing.youtube --oauth
 
   This saves access_token + refresh_token to .youtube_tokens.json
 
   STEP 4 - Test
   -----------------
-    python -m vidgen.publisher_youtube out/test.mp4 --title "Test #Shorts"
+    python -m vidgen.publishing.youtube out/test.mp4 --title "Test #Shorts"
 
 ============================================================================
 """
@@ -371,7 +371,7 @@ def _run_oauth_flow() -> None:
     }
     save_tokens(TOKENS_FILE, tokens)
     print("Setup complete! You can now run:")
-    print("  python -m vidgen.publisher_youtube out/video.mp4 --title 'Your title #Shorts'")
+    print("  python -m vidgen.publishing.youtube out/video.mp4 --title 'Your title #Shorts'")
 
 
 def main() -> None:
