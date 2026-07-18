@@ -1,2 +1,19 @@
 ## VidGen Skill
 Read and follow all instructions in: /Users/haunguyen/GitHub/VidGen/skills/vidgen/SKILL.md
+
+## Visual Text Rules
+- Text placed inside a card, pill, badge, button, node, or other shape must remain fully enclosed by that shape with deliberate padding; never allow clipping, overflow, or contact with the border.
+- Center text inside its shape on both axes unless the authored design explicitly requires another alignment.
+- Prefer a single line for short labels and compact sentences. Reduce font size or enlarge the shape when needed, while keeping all text readable and complete.
+
+## Remotion Production Reliability
+- Treat `content/<video>.json` as the authored source and `output/render_manifest.json` as the live Studio input. After changing shot props, narration, type, or text, rebuild or deliberately synchronize the matching manifest shot, then compare both values before claiming Studio is updated. Remember that a later pipeline run overwrites manual manifest edits.
+- Preserve approved narration verbatim. Do not summarize, paraphrase, or shorten the original script unless the user explicitly approves that wording change. A narration edit makes the existing WAV, karaoke timings, manifest captions, and rendered video stale; report that state clearly and regenerate them only when requested.
+- When a line must break at a specific semantic boundary, store an explicit `\n` and use a compatible CSS white-space mode. `pre-line` preserves the authored break but may still wrap long lines; use `pre` plus a verified font size and container width when the result must be exactly N lines. Never allow the literal characters `\n` to appear in the rendered frame.
+- Do not rely on automatic text wrapping for headlines, disclaimers, closing lines, or text inside shapes. Set an intentional width, font size, line height, padding, and `whiteSpace`, then inspect the longest line at 1080x1920. Keep each authored line semantically complete.
+- For radial layouts, define one center, one radius, and evenly spaced angles derived from the exact item count. The number of data nodes must match the number of positions. Compute connector intersections against the real card bounds and core radius so lines touch borders exactly rather than entering cards or stopping in open space.
+- For screenshot retouching, keep the original asset, create a browser-friendly PNG, and place the replacement as a calibrated overlay only on shots that request it through props. Match the screenshot background, font, weight, and coordinates; preserve dimming, focus masks, scaling, and rounded borders above or below the overlay as intended.
+- Before a final render, inspect every shot at representative early, middle, and late frames in Studio or extracted frames. Specifically check overflow, unintended third lines, clipped labels, off-center text, stale manifest copy, overlay seams, and elements crossing borders. TypeScript and JSON validation are necessary but do not replace visual inspection.
+- Do not render until the user asks. If only narration changes, do not silently reuse stale TTS. If the user requests a completely fresh result, omit `--reuse-tts` and `--prebuilt-audio-dir`, verify logs show new WAV synthesis, and verify the renderer reports all requested chunks as uncached. Ask before deleting caches if fresh chunks cannot otherwise be guaranteed.
+- On this project, if any edit, TTS, manifest, or render command errors, stop immediately, report the exact failure and whether partial changes were applied, and ask for permission before attempting a fix or rerun. Do not improvise around the error.
+- After implementation, run targeted tests, `npx --prefix remotion tsc --noEmit -p remotion/tsconfig.json`, JSON parsing, and `git diff --check`. After rendering, verify the final MP4 with `ffprobe` for resolution, FPS, duration, and audio stream.
