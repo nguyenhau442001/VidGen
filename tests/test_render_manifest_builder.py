@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from vidgen.manifest import FPS, FRAME_PADDING, build_render_manifest, detect_dead_air, detect_transition_silence
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, build_render_manifest, detect_dead_air, detect_transition_silence
 
 
 def test_duration_frames_calculation():

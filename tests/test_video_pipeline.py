@@ -3,7 +3,7 @@ import json
 import pytest
 from unittest.mock import patch
 
-from vidgen.main import _run_gate1_llm, resolve_script, validate_manifest
+from vidgen.pipeline.video_pipeline import _run_gate1_llm, resolve_script, validate_manifest
 
 
 def test_resolve_script_passes_through_flat_schema_unchanged():
@@ -127,7 +127,7 @@ def test_run_gate1_llm_returns_rewritten_script(tmp_path):
         "rewrote": True,
     }
 
-    with patch("vidgen.main.gate1_llm_assert", return_value=gate1_result) as mock_gate:
+    with patch("vidgen.pipeline.video_pipeline.gate1_llm_assert", return_value=gate1_result) as mock_gate:
         result = _run_gate1_llm(script, str(script_path))
 
     assert result is rewritten

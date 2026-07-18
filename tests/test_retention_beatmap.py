@@ -1,5 +1,5 @@
-from vidgen.beatmap import TOP_N_HOT, format_report, score_beatmap
-from vidgen.manifest import build_render_manifest
+from vidgen.pipeline.render_manifest_builder import build_render_manifest
+from vidgen.quality.retention_beatmap import TOP_N_HOT, format_report, score_beatmap
 
 
 def _script(shots):

@@ -1,6 +1,6 @@
 import numpy as np
 
-from vidgen import tts_speed_adjustor as tts
+from vidgen.audio import speech_synthesizer as tts
 
 
 def test_normalize_tts_provider_accepts_aliases(monkeypatch):

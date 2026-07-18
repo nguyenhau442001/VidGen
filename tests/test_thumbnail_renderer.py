@@ -1,4 +1,4 @@
-from vidgen.thumbnail import (
+from vidgen.presentation.thumbnail_renderer import (
     _style_for_scene,
     _extract_generic_props,
     _extract_character_icon_props,

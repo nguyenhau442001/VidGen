@@ -3,7 +3,7 @@ import struct
 import time
 import wave
 
-from vidgen.chunked_render import (
+from vidgen.pipeline.chunked_video_renderer import (
     build_audio_track,
     code_tree_hash,
     prune_cache,

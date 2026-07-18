@@ -1,7 +1,7 @@
 import numpy as np
 import soundfile as sf
 
-from vidgen.tts_speed_adjustor import fit_wav_to_duration
+from vidgen.audio.speech_synthesizer import fit_wav_to_duration
 
 
 def test_fit_wav_to_duration_leaves_short_audio_unchanged(tmp_path):
