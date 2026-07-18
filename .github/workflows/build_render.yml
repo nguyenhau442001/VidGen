@@ -3,7 +3,7 @@ name: VidGen build & render
 # Runs the actual TTS + Remotion render pipeline. Needs VieNeu-TTS, ffmpeg
 # and the Remotion toolchain installed locally, so this targets a
 # self-hosted runner on the machine the pipeline already runs on (cron via
-# vidgen/runner.py) — there is no hosted-runner equivalent for this job.
+# the local human-reviewed pipeline) — there is no hosted-runner equivalent for this job.
 on:
   workflow_dispatch:
     inputs:

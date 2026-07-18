@@ -1,21 +1,17 @@
 ---
 name: vidgen
 description: |
-  End-to-end autonomous pipeline for creating short-form Vietnamese tech education videos
-  using the VidGen + Remotion stack. Use this skill whenever the user provides a topic,
-  title, or outline and wants to produce a video — even if they just say "làm video về X",
-  "tạo video", "sinh script", "render video", or "tôi cần clip về Y". Covers the entire
-  flow: script generation → JSON validation → TTS audio → Remotion render → final .mp4,
-  with two quality gates (content audit before render, visual audit after render) that
-  self-correct and re-render without asking. Always trigger for any video creation request
-  in this repo, regardless of how casually it's phrased.
+  Human-reviewed workflow for creating short-form Vietnamese tech education videos with
+  VidGen and Remotion. Use this skill for brainstorming, scripting, scene design, TTS,
+  preview, rendering, and final MP4 production. Content decisions stay collaborative:
+  never generate, rewrite, render, or publish past a checkpoint the user has not approved.
 ---
 
-# VidGen — Autonomous Video Pipeline
+# VidGen — Human-reviewed Video Production
 
 You are operating as an expert short-form video director, Vietnamese tech educator,
-and pipeline engineer. Your job: take a topic → produce a finished `.mp4` with
-maximum viewer retention — no human checkpoints unless something genuinely breaks.
+and pipeline engineer. Collaborate with the owner from topic → approved script → polished
+scenes → finished `.mp4`. Automation starts only after the current stage is approved.
 
 Think like a TikTok creator who also knows AOSP internals. The best tech video is
 one where a non-technical viewer watches 80%+ before realising it was educational.
@@ -117,26 +113,23 @@ Trả lời 3 câu hỏi:
        │
   1. Explore repo layout
        │
-  2. Generate script JSON        ←── schema-aware, Vietnamese narration
+  2. Brainstorm + approve script ←── owner and agent review exact narration
        │
-  3. GATE 1: Content Quality     ←── hook strength, retention arc, visual clarity
-       │   (self-correct & rewrite if score < threshold)
+  3. Write approved script JSON  ←── schema-aware, exact approved wording
        │
-  4. Write script file           ←── content/<slug>.json
+  4. Preview and refine scenes   ←── Remotion Studio, shot-by-shot review
        │
-  5. Run TTS                     ←── python -m vidgen.tts content/<slug>.json
+  5. Run TTS                     ←── only after narration approval
        │
-  6. Render with Remotion        ←── python -m vidgen.main content/<slug>.json
+  6. Render with Remotion        ←── python -m vidgen.pipeline.video_pipeline
        │
-  7. GATE 2: Visual Quality      ←── sharpness, contrast, text legibility, pacing
-       │   (self-correct JSON & re-render if issues found)
+  7. Audit + human watch-through ←── dead air, clipping, pacing, audio sync
        │
   8. Report output               ←── out/<slug>.mp4 + quality scorecard
 ```
 
-Complete every step in sequence. Both quality gates are **mandatory** — never skip them.
-Only pause for user input if a command exits non-zero and you cannot self-correct after
-two attempts.
+Do not skip human editorial approval. Automated quality checks are guardrails, not authority:
+they cannot approve narration, visual meaning, or publishing. Never render or publish unless asked.
 
 ---
 
@@ -150,8 +143,8 @@ find . -maxdepth 3 -type f | grep -E '\.(py|json|ts|tsx|md)$' | sort
 
 Read the files most relevant to understanding:
 - Where script JSONs are stored (`content/` or similar)
-- What the TTS entrypoint is (`vidgen/tts.py` or similar)
-- What the render entrypoint is (`vidgen/main.py` or similar)
+- What the TTS entrypoint is (`vidgen/audio/speech_synthesizer.py`)
+- What the render entrypoint is (`vidgen/pipeline/video_pipeline.py`)
 - What scene component types are registered in Remotion (`src/` or `remotion/`)
 
 Read `references/schema.md` in this skill for the canonical JSON schema rules.
@@ -364,32 +357,24 @@ Confirm parse succeeds before proceeding.
 
 ---
 
-## Step 5 — Run TTS (via tts_speed wrapper)
+## Step 5 — Run TTS
 
-VieNeu-TTS has no built-in speed parameter. Use the `tts_speed` wrapper in this skill
-(`scripts/tts_speed.py`) which post-processes audio with **WSOLA time-stretch +
-pitch correction** via librosa.
-
-**First-time setup** — copy the wrapper into the repo if not already present:
-
-```bash
-# Check if wrapper exists
-ls vidgen/tts_speed.py 2>/dev/null || cp <skill_dir>/scripts/tts_speed.py vidgen/tts_speed.py
-```
+`vidgen.audio.speech_synthesizer` wraps VieNeu/Viettel/Gemini synthesis with
+pitch-preserving speed adjustment, silence trim, and loudness normalization.
 
 **Run TTS for the entire script:**
 
 ```bash
-python -m vidgen.tts_speed content/<slug>.json \
+python -m vidgen.audio.speech_synthesizer content/<slug>.json \
   --output-dir public/audio \
   --speed 1.2 \
   --max-silence-ms 120
 ```
 
-Or call from Python (e.g. from `vidgen/main.py`):
+Or call from Python:
 
 ```python
-from vidgen.tts_speed import synthesize_scenes
+from vidgen.audio.speech_synthesizer import synthesize_scenes
 import json
 
 script = json.loads(open("content/<slug>.json").read())
@@ -434,7 +419,7 @@ pip install librosa soundfile
 **If TTS fails:**
 - `ModuleNotFoundError: librosa` → run the pip install above
 - `AttributeError on tts.save()` → VieNeu version mismatch; check `_audio_from_vieneu()`
-  in `tts_speed.py` and adapt to actual `AudioSpec` API
+  in `audio/speech_synthesizer.py` and adapt to the actual `AudioSpec` API
 - Attempt one self-correction, then re-run. Never proceed to render without audio.
 
 ---
@@ -442,7 +427,7 @@ pip install librosa soundfile
 ## Step 6 — Render with Remotion
 
 ```bash
-python -m vidgen.main content/<slug>.json
+python -m vidgen.pipeline.video_pipeline content/<slug>.json
 ```
 
 Remotion renders take 30–120s. Common failure modes and self-corrections:

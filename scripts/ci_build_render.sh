@@ -2,9 +2,9 @@
 #
 # scripts/ci_build_render.sh — build + render a VidGen script end to end.
 #
-# Wraps the same pipeline a human runs by hand (`python -m vidgen.main`),
+# Wraps the same pipeline a human runs by hand (`python -m vidgen.pipeline.video_pipeline`),
 # with a fast Gate 1 pre-check, timing, and a GitHub Actions notify.yml
-# dispatch on completion — the same notify mechanism vidgen/publisher.py
+# dispatch on completion — the same notify mechanism used by the publishers
 # uses for TikTok publish results, so render and publish failures land in
 # the same inbox the same way.
 #
@@ -35,7 +35,7 @@ fi
 
 SCRIPT_PATH="${1:-}"
 if [[ -z "$SCRIPT_PATH" ]]; then
-  echo "Usage: $0 <content/script_name.json> [extra vidgen.main args...]" >&2
+  echo "Usage: $0 <content/script_name.json> [extra video_pipeline args...]" >&2
   exit 2
 fi
 shift || true
@@ -65,14 +65,14 @@ notify_github() {
 }
 
 echo "── Gate 1 pre-check ─────────────────────────────────"
-if ! "$PYTHON_BIN" -m vidgen.gate1 "$SCRIPT_PATH"; then
+if ! "$PYTHON_BIN" -m vidgen.quality.script_quality_gate "$SCRIPT_PATH"; then
   notify_github "FAIL: gate1" "0"
   exit 1
 fi
 
 echo "── Build + render ───────────────────────────────────"
 START_TS=$(date +%s)
-if "$PYTHON_BIN" -m vidgen.main "$SCRIPT_PATH" "$@"; then
+if "$PYTHON_BIN" -m vidgen.pipeline.video_pipeline "$SCRIPT_PATH" "$@"; then
   DURATION=$(( $(date +%s) - START_TS ))
   echo "[ci] Pipeline OK in ${DURATION}s"
   notify_github "OK" "$DURATION"
