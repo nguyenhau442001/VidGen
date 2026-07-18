@@ -1,0 +1,203 @@
+{
+  "video_id": "grabfood_wait_time_p1",
+  "title": "GrabFood không chỉ giao đồ ăn. Nó biến thời gian chờ của bạn thành một món hàng.",
+  "fps": 30,
+  "narration_language": "vi",
+  "meta": {
+    "title": "GrabFood không chỉ giao đồ ăn. Nó biến thời gian chờ của bạn thành một món hàng.",
+    "slug": "grabfood_wait_time_p1",
+    "series": "grabfood-wait-time",
+    "part": 1
+  },
+  "shots": [
+    {
+      "id": "shot_01",
+      "type": "GrabFoodScreenshotScene",
+      "duration_frames": 270,
+      "narration": "ỦA LÀ SAO?! Bạn đang đói rã rời, quán cơm gà chỉ cách nhà đúng ba cây số, nhưng chọn gói Tiết kiệm thì ứng dụng lại báo phải chờ tới… bốn mươi bốn phút?!",
+      "props": {
+        "mode": "hook",
+        "headline": "GrabFood không chỉ giao đồ ăn.\nNó biến thời gian chờ của bạn thành một món hàng.",
+        "accentWord": "thời gian chờ",
+        "backgroundStyle": "gradient-subtle",
+        "accentColor": "#00ff41",
+        "restaurantLabel": "Quán cơm gà",
+        "screenshotPath": "images/grabfood_delivery_options.png"
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_02",
+      "type": "GrabFoodScreenshotScene",
+      "duration_frames": 180,
+      "narration": "Cùng một món ăn, cùng một địa chỉ, nhưng ba lựa chọn giao hàng lại báo ba mốc thời gian khác nhau.",
+      "props": {
+        "screenshotPath": "images/grabfood_delivery_options.png",
+        "mode": "evidence",
+        "headline": "Cùng một món — ba mốc thời gian khác nhau",
+        "accentWord": "ba mốc thời gian",
+        "restaurantLabel": "Quán cơm gà",
+        "disclaimer": "Thời gian và phí giao hàng có thể thay đổi tùy địa điểm,\nthời điểm và tình trạng đơn hàng."
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_03",
+      "type": "SharedRouteRevealScene",
+      "duration_frames": 420,
+      "narration": "Khi bạn chọn Tiết kiệm, đơn hàng có thể được hệ thống ghép vào một tuyến giao chung với những đơn phù hợp khác. Tài xế lúc này có thể phải ghé thêm điểm lấy món hoặc điểm giao, thay vì chạy thẳng về phía bạn. Vì vậy, thấy tài xế đổi hướng chưa chắc có nghĩa là chú ấy đang đi sai đường.",
+      "props": {
+        "headline": "Tài xế bỗng rẽ hướng?",
+        "detourLabel": "Ghé lấy trước",
+        "restaurantLabel": "Quán cơm gà",
+        "revealText": "Đang đi chung tuyến."
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_04",
+      "type": "MultiStopDeliveryScene",
+      "duration_frames": 450,
+      "narration": "Đây là một tuyến giao nhiều điểm dừng. Một tài xế có thể lấy và giao nhiều đơn trong cùng một hành trình. Vì vậy, nhà bạn chưa chắc đã là điểm dừng tiếp theo. Trên bản đồ, bạn chỉ thấy một chấm nhỏ liên tục đổi hướng. Nhưng phía sau đó là cả một chuỗi nhiệm vụ mà tài xế phải hoàn thành.",
+      "props": {
+        "stops": [
+          { "label": "Lấy cơm gà" },
+          { "label": "Ghé quán trà sữa" },
+          { "label": "Giao trà sữa" },
+          { "label": "Giao cơm gà", "highlight": true }
+        ],
+        "headline": "Một tài xế — cả chuỗi nhiệm vụ",
+        "accentColor": "#00ff41",
+        "footer": "Nhà bạn chưa chắc là điểm dừng tiếp theo."
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_05",
+      "type": "JourneyPerspectiveScene",
+      "duration_frames": 480,
+      "narration": "Bạn chỉ nhìn thấy quãng đường ba cây số từ quán đến nhà. Nhưng hệ thống phải tính cả vị trí hiện tại của tài xế, các điểm lấy và giao món, thời gian chờ tại quán cùng tình trạng đường ngoài thực tế. Ba cây số của món ăn chưa chắc đã là toàn bộ quãng đường người tài xế phải chạy.",
+      "props": {
+        "customerHeadline": "Bạn thấy một quãng đường",
+        "systemHeadline": "Hệ thống thấy cả một hành trình",
+        "distanceLabel": "3 KM",
+        "factors": [
+          "Vị trí tài xế",
+          "Điểm lấy món",
+          "Điểm giao hàng",
+          "Chờ tại quán",
+          "Giao thông",
+          "Thời tiết"
+        ],
+        "closingLine": "3 km chỉ là quãng đường của món ăn.\nTài xế phải chạy cả một hành trình."
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_06",
+      "type": "RouteOptimizerScene",
+      "duration_frames": 300,
+      "narration": "Để kết hợp các đơn phù hợp, thuật toán phải xử lý nhiều tín hiệu cùng lúc. Từ đó, hệ thống tìm một phương án có thể kết nối nhiều điểm lấy và giao trong cùng một hành trình.",
+      "props": {
+        "signals": [
+          {
+            "icon": "🧭",
+            "label": "Vị trí tài xế",
+            "color": "#61dafb"
+          },
+          {
+            "icon": "🍲",
+            "label": "Tốc độ bếp",
+            "color": "#00ff41"
+          },
+          {
+            "icon": "🚦",
+            "label": "Giao thông",
+            "color": "#f59e0b"
+          },
+          {
+            "icon": "🌧️",
+            "label": "Thời tiết",
+            "color": "#38bdf8"
+          },
+          {
+            "icon": "🔗",
+            "label": "Điểm giao phù hợp",
+            "color": "#f472b6"
+          }
+        ],
+        "headline": "Tuyến nào ghép đơn hợp lý nhất?",
+        "candidates": [
+          { "label": "Tuyến A", "score": 72, "path": "M 15 52 C 70 5 135 62 205 18" },
+          { "label": "Tuyến B", "score": 84, "path": "M 15 52 C 80 68 130 4 205 18" },
+          { "label": "Tuyến C", "score": 96, "path": "M 15 52 C 80 18 140 45 205 18", "selected": true }
+        ],
+        "outputLabel": "Đây là tuyến ghép hợp lý nhất"
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_07",
+      "type": "BatchMergeCinematicScene",
+      "duration_frames": 600,
+      "narration": "Thay vì cần hai tài xế chạy qua những đoạn đường gần giống nhau, hệ thống có thể gộp các đơn phù hợp để một người xử lý trong cùng một tuyến. Cách này giúp giảm những quãng đường bị trùng, phục vụ thêm đơn và tạo ra lựa chọn giao hàng với mức phí thấp hơn. Khách hàng đổi thời gian chờ lấy mức phí tiết kiệm hơn. Còn tài xế nhận một tuyến nhiều điểm hơn, với cơ hội hoàn thành thêm đơn trong cùng một hành trình.",
+      "props": {
+        "headline": "Hai tuyến trùng nhau —\nGộp thành một",
+        "beforeLabel": "GIAO TÁCH BIỆT",
+        "afterLabel": "GIAO GỘP — BATCHING",
+        "stats": [
+          { "value": "2 → 1", "label": "tài xế trên tuyến" },
+          { "value": "↓", "label": "quãng đường trùng" },
+          { "value": "↓", "label": "mức phí giao hàng" }
+        ]
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_08",
+      "type": "DriverJourneyScene",
+      "duration_frames": 780,
+      "narration": "Cơ chế này đôi khi khiến cả người mua lẫn tài xế khó chủ động. Người mua phải chờ lâu hơn để đổi lấy mức phí thấp hơn. Còn tài xế phải xử lý nhiều điểm dừng hơn trong cùng một hành trình. Nhưng phía sau mỗi chấm nhỏ đang chạy trên bản đồ là một người thật… Đang đứng chờ nhà hàng làm món. Đang giữ cho hộp cơm không bị đổ. Đang chạy giữa trời nắng, trời mưa và những con đường kẹt cứng. Đang cố hoàn thành cả một tuyến giao mà bạn không thể nhìn thấy. Bạn đang đợi một bữa ăn. Còn chú tài xế đang chạy cả một hành trình.",
+      "props": {
+        "headline": "Mỗi lựa chọn đều có một đánh đổi",
+        "customerTradeoff": {
+          "label": "NGƯỜI MUA",
+          "value": "Phí thấp hơn — chờ lâu hơn"
+        },
+        "driverTradeoff": {
+          "label": "TÀI XẾ",
+          "value": "Một hành trình\nNhiều điểm dừng"
+        },
+        "tasks": [
+          "Chờ nhà hàng làm món",
+          "Giữ hộp cơm không đổ",
+          "Chạy giữa nắng, mưa, kẹt xe",
+          "Hoàn thành cả một hành trình"
+        ],
+        "closingLine": "Bạn chỉ đang đợi một bữa ăn.\nCòn chú tài xế đang chạy cả một hành trình."
+      },
+      "on_screen_text": ""
+    },
+    {
+      "id": "shot_09",
+      "type": "DriverMatrixTeaserScene",
+      "duration_frames": 390,
+      "narration": "Nhưng tuyến đường nhiều điểm dừng mới chỉ là phần bạn có thể nhìn thấy. Phía sau mỗi cuốc xe còn có một ma trận khác: nhiệm vụ, phần thưởng và những mục tiêu liên tục xuất hiện phía trước. Chúng chỉ giúp tài xế kiếm thêm… Hay còn khiến họ luôn muốn chạy thêm một chuyến nữa?",
+      "props": {
+        "eyebrow": "GRABFOOD PHẦN 2",
+        "title": "MA TRẬN GIỮ CHÂN TÀI XẾ",
+        "notificationText": "Một đơn hàng mới vừa xuất hiện",
+        "nodes": [
+          { "icon": "⏱️", "label": "Thời gian online" },
+          { "icon": "✅", "label": "Số chuyến hoàn thành" },
+          { "icon": "🔗", "label": "Chuỗi chuyến liên tiếp" },
+          { "icon": "💰", "label": "Mốc thưởng tiếp theo" },
+          { "icon": "📜", "label": "Nhiệm vụ còn thiếu" }
+        ],
+        "pulseText": "CHỈ CÒN MỘT CHUYẾN NỮA",
+        "question": "Kiếm thêm — hay luôn muốn chạy thêm?"
+      },
+      "on_screen_text": ""
+    }
+  ]
+}
