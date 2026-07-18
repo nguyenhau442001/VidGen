@@ -1,5 +1,5 @@
 """
-vidgen/gate2_visual.py — Gate 2: Visual Quality Enforcement
+vidgen/quality/rendered_video_audit.py — Rendered Video Quality Audit
 
 Extracts keyframes from the rendered .mp4 using ffmpeg, then runs
 OpenCV-based checks for contrast, sharpness, and background darkness.
@@ -12,7 +12,7 @@ Dependencies:
     # ffmpeg must be available in PATH
 
 Usage:
-    from vidgen.gate2_visual import gate2_assert
+    from vidgen.quality.rendered_video_audit import gate2_assert
 
     gate2_assert("out/my-topic.mp4")   # raises ValueError if checks fail
 """
@@ -24,6 +24,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from vidgen.config.project_paths import RESOURCES_DIR
 
 try:
     import cv2
@@ -61,7 +62,7 @@ except ImportError:
 # CodeScene that carry no accent color at all by design) — checked as
 # "present somewhere across the sampled frames" instead. The set of colors
 # that count as a valid accent is not hardcoded here: it's read from
-# colors.json (the project's shared name → hex registry) so new scripts can
+# resources/colors.json (the project's shared name → hex registry) so new scripts can
 # introduce a new palette by adding a name there, not by editing this file.
 # ---------------------------------------------------------------------------
 
@@ -71,7 +72,7 @@ LIGHT_BG_MIN = 180.0       # brightest-decile floor for a light composition
 DARK_BG_MAX = 75.0         # darkest-decile ceiling for a dark composition
 TONAL_RANGE_MIN = 35.0     # dark compositions still need visible highlights
 
-_COLORS_PATH = os.path.join(os.path.dirname(__file__), "colors.json")
+_COLORS_PATH = RESOURCES_DIR / "colors.json"
 with open(_COLORS_PATH, encoding="utf-8") as _f:
     _COLOR_REGISTRY: dict[str, str] = json.load(_f)
 
@@ -292,7 +293,7 @@ def gate2_assert(mp4_path: str) -> dict:
             "║    • Low contrast  → check scene background color (colors.bg, ~#f8f9fa)",
             "║    • Blurry text   → increase font size or reduce headline length",
             "║    • Muddy bg      → increase separation between background and highlights",
-            "║    • No accent     → verify accentColor in JSON is a hex from vidgen/colors.json",
+            "║    • No accent     → verify accentColor in JSON is a hex from resources/colors.json",
             "╚════════════════════════════════════════════════",
         ]
         raise ValueError("\n".join(lines))

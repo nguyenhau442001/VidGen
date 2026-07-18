@@ -9,7 +9,7 @@ librosa, which changes playback speed while preserving pitch
 (pitch-corrected / "robot-free" speedup).
 
 Usage (drop-in replacement for raw tts.infer + tts.save):
-    from vidgen.tts_speed import synthesize
+    from vidgen.audio.speech_synthesizer import synthesize
 
     synthesize(
         text="Grab chọn tài xế theo score, không phải khoảng cách.",
@@ -49,7 +49,7 @@ from urllib import request as urllib_request
 import numpy as np
 import soundfile as sf
 
-from vidgen.shot_api import script_shots
+from vidgen.pipeline.shot_schema import script_shots
 
 # ── optional heavy deps (fail loudly with helpful message) ────────────────────
 try:

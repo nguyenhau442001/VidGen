@@ -5,7 +5,7 @@ import re
 import shutil
 import subprocess
 
-from vidgen.shot_api import manifest_shots, normalize_manifest_shots, script_shots
+from vidgen.pipeline.shot_schema import manifest_shots, normalize_manifest_shots, script_shots
 
 FPS = 30
 FRAME_PADDING = 10

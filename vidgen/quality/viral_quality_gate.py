@@ -1,5 +1,5 @@
 """
-vidgen/gate1_llm.py — Gate 1 LLM: Viral Score Evaluator
+vidgen/quality/viral_quality_gate.py — LLM Viral Quality Evaluator
 
 Rule-based gate1.py kiểm tra schema/syntax. Module này kiểm tra CONTENT:
 hook có thật sự gây curiosity không, arc có đúng nhịp tâm lý không,
@@ -15,7 +15,7 @@ Architecture:
         → TTS → Render → gate2
 
 Usage:
-    from vidgen.gate1_llm import gate1_llm_assert, viral_score
+    from vidgen.quality.viral_quality_gate import gate1_llm_assert, viral_score
 
     # Chỉ evaluate (không raise):
     result = viral_score(script)
@@ -25,7 +25,7 @@ Usage:
     rewritten_script = gate1_llm_assert(script, max_retries=2)
 
     # CLI:
-    python -m vidgen.gate1_llm content/my-topic.json [--rewrite] [--retries 2]
+    python -m vidgen.quality.viral_quality_gate content/my-topic.json [--rewrite] [--retries 2]
 
 Environment:
     Không cần ANTHROPIC_API_KEY trong environment nếu chạy trong claude.ai.

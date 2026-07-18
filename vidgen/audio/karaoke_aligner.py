@@ -1,5 +1,5 @@
 """
-vidgen/karaoke_align.py
+vidgen/audio/karaoke_aligner.py
 ────────────────────────
 Word-level forced alignment for karaoke-style caption highlighting.
 

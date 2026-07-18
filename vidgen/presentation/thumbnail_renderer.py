@@ -4,7 +4,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from vidgen.shot_api import script_shots
+from vidgen.pipeline.shot_schema import script_shots
 
 SCENE_TYPE_TO_STYLE = {
     "CharacterIconScene": "characterIcon",
@@ -182,9 +182,23 @@ def generate_thumbnail(
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
 
-    script_arg = sys.argv[1]
-    slug = Path(script_arg).stem
-    out = f"output/thumbnails/{slug}_thumb.png"
-    generate_thumbnail(script_arg, out)
+    parser = argparse.ArgumentParser(description="Render a thumbnail from an approved VidGen script.")
+    parser.add_argument("script", help="Path to the authored content JSON")
+    parser.add_argument("--output", help="Thumbnail output path")
+    parser.add_argument("--scene-index", type=int, default=0)
+    parser.add_argument("--channel-name", default="DevFasterr")
+    parser.add_argument("--overwrite", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--remotion-dir", default="remotion")
+    args = parser.parse_args()
+
+    output = args.output or f"output/thumbnails/{Path(args.script).stem}_thumb.png"
+    generate_thumbnail(
+        args.script,
+        output,
+        scene_index=args.scene_index,
+        channel_name=args.channel_name,
+        overwrite=args.overwrite,
+        remotion_dir=args.remotion_dir,
+    )

@@ -19,7 +19,7 @@ import shutil
 import subprocess
 import time
 
-from vidgen.shot_api import manifest_shots
+from vidgen.pipeline.shot_schema import manifest_shots
 
 RENDER_CACHE_DIR = "output/render_cache"
 CACHE_MAX_AGE_DAYS = 14

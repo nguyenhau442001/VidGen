@@ -1,5 +1,5 @@
 """
-vidgen/beatmap.py — Beat Map: predicted-replay heuristic scorer.
+vidgen/quality/retention_beatmap.py — predicted-replay heuristic scorer.
 
 Rule-based, no API key, no real viewer data (the video hasn't published yet
 when this runs). Scores each scene 0-100 on signals correlated with
@@ -9,7 +9,7 @@ under information load — then flags the top 3 scenes as "hot". Purely
 advisory: never raises, never blocks the pipeline (unlike gate1/gate2).
 
 Usage:
-    from vidgen.beatmap import score_beatmap, write_beatmap, format_report
+    from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report
 
     beatmap = score_beatmap(script, manifest)
     write_beatmap(beatmap, "output/beatmap.json")
@@ -19,7 +19,7 @@ Usage:
 from __future__ import annotations
 import json
 
-from vidgen.shot_api import manifest_shots, script_shots
+from vidgen.pipeline.shot_schema import manifest_shots, script_shots
 
 # Scene types whose whole point is a number/stat/delta reveal — the moment
 # viewers rewind to re-read. Snake_case values from manifest.py's TYPE_MAP.

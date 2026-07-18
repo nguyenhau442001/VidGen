@@ -13,17 +13,16 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from time import time as now
 
-from vidgen.chunked_render import render_video_chunked
-from vidgen.karaoke_align import align_words
-from vidgen.shot_api import normalize_script_shots, script_shots
-from vidgen.tts_speed_adjustor import (
+from vidgen.audio.karaoke_aligner import align_words
+from vidgen.audio.speech_synthesizer import (
     DEFAULT_VIENEU_VOICE,
     fit_wav_to_duration,
     normalize_tts_provider,
     resolve_scene_tts_speed,
     synthesize as tts_synthesize,
 )
-from vidgen.manifest import (
+from vidgen.pipeline.chunked_video_renderer import render_video_chunked
+from vidgen.pipeline.render_manifest_builder import (
     MAP_REF_H,
     MAP_REF_W,
     MAX_DEAD_AIR_FRAMES,
@@ -38,10 +37,11 @@ from vidgen.manifest import (
 )
 
 # ── GATE IMPORTS ─────────────────────────────────────────────────────────────
-from vidgen.gate1 import gate1_assert, format_report as gate1_report
-from vidgen.gate1_llm import gate1_llm_assert
-from vidgen.gate2_visual import gate2_assert
-from vidgen.beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
+from vidgen.pipeline.shot_schema import normalize_script_shots, script_shots
+from vidgen.quality.rendered_video_audit import gate2_assert
+from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
+from vidgen.quality.script_quality_gate import gate1_assert, format_report as gate1_report
+from vidgen.quality.viral_quality_gate import gate1_llm_assert
 # ─────────────────────────────────────────────────────────────────────────────
 
 WAV_DIR = "output/audio/wav"
@@ -795,7 +795,7 @@ def main():
     # ─────────────────────────────────────────────────────────────────────────
 
     try:
-        from vidgen.thumbnail import generate_thumbnail
+        from vidgen.presentation.thumbnail_renderer import generate_thumbnail
 
         generate_thumbnail(args.script, video_output.replace(".mp4", "_thumb.png"))
     except Exception as e:

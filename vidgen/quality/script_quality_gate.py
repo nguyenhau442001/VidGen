@@ -1,11 +1,11 @@
 """
-vidgen/gate1.py — Gate 1: Content Quality Enforcement
+vidgen/quality/script_quality_gate.py — Script Quality Enforcement
 
 Rule-based script scorer. No API key required.
 Drop this file into your vidgen/ package directory.
 
 Usage:
-    from vidgen.gate1 import gate1_assert, score_script
+    from vidgen.quality.script_quality_gate import gate1_assert, score_script
 
     script = json.load(open("content/my-topic.json"))
     gate1_assert(script)          # raises ValueError if score too low
@@ -17,8 +17,8 @@ import json
 import re
 import sys
 
-from vidgen.manifest import TYPE_MAP
-from vidgen.shot_api import script_shots
+from vidgen.pipeline.render_manifest_builder import TYPE_MAP
+from vidgen.pipeline.shot_schema import script_shots
 
 # ---------------------------------------------------------------------------
 # Thresholds
@@ -42,7 +42,7 @@ FILLER_WORDS = {            # Vietnamese filler/padding words to penalise
     "tiếp theo", "chúng ta", "hôm nay", "bắt đầu",
 }
 # Scripts author a scene's `type` as either the PascalCase Remotion component
-# name or the snake_case manifest key (see vidgen/manifest.py's TYPE_MAP and
+# name or the snake_case manifest key (see render_manifest_builder.py's TYPE_MAP and
 # remotion/src/types.ts's ManifestScene union).
 VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
     "animated_flow", "bubble_comparator", "phone_map",
@@ -305,7 +305,7 @@ def format_report(audit: dict) -> str:
 
 
 # ---------------------------------------------------------------------------
-# CLI usage: python -m vidgen.gate1 content/my-topic.json
+# CLI usage: python -m vidgen.quality.script_quality_gate content/my-topic.json
 # ---------------------------------------------------------------------------
 
 def main() -> None:
