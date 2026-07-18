@@ -237,8 +237,6 @@ def _topic_from_path(path: str | Path | None) -> str:
         return ""
     if stem.startswith("script_"):
         stem = stem[len("script_"):]
-    if stem.endswith(".gate1_llm"):
-        stem = stem[: -len(".gate1_llm")]
 
     return re.sub(r"[_-]+", " ", stem).strip()
 

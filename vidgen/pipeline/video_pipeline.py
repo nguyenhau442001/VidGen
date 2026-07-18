@@ -41,7 +41,6 @@ from vidgen.pipeline.shot_schema import normalize_script_shots, script_shots
 from vidgen.quality.rendered_video_audit import gate2_assert
 from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
 from vidgen.quality.script_quality_gate import gate1_assert, format_report as gate1_report
-from vidgen.quality.viral_quality_gate import gate1_llm_assert
 # ─────────────────────────────────────────────────────────────────────────────
 
 WAV_DIR = "output/audio/wav"
@@ -52,9 +51,7 @@ VIDEO_OUT_DIR = "remotion/out"
 STUDIO_PORT = 3000
 
 MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
-MAX_GATE1_LLM_RETRIES = 2  # abort pipeline after this many LLM rewrite retries
 MAX_GATE2_CYCLES = 2     # abort pipeline after this many Gate 2 fix cycles
-GATE1_LLM_REWRITE_SUFFIX = ".gate1_llm.json"
 
 HIGHLIGHT_ANIM_TYPES = {"dot_color_set", "dot_pulse_ring"}
 
@@ -415,51 +412,6 @@ def _run_gate1(script: dict, script_path: str) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-# ── GATE 1 LLM HELPER ────────────────────────────────────────────────────────
-def _run_gate1_llm(script: dict, script_path: str) -> dict:
-    """Run Gate 1 LLM. Returns a possibly rewritten script that passed."""
-    print("\n── Gate 1 LLM ───────────────────────────────────────")
-    try:
-        gate1_result = gate1_llm_assert(
-            script,
-            max_retries=MAX_GATE1_LLM_RETRIES,
-            auto_rewrite=True,
-            verbose=False,
-            return_metadata=True,
-        )
-        rewritten = gate1_result["script"]
-        scores = gate1_result["result"]["scores"]
-        total = gate1_result["result"]["total"]
-        print(
-            f"[Gate 1 LLM] PASS {total}/40 | "
-            f"hook={scores.get('hook', 0)} arc={scores.get('arc', 0)} "
-            f"emotion={scores.get('emotion', 0)} cta={scores.get('cta', 0)}"
-        )
-        if gate1_result.get("rewrote"):
-            out_path = _gate1_llm_rewrite_path(script_path)
-            with open(out_path, "w", encoding="utf-8") as f:
-                json.dump(rewritten, f, ensure_ascii=False, indent=2)
-            print(f"[Gate 1 LLM] Auto-saved rewritten script → {out_path}")
-        print()
-        return rewritten
-    except ValueError as e:
-        print(e)
-        print(
-            f"\n[Gate 1 LLM] Script at '{script_path}' failed viral quality checks.\n"
-            "Fix the script manually or inspect the rewrite issues above, then re-run."
-        )
-        sys.exit(1)
-    except RuntimeError as e:
-        print(f"[Gate 1 LLM] API error: {e}")
-        sys.exit(2)
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-def _gate1_llm_rewrite_path(script_path: str) -> Path:
-    path = Path(script_path)
-    return path.with_name(f"{path.stem}{GATE1_LLM_REWRITE_SUFFIX}")
-
-
 # ── GATE 2 HELPER ────────────────────────────────────────────────────────────
 def _run_gate2(video_output: str) -> None:
     """Run Gate 2. Exits the process with a clear message if visual checks fail.
@@ -503,11 +455,6 @@ def main():
         "--skip-gate1",
         action="store_true",
         help="Skip Gate 1 content quality check (emergency use only)",
-    )
-    parser.add_argument(
-        "--skip-gate1-llm",
-        action="store_true",
-        help="Skip the Gate 1 LLM viral-quality check (use when ANTHROPIC_API_KEY is unavailable)",
     )
     parser.add_argument(
         "--skip-gate2",
@@ -580,13 +527,8 @@ def main():
     # ── GATE 1: Content quality — runs before any TTS or render work ─────────
     if not args.skip_gate1:
         _run_gate1(script, args.script)
-        if not args.skip_gate1_llm:
-            script = _run_gate1_llm(script, args.script)
-        else:
-            print("[Gate 1 LLM] SKIPPED (--skip-gate1-llm flag set)")
     else:
         print("[Gate 1] SKIPPED (--skip-gate1 flag set)")
-        print("[Gate 1 LLM] SKIPPED (--skip-gate1 flag set)")
     # ─────────────────────────────────────────────────────────────────────────
 
     if not args.skip_validation:

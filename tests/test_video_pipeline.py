@@ -1,9 +1,6 @@
-import json
-
 import pytest
-from unittest.mock import patch
 
-from vidgen.pipeline.video_pipeline import _run_gate1_llm, resolve_script, validate_manifest
+from vidgen.pipeline.video_pipeline import resolve_script, validate_manifest
 
 
 def test_resolve_script_passes_through_flat_schema_unchanged():
@@ -109,36 +106,3 @@ def test_validate_manifest_overflow_error_raises():
     with pytest.raises(ValueError, match="shot_03a"):
         validate_manifest(manifest)
 
-
-def test_run_gate1_llm_returns_rewritten_script(tmp_path):
-    script = {"video_id": "v", "shots": []}
-    rewritten = {"video_id": "v2", "shots": [{"id": "s1"}]}
-    script_path = tmp_path / "content" / "topic.json"
-    script_path.parent.mkdir(parents=True, exist_ok=True)
-    script_path.write_text("{}", encoding="utf-8")
-
-    gate1_result = {
-        "script": rewritten,
-        "result": {
-            "scores": {"hook": 9, "arc": 8, "emotion": 8, "cta": 8},
-            "total": 33,
-        },
-        "attempts": 2,
-        "rewrote": True,
-    }
-
-    with patch("vidgen.pipeline.video_pipeline.gate1_llm_assert", return_value=gate1_result) as mock_gate:
-        result = _run_gate1_llm(script, str(script_path))
-
-    assert result is rewritten
-    mock_gate.assert_called_once_with(
-        script,
-        max_retries=2,
-        auto_rewrite=True,
-        verbose=False,
-        return_metadata=True,
-    )
-
-    saved_path = script_path.with_name("topic.gate1_llm.json")
-    assert saved_path.exists()
-    assert json.loads(saved_path.read_text(encoding="utf-8")) == rewritten
