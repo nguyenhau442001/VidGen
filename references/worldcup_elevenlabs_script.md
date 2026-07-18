@@ -1,7 +1,7 @@
 # ElevenLabs TTS script — worldcup.json
 
-Copy từng đoạn text bên dưới vào ElevenLabs, generate, rồi lưu file .mp3
-đúng tên đã ghi (không cần đuôi .wav, script sẽ tự convert).
+Copy từng đoạn text bên dưới vào ElevenLabs, generate, rồi lưu file `.mp3`
+đúng tên đã ghi (không cần đuôi `.wav`, script sẽ tự convert).
 Đặt tất cả file vào: `output/audio/wav/` (mp3 hoặc wav đều được, cứ để đúng tên gốc,
 báo tôi khi xong tôi sẽ convert + đặt đúng chỗ).
 

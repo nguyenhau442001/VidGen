@@ -162,7 +162,7 @@ All compositions are browsable individually in Remotion Studio (`npx remotion st
 Scripts and shot components in this repo are authored with Claude Code using two skill sets:
 
 - **`remotion`** — the AI video-production skill, used to design motion, shot pacing, and write the shot components and script JSONs.
-- **`superpowers`** (brainstorming → writing-plans → executing-plans) — used for feature design and implementation; the resulting design docs and plans live in `docs/superpowers/`.
+- **`superpowers`** (brainstorming → writing-plans → executing-plans) — used for feature design and implementation.
 
 **Hook selection:** `python -m vidgen.discovery.hook_pattern_selector "<topic>"` can suggest a hook pattern. Treat the result as brainstorming input; a person must approve the final script.
 
@@ -170,13 +170,13 @@ Scripts and shot components in this repo are authored with Claude Code using two
 
 ```
 content/     human-approved video scripts (one JSON per video)
+scripts/     helper shell entrypoints and CI wrappers
 resources/   shared colors and optional topic-idea queue
 vidgen/      role-based Python packages for production tooling
 remotion/    compositions, scenes, and chunk renderer
 output/      generated audio, manifests, caches, and reports
 tests/       critical pipeline regression tests
-docs/        historical design documents and plans
-references/  hook pattern library used by discovery tools
+references/  hook patterns, schema refs, audits, and manual production notes
 ```
 ---
 

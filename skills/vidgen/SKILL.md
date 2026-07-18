@@ -147,8 +147,8 @@ Read the files most relevant to understanding:
 - What the render entrypoint is (`vidgen/pipeline/video_pipeline.py`)
 - What scene component types are registered in Remotion (`src/` or `remotion/`)
 
-Read `references/schema.md` in this skill for the canonical JSON schema rules.
-If the repo has its own `SCHEMA.md` or `docs/schema.md`, prefer that — it's more current.
+Read `references/schema.md` if it exists for the canonical JSON schema rules.
+If the repo has its own `SCHEMA.md`, prefer that — it's more current.
 
 ---
 
@@ -612,6 +612,8 @@ với narration speed khác nhau (TikTok: 1.2×, YT Shorts: 1.15×).
 
 ## References
 
-- `references/schema.md` — Full JSON schema field reference per scene type
-- `references/retention.md` — Extended retention patterns and hook formulas
-- Repo's own `docs/` or `SCHEMA.md` if present (takes precedence over both)
+- `references/schema.md` — Full JSON schema field reference per scene type, if present
+- `references/retention.md` — Extended retention patterns and hook formulas, if present
+- `references/content-audit.md` — Lifecycle grouping for files in `content/`
+- `references/README.md` — Folder index for notes, worksheets, and schema refs
+- Repo's own `SCHEMA.md` if present (takes precedence over both)
