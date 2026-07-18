@@ -15,6 +15,10 @@ def test_normalize_tts_provider_accepts_aliases(monkeypatch):
     assert tts.normalize_tts_provider("google_gemini") == "gemini"
 
 
+def test_default_vieneu_voice_is_thanh_binh():
+    assert tts.DEFAULT_VIENEU_VOICE == "Thanh Bình"
+
+
 def test_audio_from_gemini_response_extracts_inline_audio(monkeypatch):
     calls = {}
 

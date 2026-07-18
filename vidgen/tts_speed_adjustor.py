@@ -74,6 +74,8 @@ _gemini_sdk: Any = None
 _gemini_types: Any = None
 _gemini_client: Any = None
 
+DEFAULT_VIENEU_VOICE = "Thanh Bình"
+
 
 def _get_tts() -> Vieneu:
     global _tts_instance

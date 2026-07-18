@@ -17,6 +17,7 @@ from vidgen.chunked_render import render_video_chunked
 from vidgen.karaoke_align import align_words
 from vidgen.shot_api import normalize_script_shots, script_shots
 from vidgen.tts_speed_adjustor import (
+    DEFAULT_VIENEU_VOICE,
     fit_wav_to_duration,
     normalize_tts_provider,
     resolve_scene_tts_speed,
@@ -594,7 +595,7 @@ def main():
     tts_provider = normalize_tts_provider(args.tts_provider)
     tts_voice = args.tts_voice or os.getenv("VIDGEN_TTS_VOICE")
     if not tts_voice and tts_provider == "vieneu":
-        tts_voice = "Minh Đức"
+        tts_voice = DEFAULT_VIENEU_VOICE
     if not tts_voice and tts_provider == "viettel_ai":
         tts_voice = os.getenv("VIETTEL_AI_VOICE")
     if not tts_voice and tts_provider == "say":

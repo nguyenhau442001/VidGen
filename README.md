@@ -1,6 +1,6 @@
 # VidGen
 
-Generate short-form (TikTok-style, 1080×1920) videos from a single JSON script — synthesizes Vietnamese voiceover with VieNeu-TTS by default, or Viettel AI TTS / Gemini 2.5 Flash TTS when configured, renders cinematic shots with captions via Remotion, and opens the result in Remotion Studio.
+Generate short-form (TikTok-style, 1080×1920) videos from a single JSON script — synthesizes Vietnamese voiceover with VieNeu-TTS and the `Thanh Bình` voice by default, or Viettel AI TTS / Gemini 2.5 Flash TTS when configured, renders cinematic shots with captions via Remotion, and opens the result in Remotion Studio.
 
 The core principle: **one authored file per video** in `content/`, one command, one MP4 out. Everything in between (`output/`) is generated and disposable.
 
@@ -16,7 +16,7 @@ Options:
 |---|---|---|
 | `--speed` | `1.1` | Default voiceover speed multiplier, pitch-preserved. Per-shot `tts_speed` overrides this when present (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
 | `--tts-provider` | `VIDGEN_TTS_PROVIDER` | `vieneu`, `viettel_ai`, or `gemini` |
-| `--tts-voice` | `VIDGEN_TTS_VOICE` | Voice name/ID for the selected provider |
+| `--tts-voice` | `Thanh Bình` for VieNeu | Voice name/ID for the selected provider. `VIDGEN_TTS_VOICE` overrides the channel default |
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
 | `--target-dbfs` | `-15.0` | Normalize every voiceover clip to this RMS level (soft-limited) |
 | `--skip-validation` | off | Skip pre-render manifest validation (emergency use only) |
