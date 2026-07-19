@@ -70,6 +70,8 @@ import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { MapDotToHumanShot } from "./scenes/MapDotToHumanShot";
 import { WorkToGameMorphShot } from "./scenes/WorkToGameMorphShot";
 import { TripleMetricOrbitShot } from "./scenes/TripleMetricOrbitShot";
+import { ProgressMemoryTrailShot } from "./scenes/ProgressMemoryTrailShot";
+import { DualClockRouteShot } from "./scenes/DualClockRouteShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -306,6 +308,10 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <WorkToGameMorphShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "triple_metric_orbit":
       return <TripleMetricOrbitShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "progress_memory_trail":
+      return <ProgressMemoryTrailShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "dual_clock_route":
+      return <DualClockRouteShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }

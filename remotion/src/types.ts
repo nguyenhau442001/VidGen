@@ -136,6 +136,8 @@ export type ManifestScene =
   | { type: "game_hud"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GameHUDVisual }
   | { type: "work_to_game_morph"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WorkToGameMorphVisual }
   | { type: "triple_metric_orbit"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TripleMetricOrbitVisual }
+  | { type: "progress_memory_trail"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ProgressMemoryTrailVisual }
+  | { type: "dual_clock_route"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DualClockRouteVisual }
   | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
@@ -1282,6 +1284,23 @@ export type TripleMetricOrbitVisual = {
 };
 
 export type TripleMetricOrbitSceneProps = TripleMetricOrbitVisual & { durationInFrames: number };
+
+export type ProgressMemoryTrailVisual = {
+  headline: string;
+  totalCells: number; // e.g. 10
+  filledCells: number; // e.g. 9
+};
+
+export type ProgressMemoryTrailSceneProps = ProgressMemoryTrailVisual & { durationInFrames: number };
+
+export type DualClockRouteVisual = {
+  headline: string;
+  customerLabel: string; // "Tài xế đang giao một đơn hàng khác"
+  driverLabel: string; // "+1 +1 +1"
+  stopCount: number; // e.g. 3
+};
+
+export type DualClockRouteSceneProps = DualClockRouteVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;
