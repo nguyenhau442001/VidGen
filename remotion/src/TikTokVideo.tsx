@@ -49,6 +49,7 @@ import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
 import DeltaArrowScene from "./scenes/DeltaArrowScene";
 import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
+import { GameHUDScene } from "./scenes/GameHUDScene";
 import { HSKHookScene } from "./scenes/HSKHookScene";
 import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
@@ -66,7 +67,7 @@ import { VerdictListScene } from "./scenes/VerdictListScene";
 import { PreviewTeaserScene } from "./scenes/PreviewTeaserScene";
 import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
-import { Caption } from "./Caption";
+import { MapDotToHumanShot } from "./scenes/MapDotToHumanShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -102,14 +103,6 @@ export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }
               </Sequence>
             ))}
             <SceneRenderer shot={shot} />
-            {shot.caption && (
-              <Caption
-                text={shot.caption}
-                durationInFrames={shot.durationInFrames}
-                style={shot.captionStyle}
-                words={shot.captionWords}
-              />
-            )}
           </Series.Sequence>
         ))}
       </Series>
@@ -269,6 +262,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <DriverConsentScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "system_layer":
       return <SystemLayerScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "game_hud":
+      return <GameHUDScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_hook":
       return <HSKHookScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_explanation":
@@ -303,6 +298,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <GoogleMapsRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "traffic_cinematic":
       return <TrafficCinematicScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "map_dot_to_human":
+      return <MapDotToHumanShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }

@@ -83,74 +83,74 @@ export type PhoneMockupVisual = {
 
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
-export type ManifestCaptionWord = { text: string; startFrame: number; endFrame: number };
-
 export type ManifestScene =
-  | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ExplanationVisual }
-  | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: TerminalVisual }
-  | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: CodeVisual }
-  | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ErrorLogVisual }
-  | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: PhoneMockupVisual }
-  | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: MapPingVisual }
-  | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GeohashRevealVisual }
-  | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DemandHeatmapVisual }
-  | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SignalFlowVisual }
-  | { type: "network_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: NetworkFlowVisual }
-  | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: RippleAggregateVisual }
-  | { type: "driver_swarm"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverSwarmVisual }
-  | { type: "counter_blast"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: CounterBlastVisual }
-  | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ScoreCardVisual }
-  | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SplitViewVisual }
-  | { type: "split_apartment"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SplitApartmentVisual }
-  | { type: "wall_portal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: WallPortalVisual }
-  | { type: "stadium_goal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: StadiumGoalVisual }
-  | { type: "goal_orb_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GoalOrbJourneyVisual }
-  | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: CharacterIconVisual }
-  | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: QuoteCalloutVisual }
-  | { type: "grabfood_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GrabFoodScreenshotVisual }
-  | { type: "driver_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverJourneyVisual }
-  | { type: "shared_route_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SharedRouteRevealVisual }
-  | { type: "multi_stop_delivery"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: MultiStopDeliveryVisual }
-  | { type: "batch_merge_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: BatchMergeCinematicVisual }
-  | { type: "route_optimizer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: RouteOptimizerVisual }
-  | { type: "journey_perspective"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: JourneyPerspectiveVisual }
-  | { type: "driver_matrix_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverMatrixTeaserVisual }
-  | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ZoomRevealVisual }
-  | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SplitRevealVisual }
-  | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: AnimatedFlowVisual }
-  | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: BubbleComparatorVisual }
-  | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: PhoneMapVisual }
-  | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ConversationVisual }
-  | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: BeforeAfterVisual }
-  | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GridHeatmapVisual }
-  | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: RadarHookVisual }
-  | { type: "attack_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: AttackVisual }
-  | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: EventScanVisual }
-  | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverHeatmapVisual }
-  | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: StatComparatorVisual }
-  | { type: "route_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: RouteTimelineVisual }
-  | { type: "corridor_sweep"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: CorridorSweepVisual }
-  | { type: "batch_decision_tree"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: BatchDecisionTreeVisual }
-  | { type: "delta_arrow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DeltaArrowVisual }
-  | { type: "driver_consent"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DriverConsentVisual }
-  | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: SystemLayerVisual }
-  | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: HSKHookVisual }
-  | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: HSKExplanationVisual }
-  | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: HSKCTAVisual }
-  | { type: "hsk_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: HSKScreenshotVisual }
-  | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: HSKFlashCardThumbnailVisual }
-  | { type: "icon_threat"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: IconThreatVisual }
-  | { type: "story_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: StoryCardVisual }
-  | { type: "comparison"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ComparisonVisual }
-  | { type: "pipeline_vertical"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: PipelineVerticalVisual }
-  | { type: "diagram_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: DiagramFlowVisual }
-  | { type: "timeline_stages"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: TimelineStagesVisual }
-  | { type: "scan_animation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ScanAnimationVisual }
-  | { type: "exception_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: ExceptionCardVisual }
-  | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: VerdictListVisual }
-  | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: PreviewTeaserVisual }
-  | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: GoogleMapsRevealVisual }
-  | { type: "traffic_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; caption?: string; captionStyle?: string; captionWords?: ManifestCaptionWord[]; visual: TrafficCinematicVisual };
+  | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ExplanationVisual }
+  | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TerminalVisual }
+  | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CodeVisual }
+  | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ErrorLogVisual }
+  | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PhoneMockupVisual }
+  | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapPingVisual }
+  | { type: "map_dot_to_human"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapDotToHumanVisual }
+  | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GeohashRevealVisual }
+  | { type: "demand_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DemandHeatmapVisual }
+  | { type: "signal_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SignalFlowVisual }
+  | { type: "network_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: NetworkFlowVisual }
+  | { type: "ripple_aggregate"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RippleAggregateVisual }
+  | { type: "driver_swarm"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverSwarmVisual }
+  | { type: "counter_blast"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CounterBlastVisual }
+  | { type: "score_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScoreCardVisual }
+  | { type: "split_view"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SplitViewVisual }
+  | { type: "split_apartment"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SplitApartmentVisual }
+  | { type: "wall_portal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WallPortalVisual }
+  | { type: "stadium_goal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: StadiumGoalVisual }
+  | { type: "goal_orb_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GoalOrbJourneyVisual }
+  | { type: "character_icon"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CharacterIconVisual }
+  | { type: "quote_callout"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: QuoteCalloutVisual }
+  | { type: "grabfood_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GrabFoodScreenshotVisual }
+  | { type: "driver_journey"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverJourneyVisual }
+  | { type: "shared_route_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SharedRouteRevealVisual }
+  | { type: "multi_stop_delivery"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MultiStopDeliveryVisual }
+  | { type: "batch_merge_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatchMergeCinematicVisual }
+  | { type: "route_optimizer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RouteOptimizerVisual }
+  | { type: "journey_perspective"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: JourneyPerspectiveVisual }
+  | { type: "driver_matrix_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverMatrixTeaserVisual }
+  | { type: "zoom_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ZoomRevealVisual }
+  | { type: "split_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SplitRevealVisual }
+  | { type: "animated_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: AnimatedFlowVisual }
+  | { type: "bubble_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BubbleComparatorVisual }
+  | { type: "phone_map"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PhoneMapVisual }
+  | { type: "conversation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ConversationVisual }
+  | { type: "before_after"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BeforeAfterVisual }
+  | { type: "grid_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GridHeatmapVisual }
+  | { type: "radar_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RadarHookVisual }
+  | { type: "attack_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: AttackVisual }
+  | { type: "event_scan"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: EventScanVisual }
+  | { type: "driver_heatmap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverHeatmapVisual }
+  | { type: "stat_comparator"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: StatComparatorVisual }
+  | { type: "route_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RouteTimelineVisual }
+  | { type: "corridor_sweep"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CorridorSweepVisual }
+  | { type: "batch_decision_tree"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatchDecisionTreeVisual }
+  | { type: "delta_arrow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DeltaArrowVisual }
+  | { type: "driver_consent"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverConsentVisual }
+  | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SystemLayerVisual }
+  | { type: "game_hud"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GameHUDVisual }
+  | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
+  | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
+  | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
+  | { type: "hsk_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKScreenshotVisual }
+  | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKFlashCardThumbnailVisual }
+  | { type: "icon_threat"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: IconThreatVisual }
+  | { type: "story_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: StoryCardVisual }
+  | { type: "comparison"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ComparisonVisual }
+  | { type: "pipeline_vertical"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PipelineVerticalVisual }
+  | { type: "diagram_flow"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DiagramFlowVisual }
+  | { type: "timeline_stages"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TimelineStagesVisual }
+  | { type: "scan_animation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScanAnimationVisual }
+  | { type: "exception_card"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ExceptionCardVisual }
+  | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: VerdictListVisual }
+  | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PreviewTeaserVisual }
+  | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GoogleMapsRevealVisual }
+  | { type: "traffic_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TrafficCinematicVisual };
 
 // Shot is the canonical public term; ManifestScene remains as a compatibility
 // alias for the existing component registry and any older imports.
@@ -231,6 +231,16 @@ export type MapPingVisual = {
 };
 
 export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
+
+export type MapDotToHumanVisual = {
+  headline: string;
+  illustrativeLabel: string; // "Tình huống minh họa" badge on the 9/10 notification
+  batteryPercent: number; // e.g. 5
+  targetCurrent: number; // e.g. 9
+  targetTotal: number; // e.g. 10
+};
+
+export type MapDotToHumanSceneProps = MapDotToHumanVisual & { durationInFrames: number };
 
 // x/y are grid cell indices (column, row) into the gridCols×gridRows lattice,
 // not canvas fractions — the scene resolves them to pixel centers itself.
@@ -1225,6 +1235,29 @@ export type SystemLayerVisual = {
 };
 
 export type SystemLayerSceneProps = SystemLayerVisual & { durationInFrames: number };
+
+// RPG-style HUD: rank badge + XP/quest progress bar + locked/unlocked perk
+// nodes. The concrete "job becomes a game" visual — built for scenes where
+// the narration literally frames trips/ratings/tiers as game mechanics.
+export type GameHUDPerk = {
+  label: string;
+  unlocked: boolean;
+};
+
+export type GameHUDVisual = {
+  headline: string;
+  accentWord?: string;
+  rankLabel: string; // e.g. "HẠNG VÀNG"
+  rankTier: string; // short badge glyph, e.g. "V" or "9"
+  progressLabel: string; // e.g. "Tiến độ tháng này"
+  progressCurrent: number;
+  progressTarget: number;
+  perks: GameHUDPerk[];
+  verdict?: string;
+  accentColor?: string; // default colors.green
+};
+
+export type GameHUDSceneProps = GameHUDVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;

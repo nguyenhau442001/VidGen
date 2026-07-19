@@ -10,12 +10,6 @@ from vidgen.pipeline.shot_schema import manifest_shots, normalize_manifest_shots
 FPS = 30
 FRAME_PADDING = 10
 
-# Reading-speed ceiling for the on-screen caption, chars/sec with spaces
-# counted (standard subtitle guideline). Scene duration is clamped up so the
-# caption never leaves the screen before a viewer at this speed finishes it —
-# short TTS audio or an authored duration_frames can otherwise cut it early.
-MAX_CAPTION_CPS = 17
-
 MAX_DEAD_AIR_FRAMES = 30  # 1s @ 30fps
 
 # Shot ids follow "<scene>_<letter>" (e.g. "shot_01a", "shot_01b", "shot_01c"
@@ -74,6 +68,7 @@ TYPE_MAP = {
     "DeltaArrowScene": "delta_arrow",
     "DriverConsentScene": "driver_consent",
     "SystemLayerScene": "system_layer",
+    "GameHUDScene": "game_hud",
     "HSKHookScene": "hsk_hook",
     "HSKExplanationScene": "hsk_explanation",
     "HSKCTAScene": "hsk_cta",
@@ -93,6 +88,7 @@ TYPE_MAP = {
     "PreviewTeaserScene": "preview_teaser",
     "GoogleMapsRevealScene": "google_maps_reveal",
     "TrafficCinematicScene": "traffic_cinematic",
+    "MapDotToHumanShot": "map_dot_to_human",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,
@@ -225,7 +221,7 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
     return dict(props)
 
 
-def build_render_manifest(script: dict, audio_durations: dict, word_timings: dict | None = None) -> dict:
+def build_render_manifest(script: dict, audio_durations: dict) -> dict:
     fps = script.get("fps", FPS)
     shots = []
     for i, shot in enumerate(script_shots(script), start=1):
@@ -254,17 +250,6 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
         timing = shot.get("narration_timing_frames")
         if timing:
             audio_offset = timing[0]
-
-        # "on_screen_text" explicitly present (even "") means the author made a
-        # deliberate caption choice for this shot, including "no caption" —
-        # only fall back to narration when the key is absent entirely.
-        caption = shot["on_screen_text"] if "on_screen_text" in shot else (narration or "")
-        has_karaoke = bool((word_timings or {}).get(sid))
-        if caption and not has_karaoke:
-            # Karaoke word-highlight reveals text in sync with speech, so the
-            # static "whole block, read it in one glance" floor doesn't apply.
-            min_reading_frames = math.ceil(len(caption) / MAX_CAPTION_CPS * fps)
-            duration_frames = max(duration_frames, min_reading_frames)
 
         # Staggered voiceover lines (e.g. ScoreCardScene's per-row narration)
         # each got their own TTS pass in main.py, keyed "<id>_seg<i>" — surface
@@ -302,9 +287,6 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
                 "audioOffsetFrames": audio_offset,
                 "extraAudio": extra_audio,
                 "durationInFrames": duration_frames,
-                "caption": caption,
-                "captionStyle": shot.get("on_screen_text_style"),
-                "captionWords": (word_timings or {}).get(sid, []),
                 "visual": visual,
             }
         )
@@ -321,14 +303,13 @@ def build_render_manifest(script: dict, audio_durations: dict, word_timings: dic
 def detect_dead_air(
     script: dict, manifest: dict, audio_durations: dict, threshold_frames: int = MAX_DEAD_AIR_FRAMES
 ) -> list[dict]:
-    """Flags scenes where the manifest's final durationInFrames (post-tightening,
-    post-caption-clamp) runs threshold_frames or more past the last real audio
-    clip's end. Checked against actual synthesized audio rather than authored
-    frame math, so it catches trailing silence that a pre-TTS estimate can't:
-    narration_per_criterion scenes (kept at authored duration during tightening
-    in main.py) and any scene the caption-reading floor stretched back out
-    after tightening shrank it. Scenes with no audio at all are skipped — this
-    is about silence after speech, not scenes that are silent by design."""
+    """Flags scenes where the manifest's final durationInFrames (post-tightening)
+    runs threshold_frames or more past the last real audio clip's end. Checked
+    against actual synthesized audio rather than authored frame math, so it
+    catches trailing silence that a pre-TTS estimate can't: narration_per_criterion
+    scenes (kept at authored duration during tightening in main.py). Scenes with
+    no audio at all are skipped — this is about silence after speech, not scenes
+    that are silent by design."""
     # A continuous bed means a post-narration hold is sound design, not dead
     # air. Keep the narration-gap audit strict for voice-only videos.
     if manifest.get("soundtrack"):
