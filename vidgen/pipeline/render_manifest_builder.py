@@ -93,6 +93,7 @@ TYPE_MAP = {
     "TripleMetricOrbitShot": "triple_metric_orbit",
     "ProgressMemoryTrailShot": "progress_memory_trail",
     "DualClockRouteShot": "dual_clock_route",
+    "WeightedChoiceWorldShot": "weighted_choice_world",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

@@ -138,6 +138,7 @@ export type ManifestScene =
   | { type: "triple_metric_orbit"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TripleMetricOrbitVisual }
   | { type: "progress_memory_trail"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ProgressMemoryTrailVisual }
   | { type: "dual_clock_route"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DualClockRouteVisual }
+  | { type: "weighted_choice_world"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WeightedChoiceWorldVisual }
   | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
@@ -1301,6 +1302,15 @@ export type DualClockRouteVisual = {
 };
 
 export type DualClockRouteSceneProps = DualClockRouteVisual & { durationInFrames: number };
+
+export type WeightedChoiceWorldVisual = {
+  headline: string;
+  homeLabel: string; // "Tắt ứng dụng — về nhà"
+  progressLabel: string; // "Nhận đơn — giữ tiến độ & quyền lợi"
+  scaleTiltRatio: number; // 0-1, final tilt toward the progress side
+};
+
+export type WeightedChoiceWorldSceneProps = WeightedChoiceWorldVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;
