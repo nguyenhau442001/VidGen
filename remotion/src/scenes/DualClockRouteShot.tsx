@@ -27,7 +27,8 @@ export const DualClockRouteShot: React.FC<DualClockRouteSceneProps> = ({
   const minutesElapsed = Math.floor(interpolate(frame, [90, durationInFrames - 60], [0, 42], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
 
       {/* Single route line before split */}
@@ -110,6 +111,7 @@ export const DualClockRouteShot: React.FC<DualClockRouteSceneProps> = ({
       >
         {headline}
       </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

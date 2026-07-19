@@ -25,7 +25,8 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
       <SafeZone style={{ justifyContent: "center", flexDirection: "column" }}>
         <div
@@ -89,6 +90,7 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
           );
         })}
       </SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

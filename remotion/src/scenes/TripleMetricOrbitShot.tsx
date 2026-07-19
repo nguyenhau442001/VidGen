@@ -86,7 +86,8 @@ export const TripleMetricOrbitShot: React.FC<TripleMetricOrbitSceneProps> = ({
   const dangerColor = dangerRatio > 0.85 ? p2Colors.danger : dangerRatio > 0.6 ? p2Colors.warmHome : p2Colors.grab;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
       <SafeZone style={{ justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: 38, fontWeight: 800, textAlign: "center", color: p2Colors.textPrimary, opacity: headlineOpacity, marginBottom: 36 }}>
@@ -124,6 +125,7 @@ export const TripleMetricOrbitShot: React.FC<TripleMetricOrbitSceneProps> = ({
           {footer}
         </div>
       </SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

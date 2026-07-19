@@ -35,7 +35,8 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
   const rightPanX = Math.sin((tiltDeg * Math.PI) / 180) * BEAM_HALF_WIDTH;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       {/* Diagonal world split */}
       <div
         style={{
@@ -95,6 +96,7 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
           {headline}
         </div>
       </SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

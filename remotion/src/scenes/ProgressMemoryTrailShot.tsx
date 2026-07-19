@@ -25,7 +25,8 @@ export const ProgressMemoryTrailShot: React.FC<ProgressMemoryTrailSceneProps> = 
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
       <SafeZone style={{ justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: 40, fontWeight: 800, textAlign: "center", color: p2Colors.textPrimary, opacity: headlineOpacity, marginBottom: 48 }}>
@@ -60,6 +61,7 @@ export const ProgressMemoryTrailShot: React.FC<ProgressMemoryTrailSceneProps> = 
           {filledCells}/{totalCells}
         </div>
       </SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

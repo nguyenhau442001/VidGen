@@ -36,7 +36,8 @@ export const FalseCompletionShot: React.FC<FalseCompletionSceneProps> = ({
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       {/* Celebration phase */}
       <div style={{ position: "absolute", inset: 0, opacity: celebrationOpacity }}>
         {CONFETTI_POSITIONS.map((c, i) => {
@@ -96,6 +97,7 @@ export const FalseCompletionShot: React.FC<FalseCompletionSceneProps> = ({
           </div>
         </SafeZone>
       </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

@@ -42,7 +42,8 @@ export const ThesisTeaserShot: React.FC<ThesisTeaserSceneProps> = ({
   const perLineWindow = thesisEnd / thesisLines.length;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, opacity: exitOpacity, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
+      <AbsoluteFill style={{ opacity: exitOpacity }}>
       <SafeZone style={{ justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
         <div style={{ opacity: thesisOpacity, display: "flex", flexDirection: "column", gap: 18, alignItems: "center" }}>
           {thesisLines.map((line, i) => {
@@ -83,6 +84,7 @@ export const ThesisTeaserShot: React.FC<ThesisTeaserSceneProps> = ({
           </div>
         </div>
       </SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
