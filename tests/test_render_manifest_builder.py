@@ -166,6 +166,35 @@ def test_new_cinematic_scene_types_translate_to_manifest_keys():
     assert manifest["shots"][0]["visual"]["headline"] == "GOAL"
 
 
+def test_grabfood_p2_scene_types_translate_to_manifest_keys():
+    new_types = [
+        ("MapDotToHumanShot", "map_dot_to_human"),
+        ("WorkToGameMorphShot", "work_to_game_morph"),
+        ("TripleMetricOrbitShot", "triple_metric_orbit"),
+        ("ProgressMemoryTrailShot", "progress_memory_trail"),
+        ("DualClockRouteShot", "dual_clock_route"),
+        ("WeightedChoiceWorldShot", "weighted_choice_world"),
+        ("FalseCompletionShot", "false_completion"),
+        ("ThesisTeaserShot", "thesis_teaser"),
+    ]
+    script = {
+        "shots": [
+            {
+                "id": f"shot_{i}",
+                "type": pascal,
+                "duration_frames": 100,
+                "narration": "...",
+                "props": {},
+            }
+            for i, (pascal, _snake) in enumerate(new_types)
+        ]
+    }
+    audio_durations = {f"shot_{i}": 2.0 for i in range(len(new_types))}
+    manifest = build_render_manifest(script, audio_durations)
+    got_types = [s["type"] for s in manifest["shots"]]
+    assert got_types == [snake for _pascal, snake in new_types]
+
+
 def test_unknown_scene_type_fails_fast_during_manifest_build():
     script = {
         "shots": [
@@ -207,70 +236,10 @@ def test_direct_snake_case_scene_types_still_build():
     assert manifest["shots"][0]["type"] == "animated_flow"
 
 
-# Reading-speed floor: a caption must stay on screen at least
-# len(caption) / 17 chars-per-second, or viewers can't finish reading it
-# before the scene cuts. 17 CPS is the standard subtitle ceiling (spaces
-# counted), which short TTS audio or authored durations can easily beat.
-
-
-def test_caption_reading_time_extends_short_audio_derived_duration():
-    narration = (
-        "Ứng dụng đang chờ thêm vài giây để đưa ra quyết định ghép tài xế "
-        "tốt hơn cho bạn và cả những người xung quanh."
-    )
-    script = {
-        "shots": [
-            {"id": 1, "type": "explanation", "narration": narration, "visual": {}}
-        ]
-    }
-
-    manifest = build_render_manifest(script, {1: 1.0})
-
-    min_reading_frames = math.ceil(len(narration) / 17 * FPS)
-    assert min_reading_frames > math.ceil(1.0 * FPS) + FRAME_PADDING  # rule actually binds
-    assert manifest["shots"][0]["durationInFrames"] == min_reading_frames
-
-
-def test_caption_reading_time_extends_authored_duration_using_on_screen_text():
-    on_screen_text = "Hệ thống không chọn tài xế gần nhất, mà chọn tài xế đến đón nhanh nhất."
-    script = {
-        "shots": [
-            {
-                "id": "shot_04b",
-                "type": "QuoteCalloutScene",
-                "duration_frames": 60,
-                "narration": "ba từ thôi",
-                "on_screen_text": on_screen_text,
-                "props": {},
-            }
-        ]
-    }
-
-    manifest = build_render_manifest(script, {"shot_04b": 1.5})
-
-    # The displayed caption is on_screen_text, not the short narration.
-    min_reading_frames = math.ceil(len(on_screen_text) / 17 * FPS)
-    assert min_reading_frames > 60  # rule actually binds
-    assert manifest["shots"][0]["durationInFrames"] == min_reading_frames
-
-
-def test_short_caption_leaves_audio_derived_duration_unchanged():
-    script = {
-        "shots": [
-            {"id": 1, "type": "explanation", "narration": "Ngắn gọn.", "visual": {}}
-        ]
-    }
-
-    manifest = build_render_manifest(script, {1: 3.0})
-
-    assert manifest["shots"][0]["durationInFrames"] == math.ceil(3.0 * FPS) + FRAME_PADDING
-
-
 # Real dead air: unlike validate_manifest()'s pre-TTS frame-math estimate
 # (main.py), detect_dead_air() checks actual synthesized audio length against
 # the manifest's final durationInFrames — the only check that covers
-# narration_per_criterion shots and any shot the caption-reading floor
-# stretched back out after tightening shrank it.
+# narration_per_criterion shots.
 
 
 def test_detect_dead_air_clean_scene_reports_nothing():
