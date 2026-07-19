@@ -16,6 +16,7 @@ import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { CharacterIconCoverScene } from "./scenes/CharacterIconCoverScene";
 import { ThumbnailScene } from "./scenes/ThumbnailScene";
+import { GrabFoodP2ThumbnailScene } from "./scenes/GrabFoodP2ThumbnailScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
 import { ZoomRevealScene, FocalDot, DotField, calculateZoomRevealDuration } from "./scenes/ZoomRevealScene";
 import { SplitRevealScene, calculateSplitRevealDuration } from "./scenes/SplitRevealScene";
@@ -267,6 +268,22 @@ export const Root: React.FC = () => {
           accentWord: "biết trước",
           partLabel: "PHẦN 2 / 4",
           channelName: "Ủa là sao",
+        }}
+      />
+      <Composition
+        id="GrabFoodP2Thumbnail"
+        component={GrabFoodP2ThumbnailScene}
+        durationInFrames={1}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          seriesLabel: "GRABFOOD · PHẦN 2",
+          headline: "HAI LỰA CHỌN NÀY CÓ THỰC SỰ NGANG NHAU?",
+          targetCurrent: 9,
+          targetTotal: 10,
+          illustrativeLabel: "Tình huống minh họa",
+          channelName: "DevFaster",
         }}
       />
       <Composition

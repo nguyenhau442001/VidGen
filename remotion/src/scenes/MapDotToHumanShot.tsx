@@ -29,7 +29,10 @@ export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
   const phoneOpacity = interpolate(frame, [60, 95], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const notifSpring = spring({ frame: frame - 130, fps, config: { damping: 14, stiffness: 170 } });
-  const headlineOpacity = interpolate(frame, [durationInFrames - 110, durationInFrames - 80], [0, 1], {
+  // Headline follows the notification badge in (badge settles ~145f) rather
+  // than waiting for the shot's last ~30 frames — it needs to read as the
+  // shot's title, not a last-second flash before the cut.
+  const headlineOpacity = interpolate(frame, [145, 175], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

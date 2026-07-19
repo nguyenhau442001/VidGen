@@ -14,9 +14,10 @@ const MetricRing: React.FC<{
   valueLabel: string;
   ratio: number; // 0-1 fill
   color: string;
-  dangerTickRatio?: number; // 0-1 position of the "max" red tick, if this ring is danger-oriented
+  thresholdRatio?: number; // 0-1 position of the pass/fail line the driver must clear
+  thresholdTickColor?: string; // defaults to p2Colors.danger; the accept-rate ring uses a neutral tick instead
   enterAt: number;
-}> = ({ label, valueLabel, ratio, color, dangerTickRatio, enterAt }) => {
+}> = ({ label, valueLabel, ratio, color, thresholdRatio, thresholdTickColor, enterAt }) => {
   const frame = useCurrentFrame();
   const draw = interpolate(frame, [enterAt, enterAt + 40], [0, ratio], {
     extrapolateLeft: "clamp",
@@ -26,7 +27,8 @@ const MetricRing: React.FC<{
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const tickAngle = dangerTickRatio !== undefined ? dangerTickRatio * 360 - 90 : 0;
+  const tickAngle = thresholdRatio !== undefined ? thresholdRatio * 360 - 90 : 0;
+  const tickColor = thresholdTickColor ?? p2Colors.danger;
 
   return (
     <div style={{ position: "relative", width: 300, height: 300, opacity }}>
@@ -44,14 +46,15 @@ const MetricRing: React.FC<{
           strokeDashoffset={CIRCUMFERENCE * (1 - draw)}
           transform="rotate(-90 150 150)"
         />
-        {dangerTickRatio !== undefined && (
+        {thresholdRatio !== undefined && (
           <line
-            x1={150 + Math.cos((tickAngle * Math.PI) / 180) * (RING_RADIUS - 12)}
-            y1={150 + Math.sin((tickAngle * Math.PI) / 180) * (RING_RADIUS - 12)}
-            x2={150 + Math.cos((tickAngle * Math.PI) / 180) * (RING_RADIUS + 12)}
-            y2={150 + Math.sin((tickAngle * Math.PI) / 180) * (RING_RADIUS + 12)}
-            stroke={p2Colors.danger}
-            strokeWidth="4"
+            x1={150 + Math.cos((tickAngle * Math.PI) / 180) * (RING_RADIUS - 14)}
+            y1={150 + Math.sin((tickAngle * Math.PI) / 180) * (RING_RADIUS - 14)}
+            x2={150 + Math.cos((tickAngle * Math.PI) / 180) * (RING_RADIUS + 14)}
+            y2={150 + Math.sin((tickAngle * Math.PI) / 180) * (RING_RADIUS + 14)}
+            stroke={tickColor}
+            strokeWidth="5"
+            strokeLinecap="round"
           />
         )}
       </svg>
@@ -104,24 +107,43 @@ export const TripleMetricOrbitShot: React.FC<TripleMetricOrbitSceneProps> = ({
           />
           <div style={{ display: "flex", gap: 20 }}>
             <MetricRing
-              label={`TỶ LỆ NHẬN — TỐI THIỂU ${acceptanceRate.min}%`}
+              label={`TỶ LỆ NHẬN — NGƯỠNG ${acceptanceRate.min}%`}
               valueLabel={`${acceptanceRate.value}%`}
               ratio={acceptanceRate.value / 100}
               color={p2Colors.grab}
+              thresholdRatio={acceptanceRate.min / 100}
+              thresholdTickColor={p2Colors.textPrimary}
               enterAt={50}
             />
             <MetricRing
-              label={`TỶ LỆ HỦY — TỐI ĐA ${cancellationRate.max}%`}
+              label={`TỶ LỆ HỦY — NGƯỠNG ${cancellationRate.max}%`}
               valueLabel={`${cancellationRate.value}%`}
               ratio={cancellationRate.value / 100}
               color={dangerColor}
-              dangerTickRatio={cancellationRate.max / 100}
+              thresholdRatio={cancellationRate.max / 100}
               enterAt={80}
             />
           </div>
         </div>
 
-        <div style={{ position: "absolute", bottom: 60, fontSize: 15, color: p2Colors.textDim, opacity: footerOpacity, textAlign: "center" }}>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 56,
+            left: 60,
+            right: 60,
+            padding: "10px 18px",
+            borderRadius: 12,
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.14)",
+            fontSize: 17,
+            fontWeight: 600,
+            color: p2Colors.textPrimary,
+            opacity: footerOpacity,
+            textAlign: "center",
+            boxSizing: "border-box",
+          }}
+        >
           {footer}
         </div>
       </SafeZone>
