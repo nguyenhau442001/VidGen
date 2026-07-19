@@ -89,6 +89,7 @@ TYPE_MAP = {
     "GoogleMapsRevealScene": "google_maps_reveal",
     "TrafficCinematicScene": "traffic_cinematic",
     "MapDotToHumanShot": "map_dot_to_human",
+    "WorkToGameMorphShot": "work_to_game_morph",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

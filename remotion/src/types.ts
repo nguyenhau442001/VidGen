@@ -134,6 +134,7 @@ export type ManifestScene =
   | { type: "driver_consent"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DriverConsentVisual }
   | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SystemLayerVisual }
   | { type: "game_hud"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GameHUDVisual }
+  | { type: "work_to_game_morph"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WorkToGameMorphVisual }
   | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
@@ -1258,6 +1259,18 @@ export type GameHUDVisual = {
 };
 
 export type GameHUDSceneProps = GameHUDVisual & { durationInFrames: number };
+
+// Cinematic transition beat: a phone silhouette shrinks to make room for a
+// stack of "work vocabulary → game vocabulary" relabeling rows (e.g. "CHUYẾN
+// XE" -> "TIẾN ĐỘ"), each row flying in with a morphing arrow — the visual
+// payoff of the "job becomes a game" thesis. Built for
+// grabfood_driver_retention_matrix_p2 (uses that video's p2Colors palette).
+export type WorkToGameMorphVisual = {
+  headline: string;
+  transformations: Array<{ from: string; to: string }>; // e.g. [{from:"CHUYẾN XE", to:"TIẾN ĐỘ"}, {from:"THỨ HẠNG", to:"CẤP ĐỘ"}]
+};
+
+export type WorkToGameMorphSceneProps = WorkToGameMorphVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;
