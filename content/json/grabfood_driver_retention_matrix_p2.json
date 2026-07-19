@@ -1,0 +1,115 @@
+{
+  "video_id": "grabfood_driver_retention_matrix_p2",
+  "title": "GrabFood Phần 2 — Ma trận giữ chân tài xế",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01",
+      "type": "MapDotToHumanShot",
+      "duration_frames": 320,
+      "narration": "Ở phần trước, bạn thấy một chấm nhỏ chạy qua nhiều điểm dừng. Phía sau nó là một người thật — điện thoại sắp hết pin, anh chỉ muốn tắt ứng dụng để về. Nhưng màn hình sáng lên: chỉ còn một chuyến nữa.",
+      "props": {
+        "headline": "HAI LỰA CHỌN NÀY CÓ THỰC SỰ NGANG NHAU?",
+        "illustrativeLabel": "Tình huống minh họa",
+        "batteryPercent": 5,
+        "targetCurrent": 9,
+        "targetTotal": 10
+      },
+      "on_screen_text": "HAI LỰA CHỌN NÀY CÓ THỰC SỰ NGANG NHAU?"
+    },
+    {
+      "id": "shot_02",
+      "type": "WorkToGameMorphShot",
+      "duration_frames": 310,
+      "narration": "Đây vẫn là hệ thống quyền lợi và phần thưởng. Nhưng khi công việc chia thành điểm số, mục tiêu, thứ hạng, nó mang cấu trúc của một trò chơi. Chuyến xe trở thành tiến độ. Thứ hạng trở thành cấp độ.",
+      "props": {
+        "headline": "CÔNG VIỆC MANG CẤU TRÚC CỦA MỘT TRÒ CHƠI",
+        "transformations": [
+          { "from": "CHUYẾN XE", "to": "TIẾN ĐỘ" },
+          { "from": "THỨ HẠNG", "to": "CẤP ĐỘ" }
+        ]
+      },
+      "on_screen_text": "CHUYẾN XE → TIẾN ĐỘ / THỨ HẠNG → CẤP ĐỘ"
+    },
+    {
+      "id": "shot_03",
+      "type": "TripleMetricOrbitShot",
+      "duration_frames": 290,
+      "narration": "Số chuyến chỉ là lớp đầu. GrabBenefits còn gắn điều kiện thưởng với tỷ lệ nhận và tỷ lệ hủy chuyến trong tháng. Không chỉ chạy nhiều — còn phải nhận đủ, và không được hủy quá nhiều.",
+      "props": {
+        "headline": "BA CON SỐ. CÙNG ĐẾM MỘT THÁNG LÀM VIỆC.",
+        "trips": { "current": 9, "target": 10 },
+        "acceptanceRate": { "value": 92, "min": 90 },
+        "cancellationRate": { "value": 7, "max": 8 },
+        "footer": "GrabBenefits — chính sách áp dụng từ tháng 5/2026"
+      },
+      "on_screen_text": "BA CON SỐ. CÙNG ĐẾM MỘT THÁNG LÀM VIỆC."
+    },
+    {
+      "id": "shot_04",
+      "type": "ProgressMemoryTrailShot",
+      "duration_frames": 360,
+      "narration": "Ở chuyến đầu, dừng lại không khó. Nhưng khi thanh tiến trình gần đầy, dừng lại giống như bỏ lại toàn bộ những giờ đã chạy. Mục tiêu giữ tài xế không chỉ bằng phần thưởng phía trước — mà bằng công sức đã nằm lại phía sau.",
+      "props": {
+        "headline": "9/10 KHÔNG CHỈ LÀ TIẾN ĐỘ.",
+        "totalCells": 10,
+        "filledCells": 9
+      },
+      "on_screen_text": "9/10 KHÔNG CHỈ LÀ TIẾN ĐỘ."
+    },
+    {
+      "id": "shot_05",
+      "type": "DualClockRouteShot",
+      "duration_frames": 380,
+      "narration": "Đây là nơi phần một nối vào phần hai. Mỗi đơn trong chuyến ghép GrabFood được tính thành một chuyến riêng khi xét tiến độ. Khách hàng thấy nhiều điểm dừng. Tài xế thấy thanh tiến trình tăng thêm bước. Cùng một tuyến đường — hai chiếc đồng hồ khác nhau.",
+      "props": {
+        "headline": "KHÁCH HÀNG ĐẾM PHÚT. TÀI XẾ ĐẾM TIẾN ĐỘ.",
+        "customerLabel": "Tài xế đang giao một đơn hàng khác",
+        "driverLabel": "+1  +1  +1",
+        "stopCount": 3
+      },
+      "on_screen_text": "KHÁCH HÀNG ĐẾM PHÚT. / TÀI XẾ ĐẾM TIẾN ĐỘ."
+    },
+    {
+      "id": "shot_06",
+      "type": "WeightedChoiceWorldShot",
+      "duration_frames": 510,
+      "narration": "Trò chơi không kết thúc sau tối nay — thành tích cộng dồn cả tháng, thứ hạng quyết định quyền lợi tháng sau. Không ai lấy mất quyền lựa chọn của tài xế. Nhưng một bên là về nhà, bên kia là tiến độ gần hoàn thành và quyền lợi đã quen dùng. Quyền lựa chọn vẫn còn — chỉ là hai lựa chọn không còn cùng trọng lượng.",
+      "props": {
+        "headline": "QUYỀN LỰA CHỌN VẪN CÒN. TRỌNG LƯỢNG THÌ KHÔNG.",
+        "homeLabel": "Tắt ứng dụng — về nhà",
+        "progressLabel": "Nhận đơn — giữ tiến độ & quyền lợi",
+        "scaleTiltRatio": 0.78
+      },
+      "on_screen_text": "QUYỀN LỰA CHỌN VẪN CÒN. / TRỌNG LƯỢNG THÌ KHÔNG CÒN BẰNG NHAU."
+    },
+    {
+      "id": "shot_07",
+      "type": "FalseCompletionShot",
+      "duration_frames": 180,
+      "narration": "Mục tiêu hoàn thành, hiệu ứng ăn mừng hiện lên. Nhưng hiệu ứng vừa tắt, anh vẫn còn phải tự chạy về nhà.",
+      "props": {
+        "completedLabel": "ỨNG DỤNG: HOÀN THÀNH",
+        "driverStatusLabel": "NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ"
+      },
+      "on_screen_text": "ỨNG DỤNG: HOÀN THÀNH / NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ"
+    },
+    {
+      "id": "shot_08",
+      "type": "ThesisTeaserShot",
+      "duration_frames": 400,
+      "narration": "Grab không biến tài xế thành người chơi. Nó biến công việc của họ thành một trò chơi, nơi phần thưởng luôn cách điểm dừng đúng một mục tiêu nữa. Nhưng vẫn còn một người khác trong đơn hàng này. Khi khách được giảm giá, ai đang thực sự trả phần còn lại?",
+      "props": {
+        "thesisLines": [
+          "GRAB KHÔNG BIẾN TÀI XẾ THÀNH NGƯỜI CHƠI.",
+          "NÓ BIẾN CÔNG VIỆC CỦA HỌ THÀNH MỘT TRÒ CHƠI.",
+          "PHẦN THƯỞNG LUÔN CÁCH ĐIỂM DỪNG MỘT MỤC TIÊU NỮA."
+        ],
+        "teaserEyebrow": "PHẦN 3",
+        "teaserQuestion": "AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?"
+      },
+      "on_screen_text": "PHẦN 3 — AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?"
+    }
+  ]
+}
