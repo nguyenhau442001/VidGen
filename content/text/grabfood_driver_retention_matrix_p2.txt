@@ -1,0 +1,219 @@
+# GRABFOOD PHẦN 2
+
+## MA TRẬN GIỮ CHÂN TÀI XẾ
+
+**Ghi chú sản xuất — không đọc:**
+
+Đây là bản dựng rút gọn có chủ đích từ bản nháp gốc 15 cảnh, đã thống nhất với người dùng để đạt thời lượng mục tiêu ≈1:30. Chỉ giữ lại 8 cảnh cốt lõi; phần nội dung về chi phí đơn hàng ba bên được dời sang teaser Phần 3 ở cuối cảnh 8. Theme hình ảnh tối, điện ảnh, áp dụng cục bộ cho riêng video này — không phải theme sáng mặc định của kênh.
+
+### Thesis
+
+“Grab không biến tài xế thành người chơi.
+
+Nó biến công việc của họ thành một trò chơi — nơi phần thưởng luôn nằm cách điểm dừng đúng một mục tiêu nữa.”
+
+---
+
+## Cảnh 1 — map_dot_to_human
+
+**Hình ảnh:**
+
+Chấm tài xế trên bản đồ phóng lớn, nhòe dần và biến thành một người thật đứng dừng xe bên đường trong đêm. Máy quay đẩy chậm vào màn hình điện thoại: pin gần cạn, tay anh chuẩn bị chạm nút tắt ứng dụng. Điện thoại rung, màn hình sáng lên với thông báo "9/10" kèm nhãn nhỏ "Tình huống minh họa" để rõ đây là số liệu minh họa, không phải ngưỡng chính thức.
+
+**Voice-over:**
+
+“Ở phần trước, bạn thấy một chấm nhỏ chạy qua nhiều điểm dừng. Phía sau nó là một người thật — điện thoại sắp hết pin, anh chỉ muốn tắt ứng dụng để về. Nhưng màn hình sáng lên: chỉ còn một chuyến nữa.”
+
+**Chữ trên màn hình:**
+
+**HAI LỰA CHỌN NÀY CÓ THỰC SỰ NGANG NHAU?**
+
+Nhãn nhỏ trên badge 9/10: *Tình huống minh họa*
+
+**Âm thanh:**
+
+Nền ambient tối, nhịp tim chậm khe khẽ. Tiếng rung điện thoại nổi bật giữa tĩnh lặng, tiếp theo một tiếng "tách" thông báo lạnh, sắc.
+
+**Chuyển cảnh:**
+
+Match cut từ chấm bản đồ sang khung hình phone UI — camera tiếp tục đẩy vào để mở sang cảnh 2.
+
+---
+
+## Cảnh 2 — work_to_game_morph
+
+**Hình ảnh:**
+
+Các thành phần trên màn hình tài xế (chuyến xe, điểm tiến độ, mốc thưởng, thứ hạng) tách ra và ghép lại thành một bàn chơi kiểu game HUD. Icon khóa mờ dần mở ra thành icon mở khóa khi từng lớp khớp vào vị trí, nhấn mạnh cảm giác "mở khóa cấp độ".
+
+**Voice-over:**
+
+“Đây vẫn là hệ thống quyền lợi và phần thưởng. Nhưng khi công việc chia thành điểm số, mục tiêu, thứ hạng, nó mang cấu trúc của một trò chơi. Chuyến xe trở thành tiến độ. Thứ hạng trở thành cấp độ.”
+
+**Chữ trên màn hình:**
+
+**CHUYẾN XE → TIẾN ĐỘ**
+**THỨ HẠNG → CẤP ĐỘ**
+
+**Âm thanh:**
+
+Tiếng lắp ghép cơ khí nhẹ mỗi khi một khối HUD khớp vào đúng vị trí, lớp synth nền tối tăng dần cường độ.
+
+**Chuyển cảnh:**
+
+Các khối HUD thu nhỏ lại thành ba đồng hồ số liệu, kéo mắt người xem sang cảnh 3.
+
+---
+
+## Cảnh 3 — triple_metric_orbit
+
+**Hình ảnh:**
+
+Thanh 9/10 chuyến thu nhỏ và trôi sang một bên. Hai đồng hồ số liệu khác — tỷ lệ nhận chuyến, tỷ lệ hủy chuyến — xuất hiện quay quanh nó như quỹ đạo. Đồng hồ tỷ lệ hủy được tô đỏ dần khi kim tiến gần vạch giới hạn, thể hiện rõ "gần giới hạn = nguy hiểm hơn" chứ không phải "vạch cao = tốt hơn".
+
+**Voice-over:**
+
+“Số chuyến chỉ là lớp đầu. GrabBenefits còn gắn điều kiện thưởng với tỷ lệ nhận và tỷ lệ hủy chuyến trong tháng. Không chỉ chạy nhiều — còn phải nhận đủ, và không được hủy quá nhiều.”
+
+**Chữ trên màn hình:**
+
+**BA CON SỐ. CÙNG ĐẾM MỘT THÁNG LÀM VIỆC.**
+
+Footer nhỏ: *GrabBenefits — chính sách áp dụng từ 5/2026*
+
+**Âm thanh:**
+
+Ba lớp tick-tick đồng hồ lệch nhịp nhau, tạo cảm giác dồn dập nhẹ; một tiếng cảnh báo trầm khi đồng hồ hủy chuyến tiến sát vạch đỏ.
+
+**Chuyển cảnh:**
+
+Ba đồng hồ mờ dần, nhường chỗ cho một đơn hàng mới xuất hiện ở cảnh 4.
+
+---
+
+## Cảnh 4 — progress_memory_trail
+
+**Hình ảnh:**
+
+Thanh tiến trình chạy từ chuyến đầu tiên đến gần đầy, mỗi ô sáng lên chứa một mảnh ký ức nhỏ của ca làm (nắng, mưa, chờ món). Khi thanh gần chạm mốc cuối, các ô phía sau kéo dài thành những sợi dây mờ nối ngược về phía tài xế, như thể giữ anh lại.
+
+**Voice-over:**
+
+“Ở chuyến đầu, dừng lại không khó. Nhưng khi thanh tiến trình gần đầy, dừng lại giống như bỏ lại toàn bộ những giờ đã chạy. Mục tiêu giữ tài xế không chỉ bằng phần thưởng phía trước — mà bằng công sức đã nằm lại phía sau.”
+
+**Chữ trên màn hình:**
+
+**9/10 KHÔNG CHỈ LÀ TIẾN ĐỘ.**
+
+**Âm thanh:**
+
+Nhạc nền kéo dài một nốt trầm, tiếng bước chân mệt mỏi vọng lại nhẹ ở nửa sau cảnh.
+
+**Chuyển cảnh:**
+
+Sợi dây ký ức kéo căng rồi bung thành hai chiếc đồng hồ ở cảnh 5.
+
+---
+
+## Cảnh 5 — dual_clock_route
+
+**Hình ảnh:**
+
+Màn hình chia đôi: bên khách hàng thấy tài xế đi qua nhiều điểm dừng với dòng trạng thái "đang giao đơn khác"; bên tài xế thấy thanh tiến trình cộng thêm từng bước một. Hai chiếc đồng hồ minh họa — một đếm phút, một đếm tiến độ — chạy lệch tốc độ nhau.
+
+**Voice-over:**
+
+“Đây là nơi phần một nối vào phần hai. Mỗi đơn trong chuyến ghép GrabFood được tính thành một chuyến riêng khi xét tiến độ. Khách hàng thấy nhiều điểm dừng. Tài xế thấy thanh tiến trình tăng thêm bước. Cùng một tuyến đường — hai chiếc đồng hồ khác nhau.”
+
+**Chữ trên màn hình:**
+
+**KHÁCH HÀNG ĐẾM PHÚT.**
+**TÀI XẾ ĐẾM TIẾN ĐỘ.**
+
+**Âm thanh:**
+
+Hai nhịp tick lệch pha rõ rệt ở hai bên loa stereo, hòa vào tiếng còi xe đường phố xa xăm.
+
+**Chuyển cảnh:**
+
+Màn hình chia đôi thu lại thành một khung duy nhất, mở sang cán cân lựa chọn ở cảnh 6.
+
+---
+
+## Cảnh 6 — weighted_choice_world
+
+**Hình ảnh:**
+
+Tài xế đứng giữa hai nút: tắt ứng dụng và nhận đơn tiếp. Một bên hiện hình ngôi nhà ấm áp mờ dần, bên kia hiện toàn bộ tiến độ tháng, tỷ lệ, và các quyền lợi đã quen dùng treo lơ lửng nặng nề. Cán cân hai bên nghiêng rõ rệt dù cả hai nút đều sáng, có thể bấm.
+
+**Voice-over:**
+
+“Trò chơi không kết thúc sau tối nay — thành tích cộng dồn cả tháng, thứ hạng quyết định quyền lợi tháng sau. Không ai lấy mất quyền lựa chọn của tài xế. Nhưng một bên là về nhà, bên kia là tiến độ gần hoàn thành và quyền lợi đã quen dùng. Quyền lựa chọn vẫn còn — chỉ là hai lựa chọn không còn cùng trọng lượng.”
+
+**Chữ trên màn hình:**
+
+**QUYỀN LỰA CHỌN VẪN CÒN.**
+**TRỌNG LƯỢNG THÌ KHÔNG CÒN BẰNG NHAU.**
+
+**Âm thanh:**
+
+Nhạc nền căng dần, tiếng cán cân kẽo kẹt nhẹ khi hình ảnh nghiêng về phía tiến độ.
+
+**Chuyển cảnh:**
+
+Nút "nhận đơn" sáng lên và nuốt khung hình, dẫn sang hiệu ứng ăn mừng ở cảnh 7.
+
+---
+
+## Cảnh 7 — false_completion
+
+**Hình ảnh:**
+
+Tài xế giao xong đơn cuối, màn hình bật chữ "MỤC TIÊU HOÀN THÀNH" cùng hiệu ứng confetti rực rỡ trong vài giây. Hiệu ứng tắt đột ngột, ánh sáng nguội lại, để lộ tài xế đứng một mình giữa con đường xa lạ với bản đồ quãng đường về nhà còn rất dài.
+
+**Voice-over:**
+
+“Mục tiêu hoàn thành, hiệu ứng ăn mừng hiện lên. Nhưng hiệu ứng vừa tắt, anh vẫn còn phải tự chạy về nhà.”
+
+**Chữ trên màn hình:**
+
+**ỨNG DỤNG: HOÀN THÀNH**
+**NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ**
+
+**Âm thanh:**
+
+Tiếng confetti/fanfare ngắn, giòn, cắt đột ngột thành im lặng gần như tuyệt đối, chỉ còn tiếng gió đêm.
+
+**Chuyển cảnh:**
+
+Im lặng kéo dài một nhịp trước khi toàn bộ ma trận hiện ra bao quanh tài xế ở cảnh 8.
+
+---
+
+## Cảnh 8 — thesis_teaser
+
+**Hình ảnh:**
+
+Tài xế đứng giữa toàn bộ ma trận thu nhỏ (đơn hàng, chuyến ghép, thứ hạng, quyền lợi) rồi các lớp giao diện lần lượt biến mất, chỉ còn người tài xế thật chạy trên đường về nhà. Sau câu chữ kết, cắt sang một đơn hàng với hóa đơn "GIẢM 50%" bị đóng dấu, dấu hỏi lớn hiện phía sau để mở teaser Phần 3.
+
+**Voice-over:**
+
+“Grab không biến tài xế thành người chơi. Nó biến công việc của họ thành một trò chơi, nơi phần thưởng luôn cách điểm dừng đúng một mục tiêu nữa. Nhưng vẫn còn một người khác trong đơn hàng này. Khi khách được giảm giá, ai đang thực sự trả phần còn lại?”
+
+**Chữ trên màn hình:**
+
+**MỘT MỤC TIÊU NỮA — LUÔN LUÔN.**
+
+Sau một nhịp, 8-12 khung hình đen, rồi:
+
+**PHẦN 3 — AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?**
+
+**Âm thanh:**
+
+Nhạc nền tối dần về một nốt đơn độc trong câu kết, sau đó cắt phẳng sang tĩnh lặng đen; một tiếng "tách" thông báo mới bật lên đúng lúc dòng teaser Phần 3 xuất hiện.
+
+**Chuyển cảnh:**
+
+Fade to black sau dòng teaser — kết thúc video.
+
+---
