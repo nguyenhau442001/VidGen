@@ -90,6 +90,7 @@ TYPE_MAP = {
     "TrafficCinematicScene": "traffic_cinematic",
     "MapDotToHumanShot": "map_dot_to_human",
     "WorkToGameMorphShot": "work_to_game_morph",
+    "TripleMetricOrbitShot": "triple_metric_orbit",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

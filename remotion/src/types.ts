@@ -135,6 +135,7 @@ export type ManifestScene =
   | { type: "system_layer"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SystemLayerVisual }
   | { type: "game_hud"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GameHUDVisual }
   | { type: "work_to_game_morph"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WorkToGameMorphVisual }
+  | { type: "triple_metric_orbit"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TripleMetricOrbitVisual }
   | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
@@ -1271,6 +1272,16 @@ export type WorkToGameMorphVisual = {
 };
 
 export type WorkToGameMorphSceneProps = WorkToGameMorphVisual & { durationInFrames: number };
+
+export type TripleMetricOrbitVisual = {
+  headline: string;
+  trips: { current: number; target: number };
+  acceptanceRate: { value: number; min: number }; // percent, e.g. value:92, min:90
+  cancellationRate: { value: number; max: number }; // percent, e.g. value:7, max:8 -- closer to max = more danger
+  footer: string;
+};
+
+export type TripleMetricOrbitSceneProps = TripleMetricOrbitVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;

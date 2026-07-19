@@ -69,6 +69,7 @@ import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { MapDotToHumanShot } from "./scenes/MapDotToHumanShot";
 import { WorkToGameMorphShot } from "./scenes/WorkToGameMorphShot";
+import { TripleMetricOrbitShot } from "./scenes/TripleMetricOrbitShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -303,6 +304,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <MapDotToHumanShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "work_to_game_morph":
       return <WorkToGameMorphShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "triple_metric_orbit":
+      return <TripleMetricOrbitShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }
