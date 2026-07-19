@@ -94,6 +94,8 @@ TYPE_MAP = {
     "ProgressMemoryTrailShot": "progress_memory_trail",
     "DualClockRouteShot": "dual_clock_route",
     "WeightedChoiceWorldShot": "weighted_choice_world",
+    "FalseCompletionShot": "false_completion",
+    "ThesisTeaserShot": "thesis_teaser",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

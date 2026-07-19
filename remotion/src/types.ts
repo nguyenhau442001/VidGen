@@ -139,6 +139,8 @@ export type ManifestScene =
   | { type: "progress_memory_trail"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ProgressMemoryTrailVisual }
   | { type: "dual_clock_route"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DualClockRouteVisual }
   | { type: "weighted_choice_world"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WeightedChoiceWorldVisual }
+  | { type: "false_completion"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: FalseCompletionVisual }
+  | { type: "thesis_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ThesisTeaserVisual }
   | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
   | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
@@ -1311,6 +1313,21 @@ export type WeightedChoiceWorldVisual = {
 };
 
 export type WeightedChoiceWorldSceneProps = WeightedChoiceWorldVisual & { durationInFrames: number };
+
+export type FalseCompletionVisual = {
+  completedLabel: string; // "ỨNG DỤNG: HOÀN THÀNH"
+  driverStatusLabel: string; // "NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ"
+};
+
+export type FalseCompletionSceneProps = FalseCompletionVisual & { durationInFrames: number };
+
+export type ThesisTeaserVisual = {
+  thesisLines: string[]; // each line shown as its own beat
+  teaserEyebrow: string; // "PHẦN 3"
+  teaserQuestion: string; // "AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?"
+};
+
+export type ThesisTeaserSceneProps = ThesisTeaserVisual & { durationInFrames: number };
 
 export type GenericHookThumbnailVisual = {
   headline: string;

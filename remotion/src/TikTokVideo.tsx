@@ -73,6 +73,8 @@ import { TripleMetricOrbitShot } from "./scenes/TripleMetricOrbitShot";
 import { ProgressMemoryTrailShot } from "./scenes/ProgressMemoryTrailShot";
 import { DualClockRouteShot } from "./scenes/DualClockRouteShot";
 import { WeightedChoiceWorldShot } from "./scenes/WeightedChoiceWorldShot";
+import { FalseCompletionShot } from "./scenes/FalseCompletionShot";
+import { ThesisTeaserShot } from "./scenes/ThesisTeaserShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -315,6 +317,10 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <DualClockRouteShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "weighted_choice_world":
       return <WeightedChoiceWorldShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "false_completion":
+      return <FalseCompletionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "thesis_teaser":
+      return <ThesisTeaserShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }
