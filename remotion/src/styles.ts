@@ -88,18 +88,14 @@ export const SAFE_ZONE = {
   right: 154, // 130 icon-column + 24
 } as const;
 
-// Caption.tsx's pill is bottom-anchored at SAFE_ZONE.bottom and grows
-// upward with narration length — this project's longer Vietnamese captions
-// commonly wrap to 5-6 lines. Scenes with tall bottom content (node graphs,
-// signal diagrams, multi-row panels) must keep their lowest element's
-// bottom edge above this line (in the 1080x1920 composition) so it can
-// never land under the caption, not just clear of SAFE_ZONE.bottom's
-// TikTok-UI margin (which only guarantees room for a one-line caption).
+// Legacy bottom-safe-zone line, from the era when a global on-screen caption
+// pill was bottom-anchored at SAFE_ZONE.bottom (captions are no longer
+// rendered). Scenes with tall bottom content still use this as a stricter
+// clearance line than SAFE_ZONE.bottom alone.
 export const CAPTION_CLEAR_Y = 1216;
 
-// Bottom offset for short scene-owned labels/headlines that intentionally sit
-// just above the global Caption pill. The default two-line caption is about
-// 112px tall; this leaves another ~68px between the two text blocks.
+// Bottom offset for short scene-owned labels/headlines that want more
+// clearance than SAFE_ZONE.bottom alone provides.
 export const ABOVE_CAPTION_BOTTOM = SAFE_ZONE.bottom + 180;
 
 export const type = {

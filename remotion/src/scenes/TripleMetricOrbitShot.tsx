@@ -72,10 +72,12 @@ export const TripleMetricOrbitShot: React.FC<TripleMetricOrbitSceneProps> = ({
   acceptanceRate,
   cancellationRate,
   footer,
+  showHelmetVisorFrame,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const visorOpacity = interpolate(frame, [0, 25], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const footerOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 30], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -92,6 +94,22 @@ export const TripleMetricOrbitShot: React.FC<TripleMetricOrbitSceneProps> = ({
     <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
+      {showHelmetVisorFrame && (
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 1080 1920"
+          style={{ position: "absolute", inset: 0, opacity: visorOpacity, pointerEvents: "none" }}
+        >
+          {/* Helmet-visor arc — a curved dark band across the top with a
+              faint glass-sheen highlight, framing the metrics as a
+              reflection the driver sees while riding rather than a
+              free-floating dashboard. */}
+          <path d="M -40 260 Q 540 40 1120 260 L 1120 -40 L -40 -40 Z" fill={p2Colors.bgDeep} opacity={0.9} />
+          <path d="M -40 260 Q 540 40 1120 260" stroke={p2Colors.textDim} strokeWidth="4" fill="none" opacity={0.5} />
+          <path d="M 120 190 Q 540 60 960 190" stroke="rgba(255,255,255,0.25)" strokeWidth="10" fill="none" strokeLinecap="round" />
+        </svg>
+      )}
       <SafeZone style={{ justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
         <div style={{ fontSize: 38, fontWeight: 800, textAlign: "center", color: p2Colors.textPrimary, opacity: headlineOpacity, marginBottom: 36 }}>
           {headline}

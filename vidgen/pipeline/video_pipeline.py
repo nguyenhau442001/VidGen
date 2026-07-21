@@ -5,7 +5,6 @@ import os
 import shutil
 import socket
 import subprocess
-import sys
 import time
 import wave
 import webbrowser
@@ -13,7 +12,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from time import time as now
 
-from vidgen.audio.karaoke_aligner import align_words
 from vidgen.audio.speech_synthesizer import (
     DEFAULT_VIENEU_VOICE,
     fit_wav_to_duration,
@@ -29,14 +27,10 @@ from vidgen.pipeline.render_manifest_builder import (
     write_render_manifest,
 )
 
-# ── GATE IMPORTS ─────────────────────────────────────────────────────────────
 from vidgen.pipeline.script_resolver import resolve_script
 from vidgen.pipeline.script_validator import validate_manifest
 from vidgen.pipeline.shot_schema import script_shots
-from vidgen.quality.rendered_video_audit import gate2_assert
 from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
-from vidgen.quality.script_quality_gate import gate1_assert, format_report as gate1_report
-# ─────────────────────────────────────────────────────────────────────────────
 
 WAV_DIR = "output/audio/wav"
 REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
@@ -45,71 +39,11 @@ BEATMAP_PATH = "output/beatmap.json"
 VIDEO_OUT_DIR = "remotion/out"
 STUDIO_PORT = 3000
 
-MAX_GATE1_RETRIES = 3    # abort pipeline after this many Gate 1 failures
-MAX_GATE2_CYCLES = 2     # abort pipeline after this many Gate 2 fix cycles
-
 
 def _port_open(port: int) -> bool:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.settimeout(1)
         return s.connect_ex(("localhost", port)) == 0
-
-
-# ── GATE 1 HELPER ────────────────────────────────────────────────────────────
-def _run_gate1(script: dict, script_path: str) -> None:
-    """Run Gate 1. Exits the process with a clear message if score fails.
-    No auto-rewrite (no Claude API) — user fixes the JSON manually."""
-    print("\n── Gate 1: Content Quality ──────────────────────────")
-    attempt = 0
-    while True:
-        try:
-            audit = gate1_assert(script)
-            print(gate1_report(audit))
-            break
-        except ValueError as e:
-            attempt += 1
-            print(e)
-            if attempt >= MAX_GATE1_RETRIES:
-                print(
-                    f"\n[Gate 1] Script at '{script_path}' failed {attempt} time(s).\n"
-                    "Fix the JSON manually and re-run the pipeline."
-                )
-                sys.exit(1)
-            # No auto-rewrite — just fail fast so user can edit
-            sys.exit(1)
-    print()
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-# ── GATE 2 HELPER ────────────────────────────────────────────────────────────
-def _run_gate2(video_output: str) -> None:
-    """Run Gate 2. Exits the process with a clear message if visual checks fail.
-    No auto-re-render cycle (would need user to know which JSON props to fix).
-    """
-    print("\n── Gate 2: Visual Quality ───────────────────────────")
-    for cycle in range(1, MAX_GATE2_CYCLES + 1):
-        try:
-            result = gate2_assert(video_output)
-            print(result["report"])
-            break
-        except (FileNotFoundError, RuntimeError, EnvironmentError) as e:
-            # Hard infrastructure failures — no point retrying
-            print(f"[Gate 2] Infrastructure error: {e}")
-            sys.exit(1)
-        except ValueError as e:
-            print(e)
-            if cycle >= MAX_GATE2_CYCLES:
-                print(
-                    f"\n[Gate 2] Video '{video_output}' failed visual checks after "
-                    f"{cycle} inspection(s).\n"
-                    "Inspect the frame issues above, fix the scene JSON, and re-run."
-                )
-                sys.exit(1)
-            # Future: could trigger a targeted re-render here.
-            # For now, exit so the user can act on the specific issues.
-            sys.exit(1)
-    print()
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 def main():
@@ -119,16 +53,6 @@ def main():
         "--skip-validation",
         action="store_true",
         help="Skip pre-render manifest validation (emergency use only)",
-    )
-    parser.add_argument(
-        "--skip-gate1",
-        action="store_true",
-        help="Skip Gate 1 content quality check (emergency use only)",
-    )
-    parser.add_argument(
-        "--skip-gate2",
-        action="store_true",
-        help="Skip Gate 2 visual quality check (emergency use only)",
     )
     parser.add_argument(
         "--speed",
@@ -167,11 +91,6 @@ def main():
         default=-15.0,
         help="Normalize every voiceover clip to this RMS level in dBFS (soft-limited)",
     )
-    parser.add_argument(
-        "--no-karaoke",
-        action="store_true",
-        help="Skip word-level forced alignment (karaoke caption highlighting)",
-    )
     args = parser.parse_args()
 
     with open(args.script, encoding="utf-8") as f:
@@ -187,13 +106,6 @@ def main():
     shots = script_shots(script)
     if shots and shots[0]["type"] == "HSKFlashCardThumbnailScene":
         script["shots"] = shots[1:]
-
-    # ── GATE 1: Content quality — runs before any TTS or render work ─────────
-    if not args.skip_gate1:
-        _run_gate1(script, args.script)
-    else:
-        print("[Gate 1] SKIPPED (--skip-gate1 flag set)")
-    # ─────────────────────────────────────────────────────────────────────────
 
     if not args.skip_validation:
         validate_manifest(script)
@@ -330,29 +242,13 @@ def main():
                 print(f"{sid}: duration {shot['duration_frames']} -> {tightened} frames")
                 shot["duration_frames"] = tightened
 
-    # --- Word-level alignment for karaoke caption highlighting ---
-    word_timings: dict = {}
-    if not args.no_karaoke:
-        fps = script.get("fps", 30)
-        for shot in script_shots(script):
-            sid = shot["id"]
-            narration = shot.get("narration")
-            if not narration or sid not in audio_durations:
-                continue
-            wav_path = f"{WAV_DIR}/{wav_filename(sid)}"
-            offset = (shot.get("narration_timing_frames") or [0])[0]
-            timings = align_words(wav_path, narration, fps=fps, frame_offset=offset)
-            if timings:
-                word_timings[sid] = timings
-                print(f"[karaoke_align] {sid}: {len(timings)} words aligned")
-
     # --- Copy audio to Remotion public/ ---
     audio_ids = [job["id"] for job in tts_jobs]
     copy_audio_to_remotion_public(audio_ids, WAV_DIR, REMOTION_PUBLIC_AUDIO)
     print(f"Copied {len(audio_ids)} WAV file(s) to {REMOTION_PUBLIC_AUDIO}/")
 
     # --- Write render manifest ---
-    manifest = build_render_manifest(script, audio_durations, word_timings=word_timings)
+    manifest = build_render_manifest(script, audio_durations)
     write_render_manifest(manifest, MANIFEST_PATH)
     print(f"Render manifest written to {MANIFEST_PATH}")
 
@@ -384,13 +280,6 @@ def main():
 
     render_video_chunked(manifest, video_output)
     print(f"Video rendered to {video_output}")
-
-    # ── GATE 2: Visual quality — runs after render, before Studio launch ─────
-    if not args.skip_gate2:
-        _run_gate2(video_output)
-    else:
-        print("[Gate 2] SKIPPED (--skip-gate2 flag set)")
-    # ─────────────────────────────────────────────────────────────────────────
 
     try:
         from vidgen.presentation.thumbnail_renderer import generate_thumbnail

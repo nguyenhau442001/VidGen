@@ -4,7 +4,7 @@
 
 **Ghi chú sản xuất — không đọc:**
 
-Đây là bản dựng rút gọn có chủ đích từ bản nháp gốc 15 cảnh, đã thống nhất với người dùng để đạt thời lượng mục tiêu ≈1:30. Chỉ giữ lại 8 cảnh cốt lõi; phần nội dung về chi phí đơn hàng ba bên được dời sang teaser Phần 3 ở cuối cảnh 8. Theme hình ảnh tối, điện ảnh, áp dụng cục bộ cho riêng video này — không phải theme sáng mặc định của kênh.
+Đây là bản dựng rút gọn có chủ đích từ bản nháp gốc 15 cảnh, đã thống nhất với người dùng để đạt thời lượng mục tiêu ≈1:30-2:10. Giữ lại 9 cảnh: 8 cảnh cốt lõi (map_dot_to_human → thesis) cộng một cảnh 9 tách riêng làm teaser Phần 3 (chi phí đơn hàng ba bên). Theme hình ảnh tối, điện ảnh, áp dụng cục bộ cho riêng video này — không phải theme sáng mặc định của kênh.
 
 ### Thesis
 
@@ -18,17 +18,17 @@ Nó biến công việc của họ thành một trò chơi — nơi phần thư�
 
 **Hình ảnh:**
 
-Chấm tài xế trên bản đồ phóng lớn, nhòe dần và biến thành một người thật đứng dừng xe bên đường trong đêm. Máy quay đẩy chậm vào màn hình điện thoại: pin gần cạn, tay anh chuẩn bị chạm nút tắt ứng dụng. Điện thoại rung, màn hình sáng lên với thông báo "9/10" kèm nhãn nhỏ "Tình huống minh họa" để rõ đây là số liệu minh họa, không phải ngưỡng chính thức.
+Xe máy và tài xế hiện rõ bằng icon outline sáng (không phải bóng mờ khó nhận diện) đứng cạnh một chiếc điện thoại Android — viền vuông, không notch kiểu iPhone, thanh trạng thái có icon pin nằm ngang quen thuộc thay vì chỉ hiện số, vì đa số tài xế Grab dùng xe máy và điện thoại Android, không phải iPhone. Đèn đường vàng hắt sau lưng cả hai. Máy quay đẩy chậm vào màn hình điện thoại: pin gần cạn, tay anh chuẩn bị chạm nút tắt ứng dụng. Điện thoại rung, màn hình sáng lên với thông báo "19/20" kèm nhãn nhỏ "Tình huống minh họa" để rõ đây là số liệu minh họa, không phải ngưỡng chính thức — mức 19/20 phản ánh gần hơn số cuốc thực tế một tài xế toàn thời gian chạy trong ngày (15–25 cuốc theo khảo sát công khai), thay vì con số 9/10 quá thấp so với thực tế.
 
 **Voice-over:**
 
-“Ở phần trước, bạn thấy một chấm nhỏ chạy qua nhiều điểm dừng. Phía sau nó là một người thật — điện thoại sắp hết pin, anh chỉ muốn tắt ứng dụng để về. Nhưng màn hình sáng lên: chỉ còn một chuyến nữa.”
+“Năm phần trăm pin. Gần nửa đêm. Anh vừa định tắt ứng dụng để về thì màn hình sáng lên: mười chín trên hai mươi. Anh tự nhủ: thêm một cuốc nữa rồi về. Nhưng lựa chọn ấy có thực sự đơn giản?”
 
 **Chữ trên màn hình:**
 
-**HAI LỰA CHỌN NÀY CÓ THỰC SỰ NGANG NHAU?**
+**CỐ GẮNG THÊM CUỐC NỮA.**
 
-Nhãn nhỏ trên badge 9/10: *Tình huống minh họa*
+Nhãn nhỏ trên badge 19/20: *Tình huống minh họa*
 
 **Âm thanh:**
 
@@ -36,7 +36,7 @@ Nền ambient tối, nhịp tim chậm khe khẽ. Tiếng rung điện thoại n
 
 **Chuyển cảnh:**
 
-Match cut từ chấm bản đồ sang khung hình phone UI — camera tiếp tục đẩy vào để mở sang cảnh 2.
+Match cut từ chấm bản đồ sang cặp xe máy–điện thoại — camera tiếp tục đẩy vào để mở sang cảnh 2.
 
 ---
 
@@ -48,12 +48,11 @@ Các thành phần trên màn hình tài xế (chuyến xe, điểm tiến độ
 
 **Voice-over:**
 
-“Đây vẫn là hệ thống quyền lợi và phần thưởng. Nhưng khi công việc chia thành điểm số, mục tiêu, thứ hạng, nó mang cấu trúc của một trò chơi. Chuyến xe trở thành tiến độ. Thứ hạng trở thành cấp độ.”
+“Công việc vẫn là công việc. Nhưng ứng dụng biến nó thành một ma trận nói bằng ngôn ngữ trò chơi: cuốc xe thành tiến độ, thứ hạng thành cấp độ, quyền lợi thành phần thưởng. Khi mục tiêu luôn trước mắt, nghỉ hay chạy tiếp không còn là câu hỏi đơn giản.”
 
 **Chữ trên màn hình:**
 
-**CHUYẾN XE → TIẾN ĐỘ**
-**THỨ HẠNG → CẤP ĐỘ**
+**KHI CÔNG VIỆC NÓI BẰNG NGÔN NGỮ TRÒ CHƠI**
 
 **Âm thanh:**
 
@@ -69,17 +68,17 @@ Các khối HUD thu nhỏ lại thành ba đồng hồ số liệu, kéo mắt n
 
 **Hình ảnh:**
 
-Thanh 9/10 chuyến thu nhỏ và trôi sang một bên. Hai đồng hồ số liệu khác — tỷ lệ nhận chuyến, tỷ lệ hủy chuyến — xuất hiện quay quanh nó như quỹ đạo. Đồng hồ tỷ lệ hủy được tô đỏ dần khi kim tiến gần vạch giới hạn, thể hiện rõ "gần giới hạn = nguy hiểm hơn" chứ không phải "vạch cao = tốt hơn".
+Thanh 19/20 chuyến thu nhỏ và trôi sang một bên. Hai đồng hồ số liệu khác — tỷ lệ nhận chuyến, tỷ lệ hủy chuyến — xuất hiện quay quanh nó như quỹ đạo. Đồng hồ tỷ lệ hủy được tô đỏ dần khi kim tiến gần vạch giới hạn, thể hiện rõ "gần giới hạn = nguy hiểm hơn" chứ không phải "vạch cao = tốt hơn".
 
 **Voice-over:**
 
-“Số chuyến chỉ là lớp đầu. GrabBenefits còn gắn điều kiện thưởng với tỷ lệ nhận và tỷ lệ hủy chuyến trong tháng. Không chỉ chạy nhiều — còn phải nhận đủ, và không được hủy quá nhiều.”
+“Theo chính sách Grab công bố tháng Năm năm 2026, áp dụng xếp hạng từ tháng Sáu tại một số khu vực, GrabBenefits xét số chuyến cùng tỷ lệ nhận và tỷ lệ hủy trong tháng. Tỷ lệ nhận phải từ chín mươi phần trăm; tỷ lệ hủy không quá tám phần trăm. Hệ thống không chỉ ghi lại anh đã chạy bao nhiêu, mà cả những cuốc anh từ chối khi đang hoạt động.”
 
 **Chữ trên màn hình:**
 
-**BA CON SỐ. CÙNG ĐẾM MỘT THÁNG LÀM VIỆC.**
+**BA CON SỐ. BA CÁCH HỆ THỐNG GHI NHỚ.**
 
-Footer nhỏ: *GrabBenefits — chính sách áp dụng từ 5/2026*
+Footer nhỏ: *Nguồn: GrabBenefits · công bố 05/2026 · áp dụng xếp hạng từ 06/2026 tại một số khu vực*
 
 **Âm thanh:**
 
@@ -99,11 +98,11 @@ Thanh tiến trình chạy từ chuyến đầu tiên đến gần đầy, mỗi
 
 **Voice-over:**
 
-“Ở chuyến đầu, dừng lại không khó. Nhưng khi thanh tiến trình gần đầy, dừng lại giống như bỏ lại toàn bộ những giờ đã chạy. Mục tiêu giữ tài xế không chỉ bằng phần thưởng phía trước — mà bằng công sức đã nằm lại phía sau.”
+“Những con số ấy cũng có ích: chúng cho tài xế biết mình còn thiếu gì để nhận quyền lợi. Nhưng chính vì hữu ích, chúng càng khó bỏ qua. Ở chuyến đầu, dừng lại rất dễ. Ở mười chín trên hai mươi, những giờ đã chạy khiến cuốc cuối cùng trở nên khó bỏ qua.”
 
 **Chữ trên màn hình:**
 
-**9/10 KHÔNG CHỈ LÀ TIẾN ĐỘ.**
+**19/20 KHÔNG CHỈ LÀ MỘT CON SỐ.**
 
 **Âm thanh:**
 
@@ -123,12 +122,11 @@ Màn hình chia đôi: bên khách hàng thấy tài xế đi qua nhiều điể
 
 **Voice-over:**
 
-“Đây là nơi phần một nối vào phần hai. Mỗi đơn trong chuyến ghép GrabFood được tính thành một chuyến riêng khi xét tiến độ. Khách hàng thấy nhiều điểm dừng. Tài xế thấy thanh tiến trình tăng thêm bước. Cùng một tuyến đường — hai chiếc đồng hồ khác nhau.”
+“Và đây là nơi hai phần nối vào nhau. Trong chuyến ghép GrabFood, mỗi đơn được tính thành một chuyến. Ba đơn ghép, ba bước tiến độ. Khách đếm phút. Tài xế nhìn cùng tuyến đường và thấy: cộng một, cộng một, cộng một. Một hành trình. Hai cách đo.”
 
 **Chữ trên màn hình:**
 
-**KHÁCH HÀNG ĐẾM PHÚT.**
-**TÀI XẾ ĐẾM TIẾN ĐỘ.**
+**MỘT HÀNH TRÌNH. HAI CÁCH ĐO.**
 
 **Âm thanh:**
 
@@ -144,16 +142,15 @@ Màn hình chia đôi thu lại thành một khung duy nhất, mở sang cán c�
 
 **Hình ảnh:**
 
-Tài xế đứng giữa hai nút: tắt ứng dụng và nhận đơn tiếp. Một bên hiện hình ngôi nhà ấm áp mờ dần, bên kia hiện toàn bộ tiến độ tháng, tỷ lệ, và các quyền lợi đã quen dùng treo lơ lửng nặng nề. Cán cân hai bên nghiêng rõ rệt dù cả hai nút đều sáng, có thể bấm.
+Tài xế đứng giữa hai nút: tắt ứng dụng và nhận đơn tiếp. Một bên hiện hình ngôi nhà ấm áp mờ dần cùng các chip nhỏ (bữa cơm nguội, 5% pin, quãng đường về); bên kia hiện tiến độ 19/20 hôm nay, thứ hạng tháng sau, và các quyền lợi đã quen dùng treo lơ lửng nặng nề — hai lớp ràng buộc (tiến độ đã bỏ công hôm nay + quyền lợi tính theo tháng) cùng lúc kéo cán cân nghiêng hẳn, dù cả hai nút đều sáng, có thể bấm.
 
 **Voice-over:**
 
-“Trò chơi không kết thúc sau tối nay — thành tích cộng dồn cả tháng, thứ hạng quyết định quyền lợi tháng sau. Không ai lấy mất quyền lựa chọn của tài xế. Nhưng một bên là về nhà, bên kia là tiến độ gần hoàn thành và quyền lợi đã quen dùng. Quyền lựa chọn vẫn còn — chỉ là hai lựa chọn không còn cùng trọng lượng.”
+“Nút tắt ứng dụng vẫn ở đó. Dừng lại không xóa mười chín chuyến anh đã chạy. Nhưng khi chỉ còn cách một mục tiêu đúng một cuốc, chuyến tiếp theo bỗng nặng hơn chính nó. Và phía sau mục tiêu hôm nay còn là thứ hạng được tính trên cả tháng. Quyền lựa chọn vẫn còn. Chỉ là cảm giác về cái giá đã khác.”
 
 **Chữ trên màn hình:**
 
-**QUYỀN LỰA CHỌN VẪN CÒN.**
-**TRỌNG LƯỢNG THÌ KHÔNG CÒN BẰNG NHAU.**
+**QUYỀN LỰA CHỌN VẪN CÒN. CẢM GIÁC VỀ CÁI GIÁ ĐÃ KHÁC.**
 
 **Âm thanh:**
 
@@ -173,12 +170,11 @@ Tài xế giao xong đơn cuối, màn hình bật chữ "MỤC TIÊU HOÀN THÀ
 
 **Voice-over:**
 
-“Mục tiêu hoàn thành, hiệu ứng ăn mừng hiện lên. Nhưng hiệu ứng vừa tắt, anh vẫn còn phải tự chạy về nhà.”
+“Cuốc cuối hoàn thành. Hiệu ứng ăn mừng hiện lên. Nhưng nó không biết pin còn hai phần trăm, trời đang mưa, hay anh vẫn phải chạy về. Với ứng dụng, công việc kết thúc ở điểm giao. Với tài xế, nó kết thúc ở cửa nhà.”
 
 **Chữ trên màn hình:**
 
-**ỨNG DỤNG: HOÀN THÀNH**
-**NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ**
+**ỨNG DỤNG XONG. CON NGƯỜI THÌ CHƯA.**
 
 **Âm thanh:**
 
@@ -194,23 +190,43 @@ Im lặng kéo dài một nhịp trước khi toàn bộ ma trận hiện ra bao
 
 **Hình ảnh:**
 
-Tài xế đứng giữa toàn bộ ma trận thu nhỏ (đơn hàng, chuyến ghép, thứ hạng, quyền lợi) rồi các lớp giao diện lần lượt biến mất, chỉ còn người tài xế thật chạy trên đường về nhà. Sau câu chữ kết, cắt sang một đơn hàng với hóa đơn "GIẢM 50%" bị đóng dấu, dấu hỏi lớn hiện phía sau để mở teaser Phần 3.
+Tài xế đứng giữa toàn bộ ma trận thu nhỏ (đơn hàng, chuyến ghép, thứ hạng, quyền lợi) rồi các lớp giao diện lần lượt biến mất, chỉ còn người tài xế thật chạy trên đường về nhà, nhỏ dần giữa thành phố.
 
 **Voice-over:**
 
-“Grab không biến tài xế thành người chơi. Nó biến công việc của họ thành một trò chơi, nơi phần thưởng luôn cách điểm dừng đúng một mục tiêu nữa. Nhưng vẫn còn một người khác trong đơn hàng này. Khi khách được giảm giá, ai đang thực sự trả phần còn lại?”
+“Grab không biến tài xế thành người chơi. Nó biến công việc của họ thành một trò chơi, nơi điểm dừng thường nằm sau đúng một mục tiêu nữa. Không cần ai đứng bên cạnh nói: cố thêm một chuyến. Màn hình chỉ cần sáng lên.”
 
 **Chữ trên màn hình:**
 
-**MỘT MỤC TIÊU NỮA — LUÔN LUÔN.**
-
-Sau một nhịp, 8-12 khung hình đen, rồi:
-
-**PHẦN 3 — AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?**
+**MÀN HÌNH CHỈ CẦN SÁNG LÊN.**
 
 **Âm thanh:**
 
-Nhạc nền tối dần về một nốt đơn độc trong câu kết, sau đó cắt phẳng sang tĩnh lặng đen; một tiếng "tách" thông báo mới bật lên đúng lúc dòng teaser Phần 3 xuất hiện.
+Nhạc nền tối dần về một nốt đơn độc trong câu kết, cắt gần hết nhạc trước "Không cần ai", để 12-16 khung hình im lặng trước câu cuối.
+
+**Chuyển cảnh:**
+
+Một thẻ giảm giá màu xanh lướt vào khung hình, che mất người tài xế, mở sang cảnh 9.
+
+---
+
+## Cảnh 9 — thesis_teaser (teaser Phần 3)
+
+**Hình ảnh:**
+
+Thẻ giảm giá nổi giữa nền đen rồi tách thành bốn lớp bán trong suốt mang nhãn nền tảng, nhà hàng, tài xế và khách hàng. Các lớp dừng lại ở trạng thái chưa cân bằng, không kết luận ai chịu phí, để mở một câu hỏi treo lại.
+
+**Voice-over:**
+
+“Còn trong đơn hàng này có một người khác: bạn. Mã giảm giá không tự sinh ra từ màn hình. Khi khách trả ít đi, ai bù phần chênh lệch? Và cuối cùng, ai thực sự trả cho sự tiện lợi của chúng ta?”
+
+**Chữ trên màn hình:**
+
+**PHẦN 3 — AI TRẢ CHO SỰ TIỆN LỢI CỦA CHÚNG TA?**
+
+**Âm thanh:**
+
+Nhạc mở bằng một nốt trầm chưa giải quyết cùng tiếng phố đêm nền nhẹ; không dùng trailer boom.
 
 **Chuyển cảnh:**
 

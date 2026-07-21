@@ -10,13 +10,18 @@ const MAX_TILT_DEG = 14;
 
 export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = ({
   headline,
+  subheadline,
   homeLabel,
   progressLabel,
+  homeDetails,
+  progressDetails,
   scaleTiltRatio,
+  showRouteVignettes,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const vignetteOpacity = interpolate(frame, [20, 45], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const splitProgress = interpolate(frame, [0, 40], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const tiltSpring = spring({ frame: frame - 50, fps, config: { damping: 10, stiffness: 60 }, durationInFrames: 60 });
@@ -74,10 +79,69 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 260 }}>
             <P2Icons.Home size={30} />
             <div style={{ fontSize: 18, fontWeight: 700, color: p2Colors.textPrimary, textAlign: "center" }}>{homeLabel}</div>
+            {homeDetails && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 4, alignItems: "center" }}>
+                {homeDetails.map((d, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: p2Colors.textDim,
+                      padding: "3px 10px",
+                      borderRadius: 999,
+                      background: "rgba(255,255,255,0.06)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {d}
+                  </div>
+                ))}
+              </div>
+            )}
+            {showRouteVignettes && (
+              <svg width="140" height="70" viewBox="0 0 140 70" style={{ marginTop: 10, opacity: vignetteOpacity }}>
+                {/* Warm dashed path curving toward a home glyph — the road
+                    already-headed-home, in contrast to the rain pickup. */}
+                <path d="M 10 55 Q 60 60 70 30 T 130 12" stroke={p2Colors.warmHome} strokeWidth="3" strokeDasharray="6 6" fill="none" opacity="0.8" />
+                <path d="M 118 5 L 130 12 L 122 22" stroke={p2Colors.warmHome} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: 260 }}>
             <P2Icons.Scale size={30} color={p2Colors.grab} />
             <div style={{ fontSize: 18, fontWeight: 700, color: p2Colors.textPrimary, textAlign: "center" }}>{progressLabel}</div>
+            {progressDetails && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 4, alignItems: "center" }}>
+                {progressDetails.map((d, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: p2Colors.grab,
+                      padding: "3px 10px",
+                      borderRadius: 999,
+                      background: p2Colors.grabDim,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {d}
+                  </div>
+                ))}
+              </div>
+            )}
+            {showRouteVignettes && (
+              <svg width="140" height="70" viewBox="0 0 140 70" style={{ marginTop: 10, opacity: vignetteOpacity }}>
+                {/* New pickup pin in the rain — a fresh destination pulling
+                    the driver the opposite way from home. */}
+                <line x1="20" y1="8" x2="16" y2="20" stroke={p2Colors.grab} strokeWidth="2" opacity="0.55" />
+                <line x1="34" y1="6" x2="30" y2="18" stroke={p2Colors.grab} strokeWidth="2" opacity="0.55" />
+                <line x1="48" y1="10" x2="44" y2="22" stroke={p2Colors.grab} strokeWidth="2" opacity="0.55" />
+                <circle cx="105" cy="40" r="9" fill={p2Colors.grab} opacity="0.9" />
+                <path d="M 105 49 L 105 62" stroke={p2Colors.grab} strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            )}
           </div>
         </div>
 
@@ -94,6 +158,9 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
           }}
         >
           {headline}
+          {subheadline && (
+            <div style={{ fontSize: 20, fontWeight: 600, color: p2Colors.textDim, marginTop: 12 }}>{subheadline}</div>
+          )}
         </div>
       </SafeZone>
       </AbsoluteFill>

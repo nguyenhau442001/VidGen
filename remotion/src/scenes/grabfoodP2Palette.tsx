@@ -70,4 +70,16 @@ export const P2Icons = {
       <path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" stroke={color} strokeWidth="2" fill="none" />
     </svg>
   ),
+  // Deliberately reduced to just two wheels and a connecting line — after
+  // repeated hand-drawn attempts read as ambiguous shapes (bicycle,
+  // kick-scooter, toy cart), the scene now pairs this bare-minimum glyph
+  // with an explicit "XE MÁY" text label so there is zero ambiguity about
+  // what it represents, rather than risking another unverified icon guess.
+  MotorbikeRider: ({ size = 22, color = p2Colors.textPrimary }: IconProps) => (
+    <svg width={size} height={size * 0.55} viewBox="0 0 100 55" fill="none">
+      <circle cx="20" cy="40" r="13" stroke={color} strokeWidth="6" fill="none" />
+      <circle cx="80" cy="40" r="13" stroke={color} strokeWidth="6" fill="none" />
+      <path d="M20 40 L45 40 L60 18 L80 40" stroke={color} strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
 };

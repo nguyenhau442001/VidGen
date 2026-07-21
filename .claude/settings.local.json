@@ -4,21 +4,17 @@
       "// VERSION CONTROL",
       "Bash(git *)",
       "Bash(gh repo *)",
-
       "// PYTHON",
       "Bash(python *)",
       "Bash(python3 *)",
       "Bash(pip show *)",
-
       "// NODE / REMOTION",
       "Bash(npx remotion *)",
       "Bash(npx tsc *)",
       "Bash(npm run *)",
-
       "// MEDIA",
       "Bash(ffmpeg *)",
       "Bash(ffprobe *)",
-
       "// SYSTEM READ-ONLY",
       "Bash(ps *)",
       "Bash(grep *)",
@@ -35,7 +31,6 @@
       "Bash(which *)",
       "Bash(sort *)",
       "Bash(shasum *)",
-
       "// FILE OPERATIONS",
       "Bash(mkdir -p *)",
       "Bash(chmod +x *)",
@@ -45,33 +40,43 @@
       "Bash(open *)",
       "Bash(cp *)",
       "Bash(mv *)",
-
       "// PROCESS MANAGEMENT",
       "Bash(kill *)",
       "Bash(pkill *)",
-
       "// PROJECT SCRIPTS",
       "Bash(bash scripts/*)",
       "Bash(bash skills/*)",
       "Bash(bash .claude/*)",
-
       "// PROJECT FILE ACCESS",
       "Read(./**)",
       "Write(./**)",
       "Edit(./**)",
-
       "// SERVICES",
       "Bash(wrangler --version)",
       "Bash(wrangler whoami *)",
       "Bash(wrangler pages *)",
       "WebFetch(domain:developers.facebook.com)",
       "WebSearch",
-      "Skill(run)"
+      "Skill(run)",
+      "Bash(rm -f *)",
+      "Bash(ffprobe -v error -show_entries format=duration:stream=codec_name,codec_type,width,height,r_frame_rate,sample_rate,channels -of default=noprint_wrappers=1 remotion/out/grabfood_driver_retention_matrix_p2.mp4)",
+      "Bash(echo \"\\(exit $?, empty above = clean\\)\")",
+      "Bash(/Users/haunguyen/.claude/plugins/cache/claude-plugins-official/superpowers/6.1.1/skills/subagent-driven-development/scripts/review-package 347cb838482da2faea56a54f49560dd8ea44c97c 2c52e4ac74ee011a8b0b14556e1d86423178709c)",
+      "Bash(echo \"=== EXIT: $? ===\")",
+      "Bash(ffprobe -v error -show_entries stream=codec_name,width,height,r_frame_rate,sample_rate,channels -show_entries format=duration -of default=noprint_wrappers=1 remotion/out/grabfood_driver_retention_matrix_p2.mp4)",
+      "Bash(/Users/haunguyen/miniconda3/bin/python -c ' *)",
+      "Bash(ffprobe -v error -show_entries format=duration:stream=codec_name,codec_type,width,height,r_frame_rate -of default=noprint_wrappers=1 remotion/out/grabfood_driver_retention_matrix_p2.mp4)",
+      "Bash(/Users/haunguyen/miniconda3/bin/python -m pytest tests/test_render_manifest_builder.py -q)",
+      "Bash(ffmpeg -y -v error -i remotion/out/grabfood_driver_retention_matrix_p2.mp4 -vf \"select='eq\\(n\\\\,5\\)+eq\\(n\\\\,60\\)+eq\\(n\\\\,187\\)'\" -vsync 0 /private/tmp/claude-501/-Users-haunguyen-GitHub-VidGen/d3cd5008-b685-4864-befb-40f7b82b4f73/scratchpad/frames/s1_%03d.png)",
+      "Bash(python -c ' *)"
     ],
     "deny": [],
     "ask": [
       "Bash(git push --force *)",
       "Bash(rm -rf *)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/claude-501/-Users-haunguyen-GitHub-VidGen/d3cd5008-b685-4864-befb-40f7b82b4f73/scratchpad/frames"
     ]
   }
 }

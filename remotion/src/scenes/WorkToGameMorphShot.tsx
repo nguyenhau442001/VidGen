@@ -4,7 +4,7 @@ import { WorkToGameMorphSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./grabfoodP2Palette";
 
 // Frame plan: phone silhouette shrinks to top; each transformation row
 // flies in staggered (fromLabel -> arrow -> toLabel), arrow morphs via
@@ -12,6 +12,7 @@ import { p2Colors } from "./grabfoodP2Palette";
 export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
   headline,
   transformations,
+  showDriverSilhouette,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -19,6 +20,7 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
 
   const phoneShrink = spring({ frame, fps, config: { damping: 16, stiffness: 140 }, durationInFrames: 30 });
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const silhouetteOpacity = interpolate(frame, [10, 35], [0, 0.5], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const exitOpacity = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -28,6 +30,20 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
     <AbsoluteFill style={{ backgroundColor: p2Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
+      {/* Driver silhouette standing behind/among the HUD rows — dimmed so it
+          reads as environment, not competing with the transformation copy. */}
+      {showDriverSilhouette && (
+        <div
+          style={{
+            position: "absolute",
+            right: 60,
+            bottom: 140,
+            opacity: silhouetteOpacity,
+          }}
+        >
+          <P2Icons.MotorbikeRider size={260} color={p2Colors.textDim} />
+        </div>
+      )}
       <SafeZone style={{ justifyContent: "center", flexDirection: "column" }}>
         <div
           style={{
@@ -37,6 +53,7 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
             color: p2Colors.textPrimary,
             opacity: headlineOpacity,
             marginBottom: 56,
+            whiteSpace: "pre-line",
             transform: `scale(${interpolate(phoneShrink, [0, 1], [1.1, 1])})`,
           }}
         >

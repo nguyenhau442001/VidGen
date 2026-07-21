@@ -241,10 +241,16 @@ export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
 
 export type MapDotToHumanVisual = {
   headline: string;
+  seriesLabel: string; // e.g. "GRABFOOD · PHẦN 2" — series marker visible from frame 0
   illustrativeLabel: string; // "Tình huống minh họa" badge on the 9/10 notification
   batteryPercent: number; // e.g. 5
+  timeLabel?: string; // e.g. "23:47" — shown next to the battery readout
   targetCurrent: number; // e.g. 9
   targetTotal: number; // e.g. 10
+  // Optional small text-message bubble seeded early in the shot (e.g. "Cơm để
+  // trên bàn nhé.") — plants a home-side detail paid off later without adding
+  // a new spoken line. Fades in/out before the notification badge arrives.
+  sideNoteText?: string;
 };
 
 export type MapDotToHumanSceneProps = MapDotToHumanVisual & { durationInFrames: number };
@@ -1274,6 +1280,10 @@ export type GameHUDSceneProps = GameHUDVisual & { durationInFrames: number };
 export type WorkToGameMorphVisual = {
   headline: string;
   transformations: Array<{ from: string; to: string }>; // e.g. [{from:"CHUYẾN XE", to:"TIẾN ĐỘ"}, {from:"THỨ HẠNG", to:"CẤP ĐỘ"}]
+  // Optional driver silhouette standing among the transformation rows —
+  // visually literalizes "công việc của họ" (their job) as the thing being
+  // relabeled, rather than only showing abstract word-swap rows.
+  showDriverSilhouette?: boolean;
 };
 
 export type WorkToGameMorphSceneProps = WorkToGameMorphVisual & { durationInFrames: number };
@@ -1284,6 +1294,10 @@ export type TripleMetricOrbitVisual = {
   acceptanceRate: { value: number; min: number }; // percent, e.g. value:92, min:90
   cancellationRate: { value: number; max: number }; // percent, e.g. value:7, max:8 -- closer to max = more danger
   footer: string;
+  // Frames the three metric rings inside a helmet-visor silhouette, so the
+  // numbers read as something the driver sees reflected while riding, not a
+  // floating dashboard disconnected from them.
+  showHelmetVisorFrame?: boolean;
 };
 
 export type TripleMetricOrbitSceneProps = TripleMetricOrbitVisual & { durationInFrames: number };
@@ -1292,6 +1306,10 @@ export type ProgressMemoryTrailVisual = {
   headline: string;
   totalCells: number; // e.g. 10
   filledCells: number; // e.g. 9
+  // When true, the filled cells morph into short road-segment marks (rounder,
+  // elongated, road-line dashes) in the shot's closing beat — literalizes
+  // "những giờ đã chạy" as distance covered, not just a filled tally.
+  morphCellsToRoad?: boolean;
 };
 
 export type ProgressMemoryTrailSceneProps = ProgressMemoryTrailVisual & { durationInFrames: number };
@@ -1307,9 +1325,17 @@ export type DualClockRouteSceneProps = DualClockRouteVisual & { durationInFrames
 
 export type WeightedChoiceWorldVisual = {
   headline: string;
+  subheadline?: string; // optional second line under headline, e.g. contrast statement
   homeLabel: string; // "Tắt ứng dụng — về nhà"
   progressLabel: string; // "Nhận đơn — giữ tiến độ & quyền lợi"
+  homeDetails?: string[]; // short chips listed under the home side, e.g. ["BỮA CƠM NGUỘI", "5% PIN"]
+  progressDetails?: string[]; // short chips listed under the progress side
   scaleTiltRatio: number; // 0-1, final tilt toward the progress side
+  // When true, renders a small dashed route-line vignette under each side —
+  // a warm home-bound path under homeDetails, a rain-streaked new pickup pin
+  // under progressDetails — so the two options read as two concrete physical
+  // destinations, not only abstract labels.
+  showRouteVignettes?: boolean;
 };
 
 export type WeightedChoiceWorldSceneProps = WeightedChoiceWorldVisual & { durationInFrames: number };
@@ -1322,9 +1348,12 @@ export type FalseCompletionVisual = {
 export type FalseCompletionSceneProps = FalseCompletionVisual & { durationInFrames: number };
 
 export type ThesisTeaserVisual = {
-  thesisLines: string[]; // each line shown as its own beat
-  teaserEyebrow: string; // "PHẦN 3"
-  teaserQuestion: string; // "AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?"
+  // "THESIS" renders only thesisLines, "TEASER" renders only the eyebrow/question,
+  // omitted renders both in one sequence (original combined-scene behavior).
+  mode?: "THESIS" | "TEASER";
+  thesisLines?: string[]; // each line shown as its own beat
+  teaserEyebrow?: string; // "PHẦN 3"
+  teaserQuestion?: string; // "AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?"
 };
 
 export type ThesisTeaserSceneProps = ThesisTeaserVisual & { durationInFrames: number };
