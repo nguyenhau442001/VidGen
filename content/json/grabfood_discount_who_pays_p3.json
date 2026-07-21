@@ -15,6 +15,8 @@
       ],
       "transition_out_delay_frames": 65,
       "props": {
+        "headline": "Chỉ mất một giây để áp mã giảm giá.\nNhưng ai thực sự trả tiền cho nó?",
+        "accentWord": "trả tiền",
         "items": [
           {
             "label": "Cơm gà xối mỡ",
@@ -37,7 +39,7 @@
         "total": "110.000Đ",
         "illustrativeLabel": "TÌNH HUỐNG MINH HỌA"
       },
-      "on_screen_text": "TẠM TÍNH 150.000Đ · MÃ GIẢM GIÁ · TỔNG 110.000Đ · -40.000Đ"
+      "on_screen_text": "Chỉ mất một giây để áp mã giảm giá. Nhưng ai thực sự trả tiền cho nó? · TẠM TÍNH 150.000Đ · MÃ GIẢM GIÁ · TỔNG 110.000Đ · -40.000Đ"
     },
     {
       "id": "shot_02_payer_reveal",

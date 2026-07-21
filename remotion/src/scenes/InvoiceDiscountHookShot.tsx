@@ -13,6 +13,8 @@ const TAP_FRAME = 50;
 const SPLIT_FRAME = 66;
 
 export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = ({
+  headline,
+  accentWord,
   items,
   subtotalLabel = "TẠM TÍNH",
   subtotal,
@@ -42,6 +44,7 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
   });
   const splitSpring = spring({ frame: frame - SPLIT_FRAME, fps, config: { damping: 14, stiffness: 90 }, durationInFrames: 34 });
   const badgeOpacity = interpolate(frame, [10, 28], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const headlineSpring = spring({ frame: frame - 4, fps, config: { damping: 16, stiffness: 130 }, durationInFrames: 26 });
   const exitOpacity = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -49,6 +52,10 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
 
   const splitX = splitSpring * 210;
   const splitY = -splitSpring * 40;
+
+  const accentIndex = accentWord ? (headline ?? "").indexOf(accentWord) : -1;
+  const headlineBefore = accentIndex >= 0 ? headline!.slice(0, accentIndex) : headline;
+  const headlineAfter = accentIndex >= 0 ? headline!.slice(accentIndex + (accentWord?.length ?? 0)) : "";
 
   return (
     <AbsoluteFill style={{ backgroundColor: p3Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
@@ -72,6 +79,34 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
               }}
             >
               {illustrativeLabel}
+            </div>
+          )}
+
+          {headline && (
+            <div
+              style={{
+                opacity: Math.min(1, headlineSpring),
+                transform: `translateY(${(1 - Math.min(1, headlineSpring)) * 18}px)`,
+                marginBottom: 36,
+                maxWidth: 780,
+                textAlign: "center",
+                fontSize: 40,
+                fontWeight: 900,
+                lineHeight: 1.28,
+                color: p3Colors.textPrimary,
+                whiteSpace: "pre-line",
+                textShadow: "0 10px 30px rgba(0,0,0,0.5)",
+              }}
+            >
+              {accentIndex >= 0 ? (
+                <>
+                  {headlineBefore}
+                  <span style={{ color: p3Colors.grab }}>{accentWord}</span>
+                  {headlineAfter}
+                </>
+              ) : (
+                headline
+              )}
             </div>
           )}
 

@@ -1417,6 +1417,8 @@ export type ThumbnailSceneProps =
 // Cold-open receipt: a finger taps a discount chip and the discount amount
 // splits off the invoice total.
 export type InvoiceDiscountHookVisual = {
+  headline?: string; // hook line shown above the receipt card; use "\n" for an explicit two-line break
+  accentWord?: string; // exact substring of headline to render in accent color
   items?: Array<{ label: string; price: string }>;
   subtotalLabel?: string; // default "TẠM TÍNH"
   subtotal: string; // e.g. "150.000Đ"
