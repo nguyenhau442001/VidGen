@@ -15,6 +15,7 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
   progressLabel,
   homeDetails,
   progressDetails,
+  illustrativeLabel,
   scaleTiltRatio,
   showRouteVignettes,
   durationInFrames,
@@ -22,6 +23,7 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const vignetteOpacity = interpolate(frame, [20, 45], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const labelOpacity = interpolate(frame, [10, 35], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
   const splitProgress = interpolate(frame, [0, 40], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const tiltSpring = spring({ frame: frame - 50, fps, config: { damping: 10, stiffness: 60 }, durationInFrames: 60 });
@@ -61,6 +63,27 @@ export const WeightedChoiceWorldShot: React.FC<WeightedChoiceWorldSceneProps> = 
       />
 
       <SafeZone style={{ justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+        {illustrativeLabel && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              opacity: labelOpacity,
+              padding: "8px 18px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.16)",
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: p2Colors.textDim,
+              textAlign: "center",
+              maxWidth: 700,
+            }}
+          >
+            {illustrativeLabel}
+          </div>
+        )}
         {/* Scale */}
         <svg width="600" height="380" viewBox="0 0 600 380">
           <g transform={`rotate(${tiltDeg} 300 90)`}>

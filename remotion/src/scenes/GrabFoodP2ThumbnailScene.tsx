@@ -4,7 +4,7 @@ import { BE_VIETNAM_PRO } from "../styles";
 import { p2Colors, P2Icons } from "./grabfoodP2Palette";
 
 // Static thumbnail (still, frame 0 only — no animation) for
-// grabfood_driver_retention_matrix_p2. Purpose-built for this video's dark
+// grabcar_optimization_mode_p2. Purpose-built for this video's dark
 // cinematic identity instead of reusing the channel's generic light-theme
 // Thumbnail composition, which reads shot[0]'s props (accentColor,
 // partLabel) that this video's shots never set and falls back to a

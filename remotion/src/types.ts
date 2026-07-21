@@ -241,6 +241,7 @@ export type MapPingSceneProps = MapPingVisual & { durationInFrames: number };
 
 export type MapDotToHumanVisual = {
   headline: string;
+  subheadline?: string; // optional second question line under headline, e.g. the hook's payoff question
   seriesLabel: string; // e.g. "GRABFOOD · PHẦN 2" — series marker visible from frame 0
   illustrativeLabel: string; // "Tình huống minh họa" badge on the 9/10 notification
   batteryPercent: number; // e.g. 5
@@ -1276,10 +1277,12 @@ export type GameHUDSceneProps = GameHUDVisual & { durationInFrames: number };
 // stack of "work vocabulary → game vocabulary" relabeling rows (e.g. "CHUYẾN
 // XE" -> "TIẾN ĐỘ"), each row flying in with a morphing arrow — the visual
 // payoff of the "job becomes a game" thesis. Built for
-// grabfood_driver_retention_matrix_p2 (uses that video's p2Colors palette).
+// grabcar_optimization_mode_p2 (uses that video's p2Colors palette).
 export type WorkToGameMorphVisual = {
   headline: string;
+  officialNameLabel?: string; // "TÊN CHÍNH THỨC: CHẾ ĐỘ TỐI ƯU HÓA – TURBO" — shown once, small
   transformations: Array<{ from: string; to: string }>; // e.g. [{from:"CHUYẾN XE", to:"TIẾN ĐỘ"}, {from:"THỨ HẠNG", to:"CẤP ĐỘ"}]
+  sourceLabel?: string; // small readable source citation
   // Optional driver silhouette standing among the transformation rows —
   // visually literalizes "công việc của họ" (their job) as the thing being
   // relabeled, rather than only showing abstract word-swap rows.
@@ -1290,10 +1293,10 @@ export type WorkToGameMorphSceneProps = WorkToGameMorphVisual & { durationInFram
 
 export type TripleMetricOrbitVisual = {
   headline: string;
-  trips: { current: number; target: number };
-  acceptanceRate: { value: number; min: number }; // percent, e.g. value:92, min:90
-  cancellationRate: { value: number; max: number }; // percent, e.g. value:7, max:8 -- closer to max = more danger
-  footer: string;
+  // Three published rules, each an orbiting ring: a plain label + value pair
+  // (not all numeric — "TÍNH LẠI MỖI NGÀY" has no ratio to fill).
+  metrics: Array<{ label: string; value: string }>;
+  sourceLabel?: string; // small readable source citation
   // Frames the three metric rings inside a helmet-visor silhouette, so the
   // numbers read as something the driver sees reflected while riding, not a
   // floating dashboard disconnected from them.
@@ -1304,8 +1307,11 @@ export type TripleMetricOrbitSceneProps = TripleMetricOrbitVisual & { durationIn
 
 export type ProgressMemoryTrailVisual = {
   headline: string;
+  subheadline?: string; // optional second line under headline
   totalCells: number; // e.g. 10
   filledCells: number; // e.g. 9
+  illustrativeLabel?: string; // small badge clarifying this is an analytical illustration, not an official claim
+  memoryFragments?: string[]; // short words shown drifting out of a few early filled cells (chờ khách, kẹt xe, mưa...)
   // When true, the filled cells morph into short road-segment marks (rounder,
   // elongated, road-line dashes) in the shot's closing beat — literalizes
   // "những giờ đã chạy" as distance covered, not just a filled tally.
@@ -1316,9 +1322,10 @@ export type ProgressMemoryTrailSceneProps = ProgressMemoryTrailVisual & { durati
 
 export type DualClockRouteVisual = {
   headline: string;
-  customerLabel: string; // "Tài xế đang giao một đơn hàng khác"
-  driverLabel: string; // "+1 +1 +1"
-  stopCount: number; // e.g. 3
+  leftColumn: { label: string; items: string[] }; // published benefits list
+  rightColumn: { label: string; items: string[] }; // state of the app while the mode is on
+  sourceLabel?: string; // small readable source citation
+  footnote?: string; // small qualifier line, e.g. region availability caveat
 };
 
 export type DualClockRouteSceneProps = DualClockRouteVisual & { durationInFrames: number };
@@ -1330,6 +1337,7 @@ export type WeightedChoiceWorldVisual = {
   progressLabel: string; // "Nhận đơn — giữ tiến độ & quyền lợi"
   homeDetails?: string[]; // short chips listed under the home side, e.g. ["BỮA CƠM NGUỘI", "5% PIN"]
   progressDetails?: string[]; // short chips listed under the progress side
+  illustrativeLabel?: string; // "TÌNH HUỐNG MINH HỌA — KHÔNG PHẢI BẰNG CHỨNG..." badge
   scaleTiltRatio: number; // 0-1, final tilt toward the progress side
   // When true, renders a small dashed route-line vignette under each side —
   // a warm home-bound path under homeDetails, a rain-streaked new pickup pin
@@ -1341,8 +1349,11 @@ export type WeightedChoiceWorldVisual = {
 export type WeightedChoiceWorldSceneProps = WeightedChoiceWorldVisual & { durationInFrames: number };
 
 export type FalseCompletionVisual = {
-  completedLabel: string; // "ỨNG DỤNG: HOÀN THÀNH"
-  driverStatusLabel: string; // "NGƯỜI TÀI XẾ: CHƯA VỀ ĐẾN NHÀ"
+  headline: string; // '"LÊN TỚI 4%" KHÔNG CÓ NGHĨA LUÔN LÀ 4%.'
+  completedLabel: string; // "CUỐC XE HOÀN THÀNH"
+  driverStatusLabel: string; // "KHOẢN THƯỞNG ĐƯỢC HIỂN THỊ VÀ CHUYỂN VÀO VÍ"
+  calculationLabels: string[]; // fee/tax deductions shown peeling off the headline percent
+  sourceLabel?: string; // small readable source citation
 };
 
 export type FalseCompletionSceneProps = FalseCompletionVisual & { durationInFrames: number };

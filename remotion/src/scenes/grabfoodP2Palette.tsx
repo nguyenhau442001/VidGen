@@ -1,6 +1,6 @@
 import React from "react";
 
-// Dark cinematic palette local to grabfood_driver_retention_matrix_p2 — NOT
+// Dark cinematic palette local to grabcar_optimization_mode_p2 — NOT
 // the channel-wide `colors` export in styles.ts (which stays light theme).
 export const p2Colors = {
   bg: "#0a0e14",
@@ -80,6 +80,34 @@ export const P2Icons = {
       <circle cx="20" cy="40" r="13" stroke={color} strokeWidth="6" fill="none" />
       <circle cx="80" cy="40" r="13" stroke={color} strokeWidth="6" fill="none" />
       <path d="M20 40 L45 40 L60 18 L80 40" stroke={color} strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  // Same bare-minimum stroke style as MotorbikeRider, paired with an
+  // explicit "Ô TÔ" text label — this scene narrates GrabCar (4-wheel),
+  // not GrabBike, so the vehicle glyph must read unambiguously as a car.
+  // Sedan silhouette (body + cabin arc) rather than a boxy trapezoid roof,
+  // so it reads as a car shape at a glance instead of an abstract wedge.
+  Car: ({ size = 22, color = p2Colors.textPrimary }: IconProps) => (
+    <svg width={size} height={size * 0.55} viewBox="0 0 100 55" fill="none">
+      <path
+        d="M6 38 L10 37 L18 20 Q21 15 28 15 L62 15 Q68 15 71 19 L79 30 L94 33 Q97 34 97 38 L97 40"
+        stroke={color}
+        strokeWidth="5.5"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M23 19 L30 30 L58 30 L58 19"
+        stroke={color}
+        strokeWidth="5"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M3 40 L97 40" stroke={color} strokeWidth="5.5" fill="none" strokeLinecap="round" />
+      <circle cx="26" cy="40" r="10" stroke={color} strokeWidth="5.5" fill="none" />
+      <circle cx="74" cy="40" r="10" stroke={color} strokeWidth="5.5" fill="none" />
     </svg>
   ),
 };

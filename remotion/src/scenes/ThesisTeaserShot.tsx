@@ -57,24 +57,44 @@ export const ThesisTeaserShot: React.FC<ThesisTeaserSceneProps> = ({
                 extrapolateLeft: "clamp",
                 extrapolateRight: "clamp",
               });
+              // First line of each half carries a small tag distinguishing
+              // published fact from behavioral inference — the two halves
+              // must never blur into one undifferentiated claim.
+              const half = Math.ceil(thesisLines!.length / 2);
+              const tag = i === 0 ? "ĐÃ XÁC NHẬN" : i === half ? "PHÂN TÍCH HÀNH VI" : null;
               return (
-                <div
-                  key={i}
-                  style={{
-                    // Final line is the thesis's payoff/climax — printed at
-                    // 2x the size of the setup lines so it visibly lands.
-                    fontSize: isLast ? 64 : 34,
-                    fontWeight: isLast ? 900 : 800,
-                    color: p2Colors.textPrimary,
-                    textAlign: "center",
-                    maxWidth: 820,
-                    lineHeight: 1.2,
-                    marginTop: isLast ? 12 : 0,
-                    opacity: lineOpacity,
-                  }}
-                >
-                  {line}
-                </div>
+                <React.Fragment key={i}>
+                  {tag && (
+                    <div
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 800,
+                        letterSpacing: 2,
+                        color: i === 0 ? p2Colors.grab : p2Colors.warmHome,
+                        opacity: lineOpacity,
+                        marginTop: i === 0 ? 0 : 16,
+                      }}
+                    >
+                      {tag}
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      // Final line is the thesis's payoff/climax — printed at
+                      // 2x the size of the setup lines so it visibly lands.
+                      fontSize: isLast ? 64 : 34,
+                      fontWeight: isLast ? 900 : 800,
+                      color: p2Colors.textPrimary,
+                      textAlign: "center",
+                      maxWidth: 820,
+                      lineHeight: 1.2,
+                      marginTop: isLast ? 12 : 0,
+                      opacity: lineOpacity,
+                    }}
+                  >
+                    {line}
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>

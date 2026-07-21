@@ -1,0 +1,298 @@
+{
+  "video_id": "grab_driver_retention_p2_final",
+  "title": "Chẳng ai ép tài xế phải chạy tiếp khi đã mệt. Vậy sao họ vẫn nhận thêm cuốc?",
+  "fps": 30,
+  "narration_language": "vi",
+  "meta": {
+    "series": "Grab",
+    "part": 2,
+    "target_duration_seconds": 110,
+    "editorial_tone": "phim tài liệu xã hội, gần gũi, quan sát thay vì kết tội",
+    "core_question": "Chẳng ai ép tài xế phải chạy tiếp khi đã mệt. Vậy sao họ vẫn nhận thêm cuốc?",
+    "core_thesis": "Chế độ tối ưu hóa không buộc tài xế chạy tiếp, nhưng cách tính thời gian có thể làm cho việc dừng lại ngay trước một mốc trở nên khó hơn.",
+    "voice_direction": {
+      "style": "Kể như đang quan sát một người thật ngoài đường; câu ngắn, tự nhiên, không đọc như quảng cáo hay bản tin.",
+      "pace": "Chậm vừa; ngắt rõ sau các chi tiết đời thường và trước những dữ kiện đã kiểm chứng.",
+      "emotion_arc": "Mệt mỏi đời thường → xuất hiện lựa chọn → giải thích cơ chế → thấy sức nặng của thời gian → kết luận dè dặt.",
+      "avoid": "Không dùng giọng buộc tội, không gọi đây là cái bẫy, không nói ứng dụng điều khiển tài xế."
+    },
+    "fact_disclaimer": "Nhân vật, thời điểm 23:47 và tình huống cuốc xe xuất hiện ở phút 43 là minh họa. Quy tắc 45 phút, cách cộng thời gian, các quyền lợi và mức thưởng tối đa được dẫn từ thông báo chính thức của Grab.",
+    "claim_guardrails": [
+      "Không khẳng định Grab cố tình gửi cuốc xe khi tài xế sắp đạt mốc thời gian.",
+      "Không khẳng định mọi tài xế đều nhận mức thưởng 4%.",
+      "Không gọi 45 phút là mốc nhận tiền; đây là thời gian tối thiểu để phiên trực tuyến được cộng vào tổng thời gian trong ngày.",
+      "Không sử dụng lại tình huống 19/20 cuốc, tỷ lệ nhận 90% hoặc tỷ lệ hủy 8%.",
+      "Phân biệt rõ dữ kiện Grab công bố với phần phân tích hành vi của video."
+    ],
+    "sources": [
+      {
+        "label": "GrabCar — Chế độ tối ưu hóa, mở rộng toàn quốc từ 01/06/2026",
+        "url": "https://www.grab.com/vn/turbo-tpmorong/",
+        "supports": [
+          "Áp dụng toàn quốc cho đối tác đang hoạt động dịch vụ GrabCar từ 01/06/2026",
+          "Thời gian trực tuyến được tính lại mỗi ngày",
+          "Tắt chế độ hoặc đăng xuất trước 45 phút thì thời gian vừa sử dụng không được cộng vào tổng thời gian trong ngày",
+          "Mỗi quyền lợi có yêu cầu thời gian riêng và được hiển thị trong ứng dụng Grab Driver",
+          "Bản đồ nhu cầu đặt xe không khả dụng khi bật chế độ tối ưu hóa"
+        ]
+      },
+      {
+        "label": "Thông cáo Grab ngày 23/04/2026",
+        "url": "https://www.grab.com/vn/en/press/others/grab-viet-nam-tung-chuong-trinh-thuong-lon-cho-doi-tac-tai-xe-khap-ca-nuoc/",
+        "supports": [
+          "Mức thưởng của chế độ tối ưu hóa lên tới 4% doanh thu cuốc xe trên tổng thời gian hoạt động"
+        ]
+      }
+    ],
+    "visual_bible": {
+      "aspect_ratio": "9:16",
+      "system_world": "Màu xanh lạnh, đồng hồ và thanh thời gian sắc nét, chuyển động đều và chính xác.",
+      "human_world": "Đèn đường vàng, mặt đường ướt, gương mặt mệt, ánh điện thoại phản chiếu trên kính mũ bảo hiểm.",
+      "system_palette": [
+        "#00B14F",
+        "#A7F3C3",
+        "#071B12"
+      ],
+      "human_palette": [
+        "#F2A65A",
+        "#263746",
+        "#0B0D0F"
+      ],
+      "typography": "Chữ không chân, gọn, dễ đọc; tránh kiểu chữ mang cảm giác trò chơi.",
+      "recurring_motif": "Vòng đồng hồ 45 phút xuất hiện trên điện thoại, mặt đường, bánh xe và cuối cùng phản chiếu trong mắt tài xế.",
+      "text_rule": "Mỗi khung hình chỉ giữ một ý; chữ chính tối đa hai dòng; nhãn nguồn và nhãn minh họa luôn đủ lâu để đọc."
+    }
+  },
+  "shots": [
+    {
+      "id": "shot_01_tired_driver_hook",
+      "type": "MapDotToHumanShot",
+      "duration_frames": 539,
+      "narration": "Chẳng ai ép tài xế phải chạy tiếp khi đã mệt. Vậy sao họ vẫn nhận thêm cuốc? Gần nửa đêm. Pin còn năm phần trăm. Anh vừa định tắt ứng dụng để về thì một cuốc xe mới xuất hiện. Cùng lúc đó, đồng hồ của chế độ tối ưu hóa đang dừng ở phút bốn mươi ba trên bốn mươi lăm.",
+      "narration_timing_frames": [
+        10,
+        514
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "CHẲNG AI ÉP ANH CHẠY TIẾP.",
+        "subheadline": "VẬY SAO ANH VẪN NHẬN THÊM CUỐC?",
+        "seriesLabel": "GRAB · PHẦN 2",
+        "illustrativeLabel": "TÌNH HUỐNG MINH HỌA",
+        "batteryPercent": 5,
+        "timeLabel": "23:47",
+        "targetCurrent": 43,
+        "targetTotal": 45,
+        "sideNoteText": "Cuốc xe mới",
+        "performanceNote": "Đọc câu hỏi đầu như đang thật sự thắc mắc, không lên giọng kết tội. Ngắt nửa nhịp sau từng chi tiết: gần nửa đêm, năm phần trăm pin, phút bốn mươi ba.",
+        "visualDirection": "Mở bằng một chấm xanh trên bản đồ. Chấm xanh biến thành ánh điện thoại trên kính mũ bảo hiểm. Tài xế nhìn lần lượt nút tắt ứng dụng, thông báo cuốc mới và vòng thời gian 43/45. Giữ nhãn tình huống minh họa trong toàn bộ đoạn dựng tình huống.",
+        "transitionOut": "Vòng 43/45 phóng lớn, chiếm toàn khung hình rồi trở thành sơ đồ giải thích chế độ."
+      },
+      "on_screen_text": "23:47 · 5% PIN · 43/45 PHÚT",
+      "sound_effects": [
+        {
+          "name": "night_traffic_and_light_rain",
+          "start_frame": 0,
+          "volume": 0.3
+        },
+        {
+          "name": "low_battery_warning",
+          "start_frame": 92,
+          "volume": 0.5
+        },
+        {
+          "name": "soft_trip_notification",
+          "start_frame": 205,
+          "volume": 0.65
+        }
+      ]
+    },
+    {
+      "id": "shot_02_explain_optimization_mode",
+      "type": "WorkToGameMorphShot",
+      "duration_frames": 606,
+      "narration": "Chiếc đồng hồ ấy là gì? Grab gọi tính năng này là Chế độ tối ưu hóa – Turbo, dành cho tài xế GrabCar và được mở rộng toàn quốc từ ngày mùng một tháng Sáu năm 2026. Hiểu đơn giản, khi tài xế bật chế độ này và trực tuyến, hệ thống bắt đầu cộng thời gian hoạt động trong ngày. Đủ thời gian, họ có thể mở thêm quyền lợi.",
+      "narration_timing_frames": [
+        8,
+        584
+      ],
+      "transition_out_delay_frames": 22,
+      "props": {
+        "headline": "CHẾ ĐỘ TỐI ƯU HÓA LÀ GÌ?",
+        "officialNameLabel": "TÊN CHÍNH THỨC: CHẾ ĐỘ TỐI ƯU HÓA – TURBO",
+        "transformations": [
+          {
+            "from": "BẬT CHẾ ĐỘ",
+            "to": "BẮT ĐẦU GHI NHẬN"
+          },
+          {
+            "from": "THỜI GIAN TRỰC TUYẾN",
+            "to": "TỔNG THỜI GIAN TRONG NGÀY"
+          },
+          {
+            "from": "ĐỦ THỜI GIAN",
+            "to": "MỞ THÊM QUYỀN LỢI"
+          }
+        ],
+        "sourceLabel": "Nguồn: Grab · áp dụng toàn quốc cho GrabCar từ 01/06/2026 · bản đồ nhu cầu tạm ẩn khi bật chế độ",
+        "performanceNote": "Chỉ đọc từ Turbo một lần như tên riêng. Từ đây về sau chỉ gọi là chế độ tối ưu hóa.",
+        "visualDirection": "Không dùng hình ảnh trò chơi. Minh họa bằng ba thao tác thật trên điện thoại: bật chế độ, thời gian tăng lên và thẻ quyền lợi mở ra.",
+        "transitionOut": "Ba thao tác xếp thành ba quy tắc trên cùng một vòng đồng hồ."
+      },
+      "on_screen_text": "BẬT CHẾ ĐỘ → CỘNG THỜI GIAN → MỞ QUYỀN LỢI",
+      "sound_effects": [
+        {
+          "name": "soft_interface_sequence",
+          "start_frame": 94,
+          "volume": 0.38
+        }
+      ]
+    },
+    {
+      "id": "shot_03_three_confirmed_rules",
+      "type": "TripleMetricOrbitShot",
+      "duration_frames": 643,
+      "narration": "Có ba điều cần nhớ. Thứ nhất, nếu tài xế tắt chế độ hoặc đăng xuất trước bốn mươi lăm phút, khoảng thời gian vừa hoạt động sẽ không được cộng. Thứ hai, tổng thời gian được tính lại mỗi ngày. Và thứ ba, mỗi quyền lợi có một yêu cầu thời gian riêng. Grab không công bố một con số chung trên trang thông tin; tài xế phải xem ngay trong ứng dụng của mình.",
+      "narration_timing_frames": [
+        10,
+        618
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "BA QUY TẮC ĐÃ ĐƯỢC GRAB CÔNG BỐ.",
+        "metrics": [
+          {
+            "label": "PHIÊN TỐI THIỂU",
+            "value": "45 PHÚT"
+          },
+          {
+            "label": "TỔNG THỜI GIAN",
+            "value": "TÍNH LẠI MỖI NGÀY"
+          },
+          {
+            "label": "NGƯỠNG QUYỀN LỢI",
+            "value": "XEM TRONG ỨNG DỤNG"
+          }
+        ],
+        "sourceLabel": "Nguồn: Thể lệ Chế độ tối ưu hóa của Grab",
+        "performanceNote": "Đọc đoạn này trung tính như phần kiểm chứng. Không nhấn từ ngữ theo kiểu phát hiện bí mật.",
+        "visualDirection": "Ba vòng số liệu lần lượt xuất hiện. Vòng 45 phút phải cho thấy thời gian chưa đủ sẽ không được đưa sang tổng trong ngày; tránh hiệu ứng xóa tiền hoặc xóa cuốc xe.",
+        "transitionOut": "Vòng 45 phút tách thành 45 ô nhỏ; 43 ô sáng, hai ô cuối còn tối."
+      },
+      "on_screen_text": "45 PHÚT · TÍNH LẠI MỖI NGÀY · NGƯỠNG XEM TRONG ỨNG DỤNG",
+      "sound_effects": [
+        {
+          "name": "measured_clock_ticks",
+          "start_frame": 45,
+          "volume": 0.28
+        }
+      ]
+    },
+    {
+      "id": "shot_06_one_more_trip_choice",
+      "type": "WeightedChoiceWorldShot",
+      "duration_frames": 613,
+      "narration": "Và đúng lúc đó, một cuốc xe mới hiện lên. Không có bằng chứng nào cho thấy Grab cố tình gửi cuốc vào phút bốn mươi ba. Chi tiết ấy chỉ là tình huống minh họa. Nhưng lựa chọn của tài xế thì có sức nặng thật. Tắt ứng dụng, về nhà và không được cộng phiên vừa rồi. Hoặc chờ đủ mốc, nhận thêm cuốc, rồi về muộn hơn dự định.",
+      "narration_timing_frames": [
+        12,
+        588
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "KHÔNG AI ÉP ANH NHẬN CUỐC.",
+        "subheadline": "NHƯNG HAI LỰA CHỌN KHÔNG CÒN NHẸ NHƯ NHAU.",
+        "homeLabel": "TẮT ỨNG DỤNG · VỀ NHÀ",
+        "progressLabel": "CHỜ ĐỦ MỐC · NHẬN THÊM CUỐC",
+        "homeDetails": [
+          "PIN CÒN 5%",
+          "TRỜI ĐÃ KHUYA",
+          "43 PHÚT KHÔNG ĐƯỢC CỘNG"
+        ],
+        "progressDetails": [
+          "CÒN 2 PHÚT",
+          "PHIÊN ĐƯỢC GHI NHẬN",
+          "VỀ MUỘN HƠN DỰ ĐỊNH"
+        ],
+        "illustrativeLabel": "CUỐC XE XUẤT HIỆN Ở PHÚT 43 LÀ TÌNH HUỐNG MINH HỌA",
+        "scaleTiltRatio": 0.82,
+        "showRouteVignettes": true,
+        "performanceNote": "Câu phủ định bằng chứng phải được đọc rõ, không lướt qua. Đoạn cuối đọc như hai suy nghĩ đang diễn ra trong đầu tài xế.",
+        "visualDirection": "Nút về nhà và thẻ cuốc mới cùng xuất hiện. Cán cân chỉ nghiêng nhẹ vì thời gian đã tích lũy, không dùng dây kéo hoặc bàn tay điều khiển tài xế.",
+        "transitionOut": "Thẻ cuốc xe mở thành phần phân tích khoản thưởng theo doanh thu."
+      },
+      "on_screen_text": "TÌNH HUỐNG MINH HỌA · KHÔNG PHẢI BẰNG CHỨNG VỀ CÁCH PHÂN CUỐC",
+      "sound_effects": [
+        {
+          "name": "single_trip_notification",
+          "start_frame": 45,
+          "volume": 0.62
+        },
+        {
+          "name": "quiet_decision_tension",
+          "start_frame": 190,
+          "volume": 0.3
+        }
+      ]
+    },
+    {
+      "id": "shot_07_how_revenue_reward_is_calculated",
+      "type": "FalseCompletionShot",
+      "duration_frames": 585,
+      "narration": "Tiền là lý do chiếc đồng hồ này đáng quan tâm. Trong thông báo ngày hai mươi ba tháng Tư năm 2026, Grab nói chế độ tối ưu hóa có mức thưởng lên tới bốn phần trăm doanh thu cuốc xe, dựa trên tổng thời gian hoạt động. Nhưng lên tới bốn phần trăm là mức tối đa, không có nghĩa cuốc nào cũng được cộng bốn phần trăm.",
+      "narration_timing_frames": [
+        8,
+        560
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "headline": "“LÊN TỚI 4%” KHÔNG CÓ NGHĨA LUÔN LÀ 4%.",
+        "completedLabel": "CUỐC XE HOÀN THÀNH",
+        "driverStatusLabel": "KHOẢN THƯỞNG ĐƯỢC HIỂN THỊ VÀ CHUYỂN VÀO VÍ",
+        "calculationLabels": [],
+        "sourceLabel": "Nguồn: Thông cáo Grab 23/04/2026",
+        "performanceNote": "Nhấn rõ hai chữ 'lên tới'. Không đọc 4% như một lời hứa thu nhập.",
+        "visualDirection": "Bắt đầu bằng con số 4% lớn, sau đó thêm chữ 'lên tới'. Không dùng tiền bay hoặc hiệu ứng trúng thưởng.",
+        "transitionOut": "Con số 4% thu nhỏ thành một chi tiết trên màn hình; gương mặt tài xế trở lại chiếm phần lớn khung hình."
+      },
+      "on_screen_text": "TỐI ĐA 4% · KHÔNG PHẢI 4% TRÊN TOÀN BỘ GIÁ CUỐC",
+      "sound_effects": [
+        {
+          "name": "revenue_breakdown_ticks",
+          "start_frame": 135,
+          "volume": 0.32
+        }
+      ]
+    },
+    {
+      "id": "shot_08_fact_and_behavioral_inference",
+      "type": "ThesisTeaserShot",
+      "duration_frames": 755,
+      "narration": "Điều tài liệu chứng minh là cách hệ thống tính thời gian và mở quyền lợi. Nó không chứng minh Grab tạo ra chế độ này để giữ tài xế ngoài đường lâu hơn. Nhưng từ góc nhìn hành vi, khi tài xế đã gần chạm một mốc, dừng lại không còn chỉ là nghỉ ngơi. Nó còn mang cảm giác bỏ lại thời gian vừa tích lũy. Không cần ai đứng bên cạnh nói: cố thêm đi. Chiếc đồng hồ đã khiến câu hỏi ấy xuất hiện trong đầu.",
+      "narration_timing_frames": [
+        10,
+        730
+      ],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "mode": "THESIS",
+        "thesisLines": [
+          "CÁCH TÍNH THỜI GIAN: ĐÃ ĐƯỢC CÔNG BỐ.",
+          "Ý ĐỊNH GIỮ CHÂN: CHƯA THỂ KHẲNG ĐỊNH.",
+          "NHƯNG KHI DỪNG LẠI CÓ MỘT CÁI GIÁ,",
+          "HAI PHÚT CÒN LẠI BỖNG NẶNG HƠN."
+        ],
+        "performanceNote": "Dừng một nhịp sau hai câu đầu để phân biệt dữ kiện và suy luận. Câu cuối đọc nhỏ hơn, không đọc như khẩu hiệu.",
+        "visualDirection": "Tách khung hình thành hai lớp chữ: Đã xác nhận và Phân tích hành vi. Sau đó xóa toàn bộ giao diện, chỉ giữ tài xế, mưa và vòng đồng hồ phản chiếu rất mờ trên kính.",
+        "transitionOut": "Vòng đồng hồ tắt. Đèn hậu xe đi xa rồi hòa thành biểu tượng đơn hàng ở phần kế tiếp."
+      },
+      "on_screen_text": "CƠ CHẾ ĐƯỢC XÁC NHẬN · ĐỘNG CƠ THIẾT KẾ CHƯA THỂ KHẲNG ĐỊNH",
+      "sound_effects": [
+        {
+          "name": "music_drop_to_rain",
+          "start_frame": 270,
+          "volume": 0.38
+        }
+      ]
+    }
+  ]
+}

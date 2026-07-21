@@ -8,14 +8,18 @@ import { p2Colors } from "./grabfoodP2Palette";
 
 export const ProgressMemoryTrailShot: React.FC<ProgressMemoryTrailSceneProps> = ({
   headline,
+  subheadline,
   totalCells,
   filledCells,
+  illustrativeLabel,
+  memoryFragments,
   morphCellsToRoad,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const labelOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const tugPhase = interpolate(frame, [totalCells * 8 + 40, totalCells * 8 + 100], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -37,9 +41,63 @@ export const ProgressMemoryTrailShot: React.FC<ProgressMemoryTrailSceneProps> = 
       <AbsoluteFill style={{ opacity: exitOpacity }}>
       <AmbientBackground accent={p2Colors.grab} />
       <SafeZone style={{ justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-        <div style={{ fontSize: 40, fontWeight: 800, textAlign: "center", color: p2Colors.textPrimary, opacity: headlineOpacity, marginBottom: 48 }}>
+        {illustrativeLabel && (
+          <div
+            style={{
+              opacity: labelOpacity,
+              marginBottom: 18,
+              padding: "6px 16px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.16)",
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: p2Colors.textDim,
+            }}
+          >
+            {illustrativeLabel}
+          </div>
+        )}
+        <div style={{ fontSize: 40, fontWeight: 800, textAlign: "center", color: p2Colors.textPrimary, opacity: headlineOpacity }}>
           {headline}
         </div>
+        {subheadline && (
+          <div style={{ fontSize: 24, fontWeight: 700, textAlign: "center", color: p2Colors.textDim, opacity: headlineOpacity, marginTop: 10 }}>
+            {subheadline}
+          </div>
+        )}
+
+        {memoryFragments && memoryFragments.length > 0 && (
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 720, marginTop: 26, marginBottom: 8 }}>
+            {memoryFragments.map((fragment, i) => {
+              const start = 30 + i * 22;
+              const fragOpacity = interpolate(frame, [start, start + 16, start + 90, start + 110], [0, 1, 1, 0], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              });
+              const drift = interpolate(frame, [start, start + 110], [8, -6], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+              return (
+                <div
+                  key={i}
+                  style={{
+                    opacity: fragOpacity,
+                    transform: `translateY(${drift}px)`,
+                    padding: "5px 12px",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: p2Colors.textDim,
+                  }}
+                >
+                  {fragment}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Cell size scales down as totalCells grows so the grid still packs
             into clean, evenly-filled rows (e.g. 10 per row at 20 cells)

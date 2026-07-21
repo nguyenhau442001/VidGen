@@ -10,6 +10,7 @@ import { p2Colors, P2Icons } from "./grabfoodP2Palette";
 // with battery/route; 130+ notification badge springs in over it.
 export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
   headline,
+  subheadline,
   seriesLabel,
   illustrativeLabel,
   batteryPercent,
@@ -55,9 +56,9 @@ export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
     extrapolateRight: "clamp",
   });
 
-  // Night-street environmental layer: a clear motorbike + rider outline icon
-  // placed beside the phone (not behind/blurred), so a viewer immediately
-  // reads it as "motorbike driver" rather than an ambiguous dark shape.
+  // Night-street environmental layer: a clear car outline icon placed
+  // beside the phone (not behind/blurred), so a viewer immediately reads
+  // it as "GrabCar driver" rather than an ambiguous dark shape.
   const streetOpacity = interpolate(frame, [50, 95], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -139,9 +140,8 @@ export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
           }}
         />
 
-        {/* Motorbike icon — paired with an explicit text label since the
-            bare wheels-and-frame glyph alone was ambiguous (could read as
-            a bicycle) at a glance. */}
+        {/* Car icon — paired with an explicit text label since the bare
+            wheels-and-frame glyph alone was ambiguous at a glance. */}
         <div
           style={{
             opacity: streetOpacity,
@@ -173,9 +173,9 @@ export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
               {sideNoteText}
             </div>
           )}
-          <P2Icons.MotorbikeRider size={220} color={p2Colors.textPrimary} />
+          <P2Icons.Car size={220} color={p2Colors.textPrimary} />
           <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: 2, color: p2Colors.textDim }}>
-            XE MÁY
+            Ô TÔ
           </span>
         </div>
 
@@ -290,17 +290,31 @@ export const MapDotToHumanShot: React.FC<MapDotToHumanSceneProps> = ({
           justifyContent: "center",
         }}
       >
-        <div
-          style={{
-            fontSize: 40,
-            fontWeight: 800,
-            lineHeight: 1.25,
-            color: p2Colors.textPrimary,
-            textAlign: "center",
-            opacity: headlineOpacity,
-          }}
-        >
-          {headline}
+        <div style={{ opacity: headlineOpacity, display: "flex", flexDirection: "column", gap: 14 }}>
+          <div
+            style={{
+              fontSize: 40,
+              fontWeight: 800,
+              lineHeight: 1.25,
+              color: p2Colors.textPrimary,
+              textAlign: "center",
+            }}
+          >
+            {headline}
+          </div>
+          {subheadline && (
+            <div
+              style={{
+                fontSize: 26,
+                fontWeight: 700,
+                lineHeight: 1.3,
+                color: p2Colors.textDim,
+                textAlign: "center",
+              }}
+            >
+              {subheadline}
+            </div>
+          )}
         </div>
       </div>
       </AbsoluteFill>

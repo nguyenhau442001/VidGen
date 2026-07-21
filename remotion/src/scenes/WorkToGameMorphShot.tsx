@@ -11,7 +11,9 @@ import { p2Colors, P2Icons } from "./grabfoodP2Palette";
 // scaleX so it reads as "becoming", not just appearing.
 export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
   headline,
+  officialNameLabel,
   transformations,
+  sourceLabel,
   showDriverSilhouette,
   durationInFrames,
 }) => {
@@ -20,7 +22,12 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
 
   const phoneShrink = spring({ frame, fps, config: { damping: 16, stiffness: 140 }, durationInFrames: 30 });
   const headlineOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const labelOpacity = interpolate(frame, [10, 30], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const silhouetteOpacity = interpolate(frame, [10, 35], [0, 0.5], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const sourceOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 30], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
   const exitOpacity = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -59,6 +66,27 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
         >
           {headline}
         </div>
+
+        {officialNameLabel && (
+          <div
+            style={{
+              opacity: labelOpacity,
+              alignSelf: "flex-start",
+              marginTop: -36,
+              marginBottom: 40,
+              padding: "8px 16px",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: 0.6,
+              color: p2Colors.textDim,
+            }}
+          >
+            {officialNameLabel}
+          </div>
+        )}
 
         {transformations.map((t, i) => {
           const start = 40 + i * 26;
@@ -107,6 +135,24 @@ export const WorkToGameMorphShot: React.FC<WorkToGameMorphSceneProps> = ({
           );
         })}
       </SafeZone>
+
+      {sourceLabel && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 56,
+            left: 60,
+            right: 60,
+            fontSize: 15,
+            fontWeight: 600,
+            color: p2Colors.textDim,
+            opacity: sourceOpacity,
+            textAlign: "center",
+          }}
+        >
+          {sourceLabel}
+        </div>
+      )}
       </AbsoluteFill>
     </AbsoluteFill>
   );

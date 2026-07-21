@@ -1,0 +1,236 @@
+# GRAB PHẦN 2
+
+## CHẲNG AI ÉP TÀI XẾ PHẢI CHẠY TIẾP KHI ĐÃ MỆT. VẬY SAO HỌ VẪN NHẬN THÊM CUỐC?
+
+**Ghi chú sản xuất — không đọc:**
+
+Bản dựng hiện hành, đồng bộ với `content/json/grabcar_optimization_mode_p2.json`
+(video_id `grab_driver_retention_p2_final`). 6 cảnh, ~110s ở 30fps, 1080×1920. Theme hình
+ảnh tối, điện ảnh, cục bộ cho riêng video này. Rút gọn từ bản 9 cảnh ban đầu (cắt cảnh
+"hai phút nặng hơn", "đổi thời gian lấy quyền lợi" và teaser Phần 3) theo yêu cầu người
+dùng để về gần mốc thời lượng mục tiêu; lời đọc các cảnh còn lại giữ nguyên văn. Hai dữ
+kiện đã công bố vốn nằm ở cảnh bị cắt ("mỗi quyền lợi có ngưỡng riêng xem trong ứng dụng",
+"bản đồ nhu cầu không khả dụng khi bật chế độ") được giữ lại: dữ kiện thứ nhất đã có sẵn
+trong cảnh 3 (vòng thứ ba "NGƯỠNG QUYỀN LỢI · XEM TRONG ỨNG DỤNG"); dữ kiện thứ hai được
+gộp vào nhãn nguồn nhỏ ở cuối cảnh 2. Audit 2026-07-21 gỡ câu khấu trừ phí ở cảnh 5 (phí
+ứng dụng/thuế/phí nền tảng/phí cầu đường) vì không kiểm chứng được ở hai nguồn đã dẫn;
+xem ghi chú audit trong cảnh 5.
+
+Audit 2026-07-22: video này nói về GrabCar (Chế độ tối ưu hóa – Turbo, dịch vụ chở khách
+4 bánh), không phải GrabFood. File/video_id trước đó ("grabfood_driver_retention_matrix_p2")
+gây hiểu nhầm dù nội dung on-screen chưa từng nhắc "GrabFood" — đã đổi tên file thành
+grabcar_optimization_mode_p2 và sửa icon+nhãn cảnh 1 từ "XE MÁY" (sai — narration nói ô tô)
+thành "Ô TÔ" cho khớp GrabCar.
+
+### Thesis
+
+“Chế độ tối ưu hóa không buộc tài xế chạy tiếp, nhưng cách tính thời gian có thể làm
+cho việc dừng lại ngay trước một mốc trở nên khó hơn.”
+
+### Nguồn
+
+1. GrabCar — Chế độ tối ưu hóa, mở rộng toàn quốc từ 01/06/2026 —
+   https://www.grab.com/vn/turbo-tpmorong/
+2. Thông cáo Grab ngày 23/04/2026 —
+   https://www.grab.com/vn/en/press/others/grab-viet-nam-tung-chuong-trinh-thuong-lon-cho-doi-tac-tai-xe-khap-ca-nuoc/
+
+---
+
+## Cảnh 1 — map_dot_to_human (shot_01_tired_driver_hook)
+
+**Hình ảnh:**
+
+Mở bằng một chấm xanh trên bản đồ. Chấm xanh biến thành ánh điện thoại trên kính mũ
+bảo hiểm. Tài xế nhìn lần lượt nút tắt ứng dụng, thông báo cuốc mới và vòng thời gian
+43/45. Giữ nhãn tình huống minh họa trong toàn bộ đoạn dựng tình huống. Không hiện mọi
+thứ cùng lúc — lần lượt đưa từng chi tiết vào.
+
+**Voice-over:**
+
+“Chẳng ai ép tài xế phải chạy tiếp khi đã mệt. Vậy sao họ vẫn nhận thêm cuốc? Gần nửa
+đêm. Pin còn năm phần trăm. Anh vừa định tắt ứng dụng để về thì một cuốc xe mới xuất
+hiện. Cùng lúc đó, đồng hồ của chế độ tối ưu hóa đang dừng ở phút bốn mươi ba trên bốn
+mươi lăm.”
+
+**Chữ trên màn hình:**
+
+**CHẲNG AI ÉP ANH CHẠY TIẾP.** / **VẬY SAO ANH VẪN NHẬN THÊM CUỐC?**
+
+Nhãn series: *GRAB · PHẦN 2*. Nhãn nhỏ trên badge 43/45: *TÌNH HUỐNG MINH HỌA*.
+On-screen: 23:47 · 5% PIN · 43/45 PHÚT.
+
+**Âm thanh:**
+
+Tiếng đêm và mưa nhẹ nền thấp; cảnh báo pin yếu khẽ nổi lên; tiếng thông báo cuốc mới
+mềm, không giống âm báo chính thức của Grab.
+
+**Chuyển cảnh:**
+
+Vòng 43/45 phóng lớn, chiếm toàn khung hình rồi trở thành sơ đồ giải thích chế độ.
+
+---
+
+## Cảnh 2 — work_to_game_morph (shot_02_explain_optimization_mode)
+
+**Hình ảnh:**
+
+Không dùng hình ảnh trò chơi — đây là một chế độ làm việc, không phải trò chơi điện
+tử. Minh họa bằng ba thao tác trực quan: bật chế độ, thời gian tăng lên, thẻ quyền lợi
+mở ra.
+
+**Voice-over:**
+
+“Chiếc đồng hồ ấy là gì? Grab gọi tính năng này là Chế độ tối ưu hóa – Turbo, dành cho
+tài xế GrabCar và được mở rộng toàn quốc từ ngày mùng một tháng Sáu năm 2026. Hiểu đơn
+giản, khi tài xế bật chế độ này và trực tuyến, hệ thống bắt đầu cộng thời gian hoạt
+động trong ngày. Đủ thời gian, họ có thể mở thêm quyền lợi.”
+
+**Chữ trên màn hình:**
+
+**CHẾ ĐỘ TỐI ƯU HÓA LÀ GÌ?** Nhãn nhỏ: *TÊN CHÍNH THỨC: CHẾ ĐỘ TỐI ƯU HÓA – TURBO*
+(chỉ đọc từ "Turbo" một lần ở cảnh này; từ sau chỉ gọi "chế độ tối ưu hóa").
+On-screen: BẬT CHẾ ĐỘ → CỘNG THỜI GIAN → MỞ QUYỀN LỢI.
+Nguồn nhỏ: *Nguồn: Grab · áp dụng toàn quốc cho GrabCar từ 01/06/2026 · bản đồ nhu cầu
+tạm ẩn khi bật chế độ* (dữ kiện gộp từ cảnh "đổi thời gian lấy quyền lợi" đã cắt).
+
+**Âm thanh:**
+
+Chuỗi âm giao diện nhẹ khi từng thao tác khớp vào vị trí.
+
+**Chuyển cảnh:**
+
+Ba thao tác xếp thành ba quy tắc trên cùng một vòng đồng hồ.
+
+---
+
+## Cảnh 3 — triple_metric_orbit (shot_03_three_confirmed_rules)
+
+**Hình ảnh:**
+
+Ba vòng số liệu lần lượt xuất hiện. Vòng 45 phút phải cho thấy thời gian chưa đủ sẽ
+không được đưa sang tổng trong ngày; tránh hiệu ứng xóa tiền hoặc xóa cuốc xe.
+
+**Voice-over:**
+
+“Có ba điều cần nhớ. Thứ nhất, nếu tài xế tắt chế độ hoặc đăng xuất trước bốn mươi lăm
+phút, khoảng thời gian vừa hoạt động sẽ không được cộng. Thứ hai, tổng thời gian được
+tính lại mỗi ngày. Và thứ ba, mỗi quyền lợi có một yêu cầu thời gian riêng. Grab không
+công bố một con số chung trên trang thông tin; tài xế phải xem ngay trong ứng dụng của
+mình.”
+
+**Chữ trên màn hình:**
+
+**BA QUY TẮC ĐÃ ĐƯỢC GRAB CÔNG BỐ.**
+On-screen: 45 PHÚT · TÍNH LẠI MỖI NGÀY · NGƯỠNG XEM TRONG ỨNG DỤNG.
+Nguồn nhỏ: *Nguồn: Thể lệ Chế độ tối ưu hóa của Grab*.
+
+**Âm thanh:**
+
+Ba lớp tick đồng hồ đo lường, trung tính.
+
+**Chuyển cảnh:**
+
+Vòng 45 phút tách thành hai nhánh lựa chọn ở cảnh sau.
+
+---
+
+## Cảnh 4 — weighted_choice_world (shot_06_one_more_trip_choice)
+
+**Hình ảnh:**
+
+Nút về nhà và thẻ cuốc mới cùng xuất hiện. Cán cân chỉ nghiêng nhẹ vì thời gian đã tích
+lũy, không dùng dây kéo hoặc bàn tay điều khiển tài xế.
+
+**Voice-over:**
+
+“Và đúng lúc đó, một cuốc xe mới hiện lên. Không có bằng chứng nào cho thấy Grab cố
+tình gửi cuốc vào phút bốn mươi ba. Chi tiết ấy chỉ là tình huống minh họa. Nhưng lựa
+chọn của tài xế thì có sức nặng thật. Tắt ứng dụng, về nhà và không được cộng phiên vừa
+rồi. Hoặc chờ đủ mốc, nhận thêm cuốc, rồi về muộn hơn dự định.”
+
+**Chữ trên màn hình:**
+
+**KHÔNG AI ÉP ANH NHẬN CUỐC.** / **NHƯNG HAI LỰA CHỌN KHÔNG CÒN NHẸ NHƯ NHAU.**
+Nhãn: *CUỐC XE XUẤT HIỆN Ở PHÚT 43 LÀ TÌNH HUỐNG MINH HỌA*.
+On-screen: TÌNH HUỐNG MINH HỌA · KHÔNG PHẢI BẰNG CHỨNG VỀ CÁCH PHÂN CUỐC.
+
+**Âm thanh:**
+
+Một tiếng thông báo cuốc đơn, nhỏ; căng thẳng quyết định khe khẽ bên dưới.
+
+**Chuyển cảnh:**
+
+Thẻ cuốc xe mở thành phần phân tích khoản thưởng theo doanh thu.
+
+---
+
+## Cảnh 5 — false_completion (shot_07_how_revenue_reward_is_calculated)
+
+**Hình ảnh:**
+
+Bắt đầu bằng con số 4% lớn, sau đó thêm chữ "lên tới". Không dùng tiền bay hoặc hiệu ứng
+trúng thưởng. Khi cuốc hoàn thành, khoản thưởng được hiển thị và chuyển vào ví.
+
+**Voice-over:**
+
+“Tiền là lý do chiếc đồng hồ này đáng quan tâm. Trong thông báo ngày hai mươi ba tháng
+Tư năm 2026, Grab nói chế độ tối ưu hóa có mức thưởng lên tới bốn phần trăm doanh thu
+cuốc xe, dựa trên tổng thời gian hoạt động. Nhưng lên tới bốn phần trăm là mức tối đa,
+không có nghĩa cuốc nào cũng được cộng bốn phần trăm.”
+
+**Chữ trên màn hình:**
+
+**“LÊN TỚI 4%” KHÔNG CÓ NGHĨA LUÔN LÀ 4%.**
+On-screen: TỐI ĐA 4% · KHÔNG PHẢI 4% TRÊN TOÀN BỘ GIÁ CUỐC.
+Nguồn nhỏ: *Nguồn: Thông cáo Grab 23/04/2026*.
+
+**Ghi chú audit 2026-07-21:** Đã xóa câu "Doanh thu dùng để tính còn là số tiền sau khi
+trừ phí sử dụng ứng dụng và thuế, đồng thời không bao gồm phí nền tảng, phí cầu đường
+cùng một số khoản khác" và 4 pill khấu trừ tương ứng trên màn hình. Lý do: audit fact-check
+không tìm thấy đoạn này ở cả hai URL nguồn đã dẫn (turbo-tpmorong và thông cáo 23/04/2026);
+claim không thể kiểm chứng công khai nên bị gỡ theo yêu cầu người dùng thay vì giữ lại như
+dữ kiện đã xác nhận.
+
+**Âm thanh:**
+
+Tiếng tick nhỏ khi từng khoản phí tách ra khỏi con số.
+
+**Chuyển cảnh:**
+
+Con số 4% thu nhỏ thành một chi tiết trên màn hình; gương mặt tài xế trở lại chiếm phần
+lớn khung hình.
+
+---
+
+## Cảnh 6 — thesis_teaser, mode THESIS (shot_08_fact_and_behavioral_inference)
+
+**Hình ảnh:**
+
+Tách khung hình thành hai lớp chữ: Đã xác nhận và Phân tích hành vi. Sau đó xóa toàn bộ
+giao diện, chỉ giữ tài xế, mưa và vòng đồng hồ phản chiếu rất mờ trên kính.
+
+**Voice-over:**
+
+“Điều tài liệu chứng minh là cách hệ thống tính thời gian và mở quyền lợi. Nó không
+chứng minh Grab tạo ra chế độ này để giữ tài xế ngoài đường lâu hơn. Nhưng từ góc nhìn
+hành vi, khi tài xế đã gần chạm một mốc, dừng lại không còn chỉ là nghỉ ngơi. Nó còn
+mang cảm giác bỏ lại thời gian vừa tích lũy. Không cần ai đứng bên cạnh nói: cố thêm đi.
+Chiếc đồng hồ đã khiến câu hỏi ấy xuất hiện trong đầu.”
+
+**Chữ trên màn hình:**
+
+**CÁCH TÍNH THỜI GIAN: ĐÃ ĐƯỢC CÔNG BỐ.** *(ĐÃ XÁC NHẬN)*
+**Ý ĐỊNH GIỮ CHÂN: CHƯA THỂ KHẲNG ĐỊNH.**
+**NHƯNG KHI DỪNG LẠI CÓ MỘT CÁI GIÁ,** *(PHÂN TÍCH HÀNH VI)*
+**HAI PHÚT CÒN LẠI BỖNG NẶNG HƠN.**
+On-screen: CƠ CHẾ ĐƯỢC XÁC NHẬN · ĐỘNG CƠ THIẾT KẾ CHƯA THỂ KHẲNG ĐỊNH.
+
+**Âm thanh:**
+
+Nhạc rơi dần xuống tiếng mưa; gần như im lặng trước hai câu cuối.
+
+**Chuyển cảnh:**
+
+Fade to black — kết thúc video.
+
+---
