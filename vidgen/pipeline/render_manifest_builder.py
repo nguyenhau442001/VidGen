@@ -96,6 +96,14 @@ TYPE_MAP = {
     "WeightedChoiceWorldShot": "weighted_choice_world",
     "FalseCompletionShot": "false_completion",
     "ThesisTeaserShot": "thesis_teaser",
+    "InvoiceDiscountHookShot": "invoice_discount_hook",
+    "PayerRevealShot": "payer_reveal",
+    "LedgerEntryShot": "ledger_entry",
+    "CostBreakdownShot": "cost_breakdown",
+    "SponsorComboShot": "sponsor_combo",
+    "PayerMatrixShot": "payer_matrix",
+    "TriPhoneRevealShot": "tri_phone_reveal",
+    "CostTransferOutroShot": "cost_transfer_outro",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

@@ -75,6 +75,14 @@ import { DualClockRouteShot } from "./scenes/DualClockRouteShot";
 import { WeightedChoiceWorldShot } from "./scenes/WeightedChoiceWorldShot";
 import { FalseCompletionShot } from "./scenes/FalseCompletionShot";
 import { ThesisTeaserShot } from "./scenes/ThesisTeaserShot";
+import { InvoiceDiscountHookShot } from "./scenes/InvoiceDiscountHookShot";
+import { PayerRevealShot } from "./scenes/PayerRevealShot";
+import { LedgerEntryShot } from "./scenes/LedgerEntryShot";
+import { CostBreakdownShot } from "./scenes/CostBreakdownShot";
+import { SponsorComboShot } from "./scenes/SponsorComboShot";
+import { PayerMatrixShot } from "./scenes/PayerMatrixShot";
+import { TriPhoneRevealShot } from "./scenes/TriPhoneRevealShot";
+import { CostTransferOutroShot } from "./scenes/CostTransferOutroShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -321,6 +329,22 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <FalseCompletionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "thesis_teaser":
       return <ThesisTeaserShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "invoice_discount_hook":
+      return <InvoiceDiscountHookShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "payer_reveal":
+      return <PayerRevealShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "ledger_entry":
+      return <LedgerEntryShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "cost_breakdown":
+      return <CostBreakdownShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "sponsor_combo":
+      return <SponsorComboShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "payer_matrix":
+      return <PayerMatrixShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "tri_phone_reveal":
+      return <TriPhoneRevealShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "cost_transfer_outro":
+      return <CostTransferOutroShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }

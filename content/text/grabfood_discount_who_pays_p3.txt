@@ -1,0 +1,188 @@
+# GRABFOOD PHẦN 3
+
+## AI THỰC SỰ TRẢ TIỀN CHO MÃ GIẢM GIÁ?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `grabfood_discount_who_pays_p3`, video_id `grabfood_discount_who_pays_p3`. 8 cảnh,
+mục tiêu 65–75s ở 30fps, 1080×1920. Chủ đề: ai chịu chi phí khi khách áp mã giảm giá
+GrabFood — không đào sâu thuật toán, không nhắc Bullseye. Toàn bộ giao diện hóa đơn, ứng
+dụng và sổ đối soát trong video là **dựng minh họa trung tính**, không phải ảnh chụp thật
+từ ứng dụng Grab — mọi cảnh có giao diện phải giữ nhãn "TÌNH HUỐNG MINH HỌA". Không gán
+nhà tài trợ cho một mã cụ thể nếu không có điều khoản xác nhận; ví dụ Pepsi ở cảnh 5 dùng
+đúng số liệu đã công bố, không suy diễn thêm. Không nói tài xế bị trừ tiền hay "chịu
+thiệt" — chỉ dùng "chịu chi phí".
+
+### Nguồn
+
+1. Điều khoản merchant Grab — https://www.grab.com/vn/terms/merchant/
+2. GrabFood tới nửa giá — https://merchant.grab.com/vn-vn/blog/grabfood-toi-nua-gia
+3. Giải đấu GrabFood x Pepsi — https://merchant.grab.com/vn-vn/blog/tournament-grabfood-pepsi
+4. Ưu đãi trải nghiệm 50% — Grab ngon rẻ — https://merchant.grab.com/vn-vn/blog/uudaitrainghiem50-grabngonre
+5. Đồng tài trợ khuyến mãi gói tiêu chuẩn — https://merchant.grab.com/vn-vn/blog/dongtaitrokhuyenmaigoitieuchuan
+
+Tên nguồn hiển thị ngắn gọn trên màn hình ở cảnh liên quan (ví dụ "Nguồn: Điều khoản
+merchant Grab"), không hiện URL dài.
+
+---
+
+## Cảnh 1 — Ngón tay áp mã (shot_01_invoice_discount_hook)
+
+**Hình ảnh:**
+
+Một hóa đơn GrabFood hiện trên màn hình điện thoại: vài món ăn, tổng tạm tính 150.000đ.
+Ngón tay chạm vào ô nhập mã giảm giá. Một chip mã giảm giá bật sáng. Số tiền giảm
+40.000đ tách khỏi hóa đơn, bay sang một bên, hóa đơn còn lại 110.000đ. Giữ nhãn "TÌNH
+HUỐNG MINH HỌA" trong toàn cảnh vì đây là giao diện dựng lại, không phải ảnh chụp thật.
+
+**Voice-over:**
+
+"Chỉ mất một giây để áp mã giảm giá. Nhưng ai thực sự trả tiền cho nó?"
+
+**Chữ trên màn hình:**
+
+Hóa đơn: TẠM TÍNH 150.000Đ · MÃ GIẢM GIÁ · TỔNG 110.000Đ. Số tách rời: **-40.000Đ**.
+Nhãn nhỏ: *TÌNH HUỐNG MINH HỌA*.
+
+---
+
+## Cảnh 2 — Ba người có thể trả (shot_02_payer_reveal)
+
+**Hình ảnh:**
+
+Khoản tiền −40.000đ vừa tách ra bay về phía logo Grab, dừng lại ngay trước khi chạm vào.
+Logo mờ dần, ba nhãn hiện ra bên dưới khoản tiền: Nhà hàng, Grab, Nhãn hàng — như ba
+điểm đến có thể có của cùng một khoản chi phí.
+
+**Voice-over:**
+
+"Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau."
+
+**Chữ trên màn hình:**
+
+**KHÔNG PHẢI LÚC NÀO CŨNG LÀ GRAB.** On-screen: NHÀ HÀNG · GRAB · NHÃN HÀNG.
+
+---
+
+## Cảnh 3 — Nhà hàng tự tạo ưu đãi (shot_03_ledger_entry)
+
+**Hình ảnh:**
+
+Giao diện tạo khuyến mại phía nhà hàng: một nút "Tạo ưu đãi" được bật. Cảnh chuyển sang
+một trang sổ đối soát kiểu bảng kê, dòng doanh thu đơn hàng 150.000đ, ngay dưới là dòng
+mới hiện ra: CHI PHÍ ƯU ĐÃI −40.000Đ, cuối cùng là dòng thực nhận 110.000đ.
+
+**Voice-over:**
+
+"Grab ghi rõ: nếu nhà hàng tự tạo khuyến mại, chính nhà hàng sẽ chi trả. Phần giảm giá
+được cấn trừ vào doanh thu mà quán nhận về."
+
+**Chữ trên màn hình:**
+
+Sổ đối soát: DOANH THU ĐƠN HÀNG 150.000Đ / **CHI PHÍ ƯU ĐÃI −40.000Đ** / THỰC NHẬN
+110.000Đ. Nguồn nhỏ: *Nguồn: Điều khoản merchant Grab*.
+
+---
+
+## Cảnh 4 — Có thể còn một khoản nữa (shot_04_cost_breakdown)
+
+**Hình ảnh:**
+
+Cùng trang sổ đối soát, dòng chi phí tách làm hai: GIÁ TRỊ GIẢM GIÁ (khách nhìn thấy trên
+hóa đơn) và PHÍ HIỂN THỊ (chỉ hiện phía nhà hàng, không hiện phía khách). Một khung nhỏ
+đóng vai màn hình khách hàng chỉ lặp lại đúng dòng đầu tiên.
+
+**Voice-over:**
+
+"Trong một số chiến dịch, quán còn có thể trả thêm phí để ưu đãi và cửa hàng được hiển
+thị tốt hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy."
+
+**Chữ trên màn hình:**
+
+Phía nhà hàng: **GIÁ TRỊ GIẢM GIÁ −40.000Đ** + **PHÍ HIỂN THỊ**. Phía khách: chỉ
+**−40.000Đ**. Nguồn nhỏ: *Nguồn: Điều khoản merchant Grab · Chiến dịch Tiêu điểm
+GrabFood*.
+
+---
+
+## Cảnh 5 — Ví dụ GrabFood x Pepsi (shot_05_sponsor_combo)
+
+**Hình ảnh:**
+
+Ba thẻ combo món ăn xuất hiện lần lượt. Thẻ 1: món bán chạy nhất, nhãn giảm 30% với tag
+"NHÀ HÀNG". Thẻ 2 và 3: hai món khác, mỗi món nhãn giảm 5.000đ với tag "PEPSI". Phía
+dưới, dòng nhỏ ghi vai trò của Grab: HẠ TẦNG HIỂN THỊ.
+
+**Voice-over:**
+
+"Một ví dụ rất rõ là chương trình GrabFood kết hợp cùng Pepsi năm 2026. Món bán chạy
+nhất được giảm ba mươi phần trăm, do nhà hàng trả toàn bộ. Nhưng hai món khác được giảm
+năm nghìn đồng mỗi lượt, lại do Pepsi tài trợ."
+
+**Chữ trên màn hình:**
+
+**GRABFOOD × PEPSI 2026.** Thẻ 1: **-30% · NHÀ HÀNG TRẢ**. Thẻ 2 & 3: **-5.000Đ ·
+PEPSI TÀI TRỢ**. Nhãn Grab: **GRAB · HẠ TẦNG HIỂN THỊ**. Nguồn nhỏ: *Nguồn: Giải đấu
+GrabFood x Pepsi*.
+
+---
+
+## Cảnh 6 — Ma trận ai trả (shot_06_payer_matrix)
+
+**Hình ảnh:**
+
+Ba hàng lần lượt sáng lên trên một bảng: QUÁN TRẢ (nhà hàng tự tạo ưu đãi), GRAB TRẢ
+(Grab tài trợ toàn bộ mã giảm giá), CÙNG TRẢ (Grab và nhà hàng đồng tài trợ, chia nhau
+chi phí).
+
+**Voice-over:**
+
+"Ở những chương trình khác, Grab có thể tài trợ toàn bộ mã giảm giá. Cũng có chương
+trình đồng tài trợ, nơi Grab và nhà hàng cùng chia nhau khoản chi phí."
+
+**Chữ trên màn hình:**
+
+**QUÁN TRẢ** — Nhà hàng tự tạo ưu đãi. **GRAB TRẢ** — Grab tài trợ toàn bộ mã giảm giá.
+**CÙNG TRẢ** — Grab và nhà hàng đồng tài trợ. Nguồn nhỏ: *Nguồn: Đồng tài trợ khuyến mãi
+gói tiêu chuẩn*.
+
+---
+
+## Cảnh 7 — Ba điện thoại, ba nguồn tiền (shot_07_tri_phone_reveal)
+
+**Hình ảnh:**
+
+Ba điện thoại xếp cạnh nhau, mỗi máy hiện cùng một dòng: GIẢM 40.000Đ. Từng máy lần lượt
+lật mặt, để lộ nguồn tiền phía sau: Doanh thu quán, Ngân sách Grab, Ngân sách tiếp thị
+nhãn hàng.
+
+**Voice-over:**
+
+"Với khách hàng, tất cả chỉ là một con số biến khỏi hóa đơn. Nhưng phía sau nó có thể là
+doanh thu của quán, ngân sách của Grab hoặc tiền tiếp thị từ một nhãn hàng."
+
+**Chữ trên màn hình:**
+
+Ba máy: **GIẢM 40.000Đ**. Mặt sau: **DOANH THU QUÁN** · **NGÂN SÁCH GRAB** · **NGÂN SÁCH
+TIẾP THỊ NHÃN HÀNG**.
+
+---
+
+## Cảnh 8 — Kết luận (shot_08_cost_transfer_outro)
+
+**Hình ảnh:**
+
+Khoản giảm 40.000đ quay lại hình ảnh hóa đơn ban đầu, sau đó trượt sang một trong ba
+bóng silhouette đại diện Nhà hàng / Grab / Nhãn hàng, luân phiên nhấn mạnh rằng người
+chi trả không cố định. Cuối cùng toàn bộ giao diện mờ đi, chỉ còn lại chữ kết.
+
+**Voice-over:**
+
+"Người trả tiền cho mã giảm giá không cố định. Mã giảm giá không làm chi phí biến mất.
+Nó chỉ đổi người trả."
+
+**Chữ kết (thẻ đóng, không đọc thêm):**
+
+**"MÃ GIẢM GIÁ KHÔNG XÓA CHI PHÍ. NÓ CHỈ ĐỔI NGƯỜI TRẢ."**
+
+---

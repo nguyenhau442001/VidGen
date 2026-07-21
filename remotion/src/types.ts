@@ -157,7 +157,15 @@ export type ManifestScene =
   | { type: "verdict_list"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: VerdictListVisual }
   | { type: "preview_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PreviewTeaserVisual }
   | { type: "google_maps_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GoogleMapsRevealVisual }
-  | { type: "traffic_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TrafficCinematicVisual };
+  | { type: "traffic_cinematic"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TrafficCinematicVisual }
+  | { type: "invoice_discount_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: InvoiceDiscountHookVisual }
+  | { type: "payer_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PayerRevealVisual }
+  | { type: "ledger_entry"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: LedgerEntryVisual }
+  | { type: "cost_breakdown"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CostBreakdownVisual }
+  | { type: "sponsor_combo"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SponsorComboVisual }
+  | { type: "payer_matrix"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PayerMatrixVisual }
+  | { type: "tri_phone_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TriPhoneRevealVisual }
+  | { type: "cost_transfer_outro"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CostTransferOutroVisual };
 
 // Shot is the canonical public term; ManifestScene remains as a compatibility
 // alias for the existing component registry and any older imports.
@@ -1399,3 +1407,102 @@ export type ThumbnailSceneProps =
   | ({ style: "characterIcon" } & CharacterIconCoverSceneProps)
   | ({ style: "generic" } & GenericHookThumbnailSceneProps)
   | ({ style: "hskFlashCard" } & HSKFlashCardThumbnailSceneProps);
+
+// --- grabfood_discount_who_pays_p3 ------------------------------------------
+// Bespoke shot set for "who pays for a GrabFood discount code" — invoice,
+// money-flow, reconciliation-ledger and app-UI motion graphics. Built for
+// this video the same way grabcar_optimization_mode_p2 got its own shot set
+// (see grabfoodP3Palette.tsx for the local dark/fintech palette).
+
+// Cold-open receipt: a finger taps a discount chip and the discount amount
+// splits off the invoice total.
+export type InvoiceDiscountHookVisual = {
+  items?: Array<{ label: string; price: string }>;
+  subtotalLabel?: string; // default "TẠM TÍNH"
+  subtotal: string; // e.g. "150.000Đ"
+  codeLabel?: string; // default "MÃ GIẢM GIÁ"
+  discountAmount: string; // e.g. "-40.000Đ"
+  totalLabel?: string; // default "TỔNG"
+  total: string; // e.g. "110.000Đ"
+  illustrativeLabel?: string; // "TÌNH HUỐNG MINH HỌA" badge
+};
+
+export type InvoiceDiscountHookSceneProps = InvoiceDiscountHookVisual & { durationInFrames: number };
+
+// The discount pill flies toward a centered Grab mark, stops short of it,
+// then three payer chips fan out below — establishing Grab is only one of
+// three possible payers.
+export type PayerRevealVisual = {
+  headline: string;
+  accentWord?: string;
+  amount: string; // e.g. "40.000Đ"
+  payers: string[]; // e.g. ["Nhà hàng", "Grab", "Nhãn hàng"]
+  illustrativeLabel?: string;
+};
+
+export type PayerRevealSceneProps = PayerRevealVisual & { durationInFrames: number };
+
+// A "tạo ưu đãi" toggle switches on, then a reconciliation-ledger card's rows
+// fade in one at a time, with the debited row rendered in red.
+export type LedgerEntryVisual = {
+  eyebrow?: string;
+  toggleLabel?: string; // default "Tạo ưu đãi"
+  lineItems: Array<{ label: string; value: string; emphasis?: boolean }>;
+  sourceLabel?: string;
+  illustrativeLabel?: string;
+};
+
+export type LedgerEntrySceneProps = LedgerEntryVisual & { durationInFrames: number };
+
+// A merchant-side ledger panel with two cost rows, connected by a dashed line
+// down to a small customer-facing screen that only ever shows the first row.
+export type CostBreakdownVisual = {
+  merchantLabel?: string; // default "PHÍA NHÀ HÀNG"
+  merchantLines: Array<{ label: string; value: string }>;
+  customerLabel?: string; // default "PHÍA KHÁCH HÀNG"
+  customerValue: string;
+  sourceLabel?: string;
+};
+
+export type CostBreakdownSceneProps = CostBreakdownVisual & { durationInFrames: number };
+
+// Three combo cards (e.g. GrabFood x Pepsi) drop in one at a time, each
+// tagged with who funds its discount, followed by Grab's own role label.
+export type SponsorComboVisual = {
+  campaignLabel: string;
+  combos: Array<{ itemLabel: string; discountLabel: string; payerLabel: string; highlight?: boolean }>;
+  grabRoleLabel: string;
+  sourceLabel?: string;
+};
+
+export type SponsorComboSceneProps = SponsorComboVisual & { durationInFrames: number };
+
+// Three rows (e.g. QUÁN TRẢ / GRAB TRẢ / CÙNG TRẢ) light up top-to-bottom,
+// each a funding-arrangement label plus a short description.
+export type PayerMatrixVisual = {
+  headline?: string;
+  rows: Array<{ label: string; description: string }>;
+  sourceLabel?: string;
+};
+
+export type PayerMatrixSceneProps = PayerMatrixVisual & { durationInFrames: number };
+
+// Three identical phones showing the same discount amount each flip in turn
+// to reveal a different funding source printed on their "back".
+export type TriPhoneRevealVisual = {
+  amountLabel: string; // e.g. "GIẢM 40.000Đ"
+  sources: string[]; // exactly 3, e.g. ["Doanh thu quán", "Ngân sách Grab", "Ngân sách tiếp thị nhãn hàng"]
+};
+
+export type TriPhoneRevealSceneProps = TriPhoneRevealVisual & { durationInFrames: number };
+
+// Closing beat: the discount pill cycles across three destination
+// silhouettes, then the scene cuts to black and holds on two closing lines
+// with no further narration — a silent card at the very end of the video.
+export type CostTransferOutroVisual = {
+  amount: string; // e.g. "40.000Đ"
+  destinations: string[]; // exactly 3
+  closingLines: string[]; // e.g. ["MÃ GIẢM GIÁ KHÔNG XÓA CHI PHÍ.", "NÓ CHỈ ĐỔI NGƯỜI TRẢ."]
+};
+
+export type CostTransferOutroSceneProps = CostTransferOutroVisual & { durationInFrames: number };
