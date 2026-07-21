@@ -7,10 +7,20 @@ import { BE_VIETNAM_PRO } from "../styles";
 import { p3Colors, P3Icons } from "./grabfoodP3Palette";
 
 // Frame plan: receipt card settles in (0-20), a finger dot taps the code chip
-// (~50), the chip flashes and the discount amount splits off the total line,
-// flying right and shrinking the on-paper total from subtotal to final total.
+// (~50). The chip then flips into GrabFood's real "applied code" state — a
+// checkmark replaces the tag icon and the discount value prints inline on
+// the right of the row, same as the app itself shows "-40.000đ" next to an
+// applied voucher — before the amount also splits off toward the total line.
 const TAP_FRAME = 50;
+const APPLY_FRAME = TAP_FRAME + 8;
 const SPLIT_FRAME = 66;
+
+const CheckIcon: React.FC<{ size?: number; color?: string }> = ({ size = 20, color = p3Colors.grab }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" fill={color} />
+    <path d="M7.5 12.5l3 3 6-6.5" stroke="#04140a" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = ({
   headline,
@@ -35,6 +45,12 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
   });
   const fingerPress = spring({ frame: frame - TAP_FRAME, fps, config: { damping: 12, stiffness: 260 }, durationInFrames: 14 });
   const chipFlash = interpolate(frame, [TAP_FRAME, TAP_FRAME + 8, TAP_FRAME + 20], [0, 1, 0.35], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const appliedSpring = spring({ frame: frame - APPLY_FRAME, fps, config: { damping: 14, stiffness: 170 }, durationInFrames: 20 });
+  const appliedProgress = Math.min(1, appliedSpring);
+  const checkOpacity = interpolate(frame, [APPLY_FRAME, APPLY_FRAME + 8], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -156,6 +172,7 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
                 marginTop: 20,
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "space-between",
                 gap: 12,
                 padding: "14px 18px",
                 borderRadius: 16,
@@ -164,8 +181,44 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
                 position: "relative",
               }}
             >
-              <P3Icons.Tag size={22} />
-              <span style={{ fontSize: 18, fontWeight: 800, color: "#0e3b20", letterSpacing: 0.5 }}>{codeLabel}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ position: "relative", width: 22, height: 22 }}>
+                  <div style={{ position: "absolute", inset: 0, opacity: 1 - checkOpacity }}>
+                    <P3Icons.Tag size={22} />
+                  </div>
+                  <div style={{ position: "absolute", inset: 0, opacity: checkOpacity }}>
+                    <CheckIcon size={22} />
+                  </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <span style={{ fontSize: 18, fontWeight: 800, color: "#0e3b20", letterSpacing: 0.5 }}>{codeLabel}</span>
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: p3Colors.grab,
+                      opacity: checkOpacity,
+                      height: checkOpacity > 0 ? "auto" : 0,
+                      overflow: "hidden",
+                    }}
+                  >
+                    Đã áp dụng
+                  </span>
+                </div>
+              </div>
+
+              <span
+                style={{
+                  fontSize: 22,
+                  fontWeight: 900,
+                  color: p3Colors.grab,
+                  opacity: appliedProgress,
+                  transform: `scale(${0.85 + appliedProgress * 0.15})`,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {discountAmount}
+              </span>
 
               {fingerOpacity > 0 && (
                 <div
@@ -173,7 +226,7 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
                     position: "absolute",
                     right: 26,
                     top: "50%",
-                    opacity: fingerOpacity,
+                    opacity: fingerOpacity * (1 - checkOpacity),
                     transform: `translateY(-50%) scale(${1 - Math.min(1, fingerPress) * 0.22})`,
                   }}
                 >
@@ -186,6 +239,28 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
                       strokeLinejoin="round"
                     />
                   </svg>
+                </div>
+              )}
+
+              {splitProgress > 0 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    right: -30,
+                    top: "50%",
+                    opacity: Math.min(1, splitSpring * 1.4),
+                    transform: `translate(${splitX}px, calc(-50% + ${splitY}px)) scale(${0.7 + splitSpring * 0.3})`,
+                    padding: "10px 20px",
+                    borderRadius: 999,
+                    background: p3Colors.cost,
+                    color: "#fff",
+                    fontSize: 22,
+                    fontWeight: 900,
+                    boxShadow: "0 16px 40px rgba(239,68,68,0.4)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {discountAmount}
                 </div>
               )}
             </div>
@@ -204,28 +279,6 @@ export const InvoiceDiscountHookShot: React.FC<InvoiceDiscountHookSceneProps> = 
               <span>{totalLabel}</span>
               <span>{total}</span>
             </div>
-
-            {splitProgress > 0 && (
-              <div
-                style={{
-                  position: "absolute",
-                  right: -40,
-                  bottom: 60,
-                  opacity: Math.min(1, splitSpring * 1.4),
-                  transform: `translate(${splitX}px, ${splitY}px) scale(${0.7 + splitSpring * 0.3})`,
-                  padding: "14px 26px",
-                  borderRadius: 999,
-                  background: p3Colors.cost,
-                  color: "#fff",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  boxShadow: "0 16px 40px rgba(239,68,68,0.4)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {discountAmount}
-              </div>
-            )}
           </div>
         </SafeZone>
       </AbsoluteFill>
