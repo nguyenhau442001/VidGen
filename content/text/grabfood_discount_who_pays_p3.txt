@@ -56,7 +56,8 @@ Logo mờ dần, ba nhãn hiện ra bên dưới khoản tiền: Nhà hàng, Gra
 
 **Voice-over:**
 
-"Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau."
+"Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau.
+Không phải lúc nào cũng là Grab"
 
 **Chữ trên màn hình:**
 
@@ -94,8 +95,8 @@ hóa đơn) và PHÍ HIỂN THỊ (chỉ hiện phía nhà hàng, không hiện 
 
 **Voice-over:**
 
-"Trong một số chiến dịch, quán còn có thể trả thêm phí để ưu đãi và cửa hàng được hiển
-thị tốt hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy."
+"Trong một số chiến dịch, quán còn trả thêm phí quảng cáo để món lên vị trí nổi bật
+hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy."
 
 **Chữ trên màn hình:**
 

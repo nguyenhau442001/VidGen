@@ -44,11 +44,11 @@
     {
       "id": "shot_02_payer_reveal",
       "type": "PayerRevealShot",
-      "duration_frames": 158,
-      "narration": "Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau.",
+      "duration_frames": 192,
+      "narration": "Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau. Không phải lúc nào cũng là Grab",
       "narration_timing_frames": [
         0,
-        95
+        129
       ],
       "transition_out_delay_frames": 63,
       "props": {
@@ -100,13 +100,13 @@
     {
       "id": "shot_04_cost_breakdown",
       "type": "CostBreakdownShot",
-      "duration_frames": 205,
-      "narration": "Trong một số chiến dịch, quán còn có thể trả thêm phí để ưu đãi và cửa hàng được hiển thị tốt hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy.",
+      "duration_frames": 193,
+      "narration": "Trong một số chiến dịch, quán còn trả thêm phí quảng cáo để món lên vị trí nổi bật hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy.",
       "narration_timing_frames": [
         0,
         175
       ],
-      "transition_out_delay_frames": 30,
+      "transition_out_delay_frames": 18,
       "props": {
         "merchantLabel": "PHÍA QUÁN ĂN",
         "merchantLines": [
@@ -128,13 +128,13 @@
     {
       "id": "shot_05_sponsor_combo",
       "type": "SponsorComboShot",
-      "duration_frames": 304,
+      "duration_frames": 292,
       "narration": "Một ví dụ rất rõ là chương trình GrabFood kết hợp cùng Pepsi năm 2026. Món bán chạy nhất được giảm ba mươi phần trăm, do nhà hàng trả toàn bộ. Nhưng hai món khác được giảm năm nghìn đồng mỗi lượt, lại do Pepsi tài trợ.",
       "narration_timing_frames": [
         0,
         274
       ],
-      "transition_out_delay_frames": 30,
+      "transition_out_delay_frames": 18,
       "props": {
         "campaignLabel": "GRABFOOD × PEPSI 2026",
         "combos": [
@@ -193,13 +193,13 @@
     {
       "id": "shot_07_tri_phone_reveal",
       "type": "TriPhoneRevealShot",
-      "duration_frames": 221,
+      "duration_frames": 209,
       "narration": "Với khách hàng, tất cả chỉ là một con số biến khỏi hóa đơn. Nhưng phía sau nó có thể là doanh thu của quán, ngân sách của Grab hoặc tiền tiếp thị từ một nhãn hàng.",
       "narration_timing_frames": [
         0,
         191
       ],
-      "transition_out_delay_frames": 30,
+      "transition_out_delay_frames": 18,
       "props": {
         "amountLabel": "GIẢM 40.000Đ",
         "sources": [
