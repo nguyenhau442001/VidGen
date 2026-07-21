@@ -11,13 +11,14 @@ import { p3Colors } from "./grabfoodP3Palette";
 // like a short matrix/checklist of the three funding arrangements.
 const ROW_START = 24;
 const ROW_GAP = 46;
+const SOURCE_START = ROW_START + 2 * ROW_GAP + 34; // after the 3rd row's description fades in
 
 export const PayerMatrixShot: React.FC<PayerMatrixSceneProps> = ({ headline, rows, sourceLabel, durationInFrames }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const headlineOpacity = interpolate(frame, [0, 18], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const sourceOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 36], [0, 1], {
+  const sourceOpacity = interpolate(frame, [SOURCE_START, SOURCE_START + 20], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

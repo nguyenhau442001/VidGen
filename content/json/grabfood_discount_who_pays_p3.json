@@ -7,13 +7,13 @@
     {
       "id": "shot_01_invoice_discount_hook",
       "type": "InvoiceDiscountHookShot",
-      "duration_frames": 141,
+      "duration_frames": 130,
       "narration": "Chỉ mất một giây để áp mã giảm giá. Nhưng ai thực sự trả tiền cho nó?",
       "narration_timing_frames": [
         0,
         76
       ],
-      "transition_out_delay_frames": 65,
+      "transition_out_delay_frames": 54,
       "props": {
         "headline": "Chỉ mất một giây để áp mã giảm giá.\nNhưng ai thực sự trả tiền cho nó?",
         "accentWord": "trả tiền",
@@ -44,38 +44,38 @@
     {
       "id": "shot_02_payer_reveal",
       "type": "PayerRevealShot",
-      "duration_frames": 180,
+      "duration_frames": 158,
       "narration": "Không phải lúc nào cũng là Grab. Phía sau mỗi mã là một cách chia chi phí khác nhau.",
       "narration_timing_frames": [
         0,
         95
       ],
-      "transition_out_delay_frames": 85,
+      "transition_out_delay_frames": 63,
       "props": {
         "headline": "KHÔNG PHẢI LÚC NÀO CŨNG LÀ GRAB.",
         "accentWord": "GRAB",
         "amount": "40.000Đ",
         "payers": [
-          "Nhà hàng",
+          "Quán ăn",
           "Grab",
-          "Nhãn hàng"
+          "Nhà tài trợ"
         ],
         "illustrativeLabel": "TÌNH HUỐNG MINH HỌA"
       },
-      "on_screen_text": "NHÀ HÀNG · GRAB · NHÃN HÀNG"
+      "on_screen_text": "QUÁN ĂN · GRAB · NHÀ TÀI TRỢ"
     },
     {
       "id": "shot_03_ledger_entry",
       "type": "LedgerEntryShot",
-      "duration_frames": 233,
+      "duration_frames": 190,
       "narration": "Grab ghi rõ: nếu nhà hàng tự tạo khuyến mại, chính nhà hàng sẽ chi trả. Phần giảm giá được cấn trừ vào doanh thu mà quán nhận về.",
       "narration_timing_frames": [
         0,
         143
       ],
-      "transition_out_delay_frames": 90,
+      "transition_out_delay_frames": 47,
       "props": {
-        "eyebrow": "NHÀ HÀNG TỰ TẠO ƯU ĐÃI",
+        "eyebrow": "QUÁN ĂN TỰ TẠO ƯU ĐÃI",
         "toggleLabel": "Tạo ưu đãi",
         "lineItems": [
           {
@@ -100,48 +100,48 @@
     {
       "id": "shot_04_cost_breakdown",
       "type": "CostBreakdownShot",
-      "duration_frames": 270,
+      "duration_frames": 205,
       "narration": "Trong một số chiến dịch, quán còn có thể trả thêm phí để ưu đãi và cửa hàng được hiển thị tốt hơn. Chi phí phía sau có thể lớn hơn con số khách nhìn thấy.",
       "narration_timing_frames": [
         0,
         175
       ],
-      "transition_out_delay_frames": 95,
+      "transition_out_delay_frames": 30,
       "props": {
-        "merchantLabel": "PHÍA NHÀ HÀNG",
+        "merchantLabel": "PHÍA QUÁN ĂN",
         "merchantLines": [
           {
             "label": "GIÁ TRỊ GIẢM GIÁ",
             "value": "-40.000Đ"
           },
           {
-            "label": "PHÍ HIỂN THỊ",
-            "value": "+ Phí quảng cáo"
+            "label": "PHÍ QUẢNG CÁO",
+            "value": "Trừ vào doanh thu hôm sau"
           }
         ],
         "customerLabel": "PHÍA KHÁCH HÀNG",
         "customerValue": "-40.000Đ",
-        "sourceLabel": "Nguồn: Điều khoản merchant Grab · Chiến dịch Tiêu điểm GrabFood"
+        "sourceLabel": "Nguồn: Điều khoản merchant Grab · GrabFood tới nửa giá"
       },
-      "on_screen_text": "GIÁ TRỊ GIẢM GIÁ -40.000Đ + PHÍ HIỂN THỊ · Khách chỉ thấy -40.000Đ"
+      "on_screen_text": "GIÁ TRỊ GIẢM GIÁ -40.000Đ + PHÍ QUẢNG CÁO (trừ hôm sau) · Khách chỉ thấy -40.000Đ"
     },
     {
       "id": "shot_05_sponsor_combo",
       "type": "SponsorComboShot",
-      "duration_frames": 384,
+      "duration_frames": 304,
       "narration": "Một ví dụ rất rõ là chương trình GrabFood kết hợp cùng Pepsi năm 2026. Món bán chạy nhất được giảm ba mươi phần trăm, do nhà hàng trả toàn bộ. Nhưng hai món khác được giảm năm nghìn đồng mỗi lượt, lại do Pepsi tài trợ.",
       "narration_timing_frames": [
         0,
         274
       ],
-      "transition_out_delay_frames": 110,
+      "transition_out_delay_frames": 30,
       "props": {
         "campaignLabel": "GRABFOOD × PEPSI 2026",
         "combos": [
           {
             "itemLabel": "Món bán chạy nhất",
             "discountLabel": "-30%",
-            "payerLabel": "NHÀ HÀNG TRẢ",
+            "payerLabel": "QUÁN TRẢ",
             "highlight": true
           },
           {
@@ -158,24 +158,24 @@
         "grabRoleLabel": "GRAB · HẠ TẦNG HIỂN THỊ",
         "sourceLabel": "Nguồn: Giải đấu GrabFood x Pepsi"
       },
-      "on_screen_text": "-30% NHÀ HÀNG TRẢ · -5.000Đ PEPSI TÀI TRỢ ×2 · GRAB HẠ TẦNG HIỂN THỊ"
+      "on_screen_text": "-30% QUÁN TRẢ · -5.000Đ PEPSI TÀI TRỢ ×2 · GRAB HẠ TẦNG HIỂN THỊ"
     },
     {
       "id": "shot_06_payer_matrix",
       "type": "PayerMatrixShot",
-      "duration_frames": 259,
+      "duration_frames": 200,
       "narration": "Ở những chương trình khác, Grab có thể tài trợ toàn bộ mã giảm giá. Cũng có chương trình đồng tài trợ, nơi Grab và nhà hàng cùng chia nhau khoản chi phí.",
       "narration_timing_frames": [
         0,
         164
       ],
-      "transition_out_delay_frames": 95,
+      "transition_out_delay_frames": 36,
       "props": {
         "headline": "AI TRẢ CHO MÃ GIẢM GIÁ?",
         "rows": [
           {
             "label": "QUÁN TRẢ",
-            "description": "Nhà hàng tự tạo ưu đãi"
+            "description": "Quán ăn tự tạo ưu đãi"
           },
           {
             "label": "GRAB TRẢ",
@@ -183,49 +183,49 @@
           },
           {
             "label": "CÙNG TRẢ",
-            "description": "Grab và nhà hàng đồng tài trợ"
+            "description": "Grab và quán ăn đồng tài trợ"
           }
         ],
-        "sourceLabel": "Nguồn: Đồng tài trợ khuyến mãi gói tiêu chuẩn"
+        "sourceLabel": "Nguồn: Grab ngon rẻ · Đồng tài trợ gói tiêu chuẩn"
       },
       "on_screen_text": "QUÁN TRẢ · GRAB TRẢ · CÙNG TRẢ"
     },
     {
       "id": "shot_07_tri_phone_reveal",
       "type": "TriPhoneRevealShot",
-      "duration_frames": 321,
+      "duration_frames": 221,
       "narration": "Với khách hàng, tất cả chỉ là một con số biến khỏi hóa đơn. Nhưng phía sau nó có thể là doanh thu của quán, ngân sách của Grab hoặc tiền tiếp thị từ một nhãn hàng.",
       "narration_timing_frames": [
         0,
         191
       ],
-      "transition_out_delay_frames": 130,
+      "transition_out_delay_frames": 30,
       "props": {
         "amountLabel": "GIẢM 40.000Đ",
         "sources": [
           "Doanh thu quán",
           "Ngân sách Grab",
-          "Ngân sách tiếp thị nhãn hàng"
+          "Ngân sách nhà tài trợ"
         ]
       },
-      "on_screen_text": "GIẢM 40.000Đ · DOANH THU QUÁN · NGÂN SÁCH GRAB · NGÂN SÁCH TIẾP THỊ NHÃN HÀNG"
+      "on_screen_text": "GIẢM 40.000Đ · DOANH THU QUÁN · NGÂN SÁCH GRAB · NGÂN SÁCH NHÀ TÀI TRỢ"
     },
     {
       "id": "shot_08_cost_transfer_outro",
       "type": "CostTransferOutroShot",
-      "duration_frames": 287,
+      "duration_frames": 235,
       "narration": "Người trả tiền cho mã giảm giá không cố định. Mã giảm giá không làm chi phí biến mất. Nó chỉ đổi người trả.",
       "narration_timing_frames": [
         0,
         127
       ],
-      "transition_out_delay_frames": 160,
+      "transition_out_delay_frames": 108,
       "props": {
         "amount": "40.000Đ",
         "destinations": [
-          "Nhà hàng",
+          "Quán ăn",
           "Grab",
-          "Nhãn hàng"
+          "Nhà tài trợ"
         ],
         "closingLines": [
           "MÃ GIẢM GIÁ KHÔNG XÓA CHI PHÍ.",

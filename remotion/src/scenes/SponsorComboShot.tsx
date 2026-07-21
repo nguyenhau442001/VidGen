@@ -27,7 +27,8 @@ export const SponsorComboShot: React.FC<SponsorComboSceneProps> = ({
   const eyebrowOpacity = interpolate(frame, [0, 16], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const roleStart = CARD_START + combos.length * CARD_GAP + 20;
   const roleSpring = spring({ frame: frame - roleStart, fps, config: { damping: 15, stiffness: 150 }, durationInFrames: 24 });
-  const sourceOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 36], [0, 1], {
+  const sourceStart = roleStart + 34; // after the Grab role badge settles
+  const sourceOpacity = interpolate(frame, [sourceStart, sourceStart + 20], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

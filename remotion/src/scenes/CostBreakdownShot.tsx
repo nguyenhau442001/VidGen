@@ -24,10 +24,7 @@ export const CostBreakdownShot: React.FC<CostBreakdownSceneProps> = ({
   const panelOpacity = interpolate(frame, [0, 18], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const connectorProgress = interpolate(frame, [70, 100], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const customerSpring = spring({ frame: frame - 96, fps, config: { damping: 15, stiffness: 150 }, durationInFrames: 24 });
-  const sourceOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 36], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const sourceOpacity = interpolate(frame, [128, 148], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }); // after the customer panel settles (customerSpring starts at 96, settles ~120)
   const exitOpacity = interpolate(frame, [durationInFrames - 12, durationInFrames], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",

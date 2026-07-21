@@ -13,6 +13,7 @@ import { p3Colors, GrabMark } from "./grabfoodP3Palette";
 // and three payer chips fan out below (60-110), followed by the headline.
 const FLY_END = 55;
 const FAN_START = 62;
+const HEADLINE_START = 100; // after the third payer chip has settled in
 
 export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   headline,
@@ -30,7 +31,7 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   const flyScale = interpolate(Math.min(1, flySpring), [0, 1], [0.7, 1]);
   const markDim = interpolate(frame, [FLY_END, FLY_END + 20], [1, 0.4], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const badgeOpacity = interpolate(frame, [8, 24], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const headlineOpacity = interpolate(frame, [durationInFrames - 110, durationInFrames - 82], [0, 1], {
+  const headlineOpacity = interpolate(frame, [HEADLINE_START, HEADLINE_START + 28], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

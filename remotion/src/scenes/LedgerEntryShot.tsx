@@ -11,6 +11,9 @@ import { p3Colors, P3Icons } from "./grabfoodP3Palette";
 // card whose rows fade/slide in top-to-bottom, one at a time (40+), with the
 // cost row rendered in red to read as the debited line.
 const TOGGLE_FRAME = 14;
+const ROW_START = 60;
+const ROW_GAP = 26;
+const SOURCE_START = ROW_START + 2 * ROW_GAP + 28; // after the 3rd row settles
 
 export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
   eyebrow,
@@ -28,7 +31,7 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
   const cardOpacity = interpolate(frame, [36, 56], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const cardY = interpolate(frame, [36, 56], [24, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const badgeOpacity = interpolate(frame, [8, 24], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const sourceOpacity = interpolate(frame, [durationInFrames - 60, durationInFrames - 36], [0, 1], {
+  const sourceOpacity = interpolate(frame, [SOURCE_START, SOURCE_START + 20], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -36,9 +39,6 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-
-  const ROW_START = 60;
-  const ROW_GAP = 26;
 
   return (
     <AbsoluteFill style={{ backgroundColor: p3Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
