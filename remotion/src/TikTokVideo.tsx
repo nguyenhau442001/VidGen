@@ -83,6 +83,15 @@ import { SponsorComboShot } from "./scenes/SponsorComboShot";
 import { PayerMatrixShot } from "./scenes/PayerMatrixShot";
 import { TriPhoneRevealShot } from "./scenes/TriPhoneRevealShot";
 import { CostTransferOutroShot } from "./scenes/CostTransferOutroShot";
+import { RevenueClockHookShot } from "./scenes/RevenueClockHookShot";
+import { MillionDongLayersShot } from "./scenes/MillionDongLayersShot";
+import { ConditionalGuaranteeShot } from "./scenes/ConditionalGuaranteeShot";
+import { TripCountGapShot } from "./scenes/TripCountGapShot";
+import { BatteryTimelineShot } from "./scenes/BatteryTimelineShot";
+import { MultiplicationTrapShot } from "./scenes/MultiplicationTrapShot";
+import { IncomeScannerLayersShot } from "./scenes/IncomeScannerLayersShot";
+import { ParallelRoutesGapShot } from "./scenes/ParallelRoutesGapShot";
+import { DebateConclusionShot } from "./scenes/DebateConclusionShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -345,6 +354,24 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <TriPhoneRevealShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "cost_transfer_outro":
       return <CostTransferOutroShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "revenue_clock_hook":
+      return <RevenueClockHookShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "million_dong_layers":
+      return <MillionDongLayersShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "conditional_guarantee":
+      return <ConditionalGuaranteeShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "trip_count_gap":
+      return <TripCountGapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "battery_timeline":
+      return <BatteryTimelineShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "multiplication_trap":
+      return <MultiplicationTrapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "income_scanner_layers":
+      return <IncomeScannerLayersShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "parallel_routes_gap":
+      return <ParallelRoutesGapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "debate_conclusion":
+      return <DebateConclusionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }

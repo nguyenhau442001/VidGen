@@ -3,8 +3,9 @@ name: vidgen
 description: |
   Human-reviewed workflow for creating short-form Vietnamese tech education videos with
   VidGen and Remotion. VidGen receives a human-approved TXT script, generates and audits
-  the matching JSON shot plan, then stops until the user explicitly approves rendering.
-  Never rewrite approved narration or proceed past a checkpoint the user has not approved.
+  the matching JSON shot plan, then proceeds automatically through TTS and render (owner's
+  standing instruction — no per-run approval wait). Never rewrite approved narration, and
+  still stop immediately on any command error to report it before continuing.
 ---
 
 # VidGen — Human-reviewed Video Production
@@ -120,20 +121,23 @@ Trả lời 3 câu hỏi:
        │
   3. Audit source fidelity + schema + Gate 1
        │
-  4. Report JSON and STOP          ←── mandatory render checkpoint
+  4. Report JSON audit, then proceed automatically (no approval wait)
        │
-  5. User explicitly approves render
+  5. TTS + manifest + Remotion render
        │
-  6. TTS + manifest + Remotion render
+  6. Visual audit + human watch-through
        │
-  7. Visual audit + human watch-through
-       │
-  8. Report final MP4
+  7. Report final MP4
 ```
 
 The TXT is the authored source of truth; JSON is generated. Automated quality checks are
-guardrails, not authority. Passing an audit never authorizes TTS, Studio launch, rendering,
-or publishing. Those actions require a separate explicit request.
+guardrails, not authority. Per-owner standing instruction, VidGen proceeds through TTS,
+manifest build, and render automatically once Steps 1–3 pass — it does not pause to ask
+before those actions. This does not extend to rewriting approved narration (still requires
+explicit approval to change TXT wording) or to publishing (still a separate explicit
+request). Command errors still stop the pipeline immediately for owner review (see Error
+Handling Philosophy) — "proceed automatically" means no approval checkpoint, not "ignore
+failures."
 
 ---
 
@@ -378,7 +382,7 @@ Keep the scorecard in the audit report, never as a comment inside JSON. JSON com
 
 ---
 
-## Step 4 — Validate Source Fidelity, Report, and Stop
+## Step 4 — Validate Source Fidelity, Report, and Continue
 
 ```bash
 python -c "import json; json.load(open('content/json/<slug>.json')); print('JSON valid')"
@@ -397,8 +401,9 @@ Before reporting success, confirm:
 - Automated Gate 1 and the six-dimension editorial audit are reported separately.
 
 Then report the generated path, audit scores, source-fidelity result, assumptions, and any
-unsupported visuals. **Stop here.** Do not run TTS, build or synchronize
-`output/render_manifest.json`, launch Studio, or render. A passing audit is not render approval.
+unsupported visuals. If a narration-related dimension fails, stop and report it instead of
+rewriting approved wording. Otherwise, proceed directly to Step 5 (TTS) without waiting for
+a separate render approval — this is the owner's standing instruction for this project.
 
 ---
 
@@ -475,7 +480,7 @@ pip install librosa soundfile
 python -m vidgen.pipeline.video_pipeline content/json/<slug>.json
 ```
 
-Run this command only after the user explicitly approves rendering in a later instruction.
+Run this automatically once Step 5 TTS completes successfully — no separate approval needed.
 
 Remotion renders take 30–120s. Common failure modes and self-corrections:
 - Missing component → scene type not registered → fix `type` in JSON → re-render
@@ -533,7 +538,8 @@ report the specific issue and the frames that show it.
 
 ## Step 8 — Report Output
 
-Before render approval, use the Step 4 report and stop:
+After Step 4's audit, log progress and continue (no stop) unless a narration-related
+dimension failed:
 
 ```text
 ✅ Generated JSON: content/json/<slug>.json
@@ -542,10 +548,10 @@ Before render approval, use the Step 4 report and stop:
 🧪 JSON/schema:     PASS
 📊 Automated Gate 1: <score>/25
 📝 Editorial audit:  <score>/30
-⏸ Status: waiting for explicit render approval; no TTS or render started
+▶ Status: proceeding to TTS + render automatically
 ```
 
-After an explicitly approved render, use:
+After render completes, use:
 
 ```
 ✅ Video rendered and quality-verified

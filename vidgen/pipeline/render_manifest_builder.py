@@ -104,6 +104,15 @@ TYPE_MAP = {
     "PayerMatrixShot": "payer_matrix",
     "TriPhoneRevealShot": "tri_phone_reveal",
     "CostTransferOutroShot": "cost_transfer_outro",
+    "RevenueClockHookShot": "revenue_clock_hook",
+    "MillionDongLayersShot": "million_dong_layers",
+    "ConditionalGuaranteeShot": "conditional_guarantee",
+    "TripCountGapShot": "trip_count_gap",
+    "BatteryTimelineShot": "battery_timeline",
+    "MultiplicationTrapShot": "multiplication_trap",
+    "IncomeScannerLayersShot": "income_scanner_layers",
+    "ParallelRoutesGapShot": "parallel_routes_gap",
+    "DebateConclusionShot": "debate_conclusion",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

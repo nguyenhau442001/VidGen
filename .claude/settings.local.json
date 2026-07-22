@@ -71,7 +71,17 @@
       "Bash(python -c ' *)",
       "Bash(/Users/haunguyen/miniconda3/bin/python *)",
       "Bash(/Users/haunguyen/miniconda3/bin/python3 *)",
-      "Bash(/Users/haunguyen/miniconda3/bin/pip show *)"
+      "Bash(/Users/haunguyen/miniconda3/bin/pip show *)",
+      "WebFetch(domain:merchant.grab.com)",
+      "Bash(git show *)",
+      "Bash(rm -fv output/audio/wav/scene_shot_02_payer_reveal.wav output/audio/wav/scene_shot_04_cost_breakdown.wav)",
+      "Bash(rm -fv remotion/public/audio/scene_shot_02_payer_reveal.wav remotion/public/audio/scene_shot_04_cost_breakdown.wav)",
+      "Bash(REMOTION_BEAT_MAP=1 nohup npx remotion studio)",
+      "Bash(disown)",
+      "WebFetch(domain:www.brandcoat.net)",
+      "WebFetch(domain:www.studocu.vn)",
+      "Bash(cd *)",
+      "Bash(mkdir *)"
     ],
     "deny": [],
     "ask": [

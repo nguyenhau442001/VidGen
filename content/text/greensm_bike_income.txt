@@ -1,0 +1,232 @@
+# XANH SM BIKE — MỘT TRIỆU ĐỒNG MỘT NGÀY?
+
+## TÀI XẾ GREEN SM BIKE CÓ THẬT SỰ KIẾM HƠN 1 TRIỆU/NGÀY?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `greensm_bike_income`, video_id `greensm_bike_income`. 11 cảnh, mục tiêu 78–82s ở
+30fps, 1080×1920. Chủ đề: kiểm chứng tuyên bố "tài xế Xanh SM Bike kiếm hơn 1 triệu
+đồng/ngày" bằng cách đối chiếu chính sách bảo đảm có điều kiện của Green SM với một chia
+sẻ thu nhập cá nhân trên báo chí — không kết luận thay người xem. Toàn bộ giao diện ứng
+dụng, đồng hồ doanh thu và màn hình điện thoại trong video là **dựng minh họa trung
+tính**, không phải ảnh chụp thật từ ứng dụng Xanh SM — mọi cảnh có giao diện phải giữ
+nhãn "TÌNH HUỐNG MINH HỌA". Cảnh 4–5 (tách từ một beat gốc để vừa khung dựng) không dùng
+dấu bằng giữa hai con số 17 và 15 — đây là hai con số khác nhau (phân bổ vs. hoàn thành
+để xét hỗ trợ), không phải một phép so sánh bằng nhau. Cảnh 8 không hiển thị số tiền cụ
+thể bị trừ vì chưa có dữ liệu chuẩn hóa — chỉ hiển thị ba lớp khái niệm (doanh thu /
+phần tài xế + thưởng / sau chi phí). Cảnh 10–11 (tách từ một beat gốc) không khẳng định
+1 triệu đồng/ngày là mức thu nhập phổ biến hay đã được xác nhận — kết luận phải để ngỏ
+và mời người xem tự đối chiếu.
+
+### Nguồn
+
+1. Green SM – Chính sách Bike Platform, công bố từ 30/3/2026
+2. Tuổi Trẻ – phỏng vấn ngày 2/7/2025
+
+Tên nguồn hiển thị ngắn gọn trên màn hình ở cảnh liên quan (ví dụ "Nguồn: Green SM –
+Chính sách Bike Platform" hoặc "Nguồn: Tuổi Trẻ, 2/7/2025"), không hiện URL dài.
+
+---
+
+## Cảnh 1 — Một triệu đồng (shot_01_revenue_clock_hook)
+
+**Hình ảnh:**
+
+Sài Gòn lúc 5 giờ sáng, thành phố còn tối. Một tài xế Green SM Bike bật ứng dụng. Đồng
+hồ doanh thu phía trên màn hình tăng nhanh: 200K → 500K → 800K → 1.000.000Đ. Khi chạm
+một triệu, toàn bộ thành phố đóng băng. Giữ nhãn "TÌNH HUỐNG MINH HỌA" vì đây là giao
+diện dựng lại.
+
+**Voice-over:**
+
+"Một ngày chạy Xanh SM xe máy, tài xế có thật sự kiếm hơn một triệu đồng?"
+
+**Chữ trên màn hình:**
+
+Đồng hồ doanh thu chạy: **200K → 500K → 800K → 1.000.000Đ**. Khi đóng băng, text lớn
+hiện ra: **"HƠN 1 TRIỆU/NGÀY?"**. Nhãn nhỏ: *TÌNH HUỐNG MINH HỌA*.
+
+---
+
+## Cảnh 2 — Nửa câu chuyện (shot_02_million_dong_layers)
+
+**Hình ảnh:**
+
+Con số một triệu biến thành một tờ tiền trong suốt. Bên trong nó xuất hiện ba lớp xếp
+chồng: DOANH THU CUỐC, TIỀN TÀI XẾ NHẬN, CÒN LẠI SAU CHI PHÍ.
+
+**Voice-over:**
+
+"Nếu ai đó nói mình chạy được một triệu, đừng vội tin — cũng đừng vội bảo không thể. Trước tiên phải hỏi: một triệu ấy là tiền gì?"
+
+**Chữ trên màn hình:**
+
+Ba lớp bên trong tờ tiền trong suốt: **DOANH THU CUỐC** · **TIỀN TÀI XẾ NHẬN** · **CÒN
+LẠI SAU CHI PHÍ**.
+
+---
+
+## Cảnh 3 — Mốc 600.000 đồng (shot_03_conditional_guarantee)
+
+**Hình ảnh:**
+
+Con số 600.000Đ xuất hiện trên mặt đường như một vạch đích. Camera tiến gần, vạch đích
+tách thành hàng loạt điều kiện nhỏ: ĐĂNG KÝ CHƯƠNG TRÌNH, TỶ LỆ NHẬN ≥ 95%, TỶ LỆ HOÀN
+THÀNH ≥ 90%, ĐỦ ĐIỀU KIỆN SỐ CUỐC. Đóng dấu "BẢO ĐẢM CÓ ĐIỀU KIỆN" đè lên vạch đích.
+
+**Voice-over:**
+
+"Con số chính thức gần nhất là 600.000 đồng mỗi ngày. Nhưng đó không phải mức thu nhập trung bình. Đây là chính sách bảo đảm có điều kiện cho một nhóm tài xế Bike Platform tại Hà Nội và TP.HCM trong ba tháng đầu."
+
+**Chữ trên màn hình:**
+
+Vạch đích: **600.000Đ**. Bốn điều kiện tách ra: ĐĂNG KÝ CHƯƠNG TRÌNH · TỶ LỆ NHẬN ≥ 95%
+· TỶ LỆ HOÀN THÀNH ≥ 90% · ĐỦ ĐIỀU KIỆN SỐ CUỐC. Dấu đóng: **"BẢO ĐẢM CÓ ĐIỀU KIỆN"**.
+Nguồn nhỏ: *Nguồn: Green SM – Chính sách Bike Platform, công bố từ 30/3/2026*.
+
+---
+
+## Cảnh 4 — 17 cuốc phân bổ (shot_04a_trip_allocation)
+
+**Hình ảnh:**
+
+17 biểu tượng cuốc xe xuất hiện thành một hàng, lần lượt từ trái sang phải.
+
+**Voice-over:**
+
+"Green SM nói hệ thống bảo đảm phân bổ khoảng 17 cuốc mỗi ngày cho gói toàn thời gian."
+
+**Chữ trên màn hình:**
+
+Hàng 17 biểu tượng cuốc. Dòng dưới: **17 CUỐC PHÂN BỔ**.
+
+---
+
+## Cảnh 5 — 15 cuốc để xét hỗ trợ (shot_04b_trip_completion)
+
+**Hình ảnh:**
+
+Cùng hàng 17 biểu tượng cuốc. Hai biểu tượng cuối chuyển sang trạng thái nét đứt. Không
+dùng dấu bằng giữa hai con số 17 và 15 vì đây là hai mốc khác nhau — phân bổ vs. hoàn
+thành để xét hỗ trợ.
+
+**Voice-over:**
+
+"Trong phần giải đáp, tài xế hoàn thành 15 cuốc thành công và đủ các điều kiện có thể được xét hỗ trợ nếu doanh thu chưa đạt 600.000 đồng."
+
+**Chữ trên màn hình:**
+
+Hàng 17 biểu tượng cuốc, 2 biểu tượng cuối nét đứt. Dòng dưới: **17 CUỐC PHÂN BỔ** ·
+**15 CUỐC HOÀN THÀNH ĐỂ XÉT HỖ TRỢ**.
+
+---
+
+## Cảnh 6 — Người kiếm hơn 800.000 đồng (shot_05_battery_timeline)
+
+**Hình ảnh:**
+
+Timeline bắt đầu từ 5 giờ sáng. Viên pin thứ nhất chạy dọc nửa ngày rồi cạn. Tài xế
+dừng lại ăn trưa và sạc. Viên pin thứ hai sáng lên, tiếp tục chạy đến tối. Bộ đếm dừng
+tại 800.000Đ+, gắn nhãn "CHIA SẺ CỦA MỘT TÀI XẾ".
+
+**Voice-over:**
+
+"Ở phía còn lại, một nữ tài xế từng chia sẻ mức thu nhập khoảng 22,5 triệu đồng mỗi tháng. Chị nói mình chạy hơn 10 giờ mỗi ngày, thường dùng hết hai lượt pin và cho rằng chạy 10 giờ có thể vượt 800.000 đồng."
+
+**Chữ trên màn hình:**
+
+Timeline hai viên pin từ 5 giờ sáng đến tối, nghỉ trưa để sạc ở giữa. Bộ đếm dừng:
+**800.000Đ+**. Nhãn: **"CHIA SẺ CỦA MỘT TÀI XẾ"**. Nguồn nhỏ: *Nguồn: Tuổi Trẻ, phỏng
+vấn 2/7/2025*.
+
+---
+
+## Cảnh 7 — Cái bẫy của phép nhân (shot_06_multiplication_trap)
+
+**Hình ảnh:**
+
+Một phép tính hiện ra: 800K + VÀI GIỜ = 1 TRIỆU?. Dấu bằng rung lên rồi biến thành dấu
+hỏi. Phía sau, mật độ cuốc giảm dần khi thành phố về khuya.
+
+**Voice-over:**
+
+"Vượt 800.000 đồng trong 10 giờ. Vậy chạy thêm vài tiếng là hơn một triệu? Đó là phép suy luận hấp dẫn — nhưng chưa phải bằng chứng."
+
+**Chữ trên màn hình:**
+
+Phép tính: **800K + VÀI GIỜ = 1 TRIỆU?**. Dấu "=" rung rồi biến thành **"?"**.
+
+---
+
+## Cảnh 8 — Bóc con số một triệu (shot_07_income_scanner_layers)
+
+**Hình ảnh:**
+
+Một khối 1.000.000Đ đi qua ba lớp máy quét. Lớp một: DOANH THU. Lớp hai: PHẦN TÀI XẾ +
+THƯỞNG. Lớp ba: SAU CHI PHÍ. Không hiển thị số tiền bị trừ vì chưa có dữ liệu chuẩn hóa.
+
+**Voice-over:**
+
+"Bởi một triệu có thể là doanh thu cuốc, tiền đã cộng thưởng, hoặc số chưa trừ chi phí. Tiền thật sự còn lại còn phụ thuộc vào mô hình xe, pin, thuế và những khoản vận hành của từng tài xế."
+
+**Chữ trên màn hình:**
+
+Khối **1.000.000Đ** quét qua ba lớp: **DOANH THU** · **PHẦN TÀI XẾ + THƯỞNG** · **SAU
+CHI PHÍ**. Không hiện số tiền bị trừ.
+
+---
+
+## Cảnh 9 — Cùng 10 giờ, khác kết quả (shot_08_parallel_routes_gap)
+
+**Hình ảnh:**
+
+Hai tuyến đường song song, cùng dài 10 giờ. Tài xế A có nhiều đoạn CHỜ · ĐI ĐÓN · CHẠY
+RỖNG. Tài xế B có nhiều đoạn ĐANG CHỞ KHÁCH. Các đoạn có cuốc chuyển thành dòng tiền.
+Những đoạn còn lại chuyển thành thời gian màu xám.
+
+**Voice-over:**
+
+"Ngay cả cùng online 10 giờ, hai tài xế vẫn có thể kiếm rất khác nhau. Bởi không phải phút nào online cũng gắn với một cuốc đang tạo doanh thu."
+
+**Chữ trên màn hình:**
+
+Hai tuyến 10 giờ song song. Tài xế A: **CHỜ · ĐI ĐÓN · CHẠY RỖNG** (đoạn xám). Tài xế B:
+**ĐANG CHỞ KHÁCH** (đoạn tiền).
+
+---
+
+## Cảnh 10 — Chưa đủ dữ liệu xác nhận (shot_09a_debate_open)
+
+**Hình ảnh:**
+
+Màn hình chia ba bắt đầu hiện ra: BÌNH THƯỜNG, NGÀY CHẠY ĐẸP, CHỈ LÀ DOANH THU.
+
+**Voice-over:**
+
+"Vậy hơn một triệu đồng mỗi ngày có thật không? Hiện chưa có dữ liệu công khai đủ để xác nhận đó là mức phổ biến — hay thậm chí đó là tiền thực nhận."
+
+**Chữ trên màn hình:**
+
+Ba ô: **BÌNH THƯỜNG** · **NGÀY CHẠY ĐẸP** · **CHỈ LÀ DOANH THU**. Headline: **"CHƯA ĐỦ
+DỮ LIỆU ĐỂ XÁC NHẬN"**.
+
+---
+
+## Cảnh 11 — Kết luận gây tranh luận (shot_09b_debate_prompt)
+
+**Hình ảnh:**
+
+Cùng ba ô BÌNH THƯỜNG / NGÀY CHẠY ĐẸP / CHỈ LÀ DOANH THU. Kết bằng ô bình luận: Thành
+phố – giờ online – doanh thu app – thưởng – còn lại sau chi phí.
+
+**Voice-over:**
+
+"Anh em nào đang chạy thật, vào đính chính giúp mình với. Một triệu đó là ngày bình thường, ngày chạy đẹp, hay vẫn chỉ là doanh thu — chưa phải tiền cầm về?"
+
+**Chữ trên màn hình:**
+
+Ba ô: **BÌNH THƯỜNG** · **NGÀY CHẠY ĐẸP** · **CHỈ LÀ DOANH THU**. Headline: **"MỘT TRIỆU
+LÀ NGÀY NÀO?"**. Ô bình luận mời điền: **Thành phố – giờ online – doanh thu app – thưởng
+– còn lại sau chi phí**.
+
+---

@@ -165,7 +165,16 @@ export type ManifestScene =
   | { type: "sponsor_combo"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SponsorComboVisual }
   | { type: "payer_matrix"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PayerMatrixVisual }
   | { type: "tri_phone_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TriPhoneRevealVisual }
-  | { type: "cost_transfer_outro"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CostTransferOutroVisual };
+  | { type: "cost_transfer_outro"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CostTransferOutroVisual }
+  | { type: "revenue_clock_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RevenueClockHookVisual }
+  | { type: "million_dong_layers"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MillionDongLayersVisual }
+  | { type: "conditional_guarantee"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ConditionalGuaranteeVisual }
+  | { type: "trip_count_gap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TripCountGapVisual }
+  | { type: "battery_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatteryTimelineVisual }
+  | { type: "multiplication_trap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MultiplicationTrapVisual }
+  | { type: "income_scanner_layers"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: IncomeScannerLayersVisual }
+  | { type: "parallel_routes_gap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ParallelRoutesGapVisual }
+  | { type: "debate_conclusion"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DebateConclusionVisual };
 
 // Shot is the canonical public term; ManifestScene remains as a compatibility
 // alias for the existing component registry and any older imports.
@@ -1508,3 +1517,110 @@ export type CostTransferOutroVisual = {
 };
 
 export type CostTransferOutroSceneProps = CostTransferOutroVisual & { durationInFrames: number };
+
+// --- greensm_bike_income -----------------------------------------------------
+// Bespoke shot set for "does a Xanh SM Bike driver really earn 1 triệu/ngày" —
+// a revenue-counter hook, conditional-guarantee/evidence beats, and a debate
+// close. Built for this video the same way grabfood_discount_who_pays_p3 got
+// its own shot set.
+
+// Cold-open: a revenue counter climbs through counterSteps and freezes on the
+// last one, then the hook headline settles in below.
+export type RevenueClockHookVisual = {
+  cityLabel: string; // e.g. "SÀI GÒN · 5:00 SÁNG"
+  counterSteps: string[]; // e.g. ["200K", "500K", "800K", "1.000.000Đ"]
+  headline: string;
+  illustrativeLabel?: string;
+};
+
+export type RevenueClockHookSceneProps = RevenueClockHookVisual & { durationInFrames: number };
+
+// A translucent banknote card reveals three stacked concept layers (revenue /
+// driver take / after-cost) beneath a headline asking what "1 triệu" means.
+export type MillionDongLayersVisual = {
+  amountLabel: string; // e.g. "1.000.000Đ"
+  headline: string;
+  accentWord?: string;
+  layers: Array<{ label: string }>;
+};
+
+export type MillionDongLayersSceneProps = MillionDongLayersVisual & { durationInFrames: number };
+
+// A finish-line-style target number that fans out into its qualifying
+// conditions, stamped with a conditional-guarantee seal.
+export type ConditionalGuaranteeVisual = {
+  targetLabel: string; // e.g. "600.000Đ"
+  conditions: string[];
+  stampLabel: string; // e.g. "BẢO ĐẢM CÓ ĐIỀU KIỆN"
+  sourceLabel?: string;
+};
+
+export type ConditionalGuaranteeSceneProps = ConditionalGuaranteeVisual & { durationInFrames: number };
+
+// A row of allocatedTrips icons, the last (allocatedTrips - completedTrips) of
+// them rendered dashed, with the two counts labeled underneath — deliberately
+// not shown as an equality.
+export type TripCountGapVisual = {
+  allocatedTrips: number;
+  completedTrips: number;
+  allocatedLabel?: string;
+  completedLabel?: string;
+};
+
+export type TripCountGapSceneProps = TripCountGapVisual & { durationInFrames: number };
+
+// A horizontal timeline of battery segments (e.g. two shifts split by a
+// lunch/charging break) filling in turn, ending on a counter + attribution
+// badge.
+export type BatteryTimelineVisual = {
+  startLabel: string; // e.g. "5:00 SÁNG"
+  batteries: Array<{ label: string }>;
+  counterLabel: string; // e.g. "800.000Đ+"
+  badgeLabel?: string;
+  sourceLabel?: string;
+};
+
+export type BatteryTimelineSceneProps = BatteryTimelineVisual & { durationInFrames: number };
+
+// An equation whose operator wobbles then morphs into transformTo (e.g. "="
+// shaking into "?") — the "tempting but unproven" extrapolation beat.
+export type MultiplicationTrapVisual = {
+  leftLabel: string; // e.g. "800K + VÀI GIỜ"
+  operatorLabel: string; // e.g. "="
+  rightLabel: string; // e.g. "1 TRIỆU?"
+  transformTo: string; // e.g. "?"
+};
+
+export type MultiplicationTrapSceneProps = MultiplicationTrapVisual & { durationInFrames: number };
+
+// A sweeping scan line passes down a stack of concept layers (e.g. revenue /
+// driver-take+bonus / after-cost), each lighting up as the beam reaches it.
+export type IncomeScannerLayersVisual = {
+  amountLabel: string; // e.g. "1.000.000Đ"
+  layers: string[];
+  footnote?: string;
+};
+
+export type IncomeScannerLayersSceneProps = IncomeScannerLayersVisual & { durationInFrames: number };
+
+// Two parallel horizontal timelines (same total duration) whose segments fill
+// in at different rates — driverA carries more unpaid wait/deadhead segments,
+// driverB more paid-trip segments.
+export type ParallelRoutesGapVisual = {
+  durationLabel: string; // e.g. "10 GIỜ"
+  driverA: { label: string; segments: string[] };
+  driverB: { label: string; segments: string[] };
+};
+
+export type ParallelRoutesGapSceneProps = ParallelRoutesGapVisual & { durationInFrames: number };
+
+// Closing beat: headline + three open-ended option chips, followed by a
+// comment-prompt card inviting viewers to fill in their own numbers.
+export type DebateConclusionVisual = {
+  headline: string;
+  accentWord?: string;
+  options: string[];
+  promptLabel?: string;
+};
+
+export type DebateConclusionSceneProps = DebateConclusionVisual & { durationInFrames: number };

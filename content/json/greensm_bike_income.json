@@ -1,0 +1,180 @@
+{
+  "video_id": "greensm_bike_income",
+  "title": "Tài xế Green SM Bike có thật sự kiếm hơn 1 triệu/ngày?",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01_revenue_clock_hook",
+      "type": "RevenueClockHookShot",
+      "duration_frames": 166,
+      "narration": "Một ngày chạy Xanh SM xe máy, tài xế có thật sự kiếm hơn một triệu đồng?",
+      "narration_timing_frames": [0, 136],
+      "transition_out_delay_frames": 30,
+      "tts_speed": 1.05,
+      "props": {
+        "cityLabel": "SÀI GÒN · 5:00 SÁNG",
+        "counterSteps": ["200K", "500K", "800K", "1.000.000Đ"],
+        "headline": "HƠN 1 TRIỆU/NGÀY?",
+        "illustrativeLabel": "TÌNH HUỐNG MINH HỌA"
+      },
+      "on_screen_text": "200K → 500K → 800K → 1.000.000Đ · HƠN 1 TRIỆU/NGÀY? · TÌNH HUỐNG MINH HỌA"
+    },
+    {
+      "id": "shot_02_million_dong_layers",
+      "type": "MillionDongLayersShot",
+      "duration_frames": 262,
+      "narration": "Nếu ai đó nói mình chạy được một triệu, đừng vội tin — cũng đừng vội bảo không thể. Trước tiên phải hỏi: một triệu ấy là tiền gì?",
+      "narration_timing_frames": [0, 232],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "amountLabel": "1.000.000Đ",
+        "headline": "MỘT TRIỆU ẤY LÀ TIỀN GÌ?",
+        "accentWord": "TIỀN GÌ",
+        "layers": [
+          { "label": "DOANH THU CUỐC" },
+          { "label": "TIỀN TÀI XẾ NHẬN" },
+          { "label": "CÒN LẠI SAU CHI PHÍ" }
+        ]
+      },
+      "on_screen_text": "MỘT TRIỆU ẤY LÀ TIỀN GÌ? · DOANH THU CUỐC · TIỀN TÀI XẾ NHẬN · CÒN LẠI SAU CHI PHÍ"
+    },
+    {
+      "id": "shot_03_conditional_guarantee",
+      "type": "ConditionalGuaranteeShot",
+      "duration_frames": 380,
+      "narration": "Con số chính thức gần nhất là 600.000 đồng mỗi ngày. Nhưng đó không phải mức thu nhập trung bình. Đây là chính sách bảo đảm có điều kiện cho một nhóm tài xế Bike Platform tại Hà Nội và TP.HCM trong ba tháng đầu.",
+      "narration_timing_frames": [0, 360],
+      "transition_out_delay_frames": 20,
+      "props": {
+        "targetLabel": "600.000Đ",
+        "conditions": [
+          "ĐĂNG KÝ CHƯƠNG TRÌNH",
+          "TỶ LỆ NHẬN ≥ 95%",
+          "TỶ LỆ HOÀN THÀNH ≥ 90%",
+          "ĐỦ ĐIỀU KIỆN SỐ CUỐC"
+        ],
+        "stampLabel": "BẢO ĐẢM CÓ ĐIỀU KIỆN",
+        "sourceLabel": "Nguồn: Green SM – Chính sách Bike Platform, công bố từ 30/3/2026"
+      },
+      "on_screen_text": "600.000Đ · ĐĂNG KÝ CHƯƠNG TRÌNH · TỶ LỆ NHẬN ≥ 95% · TỶ LỆ HOÀN THÀNH ≥ 90% · ĐỦ ĐIỀU KIỆN SỐ CUỐC · BẢO ĐẢM CÓ ĐIỀU KIỆN"
+    },
+    {
+      "id": "shot_04a_trip_allocation",
+      "type": "TripCountGapShot",
+      "duration_frames": 182,
+      "narration": "Green SM nói hệ thống bảo đảm phân bổ khoảng 17 cuốc mỗi ngày cho gói toàn thời gian.",
+      "narration_timing_frames": [0, 152],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "allocatedTrips": 17,
+        "completedTrips": 17,
+        "allocatedLabel": "17 CUỐC PHÂN BỔ"
+      },
+      "on_screen_text": "17 CUỐC PHÂN BỔ"
+    },
+    {
+      "id": "shot_04b_trip_completion",
+      "type": "TripCountGapShot",
+      "duration_frames": 270,
+      "narration": "Trong phần giải đáp, tài xế hoàn thành 15 cuốc thành công và đủ các điều kiện có thể được xét hỗ trợ nếu doanh thu chưa đạt 600.000 đồng.",
+      "narration_timing_frames": [0, 240],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "allocatedTrips": 17,
+        "completedTrips": 15,
+        "allocatedLabel": "17 CUỐC PHÂN BỔ",
+        "completedLabel": "15 CUỐC HOÀN THÀNH ĐỂ XÉT HỖ TRỢ"
+      },
+      "on_screen_text": "17 CUỐC PHÂN BỔ · 15 CUỐC HOÀN THÀNH ĐỂ XÉT HỖ TRỢ"
+    },
+    {
+      "id": "shot_05_battery_timeline",
+      "type": "BatteryTimelineShot",
+      "duration_frames": 386,
+      "narration": "Ở phía còn lại, một nữ tài xế từng chia sẻ mức thu nhập khoảng 22,5 triệu đồng mỗi tháng. Chị nói mình chạy hơn 10 giờ mỗi ngày, thường dùng hết hai lượt pin và cho rằng chạy 10 giờ có thể vượt 800.000 đồng.",
+      "narration_timing_frames": [0, 368],
+      "transition_out_delay_frames": 18,
+      "props": {
+        "startLabel": "5:00 SÁNG",
+        "batteries": [{ "label": "PIN 1" }, { "label": "PIN 2" }],
+        "counterLabel": "800.000Đ+",
+        "badgeLabel": "CHIA SẺ CỦA MỘT TÀI XẾ",
+        "sourceLabel": "Nguồn: Tuổi Trẻ, phỏng vấn 2/7/2025"
+      },
+      "on_screen_text": "5:00 SÁNG → TỐI · 800.000Đ+ · CHIA SẺ CỦA MỘT TÀI XẾ"
+    },
+    {
+      "id": "shot_06_multiplication_trap",
+      "type": "MultiplicationTrapShot",
+      "duration_frames": 254,
+      "narration": "Vượt 800.000 đồng trong 10 giờ. Vậy chạy thêm vài tiếng là hơn một triệu? Đó là phép suy luận hấp dẫn — nhưng chưa phải bằng chứng.",
+      "narration_timing_frames": [0, 224],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "leftLabel": "800K + VÀI GIỜ",
+        "operatorLabel": "=",
+        "rightLabel": "1 TRIỆU?",
+        "transformTo": "?"
+      },
+      "on_screen_text": "800K + VÀI GIỜ = 1 TRIỆU? · \"=\" RUNG RỒI THÀNH \"?\""
+    },
+    {
+      "id": "shot_07_income_scanner_layers",
+      "type": "IncomeScannerLayersShot",
+      "duration_frames": 366,
+      "narration": "Bởi một triệu có thể là doanh thu cuốc, tiền đã cộng thưởng, hoặc số chưa trừ chi phí. Tiền thật sự còn lại còn phụ thuộc vào mô hình xe, pin, thuế và những khoản vận hành của từng tài xế.",
+      "narration_timing_frames": [0, 336],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "amountLabel": "1.000.000Đ",
+        "layers": ["DOANH THU", "PHẦN TÀI XẾ + THƯỞNG", "SAU CHI PHÍ"],
+        "footnote": "Không hiện số tiền bị trừ — chưa có dữ liệu chuẩn hóa"
+      },
+      "on_screen_text": "1.000.000Đ · DOANH THU · PHẦN TÀI XẾ + THƯỞNG · SAU CHI PHÍ"
+    },
+    {
+      "id": "shot_08_parallel_routes_gap",
+      "type": "ParallelRoutesGapShot",
+      "duration_frames": 278,
+      "narration": "Ngay cả cùng online 10 giờ, hai tài xế vẫn có thể kiếm rất khác nhau. Bởi không phải phút nào online cũng gắn với một cuốc đang tạo doanh thu.",
+      "narration_timing_frames": [0, 248],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "durationLabel": "10 GIỜ",
+        "driverA": { "label": "TÀI XẾ A", "segments": ["CHỜ", "ĐI ĐÓN", "CHẠY RỖNG"] },
+        "driverB": { "label": "TÀI XẾ B", "segments": ["ĐANG CHỞ KHÁCH"] }
+      },
+      "on_screen_text": "TÀI XẾ A: CHỜ · ĐI ĐÓN · CHẠY RỖNG · TÀI XẾ B: ĐANG CHỞ KHÁCH"
+    },
+    {
+      "id": "shot_09a_debate_open",
+      "type": "DebateConclusionShot",
+      "duration_frames": 310,
+      "narration": "Vậy hơn một triệu đồng mỗi ngày có thật không? Hiện chưa có dữ liệu công khai đủ để xác nhận đó là mức phổ biến — hay thậm chí đó là tiền thực nhận.",
+      "narration_timing_frames": [0, 280],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "headline": "CHƯA ĐỦ DỮ LIỆU ĐỂ XÁC NHẬN",
+        "accentWord": "XÁC NHẬN",
+        "options": ["BÌNH THƯỜNG", "NGÀY CHẠY ĐẸP", "CHỈ LÀ DOANH THU"]
+      },
+      "on_screen_text": "BÌNH THƯỜNG · NGÀY CHẠY ĐẸP · CHỈ LÀ DOANH THU · CHƯA ĐỦ DỮ LIỆU ĐỂ XÁC NHẬN"
+    },
+    {
+      "id": "shot_09b_debate_prompt",
+      "type": "DebateConclusionShot",
+      "duration_frames": 302,
+      "narration": "Anh em nào đang chạy thật, vào đính chính giúp mình với. Một triệu đó là ngày bình thường, ngày chạy đẹp, hay vẫn chỉ là doanh thu — chưa phải tiền cầm về?",
+      "narration_timing_frames": [0, 272],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "headline": "MỘT TRIỆU LÀ NGÀY NÀO?",
+        "accentWord": "NGÀY NÀO?",
+        "options": ["BÌNH THƯỜNG", "NGÀY CHẠY ĐẸP", "CHỈ LÀ DOANH THU"],
+        "promptLabel": "Thành phố – giờ online – doanh thu app – thưởng – còn lại sau chi phí"
+      },
+      "on_screen_text": "BÌNH THƯỜNG · NGÀY CHẠY ĐẸP · CHỈ LÀ DOANH THU · Thành phố – giờ online – doanh thu app – thưởng – còn lại sau chi phí"
+    }
+  ]
+}
