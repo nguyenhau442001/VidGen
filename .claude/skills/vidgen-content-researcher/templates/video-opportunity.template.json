@@ -1,0 +1,18 @@
+{
+  "recommended_angle": "",
+  "audience": "",
+  "viewer_belief_before": "",
+  "viewer_belief_after": "",
+  "core_argument": "",
+  "proof_needed": [],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "",
+      "possible_scene_types": [],
+      "required_assets": [],
+      "risk": ""
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}

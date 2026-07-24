@@ -1,0 +1,211 @@
+{
+  "angles": [
+    {
+      "title": "Mỗi ngày marketer lại onboarding một AI intern mới",
+      "one_sentence_concept": "AI mỗi phiên làm việc giống một intern mới toanh, quên hết context hôm qua — cho tới khi có 'sổ tay onboarding' dạng skill.",
+      "audience": "Independent/SME marketer",
+      "core_pain": "Phải dán lại brand context mỗi phiên làm việc mới",
+      "core_tension": "AI được kỳ vọng tiết kiệm thời gian nhưng lại tốn thời gian để 'dạy lại' mỗi lần dùng",
+      "new_belief": "Vấn đề không phải AI kém, mà là chưa ai đóng gói lại quy trình brief thành một hệ thống tái sử dụng",
+      "proof_mechanism": "So sánh trực quan: số bước/số dòng phải nhập lại khi dùng prompt rời rạc vs khi dùng một skill đã đóng gói sẵn context",
+      "evidence": ["S001", "S002"],
+      "visual_metaphor": "Một 'intern' AI mới toanh mỗi ngày cầm sổ tay trắng, so với một intern có sẵn playbook đọc trước khi làm việc",
+      "cta": "Xem phần 2: cách đóng gói một quy trình brief thành skill trong 10 phút",
+      "series_potential": "Phần 1: vấn đề. Phần 2: demo đóng gói. Phần 3: kết quả trước/sau với một loại content cụ thể.",
+      "risks": [
+        "Có thể bị hiểu nhầm là quảng cáo tính năng thay vì giải thích nguyên lý",
+        "Ẩn dụ 'intern' có thể khiến người xem nghĩ AI có nhận thức như người thật"
+      ],
+      "disclaimers": [
+        "Nói rõ đây là ẩn dụ để dễ hình dung cơ chế lưu ngữ cảnh, không phải AI có trí nhớ như người"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 8,
+        "novelty": 6,
+        "emotional_tension": 7,
+        "credibility": 6,
+        "proof_potential": 6,
+        "visual_potential": 8,
+        "shareability": 7,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "Marketer có phương pháp; kỹ sư biến phương pháp đó thành hệ thống",
+      "one_sentence_concept": "Kỹ sư không giỏi marketing hơn marketer — kỹ sư giỏi biến một quy trình marketer đã có sẵn trong đầu thành một hệ thống chạy lại được nhiều lần.",
+      "audience": "Small in-house team marketer",
+      "core_pain": "Kiến thức 'cách brief đúng' nằm trong đầu 1-2 người, không chuyển giao được",
+      "core_tension": "Team càng phụ thuộc vào 1 người giỏi prompt, càng khó scale khi người đó vắng mặt",
+      "new_belief": "Việc hệ thống hóa quy trình là một kỹ năng kỹ thuật riêng biệt, tách khỏi kỹ năng marketing — hai bên cần nhau",
+      "proof_mechanism": "Ví dụ cụ thể: một checklist brief AI của marketer được kỹ sư chuyển thành 1 skill có cấu trúc, chạy được dù người viết checklist gốc vắng mặt",
+      "evidence": ["S001"],
+      "visual_metaphor": "Kiến thức rời rạc trong đầu một người → được 'biên dịch' thành một khối skill có cấu trúc mà cả team dùng chung",
+      "cta": "Nếu team bạn đang phụ thuộc vào 1 người 'giỏi prompt nhất', đây là cách bắt đầu hệ thống hóa",
+      "series_potential": "Có thể mở rộng sang các phòng ban khác ngoài marketing (HR, sales) với cùng core tension",
+      "risks": [
+        "Dễ bị hiểu sai là 'kỹ sư giỏi marketing hơn marketer' nếu không nói rõ định vị",
+        "Đối tượng team nhỏ có AI-native workflow chuẩn hóa sẵn có thể thấy angle này không mới"
+      ],
+      "disclaimers": [
+        "Nhấn mạnh rõ: kỹ sư không thay thế phán đoán chuyên môn marketing, chỉ hệ thống hóa quy trình đã có"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 7,
+        "novelty": 7,
+        "emotional_tension": 5,
+        "credibility": 7,
+        "proof_potential": 7,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 7,
+        "channel_fit": 9,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Prompt dài ra mỗi tuần nhưng chất lượng không tăng tương ứng",
+      "one_sentence_concept": "Marketer liên tục thêm câu vào prompt để 'sửa lỗi' AI, prompt ngày càng dài nhưng vẫn không ổn định — vì vấn đề không nằm ở prompt.",
+      "audience": "Independent/SME marketer",
+      "core_pain": "Output AI không nhất quán giữa các lần chạy dù dùng chung prompt gốc",
+      "core_tension": "Cố sửa vấn đề hệ thống hóa bằng cách viết prompt dài hơn, thay vì đổi cách tiếp cận",
+      "new_belief": "Sự nhất quán không đến từ prompt dài hơn mà từ cấu trúc context được tổ chức lại",
+      "proof_mechanism": "Chưa có case study định lượng — cần gắn nhãn hypothesis nếu không tìm thêm evidence trước khi sản xuất",
+      "evidence": ["S003"],
+      "visual_metaphor": "Một prompt kéo dài vô tận trên màn hình, so với một hộp có nhãn rõ ràng thay thế toàn bộ đoạn đó",
+      "cta": "Xem cách tổ chức lại context thay vì viết prompt dài hơn",
+      "series_potential": "Trung bình — có thể là 1 video độc lập trong content pillar chung",
+      "risks": [
+        "proof_mechanism còn yếu — cần thêm interview/case study thật trước khi lên sóng",
+        "Dễ bị hiểu là chê bai cách làm hiện tại của marketer nếu không cẩn thận giọng điệu"
+      ],
+      "disclaimers": [
+        "Ghi rõ đây là quan sát pattern phổ biến, chưa có số liệu định lượng xác nhận"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 5,
+        "emotional_tension": 6,
+        "credibility": 4,
+        "proof_potential": 4,
+        "visual_potential": 6,
+        "shareability": 6,
+        "save_value": 5,
+        "channel_fit": 7,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "AI sẽ thay thế marketer? Câu hỏi sai ngay từ đầu",
+      "one_sentence_concept": "Thay vì hỏi AI có thay thế marketer không, câu hỏi đúng là phần nào của công việc nên được hệ thống hóa và phần nào cần phán đoán con người.",
+      "audience": "Small in-house team marketer",
+      "core_pain": "Lo lắng nghề nghiệp bị đe dọa bởi AI",
+      "core_tension": "Nỗi sợ bị thay thế khiến marketer né tránh học công cụ, trong khi rủi ro thật lại nằm ở việc tụt lại phía sau người biết hệ thống hóa quy trình",
+      "new_belief": "Không có evidence rằng AI thay thế toàn bộ vai trò marketer — rủi ro thật là khoảng cách kỹ năng hệ thống hóa, không phải bị thay thế hoàn toàn",
+      "proof_mechanism": "Chưa xác định được — cần khảo sát định lượng về xu hướng tuyển dụng marketing mới có thể chứng minh, hiện tại không có",
+      "evidence": [],
+      "visual_metaphor": "Hai con đường tách nhánh: một dẫn tới 'bị thay thế' (không có bằng chứng), một dẫn tới 'tụt lại vì không hệ thống hóa' (có pattern quan sát được)",
+      "cta": "",
+      "series_potential": "Thấp — angle này rủi ro cao, không nên làm series",
+      "risks": [
+        "Không có proof_mechanism thật — vi phạm trực tiếp nguyên tắc 'không tuyên bố AI sẽ thay thế hoàn toàn con người khi không có bằng chứng'",
+        "Dễ khai thác nỗi sợ vô căn cứ nếu không cẩn thận"
+      ],
+      "disclaimers": [
+        "Bắt buộc phải nói rõ không có evidence cho việc AI thay thế toàn bộ vai trò marketer"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 6,
+        "novelty": 4,
+        "emotional_tension": 8,
+        "credibility": 3,
+        "proof_potential": 2,
+        "visual_potential": 5,
+        "shareability": 7,
+        "save_value": 4,
+        "channel_fit": 3,
+        "vidgen_fit": 5,
+        "exaggeration_risk": 8
+      }
+    },
+    {
+      "title": "Cái giá thật của 'copy-paste prompt' là thời gian review, không phải thời gian viết",
+      "one_sentence_concept": "Marketer nghĩ AI tiết kiệm thời gian viết, nhưng thời gian thật sự mất đi nằm ở vòng review/sửa lại để đúng chuẩn thương hiệu.",
+      "audience": "Independent/SME marketer",
+      "core_pain": "Nhiều vòng chỉnh sửa để ra output đúng chuẩn thương hiệu",
+      "core_tension": "Tổng thời gian không giảm như kỳ vọng vì thời gian tiết kiệm ở bước viết bị bù lại ở bước review",
+      "new_belief": "Đo hiệu quả AI cần tính cả thời gian review, không chỉ thời gian viết ban đầu",
+      "proof_mechanism": "Cần dựng ví dụ minh họa timeline trước/sau với số vòng chỉnh sửa cụ thể — hiện là hypothesis, cần đo thử với 1 case thật trước khi lên sóng",
+      "evidence": ["S003"],
+      "visual_metaphor": "Đồng hồ đếm hai đoạn: đoạn 'viết' rất ngắn, đoạn 'review/sửa' kéo dài gấp nhiều lần",
+      "cta": "Cách rút ngắn vòng review bằng cách brief đúng ngay từ đầu",
+      "series_potential": "Trung bình — có thể ghép chung pillar 'hidden objective function' theo hướng 'AI tối ưu tốc độ viết, không tối ưu tổng thời gian'",
+      "risks": [
+        "Cần số liệu thời gian cụ thể mới đủ thuyết phục, hiện chưa có"
+      ],
+      "disclaimers": [
+        "Nêu rõ timeline minh họa là ước tính, không phải số đo thực tế cho tới khi có case thật"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 7,
+        "emotional_tension": 6,
+        "credibility": 5,
+        "proof_potential": 5,
+        "visual_potential": 7,
+        "shareability": 6,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "Custom instructions vs Skill: khác nhau ở đâu mà không ai giải thích rõ",
+      "one_sentence_concept": "Marketer dùng custom instructions nghĩ đó đã là 'hệ thống hóa', nhưng nó và một skill có cấu trúc giải quyết hai lớp vấn đề khác nhau.",
+      "audience": "Small in-house team marketer",
+      "core_pain": "Không phân biệt được sự khác nhau giữa 'một prompt hay' và 'một quy trình được hệ thống hóa'",
+      "core_tension": "Dùng đúng công cụ (custom instructions) nhưng sai tầng vấn đề (cần cấu trúc theo từng loại task, không phải một cấu hình chung)",
+      "new_belief": "Custom instructions giải quyết ngữ cảnh chung; skill giải quyết quy trình theo từng loại công việc cụ thể — cần cả hai, không thay thế nhau",
+      "proof_mechanism": "So sánh trực tiếp output cùng một task khi dùng custom instructions chung vs khi dùng skill riêng cho task đó",
+      "evidence": ["S001"],
+      "visual_metaphor": "Một cấu hình chung áp cho mọi loại task (custom instructions) so với nhiều 'công cụ chuyên biệt' xếp theo từng loại việc (skills)",
+      "cta": "Xem ví dụ tạo một skill riêng cho 1 loại content cụ thể",
+      "series_potential": "Cao — dễ mở rộng thành nhiều tập theo từng loại task marketing khác nhau (email, social caption, báo cáo)",
+      "risks": [
+        "Có thể hơi kỹ thuật với audience chưa quen khái niệm skill — cần hook thật đơn giản"
+      ],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 7,
+        "novelty": 8,
+        "emotional_tension": 5,
+        "credibility": 8,
+        "proof_potential": 8,
+        "visual_potential": 7,
+        "shareability": 6,
+        "save_value": 8,
+        "channel_fit": 9,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 2
+      }
+    }
+  ],
+  "recommended_angle": "Mỗi ngày marketer lại onboarding một AI intern mới",
+  "reasoning": "Angle này có pain_recognition và visual_potential cao nhất trong nhóm angle có exaggeration_risk thấp, đồng thời có proof_mechanism cụ thể (so sánh số bước phải lặp lại). 'Custom instructions vs Skill' có credibility/proof_potential cao hơn nhưng đòi hỏi audience đã quen khái niệm skill — phù hợp làm phần 2 của series hơn là mở đầu. 'Marketer có phương pháp; kỹ sư biến phương pháp đó thành hệ thống' có channel_fit cao nhất và nên dùng làm thông điệp định vị xuyên suốt series, không chỉ 1 video.",
+  "tradeoffs": [
+    "'AI sẽ thay thế marketer?' bị loại vì exaggeration_risk=8 và proof_potential=2 — vi phạm trực tiếp guardrail dù emotional_tension và shareability cao.",
+    "'Prompt dài ra mỗi tuần...' và 'Cái giá thật của copy-paste prompt' đều có tiềm năng nhưng proof_mechanism còn ở dạng hypothesis — cần thêm evidence/case thật trước khi chọn làm video mở đầu series.",
+    "'Custom instructions vs Skill' có điểm credibility/proof cao nhất nhưng novelty cao đi kèm rủi ro audience Unaware không theo kịp nếu đặt làm video đầu tiên — phù hợp hơn ở phần 2 sau khi angle mở đầu đã thiết lập vấn đề."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "angles": [
+    {
+      "title": "",
+      "one_sentence_concept": "",
+      "audience": "",
+      "core_pain": "",
+      "core_tension": "",
+      "new_belief": "",
+      "proof_mechanism": "",
+      "evidence": [],
+      "visual_metaphor": "",
+      "cta": "",
+      "series_potential": "",
+      "risks": [],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 0,
+        "relevance": 0,
+        "novelty": 0,
+        "emotional_tension": 0,
+        "credibility": 0,
+        "proof_potential": 0,
+        "visual_potential": 0,
+        "shareability": 0,
+        "save_value": 0,
+        "channel_fit": 0,
+        "vidgen_fit": 0,
+        "exaggeration_risk": 0
+      }
+    }
+  ],
+  "recommended_angle": "",
+  "reasoning": "",
+  "tradeoffs": []
+}

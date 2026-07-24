@@ -1,0 +1,56 @@
+{
+  "recommended_angle": "Mỗi ngày marketer lại onboarding một AI intern mới",
+  "audience": "Independent/SME marketer, 1-3 năm kinh nghiệm, tự chạy content một mình",
+  "viewer_belief_before": "AI chatbot tự động tiết kiệm thời gian ngay khi bắt đầu dùng, vấn đề chỉ là viết prompt cho hay",
+  "viewer_belief_after": "Thời gian thật sự bị mất nằm ở việc lặp lại context mỗi phiên — và đó là vấn đề hệ thống hóa, không phải vấn đề viết prompt hay hơn",
+  "core_argument": "Một quy trình brief AI được đóng gói lại (skill) một lần có thể loại bỏ phần lớn công việc 'dạy lại' lặp đi lặp lại mỗi phiên làm việc mới",
+  "proof_needed": [
+    "Ví dụ minh họa số bước/dòng phải nhập lại khi dùng prompt rời rạc so với khi dùng context đã đóng gói sẵn",
+    "Case thật (khi có) về thời gian tiết kiệm được sau khi đóng gói 1 quy trình brief cụ thể"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "Marketer mở AI chatbot mỗi sáng, tay gõ lại đoạn brand voice quen thuộc — cảnh lặp lại y hệt nhiều ngày liên tiếp",
+      "possible_scene_types": ["cần xác nhận với vidgen-scene-director — có thể tái sử dụng dạng scene UI chat lặp lại theo pattern PhoneShotZoomScene đã có trong repo"],
+      "required_assets": ["mock UI giao diện chat AI", "đoạn text brand voice mẫu"],
+      "risk": "Nếu dựng quá giống UI thật của 1 sản phẩm cụ thể, cần cân nhắc yếu tố thương hiệu/bản quyền giao diện"
+    },
+    {
+      "narrative_function": "reframe",
+      "concept": "Chuyển góc nhìn: vấn đề không phải AI 'quên', mà là chưa có nơi nào lưu lại quy trình — hình ảnh một 'sổ tay onboarding' xuất hiện thay thế cho việc gõ lại từ đầu",
+      "possible_scene_types": ["cần xác nhận — có thể là scene dạng before/after side-by-side"],
+      "required_assets": ["icon 'sổ tay'/'playbook'", "so sánh 2 luồng thao tác song song"],
+      "risk": "Ẩn dụ cần rõ ràng để không bị hiểu là AI có trí nhớ như con người"
+    },
+    {
+      "narrative_function": "mechanism",
+      "concept": "Giải thích ngắn gọn cơ chế: một skill lưu lại cấu trúc + ví dụ + quy tắc, được AI đọc lại mỗi lần chạy task tương ứng",
+      "possible_scene_types": ["cần xác nhận — có thể tái sử dụng dạng scene giải thích luồng dữ liệu như trong series grab_dispatch"],
+      "required_assets": ["sơ đồ luồng đơn giản: input → skill (context đã đóng gói) → output nhất quán"],
+      "risk": "Dễ sa vào chi tiết kỹ thuật quá sâu — cần giữ ở mức khái niệm cho audience không kỹ thuật"
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "So sánh trực quan số bước/số dòng phải nhập lại: luồng cũ (dài, lặp lại) vs luồng mới (ngắn, một lần đóng gói)",
+      "possible_scene_types": ["cần xác nhận — dạng scene so sánh song song hoặc đếm số bước"],
+      "required_assets": ["số liệu minh họa (gắn nhãn rõ là ví dụ minh họa, không phải số đo thực tế cho tới khi có case thật)"],
+      "risk": "Không được trình bày số minh họa như số liệu đã đo thực tế — cần disclaimer rõ ràng trên màn hình hoặc trong narration"
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Khoảnh khắc marketer nhận ra: vấn đề của họ không phải 'không biết viết prompt' mà là 'chưa ai chỉ cách hệ thống hóa' — cảm giác nhẹ nhõm/tự tin hơn",
+      "possible_scene_types": ["cần xác nhận — scene payoff cảm xúc, có thể dùng lại pattern kết thúc đã có trong series khác"],
+      "required_assets": [],
+      "risk": "Payoff cần giữ đúng mức, tránh nghe như quảng cáo giải pháp thay vì insight"
+    },
+    {
+      "narrative_function": "cta",
+      "concept": "Mở open loop cho phần 2: cách thực sự đóng gói một quy trình brief thành skill",
+      "possible_scene_types": ["cần xác nhận — CTAScene tiêu chuẩn nếu repo đã có"],
+      "required_assets": [],
+      "risk": "CTA cần tự nhiên, không desperate — theo đúng convention series hiện có trong repo"
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}

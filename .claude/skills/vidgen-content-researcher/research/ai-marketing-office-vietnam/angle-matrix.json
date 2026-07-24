@@ -1,0 +1,216 @@
+{
+  "angles": [
+    {
+      "title": "Công ty tưởng chưa dùng AI, thật ra 90% nhân viên đã âm thầm dùng rồi",
+      "one_sentence_concept": "Trong khi doanh nghiệp còn đang họp bàn 'có nên cho phép dùng AI không', phần lớn nhân viên đã tự dùng tài khoản cá nhân từ lâu — chỉ là công ty không biết.",
+      "audience": "In-house office marketing staff (dùng shadow AI)",
+      "core_pain": "Không có hướng dẫn chính thức từ công ty về việc dữ liệu nào được/không được đưa vào AI",
+      "core_tension": "Mức độ 'công ty đã sẵn sàng cho AI' và mức độ 'nhân viên đã thực sự dùng AI' là hai con số hoàn toàn khác nhau — và khoảng cách đó chính là rủi ro thật",
+      "new_belief": "Câu hỏi đúng không phải 'công ty có nên cho dùng AI hay không' mà là 'công ty có biết nhân viên đang dùng AI như thế nào hay không'",
+      "proof_mechanism": "Đối chiếu 2 con số: tỷ lệ nhân viên tự dùng chatbot cá nhân trong công việc (dữ liệu quốc tế, S007) vs tỷ lệ doanh nghiệp có đăng ký AI chính thức — cùng với hành vi dán dữ liệu công việc thật vào AI đã ghi nhận tại Việt Nam (S003)",
+      "evidence": ["S003", "S007"],
+      "visual_metaphor": "Một 'lớp AI ẩn' chạy song song bên dưới quy trình chính thức của công ty — như một dòng nước ngầm công ty không nhìn thấy trên bề mặt",
+      "cta": "Nếu công ty bạn chưa có hướng dẫn chính thức, đây là điều nên hỏi trước khi dán dữ liệu tiếp theo vào AI",
+      "series_potential": "Cao — Phần 2 có thể đi sâu vào cách một số công ty đang xây policy AI nội bộ",
+      "risks": [
+        "Số liệu 90% là dữ liệu quốc tế, không phải Việt Nam — bắt buộc phải nói rõ trong video, không được ngầm hiểu là số liệu VN",
+        "Có thể bị hiểu là cổ súy dùng AI không kiểm soát nếu không nhấn mạnh đúng thông điệp an toàn dữ liệu"
+      ],
+      "disclaimers": [
+        "Số liệu 90%/40% là từ nghiên cứu quốc tế được báo chí trích dẫn, không phải khảo sát tại Việt Nam — nói rõ 'theo một nghiên cứu quốc tế' khi dùng trong video",
+        "Hành vi dán dữ liệu thật vào AI tại Việt Nam mới chỉ được ghi nhận qua mô tả báo chí, chưa có số liệu % cụ thể"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 7,
+        "novelty": 8,
+        "emotional_tension": 8,
+        "credibility": 5,
+        "proof_potential": 6,
+        "visual_potential": 8,
+        "shareability": 8,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "Mỗi ngày marketer lại onboarding một AI intern mới",
+      "one_sentence_concept": "AI mỗi phiên làm việc giống một intern mới toanh, quên hết brand voice hôm qua — cho tới khi có một 'sổ tay onboarding' dùng lại được.",
+      "audience": "Independent/SME content marketer",
+      "core_pain": "Phải mô tả lại brand voice/ngữ cảnh gần như mỗi phiên làm việc mới",
+      "core_tension": "AI được kỳ vọng tiết kiệm thời gian nhưng marketer vẫn tốn thời gian 'dạy lại' AI mỗi lần dùng",
+      "new_belief": "Vấn đề không phải AI viết dở, mà là chưa ai đóng gói lại 'công thức brief' thành một thứ dùng lại được nhiều lần",
+      "proof_mechanism": "Trích trực tiếp ngôn ngữ thật từ cộng đồng marketer VN mô tả đúng pain này (S006), đối chiếu với khuyến nghị cấu trúc prompt 7 thành phần từ nguồn thực hành (S004)",
+      "evidence": ["S004", "S006"],
+      "visual_metaphor": "Một 'intern' AI mới toanh mỗi ngày cầm sổ tay trắng, so với một intern có sẵn playbook đọc trước khi làm việc",
+      "cta": "Xem cách đóng gói một 'công thức brief' để không phải bắt đầu lại từ đầu mỗi lần",
+      "series_potential": "Phần 1: vấn đề (angle này). Phần 2: demo đóng gói công thức brief thành một hệ thống dùng lại được",
+      "risks": [
+        "Ẩn dụ 'intern' có thể khiến người xem nghĩ AI có nhận thức như người thật",
+        "Cần ví dụ cụ thể (không chỉ mô tả chung chung) để không bị coi là hiển nhiên/nhàm"
+      ],
+      "disclaimers": [
+        "Nói rõ đây là ẩn dụ để dễ hình dung cơ chế lưu ngữ cảnh, không phải AI có trí nhớ như người"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 8,
+        "novelty": 6,
+        "emotional_tension": 7,
+        "credibility": 6,
+        "proof_potential": 6,
+        "visual_potential": 8,
+        "shareability": 7,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "83% người Việt dùng AI, nhưng 61% vẫn sợ mất việc — nghịch lý ở đâu",
+      "one_sentence_concept": "Càng nhiều người dùng AI, nỗi sợ mất việc đáng lẽ phải giảm — nhưng dữ liệu cho thấy điều ngược lại, và lý do không phải AI giỏi hơn con người.",
+      "audience": "In-house office marketing staff (dùng shadow AI)",
+      "core_pain": "Lo ngại nghề nghiệp bị đe dọa bởi AI dù đang tự dùng AI hàng ngày",
+      "core_tension": "Hành vi (dùng AI mỗi ngày) và cảm xúc (sợ AI thay thế mình) đang tách rời nhau — điều này bản thân nó là một hiện tượng đáng giải thích",
+      "new_belief": "Nỗi sợ không đến từ việc AI làm được việc, mà từ việc không ai giải thích rõ ràng phần nào của công việc thực sự có nguy cơ, phần nào không",
+      "proof_mechanism": "Số liệu 83%/61% (S008) — CẦN xác minh thêm báo cáo TopCV gốc trước khi đưa vào kịch bản chính thức, hiện tại phải gắn nhãn 'theo một bài phân tích trích dẫn khảo sát TopCV', chưa phải fact đã kiểm chứng trực tiếp",
+      "evidence": ["S008"],
+      "visual_metaphor": "Hai đường biểu đồ đi ngược chiều nhau: % người dùng AI tăng, % người lo sợ mất việc cũng tăng",
+      "cta": "",
+      "series_potential": "Trung bình — cần thêm evidence xác thực trước khi làm series",
+      "risks": [
+        "Nguồn S008 là bài thứ cấp, chưa xác minh trực tiếp từ báo cáo TopCV gốc — proof_mechanism còn yếu",
+        "Rủi ro cao nhất trong nhóm angle này: dễ bị đẩy thành nội dung khai thác nỗi sợ nếu không kiểm soát giọng điệu"
+      ],
+      "disclaimers": [
+        "Không được tuyên bố '61% sẽ mất việc' — chỉ là '61% CẢM THẤY lo lắng', hai điều khác nhau hoàn toàn",
+        "Cần tìm và trích dẫn trực tiếp báo cáo TopCV gốc trước khi lên sóng chính thức"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 6,
+        "novelty": 5,
+        "emotional_tension": 8,
+        "credibility": 4,
+        "proof_potential": 4,
+        "visual_potential": 6,
+        "shareability": 7,
+        "save_value": 5,
+        "channel_fit": 5,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 6
+      }
+    },
+    {
+      "title": "AI giúp tiết kiệm 40-60 phút mỗi ngày — nhưng 'ma sát công nghệ' lấy lại nhiều hơn thế",
+      "one_sentence_concept": "AI tiết kiệm thời gian viết, nhưng thời gian bị mất vì sửa lỗi, học lại công cụ, và xử lý output sai lại nhiều hơn thời gian tiết kiệm được.",
+      "audience": "Marketing team lead / quản lý nhỏ",
+      "core_pain": "Áp lực phải chứng minh AI thực sự tạo ra giá trị, không chỉ là 'có dùng cho vui'",
+      "core_tension": "AI vừa tạo ra năng suất, vừa âm thầm phá hủy năng suất — tùy vào việc tổ chức có quy trình kiểm soát hay không",
+      "new_belief": "Đo hiệu quả AI cần tính cả 'thời gian mất do ma sát' (học lại, sửa lỗi, không đồng bộ giữa các công cụ), không chỉ thời gian tiết kiệm được lúc viết",
+      "proof_mechanism": "Đối chiếu 2 số liệu quốc tế được báo chí trích dẫn: tiết kiệm 40-60 phút/ngày (Goldman Sachs, qua S007) vs mất 51 ngày làm việc/năm do ma sát công nghệ (S007) — CẦN gắn nhãn rõ là số liệu toàn cầu, không phải VN, và cần tìm nguồn gốc nghiên cứu MIT cụ thể trước khi dùng làm claim chính",
+      "evidence": ["S007"],
+      "visual_metaphor": "Một đồng hồ: kim phút chạy nhanh về phía trước ở đoạn 'viết', rồi chạy giật lùi mạnh hơn ở đoạn 'ma sát' (sửa lỗi, học lại, không đồng bộ)",
+      "cta": "Xem cách một team nhỏ đo được ma sát AI thật trong quy trình của mình trước khi mở rộng ngân sách",
+      "series_potential": "Trung bình — phù hợp làm nội dung cho đối tượng quản lý/lead hơn là marketer cá nhân",
+      "risks": [
+        "Số liệu quốc tế, nguồn nghiên cứu MIT gốc chưa xác minh được — rủi ro cao nếu trình bày như fact đã kiểm chứng",
+        "Khái niệm 'ma sát công nghệ' khá trừu tượng, cần ví dụ cụ thể để không bị mơ hồ"
+      ],
+      "disclaimers": [
+        "Ghi rõ 2 số liệu đều là dữ liệu quốc tế (không phải khảo sát Việt Nam) khi đưa vào narration/on-screen text",
+        "Cần tìm nghiên cứu MIT gốc trước khi lên sóng chính thức — hiện tại chỉ có qua trích dẫn thứ cấp"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 8,
+        "emotional_tension": 5,
+        "credibility": 4,
+        "proof_potential": 5,
+        "visual_potential": 7,
+        "shareability": 6,
+        "save_value": 6,
+        "channel_fit": 7,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 5
+      }
+    },
+    {
+      "title": "78% tổ chức 'Dẫn đầu AI' không thắng nhờ nhiều công cụ hơn — mà nhờ ít lỗ hổng đào tạo hơn",
+      "one_sentence_concept": "Khoảng cách giữa team marketing 'giỏi AI' và team 'chỉ dùng AI cho vui' không nằm ở công cụ họ chọn, mà ở việc có đầu tư đào tạo bài bản hay không.",
+      "audience": "Marketing team lead / quản lý nhỏ",
+      "core_pain": "78% marketer trong khu vực cho biết thiếu kỹ năng/đào tạo là thách thức lớn nhất khi tích hợp AI",
+      "core_tension": "Ngân sách marketing 2026 đang đổ vào AI, nhưng phần lớn tổ chức đầu tư công cụ nhiều hơn đầu tư đào tạo con người dùng công cụ đó",
+      "new_belief": "Lợi thế cạnh tranh thật không đến từ việc 'có dùng AI' mà từ mức độ tổ chức đầu tư bài bản vào năng lực đội ngũ và quản trị rủi ro song song với công cụ",
+      "proof_mechanism": "Số liệu trực tiếp từ báo cáo MMA x Decision Lab có phương pháp rõ ràng: 63% tổ chức Dẫn đầu có chương trình đào tạo AI vs 36% ở nhóm Mới tìm hiểu; chỉ 44% tổ chức Dẫn đầu có chiến lược quản trị rủi ro chính thức vs 21% ở nhóm Mới tìm hiểu (S001)",
+      "evidence": ["S001"],
+      "visual_metaphor": "Hai đội cùng có hộp công cụ AI giống hệt nhau, nhưng một đội có thêm 'sách hướng dẫn sử dụng' — kết quả khác nhau rõ rệt",
+      "cta": "Xem điều một tổ chức 'Dẫn đầu AI' thực sự làm khác — không phải mua thêm công cụ",
+      "series_potential": "Cao — có thể mở rộng theo từng khoảng cách cụ thể trong báo cáo (đào tạo, quản trị rủi ro, ngân sách)",
+      "risks": [
+        "Số liệu là trung bình 5 thị trường ĐNA, không tách riêng VN — cần nói rõ phạm vi",
+        "Đối tượng khá hẹp (quản lý/lead), có thể giảm shareability so với angle nhắm marketer cá nhân"
+      ],
+      "disclaimers": [
+        "Nói rõ đây là số liệu trung bình khu vực Đông Nam Á (Việt Nam là một trong 5 thị trường khảo sát), không phải số liệu riêng cho Việt Nam"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 7,
+        "novelty": 6,
+        "emotional_tension": 5,
+        "credibility": 9,
+        "proof_potential": 9,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 8,
+        "channel_fit": 8,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "AI viết nhanh nhưng giọng sai — vì sao 'đúng giọng thương hiệu' khó hơn 'viết được'",
+      "one_sentence_concept": "Ai cũng nghĩ thử thách của AI content là 'viết được hay không', nhưng thử thách thật là giữ được giọng thương hiệu nhất quán qua hàng trăm lần tạo nội dung.",
+      "audience": "Independent/SME content marketer",
+      "core_pain": "Tốn thời gian fact-check và sửa giọng văn vì AI có thể bịa số liệu hoặc lệch tông",
+      "core_tension": "AI đã giải quyết xong bài toán 'viết được' từ lâu — bài toán thật sự khó hiện nay là 'viết đúng' theo một chuẩn nhất quán",
+      "new_belief": "Giữ brand voice nhất quán là một vấn đề cấu trúc (cách tổ chức ngữ cảnh) chứ không phải vấn đề 'AI có thông minh đủ hay không'",
+      "proof_mechanism": "Đối chiếu 2 nguồn thực hành độc lập cùng đưa ra giải pháp giống nhau (cấu trúc prompt nhiều thành phần để giữ giọng) — sự trùng lặp độc lập giữa 2 nguồn củng cố độ tin cậy của pain này (S004, S005)",
+      "evidence": ["S004", "S005"],
+      "visual_metaphor": "Cùng một câu hỏi được hỏi AI 5 lần, ra 5 giọng văn khác nhau — rồi so sánh với việc dùng một 'khuôn giọng' cố định",
+      "cta": "Xem cấu trúc prompt 7 thành phần giúp giữ giọng thương hiệu nhất quán",
+      "series_potential": "Trung bình-cao — dễ làm ví dụ minh họa cụ thể theo từng loại content (email, caption, báo cáo)",
+      "risks": [
+        "Cần ví dụ trực quan cụ thể (không chỉ nói lý thuyết) để tránh nhàm với audience đã nghe nhiều về 'brand voice'"
+      ],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 7,
+        "novelty": 6,
+        "emotional_tension": 5,
+        "credibility": 7,
+        "proof_potential": 7,
+        "visual_potential": 7,
+        "shareability": 6,
+        "save_value": 7,
+        "channel_fit": 8,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 2
+      }
+    }
+  ],
+  "recommended_angle": "Mỗi ngày marketer lại onboarding một AI intern mới",
+  "reasoning": "Angle này giữ được sự cân bằng tốt nhất giữa pain_recognition cao (8), visual_potential cao (8), và exaggeration_risk thấp (3), đồng thời có evidence trực tiếp từ ngôn ngữ thật của cộng đồng marketer Việt Nam (S006) — không phụ thuộc vào số liệu quốc tế chưa xác minh như các angle 'shadow AI' hay 'ma sát công nghệ'. '78% tổ chức Dẫn đầu AI...' có credibility/proof_potential cao nhất (9/9) nhờ dùng trực tiếp báo cáo MMA x Decision Lab có phương pháp rõ, nhưng audience hẹp hơn (quản lý/lead) và ít phù hợp làm video mở đầu series vì cần audience đã hiểu vấn đề trước. Angle này nên làm phần 1 mở đầu series; angle '78% tổ chức Dẫn đầu AI' phù hợp làm phần 2 hướng tới quản lý/lead sau khi đã thiết lập vấn đề ở phần 1.",
+  "tradeoffs": [
+    "'Công ty tưởng chưa dùng AI, thật ra 90% nhân viên đã âm thầm dùng rồi' có shareability và novelty cao nhất (8/8) nhưng dựa trên số liệu quốc tế (S007) chưa xác minh nguồn gốc nghiên cứu MIT cụ thể — rủi ro credibility nếu không disclaimers rõ ràng, nên xếp sau angle có evidence Việt Nam trực tiếp hơn.",
+    "'83% người Việt dùng AI nhưng 61% vẫn sợ mất việc' bị xếp thấp nhất vì proof_mechanism yếu nhất (chỉ 1 nguồn thứ cấp S008, chưa truy được báo cáo TopCV gốc) và exaggeration_risk cao nhất (6) — không nên là angle mở đầu cho tới khi có thêm evidence.",
+    "'AI giúp tiết kiệm 40-60 phút... nhưng ma sát công nghệ lấy lại nhiều hơn' có novelty cao (8) nhưng credibility thấp (4) vì phụ thuộc hoàn toàn vào số liệu quốc tế trích dẫn thứ cấp — cần thêm nghiên cứu gốc trước khi làm video chính thức, hiện chỉ nên dùng làm ý tưởng dự phòng.",
+    "'78% tổ chức Dẫn đầu AI...' có điểm credibility/proof cao nhất tuyệt đối nhưng đối tượng hẹp hơn (quản lý/lead) — phù hợp hơn cho phần 2 của series thay vì video mở đầu nhắm audience rộng."
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "topic": "Claude Skills cho marketer",
+  "segments": [
+    {
+      "name": "Independent/SME marketer",
+      "role": "Marketer tự chạy toàn bộ content một mình cho SME hoặc cá nhân kinh doanh",
+      "experience_level": "1-3 năm",
+      "current_workflow": [
+        "Nhận brief hoặc tự lên kế hoạch content tuần",
+        "Mở AI chatbot, dán lại một đoạn brand voice/ví dụ mẫu đã lưu sẵn",
+        "Viết prompt, chỉnh sửa nhiều vòng cho tới khi đúng giọng",
+        "Tự kiểm tra lại vì không có ai review"
+      ],
+      "trigger_events": [
+        "Khách hàng phản hồi content 'không đúng giọng thương hiệu'",
+        "Deadline gấp, không đủ thời gian brief AI kỹ như bình thường"
+      ],
+      "functional_pains": [
+        "Phải dán lại brand context mỗi phiên làm việc mới",
+        "Không có cách lưu lại 'công thức brief' đã hiệu quả để dùng lại nhanh"
+      ],
+      "emotional_pains": [
+        "Lo lắng output không đúng chuẩn khi gửi cho khách hàng",
+        "Cảm giác đang 'dạy lại' AI mỗi ngày thay vì AI giúp tiết kiệm thời gian"
+      ],
+      "professional_pains": [
+        "Nếu output sai giọng thương hiệu, uy tín cá nhân với khách hàng bị ảnh hưởng trực tiếp"
+      ],
+      "current_alternatives": [
+        "Lưu prompt gốc trong note cá nhân",
+        "Custom instructions ở cấp tài khoản AI"
+      ],
+      "desired_outcomes": [
+        "Brief AI một lần, dùng lại nhất quán cho nhiều task khác nhau",
+        "Giảm số vòng chỉnh sửa để ra output đúng chuẩn"
+      ],
+      "objections": [
+        "Không biết code, sợ 'skill' nghe kỹ thuật quá",
+        "Lo dữ liệu thương hiệu/khách hàng khi đưa vào hệ thống mới"
+      ],
+      "customer_language": [
+        "mỗi lần dùng lại phải nhắc lại từ đầu",
+        "AI không nhớ được style của tôi"
+      ],
+      "awareness_stage": "problem_aware",
+      "evidence": ["S002", "S003"],
+      "confidence": "low"
+    },
+    {
+      "name": "Small in-house team marketer",
+      "role": "Marketer trong team 2-5 người, dùng AI để tăng tốc sản xuất content",
+      "experience_level": "1-3 năm, chưa có quy trình AI chuẩn hóa trong team",
+      "current_workflow": [
+        "Mỗi thành viên tự có cách prompt AI riêng, không đồng bộ",
+        "Không có tài liệu chung mô tả cách brief AI đúng chuẩn thương hiệu",
+        "Kiến thức 'cách làm đúng' nằm trong đầu 1-2 người kinh nghiệm nhất"
+      ],
+      "trigger_events": [
+        "Một thành viên nghỉ/rời team, kéo theo mất 'bí quyết' brief AI",
+        "Cần scale số lượng content nhưng không tuyển thêm người kịp"
+      ],
+      "functional_pains": [
+        "Chất lượng output không đồng đều giữa các thành viên trong team",
+        "Không có cách chuyển giao quy trình brief AI cho người mới"
+      ],
+      "emotional_pains": [
+        "Sếp lo lắng về tính nhất quán khi scale content bằng AI"
+      ],
+      "professional_pains": [
+        "Team bị đánh giá là 'dùng AI nhưng vẫn thiếu chuyên nghiệp' nếu output không đều"
+      ],
+      "current_alternatives": [
+        "Google Doc mô tả brand guideline, không tích hợp trực tiếp vào AI",
+        "Mỗi người tự custom instructions riêng, không dùng chung"
+      ],
+      "desired_outcomes": [
+        "Một quy trình brief AI dùng chung cho cả team, dễ onboard người mới"
+      ],
+      "objections": [
+        "Setup một lần rồi ai sẽ maintain khi quy trình thay đổi?",
+        "Sợ tốn thời gian xây dựng hệ thống hơn là lợi ích mang lại"
+      ],
+      "customer_language": [
+        "prompt càng ngày càng dài mà vẫn không chuẩn",
+        "tôi cần một cái gì đó nhớ được quy trình của tôi"
+      ],
+      "awareness_stage": "unaware",
+      "evidence": ["S003"],
+      "confidence": "low"
+    }
+  ]
+}

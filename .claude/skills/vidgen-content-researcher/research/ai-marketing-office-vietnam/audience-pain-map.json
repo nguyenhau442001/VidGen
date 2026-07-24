@@ -1,0 +1,126 @@
+{
+  "topic": "Nhu cầu ứng dụng AI cho dân văn phòng trong mảng marketing ở Việt Nam",
+  "segments": [
+    {
+      "name": "Independent/SME content marketer",
+      "role": "Marketer tự chạy content cho SME hoặc tự kinh doanh, không có team hỗ trợ",
+      "experience_level": "1-3 năm",
+      "current_workflow": [
+        "Mở ChatGPT/công cụ AI mỗi khi cần viết email, biên bản họp, báo cáo tuần, caption",
+        "Dán lại brand voice/ví dụ mẫu hoặc mô tả lại giọng văn mỗi lần bắt đầu task mới",
+        "Chỉnh sửa nhiều vòng cho tới khi output đúng giọng thương hiệu và không có lỗi số liệu bịa"
+      ],
+      "trigger_events": [
+        "Deadline gấp, không đủ thời gian brief AI kỹ như bình thường",
+        "Khách hàng/sếp phản hồi output 'không đúng giọng thương hiệu'",
+        "Phát hiện AI đưa số liệu không có thật (hallucination) sau khi đã gửi đi"
+      ],
+      "functional_pains": [
+        "Phải mô tả lại brand voice/ngữ cảnh gần như mỗi phiên làm việc mới (S006)",
+        "Tốn thời gian fact-check vì AI có thể 'bịa' số liệu rất mượt (S005)"
+      ],
+      "emotional_pains": [
+        "Cảm giác 'nghĩ lại từ đầu, chỉnh lại từng dòng, canh từng chữ' mỗi khi làm việc quen thuộc (S006)",
+        "Lo lắng gửi nhầm nội dung sai giọng thương hiệu cho khách hàng"
+      ],
+      "professional_pains": [
+        "Nếu output sai giọng hoặc sai số liệu, uy tín cá nhân với khách hàng/sếp bị ảnh hưởng trực tiếp"
+      ],
+      "current_alternatives": [
+        "Lưu sẵn 1 đoạn mô tả brand voice để copy-paste vào đầu mỗi phiên (S004, S006)",
+        "Áp dụng công thức prompt nhiều thành phần (vai trò, đối tượng, giọng văn mẫu) học được từ hướng dẫn online (S004, S024-type nguồn)"
+      ],
+      "desired_outcomes": [
+        "Brief AI một lần, dùng lại nhất quán cho nhiều task khác nhau, giảm số vòng chỉnh sửa"
+      ],
+      "objections": [
+        "Không biết code/kỹ thuật, sợ giải pháp 'hệ thống hóa' nghe phức tạp quá",
+        "Lo dữ liệu thương hiệu/khách hàng bị lộ khi dán vào công cụ AI (S003)"
+      ],
+      "customer_language": [
+        "mỗi lần dùng lại phải nhắc lại từ đầu",
+        "nghĩ lại từ đầu, chỉnh lại từng dòng, canh từng chữ",
+        "AI không nhớ được style của tôi"
+      ],
+      "awareness_stage": "problem_aware",
+      "evidence": ["S002", "S004", "S005", "S006"],
+      "confidence": "medium"
+    },
+    {
+      "name": "In-house office marketing staff (dùng shadow AI)",
+      "role": "Nhân viên marketing trong doanh nghiệp vừa/lớn, tự dùng tài khoản AI cá nhân ngoài hệ thống công ty",
+      "experience_level": "1-4 năm, chưa có quy trình AI chính thức từ công ty",
+      "current_workflow": [
+        "Dùng tài khoản ChatGPT/Claude cá nhân để xử lý báo cáo, dịch tài liệu, phân tích dữ liệu hàng ngày (S003)",
+        "Dán trực tiếp nội dung công việc thật (báo cáo, hợp đồng, dữ liệu khách hàng) vào công cụ AI để có kết quả sát hơn (S003)"
+      ],
+      "trigger_events": [
+        "Khối lượng công việc tăng nhưng không có thêm nhân sự",
+        "Nghe tin đồng nghiệp/công ty khác bị rò rỉ dữ liệu qua AI"
+      ],
+      "functional_pains": [
+        "Không có hướng dẫn chính thức từ công ty về việc dữ liệu nào được/không được đưa vào AI (S003)",
+        "Không đăng ký chính thức mô hình AI ở cấp công ty — chỉ ~40% doanh nghiệp có đăng ký chính thức, phần lớn còn lại là 'shadow AI' theo dữ liệu quốc tế được trích dẫn (S007, cần gắn nhãn là dữ liệu toàn cầu)"
+      ],
+      "emotional_pains": [
+        "Lo ngại về quyền riêng tư dữ liệu — đây là mối quan ngại lớn nhất theo khảo sát marketer khu vực Đông Nam Á, 62% (S001)"
+      ],
+      "professional_pains": [
+        "Nếu xảy ra rò rỉ dữ liệu do dùng AI không kiểm soát, trách nhiệm cá nhân có thể bị quy vào người đã dán dữ liệu"
+      ],
+      "current_alternatives": [
+        "Tự đặt quy tắc cá nhân về loại dữ liệu không dán vào AI (không chính thức, không đồng bộ giữa các nhân viên)"
+      ],
+      "desired_outcomes": [
+        "Có một cách dùng AI hiệu quả mà không phải tự lo lắng về rủi ro bảo mật mỗi lần dùng"
+      ],
+      "objections": [
+        "Chưa có hướng dẫn công ty rõ ràng nên 'cứ dùng theo cách quen', ngại nêu vấn đề vì sợ bị hạn chế dùng AI"
+      ],
+      "customer_language": [
+        "dùng theo cách quen thôi", 
+        "chưa nghe công ty nói gì về việc này"
+      ],
+      "awareness_stage": "unaware",
+      "evidence": ["S001", "S003", "S007"],
+      "confidence": "low"
+    },
+    {
+      "name": "Marketing team lead / quản lý nhỏ",
+      "role": "Trưởng nhóm marketing phụ trách ngân sách và chất lượng output của team 2-5 người",
+      "experience_level": "3+ năm, chịu trách nhiệm về tính nhất quán và ROI của team",
+      "current_workflow": [
+        "Duyệt lại output AI của từng thành viên trước khi gửi khách hàng/lên sếp",
+        "Cân nhắc ngân sách marketing 2026 có nên đầu tư thêm cho công cụ/đào tạo AI hay không (S001)"
+      ],
+      "trigger_events": [
+        "Chất lượng output giữa các thành viên trong team không đồng đều",
+        "Cần trình bày kế hoạch ngân sách AI cho năm tới nhưng chưa có cách đo hiệu quả rõ ràng"
+      ],
+      "functional_pains": [
+        "78% marketer trong khu vực cho biết thiếu kỹ năng/đào tạo là thách thức lớn nhất khi tích hợp AI (S001)",
+        "Chỉ 44% tổ chức thuộc nhóm 'Dẫn đầu' về AI có chiến lược quản trị rủi ro chính thức — phần lớn tổ chức khác thấp hơn (S001)"
+      ],
+      "emotional_pains": [
+        "Áp lực phải chứng minh AI thực sự tạo ra giá trị, không chỉ là 'có dùng cho vui'"
+      ],
+      "professional_pains": [
+        "Nếu team dùng AI không nhất quán, chất lượng output không đồng đều ảnh hưởng tới uy tín team trước ban lãnh đạo"
+      ],
+      "current_alternatives": [
+        "Google Doc mô tả brand guideline chung, không tích hợp trực tiếp vào quy trình AI của từng thành viên"
+      ],
+      "desired_outcomes": [
+        "Một quy trình AI dùng chung cho cả team, dễ đo lường và dễ đào tạo người mới"
+      ],
+      "objections": [
+        "Setup một lần rồi ai sẽ maintain khi quy trình/công cụ AI thay đổi liên tục?",
+        "Ngân sách đào tạo AI có thực sự chuyển hóa thành năng suất đo được không, hay chỉ là chi phí thêm?"
+      ],
+      "customer_language": [],
+      "awareness_stage": "solution_aware",
+      "evidence": ["S001"],
+      "confidence": "medium"
+    }
+  ]
+}
