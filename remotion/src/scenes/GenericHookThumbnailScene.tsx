@@ -5,8 +5,11 @@ import { colors, BE_VIETNAM_PRO } from "../styles";
 
 const CANVAS_W = 1080;
 const CANVAS_H = 1920;
-const HEADLINE_COLOR = "#f8fafc";
-const SUBTEXT_COLOR = "rgba(226,232,240,0.7)";
+// Was hardcoded near-white (#f8fafc / rgba(226,232,240,0.7)) from before the
+// channel's light-theme switch — invisible against the now-light colors.bg
+// background. Token-based so it stays legible in either theme.
+const HEADLINE_COLOR = colors.textPrimary;
+const SUBTEXT_COLOR = colors.textDim;
 
 function truncateLine(line: string, maxChars: number): string {
   if (line.length <= maxChars) return line;
@@ -179,17 +182,6 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
         </div>
       )}
 
-      {/* Layer 7 — bottom scrim, painted before the brand bar so the bar reads on top of it */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 300,
-          background: "linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0))",
-        }}
-      />
 
       {/* Layer 6 — brand bar */}
       <div

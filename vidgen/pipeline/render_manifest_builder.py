@@ -113,6 +113,14 @@ TYPE_MAP = {
     "IncomeScannerLayersShot": "income_scanner_layers",
     "ParallelRoutesGapShot": "parallel_routes_gap",
     "DebateConclusionShot": "debate_conclusion",
+    "NightTypingHookShot": "night_typing_hook",
+    "HistoryGapShot": "history_gap",
+    "ScreenPortalTransitionShot": "screen_portal_transition",
+    "SplitSyncActionShot": "split_sync_action",
+    "LoginBindShot": "login_bind",
+    "NetworkPathShot": "network_path",
+    "ThreeLayerRecapShot": "three_layer_recap",
+    "PunchlineHoldShot": "punchline_hold",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

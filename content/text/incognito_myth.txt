@@ -1,0 +1,260 @@
+# TAB ẨN DANH — ĐÓNG LẠI LÀ XONG THẬT À?
+
+## ĐÓNG TAB ẨN DANH CÓ THẬT SỰ KHIẾN BẠN BIẾN MẤT KHÔNG?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `incognito_myth`, video_id `incognito_myth`. 13 cảnh + 1 shot câm (punchline), mục
+tiêu 75–90s ở 30fps, 1080×1920. Chủ đề: chế độ ẩn danh (Incognito) của Chrome chỉ ẩn lịch
+sử trên máy, không khiến người dùng "biến mất" khỏi website, khỏi tài khoản đã đăng nhập,
+hay khỏi mạng Wi-Fi họ đang dùng. Toàn bộ giao diện trình duyệt, website và Wi-Fi trong
+video là dựng minh họa trung tính; tên miền và tài khoản đều là ví dụ hư cấu (`tinviet.vn`,
+`minh.tran@example.com`). Không dùng hình ảnh code, IP, server, dashboard kỹ thuật hay
+hacker — phong cách cinematic tối giản, giao diện trình duyệt thật đơn giản. Cảnh 3 là cú
+xuyên màn hình — transition nổi bật nhất video. Cảnh gốc "website vẫn nhận lượt truy cập"
+tách thành Cảnh 4 (đếm lượt truy cập ngay khi trang tải) + Cảnh 5 (thao tác trái–phải đồng
+bộ tuyệt đối). Cảnh "đăng nhập", "Wi-Fi", "ẩn danh vẫn có ích" và "tổng kết" mỗi cảnh cũng
+tách thêm một câu bổ sung/lưu ý thành cảnh riêng để giữ nhịp nhanh (mỗi cảnh một ý). Cảnh
+12–13 là tổng kết ba lớp cùng mờ dần trước khi hiện punchline câm đứng yên đúng 1 giây,
+không CTA — thẻ đầu tiên đã hiện ở cảnh 12 được giữ nguyên vị trí khi sang cảnh 13 (không
+chạy lại hiệu ứng xuất hiện) để cảm giác liền mạch qua điểm cắt cảnh.
+
+---
+
+## Cảnh 1 — Thật sự ẩn danh? (shot_01_night_typing_hook)
+
+**Hình ảnh:**
+
+Nửa đêm, một người trẻ ngồi trước laptop. Đang gõ dở dòng "Có nên nghỉ việc khi chưa có…"
+thì khẽ nhìn quanh, rồi mở một cửa sổ trình duyệt ẩn danh (chrome chuyển sang tối, biểu
+tượng mũ + kính ẩn danh hiện ra).
+
+**Voice-over:**
+
+"Có những thứ bạn chỉ dám tìm trong tab ẩn danh. Nhưng bạn có chắc không ai biết mình vừa
+tìm gì?"
+
+**Chữ trên màn hình:**
+
+**"THẬT SỰ ẨN DANH?"**
+
+---
+
+## Cảnh 2 — Không có trong lịch sử (shot_02_history_gap)
+
+**Hình ảnh:**
+
+Đóng hết các cửa sổ ẩn danh, mở lại lịch sử Chrome bình thường. Các trang cũ vẫn còn
+nguyên trong danh sách; trang vừa xem ở cảnh 1 thì không xuất hiện — chỉ có một dòng
+trống được đánh dấu. Giữ khung hình lịch sử thêm khoảng 0,5 giây sau khi lời thoại kết
+thúc.
+
+**Voice-over:**
+
+"Bạn tìm xong, đóng hết cửa sổ ẩn danh. Mở lịch sử lên: không thấy trang vừa xem."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG CÓ TRONG LỊCH SỬ"**
+
+---
+
+## Cảnh 3 — Nhưng khoan (shot_03_screen_portal_transition)
+
+**Hình ảnh:**
+
+Camera tiến sát vào dòng trống trong lịch sử, dừng một nhịp rồi xuyên thẳng qua màn hình
+sang phía website — cú xuyên màn hình dựng nổi bật nhất video (zoom nhanh, rung máy, lóe
+sáng, rồi hiện ra trang website phía bên kia).
+
+**Voice-over:**
+
+"Đúng, Chrome làm được việc đó — xoá dấu vết ngay trên chính chiếc máy bạn đang dùng.
+Nhưng nhiều người hiểu nhầm ngay ở đây."
+
+**Chữ trên màn hình:**
+
+**"NHƯNG KHOAN…"**
+
+---
+
+## Cảnh 4 — Trang tải xong là đã đếm (shot_04a_page_load_count)
+
+**Hình ảnh:**
+
+Trang website vừa tải xong. Một bộ đếm lượt truy cập nhảy số ngay lập tức lên 129, không
+cần biết gì về lịch sử trên máy người xem.
+
+**Voice-over:**
+
+"Không có trong lịch sử máy… không có nghĩa bên kia không biết. Ngay khi trang web tải
+xong, nó đã tự ghi nhận một lượt truy cập — không cần đọc lịch sử trên máy bạn."
+
+**Chữ trên màn hình:**
+
+**"129 LƯỢT TRUY CẬP"**
+
+---
+
+## Cảnh 5 — Mỗi thao tác đều được đếm (shot_04b_split_sync_action)
+
+**Hình ảnh:**
+
+Màn hình chia đôi. Bên trái: gõ từ khoá, bấm vào một kết quả. Bên phải: nhãn "Một lượt tìm
+kiếm" xuất hiện đúng lúc gõ xong từ khoá, rồi nhãn "Một lượt xem" xuất hiện đúng lúc bấm
+vào kết quả — mỗi thao tác bên trái tạo phản hồi tức thì bên phải, không có độ trễ.
+
+**Voice-over:**
+
+"Bạn gõ từ khoá, bấm vào một kết quả: những hành động đó vẫn được đếm, y như máy đếm
+khách bước qua cửa hàng."
+
+**Chữ trên màn hình:**
+
+**"WEBSITE VẪN NHẬN LƯỢT TRUY CẬP"**
+
+---
+
+## Cảnh 6 — Đăng nhập rồi (shot_05a_login_bind)
+
+**Hình ảnh:**
+
+Nhãn "Khách chưa đăng nhập" chuyển thành ô tài khoản đã đăng nhập với email giả
+`minh.tran@example.com`. Hai thẻ hoạt động (lượt tìm kiếm, lượt xem) trượt xuống và neo
+lại ngay dưới dòng tài khoản.
+
+**Voice-over:**
+
+"Nếu bạn đăng nhập, ngay cả trong tab ẩn danh, lượt tìm kiếm và lượt xem đó có thể được
+gắn thẳng vào tài khoản đang dùng."
+
+**Chữ trên màn hình:**
+
+**"ĐĂNG NHẬP RỒI"** rồi **"HOẠT ĐỘNG CÓ THỂ GẮN VỚI TÀI KHOẢN"**
+
+---
+
+## Cảnh 7 — Tuỳ chính sách từng nơi (shot_05b_login_caveat)
+
+**Hình ảnh:**
+
+Thẻ trích dẫn tối giản, đứng yên, không có giao diện trình duyệt — một lời lưu ý ngắn gọn
+tách riêng khỏi cảnh đăng nhập.
+
+**Voice-over:**
+
+"Tuỳ chính sách từng nơi, hoạt động ẩn danh trước đó vẫn có thể nối lại với con người thật
+đứng sau tài khoản."
+
+**Chữ trên màn hình:**
+
+**"TUỲ CHÍNH SÁCH TỪNG NƠI"**
+
+---
+
+## Cảnh 8 — Không ngắt khỏi mạng (shot_06a_network_path)
+
+**Hình ảnh:**
+
+Sơ đồ LAPTOP → WIFI TRƯỜNG → WEBSITE với một điểm sáng chạy liên tục dọc theo đường nối.
+Khi bật ẩn danh, chỉ nhãn "LỊCH SỬ TRÊN MÁY" bị gạch ngang; điểm sáng trên đường nối vẫn
+tiếp tục chạy không gián đoạn.
+
+**Voice-over:**
+
+"Còn nếu bạn dùng Wi-Fi trường hay công ty? Ẩn danh chỉ tắt bộ nhớ ngay trên máy bạn — nó
+không tắt cánh cổng bạn phải đi qua để ra Internet."
+
+**Chữ trên màn hình:**
+
+**"ẨN LỊCH SỬ TRÊN MÁY"** (gạch ngang) · **"KHÔNG NGẮT KHỎI MẠNG"**
+
+---
+
+## Cảnh 9 — Bên quản lý mạng vẫn thấy (shot_06b_network_caveat)
+
+**Hình ảnh:**
+
+Thẻ trích dẫn tối giản, đứng yên, tiếp nối trực tiếp ý của cảnh trước.
+
+**Voice-over:**
+
+"Bên quản lý mạng vẫn đứng ở cổng đó và vẫn có thể ghi nhận việc bạn đang truy cập."
+
+**Chữ trên màn hình:**
+
+**"MẠNG VẪN GHI NHẬN"**
+
+---
+
+## Cảnh 10 — Ẩn danh vẫn có ích (shot_07a_practical_uses)
+
+**Hình ảnh:**
+
+Ba thẻ hiện lần lượt: không lưu mật khẩu & lịch sử trên máy dùng chung; đăng nhập hai tài
+khoản cùng lúc; chặn bớt cookie theo dõi cũ.
+
+**Voice-over:**
+
+"Vậy ẩn danh vẫn có ích: nó tránh lưu mật khẩu và lịch sử trên máy dùng chung, giúp đăng
+nhập hai tài khoản cùng lúc, và chặn bớt cookie theo dõi cũ."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG LƯU MẬT KHẨU & LỊCH SỬ MÁY DÙNG CHUNG"** · **"ĐĂNG NHẬP HAI TÀI KHOẢN CÙNG LÚC"**
+· **"CHẶN BỚT COOKIE THEO DÕI CŨ"**
+
+---
+
+## Cảnh 11 — Không phải vô hình toàn Internet (shot_07b_practical_caveat)
+
+**Hình ảnh:**
+
+Thẻ trích dẫn tối giản, đứng yên, khép lại ý "ẩn danh vẫn có ích" bằng một câu giới hạn rõ
+ràng.
+
+**Voice-over:**
+
+"Nó chỉ không biến bạn thành vô hình trên toàn bộ Internet."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG VÔ HÌNH TOÀN INTERNET"**
+
+---
+
+## Cảnh 12 — Nói gọn lại (shot_08a_recap_intro)
+
+**Hình ảnh:**
+
+Lớp đầu tiên hiện ra và giữ nguyên: "Trên máy bạn — không nằm lại trong lịch sử."
+
+**Voice-over:**
+
+"Nói gọn lại: tab ẩn danh giúp những trang vừa mở không nằm lại trong lịch sử trên máy."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG NẰM LẠI TRONG LỊCH SỬ TRÊN MÁY"**
+
+---
+
+## Cảnh 13 — Ba lớp, một sự thật (shot_08b_recap_full_fade + shot_09_punchline_hold)
+
+**Hình ảnh:**
+
+Lớp 1 ("Trên máy bạn") giữ nguyên vị trí từ cảnh trước, không chạy lại hiệu ứng. Lớp 2
+("Phía website") và lớp 3 ("Tài khoản & mạng đang dùng") hiện thêm. Sau đó cả ba lớp cùng
+mờ dần một lượt duy nhất. Punchline câm đứng yên trọn 1 giây, không lời thoại, không CTA.
+
+**Voice-over:**
+
+"Nhưng nó không xoá dấu vết ở phía website, không tự động huỷ liên kết với tài khoản đang
+đăng nhập, và không che bạn khỏi mạng bạn đang dùng."
+
+**Chữ trên màn hình:**
+
+**"PHÍA WEBSITE · dấu vết vẫn còn"** · **"TÀI KHOẢN & MẠNG · vẫn có thể được ghi nhận"**.
+Punchline tĩnh: **"KHÔNG LƯU LỊCH SỬ"** / **"KHÔNG CÓ NGHĨA KHÔNG AI BIẾT"**.
+
+---

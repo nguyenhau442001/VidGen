@@ -174,7 +174,130 @@ export type ManifestScene =
   | { type: "multiplication_trap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MultiplicationTrapVisual }
   | { type: "income_scanner_layers"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: IncomeScannerLayersVisual }
   | { type: "parallel_routes_gap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ParallelRoutesGapVisual }
-  | { type: "debate_conclusion"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DebateConclusionVisual };
+  | { type: "debate_conclusion"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: DebateConclusionVisual }
+  | { type: "night_typing_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: NightTypingHookVisual }
+  | { type: "history_gap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HistoryGapVisual }
+  | { type: "screen_portal_transition"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenPortalTransitionVisual }
+  | { type: "split_sync_action"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: SplitSyncActionVisual }
+  | { type: "login_bind"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: LoginBindVisual }
+  | { type: "network_path"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: NetworkPathVisual }
+  | { type: "three_layer_recap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ThreeLayerRecapVisual }
+  | { type: "punchline_hold"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PunchlineHoldVisual };
+
+// --- incognito_myth -----------------------------------------------------
+// Bespoke shot set for "closing an incognito tab doesn't make you invisible"
+// — browser-chrome hook/history/split-sync/login/network beats, the same
+// per-video bespoke-shot-set pattern as grabfood_discount_who_pays_p3 and
+// greensm_bike_income. Shared BrowserChrome chrome shell lives in
+// scenes/incognitoShared.tsx.
+
+export type NightTypingHookVisual = {
+  timeLabel?: string;
+  // Typed out in two segments with a hesitation pause between them (default
+  // 12 frames / 0.4s @30fps) — one continuous cursor, not two separate
+  // typing passes — so it reads as the same person pausing mid-sentence.
+  typedTextPart1?: string;
+  typedTextPart2?: string;
+  // Exact substring of typedTextPart2 to render bold + a brief scale-pop the
+  // moment it finishes appearing.
+  emphasizeWord?: string;
+  pauseFrames?: number;
+  headline?: string;
+  accentWord?: string;
+  accentColor?: string;
+};
+
+export type NightTypingHookSceneProps = NightTypingHookVisual & { durationInFrames: number };
+
+export type HistoryGapVisual = {
+  existingRows?: string[];
+  headline?: string;
+  accentWord?: string;
+  accentColor?: string;
+};
+
+export type HistoryGapSceneProps = HistoryGapVisual & { durationInFrames: number };
+
+export type ScreenPortalTransitionVisual = {
+  websiteUrlLabel?: string;
+  headline?: string;
+  accentWord?: string;
+  accentColor?: string;
+};
+
+export type ScreenPortalTransitionSceneProps = ScreenPortalTransitionVisual & { durationInFrames: number };
+
+// searchFrame/viewFrame are the single source of truth for both panels: the
+// left-side typed action and the right-side counter/badge reaction are each
+// driven off the same frame number, so they land in perfect sync by
+// construction rather than by tuning two separate timelines.
+export type SplitSyncActionVisual = {
+  leftKeyword?: string;
+  leftResultLabel?: string;
+  typeStartFrame?: number;
+  searchFrame?: number;
+  viewFrame?: number;
+  counterBefore?: number;
+  counterAfter?: number;
+  searchLabel?: string;
+  viewLabel?: string;
+  headline?: string;
+  accentWord?: string;
+  accentColor?: string;
+};
+
+export type SplitSyncActionSceneProps = SplitSyncActionVisual & { durationInFrames: number };
+
+export type LoginBindVisual = {
+  email?: string;
+  loginFrame?: number;
+  tag1?: string;
+  tag2?: string;
+  headline1?: string;
+  headline2?: string;
+  accentWord2?: string;
+  accentColor?: string;
+};
+
+export type LoginBindSceneProps = LoginBindVisual & { durationInFrames: number };
+
+export type NetworkPathVisual = {
+  laptopLabel?: string;
+  wifiLabel?: string;
+  websiteLabel?: string;
+  toggleFrame?: number;
+  struckLabel?: string;
+  continuingLabel?: string;
+  accentColor?: string;
+};
+
+export type NetworkPathSceneProps = NetworkPathVisual & { durationInFrames: number };
+
+export type ThreeLayerRecapLayer = { label: string; sublabel?: string };
+
+export type ThreeLayerRecapVisual = {
+  layers?: ThreeLayerRecapLayer[];
+  // All three cards share this one fade-out start (+ fixed duration) so they
+  // visibly fade together, never one-by-one, before the punchline hold.
+  fadeStartFrame?: number;
+  accentColor?: string;
+  // Number of leading layers (0..N) to render already-in-place from frame 0
+  // instead of replaying their entrance — used when a previous shot already
+  // held on those cards and this shot picks up the same visual state after a
+  // hard cut (Remotion shots can't carry animation state across a Sequence
+  // boundary, so this simulates continuity instead).
+  instantCount?: number;
+};
+
+export type ThreeLayerRecapSceneProps = ThreeLayerRecapVisual & { durationInFrames: number };
+
+export type PunchlineHoldVisual = {
+  line1?: string;
+  line2?: string;
+  accentColor?: string;
+};
+
+export type PunchlineHoldSceneProps = PunchlineHoldVisual & { durationInFrames: number };
 
 // Shot is the canonical public term; ManifestScene remains as a compatibility
 // alias for the existing component registry and any older imports.

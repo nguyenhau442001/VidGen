@@ -1,0 +1,224 @@
+{
+  "video_id": "incognito_myth",
+  "title": "Đóng tab ẩn danh có thật sự khiến bạn biến mất không?",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01_night_typing_hook",
+      "type": "NightTypingHookShot",
+      "duration_frames": 218,
+      "narration": "Có những thứ bạn chỉ dám tìm trong tab ẩn danh. Nhưng bạn có chắc không ai biết mình vừa tìm gì?",
+      "narration_timing_frames": [10, 193],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "timeLabel": "0:14 SÁNG",
+        "typedTextPart1": "Cách để ngừng nghĩ về…",
+        "typedTextPart2": " Laura cà phê…",
+        "emphasizeWord": "Laura cà phê",
+        "headline": "CÓ THẬT SỰ ẨN DANH?",
+        "accentWord": "ẨN DANH?"
+      },
+      "on_screen_text": "CÓ THẬT SỰ ẨN DANH?"
+    },
+    {
+      "id": "shot_02_history_gap",
+      "type": "HistoryGapShot",
+      "duration_frames": 184,
+      "narration": "Bạn tìm xong, đóng hết cửa sổ ẩn danh. Mở lịch sử lên: không thấy trang vừa xem.",
+      "narration_timing_frames": [10, 159],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "existingRows": ["22:41 · Xem lịch chiếu phim cuối tuần", "21:58 · Tra cứu điểm thi"],
+        "headline": "KHÔNG CÓ TRONG LỊCH SỬ",
+        "accentWord": "KHÔNG CÓ"
+      },
+      "on_screen_text": "KHÔNG CÓ TRONG LỊCH SỬ"
+    },
+    {
+      "id": "shot_03_screen_portal_transition",
+      "type": "ScreenPortalTransitionShot",
+      "duration_frames": 294,
+      "narration": "Đúng, Chrome làm được việc đó — xoá dấu vết ngay trên chính chiếc máy bạn đang dùng. Nhưng nhiều người hiểu nhầm ngay ở đây.",
+      "narration_timing_frames": [8, 224],
+      "transition_out_delay_frames": 70,
+      "props": {
+        "websiteUrlLabel": "tinviet.vn/tim-kiem",
+        "headline": "NHƯNG KHOAN…",
+        "accentWord": "KHOAN"
+      },
+      "on_screen_text": "NHƯNG KHOAN…"
+    },
+    {
+      "id": "shot_04a_page_load_count",
+      "type": "CounterBlastScene",
+      "duration_frames": 342,
+      "narration": "Không có trong lịch sử máy… không có nghĩa bên kia không biết. Ngay khi trang web tải xong, nó đã tự ghi nhận một lượt truy cập — không cần đọc lịch sử trên máy bạn.",
+      "narration_timing_frames": [10, 317],
+      "transition_out_delay_frames": 25,
+      "props": {
+        "finalValue": 129,
+        "unit": "lượt truy cập",
+        "subLabel": "Trang vừa tải xong"
+      },
+      "on_screen_text": "129 LƯỢT TRUY CẬP"
+    },
+    {
+      "id": "shot_04b_split_sync_action",
+      "type": "SplitSyncActionShot",
+      "duration_frames": 263,
+      "narration": "Bạn gõ từ khoá, bấm vào một kết quả: những hành động đó vẫn được đếm, y như máy đếm khách bước qua cửa hàng.",
+      "narration_timing_frames": [10, 218],
+      "transition_out_delay_frames": 45,
+      "props": {
+        "leftKeyword": "cách xin nghỉ việc đúng luật",
+        "leftResultLabel": "Xin nghỉ việc thế nào cho đúng luật?",
+        "typeStartFrame": 18,
+        "searchFrame": 78,
+        "viewFrame": 126,
+        "counterBefore": 129,
+        "counterAfter": 129,
+        "searchLabel": "Một lượt tìm kiếm",
+        "viewLabel": "Một lượt xem",
+        "headline": "WEBSITE VẪN NHẬN LƯỢT TRUY CẬP",
+        "accentWord": "VẪN NHẬN"
+      },
+      "on_screen_text": "WEBSITE VẪN NHẬN LƯỢT TRUY CẬP · Một lượt tìm kiếm · Một lượt xem"
+    },
+    {
+      "id": "shot_05a_login_bind",
+      "type": "LoginBindShot",
+      "duration_frames": 264,
+      "narration": "Nếu bạn đăng nhập, ngay cả trong tab ẩn danh, lượt tìm kiếm và lượt xem đó có thể được gắn thẳng vào tài khoản đang dùng.",
+      "narration_timing_frames": [10, 234],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "email": "minh.tran@example.com",
+        "loginFrame": 40,
+        "tag1": "Một lượt tìm kiếm",
+        "tag2": "Một lượt xem",
+        "headline1": "ĐĂNG NHẬP RỒI",
+        "headline2": "HOẠT ĐỘNG CÓ THỂ GẮN VỚI TÀI KHOẢN",
+        "accentWord2": "GẮN VỚI TÀI KHOẢN"
+      },
+      "on_screen_text": "ĐĂNG NHẬP RỒI · HOẠT ĐỘNG CÓ THỂ GẮN VỚI TÀI KHOẢN"
+    },
+    {
+      "id": "shot_05b_login_caveat",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 239,
+      "narration": "Tuỳ chính sách từng nơi, hoạt động ẩn danh trước đó vẫn có thể nối lại với con người thật đứng sau tài khoản.",
+      "narration_timing_frames": [10, 209],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "text": "Tuỳ chính sách từng nơi, hoạt động ẩn danh trước đó vẫn có thể nối lại với con người thật đứng sau tài khoản.",
+        "accentWord": "nối lại",
+        "backgroundStyle": "dark"
+      },
+      "on_screen_text": "TUỲ CHÍNH SÁCH TỪNG NƠI"
+    },
+    {
+      "id": "shot_06a_network_path",
+      "type": "NetworkPathShot",
+      "duration_frames": 306,
+      "narration": "Còn nếu bạn dùng Wi-Fi trường hay công ty? Ẩn danh chỉ tắt bộ nhớ ngay trên máy bạn — nó không tắt cánh cổng bạn phải đi qua để ra Internet.",
+      "narration_timing_frames": [10, 276],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "laptopLabel": "LAPTOP",
+        "wifiLabel": "WIFI TRƯỜNG",
+        "websiteLabel": "WEBSITE",
+        "toggleFrame": 70,
+        "struckLabel": "ẨN LỊCH SỬ TRÊN MÁY",
+        "continuingLabel": "KHÔNG NGẮT KHỎI MẠNG"
+      },
+      "on_screen_text": "ẨN LỊCH SỬ TRÊN MÁY · KHÔNG NGẮT KHỎI MẠNG"
+    },
+    {
+      "id": "shot_06b_network_caveat",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 206,
+      "narration": "Bên quản lý mạng vẫn đứng ở cổng đó và vẫn có thể ghi nhận việc bạn đang truy cập.",
+      "narration_timing_frames": [10, 176],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "text": "Bên quản lý mạng vẫn đứng ở cổng đó và vẫn có thể ghi nhận việc bạn đang truy cập.",
+        "accentWord": "ghi nhận",
+        "backgroundStyle": "dark"
+      },
+      "on_screen_text": "MẠNG VẪN GHI NHẬN"
+    },
+    {
+      "id": "shot_07a_practical_uses",
+      "type": "ThreeLayerRecapShot",
+      "duration_frames": 319,
+      "narration": "Vậy ẩn danh vẫn có ích: nó tránh lưu mật khẩu và lịch sử trên máy dùng chung, giúp đăng nhập hai tài khoản cùng lúc, và chặn bớt cookie theo dõi cũ.",
+      "narration_timing_frames": [10, 284],
+      "transition_out_delay_frames": 35,
+      "props": {
+        "layers": [
+          { "label": "Máy dùng chung", "sublabel": "không lưu mật khẩu & lịch sử" },
+          { "label": "Hai tài khoản", "sublabel": "đăng nhập cùng lúc" },
+          { "label": "Cookie theo dõi cũ", "sublabel": "bị chặn bớt" }
+        ]
+      },
+      "on_screen_text": "KHÔNG LƯU MẬT KHẨU & LỊCH SỬ MÁY DÙNG CHUNG · ĐĂNG NHẬP HAI TÀI KHOẢN CÙNG LÚC · CHẶN BỚT COOKIE THEO DÕI CŨ"
+    },
+    {
+      "id": "shot_07b_practical_caveat",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 140,
+      "narration": "Nó chỉ không biến bạn thành vô hình trên toàn bộ Internet.",
+      "narration_timing_frames": [10, 110],
+      "transition_out_delay_frames": 30,
+      "props": {
+        "text": "Nó chỉ không biến bạn thành vô hình trên toàn bộ Internet.",
+        "accentWord": "vô hình",
+        "backgroundStyle": "dark"
+      },
+      "on_screen_text": "KHÔNG VÔ HÌNH TOÀN INTERNET"
+    },
+    {
+      "id": "shot_08a_recap_intro",
+      "type": "ThreeLayerRecapShot",
+      "duration_frames": 181,
+      "narration": "Nói gọn lại: tab ẩn danh giúp những trang vừa mở không nằm lại trong lịch sử trên máy.",
+      "narration_timing_frames": [8, 166],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "layers": [
+          { "label": "Trên máy bạn", "sublabel": "không nằm lại trong lịch sử" }
+        ],
+        "fadeStartFrame": 5000
+      },
+      "on_screen_text": "KHÔNG NẰM LẠI TRONG LỊCH SỬ TRÊN MÁY"
+    },
+    {
+      "id": "shot_08b_recap_full_fade",
+      "type": "ThreeLayerRecapShot",
+      "duration_frames": 317,
+      "narration": "Nhưng nó không xoá dấu vết ở phía website, không tự động huỷ liên kết với tài khoản đang đăng nhập, và không che bạn khỏi mạng bạn đang dùng.",
+      "narration_timing_frames": [8, 257],
+      "transition_out_delay_frames": 60,
+      "props": {
+        "layers": [
+          { "label": "Trên máy bạn", "sublabel": "không nằm lại trong lịch sử" },
+          { "label": "Phía website", "sublabel": "dấu vết vẫn còn" },
+          { "label": "Tài khoản & mạng đang dùng", "sublabel": "vẫn có thể được ghi nhận" }
+        ],
+        "instantCount": 1
+      },
+      "on_screen_text": "PHÍA WEBSITE · dấu vết vẫn còn · TÀI KHOẢN & MẠNG · vẫn có thể được ghi nhận"
+    },
+    {
+      "id": "shot_09_punchline_hold",
+      "type": "PunchlineHoldShot",
+      "duration_frames": 30,
+      "props": {
+        "line1": "KHÔNG LƯU LỊCH SỬ",
+        "line2": "KHÔNG CÓ NGHĨA KHÔNG AI BIẾT"
+      },
+      "on_screen_text": "KHÔNG LƯU LỊCH SỬ · KHÔNG CÓ NGHĨA KHÔNG AI BIẾT"
+    }
+  ]
+}

@@ -92,6 +92,14 @@ import { MultiplicationTrapShot } from "./scenes/MultiplicationTrapShot";
 import { IncomeScannerLayersShot } from "./scenes/IncomeScannerLayersShot";
 import { ParallelRoutesGapShot } from "./scenes/ParallelRoutesGapShot";
 import { DebateConclusionShot } from "./scenes/DebateConclusionShot";
+import { NightTypingHookShot } from "./scenes/NightTypingHookShot";
+import { HistoryGapShot } from "./scenes/HistoryGapShot";
+import { ScreenPortalTransitionShot } from "./scenes/ScreenPortalTransitionShot";
+import { SplitSyncActionShot } from "./scenes/SplitSyncActionShot";
+import { LoginBindShot } from "./scenes/LoginBindShot";
+import { NetworkPathShot } from "./scenes/NetworkPathShot";
+import { ThreeLayerRecapShot } from "./scenes/ThreeLayerRecapShot";
+import { PunchlineHoldShot } from "./scenes/PunchlineHoldShot";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -372,6 +380,22 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <ParallelRoutesGapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "debate_conclusion":
       return <DebateConclusionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "night_typing_hook":
+      return <NightTypingHookShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "history_gap":
+      return <HistoryGapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "screen_portal_transition":
+      return <ScreenPortalTransitionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "split_sync_action":
+      return <SplitSyncActionShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "login_bind":
+      return <LoginBindShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "network_path":
+      return <NetworkPathShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "three_layer_recap":
+      return <ThreeLayerRecapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "punchline_hold":
+      return <PunchlineHoldShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }
