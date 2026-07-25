@@ -1,9 +1,11 @@
 """
 vidgen/publishing/publish_all.py — Publish one video to every ready platform.
 
-Currently: Facebook + YouTube (both live). TikTok is wired in publisher.py but
-excluded here until its Direct Post API access is approved — add it back to
-PLATFORMS once GAP 5 / TikTok flips to done in the README.
+Currently: Facebook + YouTube (both live). TikTok has a ready adapter,
+publish_video_on_tiktok() in tiktok.py, but is excluded here until its Direct
+Post API access is approved — once approved, add
+"tiktok": publish_video_on_tiktok to PLATFORMS (see tiktok.py's docstring on
+that function) and flip GAP 5 / TikTok to done in the README.
 
 Usage:
     python -m vidgen.publishing.publish_all out/video.mp4 --title "Tiêu đề video"

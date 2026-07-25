@@ -30,6 +30,8 @@ from typing import Optional
 
 import requests
 
+from vidgen.publishing.common import PublishMetadata
+
 # ── Config (set via env vars or .env file) ────────────────────────────────────
 TIKTOK_CLIENT_KEY    = os.getenv("TIKTOK_CLIENT_KEY", "")
 TIKTOK_CLIENT_SECRET = os.getenv("TIKTOK_CLIENT_SECRET", "")
@@ -737,6 +739,30 @@ def publish_tiktok(
             duration=str(int(time.time() - _start_time)),
         )
         raise
+
+
+def publish_video_on_tiktok(video_path: str | Path, metadata: PublishMetadata) -> dict:
+    """
+    Adapter matching the (video_path, PublishMetadata) -> dict interface that
+    publish_all.py's PLATFORMS dict expects (see facebook.py / youtube.py).
+    Wraps publish_tiktok(), which already sends its own GitHub notification.
+
+    Not wired into publish_all.PLATFORMS yet — TikTok Direct Post API access is
+    still pending approval. Once approved, enable it there with:
+        from vidgen.publishing.tiktok import publish_video_on_tiktok
+        PLATFORMS["tiktok"] = publish_video_on_tiktok
+    """
+    result = publish_tiktok(
+        video_path=video_path,
+        title=metadata.description or metadata.title,
+        privacy=PRIVACY_PUBLIC if metadata.privacy == "public" else PRIVACY_SELF,
+        schedule_time=metadata.schedule_time,
+    )
+    return {
+        "publish_id": result["publish_id"],
+        "status": "succeeded",
+        "url": result.get("share_url") or result["publish_id"],
+    }
 
 
 # ── Setup guide ───────────────────────────────────────────────────────────────
