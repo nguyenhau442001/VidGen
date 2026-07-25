@@ -50,8 +50,6 @@ import DeltaArrowScene from "./scenes/DeltaArrowScene";
 import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
 import { GameHUDScene } from "./scenes/GameHUDScene";
-import { HSKHookScene } from "./scenes/HSKHookScene";
-import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
 import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { HSKFlashCardThumbnailScene } from "./scenes/HSKFlashCardThumbnailScene";
@@ -111,7 +109,7 @@ import {
 } from "./scenes/MarketingPlaybookScenes";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
-import { colors } from "./styles";
+import { colors, HSK_PALETTE } from "./styles";
 import { LayoutAudit } from "./LayoutAudit";
 
 type ManifestShotWithPreviewAudio = ManifestScene & {
@@ -306,9 +304,22 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
     case "game_hud":
       return <GameHUDScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_hook":
-      return <HSKHookScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+      return (
+        <ExplanationScene
+          align="center"
+          palette={HSK_PALETTE}
+          {...shot.visual}
+          durationInFrames={shot.durationInFrames}
+        />
+      );
     case "hsk_explanation":
-      return <HSKExplanationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+      return (
+        <ExplanationScene
+          palette={HSK_PALETTE}
+          {...shot.visual}
+          durationInFrames={shot.durationInFrames}
+        />
+      );
     case "hsk_cta":
       return <HSKCTAScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "hsk_screenshot":

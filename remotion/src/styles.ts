@@ -62,6 +62,10 @@ export const colorsLight = {
 // to a broader audience). colorsDark stays exported for any scene that still needs it.
 export const colors = colorsLight;
 
+// Cream/red editorial palette for the HSK series — passed as ExplanationScene's
+// `palette` prop so hsk_hook/hsk_explanation shots keep their original look.
+export const HSK_PALETTE = { bg: "#f5f1eb", ink: "#1a1714", accent: "#c0392b" };
+
 // Khi theme="light", các accent màu neon (#ef4444 đỏ) cần được darkened một chút
 // để readable trên nền trắng. Không cần đổi trong JSON — xử lý ở component level.
 export function resolveAccent(accent: string, theme: Theme): string {

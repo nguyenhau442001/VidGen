@@ -1,21 +1,20 @@
+export type ExplanationPalette = {
+  bg: string;
+  ink: string;
+  accent: string;
+};
+
 export type ExplanationVisual = {
   headline: string;
   body?: string;
   bullets?: string[];
   accentWord?: string;
+  align?: "left" | "center";
+  palette?: ExplanationPalette;
 };
 
-// HSK-branded variants of the hook/explanation/CTA trio — same shapes as
-// ExplanationVisual, only the components' visual styling differs (see
-// HSKHookScene/HSKExplanationScene/HSKCTAScene).
-export type HSKHookVisual = {
-  headline: string;
-  accentWord?: string;
-  body?: string;
-};
-
-export type HSKExplanationVisual = ExplanationVisual;
-
+// HSK-branded CTA — a distinct solid-color pulsing-accent beat, not a
+// reskin of ExplanationVisual's headline+body/bullets shape.
 export type HSKCTAVisual = {
   headline: string;
   accentWord?: string;
@@ -141,8 +140,8 @@ export type ManifestScene =
   | { type: "weighted_choice_world"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: WeightedChoiceWorldVisual }
   | { type: "false_completion"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: FalseCompletionVisual }
   | { type: "thesis_teaser"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ThesisTeaserVisual }
-  | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKHookVisual }
-  | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKExplanationVisual }
+  | { type: "hsk_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ExplanationVisual }
+  | { type: "hsk_explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ExplanationVisual }
   | { type: "hsk_cta"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKCTAVisual }
   | { type: "hsk_screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKScreenshotVisual }
   | { type: "hsk_flashcard"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: HSKFlashCardThumbnailVisual }
@@ -456,8 +455,6 @@ export type RenderManifest = {
 };
 
 export type ExplanationSceneProps = ExplanationVisual & { durationInFrames: number };
-export type HSKHookSceneProps = HSKHookVisual & { durationInFrames: number };
-export type HSKExplanationSceneProps = HSKExplanationVisual & { durationInFrames: number };
 export type HSKCTASceneProps = HSKCTAVisual & { durationInFrames: number };
 export type HSKScreenshotSceneProps = HSKScreenshotVisual & { durationInFrames: number };
 export type TerminalSceneProps = TerminalVisual & { durationInFrames: number };

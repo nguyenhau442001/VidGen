@@ -35,15 +35,14 @@ import { BatchDecisionTreeScene } from "./scenes/BatchDecisionTreeScene";
 import DeltaArrowScene from "./scenes/DeltaArrowScene";
 import { DriverConsentScene } from "./scenes/DriverConsentScene";
 import { SystemLayerScene } from "./scenes/SystemLayerScene";
-import { HSKHookScene } from "./scenes/HSKHookScene";
-import { HSKExplanationScene } from "./scenes/HSKExplanationScene";
 import { HSKCTAScene } from "./scenes/HSKCTAScene";
+import { ExplanationScene } from "./scenes/ExplanationScene";
 import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { ManifestScene, RenderManifest } from "./types";
 import { interpolate, useCurrentFrame } from "remotion";
-import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro } from "./styles";
+import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro, HSK_PALETTE } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
 
 // Load fonts before any frame is captured
@@ -831,7 +830,7 @@ export const Root: React.FC = () => {
       />
       <Composition
         id="HSKHook"
-        component={HSKHookScene}
+        component={ExplanationScene}
         durationInFrames={150}
         fps={30}
         width={1080}
@@ -840,12 +839,14 @@ export const Root: React.FC = () => {
           headline: "Vừa public — miễn phí",
           accentWord: "miễn phí",
           body: "5000+ từ HSK1–6 · Không cần app · Không cần đăng ký",
+          align: "center",
+          palette: HSK_PALETTE,
           durationInFrames: 150,
         }}
       />
       <Composition
         id="HSKExplanation"
-        component={HSKExplanationScene}
+        component={ExplanationScene}
         durationInFrames={150}
         fps={30}
         width={1080}
@@ -858,6 +859,7 @@ export const Root: React.FC = () => {
             "Không quảng cáo, không popup",
             "Không cần tài khoản",
           ],
+          palette: HSK_PALETTE,
           durationInFrames: 150,
         }}
       />

@@ -42,10 +42,18 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   body,
   bullets,
   accentWord,
+  align = "left",
+  palette,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
+  const bg = palette?.bg ?? colors.bg;
+  const ink = palette?.ink ?? colors.textPrimary;
+  const dim = palette ? palette.ink : colors.textDim;
+  const accent = palette?.accent ?? colors.cyan;
+  const centered = align === "center";
 
   const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
   const sceneOpacity = interpolate(
@@ -70,19 +78,26 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: colors.bg,
+        backgroundColor: bg,
         opacity: sceneOpacity,
         transform: `translateY(${sceneY}px)`,
       }}
     >
-      <AmbientBackground accent={colors.cyan} />
-      <SafeZone style={{ justifyContent: "center", alignItems: "flex-start", flexDirection: "column", fontFamily: INTER }}>
-      {/* Cyan accent bar */}
+      {!palette && <AmbientBackground accent={colors.cyan} />}
+      <SafeZone
+        style={{
+          justifyContent: "center",
+          alignItems: centered ? "center" : "flex-start",
+          flexDirection: "column",
+          fontFamily: INTER,
+        }}
+      >
+      {/* Accent bar */}
       <div
         style={{
           width: 6,
           height: 64,
-          backgroundColor: colors.cyan,
+          backgroundColor: accent,
           borderRadius: 3,
           marginBottom: 36,
           opacity: interpolate(frame, [ENTER_FRAMES, ENTER_FRAMES + 6], [0, 1], {
@@ -93,7 +108,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
       />
 
       {/* Headline — staggered spring per word */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0 14px", marginBottom: 36 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: centered ? "center" : "flex-start", gap: "0 14px", marginBottom: 36 }}>
         {headlineWords.map(({ word, highlighted }, i) => {
           const s = spring({
             frame: frame - ENTER_FRAMES - i * 3,
@@ -106,7 +121,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
               key={i}
               style={{
                 ...t.headline,
-                color: highlighted ? colors.cyan : colors.textPrimary,
+                color: highlighted ? accent : ink,
                 opacity: s,
                 transform: `translateY(${interpolate(s, [0, 1], [16, 0])}px)`,
                 display: "inline-block",
@@ -146,11 +161,11 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
-                    backgroundColor: isLast ? colors.cyan : colors.textDim,
+                    backgroundColor: isLast ? accent : dim,
                     flexShrink: 0,
                   }}
                 />
-                <span style={{ ...t.body, fontSize: 28, color: isLast ? colors.textPrimary : colors.textDim }}>
+                <span style={{ ...t.body, fontSize: 28, color: isLast ? ink : dim }}>
                   {line}
                 </span>
               </div>
@@ -167,7 +182,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
             <div style={{ display: "flex", flexDirection: "column" }}>
               {bodySentences.map((words, si) => {
                 const row = (
-                  <div key={si} style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
+                  <div key={si} style={{ display: "flex", flexWrap: "wrap", justifyContent: centered ? "center" : "flex-start", gap: "0 8px" }}>
                     {words.map(({ word, highlighted }, wi) => {
                       const i = flatIndex + wi;
                       const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
@@ -182,7 +197,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
                           key={wi}
                           style={{
                             ...t.body,
-                            color: highlighted ? colors.cyan : colors.textDim,
+                            color: highlighted ? accent : dim,
                             opacity: s,
                             transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
                             display: "inline-block",
