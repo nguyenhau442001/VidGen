@@ -66,13 +66,14 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
           <div
             style={{
               position: "absolute",
-              top: 100,
+              top: 150,
               width: VB_W,
               textAlign: "center",
               color: colors.textPrimary,
               fontFamily: `${INTER}, sans-serif`,
-              fontSize: 24,
-              fontWeight: 600,
+              fontSize: 30,
+              fontWeight: 700,
+              letterSpacing: "-0.01em",
               opacity: headlineOpacity,
               padding: "0 20px",
               boxSizing: "border-box",
@@ -86,10 +87,10 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
         <div
           style={{
             position: "absolute",
-            left: 50,
-            top: 180,
-            width: 650,
-            height: 800,
+            left: 90,
+            top: 200,
+            width: 550,
+            height: 420,
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
@@ -117,10 +118,12 @@ const ConversationScene: React.FC<ConversationSceneProps> = ({
               : 0;
 
             const bubbleOpacity = bubbleSpring;
+            // Kept small (10px, not 24px) so the slide-in overshoot never pushes
+            // a bubble past the frame edge before it settles at its resting position.
             const bubbleTranslateX = interpolate(
               bubbleSpring,
               [0, 1],
-              [isRight ? 24 : -24, 0]
+              [isRight ? 10 : -10, 0]
             );
 
             // Bouncing wave for typing dots (staggered by 5 frames, loops every 30 frames)
