@@ -9,6 +9,7 @@
 # Generated output files
 output/
 remotion/public/audio/
+public/audio/
 
 # Python bytecode
 __pycache__/
