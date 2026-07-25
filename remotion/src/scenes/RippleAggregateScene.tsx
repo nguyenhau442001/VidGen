@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { RippleAggregateSceneProps } from "../types";
 import { colors, INTER } from "../styles";
-import { rgba } from "./colorHelpers";
+import { rgba } from "./shared/colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants

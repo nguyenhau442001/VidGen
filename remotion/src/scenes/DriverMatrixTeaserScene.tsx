@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
 import { DriverMatrixTeaserSceneProps } from "../types";
-import { radialConnector, radialNodePositions } from "./radialHub";
+import { radialConnector, radialNodePositions } from "./shared/radialHub";
 
 const CYAN = "#5ee7f5";
 const GREEN = "#20e37d";

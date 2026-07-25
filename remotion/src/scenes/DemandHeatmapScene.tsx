@@ -8,7 +8,7 @@ import {
 } from "remotion";
 import { DemandHeatmapSceneProps } from "../types";
 import { colors, JETBRAINS_MONO } from "../styles";
-import { hexToRgb } from "./colorHelpers";
+import { hexToRgb } from "./shared/colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants

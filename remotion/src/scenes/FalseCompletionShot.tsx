@@ -4,7 +4,7 @@ import { FalseCompletionSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors } from "./grabfoodP2Palette";
+import { p2Colors } from "./shared/grabfoodP2Palette";
 
 // Frame plan: a large "4%" prints first (frame ~15), then "LÊN TỚI" fades in
 // above it so the two read together as "up to 4%", never "4%" alone. The fee

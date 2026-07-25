@@ -10,7 +10,7 @@ import {
   PortalMask,
   SplitScreenDivider,
   TextPunchIn,
-} from "./cinematicPrimitives";
+} from "./shared/cinematicPrimitives";
 
 const W = 1080;
 const H = 1920;

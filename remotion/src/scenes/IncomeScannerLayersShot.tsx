@@ -4,7 +4,7 @@ import { IncomeScannerLayersSceneProps } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { xanhSmBlue } from "./greensmBikePalette";
+import { xanhSmBlue } from "./shared/greensmBikePalette";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;

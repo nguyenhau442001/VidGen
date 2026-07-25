@@ -4,7 +4,7 @@ import { DualClockRouteSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors, P2Icons } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./shared/grabfoodP2Palette";
 
 const MAP_DOTS = [
   { x: 180, y: 260 }, { x: 620, y: 180 }, { x: 860, y: 340 }, { x: 320, y: 420 },

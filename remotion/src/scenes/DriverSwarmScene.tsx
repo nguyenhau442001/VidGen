@@ -10,7 +10,7 @@ import {
 import { DriverSwarmSceneProps } from "../types";
 import { colors, JETBRAINS_MONO } from "../styles";
 import { CityGrid } from "./DemandHeatmapScene";
-import { rgba } from "./colorHelpers";
+import { rgba } from "./shared/colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants

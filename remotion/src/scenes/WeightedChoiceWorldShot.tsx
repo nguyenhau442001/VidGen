@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { WeightedChoiceWorldSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors, P2Icons } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./shared/grabfoodP2Palette";
 
 const BEAM_HALF_WIDTH = 220;
 const MAX_TILT_DEG = 14;

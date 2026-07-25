@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { ThesisTeaserSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors } from "./grabfoodP2Palette";
+import { p2Colors } from "./shared/grabfoodP2Palette";
 
 const BLACK_HOLD_FRAMES = 10;
 

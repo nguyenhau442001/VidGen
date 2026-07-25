@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
 import { RouteOptimizerSceneProps } from "../types";
-import { radialConnector, radialNodePositions } from "./radialHub";
+import { radialConnector, radialNodePositions } from "./shared/radialHub";
 
 const CORE = { x: 430, y: 425 };
 const SIGNAL_WIDTH = 240;

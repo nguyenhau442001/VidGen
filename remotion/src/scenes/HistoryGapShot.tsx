@@ -4,8 +4,8 @@ import { HistoryGapVisual } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { BrowserChrome, HeadlineBar } from "./incognitoShared";
-import { phaseProgress } from "./cinematicPrimitives";
+import { BrowserChrome, HeadlineBar } from "./shared/incognitoShared";
+import { phaseProgress } from "./shared/cinematicPrimitives";
 
 export type HistoryGapSceneProps = HistoryGapVisual & { durationInFrames: number };
 

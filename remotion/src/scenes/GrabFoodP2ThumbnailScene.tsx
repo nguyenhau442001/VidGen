@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors, P2Icons } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./shared/grabfoodP2Palette";
 
 // Static thumbnail (still, frame 0 only — no animation) for
 // grabcar_optimization_mode_p2. Purpose-built for this video's dark

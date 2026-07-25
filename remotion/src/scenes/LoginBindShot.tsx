@@ -4,8 +4,8 @@ import { LoginBindVisual } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { BrowserChrome, renderAccent } from "./incognitoShared";
-import { phaseProgress } from "./cinematicPrimitives";
+import { BrowserChrome, renderAccent } from "./shared/incognitoShared";
+import { phaseProgress } from "./shared/cinematicPrimitives";
 
 export type LoginBindSceneProps = LoginBindVisual & { durationInFrames: number };
 

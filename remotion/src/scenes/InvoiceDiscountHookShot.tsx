@@ -4,7 +4,7 @@ import { InvoiceDiscountHookSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors, P3Icons } from "./grabfoodP3Palette";
+import { p3Colors, P3Icons } from "./shared/grabfoodP3Palette";
 
 // Frame plan: receipt card settles in (0-20), a finger dot taps the code chip
 // (~50). The chip then flips into GrabFood's real "applied code" state — a

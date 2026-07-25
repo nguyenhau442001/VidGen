@@ -4,7 +4,7 @@ import { CostTransferOutroSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors } from "./grabfoodP3Palette";
+import { p3Colors } from "./shared/grabfoodP3Palette";
 
 // Frame plan: the discount pill cycles between the three destination
 // silhouettes (Nhà hàng / Grab / Nhãn hàng) while the narration explains the

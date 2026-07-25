@@ -4,7 +4,7 @@ import { PayerRevealSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors, GrabMark } from "./grabfoodP3Palette";
+import { p3Colors, GrabMark } from "./shared/grabfoodP3Palette";
 
 // Frame plan: the −40.000đ pill (carried over from the hook shot) flies up
 // toward a centered Grab mark and stops just short of touching it (0-55) —

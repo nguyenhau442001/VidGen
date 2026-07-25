@@ -4,7 +4,7 @@ import { TriPhoneRevealSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors } from "./grabfoodP3Palette";
+import { p3Colors } from "./shared/grabfoodP3Palette";
 
 // Frame plan: three identical phones (all showing the same discount amount)
 // settle in together, then each flips on its Y axis in turn — a card-flip

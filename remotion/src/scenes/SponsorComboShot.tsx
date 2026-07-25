@@ -4,7 +4,7 @@ import { SponsorComboSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors } from "./grabfoodP3Palette";
+import { p3Colors } from "./shared/grabfoodP3Palette";
 
 // Frame plan: a campaign eyebrow prints first, then three combo cards drop
 // in one at a time (best-seller first, discounted 30% and tagged as

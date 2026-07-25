@@ -4,7 +4,7 @@ import { RevenueClockHookSceneProps } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { xanhSmBlue, XanhSMBirdIcon } from "./greensmBikePalette";
+import { xanhSmBlue, XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;

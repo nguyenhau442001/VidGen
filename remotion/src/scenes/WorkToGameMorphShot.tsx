@@ -4,7 +4,7 @@ import { WorkToGameMorphSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors, P2Icons } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./shared/grabfoodP2Palette";
 
 // Frame plan: phone silhouette shrinks to top; each transformation row
 // flies in staggered (fromLabel -> arrow -> toLabel), arrow morphs via

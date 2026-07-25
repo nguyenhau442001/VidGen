@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring } from "remotion";
-import { BE_VIETNAM_PRO, INTER } from "../styles";
+import { BE_VIETNAM_PRO, INTER } from "../../styles";
 
 export type Point = { x: number; y: number };
 

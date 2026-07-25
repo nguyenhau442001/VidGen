@@ -4,7 +4,7 @@ import { NetworkPathVisual } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { phaseProgress } from "./cinematicPrimitives";
+import { phaseProgress } from "./shared/cinematicPrimitives";
 
 export type NetworkPathSceneProps = NetworkPathVisual & { durationInFrames: number };
 

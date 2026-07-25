@@ -4,7 +4,7 @@ import { PayerMatrixSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors } from "./grabfoodP3Palette";
+import { p3Colors } from "./shared/grabfoodP3Palette";
 
 // Frame plan: three rows light up top-to-bottom, each row's left label
 // glowing in for a beat before its description fades in beside it — reads

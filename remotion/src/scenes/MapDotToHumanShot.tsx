@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { MapDotToHumanSceneProps } from "../types";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors, P2Icons } from "./grabfoodP2Palette";
+import { p2Colors, P2Icons } from "./shared/grabfoodP2Palette";
 
 // Frame plan: 0-40 map dot glows and zooms; 40-90 dot morphs into a phone
 // silhouette (camera-push feel via scale+blur); 90-130 phone UI fades in

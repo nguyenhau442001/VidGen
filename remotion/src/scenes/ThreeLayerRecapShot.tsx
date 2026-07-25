@@ -4,7 +4,7 @@ import { ThreeLayerRecapVisual } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
-import { phaseProgress } from "./cinematicPrimitives";
+import { phaseProgress } from "./shared/cinematicPrimitives";
 
 export type ThreeLayerRecapSceneProps = ThreeLayerRecapVisual & { durationInFrames: number };
 

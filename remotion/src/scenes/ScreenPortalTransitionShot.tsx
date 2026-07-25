@@ -3,8 +3,8 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { ScreenPortalTransitionVisual } from "../types";
 import { colors, INTER } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
-import { BrowserChrome, HeadlineBar } from "./incognitoShared";
-import { cameraShake, ImpactFlash, phaseProgress } from "./cinematicPrimitives";
+import { BrowserChrome, HeadlineBar } from "./shared/incognitoShared";
+import { cameraShake, ImpactFlash, phaseProgress } from "./shared/cinematicPrimitives";
 
 export type ScreenPortalTransitionSceneProps = ScreenPortalTransitionVisual & { durationInFrames: number };
 

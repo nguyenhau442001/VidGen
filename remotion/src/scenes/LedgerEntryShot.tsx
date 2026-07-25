@@ -4,7 +4,7 @@ import { LedgerEntrySceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors, P3Icons } from "./grabfoodP3Palette";
+import { p3Colors, P3Icons } from "./shared/grabfoodP3Palette";
 
 // Frame plan: a small "Tạo ưu đãi" toggle switches on (0-30) representing the
 // restaurant authoring its own promo, then the scene settles into a ledger

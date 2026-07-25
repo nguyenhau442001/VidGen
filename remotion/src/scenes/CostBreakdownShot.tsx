@@ -4,7 +4,7 @@ import { CostBreakdownSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p3Colors } from "./grabfoodP3Palette";
+import { p3Colors } from "./shared/grabfoodP3Palette";
 
 // Frame plan: a merchant-side ledger panel (top) reveals its two cost rows
 // one at a time, then a dashed connector draws down to a small "customer

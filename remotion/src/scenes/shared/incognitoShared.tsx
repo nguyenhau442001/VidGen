@@ -1,5 +1,5 @@
 import React from "react";
-import { colors, INTER, BE_VIETNAM_PRO } from "../styles";
+import { colors, INTER, BE_VIETNAM_PRO } from "../../styles";
 
 // Shared browser-chrome shell for the incognito_myth video's bespoke shot
 // set (NightTypingHookShot, HistoryGapShot, SplitSyncActionShot,

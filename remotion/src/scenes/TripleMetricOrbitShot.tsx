@@ -4,7 +4,7 @@ import { TripleMetricOrbitSceneProps } from "../types";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
-import { p2Colors } from "./grabfoodP2Palette";
+import { p2Colors } from "./shared/grabfoodP2Palette";
 
 const RING_RADIUS = 130;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
