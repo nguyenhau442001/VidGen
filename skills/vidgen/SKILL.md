@@ -261,6 +261,11 @@ These rules prevent blurry, cluttered, or low-contrast visuals:
   accent, `#61dafb` cyan for secondary. Never put two accent colors in the same scene.
 **Scene pacing**: scenes under 3s feel rushed; scenes over 12s lose attention.
   Sweet spot: 4–9s per scene.
+**Multi-sentence `body`/caption props**: never let auto-wrap merge two sentences onto the
+  same line, or leave a lone word orphaned on its own trailing line. Each rendered line must
+  be a complete grammatical unit ending in `.`/`!`/`?`. Reword (pad or trim) so the sentence
+  boundary lands on a clean line break — verify with a rendered still, not char-count math.
+  See CLAUDE.md → Visual Text Rules.
 
 ### Scene Type Selection
 

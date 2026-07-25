@@ -25,6 +25,18 @@ function parseWords(text: string): { word: string; highlighted: boolean }[] {
   );
 }
 
+// Splits body text into sentences so each sentence renders in its own
+// flex-wrap row — a wrap can never merge the tail of one sentence with the
+// start of the next. A sentence that's long enough still wraps within
+// itself; only cross-sentence merging is what this prevents.
+function splitSentences(text: string): string[] {
+  const trimmed = text.trim();
+  if (!trimmed) return [];
+  const matches = trimmed.match(/[^.!?]+[.!?]+/g);
+  if (!matches) return [trimmed];
+  return matches.map(s => s.trim()).filter(Boolean);
+}
+
 export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   headline,
   body,
@@ -53,7 +65,7 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
   const effectiveHeadline =
     accentWord && headline.includes(accentWord) ? headline.replace(accentWord, `**${accentWord}**`) : headline;
   const headlineWords = parseWords(effectiveHeadline);
-  const bodyWords = parseWords(body ?? "");
+  const bodySentences = splitSentences(body ?? "").map(parseWords);
 
   return (
     <AbsoluteFill
@@ -146,32 +158,48 @@ export const ExplanationScene: React.FC<ExplanationSceneProps> = ({
           })}
         </div>
       ) : (
-        /* Body — staggered spring per word, delayed after headline */
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
-          {bodyWords.map(({ word, highlighted }, i) => {
-            const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
-            const s = spring({
-              frame: frame - delay,
-              fps,
-              config: { stiffness: 200, damping: 22 },
-              durationInFrames: 20,
-            });
-            return (
-              <span
-                key={i}
-                style={{
-                  ...t.body,
-                  color: highlighted ? colors.cyan : colors.textDim,
-                  opacity: s,
-                  transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
-                  display: "inline-block",
-                }}
-              >
-                {word}
-              </span>
-            );
-          })}
-        </div>
+        /* Body — one flex-wrap row per sentence, so a line break never
+           merges the tail of one sentence with the start of the next.
+           Word stagger index stays cumulative across sentences. */
+        (() => {
+          let flatIndex = 0;
+          return (
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {bodySentences.map((words, si) => {
+                const row = (
+                  <div key={si} style={{ display: "flex", flexWrap: "wrap", gap: "0 8px" }}>
+                    {words.map(({ word, highlighted }, wi) => {
+                      const i = flatIndex + wi;
+                      const delay = ENTER_FRAMES + headlineWords.length * 3 + i * 2;
+                      const s = spring({
+                        frame: frame - delay,
+                        fps,
+                        config: { stiffness: 200, damping: 22 },
+                        durationInFrames: 20,
+                      });
+                      return (
+                        <span
+                          key={wi}
+                          style={{
+                            ...t.body,
+                            color: highlighted ? colors.cyan : colors.textDim,
+                            opacity: s,
+                            transform: `translateY(${interpolate(s, [0, 1], [10, 0])}px)`,
+                            display: "inline-block",
+                          }}
+                        >
+                          {word}
+                        </span>
+                      );
+                    })}
+                  </div>
+                );
+                flatIndex += words.length;
+                return row;
+              })}
+            </div>
+          );
+        })()
       )}
       </SafeZone>
     </AbsoluteFill>

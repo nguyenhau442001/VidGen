@@ -254,6 +254,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
             maxWidth: MAX_TEXT_WIDTH,
             textAlign: "center",
             textWrap: "balance",
+            whiteSpace: "pre-line",
             fontFamily: BE_VIETNAM_PRO,
             fontWeight: 700,
             fontSize: hasScreenshot ? 43 : fontSize,
