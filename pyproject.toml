@@ -5,7 +5,15 @@ description = "TikTok video generation pipeline"
 requires-python = ">=3.13.13"
 dependencies = [
     "vieneu",
+    "numpy",
+    "librosa",
+    "soundfile",
+    "requests",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+video-audit = ["opencv-python", "stable-ts"]
 
 [build-system]
 requires = ["hatchling"]
