@@ -171,9 +171,8 @@ def fit_durations(script: dict, wav_dir: str, fps: int) -> FitResult:
         tail = shot.get("transition_out_delay_frames", 0)
         available_frames = shot["duration_frames"] - offset - tail
         wav_path = f"{wav_dir}/{wav_filename(sid)}"
-        if os.path.exists(wav_path):
-            fit_wav_to_duration(wav_path, max_duration_seconds=available_frames / fps)
-            narration_fitted += 1
+        fit_wav_to_duration(wav_path, max_duration_seconds=available_frames / fps)
+        narration_fitted += 1
 
     dialogue_fitted = 0
     for shot in script_shots(script):
