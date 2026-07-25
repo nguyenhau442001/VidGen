@@ -81,7 +81,11 @@
       "WebFetch(domain:www.brandcoat.net)",
       "WebFetch(domain:www.studocu.vn)",
       "Bash(cd *)",
-      "Bash(mkdir *)"
+      "Bash(mkdir *)",
+      "Skill(update-config)",
+      "Bash(osascript *)",
+      "Bash(xxd \"/Users/haunguyen/Downloads/tiktokZe1m853C1j26bVVPg6SOLddUWfMXLK9m.txt\")",
+      "Bash(xxd /tmp/served.txt)"
     ],
     "deny": [],
     "ask": [
