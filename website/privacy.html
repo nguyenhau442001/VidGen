@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chính sách bảo mật — Ủa là sao</title>
+<meta name="description" content="Chính sách bảo mật của website và ứng dụng Ủa là sao, bao gồm cách sử dụng TikTok API.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site">
+  <div class="brand">Ủa <span>là sao</span></div>
+  <nav class="site">
+    <a href="index.html">Trang chủ</a>
+    <a href="about.html">Giới thiệu</a>
+    <a href="privacy.html" class="active">Chính sách bảo mật</a>
+    <a href="terms.html">Điều khoản</a>
+    <a href="contact.html">Liên hệ</a>
+  </nav>
+</header>
+
+<main>
+  <span class="tag">Cập nhật lần cuối: Tháng 7, 2026</span>
+  <h1>Chính sách bảo mật</h1>
+  <p class="lede">Áp dụng cho website chính thức và ứng dụng đăng bài tự động của kênh Ủa là sao.</p>
+
+  <h2>1. Dữ liệu website thu thập</h2>
+  <p>
+    Website này là trang thông tin tĩnh. Chúng tôi không đặt tài khoản, không có form thu thập dữ liệu cá
+    nhân, và không dùng cookie theo dõi hay công cụ quảng cáo bên thứ ba. Máy chủ hosting có thể ghi log
+    kỹ thuật tiêu chuẩn (địa chỉ IP, thời gian truy cập) theo mặc định của nhà cung cấp hạ tầng — dữ liệu
+    này không được chúng tôi truy xuất hay dùng cho mục đích quảng cáo.
+  </p>
+
+  <h2>2. Cách ứng dụng dùng TikTok API</h2>
+  <p>
+    Ứng dụng của kênh sử dụng TikTok Content Posting API (Direct Post) với đúng một mục đích: đăng video
+    do chính kênh sản xuất lên chính tài khoản TikTok chính thức của kênh. Cụ thể:
+  </p>
+  <ul class="plain">
+    <li>Ứng dụng chỉ được cấp quyền đăng bài (<em>video.publish</em>) trên tài khoản TikTok do kênh sở hữu và xác thực qua OAuth.</li>
+    <li>Ứng dụng không đọc, không lưu trữ và không chia sẻ dữ liệu cá nhân, danh sách theo dõi, hay nội dung của bất kỳ người dùng TikTok nào khác.</li>
+    <li>Token truy cập (access token/refresh token) được lưu cục bộ trên thiết bị của người vận hành, không truyền cho bên thứ ba nào khác ngoài API chính thức của TikTok.</li>
+    <li>Video và mô tả (caption) được gửi qua API là nội dung do kênh tự viết và tự duyệt trước khi đăng.</li>
+  </ul>
+
+  <h2>3. Dữ liệu chúng tôi không thu thập</h2>
+  <p>
+    Chúng tôi không thu thập email, số điện thoại, vị trí, hay bất kỳ thông tin định danh cá nhân nào của
+    người xem video hoặc người truy cập website, ngoại trừ trường hợp bạn chủ động gửi email liên hệ cho
+    chúng tôi.
+  </p>
+
+  <h2>4. Lưu trữ và xoá dữ liệu</h2>
+  <p>
+    Token OAuth của TikTok được lưu cục bộ và có thể bị thu hồi bất kỳ lúc nào từ chính cài đặt ứng dụng
+    bên thứ ba trong tài khoản TikTok của kênh. Nếu bạn có câu hỏi về dữ liệu liên quan đến việc tích hợp
+    này, vui lòng liên hệ theo thông tin ở mục 6.
+  </p>
+
+  <h2>5. Thay đổi chính sách</h2>
+  <p>
+    Chính sách này có thể được cập nhật khi quy trình vận hành hoặc phạm vi sử dụng API thay đổi. Ngày cập
+    nhật gần nhất luôn hiển thị ở đầu trang.
+  </p>
+
+  <h2>6. Liên hệ</h2>
+  <p>
+    Mọi câu hỏi về chính sách bảo mật, xin gửi email tới
+    <a href="mailto:haunguyenngoc442001@gmail.com">haunguyenngoc442001@gmail.com</a>.
+  </p>
+
+  <div class="lang-block">
+    <div class="lang-label">English summary</div>
+    <p style="margin:0;">
+      This site collects no personal data beyond standard hosting-provider server logs; there are no
+      forms, accounts, or tracking cookies. The channel's TikTok integration uses the Content Posting API
+      (Direct Post) for one purpose only: publishing the channel's own, pre-approved videos to its own
+      TikTok account. It does not read, store, or share data belonging to other TikTok users. OAuth
+      tokens are stored locally by the channel operator and are never shared with third parties beyond
+      TikTok's own API. Questions: haunguyenngoc442001@gmail.com.
+    </p>
+  </div>
+</main>
+
+<footer class="site">
+  © 2026 Ủa là sao. Liên hệ: <a href="mailto:haunguyenngoc442001@gmail.com">haunguyenngoc442001@gmail.com</a>
+</footer>
+</body>
+</html>
