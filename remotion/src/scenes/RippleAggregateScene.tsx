@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { RippleAggregateSceneProps } from "../types";
 import { colors, INTER } from "../styles";
+import { rgba } from "./colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -52,18 +53,6 @@ const FIELD_RIPPLE_RADIUS = 110;
 
 // How far (0–1) edge phones travel toward the hotspot during convergence.
 const CONVERGE_FRACTION = 0.65;
-
-const hexToRgb = (hex: string): [number, number, number] => {
-  let h = hex.replace("#", "");
-  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
-  const n = parseInt(h, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-};
-
-const rgba = (hex: string, alpha: number): string => {
-  const [r, g, b] = hexToRgb(hex);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
 
 // ---------------------------------------------------------------------------
 // Simple phone glyph, centered on (0,0)

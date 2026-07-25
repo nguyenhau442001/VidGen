@@ -10,6 +10,7 @@ import {
 import { DriverSwarmSceneProps } from "../types";
 import { colors, JETBRAINS_MONO } from "../styles";
 import { CityGrid } from "./DemandHeatmapScene";
+import { rgba } from "./colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -39,18 +40,6 @@ const ARC_OFFSET = 30; // px the path midpoint deviates from the straight line
 
 // Standard CSS "ease" curve, per spec
 const TRAVEL_EASING = Easing.bezier(0.25, 0.1, 0.25, 1);
-
-const hexToRgb = (hex: string): [number, number, number] => {
-  let h = hex.replace("#", "");
-  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
-  const n = parseInt(h, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-};
-
-const rgba = (hex: string, alpha: number): string => {
-  const [r, g, b] = hexToRgb(hex);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
 
 // Point on a quadratic bezier: B(t) = (1-t)²·P0 + 2(1-t)t·C + t²·P1
 const quadPoint = (

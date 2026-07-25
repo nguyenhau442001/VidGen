@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { DemandHeatmapSceneProps } from "../types";
 import { colors, JETBRAINS_MONO } from "../styles";
+import { hexToRgb } from "./colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -43,16 +44,9 @@ const BLOB_START_RADIUS = 20;
 const BREATHE_AMPLITUDE = 15;
 
 // ---------------------------------------------------------------------------
-// Color helpers — intensity maps to saturation by mixing the base color
+// Color helper — intensity maps to saturation by mixing the base color
 // toward its own gray, so weak hotspots read washed-out, strong ones vivid.
 // ---------------------------------------------------------------------------
-const hexToRgb = (hex: string): [number, number, number] => {
-  let h = hex.replace("#", "");
-  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
-  const n = parseInt(h, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-};
-
 const saturatedColor = (hex: string, intensity: number): string => {
   const [r, g, b] = hexToRgb(hex);
   const gray = 0.299 * r + 0.587 * g + 0.114 * b;
