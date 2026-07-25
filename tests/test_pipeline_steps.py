@@ -12,6 +12,12 @@ from vidgen.pipeline.pipeline_steps import (
     synthesize_tts,
     tighten_scene_durations,
 )
+from vidgen.pipeline.pipeline_steps import (
+    check_dead_air,
+    render_video,
+    score_and_write_beatmap,
+    write_manifest_step,
+)
 
 
 def _script(shots, fps=30):
@@ -201,3 +207,66 @@ def test_synthesize_tts_prebuilt_missing_raises(tmp_path):
             no_trim=False,
             target_dbfs=-15.0,
         )
+
+
+def test_write_manifest_step_writes_file_and_copies_audio(tmp_path):
+    script = _script([
+        {"id": "s1", "type": "explanation", "narration": "N.", "visual": {"headline": "H"}},
+    ])
+    wav_dir = tmp_path / "wav"
+    _write_wav(wav_dir / "scene_s1.wav", seconds=1.0)
+    public_audio = tmp_path / "public_audio"
+    manifest_path = tmp_path / "output" / "render_manifest.json"
+
+    result = write_manifest_step(
+        script,
+        audio_durations={"s1": 1.0},
+        manifest_path=str(manifest_path),
+        wav_dir=str(wav_dir),
+        remotion_public_audio=str(public_audio),
+        audio_ids=["s1"],
+    )
+    assert manifest_path.exists()
+    assert result.audio_ids_copied == 1
+    assert (public_audio / "scene_s1.wav").exists()
+
+
+def test_score_and_write_beatmap_writes_file(tmp_path):
+    script = _script([
+        {"id": "s1", "type": "explanation", "narration": "N.",
+         "duration_frames": 150, "visual": {"headline": "H"}},
+    ])
+    from vidgen.pipeline.render_manifest_builder import build_render_manifest
+    manifest = build_render_manifest(script, {"s1": 1.0})
+    beatmap_path = tmp_path / "beatmap.json"
+
+    result = score_and_write_beatmap(script, manifest, str(beatmap_path))
+    assert beatmap_path.exists()
+    assert "video_title" in result.beatmap
+    assert isinstance(result.report, str) and result.report
+
+
+def test_check_dead_air_returns_findings_list():
+    script = _script([
+        {"id": "s1", "type": "explanation", "narration": "N.",
+         "duration_frames": 150, "visual": {"headline": "H"}},
+    ])
+    from vidgen.pipeline.render_manifest_builder import build_render_manifest
+    manifest = build_render_manifest(script, {"s1": 0.5})
+    result = check_dead_air(script, manifest, audio_durations={"s1": 0.5})
+    assert isinstance(result.findings, list)
+
+
+def test_render_video_deletes_stale_output(tmp_path, monkeypatch):
+    video_output = tmp_path / "out.mp4"
+    video_output.write_text("stale")
+
+    calls = []
+    monkeypatch.setattr(
+        "vidgen.pipeline.pipeline_steps.render_video_chunked",
+        lambda manifest, out: calls.append(out),
+    )
+    result = render_video({"shots": []}, str(video_output))
+    assert not video_output.exists()  # deleted before render_video_chunked ran
+    assert calls == [str(video_output)]
+    assert result.video_output == str(video_output)

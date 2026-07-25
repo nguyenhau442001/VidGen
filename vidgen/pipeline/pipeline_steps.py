@@ -20,10 +20,19 @@ from vidgen.audio.speech_synthesizer import (
     resolve_scene_tts_speed,
     synthesize as tts_synthesize,
 )
-from vidgen.pipeline.render_manifest_builder import wav_filename
+from vidgen.pipeline.chunked_video_renderer import render_video_chunked
+from vidgen.pipeline.render_manifest_builder import (
+    build_render_manifest,
+    copy_audio_to_remotion_public,
+    detect_dead_air,
+    wav_filename,
+    write_render_manifest,
+)
 from vidgen.pipeline.script_resolver import resolve_script
 from vidgen.pipeline.script_validator import validate_manifest
 from vidgen.pipeline.shot_schema import script_shots
+from vidgen.quality.retention_beatmap import format_report as beatmap_report
+from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap
 
 logger = logging.getLogger(__name__)
 
@@ -204,3 +213,94 @@ def measure_audio_durations(jobs: list[TTSJob], wav_dir: str) -> dict:
             logger.info("%s audio duration: %.2fs", job.id, duration)
             audio_durations[job.id] = duration
     return audio_durations
+
+
+@dataclass
+class ManifestResult:
+    manifest: dict
+    audio_ids_copied: int
+
+
+def write_manifest_step(
+    script: dict,
+    audio_durations: dict,
+    manifest_path: str,
+    wav_dir: str,
+    remotion_public_audio: str,
+    audio_ids: list,
+) -> ManifestResult:
+    copy_audio_to_remotion_public(audio_ids, wav_dir, remotion_public_audio)
+    logger.info("Copied %d WAV file(s) to %s/", len(audio_ids), remotion_public_audio)
+
+    manifest = build_render_manifest(script, audio_durations)
+    write_render_manifest(manifest, manifest_path)
+    logger.info("Render manifest written to %s", manifest_path)
+    return ManifestResult(manifest=manifest, audio_ids_copied=len(audio_ids))
+
+
+@dataclass
+class BeatmapResult:
+    beatmap: dict
+    report: str
+
+
+def score_and_write_beatmap(script: dict, manifest: dict, beatmap_path: str) -> BeatmapResult:
+    beatmap = score_beatmap(script, manifest)
+    write_beatmap(beatmap, beatmap_path)
+    report = beatmap_report(beatmap)
+    logger.info("\n%s", report)
+    logger.info(
+        "Beat map written to %s — view it in Studio with "
+        "REMOTION_BEAT_MAP=1 npx remotion studio (run from remotion/)",
+        beatmap_path,
+    )
+    return BeatmapResult(beatmap=beatmap, report=report)
+
+
+@dataclass
+class DeadAirResult:
+    findings: list
+
+
+def check_dead_air(script: dict, manifest: dict, audio_durations: dict) -> DeadAirResult:
+    findings = detect_dead_air(script, manifest, audio_durations)
+    if findings:
+        logger.warning("Dead air warnings:")
+        for f in findings:
+            logger.warning(
+                "  - %s: %d frames (%ss) of dead air after audio ends",
+                f["scene_id"], f["dead_air_frames"], f["dead_air_seconds"],
+            )
+    return DeadAirResult(findings=findings)
+
+
+@dataclass
+class RenderResult:
+    video_output: str
+
+
+def render_video(manifest: dict, video_output: str) -> RenderResult:
+    os.makedirs(os.path.dirname(video_output), exist_ok=True)
+    if os.path.exists(video_output):
+        os.remove(video_output)
+        logger.info("Deleted old video: %s", video_output)
+    render_video_chunked(manifest, video_output)
+    logger.info("Video rendered to %s", video_output)
+    return RenderResult(video_output=video_output)
+
+
+@dataclass
+class ThumbnailResult:
+    generated: bool
+    error: str | None
+
+
+def generate_thumbnail_step(script_path: str, video_output: str) -> ThumbnailResult:
+    try:
+        from vidgen.presentation.thumbnail_renderer import generate_thumbnail
+
+        generate_thumbnail(script_path, video_output.replace(".mp4", "_thumb.png"))
+        return ThumbnailResult(generated=True, error=None)
+    except Exception as e:
+        logger.warning("Thumbnail generation failed (non-fatal): %s", e)
+        return ThumbnailResult(generated=False, error=str(e))
