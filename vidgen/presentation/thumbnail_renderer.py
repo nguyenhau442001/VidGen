@@ -32,13 +32,28 @@ def _strip_bold_markers(text: str) -> str:
 def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
     scene = script_shots(script)[scene_index]
     props = scene.get("props", {})
+    thumbnail = script.get("meta", {}).get("thumbnail", {})
     raw_headline = props.get("headline", "")
 
-    headline = (scene.get("narration") or "").rstrip(".")
+    headline = (
+        props.get("thumbnailHeadline")
+        or thumbnail.get("headline")
+        or (scene.get("narration") or "").rstrip(".")
+    )
 
-    accent_word = props.get("accentWord") or _longest_bold_span(raw_headline)
+    accent_word = (
+        props.get("thumbnailAccentWord")
+        or thumbnail.get("accent_word")
+        or props.get("accentWord")
+        or _longest_bold_span(raw_headline)
+    )
 
-    subtext = _strip_bold_markers(props.get("body") or raw_headline)
+    subtext = _strip_bold_markers(
+        props.get("thumbnailSubtext")
+        or thumbnail.get("subtext")
+        or props.get("body")
+        or raw_headline
+    )
 
     part_label = None
     for s in script_shots(script):
@@ -52,6 +67,13 @@ def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
         result["accentWord"] = accent_word
     if part_label:
         result["partLabel"] = part_label
+    else:
+        # Remotion merges CLI props into the composition defaults. Passing
+        # null explicitly prevents a stale demo series label from surviving.
+        result["partLabel"] = None
+    illustration = props.get("thumbnailIllustration") or thumbnail.get("illustration")
+    if illustration:
+        result["illustration"] = illustration
     return result
 
 

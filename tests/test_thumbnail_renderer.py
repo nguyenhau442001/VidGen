@@ -51,6 +51,31 @@ def test_extract_generic_props_accent_word_from_bold_markdown():
     assert props["subtext"] == "Bạn chưa mở app. Hệ thống đã biết."
 
 
+def test_extract_generic_props_uses_explicit_meta_thumbnail():
+    script = {
+        "meta": {
+            "thumbnail": {
+                "headline": "XÓA LOGO,\nCÒN NHẬN RA BRAND?",
+                "accent_word": "NHẬN RA",
+                "subtext": "ĐỐI THỦ ĐĂNG ĐƯỢC Y HỆT?",
+                "illustration": "brandSwap",
+            }
+        },
+        "shots": [
+            {
+                "type": "brand_swap_test",
+                "narration": "Brand mình hay đối thủ?",
+                "props": {"headline": "ĐỔI LOGO NÀO VÀO CŨNG HỢP"},
+            }
+        ],
+    }
+    props = _extract_generic_props(script)
+    assert props["headline"] == "XÓA LOGO,\nCÒN NHẬN RA BRAND?"
+    assert props["accentWord"] == "NHẬN RA"
+    assert props["subtext"] == "ĐỐI THỦ ĐĂNG ĐƯỢC Y HỆT?"
+    assert props["illustration"] == "brandSwap"
+
+
 def test_extract_generic_props_part_label_found_in_later_scene():
     script = {
         "shots": [
@@ -69,7 +94,7 @@ def test_extract_generic_props_no_part_label_omits_key():
         ]
     }
     props = _extract_generic_props(script)
-    assert "partLabel" not in props
+    assert props["partLabel"] is None
 
 
 def test_extract_character_icon_props_maps_fields():

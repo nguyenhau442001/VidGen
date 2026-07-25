@@ -182,7 +182,151 @@ export type ManifestScene =
   | { type: "login_bind"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: LoginBindVisual }
   | { type: "network_path"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: NetworkPathVisual }
   | { type: "three_layer_recap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ThreeLayerRecapVisual }
-  | { type: "punchline_hold"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PunchlineHoldVisual };
+  | { type: "punchline_hold"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PunchlineHoldVisual }
+  | { type: "marketing_caption_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MarketingCaptionHookVisual }
+  | { type: "marketing_prompt_demo"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MarketingPromptDemoVisual }
+  | { type: "brief_blueprint"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BriefBlueprintVisual }
+  | { type: "task_instruction"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TaskInstructionVisual }
+  | { type: "caption_upgrade"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CaptionUpgradeVisual }
+  | { type: "reuse_system"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ReuseSystemVisual }
+  | { type: "brand_swap_test"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BrandSwapTestVisual };
+
+export type MarketingCaptionHookVisual = {
+  label: string;
+  logoLabel?: string;
+  revisionLabel?: string;
+  feedbackLabel?: string;
+  feedbackText?: string;
+  caption: string;
+  stamp: string;
+  partLabel?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "notebook" | "brandSwap";
+};
+
+export type MarketingCaptionHookSceneProps = MarketingCaptionHookVisual & {
+  durationInFrames: number;
+};
+
+export type MarketingPromptDemoVisual = {
+  headline: string;
+  promptLabel?: string;
+  prompt: string;
+  responseLabel?: string;
+  response: string;
+  highlightedInputs?: string[];
+  flaggedPhrases: string[];
+  verdict: string;
+  footer?: string;
+};
+
+export type MarketingPromptDemoSceneProps = MarketingPromptDemoVisual & {
+  durationInFrames: number;
+};
+
+export type BriefBlueprintField = {
+  id?: string;
+  icon: string;
+  label: string;
+  value?: string;
+  appearFrame?: number;
+};
+
+export type BriefBlueprintVisual = {
+  eyebrow?: string;
+  headline: string;
+  campaignLabel?: string;
+  fields: BriefBlueprintField[];
+  avoidLabel?: string;
+  avoid?: string[];
+  footer?: string;
+  layout?: "stack" | "grid";
+  revealMode?: "sequential" | "together";
+};
+
+export type BriefBlueprintSceneProps = BriefBlueprintVisual & {
+  durationInFrames: number;
+};
+
+export type TaskInstructionVisual = {
+  headline: string;
+  lockedLabel: string;
+  lockedFields?: string[];
+  taskLabel?: string;
+  task: string;
+  constraints: string[];
+  footer?: string;
+};
+
+export type TaskInstructionSceneProps = TaskInstructionVisual & {
+  durationInFrames: number;
+};
+
+export type CaptionUpgradeVisual = {
+  eyebrow?: string;
+  headline: string;
+  beforeLabel?: string;
+  before: string;
+  afterLabel?: string;
+  after: string;
+  accentPhrases: string[];
+  proofPoints?: Array<{ label: string; value: string }>;
+  verdict?: string;
+  approvalLabel?: string;
+  approvalText?: string;
+  footer: string;
+};
+
+export type CaptionUpgradeSceneProps = CaptionUpgradeVisual & {
+  durationInFrames: number;
+};
+
+export type ReuseSystemVisual = {
+  eyebrow?: string;
+  headline: string;
+  core: string;
+  tasks: Array<{ icon: string; label: string; detail?: string }>;
+  promptTemplate?: {
+    label: string;
+    title: string;
+    rows: Array<{ label: string; placeholder: string }>;
+    helper?: string;
+  };
+  testCard?: {
+    label: string;
+    headline: string;
+    question: string;
+    failText: string;
+  };
+  closingLine?: string;
+  closingAccent?: string;
+  channel?: string;
+  footer: string;
+};
+
+export type ReuseSystemSceneProps = ReuseSystemVisual & {
+  durationInFrames: number;
+};
+
+export type BrandSwapTestVisual = {
+  label?: string;
+  headline: string;
+  caption: string;
+  question?: string;
+  fixes?: string[];
+  brands?: Array<{ name: string; category?: string }>;
+  swapIntervalFrames?: number;
+  feedbackLabel?: string;
+  feedbackText?: string;
+  feedbackAppearFrame?: number;
+  partLabel?: string;
+};
+
+export type BrandSwapTestSceneProps = BrandSwapTestVisual & {
+  durationInFrames: number;
+};
 
 // --- incognito_myth -----------------------------------------------------
 // Bespoke shot set for "closing an incognito tab doesn't make you invisible"
@@ -958,6 +1102,8 @@ export type IconThreatItem = { icon: string; label: string };
 export type IconThreatVisual = {
   headline: string;
   accentWord?: string;
+  headlineSingleLine?: boolean;
+  layout?: "row" | "column";
   items: IconThreatItem[];
   verdict?: string;
   accentColor?: string; // default colors.cyan
@@ -1515,6 +1661,7 @@ export type GenericHookThumbnailVisual = {
   subtext?: string;
   partLabel?: string;
   channelName?: string;
+  illustration?: "map" | "notebook" | "brandSwap";
 };
 
 export type GenericHookThumbnailSceneProps = GenericHookThumbnailVisual;

@@ -23,7 +23,7 @@ function truncateLine(line: string, maxChars: number): string {
 // and appends "…" to the last line if there were more parts than fit.
 function splitHeadlineLines(headline: string, maxLines = 3, maxCharsPerLine = 42): string[] {
   const rawParts = headline
-    .split(/\.\s+|—/)
+    .split(/\n|\.\s+|—/)
     .map((s) => s.trim())
     .filter(Boolean);
   const parts = rawParts.length > 0 ? rawParts : [headline];
@@ -55,8 +55,10 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
   subtext,
   partLabel,
   channelName = "Ủa là sao",
+  illustration = "map",
 }) => {
   const lines = splitHeadlineLines(headline);
+  const isBrandSwap = illustration === "brandSwap";
 
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
@@ -104,39 +106,184 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
         </div>
       )}
 
-      {/* Layer 3 — map pin / car / dashed connector */}
-      <div style={{ position: "absolute", top: CANVAS_H * 0.3, left: 0, width: CANVAS_W, height: CANVAS_H * 0.25 }}>
-        <svg width={CANVAS_W} height={CANVAS_H * 0.25} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H * 0.25}`}>
-          <line
-            x1={510}
-            y1={230}
-            x2={540}
-            y2={210}
-            stroke={colors.green}
-            strokeWidth={3}
-            strokeDasharray="8 6"
-            opacity={0.7}
-          />
-          <g transform="translate(540,150)">
-            <path
-              d="M0,-60 C33,-60 60,-33 60,0 C60,45 0,60 0,60 C0,60 -60,45 -60,0 C-60,-33 -33,-60 0,-60 Z"
-              fill="none"
+      {/* Layer 3 — topic illustration */}
+      <div
+        style={{
+          position: "absolute",
+          top: CANVAS_H * (isBrandSwap ? 0.18 : 0.3),
+          left: 0,
+          width: CANVAS_W,
+          height: CANVAS_H * 0.25,
+        }}
+      >
+        {illustration === "brandSwap" ? (
+          <svg width={CANVAS_W} height={CANVAS_H * 0.25} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H * 0.25}`}>
+            <defs>
+              <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="18" stdDeviation="18" floodColor="#0f172a" floodOpacity="0.16" />
+              </filter>
+            </defs>
+            <g transform="translate(190,18)">
+              <rect
+                x={0}
+                y={28}
+                width={700}
+                height={338}
+                rx={30}
+                fill="rgba(255,255,255,0.96)"
+                stroke="rgba(15,23,42,0.12)"
+                strokeWidth={3}
+                filter="url(#cardShadow)"
+              />
+
+              <rect
+                x={40}
+                y={62}
+                width={154}
+                height={58}
+                rx={14}
+                fill="none"
+                stroke={colors.errorRed}
+                strokeWidth={3}
+                strokeDasharray="9 7"
+              />
+              <text
+                x={117}
+                y={99}
+                textAnchor="middle"
+                fontFamily={BE_VIETNAM_PRO}
+                fontSize={20}
+                fontWeight={700}
+                fill={colors.errorRed}
+              >
+                LOGO?
+              </text>
+              <line x1={48} y1={68} x2={186} y2={114} stroke={colors.errorRed} strokeWidth={6} strokeLinecap="round" />
+
+              <text
+                x={40}
+                y={164}
+                fontFamily={BE_VIETNAM_PRO}
+                fontSize={25}
+                fontWeight={700}
+                fill={colors.textPrimary}
+              >
+                “Khởi đầu ngày mới đầy năng lượng
+              </text>
+              <text
+                x={40}
+                y={202}
+                fontFamily={BE_VIETNAM_PRO}
+                fontSize={25}
+                fontWeight={700}
+                fill={colors.textPrimary}
+              >
+                cùng hương vị mát lạnh.”
+              </text>
+
+              <g transform="translate(112,252) rotate(-2 238 40)">
+                <rect
+                  x={0}
+                  y={0}
+                  width={476}
+                  height={80}
+                  rx={16}
+                  fill="#fff1f2"
+                  stroke={colors.errorRed}
+                  strokeWidth={4}
+                />
+                <text
+                  x={238}
+                  y={50}
+                  textAnchor="middle"
+                  fontFamily={BE_VIETNAM_PRO}
+                  fontSize={22}
+                  fontWeight={800}
+                  letterSpacing={1.5}
+                  fill={colors.errorRed}
+                >
+                  BRAND NÀO CŨNG ĐĂNG ĐƯỢC
+                </text>
+              </g>
+            </g>
+          </svg>
+        ) : illustration === "notebook" ? (
+          <svg width={CANVAS_W} height={CANVAS_H * 0.25} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H * 0.25}`}>
+            <g transform="translate(370,44)">
+              <rect
+                x={0}
+                y={0}
+                width={340}
+                height={310}
+                rx={28}
+                fill="rgba(255,255,255,0.92)"
+                stroke={colors.green}
+                strokeWidth={6}
+              />
+              <line x1={72} y1={0} x2={72} y2={310} stroke={colors.green} strokeWidth={4} opacity={0.45} />
+              {[70, 130, 190, 250].map((y, i) => (
+                <g key={y}>
+                  <rect
+                    x={102}
+                    y={y - 21}
+                    width={202}
+                    height={42}
+                    rx={12}
+                    fill={i === 3 ? "rgba(22,163,74,0.14)" : "rgba(2,132,199,0.10)"}
+                    stroke={i === 3 ? colors.green : colors.cyan}
+                    strokeWidth={2}
+                  />
+                  <circle cx={126} cy={y} r={7} fill={i === 3 ? colors.green : colors.cyan} />
+                  <line
+                    x1={145}
+                    y1={y}
+                    x2={278}
+                    y2={y}
+                    stroke={colors.textPrimary}
+                    strokeWidth={5}
+                    strokeLinecap="round"
+                    opacity={0.62}
+                  />
+                </g>
+              ))}
+              {[42, 102, 162, 222, 282].map((y) => (
+                <circle key={y} cx={0} cy={y} r={10} fill={colors.bg} stroke={colors.green} strokeWidth={4} />
+              ))}
+            </g>
+          </svg>
+        ) : (
+          <svg width={CANVAS_W} height={CANVAS_H * 0.25} viewBox={`0 0 ${CANVAS_W} ${CANVAS_H * 0.25}`}>
+            <line
+              x1={510}
+              y1={230}
+              x2={540}
+              y2={210}
               stroke={colors.green}
-              strokeWidth={5}
+              strokeWidth={3}
+              strokeDasharray="8 6"
+              opacity={0.7}
             />
-            <circle cx={0} cy={-10} r={20} fill="none" stroke={colors.green} strokeWidth={5} />
-          </g>
-          <g transform="translate(510,230)">
-            <polygon points="0,-24 20,20 -20,20" fill="#22C55E" />
-          </g>
-        </svg>
+            <g transform="translate(540,150)">
+              <path
+                d="M0,-60 C33,-60 60,-33 60,0 C60,45 0,60 0,60 C0,60 -60,45 -60,0 C-60,-33 -33,-60 0,-60 Z"
+                fill="none"
+                stroke={colors.green}
+                strokeWidth={5}
+              />
+              <circle cx={0} cy={-10} r={20} fill="none" stroke={colors.green} strokeWidth={5} />
+            </g>
+            <g transform="translate(510,230)">
+              <polygon points="0,-24 20,20 -20,20" fill="#22C55E" />
+            </g>
+          </svg>
+        )}
       </div>
 
       {/* Layer 4 — headline (max 3 lines, accent word highlighted) */}
       <div
         style={{
           position: "absolute",
-          top: CANVAS_H * 0.58,
+          top: CANVAS_H * (isBrandSwap ? 0.49 : 0.58),
           left: 56,
           right: 56,
           height: CANVAS_H * 0.2,
@@ -150,9 +297,9 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
             key={i}
             style={{
               fontFamily: BE_VIETNAM_PRO,
-              fontWeight: 700,
-              fontSize: 72,
-              lineHeight: 1.15,
+              fontWeight: 800,
+              fontSize: isBrandSwap ? 76 : 72,
+              lineHeight: isBrandSwap ? 1.1 : 1.15,
               color: HEADLINE_COLOR,
             }}
           >
@@ -166,13 +313,20 @@ export const GenericHookThumbnailScene: React.FC<GenericHookThumbnailSceneProps>
         <div
           style={{
             position: "absolute",
-            top: CANVAS_H * 0.8,
+            top: CANVAS_H * (isBrandSwap ? 0.72 : 0.8),
             left: 56,
             right: 56,
+            minHeight: isBrandSwap ? 62 : undefined,
+            padding: isBrandSwap ? "14px 20px" : 0,
+            borderRadius: isBrandSwap ? 16 : 0,
+            border: isBrandSwap ? `1.5px solid ${colors.errorRed}55` : "none",
+            backgroundColor: isBrandSwap ? "#fff1f2" : "transparent",
+            boxSizing: "border-box",
             fontFamily: BE_VIETNAM_PRO,
-            fontWeight: 400,
-            fontSize: 32,
-            color: SUBTEXT_COLOR,
+            fontWeight: isBrandSwap ? 800 : 400,
+            fontSize: isBrandSwap ? 30 : 32,
+            color: isBrandSwap ? colors.errorRed : SUBTEXT_COLOR,
+            textAlign: isBrandSwap ? "center" : "left",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",

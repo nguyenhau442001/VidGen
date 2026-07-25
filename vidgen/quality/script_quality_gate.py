@@ -47,6 +47,8 @@ FILLER_WORDS = {            # Vietnamese filler/padding words to penalise
 VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
     "animated_flow", "bubble_comparator", "phone_map",
     "conversation", "before_after", "grid_heatmap",
+    "marketing_caption_hook", "marketing_prompt_demo", "brief_blueprint",
+    "task_instruction", "caption_upgrade", "reuse_system", "brand_swap_test",
 }
 ACCENT_COLOR = "#00ff41"
 

@@ -100,6 +100,15 @@ import { LoginBindShot } from "./scenes/LoginBindShot";
 import { NetworkPathShot } from "./scenes/NetworkPathShot";
 import { ThreeLayerRecapShot } from "./scenes/ThreeLayerRecapShot";
 import { PunchlineHoldShot } from "./scenes/PunchlineHoldShot";
+import {
+  BrandSwapTestScene,
+  BriefBlueprintScene,
+  CaptionUpgradeScene,
+  MarketingCaptionHookScene,
+  MarketingPromptDemoScene,
+  ReuseSystemScene,
+  TaskInstructionScene,
+} from "./scenes/MarketingPlaybookScenes";
 import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors } from "./styles";
@@ -326,6 +335,20 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <VerdictListScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "preview_teaser":
       return <PreviewTeaserScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "marketing_caption_hook":
+      return <MarketingCaptionHookScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "marketing_prompt_demo":
+      return <MarketingPromptDemoScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "brief_blueprint":
+      return <BriefBlueprintScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "task_instruction":
+      return <TaskInstructionScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "caption_upgrade":
+      return <CaptionUpgradeScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "reuse_system":
+      return <ReuseSystemScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "brand_swap_test":
+      return <BrandSwapTestScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "google_maps_reveal":
       return <GoogleMapsRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "traffic_cinematic":

@@ -133,6 +133,13 @@ VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
     "conversation",
     "before_after",
     "grid_heatmap",
+    "marketing_caption_hook",
+    "marketing_prompt_demo",
+    "brief_blueprint",
+    "task_instruction",
+    "caption_upgrade",
+    "reuse_system",
+    "brand_swap_test",
 }
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
