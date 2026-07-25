@@ -40,8 +40,8 @@ def _audio_from_spec(audio_spec: Any, tts: Vieneu) -> tuple[np.ndarray, int]:
 
 def synthesize(text: str, voice: Any = None) -> tuple[np.ndarray, int]:
     tts = get_tts()
-    infer_kwargs: dict[str, Any] = {"text": text}
-    if voice is not None:
-        infer_kwargs["voice"] = voice
+    infer_kwargs: dict[str, Any] = {
+        "text": text,
+        "voice": DEFAULT_VOICE if voice is None else voice,
+    }
     return _audio_from_spec(tts.infer(**infer_kwargs), tts)
-

@@ -2,10 +2,31 @@ import numpy as np
 
 from vidgen.audio import audio_processing
 from vidgen.audio import speech_synthesizer as tts
+from vidgen.audio import vieneu_tts
 
 
 def test_default_vieneu_voice_is_thanh_binh():
     assert tts.DEFAULT_VIENEU_VOICE == "Thanh Bình"
+
+
+def test_vieneu_adapter_applies_default_voice(monkeypatch):
+    calls = {}
+
+    class FakeTTS:
+        def infer(self, **kwargs):
+            calls.update(kwargs)
+            return object()
+
+    monkeypatch.setattr(vieneu_tts, "get_tts", lambda: FakeTTS())
+    monkeypatch.setattr(
+        vieneu_tts,
+        "_audio_from_spec",
+        lambda _audio_spec, _tts: (np.array([0.0], dtype=np.float32), 48_000),
+    )
+
+    vieneu_tts.synthesize("xin chào")
+
+    assert calls == {"text": "xin chào", "voice": "Thanh Bình"}
 
 
 def test_audio_from_pcm_bytes_uses_mime_rate_and_channels():
