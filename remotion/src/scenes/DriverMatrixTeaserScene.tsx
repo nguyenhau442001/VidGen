@@ -3,6 +3,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
 import { DriverMatrixTeaserSceneProps } from "../types";
+import { radialConnector, radialNodePositions } from "./radialHub";
 
 const CYAN = "#5ee7f5";
 const GREEN = "#20e37d";
@@ -11,32 +12,10 @@ const NODE_WIDTH = 250;
 const NODE_HEIGHT = 112;
 const NODE_ORBIT_RADIUS = 300;
 const NODE_ANGLES = [-90, -18, 54, 126, 198];
-const NODE_POSITIONS = NODE_ANGLES.map((angle) => {
-  const radians = (angle * Math.PI) / 180;
-  return {
-    x: CORE.x + Math.cos(radians) * NODE_ORBIT_RADIUS - NODE_WIDTH / 2,
-    y: CORE.y + Math.sin(radians) * NODE_ORBIT_RADIUS - NODE_HEIGHT / 2,
-  };
-});
+const NODE_POSITIONS = radialNodePositions(CORE, NODE_ANGLES, NODE_ORBIT_RADIUS, NODE_WIDTH, NODE_HEIGHT);
 
-const connectorFor = (position: { x: number; y: number }, coreRadius: number) => {
-  const centerX = position.x + NODE_WIDTH / 2;
-  const centerY = position.y + NODE_HEIGHT / 2;
-  const dx = CORE.x - centerX;
-  const dy = CORE.y - centerY;
-  const distance = Math.hypot(dx, dy);
-  const ux = dx / distance;
-  const uy = dy / distance;
-  const horizontalExit = Math.abs(ux) > 1e-6 ? NODE_WIDTH / 2 / Math.abs(ux) : Number.POSITIVE_INFINITY;
-  const verticalExit = Math.abs(uy) > 1e-6 ? NODE_HEIGHT / 2 / Math.abs(uy) : Number.POSITIVE_INFINITY;
-  const boxExit = Math.min(horizontalExit, verticalExit);
-  return {
-    x1: centerX + ux * boxExit,
-    y1: centerY + uy * boxExit,
-    x2: CORE.x - ux * coreRadius,
-    y2: CORE.y - uy * coreRadius,
-  };
-};
+const connectorFor = (position: { x: number; y: number }, coreRadius: number) =>
+  radialConnector(CORE, position, NODE_WIDTH, NODE_HEIGHT, coreRadius);
 
 export const DriverMatrixTeaserScene: React.FC<DriverMatrixTeaserSceneProps> = ({
   eyebrow,

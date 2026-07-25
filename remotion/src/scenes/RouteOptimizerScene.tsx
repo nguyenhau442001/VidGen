@@ -3,38 +3,17 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import { SafeZone } from "../SafeZone";
 import { BE_VIETNAM_PRO } from "../styles";
 import { RouteOptimizerSceneProps } from "../types";
+import { radialConnector, radialNodePositions } from "./radialHub";
 
 const CORE = { x: 430, y: 425 };
 const SIGNAL_WIDTH = 240;
 const SIGNAL_HEIGHT = 84;
 const SIGNAL_ORBIT_RADIUS = 280;
 const SIGNAL_ANGLES = [-90, -18, 54, 126, 198];
-const SIGNAL_POSITIONS = SIGNAL_ANGLES.map((angle) => {
-  const radians = (angle * Math.PI) / 180;
-  return {
-    x: CORE.x + Math.cos(radians) * SIGNAL_ORBIT_RADIUS - SIGNAL_WIDTH / 2,
-    y: CORE.y + Math.sin(radians) * SIGNAL_ORBIT_RADIUS - SIGNAL_HEIGHT / 2,
-  };
-});
+const SIGNAL_POSITIONS = radialNodePositions(CORE, SIGNAL_ANGLES, SIGNAL_ORBIT_RADIUS, SIGNAL_WIDTH, SIGNAL_HEIGHT);
 
-const connectorFor = (position: { x: number; y: number }, coreRadius: number) => {
-  const centerX = position.x + SIGNAL_WIDTH / 2;
-  const centerY = position.y + SIGNAL_HEIGHT / 2;
-  const dx = CORE.x - centerX;
-  const dy = CORE.y - centerY;
-  const distance = Math.hypot(dx, dy);
-  const ux = dx / distance;
-  const uy = dy / distance;
-  const horizontalExit = Math.abs(ux) > 1e-6 ? SIGNAL_WIDTH / 2 / Math.abs(ux) : Number.POSITIVE_INFINITY;
-  const verticalExit = Math.abs(uy) > 1e-6 ? SIGNAL_HEIGHT / 2 / Math.abs(uy) : Number.POSITIVE_INFINITY;
-  const boxExit = Math.min(horizontalExit, verticalExit);
-  return {
-    x1: centerX + ux * boxExit,
-    y1: centerY + uy * boxExit,
-    x2: CORE.x - ux * coreRadius,
-    y2: CORE.y - uy * coreRadius,
-  };
-};
+const connectorFor = (position: { x: number; y: number }, coreRadius: number) =>
+  radialConnector(CORE, position, SIGNAL_WIDTH, SIGNAL_HEIGHT, coreRadius);
 
 export const RouteOptimizerScene: React.FC<RouteOptimizerSceneProps> = ({
   headline,
