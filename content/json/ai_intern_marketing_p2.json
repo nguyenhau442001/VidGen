@@ -1,0 +1,348 @@
+{
+  "video_id": "ai_intern_marketing_p2",
+  "title": "AI viết đúng, nhưng chẳng giống brand bạn",
+  "fps": 30,
+  "narration_language": "vi",
+  "meta": {
+    "estimated_duration_seconds": 70.5,
+    "estimated_narration_words": 228,
+    "part_label": "PHẦN 2 / 2",
+    "thumbnail": {
+      "headline": "XÓA LOGO,\nCÒN NHẬN RA BRAND?",
+      "accent_word": "NHẬN RA",
+      "subtext": "ĐỐI THỦ ĐĂNG ĐƯỢC Y HỆT?",
+      "illustration": "brandSwap"
+    }
+  },
+  "shots": [
+    {
+      "id": "shot_01_brand_swap_hook",
+      "type": "brand_swap_test",
+      "duration_frames": 165,
+      "narration": "Còn ba mươi phút. Vì sao bản sửa thứ tư vẫn bị lead trả?",
+      "narration_timing_frames": [
+        8,
+        148
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "label": "30 PHÚT NỮA LÊN BÀI",
+        "headline": "ĐỔI LOGO NÀO VÀO CŨNG HỢP",
+        "caption": "Khởi đầu ngày mới đầy năng lượng cùng hương vị mát lạnh.",
+        "brands": [
+          {
+            "name": "MÂY SỚM",
+            "category": "COFFEE"
+          },
+          {
+            "name": "BỜ KÈ BREW",
+            "category": "COFFEE"
+          },
+          {
+            "name": "NGỦ NƯỚNG",
+            "category": "COFFEE"
+          }
+        ],
+        "swapIntervalFrames": 32,
+        "feedbackLabel": "COMMENT TỪ LEAD",
+        "feedbackText": "Đây là brand mình hay đối thủ?",
+        "feedbackAppearFrame": 54,
+        "question": "BRAND MÌNH HAY ĐỐI THỦ?",
+        "fixes": [],
+        "partLabel": "PHẦN 2 / 2"
+      }
+    },
+    {
+      "id": "shot_02_generic_prompt",
+      "type": "marketing_prompt_demo",
+      "duration_frames": 210,
+      "narration": "Bạn đã thêm “trẻ trung, vui vẻ” vào prompt. Kết quả vẫn như mọi brand, vì tính từ không phải dữ kiện riêng.",
+      "narration_timing_frames": [
+        8,
+        193
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "AI KHÔNG VIẾT SAI",
+        "promptLabel": "PROMPT",
+        "prompt": "Viết caption cho cold brew.\nGiọng trẻ trung, vui vẻ.",
+        "responseLabel": "KẾT QUẢ",
+        "response": "Khởi đầu ngày mới đầy năng lượng cùng hương vị mát lạnh.",
+        "highlightedInputs": [
+          "cold brew",
+          "trẻ trung",
+          "vui vẻ"
+        ],
+        "flaggedPhrases": [
+          "Khởi đầu ngày mới",
+          "đầy năng lượng",
+          "hương vị mát lạnh"
+        ],
+        "verdict": "THIẾU DỮ KIỆN RIÊNG",
+        "footer": "AI chỉ dùng những gì bạn đã cung cấp."
+      }
+    },
+    {
+      "id": "shot_03_adjective_diagnosis",
+      "type": "icon_threat",
+      "duration_frames": 218,
+      "narration": "“Trẻ trung, vui vẻ” chỉ tả cảm giác. AI vẫn chưa biết ai đang nói, nói với ai và dựa trên sự thật nào.",
+      "narration_timing_frames": [
+        8,
+        201
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "TÍNH TỪ ≠ CÁCH BRAND NÓI",
+        "accentWord": "≠",
+        "headlineSingleLine": true,
+        "layout": "row",
+        "items": [
+          {
+            "icon": "✨",
+            "label": "Trẻ trung"
+          },
+          {
+            "icon": "🎈",
+            "label": "Vui vẻ"
+          }
+        ],
+        "verdict": "AI VẪN THIẾU 3 DỮ KIỆN RIÊNG."
+      }
+    },
+    {
+      "id": "shot_04_four_field_framework",
+      "type": "brief_blueprint",
+      "duration_frames": 210,
+      "narration": "Đừng kéo prompt dài thêm. Hãy cho AI bốn ô nền: người nói, người nghe, sự thật riêng và cách nói.",
+      "narration_timing_frames": [
+        8,
+        193
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "eyebrow": "THAY VÌ LÀM PROMPT DÀI HƠN",
+        "headline": "THÊM THÔNG TIN CÓ GIÁ TRỊ",
+        "fields": [
+          {
+            "icon": "🎭",
+            "label": "NGƯỜI NÓI",
+            "value": "Brand nói như ai?"
+          },
+          {
+            "icon": "🎯",
+            "label": "NGƯỜI NGHE",
+            "value": "Đang nói với ai?"
+          },
+          {
+            "icon": "🔎",
+            "label": "SỰ THẬT RIÊNG",
+            "value": "Điều gì đối thủ không có?"
+          },
+          {
+            "icon": "💬",
+            "label": "CÁCH NÓI",
+            "value": "Nên nói và tránh nói thế nào?"
+          }
+        ],
+        "footer": "KHÔNG THÊM TỪ HOA MỸ · THÊM DỮ KIỆN HỮU ÍCH",
+        "layout": "grid",
+        "revealMode": "sequential"
+      }
+    },
+    {
+      "id": "shot_05_fill_campaign_brief",
+      "type": "brief_blueprint",
+      "duration_frames": 322,
+      "narration": "Với campaign cold brew: barista hiểu dân văn phòng; người nghe sắp họp lúc chín giờ; cold brew ủ mười sáu giờ tại quán, cách cụm văn phòng hai trăm mét; giọng gần gũi, không sáo ngữ.",
+      "narration_timing_frames": [
+        8,
+        304
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "ĐIỀN BẰNG BỐI CẢNH CỤ THỂ",
+        "campaignLabel": "MÂY SỚM · COLD BREW BUỔI SÁNG",
+        "fields": [
+          {
+            "id": "speaker",
+            "icon": "🎭",
+            "label": "NGƯỜI NÓI",
+            "value": "Một barista gần gũi,\nhiểu nhịp sống văn phòng.",
+            "appearFrame": 24
+          },
+          {
+            "id": "audience",
+            "icon": "🎯",
+            "label": "NGƯỜI NGHE",
+            "value": "Nhân viên quanh quán,\nsắp họp lúc 9 giờ.",
+            "appearFrame": 92
+          },
+          {
+            "id": "product_truth",
+            "icon": "🔎",
+            "label": "SỰ THẬT RIÊNG",
+            "value": "Cold brew ủ 16 giờ tại quán.\nCách cụm văn phòng 200 mét.",
+            "appearFrame": 158
+          },
+          {
+            "id": "voice",
+            "icon": "💬",
+            "label": "CÁCH NÓI",
+            "value": "Gần gũi, không sáo ngữ.\nDùng tình huống văn phòng.",
+            "appearFrame": 226
+          }
+        ],
+        "avoidLabel": "TRÁNH",
+        "avoid": [
+          "đầy năng lượng",
+          "bùng nổ",
+          "tuyệt hảo"
+        ],
+        "footer": "*Dữ liệu minh họa"
+      }
+    },
+    {
+      "id": "shot_06_task_line",
+      "type": "task_instruction",
+      "duration_frames": 270,
+      "narration": "Bốn ô giúp AI bám brand. Dòng cuối mới là nhiệm vụ và constraint theo kênh: ba caption dưới bốn mươi từ, có tình huống văn phòng, không sáo ngữ.",
+      "narration_timing_frames": [
+        8,
+        253
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "headline": "CUỐI CÙNG MỚI GIAO NHIỆM VỤ",
+        "lockedLabel": "PHẦN NỀN ĐÃ KHÓA",
+        "lockedFields": [
+          "Người nói",
+          "Người nghe",
+          "Sự thật riêng",
+          "Cách nói"
+        ],
+        "taskLabel": "SOCIAL · NHIỆM VỤ + CONSTRAINT",
+        "task": "Viết 3 caption ra mắt cold brew",
+        "constraints": [
+          "3 PHƯƠNG ÁN",
+          "DƯỚI 40 TỪ",
+          "CÓ TÌNH HUỐNG VĂN PHÒNG",
+          "KHÔNG DÙNG SÁO NGỮ"
+        ],
+        "footer": "4 Ô NỀN + 1 DÒNG NHIỆM VỤ"
+      }
+    },
+    {
+      "id": "shot_07_caption_payoff",
+      "type": "caption_upgrade",
+      "duration_frames": 390,
+      "narration": "AI viết: “8 giờ 55. Cuộc họp bắt đầu lúc 9 giờ. Cold brew ủ 16 giờ tại quán, cách bạn 200 mét. Sáng chưa tỉnh thì để ly này nói chuyện trước.” Lead trả lời: “Đúng brand rồi — lên bài.”",
+      "narration_timing_frames": [
+        8,
+        373
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "eyebrow": "CÙNG MỘT AI · CÙNG MỘT SẢN PHẨM",
+        "headline": "NHƯNG LẦN NÀY CÓ CHẤT RIÊNG",
+        "beforeLabel": "TRƯỚC",
+        "before": "Khởi đầu ngày mới đầy năng lượng cùng hương vị mát lạnh.",
+        "afterLabel": "SAU",
+        "after": "8 giờ 55. Cuộc họp bắt đầu lúc 9 giờ.\n\nCold brew ủ 16 giờ tại quán, cách bạn 200 mét.\n\nSáng chưa tỉnh thì để ly này nói chuyện trước.",
+        "accentPhrases": [
+          "8 giờ 55",
+          "9 giờ",
+          "ủ 16 giờ",
+          "200 mét"
+        ],
+        "proofPoints": [
+          {
+            "label": "NGƯỜI NGHE",
+            "value": "Sắp họp lúc 9 giờ"
+          },
+          {
+            "label": "SỰ THẬT RIÊNG",
+            "value": "Ủ 16 giờ · cách 200 mét"
+          },
+          {
+            "label": "CÁCH NÓI",
+            "value": "Gần gũi, không sáo ngữ"
+          }
+        ],
+        "approvalLabel": "COMMENT TỪ LEAD",
+        "approvalText": "Đúng brand rồi — lên bài.",
+        "footer": "*Nội dung và dữ liệu minh họa"
+      }
+    },
+    {
+      "id": "shot_08_reuse_and_cta",
+      "type": "reuse_system",
+      "duration_frames": 330,
+      "narration": "Lưu bốn ô thành campaign brief. Khi chuyển sang email hay quảng cáo, giữ nền brand nhưng đổi nhiệm vụ và constraint. Xóa logo khỏi bản gần nhất: đối thủ đăng được nguyên xi thì brief chưa xong.",
+      "narration_timing_frames": [
+        8,
+        313
+      ],
+      "transition_out_delay_frames": 15,
+      "props": {
+        "eyebrow": "TÁI SỬ DỤNG TRONG CÙNG CHIẾN DỊCH",
+        "headline": "GIỮ NỀN · ĐỔI THEO KÊNH",
+        "core": "4 Ô NỀN BRAND",
+        "tasks": [
+          {
+            "icon": "📱",
+            "label": "Caption",
+            "detail": "Dưới 40 từ"
+          },
+          {
+            "icon": "✉️",
+            "label": "Email",
+            "detail": "Subject + CTA"
+          },
+          {
+            "icon": "📣",
+            "label": "Quảng cáo",
+            "detail": "Hook + CTA"
+          }
+        ],
+        "promptTemplate": {
+          "label": "PROMPT MẪU · CHỤP MÀN HÌNH",
+          "title": "DÁN 5 DÒNG NÀY VÀO AI",
+          "rows": [
+            {
+              "label": "Người nói",
+              "placeholder": "[brand / vai trò / góc nhìn]"
+            },
+            {
+              "label": "Người nghe",
+              "placeholder": "[ai + hoàn cảnh hiện tại]"
+            },
+            {
+              "label": "Sự thật riêng",
+              "placeholder": "[fact chỉ brand có]"
+            },
+            {
+              "label": "Cách nói",
+              "placeholder": "[giọng + từ cần tránh]"
+            },
+            {
+              "label": "Nhiệm vụ + constraint",
+              "placeholder": "[kênh + đầu ra + độ dài + CTA]"
+            }
+          ],
+          "helper": "Điền càng cụ thể, AI càng ít viết như đối thủ."
+        },
+        "testCard": {
+          "label": "BÀI TEST CUỐI",
+          "headline": "XÓA LOGO KHỎI CAPTION",
+          "question": "ĐỐI THỦ ĐĂNG ĐƯỢC NGUYÊN XI?",
+          "failText": "BRIEF CHƯA XONG"
+        },
+        "closingLine": "GIỮ NỀN BRAND.",
+        "closingAccent": "ĐỔI NHIỆM VỤ + CONSTRAINT THEO KÊNH.",
+        "channel": "Ủa là sao",
+        "footer": "LƯU PROMPT · ĐIỀN LẠI CHO MỖI CAMPAIGN"
+      }
+    }
+  ]
+}

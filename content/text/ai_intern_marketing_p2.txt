@@ -1,0 +1,171 @@
+# AI VIẾT ĐÚNG, NHƯNG CHẲNG GIỐNG BRAND BẠN
+
+## MỖI NGÀY MARKETER LẠI ONBOARDING MỘT AI INTERN MỚI — PHẦN 2/2
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `ai_intern_marketing_p2`, video_id `ai_intern_marketing_p2`. Bản 8 cảnh này giữ
+digital marketer trong một câu chuyện xuyên suốt: còn 30 phút lên bài, bản sửa thứ tư vẫn
+bị lead trả, marketer sửa lại brief, rồi nhận được phản hồi “Đúng brand rồi — lên bài.”
+Người xem nhận được một công thức có thể dùng ngay: **người nói + người nghe + sự thật
+riêng + cách nói**, sau đó mới thêm nhiệm vụ và constraint theo từng kênh.
+
+Toàn bộ thương hiệu, khoảng cách, thời gian ủ, campaign và caption trong ví dụ đều là dữ
+liệu minh họa hư cấu. Không trình bày chúng như case study hoặc kết quả đo lường thật.
+Thumbnail dùng nhãn “PHẦN 2 / 2”, headline “XÓA LOGO,\nCÒN NHẬN RA BRAND?” và minh họa
+nhiều logo cùng vừa với một caption chung chung.
+
+---
+
+## Cảnh 1 — 30 phút nữa lên bài (shot_01_brand_swap_hook)
+
+**Hình ảnh:**
+
+Caption “Khởi đầu ngày mới đầy năng lượng cùng hương vị mát lạnh” nằm trong một card.
+Ba logo giả Mây Sớm, Bờ Kè Brew và Ngủ Nướng lần lượt đổi chỗ nhưng caption vẫn hợp.
+Góc trên hiển thị “30 PHÚT NỮA LÊN BÀI”. Comment đỏ từ lead hiện lên:
+“Đây là brand mình hay đối thủ?”.
+
+**Voice-over:**
+
+"Còn ba mươi phút. Vì sao bản sửa thứ tư vẫn bị lead trả?"
+
+**Chữ trên màn hình:**
+
+**"ĐỔI LOGO NÀO VÀO CŨNG HỢP"**
+
+---
+
+## Cảnh 2 — AI không viết sai (shot_02_generic_prompt)
+
+**Hình ảnh:**
+
+Giao diện chat AI mock hiển thị prompt chỉ có sản phẩm và hai tính từ. Ba input “cold
+brew”, “trẻ trung”, “vui vẻ” được đánh dấu; các cụm sáo ngữ trong kết quả bị gạch đỏ.
+Visual giữ cùng caption đang bị lead trả ở cảnh trước.
+
+**Voice-over:**
+
+"Bạn đã thêm “trẻ trung, vui vẻ” vào prompt. Kết quả vẫn như mọi brand, vì tính từ không phải dữ kiện riêng."
+
+**Chữ trên màn hình:**
+
+**"AI KHÔNG VIẾT SAI"**
+
+---
+
+## Cảnh 3 — Tính từ chưa phải cách brand nói (shot_03_adjective_diagnosis)
+
+**Hình ảnh:**
+
+Hai card “Trẻ trung”, “Vui vẻ” xuất hiện trên cùng một hàng. Headline nằm trọn trên một
+hàng. Verdict chốt rằng AI chưa biết người nói, người nghe và sự thật riêng.
+
+**Voice-over:**
+
+"“Trẻ trung, vui vẻ” chỉ tả cảm giác. AI vẫn chưa biết ai đang nói, nói với ai và dựa trên sự thật nào."
+
+**Chữ trên màn hình:**
+
+**"TÍNH TỪ ≠ CÁCH BRAND NÓI"**
+
+---
+
+## Cảnh 4 — Bốn dữ kiện có giá trị (shot_04_four_field_framework)
+
+**Hình ảnh:**
+
+Bốn card xuất hiện tuần tự: Người nói, Người nghe, Sự thật riêng, Cách nói. Mỗi card chứa
+một câu hỏi thực hành để marketer biết phải điền gì.
+
+**Voice-over:**
+
+"Đừng kéo prompt dài thêm. Hãy cho AI bốn ô nền: người nói, người nghe, sự thật riêng và cách nói."
+
+**Chữ trên màn hình:**
+
+**"THÊM THÔNG TIN CÓ GIÁ TRỊ"**
+
+---
+
+## Cảnh 5 — Điền bằng bối cảnh cụ thể (shot_05_fill_campaign_brief)
+
+**Hình ảnh:**
+
+Bốn card được điền cho campaign cold brew buổi sáng: barista gần gũi, nhân viên sắp họp
+lúc 9 giờ, cold brew ủ 16 giờ tại quán cách cụm văn phòng 200 mét, và một câu mẫu đúng
+giọng. Footer nêu rõ các từ cần tránh và đây là dữ liệu minh họa.
+
+**Voice-over:**
+
+"Với campaign cold brew: barista hiểu dân văn phòng; người nghe sắp họp lúc chín giờ; cold brew ủ mười sáu giờ tại quán, cách cụm văn phòng hai trăm mét; giọng gần gũi, không sáo ngữ."
+
+**Chữ trên màn hình:**
+
+**"ĐIỀN BẰNG BỐI CẢNH CỤ THỂ"**
+
+---
+
+## Cảnh 6 — Cuối cùng mới giao nhiệm vụ (shot_06_task_line)
+
+**Hình ảnh:**
+
+Bốn ô nền được khóa lại. Dòng nhiệm vụ “Viết 3 caption ra mắt cold brew” xuất hiện cùng
+bốn constraint theo kênh social: ba phương án, dưới 40 từ, có tình huống văn phòng,
+không dùng sáo ngữ.
+
+**Voice-over:**
+
+"Bốn ô giúp AI bám brand. Dòng cuối mới là nhiệm vụ và constraint theo kênh: ba caption dưới bốn mươi từ, có tình huống văn phòng, không sáo ngữ."
+
+**Chữ trên màn hình:**
+
+**"CUỐI CÙNG MỚI GIAO NHIỆM VỤ"**
+
+---
+
+## Cảnh 7 — Caption có điều thật để nói (shot_07_caption_payoff)
+
+**Hình ảnh:**
+
+Caption chung chung nằm ở card “Trước”. Card “Sau” hiển thị caption mới và tô màu các chi
+tiết 8 giờ 55, 9 giờ, ủ 16 giờ, 200 mét để chứng minh từng dữ kiện đã đi vào đầu ra.
+Comment của lead quay lại ở cuối: “Đúng brand rồi — lên bài.”
+
+**Voice-over:**
+
+"AI viết: “8 giờ 55. Cuộc họp bắt đầu lúc 9 giờ. Cold brew ủ 16 giờ tại quán, cách bạn 200 mét. Sáng chưa tỉnh thì để ly này nói chuyện trước.” Lead trả lời: “Đúng brand rồi — lên bài.”"
+
+**Chữ trên màn hình:**
+
+**"NHƯNG LẦN NÀY CÓ CHẤT RIÊNG"**
+
+---
+
+## Cảnh 8 — Giữ nền, đổi theo kênh (shot_08_reuse_and_cta)
+
+**Hình ảnh:**
+
+Khối “4 ô nền brand” nằm giữa; ba task Caption, Email, Quảng cáo xoay quanh. Mỗi task có
+constraint riêng: độ dài, subject/CTA hoặc hook/CTA. Sau đó hiện một prompt mẫu năm dòng
+để người xem có thể chụp màn hình và điền trực tiếp: Người nói, Người nghe, Sự thật riêng,
+Cách nói, Nhiệm vụ + constraint. Footer chốt bài test: xóa logo, nếu đối thủ vẫn đăng được
+nguyên xi thì brief chưa xong.
+
+**Voice-over:**
+
+"Lưu bốn ô thành campaign brief. Khi chuyển sang email hay quảng cáo, giữ nền brand nhưng đổi nhiệm vụ và constraint. Xóa logo khỏi bản gần nhất: đối thủ đăng được nguyên xi thì brief chưa xong."
+
+**Chữ trên màn hình:**
+
+**"GIỮ NỀN · ĐỔI THEO KÊNH"**
+
+**Prompt mẫu trên màn hình:**
+
+```text
+Người nói: [brand / vai trò / góc nhìn]
+Người nghe: [ai + hoàn cảnh hiện tại]
+Sự thật riêng: [fact chỉ brand có]
+Cách nói: [giọng + từ cần tránh]
+Nhiệm vụ + constraint: [kênh + đầu ra + độ dài + CTA]
+```

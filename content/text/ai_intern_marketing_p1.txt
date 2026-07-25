@@ -1,0 +1,264 @@
+# AI CỦA BẠN MẤT TRÍ NHỚ MỖI SÁNG
+
+## MỖI NGÀY MARKETER LẠI ONBOARDING MỘT AI INTERN MỚI — PHẦN 1/2
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `ai_intern_marketing_p1`, video_id `ai_intern_marketing_p1`. Phần 1/2 series (Phần 2:
+demo cách đóng gói công thức brief thành hệ thống dùng lại được). 11 cảnh, mục tiêu
+60–65s ở 30fps, 1080×1920. Nguồn: `narrative-outline.md` tại
+`.claude/skills/vidgen-content-researcher/research/ai-marketing-office-vietnam/`, dựng từ
+angle "Mỗi ngày marketer lại onboarding một AI intern mới" (audience: independent/SME
+content marketer). Giao diện chat AI trong video là mock trung tính, không dùng logo/UI
+thật của bất kỳ sản phẩm AI cụ thể nào. Ẩn dụ "intern mới mỗi sáng" (Cảnh 6) chỉ để hình
+dung việc AI không giữ ngữ cảnh giữa các phiên — câu thoại Cảnh 6 phải nói rõ đây là cách
+hình dung, không phải AI có trí nhớ như người (disclaimer bắt buộc, kế thừa từ
+angle-matrix.json → `disclaimers`). Cảnh 9 (so sánh số bước) là ví dụ minh họa, PHẢI có
+dòng chữ nhỏ trên màn hình ghi rõ "*ví dụ minh họa, chưa phải số đo thực tế" vì chưa có
+case study định lượng thật (research-brief.md mục 18 "Evidence Gaps"). Ba đầu việc ở
+Cảnh 2 là ví dụ minh họa công việc marketing hàng ngày (viết caption, lên content
+calendar, viết mô tả sản phẩm) — KHÔNG còn là trích dẫn nguyên văn từ cộng đồng (đã đổi ở
+Revision v3, xem bên dưới; nguồn gốc S006 dùng ví dụ việc văn phòng chung, không đặc thù
+marketing). Cấu trúc "vai trò, đối tượng, giọng văn mẫu" ở Cảnh 7 dựa trên khung 7 thành
+phần từ nguồn S004
+(expert_opinion, Gu Vietnam) — không gọi đây là "công thức đã được chứng minh", chỉ trình
+bày như một cách tổ chức brief. CTA (Cảnh 11) mở loop cho Phần 2, không hứa số phút cụ thể
+chưa kiểm chứng được (đã bỏ chi tiết "trong mười phút" so với outline draft vì chưa có căn
+cứ đo thời gian thật).
+
+**Revision v2 (sau visual audit):** đổi `type` 2 cảnh sang scene động hơn để giảm cảm
+giác "slideshow chữ" — Cảnh 2: `explanation` → `icon_threat` (icon + label trượt vào lần
+lượt cho từng việc). Cảnh 8: `pipeline_vertical` → `diagram_flow` (chuỗi node có animation
+xuất hiện nối tiếp, node cuối sáng màu xanh lá). Cảnh 5 sửa 1 câu narration yếu ("Là chưa
+ai...") thành 1 câu liền mạch hơn. Đã thử đổi Cảnh 1 sang `scan_animation` nhưng revert lại
+`conversation`: timeline animation nội bộ của `scan_animation` (quét ~60 frame + 3 target
+so le + result spring) cần ít nhất ~130 frame để chạy hết, trong khi Cảnh 1 chỉ có 90
+frame (khớp với narration hook ngắn ~2.5s) — dòng "result" (punchline chính) sẽ không kịp
+hiện ra nếu dùng type này ở đây. Không đổi nội dung/ý nghĩa của bất kỳ cảnh nào, chỉ đổi
+cách trình bày hình ảnh.
+
+**Revision v3 (theo phản hồi chủ sở hữu — video chưa rõ ngữ cảnh "dân văn phòng làm
+marketing"):** Cảnh 2 đổi cả narration lẫn on-screen label — 3 ví dụ việc văn phòng chung
+("mail xin lỗi khách", "biên bản họp", "báo cáo tuần", trích nguyên văn S006) đổi thành 3
+ví dụ việc marketing cụ thể ("viết caption Instagram", "lên content calendar tuần", "viết
+mô tả sản phẩm mới") để khán giả mục tiêu (content marketer) nhận ra ngay đây là công việc
+của họ. Đây là thay đổi lời thoại đã duyệt — chủ sở hữu đã xác nhận rõ ràng trước khi thực
+hiện. Ba việc mới là ví dụ minh họa (không phải trích dẫn cộng đồng), không cần gắn Source
+ID. Cảnh 1 đổi `sender` trong khung chat từ "Bạn" thành "Marketer" (chỉ nhãn hiển thị,
+không phải narration) để gắn rõ vai trò người xem ngay từ đầu.
+
+**Revision v4 (theo phản hồi chủ sở hữu — ví dụ Cảnh 2 chưa đủ "chân thật" với công việc
+marketer thật, chỉ xoay quanh viết content):** Chủ sở hữu cung cấp danh sách công việc thật
+của marketer (project management: lên mkt plan tháng/quý/event, hoạt động online/offline;
+performance: hiệu suất ads, theo dõi chỉ số trên các nền tảng; social: viết content, brief
+hình ảnh/design, quay dựng; ngoài ra tùy lĩnh vực còn có booking KOC/KOL, outsource — không
+đưa vào 6 ví dụ chính vì chủ sở hữu ghi rõ đây là phần "tùy lĩnh vực"). Theo yêu cầu chủ sở
+hữu, ví dụ mở rộng từ 3 ngày (Thứ Hai–Thứ Tư) thành 6 ngày Thứ Hai–Thứ Bảy (marketer thường
+làm cả sáng Thứ Bảy). 6 việc chọn trải rộng qua đúng 4 nhóm chủ sở hữu liệt kê: project
+management (lên kế hoạch marketing tháng), proposal (chủ sở hữu nhấn mạnh: brand muốn làm gì
+cũng cần proposal trước — marketer là người viết), performance (theo dõi hiệu suất ads), và
+social (viết content Instagram, brief hình ảnh cho design, quay dựng video sản phẩm). Đây là
+thay đổi lời thoại đã duyệt — chủ sở hữu đã xác nhận rõ ràng ("chốt") trước khi thực hiện.
+Cảnh 2 tăng thời lượng để chứa đủ 6 dòng narration + 6 item thay vì 3 (audio TTS phải render
+lại cho cảnh này).
+
+---
+
+## Cảnh 1 — Tại sao AI mất trí nhớ mỗi sáng? (shot_01_ai_amnesia_hook)
+
+**Hình ảnh:**
+
+Sáng thứ Hai, một marketer ngồi vào bàn làm việc, mở khung chat AI (giao diện mock trung
+tính, không logo cụ thể; nhãn người gửi hiển thị rõ "Marketer"). Con trỏ nhấp nháy chờ;
+phía trên khung chat, một bóng mờ hình "intern mới" thoáng hiện ra, tay cầm cuốn sổ trắng
+tinh, rồi biến mất ngay.
+
+**Voice-over:**
+
+"Tại sao AI mất trí nhớ mỗi sáng, dù bạn dùng nó mỗi ngày?"
+
+**Chữ trên màn hình:**
+
+**"AI MẤT TRÍ NHỚ MỖI SÁNG"**
+
+---
+
+## Cảnh 2 — Một tuần làm việc thật của marketer (shot_02_weekly_task_loop)
+
+**Hình ảnh:**
+
+Sáu dòng icon+nhãn trượt vào lần lượt từ trái, mỗi dòng một loại việc marketing khác nhau,
+trải Thứ Hai đến Thứ Bảy: kế hoạch (Thứ Hai), proposal (Thứ Ba), hiệu suất ads (Thứ Tư),
+điện thoại/Instagram (Thứ Năm), brief hình ảnh (Thứ Sáu), quay dựng (Thứ Bảy).
+
+**Voice-over:**
+
+"Thứ Hai lên kế hoạch marketing tháng. Thứ Ba viết proposal gửi brand. Thứ Tư theo dõi
+hiệu suất ads. Thứ Năm viết content Instagram. Thứ Sáu brief hình ảnh cho design. Thứ Bảy
+quay dựng video sản phẩm."
+
+**Chữ trên màn hình:**
+
+**"MỖI NGÀY MỘT CHỦ ĐỀ KHÁC"**
+
+---
+
+## Cảnh 3 — Vẫn gõ lại từ đầu (shot_03_retype_brand_voice)
+
+**Hình ảnh:**
+
+Trước mỗi loại việc ở Cảnh 2, marketer luôn gõ trước một đoạn giới thiệu thương hiệu
+giống hệt nhau. Camera zoom cận vào đoạn text lặp lại y nguyên qua từng ngày.
+
+**Voice-over:**
+
+"Trước mỗi việc, bạn vẫn gõ lại y hệt đoạn giới thiệu thương hiệu — mỗi lần từ số không.
+Dù công ty, sản phẩm, đối tượng đều không đổi."
+
+**Chữ trên màn hình:**
+
+**"BRIEF LẠI TỪ ĐẦU, MỖI LẦN"**
+
+---
+
+## Cảnh 4 — Canh từng chữ (shot_04_rewrite_every_line)
+
+**Hình ảnh:**
+
+Cận cảnh tay marketer gõ chậm, xóa, gõ lại một câu; một đồng hồ nhỏ ở góc màn hình quay
+nhanh để thể hiện thời gian đang trôi.
+
+**Voice-over:**
+
+"Không chỉ gõ lại — bạn còn phải nghĩ lại từ đầu, chỉnh từng dòng, canh từng chữ."
+
+**Chữ trên màn hình:**
+
+**"CANH TỪNG CHỮ, MỖI LẦN"**
+
+---
+
+## Cảnh 5 — Không phải AI viết dở (shot_05_reframe_not_bad_prompt)
+
+**Hình ảnh:**
+
+Marketer dừng gõ, thở dài. Hình ảnh chuyển chậm sang góc nhìn trừu tượng hơn — chữ trôi
+nổi quanh khung chat, gợi ý một điều gì đó đang bị hiểu sai.
+
+**Voice-over:**
+
+"Vấn đề không phải AI quên — chỉ là chưa ai viết sổ tay cho nó."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG PHẢI PROMPT DỞ"**
+
+---
+
+## Cảnh 6 — Một intern mới mỗi sáng (shot_06_reframe_intern_metaphor)
+
+**Hình ảnh:**
+
+Biểu tượng "intern mới" từ Cảnh 1 hiện rõ hơn: mỗi sáng, một intern khác bước vào, tay
+vẫn cầm cuốn sổ trắng tinh, không có ghi chú nào từ hôm qua.
+
+**Voice-over:**
+
+"Mỗi lần mở lên, nó trống trơn như một intern mới toanh. Đây là cách hình dung — AI
+không thật sự có trí nhớ như người."
+
+**Chữ trên màn hình:**
+
+**"MỘT INTERN MỚI MỖI SÁNG"**
+
+---
+
+## Cảnh 7 — Đóng gói một lần (shot_07_mechanism_brief_formula)
+
+**Hình ảnh:**
+
+Cuốn sổ trắng biến thành một playbook có nội dung sẵn: ba mục nhỏ hiện lên lần lượt —
+vai trò, đối tượng, giọng văn mẫu.
+
+**Voice-over:**
+
+"Một bản brief đóng gói sẵn — vai trò, đối tượng, giọng văn. Dùng lại, không viết lại.
+Một cấu trúc cố định, không phải đoán mỗi lần."
+
+**Chữ trên màn hình:**
+
+**"ĐÓNG GÓI MỘT LẦN"**
+
+---
+
+## Cảnh 8 — Đưa cho AI đọc trước (shot_08_mechanism_reuse_flow)
+
+**Hình ảnh:**
+
+Một chuỗi 3 node nối tiếp bằng mũi tên, mỗi node xuất hiện lần lượt: "Viết brief một lần"
+→ "AI đọc trước mỗi phiên" → "Vào việc thật ngay" (node cuối sáng màu xanh lá).
+
+**Voice-over:**
+
+"Viết cấu trúc này một lần, đưa AI đọc trước mỗi phiên. Không cần nhớ, không cần đoán lại.
+Việc thật bắt đầu ngay dòng đầu tiên."
+
+**Chữ trên màn hình:**
+
+**"KHÔNG CẦN ĐOÁN LẠI"**
+
+---
+
+## Cảnh 9 — Ít bước lặp lại hơn (shot_09_proof_fewer_steps)
+
+**Hình ảnh:**
+
+Chia đôi màn hình. Bên trái: nhiều bước lặp lại (gõ giới thiệu → chỉnh giọng → mới vào
+việc thật) trước mỗi task. Bên phải: một bước (đưa playbook) rồi vào thẳng việc thật.
+Góc dưới màn hình có dòng chữ nhỏ, luôn hiển thị: "*ví dụ minh họa, chưa phải số đo thực
+tế."
+
+**Voice-over:**
+
+"Cách cũ: dạy lại AI trước, rồi mới làm việc thật. Cách mới: đưa playbook, AI vào việc
+ngay. Đây là ví dụ minh họa, chưa phải số đo thực tế."
+
+**Chữ trên màn hình:**
+
+**"ÍT BƯỚC LẶP LẠI HƠN"**
+
+---
+
+## Cảnh 10 — Không phải thiếu kỹ năng (shot_10_payoff_not_skill_gap)
+
+**Hình ảnh:**
+
+Marketer gõ thẳng vào yêu cầu thật ngay từ dòng đầu tiên, không dừng lại nhớ giọng
+thương hiệu, nét mặt nhẹ nhõm hơn hẳn so với Cảnh 4.
+
+**Voice-over:**
+
+"Không phải bạn viết prompt dở. Chỉ là chưa ai chỉ cách đóng gói nó lại.
+Không phải chuyện thiếu chuyên môn, mà là thiếu một hệ thống."
+
+**Chữ trên màn hình:**
+
+**"CHỈ THIẾU MỘT HỆ THỐNG"**
+
+---
+
+## Cảnh 11 — Phần 2: cách đóng gói (shot_11_cta_part2_teaser)
+
+**Hình ảnh:**
+
+Playbook gấp lại; một trang trống mới hiện ra ở cuối, gợi mở rằng phần sau sẽ viết tiếp
+trang đó.
+
+**Voice-over:**
+
+"Phần sau: cách đóng gói bản brief đó, để không phải bắt đầu lại từ đầu. Cùng xem cách
+viết ra công thức đó, từng bước một."
+
+**Chữ trên màn hình:**
+
+**"CÁCH ĐÓNG GÓI — PHẦN 2"**

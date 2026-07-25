@@ -1,0 +1,223 @@
+{
+  "video_id": "ai_intern_marketing_p1",
+  "title": "AI của bạn mất trí nhớ mỗi sáng",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01_ai_amnesia_hook",
+      "type": "conversation",
+      "duration_frames": 125,
+      "transition_out_delay_frames": 55,
+      "narration": "Tại sao AI mất trí nhớ mỗi sáng, dù bạn dùng nó mỗi ngày?",
+      "props": {
+        "headline": "AI MẤT TRÍ NHỚ MỖI SÁNG",
+        "messages": [
+          {
+            "side": "right",
+            "sender": "Marketer",
+            "text": "Chào AI, mình cần vài ý tưởng content cho sản phẩm ABC, khách hàng chủ yếu là các bạn trẻ."
+          },
+          {
+            "side": "left",
+            "sender": "AI",
+            "text": "Chào bạn! Bạn muốn theo hướng vui vẻ, gần gũi hay chuyên nghiệp?"
+          },
+          {
+            "side": "right",
+            "sender": "Marketer",
+            "text": "Vui vẻ, gần gũi thôi, đừng quá trịnh trọng nha."
+          },
+          {
+            "side": "left",
+            "sender": "AI",
+            "text": "Được đó! Để mình gợi ý vài concept theo hướng đó nhé."
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_02_weekly_task_loop",
+      "type": "icon_threat",
+      "duration_frames": 300,
+      "narration": "Thứ Hai lên kế hoạch marketing tháng. Thứ Ba viết proposal gửi brand. Thứ Tư theo dõi hiệu suất ads. Thứ Năm viết content Instagram. Thứ Sáu brief hình ảnh cho design. Thứ Bảy quay dựng video sản phẩm.",
+      "props": {
+        "headline": "MỖI NGÀY MỘT CHỦ ĐỀ KHÁC",
+        "accentWord": "KHÁC",
+        "items": [
+          {
+            "icon": "📋",
+            "label": "Thứ Hai: lên kế hoạch marketing tháng"
+          },
+          {
+            "icon": "📄",
+            "label": "Thứ Ba: viết proposal gửi brand"
+          },
+          {
+            "icon": "📊",
+            "label": "Thứ Tư: theo dõi hiệu suất ads"
+          },
+          {
+            "icon": "📱",
+            "label": "Thứ Năm: viết content Instagram"
+          },
+          {
+            "icon": "🎨",
+            "label": "Thứ Sáu: brief hình ảnh cho design"
+          },
+          {
+            "icon": "🎬",
+            "label": "Thứ Bảy: quay dựng video sản phẩm"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot_03_retype_brand_voice",
+      "type": "comparison",
+      "duration_frames": 160,
+      "narration": "Trước mỗi việc, bạn vẫn gõ lại y hệt đoạn giới thiệu thương hiệu — mỗi lần từ số không. Dù công ty, sản phẩm, đối tượng đều không đổi.",
+      "props": {
+        "headline": "BRIEF LẠI TỪ ĐẦU, MỖI LẦN",
+        "accentWord": "MỖI LẦN",
+        "leftIcon": "🏢",
+        "leftLabel": "Công ty, sản phẩm không đổi",
+        "rightIcon": "🔁",
+        "rightLabel": "Vẫn gõ lại mỗi lần",
+        "connector": "nhưng"
+      }
+    },
+    {
+      "id": "shot_04_rewrite_every_line",
+      "type": "quote_callout",
+      "duration_frames": 108,
+      "narration": "Không chỉ gõ lại — bạn còn phải nghĩ lại từ đầu, chỉnh từng dòng, canh từng chữ.",
+      "props": {
+        "text": "Không chỉ gõ lại —\ncòn phải canh từng chữ.",
+        "accentWord": "canh từng chữ",
+        "backgroundStyle": "dark"
+      }
+    },
+    {
+      "id": "shot_05_reframe_not_bad_prompt",
+      "type": "quote_callout",
+      "duration_frames": 92,
+      "narration": "Vấn đề không phải AI quên — chỉ là chưa ai viết sổ tay cho nó.",
+      "props": {
+        "text": "Vấn đề không phải AI quên — chỉ là chưa ai viết sổ tay cho nó.",
+        "accentWord": "sổ tay",
+        "backgroundStyle": "gradient-subtle"
+      }
+    },
+    {
+      "id": "shot_06_reframe_intern_metaphor",
+      "type": "explanation",
+      "duration_frames": 157,
+      "narration": "Mỗi lần mở lên, nó trống trơn như một intern mới toanh. Đây là cách hình dung — AI không thật sự có trí nhớ như người.",
+      "props": {
+        "headline": "MỘT INTERN MỚI MỖI SÁNG",
+        "accentWord": "INTERN",
+        "body": "AI không giữ ngữ cảnh giữa các phiên. Đây chỉ là hình dung, AI không nhớ như người."
+      }
+    },
+    {
+      "id": "shot_07_mechanism_brief_formula",
+      "type": "explanation",
+      "duration_frames": 151,
+      "narration": "Một bản brief đóng gói sẵn — vai trò, đối tượng, giọng văn. Dùng lại, không viết lại. Một cấu trúc cố định, không phải đoán mỗi lần.",
+      "props": {
+        "headline": "ĐÓNG GÓI MỘT LẦN",
+        "accentWord": "MỘT LẦN",
+        "bullets": [
+          "Vai trò",
+          "Đối tượng",
+          "Giọng văn mẫu"
+        ]
+      }
+    },
+    {
+      "id": "shot_08_mechanism_reuse_flow",
+      "type": "diagram_flow",
+      "duration_frames": 165,
+      "narration": "Viết cấu trúc này một lần, đưa AI đọc trước mỗi phiên. Không cần nhớ, không cần đoán lại. Việc thật bắt đầu ngay dòng đầu tiên.",
+      "props": {
+        "headline": "KHÔNG CẦN ĐOÁN LẠI",
+        "accentWord": "ĐOÁN LẠI",
+        "nodes": [
+          {
+            "label": "Viết brief một lần",
+            "icon": "📝",
+            "status": "neutral"
+          },
+          {
+            "label": "AI đọc trước mỗi phiên",
+            "icon": "📖",
+            "status": "neutral"
+          },
+          {
+            "label": "Vào việc thật ngay",
+            "icon": "✅",
+            "status": "intact"
+          }
+        ],
+        "footer": "Không cần đoán lại."
+      }
+    },
+    {
+      "id": "shot_09_proof_fewer_steps",
+      "type": "before_after",
+      "duration_frames": 184,
+      "narration": "Cách cũ: dạy lại AI trước, rồi mới làm việc thật. Cách mới: đưa playbook, AI vào việc ngay. Đây là ví dụ minh họa, chưa phải số đo thực tế.",
+      "props": {
+        "headline": "ÍT BƯỚC LẶP LẠI HƠN",
+        "accentWord": "LẶP LẠI",
+        "before": {
+          "label": "Cách cũ",
+          "points": [
+            "Gõ lại giới thiệu",
+            "Chỉnh giọng thương hiệu",
+            "Rồi mới vào việc thật"
+          ]
+        },
+        "after": {
+          "label": "Cách mới",
+          "points": [
+            "Đưa playbook một lần",
+            "Vào việc thật ngay",
+            "*Ví dụ minh họa, chưa phải số đo thực tế"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shot_10_payoff_not_skill_gap",
+      "type": "quote_callout",
+      "duration_frames": 146,
+      "narration": "Không phải bạn viết prompt dở. Chỉ là chưa ai chỉ cách đóng gói nó lại. Không phải chuyện thiếu chuyên môn, mà là thiếu một hệ thống.",
+      "props": {
+        "text": "Không phải bạn viết prompt dở —\nchỉ là chưa ai chỉ cách đóng gói.",
+        "accentWord": "đóng gói",
+        "backgroundStyle": "dark"
+      }
+    },
+    {
+      "id": "shot_11_cta_part2_teaser",
+      "type": "preview_teaser",
+      "duration_frames": 152,
+      "narration": "Phần sau: cách đóng gói bản brief đó, để không phải bắt đầu lại từ đầu. Cùng xem cách viết ra công thức đó, từng bước một.",
+      "props": {
+        "headline": "CÁCH ĐÓNG GÓI — PHẦN 2",
+        "accentWord": "PHẦN 2",
+        "subtext": "Để không phải bắt đầu lại từ đầu.",
+        "preview": {
+          "items": [
+            "Viết brief dùng lại được",
+            "Từng bước một"
+          ],
+          "icon": "📓"
+        },
+        "channel": "Ủa là sao"
+      }
+    }
+  ]
+}
