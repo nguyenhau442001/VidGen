@@ -18,6 +18,7 @@ from vidgen.audio.speech_synthesizer import (
     resolve_scene_tts_speed,
     synthesize as tts_synthesize,
 )
+from vidgen.config.project_paths import CONTENT_JSON_DIR, OUTPUT_DIR, REMOTION_DIR
 from vidgen.pipeline.chunked_video_renderer import render_video_chunked
 from vidgen.pipeline.render_manifest_builder import (
     build_render_manifest,
@@ -32,11 +33,11 @@ from vidgen.pipeline.script_validator import validate_manifest
 from vidgen.pipeline.shot_schema import script_shots
 from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report as beatmap_report
 
-WAV_DIR = "output/audio/wav"
-REMOTION_PUBLIC_AUDIO = "remotion/public/audio"
-MANIFEST_PATH = "output/render_manifest.json"
-BEATMAP_PATH = "output/beatmap.json"
-VIDEO_OUT_DIR = "remotion/out"
+WAV_DIR = OUTPUT_DIR / "audio" / "wav"
+REMOTION_PUBLIC_AUDIO = REMOTION_DIR / "public" / "audio"
+MANIFEST_PATH = OUTPUT_DIR / "render_manifest.json"
+BEATMAP_PATH = OUTPUT_DIR / "beatmap.json"
+VIDEO_OUT_DIR = REMOTION_DIR / "out"
 STUDIO_PORT = 3000
 
 
@@ -48,7 +49,7 @@ def _port_open(port: int) -> bool:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("script", nargs="?", default="content/json/sample_script.json")
+    parser.add_argument("script", nargs="?", default=str(CONTENT_JSON_DIR / "sample_script.json"))
     parser.add_argument(
         "--skip-validation",
         action="store_true",
@@ -294,7 +295,7 @@ def main():
         studio_env = {**os.environ, "REMOTION_BEAT_MAP": "1"}
         subprocess.Popen(
             ["npx", "remotion", "studio"],
-            cwd="remotion",
+            cwd=REMOTION_DIR,
             env=studio_env,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,

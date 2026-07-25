@@ -19,9 +19,10 @@ import shutil
 import subprocess
 import time
 
+from vidgen.config.project_paths import OUTPUT_DIR, REMOTION_DIR
 from vidgen.pipeline.shot_schema import manifest_shots
 
-RENDER_CACHE_DIR = "output/render_cache"
+RENDER_CACHE_DIR = OUTPUT_DIR / "render_cache"
 CACHE_MAX_AGE_DAYS = 14
 
 # Scene keys that only affect Remotion Studio's timeline labels (the
@@ -30,7 +31,7 @@ CACHE_MAX_AGE_DAYS = 14
 NON_VISUAL_SCENE_KEYS = {"id", "label", "sceneName"}
 
 
-def code_tree_hash(remotion_dir: str = "remotion") -> str:
+def code_tree_hash(remotion_dir: str = str(REMOTION_DIR)) -> str:
     """Hash of everything besides a scene's manifest entry that can change
     how a chunk renders: component source, dependency lockfile, and the
     Remotion config. Any change invalidates the whole cache — conservative,
@@ -72,7 +73,7 @@ def scene_cache_key(scene: dict, manifest: dict, code_hash: str) -> str:
 AUDIO_SAMPLE_RATE = 48000
 
 
-def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = "remotion") -> None:
+def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = str(REMOTION_DIR)) -> None:
     """Build the full audio track with one ffmpeg filter graph, replicating
     TikTokVideo.tsx exactly: each scene's audioPath starts at
     scene_start + audioOffsetFrames, each extraAudio seg at
@@ -181,7 +182,7 @@ def _ffmpeg() -> list:
 def render_video_chunked(
     manifest: dict,
     video_output: str,
-    remotion_dir: str = "remotion",
+    remotion_dir: str = str(REMOTION_DIR),
     cache_dir: str = RENDER_CACHE_DIR,
 ) -> None:
     os.makedirs(cache_dir, exist_ok=True)
