@@ -32,6 +32,8 @@ const renderHeadline = (
 export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
   headline,
   accentWord,
+  headlineSingleLine = false,
+  layout = "column",
   items,
   verdict,
   accentColor = colors.cyan,
@@ -75,10 +77,11 @@ export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
       >
         <div
           style={{
-            fontSize: 52,
+            fontSize: headlineSingleLine ? 46 : 52,
             fontWeight: 700,
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
+            whiteSpace: headlineSingleLine ? "pre" : "normal",
             color: colors.textPrimary,
             opacity: headlineOpacity,
             transform: `translateY(${headlineY}px)`,
@@ -88,7 +91,13 @@ export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
           {renderHeadline(headline, accentWord, accentColor)}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: layout === "row" ? "row" : "column",
+            gap: layout === "row" ? 14 : 26,
+          }}
+        >
           {items.map((item, i) => {
             const start = ITEMS_START + i * ITEM_STAGGER;
             const s = spring({
@@ -102,18 +111,43 @@ export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
                 key={i}
                 style={{
                   display: "flex",
+                  flex: layout === "row" ? 1 : undefined,
+                  minWidth: 0,
+                  minHeight: layout === "row" ? 226 : undefined,
+                  flexDirection: layout === "row" ? "column" : "row",
                   alignItems: "center",
-                  gap: 24,
-                  padding: "22px 28px",
-                  borderRadius: 20,
-                  backgroundColor: "rgba(0,0,0,0.04)",
-                  border: "1px solid rgba(0,0,0,0.08)",
+                  justifyContent: layout === "row" ? "center" : undefined,
+                  gap: layout === "row" ? 18 : 24,
+                  padding: layout === "row" ? "28px 16px" : "22px 28px",
+                  borderRadius: 24,
+                  background:
+                    layout === "row"
+                      ? "linear-gradient(160deg, rgba(255,255,255,0.98), rgba(2,132,199,0.08))"
+                      : "rgba(0,0,0,0.04)",
+                  border:
+                    layout === "row"
+                      ? `1.5px solid ${accentColor}44`
+                      : "1px solid rgba(0,0,0,0.08)",
+                  boxShadow: layout === "row" ? "0 18px 48px rgba(15,23,42,0.09)" : undefined,
                   opacity: s,
-                  transform: `translateX(${interpolate(s, [0, 1], [-30, 0])}px)`,
+                  transform:
+                    layout === "row"
+                      ? `translateY(${interpolate(s, [0, 1], [30, 0])}px)`
+                      : `translateX(${interpolate(s, [0, 1], [-30, 0])}px)`,
                 }}
               >
-                <span style={{ fontSize: 44 }}>{item.icon}</span>
-                <span style={{ fontSize: 30, fontWeight: 500, color: colors.textPrimary }}>{item.label}</span>
+                <span style={{ fontSize: layout === "row" ? 54 : 44 }}>{item.icon}</span>
+                <span
+                  style={{
+                    fontSize: layout === "row" ? 25 : 30,
+                    lineHeight: 1.25,
+                    fontWeight: layout === "row" ? 750 : 500,
+                    color: colors.textPrimary,
+                    textAlign: layout === "row" ? "center" : "left",
+                  }}
+                >
+                  {item.label}
+                </span>
               </div>
             );
           })}
@@ -123,16 +157,39 @@ export const IconThreatScene: React.FC<IconThreatSceneProps> = ({
           <div
             style={{
               marginTop: 52,
-              padding: "18px 26px",
-              borderRadius: 16,
-              backgroundColor: `${accentColor}1a`,
-              border: `1px solid ${accentColor}55`,
-              alignSelf: "flex-start",
+              padding: layout === "row" ? "26px 30px" : "18px 26px",
+              borderRadius: 20,
+              background: `linear-gradient(90deg, ${accentColor}10, ${accentColor}22)`,
+              border: `1.5px solid ${accentColor}66`,
+              alignSelf: layout === "row" ? "stretch" : "flex-start",
               opacity: Math.min(verdictSpring, 1),
               transform: `scale(${interpolate(verdictSpring, [0, 1], [0.92, 1])})`,
             }}
           >
-            <span style={{ fontSize: 28, fontWeight: 700, color: accentColor }}>{verdict}</span>
+            <div
+              style={{
+                marginBottom: layout === "row" ? 8 : 0,
+                fontSize: 15,
+                fontWeight: 800,
+                letterSpacing: "0.12em",
+                color: colors.textDim,
+                textAlign: layout === "row" ? "center" : "left",
+              }}
+            >
+              CHẨN ĐOÁN
+            </div>
+            <span
+              style={{
+                display: "block",
+                fontSize: layout === "row" ? 30 : 28,
+                lineHeight: 1.25,
+                fontWeight: 800,
+                color: accentColor,
+                textAlign: layout === "row" ? "center" : "left",
+              }}
+            >
+              {verdict}
+            </span>
           </div>
         )}
       </SafeZone>
