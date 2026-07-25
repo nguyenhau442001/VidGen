@@ -1,9 +1,15 @@
 import copy
+import wave
+
+import pytest
 
 from vidgen.pipeline.pipeline_steps import (
     DurationChange,
     TTSJob,
     build_tts_jobs,
+    load_and_validate_script,
+    measure_audio_durations,
+    synthesize_tts,
     tighten_scene_durations,
 )
 
@@ -117,3 +123,81 @@ def test_tighten_scene_durations_does_not_mutate_input():
     jobs = [TTSJob(id="s1", text="Ngắn.", speed=1.0)]
     tighten_scene_durations(script, audio_durations={"s1": 2.0}, fps=30, jobs=jobs)
     assert script == original
+
+
+def _write_wav(path, seconds, sr=24000):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    n_frames = int(seconds * sr)
+    with wave.open(str(path), "w") as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(sr)
+        wf.writeframes(b"\x00\x00" * n_frames)
+
+
+def test_load_and_validate_script_strips_thumbnail_shot(tmp_path):
+    import json
+
+    script_path = tmp_path / "script.json"
+    script_path.write_text(
+        json.dumps(
+            {
+                "fps": 30,
+                "shots": [
+                    {"id": "cover", "type": "HSKFlashCardThumbnailScene"},
+                    {"id": "s1", "type": "explanation", "narration": "N."},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = load_and_validate_script(str(script_path), skip_validation=True)
+    ids = [s["id"] for s in result.script["shots"]]
+    assert ids == ["s1"]
+
+
+def test_measure_audio_durations_reads_wav_headers(tmp_path):
+    wav_dir = tmp_path / "wav"
+    _write_wav(wav_dir / "scene_s1.wav", seconds=1.5)
+    jobs = [TTSJob(id="s1", text="x", speed=1.0)]
+    durations = measure_audio_durations(jobs, str(wav_dir))
+    assert durations["s1"] == pytest.approx(1.5, abs=0.01)
+
+
+def test_synthesize_tts_reuse_skips_existing(tmp_path, monkeypatch):
+    wav_dir = tmp_path / "wav"
+    _write_wav(wav_dir / "scene_s1.wav", seconds=1.0)
+
+    def fail_if_called(*a, **kw):
+        raise AssertionError("tts_synthesize should not be called when reusing")
+
+    monkeypatch.setattr("vidgen.pipeline.pipeline_steps.tts_synthesize", fail_if_called)
+
+    jobs = [TTSJob(id="s1", text="x", speed=1.0)]
+    result = synthesize_tts(
+        jobs,
+        wav_dir=str(wav_dir),
+        tts_voice="v",
+        reuse_tts=True,
+        prebuilt_audio_dir=None,
+        no_trim=False,
+        target_dbfs=-15.0,
+    )
+    assert result.job_ids == ["s1"]
+
+
+def test_synthesize_tts_prebuilt_missing_raises(tmp_path):
+    wav_dir = tmp_path / "wav"
+    prebuilt_dir = tmp_path / "prebuilt"
+    prebuilt_dir.mkdir()
+    jobs = [TTSJob(id="s1", text="x", speed=1.0)]
+    with pytest.raises(FileNotFoundError):
+        synthesize_tts(
+            jobs,
+            wav_dir=str(wav_dir),
+            tts_voice="v",
+            reuse_tts=False,
+            prebuilt_audio_dir=str(prebuilt_dir),
+            no_trim=False,
+            target_dbfs=-15.0,
+        )
