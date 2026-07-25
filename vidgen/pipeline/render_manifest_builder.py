@@ -123,10 +123,11 @@ TYPE_MAP = {
     "PunchlineHoldShot": "punchline_hold",
 }
 
-# Valid render-time scene types include the registered PascalCase aliases,
-# the snake_case manifest keys, and the few direct snake_case scene types that
-# never had a PascalCase alias.
-VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
+# Snake_case scene types with no PascalCase TYPE_MAP alias — authored directly
+# in scripts. Together with TYPE_MAP.values(), this is the full render-time
+# snake_case surface that must match remotion's ManifestScene union
+# (see check_scene_types.py, which cross-checks this against the TS side).
+DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "animated_flow",
     "bubble_comparator",
     "phone_map",
@@ -141,6 +142,11 @@ VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
     "reuse_system",
     "brand_swap_test",
 }
+
+# Valid render-time scene types include the registered PascalCase aliases,
+# the snake_case manifest keys, and the few direct snake_case scene types that
+# never had a PascalCase alias.
+VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | DIRECT_SNAKE_CASE_SCENE_TYPES
 
 # MapPingScene driver dots are placed as fractions (0-1) of the 1080x1920
 # canvas. Scripts author driver x/y as pixel-ish positions on a conceptual

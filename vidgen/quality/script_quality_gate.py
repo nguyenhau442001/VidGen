@@ -17,7 +17,7 @@ import json
 import re
 import sys
 
-from vidgen.pipeline.render_manifest_builder import TYPE_MAP
+from vidgen.pipeline.render_manifest_builder import DIRECT_SNAKE_CASE_SCENE_TYPES, TYPE_MAP
 from vidgen.pipeline.shot_schema import script_shots
 
 # ---------------------------------------------------------------------------
@@ -44,12 +44,7 @@ FILLER_WORDS = {            # Vietnamese filler/padding words to penalise
 # Scripts author a scene's `type` as either the PascalCase Remotion component
 # name or the snake_case manifest key (see render_manifest_builder.py's TYPE_MAP and
 # remotion/src/types.ts's ManifestScene union).
-VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | {
-    "animated_flow", "bubble_comparator", "phone_map",
-    "conversation", "before_after", "grid_heatmap",
-    "marketing_caption_hook", "marketing_prompt_demo", "brief_blueprint",
-    "task_instruction", "caption_upgrade", "reuse_system", "brand_swap_test",
-}
+VALID_SCENE_TYPES = set(TYPE_MAP.keys()) | set(TYPE_MAP.values()) | DIRECT_SNAKE_CASE_SCENE_TYPES
 ACCENT_COLOR = "#00ff41"
 
 HOOK_STRONG_MARKERS = (
@@ -313,6 +308,14 @@ def format_report(audit: dict) -> str:
 def main() -> None:
     if len(sys.argv) < 2:
         print("Usage: python gate1.py <path-to-script.json>")
+        sys.exit(1)
+
+    from vidgen.pipeline.check_scene_types import SceneTypeDriftError, check as check_scene_types
+
+    try:
+        check_scene_types()
+    except SceneTypeDriftError as e:
+        print(e)
         sys.exit(1)
 
     path = sys.argv[1]
