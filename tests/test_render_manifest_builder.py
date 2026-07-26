@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence, validate_real_footage_audio_source
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence, validate_media_path_present, validate_real_footage_audio_source
 
 
 def test_duration_frames_calculation():
@@ -477,6 +477,27 @@ def test_build_render_manifest_accepts_screenshot_shot():
     assert manifest["shots"][0]["visual"]["imagePath"] == "images/shot.png"
 
 
+def test_build_render_manifest_uses_measured_duration_for_useOriginalAudio_shot():
+    # measure_media_durations() merges real_footage useOriginalAudio clip
+    # durations into the same audio_durations dict TTS durations go into,
+    # even though these shots have no `narration`. duration_frames must
+    # still fall back to that measured value rather than the fps*3 stub.
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "props": {"mediaPath": "clip.mp4", "useOriginalAudio": True},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 12.0})
+    assert manifest["shots"][0]["durationInFrames"] == math.ceil(12.0 * FPS) + FRAME_PADDING
+    # No narration -> no TTS audioPath; audio comes from the clip itself.
+    assert manifest["shots"][0]["audioPath"] == ""
+
+
 def test_validate_real_footage_audio_source_ok_with_narration():
     script = {
         "shots": [
@@ -513,3 +534,46 @@ def test_validate_real_footage_audio_source_raises_with_neither():
 def test_validate_real_footage_audio_source_ignores_other_types():
     script = {"shots": [{"id": "s1", "type": "explanation", "narration": None}]}
     validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_media_path_present_ok_when_present():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "clip.mp4"}},
+            {"id": "s2", "type": "screenshot", "props": {"imagePath": "shot.png"}},
+        ]
+    }
+    validate_media_path_present(script)  # should not raise
+
+
+def test_validate_media_path_present_raises_when_real_footage_media_path_missing():
+    script = {"shots": [{"id": "s1", "type": "real_footage", "props": {}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_real_footage_media_path_empty():
+    script = {"shots": [{"id": "s1", "type": "real_footage", "props": {"mediaPath": ""}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_screenshot_image_path_missing():
+    script = {"shots": [{"id": "s1", "type": "screenshot", "props": {}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_screenshot_image_path_empty():
+    script = {"shots": [{"id": "s1", "type": "screenshot", "props": {"imagePath": ""}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_ignores_other_types():
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {}}]}
+    validate_media_path_present(script)  # should not raise

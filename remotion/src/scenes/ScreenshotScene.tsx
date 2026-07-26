@@ -84,6 +84,12 @@ export const ScreenshotScene: React.FC<ScreenshotSceneProps> = ({
         </div>
       )}
 
+      {/* NOTE: chrome === "phone" is not yet visually distinct from the
+          default rounded-card chrome below (no notch/status bar) — known
+          gap inherited from the original design spec, not a regression.
+          A future scene author should not assume "phone" renders a
+          phone-shaped frame; treat it as an alias of the generic chrome
+          until this gets a real phone-chrome visual. */}
       <div
         style={{
           position: "relative",
@@ -117,13 +123,33 @@ export const ScreenshotScene: React.FC<ScreenshotSceneProps> = ({
           <Img src={staticFile(imagePath)} style={{ width: "100%", display: "block" }} />
           {spotlight.map((box, i) => {
             const active = frame >= box.startFrame && frame <= box.endFrame;
-            const boxOpacity = interpolate(
-              frame,
-              [box.startFrame, box.startFrame + 10, box.endFrame - 10, box.endFrame],
-              [0, 1, 1, 0],
-              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-            );
             if (!active) return null;
+            // Clamp the fade-in/out knee width so the interpolate input
+            // range stays strictly increasing even for narrow boxes (a
+            // fixed 10-frame knee would make startFrame+10 >= endFrame-10
+            // for any box under ~21 frames wide, which Remotion's
+            // interpolate() throws on). A knee is only used when it leaves
+            // strictly increasing room on both sides (width > 2*fade);
+            // otherwise fall back to a flat [start, end] -> [1, 1] range,
+            // and a 0-frame box (start === end) skips interpolate entirely.
+            const width = box.endFrame - box.startFrame;
+            const fade = Math.min(10, Math.floor(width / 2) - (width % 2 === 0 ? 1 : 0));
+            const boxOpacity =
+              width === 0
+                ? 1
+                : fade > 0
+                ? interpolate(
+                    frame,
+                    [box.startFrame, box.startFrame + fade, box.endFrame - fade, box.endFrame],
+                    [0, 1, 1, 0],
+                    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+                  )
+                : interpolate(
+                    frame,
+                    [box.startFrame, box.endFrame],
+                    [1, 1],
+                    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+                  );
             return (
               <div
                 key={i}

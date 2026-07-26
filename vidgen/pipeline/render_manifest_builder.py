@@ -300,7 +300,12 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
 
         if "duration_frames" in shot:
             duration_frames = shot["duration_frames"]
-        elif has_audio:
+        elif sid in audio_durations:
+            # Covers both TTS narration durations and real_footage
+            # useOriginalAudio clip durations (measure_media_durations()
+            # merges the latter into this same dict, keyed by shot id, even
+            # though those shots have no `narration` and thus has_audio is
+            # False for audioPath-assignment purposes above).
             duration_frames = math.ceil(audio_durations[sid] * fps) + FRAME_PADDING
         else:
             duration_frames = fps * 3  # fallback for silent, un-authored-duration scenes
@@ -517,14 +522,43 @@ def validate_real_footage_audio_source(script: dict) -> None:
             )
 
 
+def validate_media_path_present(script: dict) -> None:
+    """A real_footage shot must have a truthy props.mediaPath, and a
+    screenshot shot must have a truthy props.imagePath. Without it,
+    copy_media_to_remotion_public() silently skips the shot (`if not
+    rel_path: continue`) and _translate_visual()'s real_footage/screenshot
+    cases silently skip translation too (`if "mediaPath" in visual` /
+    `if "imagePath" in visual`), so the shot would otherwise reach the
+    Remotion component with mediaPath/imagePath undefined and fail at
+    staticFile(undefined) — catch the missing-required-field authoring
+    mistake here instead, before TTS/render."""
+    for shot in script_shots(script):
+        shot_type = shot.get("type")
+        if shot_type not in ("real_footage", "screenshot"):
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        field = "mediaPath" if shot_type == "real_footage" else "imagePath"
+        if not props.get(field):
+            raise ValueError(
+                f"shot '{shot['id']}': {shot_type} shot has no props.{field} — "
+                f"a {shot_type} shot must specify a media file to render"
+            )
+
+
 def copy_media_to_remotion_public(
     script: dict, media_dir: str, public_video_dir: str, public_images_dir: str
 ) -> list[str]:
     """Copy raw screenshots/video clips authored in content/media/<slug>/ into
     remotion/public/, mirroring copy_audio_to_remotion_public()'s pattern for
-    WAVs. Returns the list of public-relative paths copied (e.g.
-    "video/clip.mp4"), unchanged from each shot's authored mediaPath/imagePath
-    so staticFile() resolution in Remotion needs no further translation."""
+    WAVs. Only the basename of each shot's authored mediaPath/imagePath is
+    used — any directory component the author wrote (e.g. "video/clip.mp4")
+    is discarded — and the physical copy always lands at
+    "video/<basename>" (for real_footage) or "images/<basename>" (for
+    screenshot) under remotion/public/. Returns that list of public-relative
+    paths actually copied. _translate_visual() in this same file normalizes
+    the manifest's visual.mediaPath/visual.imagePath to match this same
+    "video|images/<basename>" shape, so staticFile() resolution in Remotion
+    finds the file regardless of how the author wrote the original path."""
     os.makedirs(public_video_dir, exist_ok=True)
     os.makedirs(public_images_dir, exist_ok=True)
     copied = []
