@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence
 
 
 def test_duration_frames_calculation():
@@ -412,3 +412,44 @@ def test_copy_media_to_remotion_public_ignores_other_shot_types(tmp_path):
         script, str(media_dir), str(tmp_path / "pv"), str(tmp_path / "pi")
     )
     assert copied == []
+
+
+def test_real_footage_and_screenshot_are_valid_scene_types():
+    assert "real_footage" in VALID_SCENE_TYPES
+    assert "screenshot" in VALID_SCENE_TYPES
+
+
+def test_build_render_manifest_accepts_real_footage_shot():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "narration": "Đây là màn hình thật.",
+                "duration_frames": 90,
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 2.5})
+    assert manifest["shots"][0]["type"] == "real_footage"
+    assert manifest["shots"][0]["visual"]["mediaPath"] == "video/clip.mp4"
+
+
+def test_build_render_manifest_accepts_screenshot_shot():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "screenshot",
+                "narration": "Xem giao diện.",
+                "duration_frames": 90,
+                "props": {"imagePath": "images/shot.png", "chrome": "phone"},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 2.0})
+    assert manifest["shots"][0]["type"] == "screenshot"
+    assert manifest["shots"][0]["visual"]["chrome"] == "phone"

@@ -141,6 +141,8 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "caption_upgrade",
     "reuse_system",
     "brand_swap_test",
+    "real_footage",
+    "screenshot",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,
