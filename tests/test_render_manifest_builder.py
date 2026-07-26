@@ -428,12 +428,32 @@ def test_build_render_manifest_accepts_real_footage_shot():
                 "type": "real_footage",
                 "narration": "Đây là màn hình thật.",
                 "duration_frames": 90,
-                "props": {"mediaPath": "video/clip.mp4"},
+                "props": {"mediaPath": "clip.mp4"},
             }
         ],
     }
     manifest = build_render_manifest(script, audio_durations={"s1": 2.5})
     assert manifest["shots"][0]["type"] == "real_footage"
+    # copy_media_to_remotion_public() always copies real_footage clips under
+    # remotion/public/video/<basename> regardless of the authored path, so
+    # the manifest's visual.mediaPath must resolve to that same location for
+    # staticFile() to find the file — not the raw authored value.
+    assert manifest["shots"][0]["visual"]["mediaPath"] == "video/clip.mp4"
+
+
+def test_build_render_manifest_normalizes_real_footage_media_path_with_prefix():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+                "duration_frames": 90,
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={})
     assert manifest["shots"][0]["visual"]["mediaPath"] == "video/clip.mp4"
 
 
@@ -446,13 +466,15 @@ def test_build_render_manifest_accepts_screenshot_shot():
                 "type": "screenshot",
                 "narration": "Xem giao diện.",
                 "duration_frames": 90,
-                "props": {"imagePath": "images/shot.png", "chrome": "phone"},
+                "props": {"imagePath": "shot.png", "chrome": "phone"},
             }
         ],
     }
     manifest = build_render_manifest(script, audio_durations={"s1": 2.0})
     assert manifest["shots"][0]["type"] == "screenshot"
     assert manifest["shots"][0]["visual"]["chrome"] == "phone"
+    # Same normalization as real_footage, for images/<basename>.
+    assert manifest["shots"][0]["visual"]["imagePath"] == "images/shot.png"
 
 
 def test_validate_real_footage_audio_source_ok_with_narration():

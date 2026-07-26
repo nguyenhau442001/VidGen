@@ -265,6 +265,18 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
             visual["leftMapPing"] = left_map
         return visual
 
+    if scene_type == "real_footage":
+        visual = dict(props)
+        if "mediaPath" in visual:
+            visual["mediaPath"] = f"video/{os.path.basename(visual['mediaPath'])}"
+        return visual
+
+    if scene_type == "screenshot":
+        visual = dict(props)
+        if "imagePath" in visual:
+            visual["imagePath"] = f"images/{os.path.basename(visual['imagePath'])}"
+        return visual
+
     return dict(props)
 
 
