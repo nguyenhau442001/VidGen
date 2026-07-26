@@ -27,6 +27,8 @@ from vidgen.pipeline.render_manifest_builder import (
     copy_audio_to_remotion_public,
     copy_media_to_remotion_public,
     detect_dead_air,
+    validate_media_path_present,
+    validate_real_footage_audio_source,
     wav_filename,
     write_render_manifest,
 )
@@ -82,6 +84,7 @@ def tighten_scene_durations(
             or "duration_frames" not in shot
             or shot.get("narration_per_criterion")
             or shot.get("props", {}).get("dialogue")
+            or shot.get("type") == "real_footage"
         ):
             continue
         offset = (shot.get("narration_timing_frames") or [0])[0]
@@ -106,6 +109,14 @@ def load_and_validate_script(script_path: str, skip_validation: bool) -> LoadRes
     shots = script_shots(script)
     if shots and shots[0]["type"] == "HSKFlashCardThumbnailScene":
         script["shots"] = shots[1:]
+
+    # These two are hard structural invariants (a real_footage shot must
+    # have exactly one audio source; a real_footage/screenshot shot must
+    # have a media path to render at all) — not soft pacing warnings, so
+    # they run even when --skip-validation is passed and the rest of
+    # validate_manifest()'s checks are skipped.
+    validate_real_footage_audio_source(script)
+    validate_media_path_present(script)
 
     if not skip_validation:
         validate_manifest(script)
@@ -239,6 +250,20 @@ def _ffprobe_duration_seconds(path: str) -> float:
     return float(result.stdout.strip())
 
 
+def _ffprobe_duration_seconds_for_shot(shot_id, src: str) -> float:
+    """Same as _ffprobe_duration_seconds, but fails fast with a clear,
+    shot-scoped FileNotFoundError instead of letting a missing file surface
+    as a raw ffprobe CalledProcessError with no shot id or guidance —
+    matching copy_media_to_remotion_public()'s fail-fast pattern in
+    render_manifest_builder.py."""
+    if not os.path.exists(src):
+        raise FileNotFoundError(
+            f"shot '{shot_id}': media file not found: {src} "
+            f"(expected under content/media/<slug>/)"
+        )
+    return _ffprobe_duration_seconds(src)
+
+
 def measure_media_durations(script: dict, media_dir: str) -> dict:
     durations = {}
     for shot in script_shots(script):
@@ -249,7 +274,7 @@ def measure_media_durations(script: dict, media_dir: str) -> dict:
             continue
         filename = os.path.basename(props["mediaPath"])
         src = os.path.join(media_dir, filename)
-        duration = _ffprobe_duration_seconds(src)
+        duration = _ffprobe_duration_seconds_for_shot(shot["id"], src)
         logger.info("%s media duration: %.2fs", shot["id"], duration)
         durations[shot["id"]] = duration
     return durations
@@ -321,7 +346,7 @@ def check_footage_fit(script: dict, media_dir: str, wps: float = 4.2) -> None:
         props = shot.get("props", shot.get("visual", {}))
         filename = os.path.basename(props["mediaPath"])
         src = os.path.join(media_dir, filename)
-        clip_seconds = _ffprobe_duration_seconds(src)
+        clip_seconds = _ffprobe_duration_seconds_for_shot(shot["id"], src)
         word_count = len(shot["narration"].split())
         estimated_seconds = word_count / wps
         if estimated_seconds > clip_seconds:

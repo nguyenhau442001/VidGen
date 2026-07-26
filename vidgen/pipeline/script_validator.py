@@ -5,6 +5,7 @@ from __future__ import annotations
 from vidgen.pipeline.render_manifest_builder import (
     MAX_DEAD_AIR_FRAMES,
     detect_transition_silence,
+    validate_media_path_present,
     validate_real_footage_audio_source,
 )
 from vidgen.pipeline.shot_schema import script_shots
@@ -13,6 +14,7 @@ MIN_FRAMES_PER_WORD = 8
 
 def validate_manifest(manifest: dict) -> None:
     validate_real_footage_audio_source(manifest)
+    validate_media_path_present(manifest)
     rows = []
     errors = []
     warnings = []

@@ -122,6 +122,26 @@ def test_tighten_scene_durations_skips_dialogue_scenes():
     assert changes == []
 
 
+def test_tighten_scene_durations_skips_real_footage_shots():
+    # real_footage duration is fully determined by the clip itself (measured
+    # via ffprobe into audio_durations), not a tightenable narration window —
+    # tightening it would add a de-facto freeze-frame tail past the clip's
+    # real end, which the feature forbids.
+    script = _script([
+        {
+            "id": "s1", "type": "real_footage",
+            "duration_frames": 300,
+            "props": {"mediaPath": "clip.mp4", "useOriginalAudio": True},
+        },
+    ])
+    jobs = []
+    new_script, changes = tighten_scene_durations(
+        script, audio_durations={"s1": 2.0}, fps=30, jobs=jobs
+    )
+    assert new_script["shots"][0]["duration_frames"] == 300
+    assert changes == []
+
+
 def test_tighten_scene_durations_does_not_mutate_input():
     script = _script([
         {
@@ -164,6 +184,54 @@ def test_load_and_validate_script_strips_thumbnail_shot(tmp_path):
     result = load_and_validate_script(str(script_path), skip_validation=True)
     ids = [s["id"] for s in result.script["shots"]]
     assert ids == ["s1"]
+
+
+def test_load_and_validate_script_enforces_audio_source_invariant_even_with_skip_validation(tmp_path):
+    import json
+
+    script_path = tmp_path / "script.json"
+    script_path.write_text(
+        json.dumps(
+            {
+                "fps": 30,
+                "shots": [
+                    {
+                        "id": "s1", "type": "real_footage",
+                        "props": {"mediaPath": "clip.mp4"},
+                        # no narration, no useOriginalAudio -> no audio source
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as ctx:
+        load_and_validate_script(str(script_path), skip_validation=True)
+    assert "s1" in str(ctx.value)
+
+
+def test_load_and_validate_script_enforces_media_path_invariant_even_with_skip_validation(tmp_path):
+    import json
+
+    script_path = tmp_path / "script.json"
+    script_path.write_text(
+        json.dumps(
+            {
+                "fps": 30,
+                "shots": [
+                    {
+                        "id": "s1", "type": "screenshot",
+                        "narration": "Xem giao diện.",
+                        "props": {},  # no imagePath
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as ctx:
+        load_and_validate_script(str(script_path), skip_validation=True)
+    assert "s1" in str(ctx.value)
 
 
 def test_measure_audio_durations_reads_wav_headers(tmp_path):
@@ -420,6 +488,47 @@ def test_check_footage_fit_raises_when_narration_overruns_clip(tmp_path):
             msg = str(e)
             assert "s1" in msg
             assert "2.0" in msg or "2.00" in msg
+
+
+def test_measure_media_durations_missing_file_raises_file_not_found(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            }
+        ]
+    }
+
+    with pytest.raises(FileNotFoundError) as ctx:
+        measure_media_durations(script, str(media_dir))
+    msg = str(ctx.value)
+    assert "s1" in msg
+    assert "clip.mp4" in msg
+
+
+def test_check_footage_fit_missing_file_raises_file_not_found(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": "Một hai ba.",
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+
+    with pytest.raises(FileNotFoundError) as ctx:
+        check_footage_fit(script, str(media_dir))
+    msg = str(ctx.value)
+    assert "s1" in msg
+    assert "clip.mp4" in msg
 
 
 def test_check_footage_fit_skips_shots_without_narration(tmp_path):
