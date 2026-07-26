@@ -482,3 +482,45 @@ def copy_audio_to_remotion_public(scene_ids: list, wav_dir: str, public_audio_di
         shutil.copy2(src, dst)
         preview_dst = os.path.join(public_audio_dir, preview_audio_filename(sid))
         _transcode_preview_audio(src, preview_dst)
+
+
+def copy_media_to_remotion_public(
+    script: dict, media_dir: str, public_video_dir: str, public_images_dir: str
+) -> list[str]:
+    """Copy raw screenshots/video clips authored in content/media/<slug>/ into
+    remotion/public/, mirroring copy_audio_to_remotion_public()'s pattern for
+    WAVs. Returns the list of public-relative paths copied (e.g.
+    "video/clip.mp4"), unchanged from each shot's authored mediaPath/imagePath
+    so staticFile() resolution in Remotion needs no further translation."""
+    os.makedirs(public_video_dir, exist_ok=True)
+    os.makedirs(public_images_dir, exist_ok=True)
+    copied = []
+    for shot in script_shots(script):
+        props = shot.get("props", shot.get("visual", {}))
+        if shot["type"] == "real_footage":
+            rel_path = props.get("mediaPath")
+            if not rel_path:
+                continue
+            filename = os.path.basename(rel_path)
+            src = os.path.join(media_dir, filename)
+            if not os.path.exists(src):
+                raise FileNotFoundError(
+                    f"shot '{shot['id']}': media file not found: {src} "
+                    f"(expected under content/media/<slug>/)"
+                )
+            shutil.copy2(src, os.path.join(public_video_dir, filename))
+            copied.append(f"video/{filename}")
+        elif shot["type"] == "screenshot":
+            rel_path = props.get("imagePath")
+            if not rel_path:
+                continue
+            filename = os.path.basename(rel_path)
+            src = os.path.join(media_dir, filename)
+            if not os.path.exists(src):
+                raise FileNotFoundError(
+                    f"shot '{shot['id']}': media file not found: {src} "
+                    f"(expected under content/media/<slug>/)"
+                )
+            shutil.copy2(src, os.path.join(public_images_dir, filename))
+            copied.append(f"images/{filename}")
+    return copied

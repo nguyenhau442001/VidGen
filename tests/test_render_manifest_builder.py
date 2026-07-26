@@ -1,8 +1,9 @@
 import math
+import os
 
 import pytest
 
-from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, build_render_manifest, detect_dead_air, detect_transition_silence
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence
 
 
 def test_duration_frames_calculation():
@@ -355,3 +356,59 @@ def test_multi_scene_ordering():
     assert len(manifest["shots"]) == 2
     assert manifest["shots"][0]["id"] == 1
     assert manifest["shots"][1]["id"] == 2
+
+
+def test_copy_media_to_remotion_public_copies_video_and_image(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake video bytes")
+    (media_dir / "shot.png").write_bytes(b"fake png bytes")
+
+    public_video_dir = tmp_path / "public_video"
+    public_images_dir = tmp_path / "public_images"
+
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+            {"id": "s2", "type": "screenshot", "props": {"imagePath": "images/shot.png"}},
+        ]
+    }
+
+    copied = copy_media_to_remotion_public(
+        script, str(media_dir), str(public_video_dir), str(public_images_dir)
+    )
+
+    assert os.path.exists(public_video_dir / "clip.mp4")
+    assert os.path.exists(public_images_dir / "shot.png")
+    assert sorted(copied) == ["images/shot.png", "video/clip.mp4"]
+
+
+def test_copy_media_to_remotion_public_missing_file_raises(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+
+    try:
+        copy_media_to_remotion_public(
+            script, str(media_dir), str(tmp_path / "pv"), str(tmp_path / "pi")
+        )
+        assert False, "expected FileNotFoundError"
+    except FileNotFoundError as e:
+        assert "s1" in str(e)
+        assert "clip.mp4" in str(e)
+
+
+def test_copy_media_to_remotion_public_ignores_other_shot_types(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {"headline": "hi"}}]}
+
+    copied = copy_media_to_remotion_public(
+        script, str(media_dir), str(tmp_path / "pv"), str(tmp_path / "pi")
+    )
+    assert copied == []
