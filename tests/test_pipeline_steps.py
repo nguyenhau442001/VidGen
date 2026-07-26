@@ -1,5 +1,6 @@
 import copy
 import wave
+from unittest.mock import patch
 
 import pytest
 
@@ -10,6 +11,7 @@ from vidgen.pipeline.pipeline_steps import (
     build_tts_jobs,
     load_and_validate_script,
     measure_audio_durations,
+    measure_media_durations,
     synthesize_tts,
     tighten_scene_durations,
 )
@@ -285,3 +287,36 @@ def test_render_video_deletes_stale_output(tmp_path, monkeypatch):
     assert not video_output.exists()  # deleted before render_video_chunked ran
     assert calls == [str(video_output)]
     assert result.video_output == str(video_output)
+
+
+def test_measure_media_durations_only_real_footage_with_original_audio(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            },
+            {
+                "id": "s2", "type": "real_footage",
+                "narration": "Có TTS nên không cần đo.",
+                "props": {"mediaPath": "video/clip.mp4"},
+            },
+            {"id": "s3", "type": "explanation", "props": {}},
+        ]
+    }
+
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=4.2):
+        durations = measure_media_durations(script, str(media_dir))
+
+    assert durations == {"s1": 4.2}
+
+
+def test_measure_media_durations_empty_when_no_original_audio_shots(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {}}]}
+    assert measure_media_durations(script, str(media_dir)) == {}

@@ -10,6 +10,7 @@ import logging
 import math
 import os
 import shutil
+import subprocess
 import wave
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -226,6 +227,31 @@ def measure_audio_durations(jobs: list[TTSJob], wav_dir: str) -> dict:
             logger.info("%s audio duration: %.2fs", job.id, duration)
             audio_durations[job.id] = duration
     return audio_durations
+
+
+def _ffprobe_duration_seconds(path: str) -> float:
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", path],
+        capture_output=True, text=True, check=True,
+    )
+    return float(result.stdout.strip())
+
+
+def measure_media_durations(script: dict, media_dir: str) -> dict:
+    durations = {}
+    for shot in script_shots(script):
+        if shot["type"] != "real_footage":
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        if not props.get("useOriginalAudio"):
+            continue
+        filename = os.path.basename(props["mediaPath"])
+        src = os.path.join(media_dir, filename)
+        duration = _ffprobe_duration_seconds(src)
+        logger.info("%s media duration: %.2fs", shot["id"], duration)
+        durations[shot["id"]] = duration
+    return durations
 
 
 @dataclass
