@@ -7,7 +7,10 @@ import time
 import webbrowser
 from pathlib import Path
 
-from vidgen.config.project_paths import CONTENT_JSON_DIR, OUTPUT_DIR, REMOTION_DIR
+from vidgen.config.project_paths import (
+    CONTENT_JSON_DIR, CONTENT_MEDIA_DIR, OUTPUT_DIR, REMOTION_DIR,
+    REMOTION_PUBLIC_IMAGES, REMOTION_PUBLIC_VIDEO,
+)
 from vidgen.audio.speech_synthesizer import DEFAULT_VIENEU_VOICE
 from vidgen.pipeline import pipeline_steps as steps
 from vidgen.pipeline.pipeline_state import compute_input_hash, load_state, save_state
@@ -82,6 +85,9 @@ def main():
         script_stem = script_stem[len("script_"):]
     video_output = os.path.abspath(f"{VIDEO_OUT_DIR}/{script_stem}.mp4")
 
+    media_dir = str(CONTENT_MEDIA_DIR / script_stem)
+    steps.check_footage_fit(script, media_dir)
+
     jobs = steps.build_tts_jobs(script, args.speed)
 
     tts_hash = compute_input_hash(
@@ -111,6 +117,7 @@ def main():
                 fit_result.narration_fitted, fit_result.dialogue_fitted)
 
     audio_durations = steps.measure_audio_durations(jobs, str(WAV_DIR))
+    audio_durations.update(steps.measure_media_durations(script, media_dir))
     logger.info("Total audio duration: %.2fs", sum(audio_durations.values()))
 
     if not args.no_trim or any(abs(j.speed - 1.0) > 1e-9 for j in jobs):
@@ -122,6 +129,9 @@ def main():
     manifest_result = steps.write_manifest_step(
         script, audio_durations, str(MANIFEST_PATH), str(WAV_DIR),
         str(REMOTION_PUBLIC_AUDIO), audio_ids,
+        media_dir=media_dir,
+        remotion_public_video=str(REMOTION_PUBLIC_VIDEO),
+        remotion_public_images=str(REMOTION_PUBLIC_IMAGES),
     )
     manifest = manifest_result.manifest
 

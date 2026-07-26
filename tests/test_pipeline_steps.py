@@ -249,6 +249,64 @@ def test_write_manifest_step_writes_file_and_copies_audio(tmp_path):
     assert (public_audio / "scene_s1.wav").exists()
 
 
+def test_write_manifest_step_copies_media_when_present(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+
+    wav_dir = tmp_path / "wav"
+    wav_dir.mkdir()
+    public_audio = tmp_path / "pub_audio"
+    public_video = tmp_path / "pub_video"
+    public_images = tmp_path / "pub_images"
+    manifest_path = tmp_path / "manifest.json"
+
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+                "duration_frames": 90,
+            }
+        ],
+    }
+
+    result = write_manifest_step(
+        script, {}, str(manifest_path), str(wav_dir), str(public_audio), [],
+        media_dir=str(media_dir),
+        remotion_public_video=str(public_video),
+        remotion_public_images=str(public_images),
+    )
+
+    assert (public_video / "clip.mp4").exists()
+    assert result.media_copied == ["video/clip.mp4"]
+
+
+def test_write_manifest_step_without_media_args_is_unaffected(tmp_path):
+    script = _script([
+        {"id": "s1", "type": "explanation", "narration": "N.", "visual": {"headline": "H"}},
+    ])
+    wav_dir = tmp_path / "wav"
+    _write_wav(wav_dir / "scene_s1.wav", seconds=1.0)
+    public_audio = tmp_path / "public_audio"
+    manifest_path = tmp_path / "output" / "render_manifest.json"
+
+    result = write_manifest_step(
+        script,
+        {"s1": 1.0},
+        str(manifest_path),
+        str(wav_dir),
+        str(public_audio),
+        ["s1"],
+    )
+
+    assert manifest_path.exists()
+    assert result.audio_ids_copied == 1
+    assert result.media_copied == []
+    assert (public_audio / "scene_s1.wav").exists()
+
+
 def test_score_and_write_beatmap_writes_file(tmp_path):
     script = _script([
         {"id": "s1", "type": "explanation", "narration": "N.",

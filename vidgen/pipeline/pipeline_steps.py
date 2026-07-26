@@ -25,6 +25,7 @@ from vidgen.pipeline.chunked_video_renderer import render_video_chunked
 from vidgen.pipeline.render_manifest_builder import (
     build_render_manifest,
     copy_audio_to_remotion_public,
+    copy_media_to_remotion_public,
     detect_dead_air,
     wav_filename,
     write_render_manifest,
@@ -258,6 +259,7 @@ def measure_media_durations(script: dict, media_dir: str) -> dict:
 class ManifestResult:
     manifest: dict
     audio_ids_copied: int
+    media_copied: list
 
 
 def write_manifest_step(
@@ -267,14 +269,25 @@ def write_manifest_step(
     wav_dir: str,
     remotion_public_audio: str,
     audio_ids: list,
+    media_dir: str | None = None,
+    remotion_public_video: str | None = None,
+    remotion_public_images: str | None = None,
 ) -> ManifestResult:
     copy_audio_to_remotion_public(audio_ids, wav_dir, remotion_public_audio)
     logger.info("Copied %d WAV file(s) to %s/", len(audio_ids), remotion_public_audio)
 
+    media_copied = []
+    if media_dir and remotion_public_video and remotion_public_images:
+        media_copied = copy_media_to_remotion_public(
+            script, media_dir, remotion_public_video, remotion_public_images
+        )
+        if media_copied:
+            logger.info("Copied %d media file(s) to remotion/public/", len(media_copied))
+
     manifest = build_render_manifest(script, audio_durations)
     write_render_manifest(manifest, manifest_path)
     logger.info("Render manifest written to %s", manifest_path)
-    return ManifestResult(manifest=manifest, audio_ids_copied=len(audio_ids))
+    return ManifestResult(manifest=manifest, audio_ids_copied=len(audio_ids), media_copied=media_copied)
 
 
 @dataclass
