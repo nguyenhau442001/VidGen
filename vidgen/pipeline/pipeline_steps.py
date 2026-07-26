@@ -296,6 +296,29 @@ def score_and_write_beatmap(script: dict, manifest: dict, beatmap_path: str) -> 
     return BeatmapResult(beatmap=beatmap, report=report)
 
 
+def check_footage_fit(script: dict, media_dir: str, wps: float = 4.2) -> None:
+    """For every real_footage shot with narration, estimate the TTS time the
+    narration will need (word_count / wps) and fail fast if it exceeds the
+    clip's real duration. Runs before TTS synthesis so a too-short clip is
+    caught before spending a TTS call on narration that can't fit — no
+    freeze-frame/loop/pad fallback is used to paper over the mismatch."""
+    for shot in script_shots(script):
+        if shot["type"] != "real_footage" or not shot.get("narration"):
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        filename = os.path.basename(props["mediaPath"])
+        src = os.path.join(media_dir, filename)
+        clip_seconds = _ffprobe_duration_seconds(src)
+        word_count = len(shot["narration"].split())
+        estimated_seconds = word_count / wps
+        if estimated_seconds > clip_seconds:
+            raise ValueError(
+                f"shot '{shot['id']}': narration needs ~{estimated_seconds:.2f}s "
+                f"({word_count} words @ {wps} wps) but clip '{filename}' is only "
+                f"{clip_seconds:.2f}s long — shorten the narration or use a longer clip"
+            )
+
+
 @dataclass
 class DeadAirResult:
     findings: list

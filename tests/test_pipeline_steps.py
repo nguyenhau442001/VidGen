@@ -17,6 +17,7 @@ from vidgen.pipeline.pipeline_steps import (
 )
 from vidgen.pipeline.pipeline_steps import (
     check_dead_air,
+    check_footage_fit,
     render_video,
     score_and_write_beatmap,
     write_manifest_step,
@@ -320,3 +321,58 @@ def test_measure_media_durations_empty_when_no_original_audio_shots(tmp_path):
     media_dir.mkdir()
     script = {"shots": [{"id": "s1", "type": "explanation", "props": {}}]}
     assert measure_media_durations(script, str(media_dir)) == {}
+
+
+def test_check_footage_fit_passes_when_narration_fits(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": "Một hai ba bốn.",  # 4 words / 4.2 wps ≈ 0.95s
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=5.0):
+        check_footage_fit(script, str(media_dir))  # should not raise
+
+
+def test_check_footage_fit_raises_when_narration_overruns_clip(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+    long_narration = " ".join(["từ"] * 40)  # 40 words / 4.2 wps ≈ 9.5s
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": long_narration,
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=2.0):
+        try:
+            check_footage_fit(script, str(media_dir))
+            assert False, "expected ValueError"
+        except ValueError as e:
+            msg = str(e)
+            assert "s1" in msg
+            assert "2.0" in msg or "2.00" in msg
+
+
+def test_check_footage_fit_skips_shots_without_narration(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            }
+        ]
+    }
+    check_footage_fit(script, str(media_dir))  # should not raise, no ffprobe call needed
