@@ -30,6 +30,38 @@ export type HSKScreenshotVisual = {
   badgeText?: string;
 };
 
+// Embedded real-footage clip (phone/screen recording) filling the full
+// frame. mediaPath is a staticFile()-relative path under remotion/public/video/.
+export type RealFootageVisual = {
+  mediaPath: string;
+  useOriginalAudio?: boolean;
+  trimStartSeconds?: number;
+  trimEndSeconds?: number;
+  objectPosition?: string; // CSS object-position value, default "center"
+};
+
+export type ScreenshotSpotlightBox = {
+  x: number; // fraction 0-1 of image width
+  y: number; // fraction 0-1 of image height
+  w: number; // fraction 0-1 of image width
+  h: number; // fraction 0-1 of image height
+  startFrame: number;
+  endFrame: number;
+};
+
+// Generic screenshot scene — replaces bespoke per-video screenshot scenes
+// going forward (see Scene Library Freeze). chrome picks the frame style;
+// spotlight boxes are fractional (not pixel) coordinates so any screenshot
+// can use the pan/highlight effect, not just one hand-tuned image.
+export type ScreenshotVisual = {
+  imagePath: string;
+  chrome: "phone" | "browser" | "none";
+  headline?: string;
+  accentWord?: string;
+  badgeText?: string;
+  spotlight?: ScreenshotSpotlightBox[];
+};
+
 export type TerminalLine = string | { text: string; highlight?: boolean };
 
 export type TerminalVisual = {
@@ -188,7 +220,9 @@ export type ManifestScene =
   | { type: "task_instruction"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TaskInstructionVisual }
   | { type: "caption_upgrade"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CaptionUpgradeVisual }
   | { type: "reuse_system"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ReuseSystemVisual }
-  | { type: "brand_swap_test"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BrandSwapTestVisual };
+  | { type: "brand_swap_test"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BrandSwapTestVisual }
+  | { type: "real_footage"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RealFootageVisual }
+  | { type: "screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenshotVisual };
 
 export type MarketingCaptionHookVisual = {
   label: string;
@@ -457,6 +491,8 @@ export type RenderManifest = {
 export type ExplanationSceneProps = ExplanationVisual & { durationInFrames: number };
 export type HSKCTASceneProps = HSKCTAVisual & { durationInFrames: number };
 export type HSKScreenshotSceneProps = HSKScreenshotVisual & { durationInFrames: number };
+export type RealFootageSceneProps = RealFootageVisual & { durationInFrames: number };
+export type ScreenshotSceneProps = ScreenshotVisual & { durationInFrames: number };
 export type TerminalSceneProps = TerminalVisual & { durationInFrames: number };
 export type CodeSceneProps = CodeVisual & { durationInFrames: number };
 export type ErrorLogSceneProps = ErrorLogVisual & { durationInFrames: number };
