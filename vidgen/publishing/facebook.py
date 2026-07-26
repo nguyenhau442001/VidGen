@@ -41,7 +41,7 @@ from vidgen.publishing.common import (
 
 def _load_env_file() -> None:
     """Load KEY=VALUE pairs from a .env file at the repo root, if present."""
-    env_file = Path(__file__).parent.parent / ".env"
+    env_file = Path(__file__).parent.parent.parent / ".env"
     if not env_file.exists():
         return
     for line in env_file.read_text().splitlines():
@@ -64,7 +64,7 @@ GITHUB_REPO     = os.getenv("GITHUB_REPO", "")
 GITHUB_TOKEN    = os.getenv("GITHUB_TOKEN", "")
 GITHUB_WORKFLOW = os.getenv("GITHUB_WORKFLOW", "notify.yml")
 
-TOKENS_FILE = Path(__file__).parent.parent / ".facebook_tokens.json"
+TOKENS_FILE = Path(__file__).parent.parent.parent / ".facebook_tokens.json"
 
 # -- Facebook Graph API constants ----------------------------------------------
 API_VERSION  = "v25.0"

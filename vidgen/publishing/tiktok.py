@@ -42,7 +42,7 @@ GITHUB_REPO          = os.getenv("GITHUB_REPO", "")          # e.g. "nguyenhau44
 GITHUB_TOKEN         = os.getenv("GITHUB_TOKEN", "")          # Personal Access Token (classic)
 GITHUB_WORKFLOW      = os.getenv("GITHUB_WORKFLOW", "notify.yml")
 
-TOKENS_FILE = Path(__file__).parent.parent / ".tiktok_tokens.json"
+TOKENS_FILE = Path(__file__).parent.parent.parent / ".tiktok_tokens.json"
 
 # ── TikTok API constants ──────────────────────────────────────────────────────
 API_BASE        = "https://open.tiktokapis.com/v2"
@@ -206,7 +206,7 @@ def _dedupe_preserve_order(items: list[str]) -> list[str]:
 
 
 def _caption_source_candidates(video_path: Path, source_path: str | Path | None = None) -> list[Path]:
-    repo_root = Path(__file__).parent.parent
+    repo_root = Path(__file__).parent.parent.parent
     stem = video_path.stem
     candidates: list[Path] = []
 
@@ -909,7 +909,7 @@ def _run_oauth_flow() -> None:
 
 def main() -> None:
     # Load .env if present
-    env_file = Path(__file__).parent.parent / ".env"
+    env_file = Path(__file__).parent.parent.parent / ".env"
     if env_file.exists():
         for line in env_file.read_text().splitlines():
             line = line.strip()
