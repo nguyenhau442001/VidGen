@@ -1,8 +1,9 @@
 import math
+import os
 
 import pytest
 
-from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, build_render_manifest, detect_dead_air, detect_transition_silence
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence, validate_media_path_present, validate_real_footage_audio_source
 
 
 def test_duration_frames_calculation():
@@ -355,3 +356,224 @@ def test_multi_scene_ordering():
     assert len(manifest["shots"]) == 2
     assert manifest["shots"][0]["id"] == 1
     assert manifest["shots"][1]["id"] == 2
+
+
+def test_copy_media_to_remotion_public_copies_video_and_image(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake video bytes")
+    (media_dir / "shot.png").write_bytes(b"fake png bytes")
+
+    public_video_dir = tmp_path / "public_video"
+    public_images_dir = tmp_path / "public_images"
+
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+            {"id": "s2", "type": "screenshot", "props": {"imagePath": "images/shot.png"}},
+        ]
+    }
+
+    copied = copy_media_to_remotion_public(
+        script, str(media_dir), str(public_video_dir), str(public_images_dir)
+    )
+
+    assert os.path.exists(public_video_dir / "clip.mp4")
+    assert os.path.exists(public_images_dir / "shot.png")
+    assert sorted(copied) == ["images/shot.png", "video/clip.mp4"]
+
+
+def test_copy_media_to_remotion_public_missing_file_raises(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+
+    try:
+        copy_media_to_remotion_public(
+            script, str(media_dir), str(tmp_path / "pv"), str(tmp_path / "pi")
+        )
+        assert False, "expected FileNotFoundError"
+    except FileNotFoundError as e:
+        assert "s1" in str(e)
+        assert "clip.mp4" in str(e)
+
+
+def test_copy_media_to_remotion_public_ignores_other_shot_types(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {"headline": "hi"}}]}
+
+    copied = copy_media_to_remotion_public(
+        script, str(media_dir), str(tmp_path / "pv"), str(tmp_path / "pi")
+    )
+    assert copied == []
+
+
+def test_real_footage_and_screenshot_are_valid_scene_types():
+    assert "real_footage" in VALID_SCENE_TYPES
+    assert "screenshot" in VALID_SCENE_TYPES
+
+
+def test_build_render_manifest_accepts_real_footage_shot():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "narration": "Đây là màn hình thật.",
+                "duration_frames": 90,
+                "props": {"mediaPath": "clip.mp4"},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 2.5})
+    assert manifest["shots"][0]["type"] == "real_footage"
+    # copy_media_to_remotion_public() always copies real_footage clips under
+    # remotion/public/video/<basename> regardless of the authored path, so
+    # the manifest's visual.mediaPath must resolve to that same location for
+    # staticFile() to find the file — not the raw authored value.
+    assert manifest["shots"][0]["visual"]["mediaPath"] == "video/clip.mp4"
+
+
+def test_build_render_manifest_normalizes_real_footage_media_path_with_prefix():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+                "duration_frames": 90,
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={})
+    assert manifest["shots"][0]["visual"]["mediaPath"] == "video/clip.mp4"
+
+
+def test_build_render_manifest_accepts_screenshot_shot():
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "screenshot",
+                "narration": "Xem giao diện.",
+                "duration_frames": 90,
+                "props": {"imagePath": "shot.png", "chrome": "phone"},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 2.0})
+    assert manifest["shots"][0]["type"] == "screenshot"
+    assert manifest["shots"][0]["visual"]["chrome"] == "phone"
+    # Same normalization as real_footage, for images/<basename>.
+    assert manifest["shots"][0]["visual"]["imagePath"] == "images/shot.png"
+
+
+def test_build_render_manifest_uses_measured_duration_for_useOriginalAudio_shot():
+    # measure_media_durations() merges real_footage useOriginalAudio clip
+    # durations into the same audio_durations dict TTS durations go into,
+    # even though these shots have no `narration`. duration_frames must
+    # still fall back to that measured value rather than the fps*3 stub.
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1",
+                "type": "real_footage",
+                "props": {"mediaPath": "clip.mp4", "useOriginalAudio": True},
+            }
+        ],
+    }
+    manifest = build_render_manifest(script, audio_durations={"s1": 12.0})
+    assert manifest["shots"][0]["durationInFrames"] == math.ceil(12.0 * FPS) + FRAME_PADDING
+    # No narration -> no TTS audioPath; audio comes from the clip itself.
+    assert manifest["shots"][0]["audioPath"] == ""
+
+
+def test_validate_real_footage_audio_source_ok_with_narration():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "narration": "Nói gì đó.",
+             "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+    validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_real_footage_audio_source_ok_with_original_audio():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage",
+             "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True}},
+        ]
+    }
+    validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_real_footage_audio_source_raises_with_neither():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+    try:
+        validate_real_footage_audio_source(script)
+        assert False, "expected ValueError"
+    except ValueError as e:
+        assert "s1" in str(e)
+
+
+def test_validate_real_footage_audio_source_ignores_other_types():
+    script = {"shots": [{"id": "s1", "type": "explanation", "narration": None}]}
+    validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_media_path_present_ok_when_present():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "clip.mp4"}},
+            {"id": "s2", "type": "screenshot", "props": {"imagePath": "shot.png"}},
+        ]
+    }
+    validate_media_path_present(script)  # should not raise
+
+
+def test_validate_media_path_present_raises_when_real_footage_media_path_missing():
+    script = {"shots": [{"id": "s1", "type": "real_footage", "props": {}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_real_footage_media_path_empty():
+    script = {"shots": [{"id": "s1", "type": "real_footage", "props": {"mediaPath": ""}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_screenshot_image_path_missing():
+    script = {"shots": [{"id": "s1", "type": "screenshot", "props": {}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_raises_when_screenshot_image_path_empty():
+    script = {"shots": [{"id": "s1", "type": "screenshot", "props": {"imagePath": ""}}]}
+    with pytest.raises(ValueError) as ctx:
+        validate_media_path_present(script)
+    assert "s1" in str(ctx.value)
+
+
+def test_validate_media_path_present_ignores_other_types():
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {}}]}
+    validate_media_path_present(script)  # should not raise

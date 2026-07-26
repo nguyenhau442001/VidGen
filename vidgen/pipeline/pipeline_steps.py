@@ -10,6 +10,7 @@ import logging
 import math
 import os
 import shutil
+import subprocess
 import wave
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -24,7 +25,10 @@ from vidgen.pipeline.chunked_video_renderer import render_video_chunked
 from vidgen.pipeline.render_manifest_builder import (
     build_render_manifest,
     copy_audio_to_remotion_public,
+    copy_media_to_remotion_public,
     detect_dead_air,
+    validate_media_path_present,
+    validate_real_footage_audio_source,
     wav_filename,
     write_render_manifest,
 )
@@ -80,6 +84,7 @@ def tighten_scene_durations(
             or "duration_frames" not in shot
             or shot.get("narration_per_criterion")
             or shot.get("props", {}).get("dialogue")
+            or shot.get("type") == "real_footage"
         ):
             continue
         offset = (shot.get("narration_timing_frames") or [0])[0]
@@ -104,6 +109,14 @@ def load_and_validate_script(script_path: str, skip_validation: bool) -> LoadRes
     shots = script_shots(script)
     if shots and shots[0]["type"] == "HSKFlashCardThumbnailScene":
         script["shots"] = shots[1:]
+
+    # These two are hard structural invariants (a real_footage shot must
+    # have exactly one audio source; a real_footage/screenshot shot must
+    # have a media path to render at all) — not soft pacing warnings, so
+    # they run even when --skip-validation is passed and the rest of
+    # validate_manifest()'s checks are skipped.
+    validate_real_footage_audio_source(script)
+    validate_media_path_present(script)
 
     if not skip_validation:
         validate_manifest(script)
@@ -228,10 +241,50 @@ def measure_audio_durations(jobs: list[TTSJob], wav_dir: str) -> dict:
     return audio_durations
 
 
+def _ffprobe_duration_seconds(path: str) -> float:
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", path],
+        capture_output=True, text=True, check=True,
+    )
+    return float(result.stdout.strip())
+
+
+def _ffprobe_duration_seconds_for_shot(shot_id, src: str) -> float:
+    """Same as _ffprobe_duration_seconds, but fails fast with a clear,
+    shot-scoped FileNotFoundError instead of letting a missing file surface
+    as a raw ffprobe CalledProcessError with no shot id or guidance —
+    matching copy_media_to_remotion_public()'s fail-fast pattern in
+    render_manifest_builder.py."""
+    if not os.path.exists(src):
+        raise FileNotFoundError(
+            f"shot '{shot_id}': media file not found: {src} "
+            f"(expected under content/media/<slug>/)"
+        )
+    return _ffprobe_duration_seconds(src)
+
+
+def measure_media_durations(script: dict, media_dir: str) -> dict:
+    durations = {}
+    for shot in script_shots(script):
+        if shot["type"] != "real_footage":
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        if not props.get("useOriginalAudio"):
+            continue
+        filename = os.path.basename(props["mediaPath"])
+        src = os.path.join(media_dir, filename)
+        duration = _ffprobe_duration_seconds_for_shot(shot["id"], src)
+        logger.info("%s media duration: %.2fs", shot["id"], duration)
+        durations[shot["id"]] = duration
+    return durations
+
+
 @dataclass
 class ManifestResult:
     manifest: dict
     audio_ids_copied: int
+    media_copied: list
 
 
 def write_manifest_step(
@@ -241,14 +294,25 @@ def write_manifest_step(
     wav_dir: str,
     remotion_public_audio: str,
     audio_ids: list,
+    media_dir: str | None = None,
+    remotion_public_video: str | None = None,
+    remotion_public_images: str | None = None,
 ) -> ManifestResult:
     copy_audio_to_remotion_public(audio_ids, wav_dir, remotion_public_audio)
     logger.info("Copied %d WAV file(s) to %s/", len(audio_ids), remotion_public_audio)
 
+    media_copied = []
+    if media_dir and remotion_public_video and remotion_public_images:
+        media_copied = copy_media_to_remotion_public(
+            script, media_dir, remotion_public_video, remotion_public_images
+        )
+        if media_copied:
+            logger.info("Copied %d media file(s) to remotion/public/", len(media_copied))
+
     manifest = build_render_manifest(script, audio_durations)
     write_render_manifest(manifest, manifest_path)
     logger.info("Render manifest written to %s", manifest_path)
-    return ManifestResult(manifest=manifest, audio_ids_copied=len(audio_ids))
+    return ManifestResult(manifest=manifest, audio_ids_copied=len(audio_ids), media_copied=media_copied)
 
 
 @dataclass
@@ -268,6 +332,29 @@ def score_and_write_beatmap(script: dict, manifest: dict, beatmap_path: str) -> 
         beatmap_path,
     )
     return BeatmapResult(beatmap=beatmap, report=report)
+
+
+def check_footage_fit(script: dict, media_dir: str, wps: float = 4.2) -> None:
+    """For every real_footage shot with narration, estimate the TTS time the
+    narration will need (word_count / wps) and fail fast if it exceeds the
+    clip's real duration. Runs before TTS synthesis so a too-short clip is
+    caught before spending a TTS call on narration that can't fit — no
+    freeze-frame/loop/pad fallback is used to paper over the mismatch."""
+    for shot in script_shots(script):
+        if shot["type"] != "real_footage" or not shot.get("narration"):
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        filename = os.path.basename(props["mediaPath"])
+        src = os.path.join(media_dir, filename)
+        clip_seconds = _ffprobe_duration_seconds_for_shot(shot["id"], src)
+        word_count = len(shot["narration"].split())
+        estimated_seconds = word_count / wps
+        if estimated_seconds > clip_seconds:
+            raise ValueError(
+                f"shot '{shot['id']}': narration needs ~{estimated_seconds:.2f}s "
+                f"({word_count} words @ {wps} wps) but clip '{filename}' is only "
+                f"{clip_seconds:.2f}s long — shorten the narration or use a longer clip"
+            )
 
 
 @dataclass

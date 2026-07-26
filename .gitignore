@@ -11,6 +11,13 @@ output/
 remotion/public/audio/
 public/audio/
 
+# Media ingested by copy_media_to_remotion_public() from content/media/<slug>/
+# — content/media/ is the source of truth, these are build artifacts. Existing
+# hand-committed assets (grabfood_delivery_options.*, hsk_app_screenshot*.png)
+# stay tracked; gitignore only affects new/untracked files.
+remotion/public/video/
+remotion/public/images/
+
 # Personal reference audio (voice cloning tests, etc.)
 input/
 

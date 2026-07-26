@@ -52,3 +52,14 @@ def test_validate_manifest_overflow_error_raises():
         validate_manifest(manifest)
 
 
+def test_validate_manifest_calls_real_footage_audio_source_check():
+    manifest = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+
+    with pytest.raises(ValueError, match="s1"):
+        validate_manifest(manifest)
+
+

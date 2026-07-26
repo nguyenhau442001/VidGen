@@ -1,5 +1,6 @@
 import copy
 import wave
+from unittest.mock import patch
 
 import pytest
 
@@ -10,11 +11,13 @@ from vidgen.pipeline.pipeline_steps import (
     build_tts_jobs,
     load_and_validate_script,
     measure_audio_durations,
+    measure_media_durations,
     synthesize_tts,
     tighten_scene_durations,
 )
 from vidgen.pipeline.pipeline_steps import (
     check_dead_air,
+    check_footage_fit,
     render_video,
     score_and_write_beatmap,
     write_manifest_step,
@@ -119,6 +122,26 @@ def test_tighten_scene_durations_skips_dialogue_scenes():
     assert changes == []
 
 
+def test_tighten_scene_durations_skips_real_footage_shots():
+    # real_footage duration is fully determined by the clip itself (measured
+    # via ffprobe into audio_durations), not a tightenable narration window —
+    # tightening it would add a de-facto freeze-frame tail past the clip's
+    # real end, which the feature forbids.
+    script = _script([
+        {
+            "id": "s1", "type": "real_footage",
+            "duration_frames": 300,
+            "props": {"mediaPath": "clip.mp4", "useOriginalAudio": True},
+        },
+    ])
+    jobs = []
+    new_script, changes = tighten_scene_durations(
+        script, audio_durations={"s1": 2.0}, fps=30, jobs=jobs
+    )
+    assert new_script["shots"][0]["duration_frames"] == 300
+    assert changes == []
+
+
 def test_tighten_scene_durations_does_not_mutate_input():
     script = _script([
         {
@@ -161,6 +184,54 @@ def test_load_and_validate_script_strips_thumbnail_shot(tmp_path):
     result = load_and_validate_script(str(script_path), skip_validation=True)
     ids = [s["id"] for s in result.script["shots"]]
     assert ids == ["s1"]
+
+
+def test_load_and_validate_script_enforces_audio_source_invariant_even_with_skip_validation(tmp_path):
+    import json
+
+    script_path = tmp_path / "script.json"
+    script_path.write_text(
+        json.dumps(
+            {
+                "fps": 30,
+                "shots": [
+                    {
+                        "id": "s1", "type": "real_footage",
+                        "props": {"mediaPath": "clip.mp4"},
+                        # no narration, no useOriginalAudio -> no audio source
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as ctx:
+        load_and_validate_script(str(script_path), skip_validation=True)
+    assert "s1" in str(ctx.value)
+
+
+def test_load_and_validate_script_enforces_media_path_invariant_even_with_skip_validation(tmp_path):
+    import json
+
+    script_path = tmp_path / "script.json"
+    script_path.write_text(
+        json.dumps(
+            {
+                "fps": 30,
+                "shots": [
+                    {
+                        "id": "s1", "type": "screenshot",
+                        "narration": "Xem giao diện.",
+                        "props": {},  # no imagePath
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as ctx:
+        load_and_validate_script(str(script_path), skip_validation=True)
+    assert "s1" in str(ctx.value)
 
 
 def test_measure_audio_durations_reads_wav_headers(tmp_path):
@@ -246,6 +317,64 @@ def test_write_manifest_step_writes_file_and_copies_audio(tmp_path):
     assert (public_audio / "scene_s1.wav").exists()
 
 
+def test_write_manifest_step_copies_media_when_present(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+
+    wav_dir = tmp_path / "wav"
+    wav_dir.mkdir()
+    public_audio = tmp_path / "pub_audio"
+    public_video = tmp_path / "pub_video"
+    public_images = tmp_path / "pub_images"
+    manifest_path = tmp_path / "manifest.json"
+
+    script = {
+        "fps": 30,
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+                "duration_frames": 90,
+            }
+        ],
+    }
+
+    result = write_manifest_step(
+        script, {}, str(manifest_path), str(wav_dir), str(public_audio), [],
+        media_dir=str(media_dir),
+        remotion_public_video=str(public_video),
+        remotion_public_images=str(public_images),
+    )
+
+    assert (public_video / "clip.mp4").exists()
+    assert result.media_copied == ["video/clip.mp4"]
+
+
+def test_write_manifest_step_without_media_args_is_unaffected(tmp_path):
+    script = _script([
+        {"id": "s1", "type": "explanation", "narration": "N.", "visual": {"headline": "H"}},
+    ])
+    wav_dir = tmp_path / "wav"
+    _write_wav(wav_dir / "scene_s1.wav", seconds=1.0)
+    public_audio = tmp_path / "public_audio"
+    manifest_path = tmp_path / "output" / "render_manifest.json"
+
+    result = write_manifest_step(
+        script,
+        {"s1": 1.0},
+        str(manifest_path),
+        str(wav_dir),
+        str(public_audio),
+        ["s1"],
+    )
+
+    assert manifest_path.exists()
+    assert result.audio_ids_copied == 1
+    assert result.media_copied == []
+    assert (public_audio / "scene_s1.wav").exists()
+
+
 def test_score_and_write_beatmap_writes_file(tmp_path):
     script = _script([
         {"id": "s1", "type": "explanation", "narration": "N.",
@@ -285,3 +414,132 @@ def test_render_video_deletes_stale_output(tmp_path, monkeypatch):
     assert not video_output.exists()  # deleted before render_video_chunked ran
     assert calls == [str(video_output)]
     assert result.video_output == str(video_output)
+
+
+def test_measure_media_durations_only_real_footage_with_original_audio(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            },
+            {
+                "id": "s2", "type": "real_footage",
+                "narration": "Có TTS nên không cần đo.",
+                "props": {"mediaPath": "video/clip.mp4"},
+            },
+            {"id": "s3", "type": "explanation", "props": {}},
+        ]
+    }
+
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=4.2):
+        durations = measure_media_durations(script, str(media_dir))
+
+    assert durations == {"s1": 4.2}
+
+
+def test_measure_media_durations_empty_when_no_original_audio_shots(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {"shots": [{"id": "s1", "type": "explanation", "props": {}}]}
+    assert measure_media_durations(script, str(media_dir)) == {}
+
+
+def test_check_footage_fit_passes_when_narration_fits(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": "Một hai ba bốn.",  # 4 words / 4.2 wps ≈ 0.95s
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=5.0):
+        check_footage_fit(script, str(media_dir))  # should not raise
+
+
+def test_check_footage_fit_raises_when_narration_overruns_clip(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    (media_dir / "clip.mp4").write_bytes(b"fake")
+    long_narration = " ".join(["từ"] * 40)  # 40 words / 4.2 wps ≈ 9.5s
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": long_narration,
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+    with patch("vidgen.pipeline.pipeline_steps._ffprobe_duration_seconds", return_value=2.0):
+        try:
+            check_footage_fit(script, str(media_dir))
+            assert False, "expected ValueError"
+        except ValueError as e:
+            msg = str(e)
+            assert "s1" in msg
+            assert "2.0" in msg or "2.00" in msg
+
+
+def test_measure_media_durations_missing_file_raises_file_not_found(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            }
+        ]
+    }
+
+    with pytest.raises(FileNotFoundError) as ctx:
+        measure_media_durations(script, str(media_dir))
+    msg = str(ctx.value)
+    assert "s1" in msg
+    assert "clip.mp4" in msg
+
+
+def test_check_footage_fit_missing_file_raises_file_not_found(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()  # no clip.mp4 inside
+
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "narration": "Một hai ba.",
+                "props": {"mediaPath": "video/clip.mp4"},
+            }
+        ]
+    }
+
+    with pytest.raises(FileNotFoundError) as ctx:
+        check_footage_fit(script, str(media_dir))
+    msg = str(ctx.value)
+    assert "s1" in msg
+    assert "clip.mp4" in msg
+
+
+def test_check_footage_fit_skips_shots_without_narration(tmp_path):
+    media_dir = tmp_path / "media"
+    media_dir.mkdir()
+    script = {
+        "shots": [
+            {
+                "id": "s1", "type": "real_footage",
+                "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True},
+            }
+        ]
+    }
+    check_footage_fit(script, str(media_dir))  # should not raise, no ffprobe call needed

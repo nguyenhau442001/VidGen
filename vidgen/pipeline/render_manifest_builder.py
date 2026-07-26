@@ -141,6 +141,8 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "caption_upgrade",
     "reuse_system",
     "brand_swap_test",
+    "real_footage",
+    "screenshot",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,
@@ -263,6 +265,18 @@ def _translate_visual(scene_type: str, props: dict) -> dict:
             visual["leftMapPing"] = left_map
         return visual
 
+    if scene_type == "real_footage":
+        visual = dict(props)
+        if "mediaPath" in visual:
+            visual["mediaPath"] = f"video/{os.path.basename(visual['mediaPath'])}"
+        return visual
+
+    if scene_type == "screenshot":
+        visual = dict(props)
+        if "imagePath" in visual:
+            visual["imagePath"] = f"images/{os.path.basename(visual['imagePath'])}"
+        return visual
+
     return dict(props)
 
 
@@ -286,7 +300,12 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
 
         if "duration_frames" in shot:
             duration_frames = shot["duration_frames"]
-        elif has_audio:
+        elif sid in audio_durations:
+            # Covers both TTS narration durations and real_footage
+            # useOriginalAudio clip durations (measure_media_durations()
+            # merges the latter into this same dict, keyed by shot id, even
+            # though those shots have no `narration` and thus has_audio is
+            # False for audioPath-assignment purposes above).
             duration_frames = math.ceil(audio_durations[sid] * fps) + FRAME_PADDING
         else:
             duration_frames = fps * 3  # fallback for silent, un-authored-duration scenes
@@ -482,3 +501,93 @@ def copy_audio_to_remotion_public(scene_ids: list, wav_dir: str, public_audio_di
         shutil.copy2(src, dst)
         preview_dst = os.path.join(public_audio_dir, preview_audio_filename(sid))
         _transcode_preview_audio(src, preview_dst)
+
+
+def validate_real_footage_audio_source(script: dict) -> None:
+    """A real_footage shot must have exactly one audio source: TTS narration
+    (clip audio muted) or props.useOriginalAudio=True (clip's own audio, no
+    TTS job). Neither present means the shot would render with no audio at
+    all — an authoring mistake to catch before TTS/render, not at runtime."""
+    for shot in script_shots(script):
+        if shot.get("type") != "real_footage":
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        has_narration = bool(shot.get("narration"))
+        uses_original_audio = bool(props.get("useOriginalAudio"))
+        if not has_narration and not uses_original_audio:
+            raise ValueError(
+                f"shot '{shot['id']}': real_footage shot has no audio source — "
+                f"set 'narration' for TTS, or props.useOriginalAudio=true to "
+                f"keep the clip's own audio"
+            )
+
+
+def validate_media_path_present(script: dict) -> None:
+    """A real_footage shot must have a truthy props.mediaPath, and a
+    screenshot shot must have a truthy props.imagePath. Without it,
+    copy_media_to_remotion_public() silently skips the shot (`if not
+    rel_path: continue`) and _translate_visual()'s real_footage/screenshot
+    cases silently skip translation too (`if "mediaPath" in visual` /
+    `if "imagePath" in visual`), so the shot would otherwise reach the
+    Remotion component with mediaPath/imagePath undefined and fail at
+    staticFile(undefined) — catch the missing-required-field authoring
+    mistake here instead, before TTS/render."""
+    for shot in script_shots(script):
+        shot_type = shot.get("type")
+        if shot_type not in ("real_footage", "screenshot"):
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        field = "mediaPath" if shot_type == "real_footage" else "imagePath"
+        if not props.get(field):
+            raise ValueError(
+                f"shot '{shot['id']}': {shot_type} shot has no props.{field} — "
+                f"a {shot_type} shot must specify a media file to render"
+            )
+
+
+def copy_media_to_remotion_public(
+    script: dict, media_dir: str, public_video_dir: str, public_images_dir: str
+) -> list[str]:
+    """Copy raw screenshots/video clips authored in content/media/<slug>/ into
+    remotion/public/, mirroring copy_audio_to_remotion_public()'s pattern for
+    WAVs. Only the basename of each shot's authored mediaPath/imagePath is
+    used — any directory component the author wrote (e.g. "video/clip.mp4")
+    is discarded — and the physical copy always lands at
+    "video/<basename>" (for real_footage) or "images/<basename>" (for
+    screenshot) under remotion/public/. Returns that list of public-relative
+    paths actually copied. _translate_visual() in this same file normalizes
+    the manifest's visual.mediaPath/visual.imagePath to match this same
+    "video|images/<basename>" shape, so staticFile() resolution in Remotion
+    finds the file regardless of how the author wrote the original path."""
+    os.makedirs(public_video_dir, exist_ok=True)
+    os.makedirs(public_images_dir, exist_ok=True)
+    copied = []
+    for shot in script_shots(script):
+        props = shot.get("props", shot.get("visual", {}))
+        if shot["type"] == "real_footage":
+            rel_path = props.get("mediaPath")
+            if not rel_path:
+                continue
+            filename = os.path.basename(rel_path)
+            src = os.path.join(media_dir, filename)
+            if not os.path.exists(src):
+                raise FileNotFoundError(
+                    f"shot '{shot['id']}': media file not found: {src} "
+                    f"(expected under content/media/<slug>/)"
+                )
+            shutil.copy2(src, os.path.join(public_video_dir, filename))
+            copied.append(f"video/{filename}")
+        elif shot["type"] == "screenshot":
+            rel_path = props.get("imagePath")
+            if not rel_path:
+                continue
+            filename = os.path.basename(rel_path)
+            src = os.path.join(media_dir, filename)
+            if not os.path.exists(src):
+                raise FileNotFoundError(
+                    f"shot '{shot['id']}': media file not found: {src} "
+                    f"(expected under content/media/<slug>/)"
+                )
+            shutil.copy2(src, os.path.join(public_images_dir, filename))
+            copied.append(f"images/{filename}")
+    return copied

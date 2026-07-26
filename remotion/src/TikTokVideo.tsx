@@ -98,6 +98,8 @@ import { LoginBindShot } from "./scenes/LoginBindShot";
 import { NetworkPathShot } from "./scenes/NetworkPathShot";
 import { ThreeLayerRecapShot } from "./scenes/ThreeLayerRecapShot";
 import { PunchlineHoldShot } from "./scenes/PunchlineHoldShot";
+import { RealFootageScene } from "./scenes/RealFootageScene";
+import { ScreenshotScene } from "./scenes/ScreenshotScene";
 import {
   BrandSwapTestScene,
   BriefBlueprintScene,
@@ -430,6 +432,10 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <ThreeLayerRecapShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "punchline_hold":
       return <PunchlineHoldShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "real_footage":
+      return <RealFootageScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "screenshot":
+      return <ScreenshotScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }
