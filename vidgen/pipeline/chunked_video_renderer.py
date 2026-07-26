@@ -1,7 +1,7 @@
 """Per-scene chunked rendering with an on-disk cache.
 
 Instead of rendering the whole composition monolithically, each manifest
-scene is rendered as its own muted MP4 chunk (safe because TikTokVideo is a
+scene is rendered as its own muted MP4 chunk (safe because ShortFormVideo is a
 pure Series — every visual, caption, and audio tag lives inside its scene's
 Series.Sequence, and the only global element, SafeZoneGuide, renders nothing
 in production). Chunks are cached by content hash, so re-running the
@@ -75,7 +75,7 @@ AUDIO_SAMPLE_RATE = 48000
 
 def build_audio_track(manifest: dict, out_path: str, remotion_dir: str = str(REMOTION_DIR)) -> None:
     """Build the full audio track with one ffmpeg filter graph, replicating
-    TikTokVideo.tsx exactly: each scene's audioPath starts at
+    ShortFormVideo.tsx exactly: each scene's audioPath starts at
     scene_start + audioOffsetFrames, each extraAudio seg at
     scene_start + seg.offsetFrames, and every clip is truncated at its
     scene's end (the <Audio> unmounts with its Series.Sequence). Frame
@@ -214,7 +214,7 @@ def render_video_chunked(
 
     spec = {
         "entryPoint": "src/index.ts",
-        "compositionId": "TikTokVideo",
+        "compositionId": "ShortFormVideo",
         "chunks": jobs,
     }
     jobs_file = os.path.abspath(os.path.join(cache_dir, "chunk_jobs.json"))

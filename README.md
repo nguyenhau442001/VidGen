@@ -63,7 +63,7 @@ content/json/<slug>.json             ← generated shot plan, reviewed before re
          │  output/render_manifest.json   ← sole handoff contract
          ▼
 ┌─ Remotion project (remotion/) ─────────────────────────────────────┐
-│  src/TikTokVideo.tsx   root composition: Series of shots, each     │
+│  src/ShortFormVideo.tsx   root composition: Series of shots, each     │
 │                        with its visual, caption, and <Audio>       │
 │  src/scenes/*          the shot template library (see below)       │
 │  scripts/render-chunks.mjs  renders individual shot chunks         │
@@ -114,7 +114,7 @@ Gotchas: unknown shot types render blank silently — only the types in `remotio
 
 ## Shot library (32 wired shot types + 2 covers)
 
-The video is assembled from **28 reusable shot templates** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/TikTokVideo.tsx`'s shot switch:
+The video is assembled from **28 reusable shot templates** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/ShortFormVideo.tsx`'s shot switch:
 
 | Shot type | What it renders |
 |---|---|
@@ -155,7 +155,7 @@ The video is assembled from **28 reusable shot templates** — the tool's "skill
 
 Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `output/thumbnails/`.
 
-Six more components exist in `remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`TikTokVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
+Six more components exist in `remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`ShortFormVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
 
 All compositions are browsable individually in Remotion Studio (`npx remotion studio` in `remotion/`).
 

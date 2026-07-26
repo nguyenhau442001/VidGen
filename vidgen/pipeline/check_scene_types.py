@@ -2,7 +2,7 @@
 
 TYPE_MAP / VALID_SCENE_TYPES in render_manifest_builder.py must agree with
 the ManifestScene union in remotion/src/types.ts and the switch (shot.type)
-dispatch in remotion/src/TikTokVideo.tsx. remotion/scripts/check_scene_types.mjs
+dispatch in remotion/src/ShortFormVideo.tsx. remotion/scripts/check_scene_types.mjs
 is the source-of-truth extractor on the TS side (parses the real AST, not
 regex) and writes remotion/scene_types.generated.json; this module runs that
 script, then diffs its output against VALID_SCENE_TYPES.
@@ -38,7 +38,7 @@ def _run_extractor() -> None:
     if result.returncode != 0:
         raise SceneTypeDriftError(
             "remotion/scripts/check_scene_types.mjs found drift between "
-            "types.ts and TikTokVideo.tsx:\n"
+            "types.ts and ShortFormVideo.tsx:\n"
             f"{result.stdout}{result.stderr}"
         )
 
@@ -63,14 +63,14 @@ def check() -> None:
         lines = ["scene type cross-check FAILED between Python and TypeScript:"]
         if missing_from_python:
             lines.append(
-                f"  - in remotion (types.ts/TikTokVideo.tsx) but not in "
+                f"  - in remotion (types.ts/ShortFormVideo.tsx) but not in "
                 f"render_manifest_builder's TYPE_MAP/DIRECT_SNAKE_CASE_SCENE_TYPES: "
                 f"{sorted(missing_from_python)}"
             )
         if missing_from_ts:
             lines.append(
                 f"  - in render_manifest_builder's TYPE_MAP/DIRECT_SNAKE_CASE_SCENE_TYPES "
-                f"but not in remotion (types.ts/TikTokVideo.tsx): {sorted(missing_from_ts)}"
+                f"but not in remotion (types.ts/ShortFormVideo.tsx): {sorted(missing_from_ts)}"
             )
         raise SceneTypeDriftError("\n".join(lines))
 

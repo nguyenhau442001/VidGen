@@ -11,7 +11,7 @@
 // jobs.json shape:
 // {
 //   "entryPoint": "src/index.ts",
-//   "compositionId": "TikTokVideo",
+//   "compositionId": "ShortFormVideo",
 //   "chunks": [{ "name": "shot_01a", "outPath": "/abs/x.mp4", "manifest": {...} }]
 // }
 import { readFileSync } from "node:fs";

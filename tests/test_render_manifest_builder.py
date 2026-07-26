@@ -304,7 +304,7 @@ def test_detect_dead_air_catches_narration_per_criterion_gap_pre_tts_check_misse
     assert findings == [{"scene_id": "shot_05", "dead_air_frames": 170, "dead_air_seconds": 5.67}]
 
 
-# Cross-scene silence: shots render back-to-back in TikTokVideo's <Series>
+# Cross-scene silence: shots render back-to-back in ShortFormVideo's <Series>
 # with no overlap, so a short trailing gap in shot N can stack with a
 # slow-starting narration lead-in in shot N+1 into an audible pause that
 # neither validate_manifest() nor detect_dead_air() would catch on their own

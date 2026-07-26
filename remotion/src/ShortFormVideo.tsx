@@ -118,7 +118,7 @@ type ManifestShotWithPreviewAudio = ManifestScene & {
   previewAudioPath?: string;
 };
 
-export const TikTokVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
+export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
   const shots = manifest.shots as ManifestShotWithPreviewAudio[];
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>

@@ -15,7 +15,7 @@ mkdirSync(outputDir, { recursive: true });
 try {
   const composition = await selectComposition({
     serveUrl,
-    id: "TikTokVideo",
+    id: "ShortFormVideo",
     inputProps,
     puppeteerInstance: browser,
   });

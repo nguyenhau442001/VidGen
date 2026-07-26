@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "npx remotion studio",
     "audit:layout": "node scripts/audit-layout.mjs ../output/render_manifest.json",
-    "render": "npx remotion render TikTokVideo",
+    "render": "npx remotion render ShortFormVideo",
     "postinstall": "patch-package"
   },
   "dependencies": {

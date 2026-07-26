@@ -422,7 +422,7 @@ def detect_transition_silence(script: dict, threshold_frames: int = MAX_DEAD_AIR
     end of one scene (its narration_timing_frames end to its duration_frames
     end) plus the narration lead-in of the next scene (its
     narration_timing_frames start). Scenes render back-to-back in
-    TikTokVideo's <Series> with no overlap, so this is the silence a viewer
+    ShortFormVideo's <Series> with no overlap, so this is the silence a viewer
     actually hears between two lines — validate_manifest's per-scene dead_air
     check only looks at trailing silence within a single scene and would miss
     a short trailing gap that stacks with a slow-starting next line. Scenes

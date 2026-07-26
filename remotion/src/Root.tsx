@@ -1,6 +1,6 @@
 import React from "react";
 import { Composition, continueRender, delayRender } from "remotion";
-import { TikTokVideo } from "./TikTokVideo";
+import { ShortFormVideo } from "./ShortFormVideo";
 import { CoverScene } from "./scenes/CoverScene";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
@@ -203,8 +203,8 @@ export const Root: React.FC = () => {
   return (
     <>
       <Composition
-        id="TikTokVideo"
-        component={TikTokVideo}
+        id="ShortFormVideo"
+        component={ShortFormVideo}
         durationInFrames={1}
         fps={defaultManifest.fps}
         width={defaultManifest.width}

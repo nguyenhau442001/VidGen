@@ -2,7 +2,7 @@
 //
 // Cross-checks the three places a "shot type" string has to agree:
 //   1. src/types.ts        — ManifestScene union, source of truth
-//   2. src/TikTokVideo.tsx — switch (shot.type) render dispatch
+//   2. src/ShortFormVideo.tsx — switch (shot.type) render dispatch
 //   3. ../vidgen/pipeline/render_manifest_builder.py — TYPE_MAP values
 //
 // Parses via the real project/checker (typescript's native TS7 API), not
@@ -67,7 +67,7 @@ function extractManifestSceneTypes(sourceFile) {
   return types;
 }
 
-// Walk the `switch (shot.type)` in TikTokVideo.tsx and collect each case's string literal.
+// Walk the `switch (shot.type)` in ShortFormVideo.tsx and collect each case's string literal.
 function extractSwitchCaseTypes(sourceFile) {
   let switchNode = null;
   function visit(node) {
@@ -84,7 +84,7 @@ function extractSwitchCaseTypes(sourceFile) {
   }
   visit(sourceFile);
   if (!switchNode) {
-    throw new Error("Found no `switch (shot.type)` statement — check src/TikTokVideo.tsx");
+    throw new Error("Found no `switch (shot.type)` statement — check src/ShortFormVideo.tsx");
   }
 
   return switchNode.caseBlock.clauses
@@ -107,9 +107,9 @@ function main() {
     }
 
     const typesSourceFile = project.program.getSourceFile("src/types.ts");
-    const videoSourceFile = project.program.getSourceFile("src/TikTokVideo.tsx");
+    const videoSourceFile = project.program.getSourceFile("src/ShortFormVideo.tsx");
     if (!typesSourceFile) throw new Error("Could not load src/types.ts from the program");
-    if (!videoSourceFile) throw new Error("Could not load src/TikTokVideo.tsx from the program");
+    if (!videoSourceFile) throw new Error("Could not load src/ShortFormVideo.tsx from the program");
 
     unionTypes = extractManifestSceneTypes(typesSourceFile);
     switchTypes = extractSwitchCaseTypes(videoSourceFile);
@@ -130,14 +130,14 @@ function main() {
   const missingFromSwitch = [...unionSet].filter((t) => !switchSet.has(t));
   if (missingFromSwitch.length > 0) {
     errors.push(
-      `Types in ManifestScene union but not handled by the TikTokVideo.tsx switch: ${missingFromSwitch.join(", ")}`
+      `Types in ManifestScene union but not handled by the ShortFormVideo.tsx switch: ${missingFromSwitch.join(", ")}`
     );
   }
 
   const missingFromUnion = [...switchSet].filter((t) => !unionSet.has(t));
   if (missingFromUnion.length > 0) {
     errors.push(
-      `Types handled by the TikTokVideo.tsx switch but absent from the ManifestScene union: ${missingFromUnion.join(", ")}`
+      `Types handled by the ShortFormVideo.tsx switch but absent from the ManifestScene union: ${missingFromUnion.join(", ")}`
     );
   }
 
@@ -145,19 +145,19 @@ function main() {
     console.error("scene type cross-check FAILED:\n");
     for (const e of errors) console.error(`  - ${e}`);
     console.error(`\nManifestScene union (${unionTypes.length}): src/types.ts`);
-    console.error(`TikTokVideo.tsx switch (${switchTypes.length}): src/TikTokVideo.tsx`);
+    console.error(`ShortFormVideo.tsx switch (${switchTypes.length}): src/ShortFormVideo.tsx`);
     process.exit(1);
   }
 
   console.log(
-    `scene type cross-check OK — ${unionTypes.length} scene types agree between types.ts and TikTokVideo.tsx`
+    `scene type cross-check OK — ${unionTypes.length} scene types agree between types.ts and ShortFormVideo.tsx`
   );
 
   if (!checkOnly) {
     const payload = {
       // Sorted for a stable diff; this file is generated, do not hand-edit.
       sceneTypes: [...unionSet].sort(),
-      generatedFrom: ["src/types.ts:ManifestScene", "src/TikTokVideo.tsx:switch(shot.type)"],
+      generatedFrom: ["src/types.ts:ManifestScene", "src/ShortFormVideo.tsx:switch(shot.type)"],
     };
     writeFileSync(OUTPUT_PATH, JSON.stringify(payload, null, 2) + "\n");
     console.log(`wrote ${path.relative(REMOTION_ROOT, OUTPUT_PATH)}`);
