@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence
+from vidgen.pipeline.render_manifest_builder import FPS, FRAME_PADDING, VALID_SCENE_TYPES, build_render_manifest, copy_media_to_remotion_public, detect_dead_air, detect_transition_silence, validate_real_footage_audio_source
 
 
 def test_duration_frames_calculation():
@@ -453,3 +453,41 @@ def test_build_render_manifest_accepts_screenshot_shot():
     manifest = build_render_manifest(script, audio_durations={"s1": 2.0})
     assert manifest["shots"][0]["type"] == "screenshot"
     assert manifest["shots"][0]["visual"]["chrome"] == "phone"
+
+
+def test_validate_real_footage_audio_source_ok_with_narration():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "narration": "Nói gì đó.",
+             "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+    validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_real_footage_audio_source_ok_with_original_audio():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage",
+             "props": {"mediaPath": "video/clip.mp4", "useOriginalAudio": True}},
+        ]
+    }
+    validate_real_footage_audio_source(script)  # should not raise
+
+
+def test_validate_real_footage_audio_source_raises_with_neither():
+    script = {
+        "shots": [
+            {"id": "s1", "type": "real_footage", "props": {"mediaPath": "video/clip.mp4"}},
+        ]
+    }
+    try:
+        validate_real_footage_audio_source(script)
+        assert False, "expected ValueError"
+    except ValueError as e:
+        assert "s1" in str(e)
+
+
+def test_validate_real_footage_audio_source_ignores_other_types():
+    script = {"shots": [{"id": "s1", "type": "explanation", "narration": None}]}
+    validate_real_footage_audio_source(script)  # should not raise

@@ -486,6 +486,25 @@ def copy_audio_to_remotion_public(scene_ids: list, wav_dir: str, public_audio_di
         _transcode_preview_audio(src, preview_dst)
 
 
+def validate_real_footage_audio_source(script: dict) -> None:
+    """A real_footage shot must have exactly one audio source: TTS narration
+    (clip audio muted) or props.useOriginalAudio=True (clip's own audio, no
+    TTS job). Neither present means the shot would render with no audio at
+    all — an authoring mistake to catch before TTS/render, not at runtime."""
+    for shot in script_shots(script):
+        if shot.get("type") != "real_footage":
+            continue
+        props = shot.get("props", shot.get("visual", {}))
+        has_narration = bool(shot.get("narration"))
+        uses_original_audio = bool(props.get("useOriginalAudio"))
+        if not has_narration and not uses_original_audio:
+            raise ValueError(
+                f"shot '{shot['id']}': real_footage shot has no audio source — "
+                f"set 'narration' for TTS, or props.useOriginalAudio=true to "
+                f"keep the clip's own audio"
+            )
+
+
 def copy_media_to_remotion_public(
     script: dict, media_dir: str, public_video_dir: str, public_images_dir: str
 ) -> list[str]:
