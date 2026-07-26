@@ -92,7 +92,7 @@ def main():
     wav_files_present = all(
         os.path.exists(f"{WAV_DIR}/{wav_filename(j.id)}") for j in jobs
     )
-    if tts_entry and tts_entry["input_hash"] == tts_hash and wav_files_present:
+    if steps.should_skip_tts(tts_entry, tts_hash, wav_files_present):
         # Safe to skip: fit_durations() below re-runs fit_wav_to_duration() on every
         # WAV regardless, but that call is a no-op once a WAV is already within its
         # duration window (see speech_synthesizer.fit_wav_to_duration's early return).

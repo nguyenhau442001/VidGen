@@ -110,6 +110,19 @@ def load_and_validate_script(script_path: str, skip_validation: bool) -> LoadRes
     return LoadResult(script=script)
 
 
+def should_skip_tts(state_entry: dict | None, computed_hash: str, wav_files_present: bool) -> bool:
+    """
+    True when the checkpointed synthesize_tts step can be safely skipped:
+    the state entry's input_hash matches computed_hash AND every job's WAV
+    file already exists on disk.
+    """
+    return bool(
+        state_entry
+        and state_entry["input_hash"] == computed_hash
+        and wav_files_present
+    )
+
+
 @dataclass
 class TTSResult:
     job_ids: list
