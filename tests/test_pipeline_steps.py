@@ -3,6 +3,7 @@ import wave
 
 import pytest
 
+from vidgen.audio.speech_synthesizer import fit_wav_to_duration
 from vidgen.pipeline.pipeline_steps import (
     DurationChange,
     TTSJob,
@@ -168,6 +169,20 @@ def test_measure_audio_durations_reads_wav_headers(tmp_path):
     jobs = [TTSJob(id="s1", text="x", speed=1.0)]
     durations = measure_audio_durations(jobs, str(wav_dir))
     assert durations["s1"] == pytest.approx(1.5, abs=0.01)
+
+
+def test_fit_wav_to_duration_idempotent_on_rerun(tmp_path):
+    # Pins the checkpoint-skip safety invariant: re-running fit against an
+    # already-fitted WAV must be a no-op, since a re-run skips synthesize_tts
+    # but still calls fit_durations() unconditionally.
+    wav_path = tmp_path / "scene_s1.wav"
+    _write_wav(wav_path, seconds=2.0)
+
+    first_duration, _ = fit_wav_to_duration(wav_path, max_duration_seconds=1.6)
+    second_duration, second_speed = fit_wav_to_duration(wav_path, max_duration_seconds=1.6)
+
+    assert second_duration == pytest.approx(first_duration, abs=0.01)
+    assert second_speed == 1.0
 
 
 def test_synthesize_tts_reuse_skips_existing(tmp_path, monkeypatch):

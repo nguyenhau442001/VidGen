@@ -93,6 +93,9 @@ def main():
         os.path.exists(f"{WAV_DIR}/{wav_filename(j.id)}") for j in jobs
     )
     if tts_entry and tts_entry["input_hash"] == tts_hash and wav_files_present:
+        # Safe to skip: fit_durations() below re-runs fit_wav_to_duration() on every
+        # WAV regardless, but that call is a no-op once a WAV is already within its
+        # duration window (see speech_synthesizer.fit_wav_to_duration's early return).
         logger.info("synthesize_tts: skipped (checkpoint match)")
     else:
         steps.synthesize_tts(
@@ -103,7 +106,9 @@ def main():
         save_state(state, STATE_PATH)
 
     fps = script.get("fps", 30)
-    steps.fit_durations(script, str(WAV_DIR), fps)
+    fit_result = steps.fit_durations(script, str(WAV_DIR), fps)
+    logger.info("Fitted %d narration, %d dialogue WAVs",
+                fit_result.narration_fitted, fit_result.dialogue_fitted)
 
     audio_durations = steps.measure_audio_durations(jobs, str(WAV_DIR))
     logger.info("Total audio duration: %.2fs", sum(audio_durations.values()))
