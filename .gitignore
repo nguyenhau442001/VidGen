@@ -11,6 +11,9 @@ output/
 remotion/public/audio/
 public/audio/
 
+# Personal reference audio (voice cloning tests, etc.)
+input/
+
 # Python bytecode
 __pycache__/
 *.py[cod]
