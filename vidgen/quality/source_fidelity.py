@@ -13,6 +13,7 @@ from vidgen.pipeline.shot_schema import script_shots
 
 _SCENE_HEADING_RE = re.compile(r"^##\s+(?:Cảnh\b|Teaser\b)", re.IGNORECASE)
 _FIELD_LABEL_RE = re.compile(r"^\*\*([^*]+):\*\*\s*$")
+_FIELD_HEADING_RE = re.compile(r"^#{3,6}\s+(.+?)\s*$")
 
 
 def _normalize_whitespace(value: str) -> str:
@@ -79,12 +80,18 @@ def extract_voiceover_scenes(source_text: str) -> list[str]:
         for line in section:
             stripped = line.strip()
             field_match = _FIELD_LABEL_RE.match(stripped)
+            heading_match = _FIELD_HEADING_RE.match(stripped)
+            label = None
             if field_match:
-                flush_block()
                 label = field_match.group(1).casefold()
+            elif heading_match:
+                label = heading_match.group(1).casefold()
+
+            if label is not None:
+                flush_block()
                 if "voice-over" in label:
                     active_lines = []
-            elif stripped.startswith("##") or stripped == "---":
+            elif stripped == "---":
                 flush_block()
             elif active_lines is not None:
                 active_lines.append(line)

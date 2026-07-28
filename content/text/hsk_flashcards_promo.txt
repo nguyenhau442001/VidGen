@@ -1,0 +1,284 @@
+# KỊCH BẢN VIDEO QUẢNG BÁ HSK FLASHCARDS
+
+**Thời lượng:** Khoảng 90 giây
+**Tỉ lệ:** 9:16
+**Hình thức:** Screen recording thật kết hợp cảnh bàn học
+**Phong cách:** Tự nhiên, hài nhẹ, chia sẻ trải nghiệm thật
+**Không xuất hiện khuôn mặt**
+
+---
+
+## Cảnh 1 — Hook: Nối lại tình xưa
+
+**Thời gian:** 0–9 giây
+
+### Voice-over
+
+“Sau bao ngày xa cách, tôi và chữ Hán cuối cùng cũng nối lại tình xưa — nhờ bộ thẻ từ vựng này. Nghe phát âm, ẩn phiên âm đoán nghĩa, bấm Đã nhớ hoặc Chưa nhớ.”
+
+### Visual
+
+* Mở đầu bằng một flashcard HSK4 có chữ Hán tương đối khó.
+* Bấm nút nghe phát âm.
+* Tắt pinyin để tự đoán.
+* Ngập ngừng khoảng nửa giây rồi bấm **Chưa nhớ**.
+* Chuyển sang một từ quen thuộc và bấm **Đã nhớ**.
+
+### Âm thanh
+
+* Khi bấm nút nghe ở khoảng 2,4 giây, phát ngay âm “ài”.
+* Voice-over bắt đầu sau âm “ài”; nhạc nền hạ nhẹ để phần phát âm nghe rõ.
+* Thêm một tiếng click mềm khi bấm **Đã nhớ**.
+
+---
+
+## Cảnh 2 — Vì sao tôi tự làm?
+
+**Thời gian:** 9–19 giây
+
+### Voice-over
+
+“Vì tôi không muốn mỗi lần quay lại học đều phải ôn từ đầu. Tôi chỉ cần một bộ thẻ từ vựng đơn giản, biết từ nào đã nhớ và từ nào còn quên. Nghỉ bao lâu cũng không mất tiến trình.”
+
+### Visual
+
+* Chuyển qua một vài flashcard.
+* Bấm **Đã nhớ** ở một từ.
+* Bấm **Chưa nhớ** ở từ tiếp theo.
+* Mở nhanh danh sách hoặc bộ lọc từ chưa nhớ.
+
+### Yêu cầu dựng
+
+Các thao tác phải xuất hiện đúng lúc lời thoại nhắc đến **đã nhớ** và **còn quên**.
+
+---
+
+## Cảnh 3 — Một flashcard có gì?
+
+**Thời gian:** 19–29 giây
+
+### Voice-over
+
+“Mỗi thẻ có chữ Hán, cách phát âm và nghĩa tiếng Việt. Muốn tự kiểm tra thì chỉ cần ẩn phần phát âm rồi thử nhớ lại. Bấm nút loa nghe giọng chuẩn, dừng lại đoán rồi đối chiếu phiên âm.”
+
+### Visual
+
+* Hiện đầy đủ chữ Hán, pinyin và nghĩa tiếng Việt.
+* Bấm nghe phát âm.
+* Tắt pinyin.
+* Dừng khoảng một giây để người xem có cảm giác đang tự đoán.
+* Bật lại pinyin để kiểm tra.
+
+### Âm thanh
+
+Khi bấm phát âm, tạm dừng voice-over để tiếng Trung được nghe rõ.
+
+---
+
+## Cảnh 4 — Từ HSK1 đến HSK6
+
+**Thời gian:** 29–41 giây
+
+### Voice-over
+
+“Trong này có từ vựng từ HSK1 đến HSK6, kèm câu ví dụ. Tốc độ đọc cũng chỉnh được để nghe chậm khi mới học, hoặc nhanh hơn khi đã quen. Sáu cấp cộng lại gần năm nghìn từ, đủ từ giao tiếp đến đọc hiểu nâng cao.”
+
+### Visual
+
+* Chuyển lần lượt HSK1 → HSK6.
+* Dừng tại HSK4.
+* Cuộn xuống câu ví dụ.
+* Bấm phát âm câu.
+* Chuyển tốc độ đọc từ chậm sang nhanh hơn.
+
+### Yêu cầu dựng
+
+Không chuyển cấp quá nhanh. Mỗi cấp nên xuất hiện đủ lâu để người xem nhận ra HSK1 đến HSK6.
+
+---
+
+## Cảnh 5 — Chỉ ôn những từ chưa nhớ
+
+**Thời gian:** 41–51 giây
+
+### Voice-over
+
+“Từ nào nhớ thì đánh dấu đã nhớ. Từ nào còn quên sẽ được giữ riêng để ôn tiếp, không phải học lại cả bộ từ đầu. Bấm xáo trộn rồi ôn các mục chưa nhớ đến khi không còn mục nào.”
+
+### Visual
+
+* Đánh dấu một từ **Đã nhớ**.
+* Đánh dấu một từ khác **Chưa nhớ**.
+* Mở bộ lọc từ chưa nhớ.
+* Bấm xáo trộn.
+* Bắt đầu ôn lại danh sách này.
+
+### Âm thanh
+
+* **Đã nhớ:** tiếng click sáng, nhẹ.
+* **Chưa nhớ:** tiếng pop thấp hơn một chút.
+* Không thêm hiệu ứng âm thanh vào mọi thao tác.
+
+---
+
+## Cảnh 6 — Tự lưu tiến trình
+
+**Thời gian:** 51–60 giây
+
+### Voice-over
+
+“Tiến trình được tự lưu ngay trên trình duyệt. Tắt đi rồi mở lại, tôi vẫn có thể học tiếp đúng chỗ đang dở. Không cần đăng nhập, dữ liệu vẫn nằm trên trình duyệt.”
+
+### Visual
+
+* Đánh dấu thêm một từ.
+* Cho thấy số từ đã nhớ thay đổi.
+* Đóng tab hoặc cửa sổ trình duyệt.
+* Mở lại tool.
+* Hiện rõ trạng thái và tiến trình vẫn được giữ nguyên.
+
+### Yêu cầu dựng
+
+Đây là cảnh chứng minh tính năng, nên thao tác đóng và mở lại phải rõ ràng, không cắt quá nhanh.
+
+---
+
+## Cảnh 7 — Tổng quan và mục tiêu mỗi ngày
+
+**Thời gian:** 60–71 giây
+
+### Voice-over
+
+“Tôi dễ dàng xem mình đã thuộc bao nhiêu từ ở mỗi cấp, rồi đặt mục tiêu học hằng ngày để không nản giữa chừng. Mỗi ngày chọn 20 từ, thấy tiến trình nhích lên tức thì, và thế là có thêm động lực đi tiếp.”
+
+### Visual
+
+* Mở trang tổng quan từ vựng.
+* Hiện số từ đã nhớ và chưa nhớ ở một vài cấp HSK.
+* Mở phần cài đặt mục tiêu.
+* Chọn mục tiêu 20 từ mỗi ngày.
+* Học thêm một từ để tiến trình cập nhật.
+
+### Âm thanh
+
+Khi thanh mục tiêu cập nhật, dùng một tiếng chime rất ngắn và nhẹ.
+
+---
+
+## Cảnh 8 — Chế độ tối và người học thật
+
+**Thời gian:** 71–78 giây
+
+### Voice-over
+
+“Có cả chế độ tối cho những hôm nối lại tình xưa đến tận khuya. Đổi giao diện một chạm, ôn bài khuya cũng không chói mắt.”
+
+### Visual
+
+* Chuyển từ giao diện sáng sang tối.
+* Cắt sang góc bàn học buổi tối.
+* Laptop hoặc điện thoại đang mở tool ở dark mode.
+* Không xuất hiện khuôn mặt.
+
+### Âm thanh
+
+Dùng tiếng switch nhẹ khi chuyển dark mode. Có thể giảm nhạc trong nửa giây để tạo một nhịp nghỉ vui.
+
+---
+
+## Cảnh 9 — Bằng chứng và CTA
+
+**Thời gian:** 78–90 giây
+
+### Voice-over
+
+“Ban đầu tôi chỉ làm để tự học. Nhưng sau khi chia sẻ, tổng lượt truy cập trong khoảng 30 ngày ước tính gần 1.000. Ứng dụng hoàn toàn miễn phí, không cần đăng ký hay cài đặt. Link ở bình luận, mở lên là học được ngay.”
+
+### Visual
+
+* Mở đầu bằng cảnh sử dụng tool thật.
+* Chuyển sang dashboard analytics.
+* Hiện rõ khoảng thời gian 30 ngày.
+* Push-in nhẹ vào tổng lượt truy cập.
+* Chuyển sang giao diện tool trên điện thoại.
+* Kết bằng thao tác bấm phát âm rồi chuyển sang flashcard tiếp theo.
+
+### Yêu cầu dựng
+
+Không gọi số lượt truy cập là:
+
+* Gần 1.000 người dùng.
+* Gần 1.000 người học.
+* Gần 1.000 người sử dụng thường xuyên.
+
+Dashboard cần được quay sát ngày đăng để số liệu khớp với lời thoại.
+
+---
+
+# VOICE-OVER HOÀN CHỈNH
+
+“Sau bao ngày xa cách, tôi và chữ Hán cuối cùng cũng nối lại tình xưa — nhờ bộ thẻ từ vựng này. Nghe phát âm, ẩn phiên âm đoán nghĩa, bấm Đã nhớ hoặc Chưa nhớ.
+
+Vì tôi không muốn mỗi lần quay lại học đều phải ôn từ đầu. Tôi chỉ cần một bộ thẻ từ vựng đơn giản, biết từ nào đã nhớ và từ nào còn quên. Nghỉ bao lâu cũng không mất tiến trình.
+
+Mỗi thẻ có chữ Hán, cách phát âm và nghĩa tiếng Việt. Muốn tự kiểm tra thì chỉ cần ẩn phần phát âm rồi thử nhớ lại. Bấm nút loa nghe giọng chuẩn, dừng lại đoán rồi đối chiếu phiên âm.
+
+Trong này có từ vựng từ HSK1 đến HSK6, kèm câu ví dụ. Tốc độ đọc cũng chỉnh được để nghe chậm khi mới học, hoặc nhanh hơn khi đã quen. Sáu cấp cộng lại gần năm nghìn từ, đủ từ giao tiếp đến đọc hiểu nâng cao.
+
+Từ nào nhớ thì đánh dấu đã nhớ. Từ nào còn quên sẽ được giữ riêng để ôn tiếp, không phải học lại cả bộ từ đầu. Bấm xáo trộn rồi ôn các mục chưa nhớ đến khi không còn mục nào.
+
+Tiến trình được tự lưu ngay trên trình duyệt. Tắt đi rồi mở lại, tôi vẫn có thể học tiếp đúng chỗ đang dở. Không cần đăng nhập, dữ liệu vẫn nằm trên trình duyệt.
+
+Tôi dễ dàng xem mình đã thuộc bao nhiêu từ ở mỗi cấp, rồi đặt mục tiêu học hằng ngày để không nản giữa chừng. Mỗi ngày chọn 20 từ, thấy tiến trình nhích lên tức thì, và thế là có thêm động lực đi tiếp.
+
+Có cả chế độ tối cho những hôm nối lại tình xưa đến tận khuya. Đổi giao diện một chạm, ôn bài khuya cũng không chói mắt.
+
+Ban đầu tôi chỉ làm để tự học. Nhưng sau khi chia sẻ, tổng lượt truy cập trong khoảng 30 ngày ước tính gần 1.000.
+
+Ứng dụng hoàn toàn miễn phí, không cần đăng ký hay cài đặt. Link ở bình luận, mở lên là học được ngay.”
+
+---
+
+# THIẾT KẾ NHẠC VÀ ÂM THANH
+
+## Nhạc nền
+
+Sử dụng nhạc không lời:
+
+* Lo-fi hoặc ambient hiện đại.
+* Khoảng 95–105 BPM.
+* Ít trống, không có vocal.
+* Không quá buồn hoặc quá thư giãn.
+* Nhịp vừa đủ để hỗ trợ các thao tác trên màn hình.
+
+Nhạc chạy xuyên suốt video nhưng hạ nhẹ tại:
+
+* Tiếng phát âm tiếng Trung ở đầu video.
+* Cảnh đóng rồi mở lại trình duyệt.
+* Trước câu “Tool hoàn toàn miễn phí”.
+
+## TTS
+
+* Render từng cảnh thành một file riêng.
+* Tốc độ khoảng 0,96–0,98x.
+* Giọng kể tự nhiên, có chút tự trào.
+* Không đọc theo kiểu quảng cáo.
+* Nghỉ nhẹ sau cụm “sau bao ngày xa cách”.
+* Nhấn vào các cụm:
+
+  * “nối lại tình xưa”
+  * “từ nào còn quên”
+  * “không phải học lại cả bộ”
+  * “hoàn toàn miễn phí”
+
+## Hiệu ứng âm thanh
+
+Chỉ sử dụng ở các điểm quan trọng:
+
+* Phát âm từ tiếng Trung: âm thanh thật của tool.
+* Đã nhớ: click nhẹ.
+* Chưa nhớ: pop trầm hơn.
+* Hoàn thành mục tiêu: chime ngắn.
+* Chuyển dark mode: switch nhẹ.
+
+Không thêm tiếng click vào mọi thao tác vì sẽ khiến video bị vụn và giống video hướng dẫn sử dụng hơn là video quảng bá.

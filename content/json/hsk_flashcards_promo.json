@@ -1,0 +1,113 @@
+{
+  "video_id": "hsk_flashcards_promo",
+  "title": "Nối lại tình xưa với chữ Hán",
+  "language": "vi",
+  "narration_language": "vi",
+  "fps": 30,
+  "estimated_duration_seconds": 90,
+  "soundtrack": {
+    "path": "audio/hsk_flashcards_promo_bed.wav",
+    "volume": 1.0
+  },
+  "shots": [
+    {
+      "id": "hsk_promo_01_hook",
+      "type": "real_footage",
+      "duration_frames": 270,
+      "narration": "Sau bao ngày xa cách, tôi và chữ Hán cuối cùng cũng nối lại tình xưa — nhờ bộ thẻ từ vựng này. Nghe phát âm, ẩn phiên âm đoán nghĩa, bấm Đã nhớ hoặc Chưa nhớ.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_01_hook_v3.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_02_why",
+      "type": "real_footage",
+      "duration_frames": 300,
+      "narration": "Vì tôi không muốn mỗi lần quay lại học đều phải ôn từ đầu. Tôi chỉ cần một bộ thẻ từ vựng đơn giản, biết từ nào đã nhớ và từ nào còn quên. Nghỉ bao lâu cũng không mất tiến trình.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_02_why_v3.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_03_card",
+      "type": "real_footage",
+      "duration_frames": 300,
+      "narration": "Mỗi thẻ có chữ Hán, cách phát âm và nghĩa tiếng Việt. Muốn tự kiểm tra thì chỉ cần ẩn phần phát âm rồi thử nhớ lại. Bấm nút loa nghe giọng chuẩn, dừng lại đoán rồi đối chiếu phiên âm.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_03_card_v4.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_04_levels",
+      "type": "real_footage",
+      "duration_frames": 360,
+      "narration": "Trong này có từ vựng từ HSK1 đến HSK6, kèm câu ví dụ. Tốc độ đọc cũng chỉnh được để nghe chậm khi mới học, hoặc nhanh hơn khi đã quen. Sáu cấp cộng lại gần năm nghìn từ, đủ từ giao tiếp đến đọc hiểu nâng cao.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_04_levels_v2.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_05_review",
+      "type": "real_footage",
+      "duration_frames": 300,
+      "narration": "Từ nào nhớ thì đánh dấu đã nhớ. Từ nào còn quên sẽ được giữ riêng để ôn tiếp, không phải học lại cả bộ từ đầu. Bấm xáo trộn rồi ôn các mục chưa nhớ đến khi không còn mục nào.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_05_review_v3.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_06_persistence",
+      "type": "real_footage",
+      "duration_frames": 270,
+      "narration": "Tiến trình được tự lưu ngay trên trình duyệt. Tắt đi rồi mở lại, tôi vẫn có thể học tiếp đúng chỗ đang dở. Không cần đăng nhập, dữ liệu vẫn nằm trên trình duyệt.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_06_persistence_v3.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_07_goal",
+      "type": "real_footage",
+      "duration_frames": 330,
+      "narration": "Tôi dễ dàng xem mình đã thuộc bao nhiêu từ ở mỗi cấp, rồi đặt mục tiêu học hằng ngày để không nản giữa chừng. Mỗi ngày chọn 20 từ, thấy tiến trình nhích lên tức thì, và thế là có thêm động lực đi tiếp.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_07_goal_v2.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_08_dark",
+      "type": "real_footage",
+      "duration_frames": 210,
+      "narration": "Có cả chế độ tối cho những hôm nối lại tình xưa đến tận khuya. Đổi giao diện một chạm, ôn bài khuya cũng không chói mắt.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_08_dark_v4.mp4",
+        "objectPosition": "center"
+      }
+    },
+    {
+      "id": "hsk_promo_09_proof_cta",
+      "type": "real_footage",
+      "duration_frames": 360,
+      "narration": "Ban đầu tôi chỉ làm để tự học. Nhưng sau khi chia sẻ, tổng lượt truy cập trong khoảng 30 ngày ước tính gần 1.000. Ứng dụng hoàn toàn miễn phí, không cần đăng ký hay cài đặt. Link ở bình luận, mở lên là học được ngay.",
+      "tts_speed": 0.98,
+      "props": {
+        "mediaPath": "scene_09_proof_cta_v2.mp4",
+        "objectPosition": "center"
+      }
+    }
+  ]
+}

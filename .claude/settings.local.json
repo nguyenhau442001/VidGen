@@ -85,7 +85,13 @@
       "Skill(update-config)",
       "Bash(osascript *)",
       "Bash(xxd \"/Users/haunguyen/Downloads/tiktokZe1m853C1j26bVVPg6SOLddUWfMXLK9m.txt\")",
-      "Bash(xxd /tmp/served.txt)"
+      "Bash(xxd /tmp/served.txt)",
+      "Bash(system_profiler SPDisplaysDataType)",
+      "Bash(rm -v public/audio/hsk_flashcards_promo/*.wav)",
+      "Bash(rmdir public/audio/hsk_flashcards_promo)",
+      "Bash(rm -v output/hsk_flashcards_promo_rawcut.mp4 output/hsk_flashcards_promo_with_text.mp4)",
+      "Bash(rm -v remotion/public/audio/scene_hsk_promo_01_hook.wav remotion/public/audio/scene_hsk_promo_01_hook.mp3 remotion/public/audio/scene_hsk_promo_02_why.wav remotion/public/audio/scene_hsk_promo_02_why.mp3 remotion/public/audio/scene_hsk_promo_03_card.wav remotion/public/audio/scene_hsk_promo_03_card.mp3 remotion/public/audio/scene_hsk_promo_04_levels.wav remotion/public/audio/scene_hsk_promo_04_levels.mp3 remotion/public/audio/scene_hsk_promo_05_review.wav remotion/public/audio/scene_hsk_promo_05_review.mp3 remotion/public/audio/scene_hsk_promo_06_persistence.wav remotion/public/audio/scene_hsk_promo_06_persistence.mp3 remotion/public/audio/scene_hsk_promo_07_goal.wav remotion/public/audio/scene_hsk_promo_07_goal.mp3 remotion/public/audio/scene_hsk_promo_08_dark.wav remotion/public/audio/scene_hsk_promo_08_dark.mp3 remotion/public/audio/scene_hsk_promo_09_proof_cta.wav remotion/public/audio/scene_hsk_promo_09_proof_cta.mp3)",
+      "Bash(rm -v output/audio/wav/scene_hsk_promo_*.wav)"
     ],
     "deny": [],
     "ask": [

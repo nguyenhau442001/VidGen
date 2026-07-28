@@ -53,6 +53,7 @@ HOOK_STRONG_MARKERS = (
 )
 HOOK_WEAK_MARKERS = (
     "sao", "tưởng", "nhưng", "ngược", "đừng", "càng",
+    "sau bao ngày",
 )
 
 

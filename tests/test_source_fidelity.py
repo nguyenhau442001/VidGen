@@ -65,6 +65,23 @@ def test_extract_voiceover_scenes_combines_blocks_in_scene_order():
     ]
 
 
+def test_extract_voiceover_scenes_accepts_markdown_field_headings():
+    source = """# VIDEO
+
+## Cảnh 1 — Hook
+
+### Voice-over
+
+“Một câu dùng heading.”
+
+### Visual
+
+Một flashcard.
+"""
+
+    assert extract_voiceover_scenes(source) == ["Một câu dùng heading."]
+
+
 def test_audit_source_fidelity_accepts_whitespace_only_differences(tmp_path):
     source_path, json_path = _write_pair(
         tmp_path,

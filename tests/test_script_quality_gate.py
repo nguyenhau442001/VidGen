@@ -102,6 +102,12 @@ def test_short_strong_hook_still_matches():
     assert _looks_like_hook("Tại sao?")
 
 
+def test_personal_story_hook_matches():
+    assert _looks_like_hook(
+        "Sau bao ngày xa cách, tôi và chữ Hán cuối cùng cũng nối lại tình xưa."
+    )
+
+
 def test_new_cinematic_scene_types_are_valid_for_gate1():
     script = _script([
         {
