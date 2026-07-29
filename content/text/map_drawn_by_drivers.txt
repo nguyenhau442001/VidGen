@@ -1,0 +1,255 @@
+# BẢN ĐỒ ĐƯỢC VẼ TỪ TRÊN TRỜI HAY TỪ BÁNH XE?
+
+## AI THỰC SỰ VẼ NÊN BẢN ĐỒ TÀI XẾ CÔNG NGHỆ ĐANG DÙNG?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `map_drawn_by_drivers`, video_id `map_drawn_by_drivers`. Bản dựng lại (rev 2) sau
+audit /goal: 9 cảnh dựng (trước đó 11), ứng với 7 "CẢNH" gốc trong kịch bản khóa của chủ
+kênh — CẢNH 1→cảnh dựng 1, CẢNH 2→2, CẢNH 3→3 (gộp cả input lẫn output vào một cảnh
+`signal_flow`, không còn `quote_callout` riêng), CẢNH 4→4, CẢNH 5→5 (gộp cả submit lẫn
+approve vào một cảnh `diagram_flow` dùng `revealFrame` để đổi trạng thái giữa cảnh thay vì
+tách hai cảnh dựng), CẢNH 6→6+7, CẢNH 7→8+9. Lời thoại giữ nguyên ý gốc nhưng đã rút gọn
+theo yêu cầu chủ kênh (tổng ~250 từ thay vì ~300, để giọng đọc tự nhiên hơn, không tăng tốc
+TTS). Mục tiêu 90–100s ở 30fps, 1080×1920 (rev 2); sau rev 3 còn ~88s do rút cảnh 3 và
+cảnh 8 để qua gate pacing. Chủ đề không đổi: bản đồ trong ứng dụng gọi
+xe/giao đồ ăn không chỉ được vẽ từ trên xuống — dữ liệu và đóng góp của chính tài xế cũng
+liên tục được đưa vào kiểm tra và có thể hỗ trợ cập nhật lại bản đồ đó.
+
+Thay đổi kỹ thuật so với bản trước (xem báo cáo audit đầy đủ cho lý do từng thay đổi):
+`TrafficCinematicScene` có thêm phase `satellite_dive` (vệ tinh lao xuống → bám tài xế →
+vệt bánh xe kết tinh thành node dữ liệu) cho cảnh 1. `SystemLayerScene` có thêm prop
+`payoff` để minh họa trực quan tình huống nhầm cổng ở cảnh 2 thay vì chỉ kể bằng lời.
+`SignalFlowScene` có thêm `outputLabels` (3 nhãn) để gộp phần output GrabMaps vào cuối
+cảnh 3. `DiagramFlowScene` có thêm `layout: "loop"` (vòng tròn khép kín, không phải danh
+sách dọc kết thúc ở node cuối) cho cảnh 4, cộng `rejectNote` để hiện nhánh tín hiệu bị
+loại tại bước KIỂM TRA. `GeohashRevealScene` có thêm `mode: "hub"` (vùng viền tĩnh, khác
+hẳn heatmap mềm) cho cảnh 7. `RippleAggregateScene` đổi `phoneCount` thành `routeCount`
+cho cảnh 8. Toàn bộ icon chính trong các cảnh trên đổi từ emoji sang icon vector dùng
+chung (`remotion/src/icons.tsx`) — road-closure, map-pin, poi, traffic-sign, motorbike,
+signal, validation, map, next-trip, photo, street-name, gate, reject.
+
+Toàn bộ hình ảnh mô phỏng giao diện ứng dụng trong video là **dựng minh họa**, không phải
+ảnh chụp thật từ ứng dụng Grab/Xanh SM/ShopeeFood — cảnh có giao diện mô phỏng (cảnh 5
+Xanh SM, cảnh 6–7 ShopeeFood) giữ nhãn "MINH HỌA". Không khẳng định Grab, Xanh SM và
+ShopeeFood đều không dùng Google Maps. Không khẳng định mọi chuyến xe tự động vẽ thêm
+đường — cảnh 4 nêu rõ "không phải mọi hành trình đều tự động cập nhật bản đồ". Không kết
+luận ShopeeFood tự sở hữu bản đồ riêng — cảnh 7 nêu rõ "tài liệu không nêu nhà cung cấp bản
+đồ". Giữ nguyên cụm "Grab cho biết" (cảnh 3) và "tài liệu năm 2021 từng" (cảnh 6). Không
+thêm số liệu hoặc cơ chế nào ngoài script gốc — ShopeeFood không còn tên quận/HUB thật hay
+`demandLevel` số cụ thể hiển thị trên màn hình, thay bằng KHU VỰC A/B/C (cảnh 6) và VÙNG
+A/B (cảnh 7) cùng nhãn định tính (nhu cầu cao/trung bình).
+
+Sound design (ngoài phạm vi pipeline hiện tại — xem báo cáo cuối): vệ tinh quét, camera
+lao xuống, bánh xe, map pin, data pulse, validation tick, nhạc nền tăng dần ở cảnh vòng
+lặp và đạt cao trào khi mạng lưới thành phố hình thành ở cảnh 8 — không có công cụ tạo tự
+động trong `vidgen/audio/speech_synthesizer.py` (chỉ tổng hợp giọng đọc) hay
+`vidgen/pipeline/video_pipeline.py` (không có bước SFX/nhạc nền, chỉ TTS narration).
+
+Bản dựng lại (rev 3) sau audit /goal tiếp theo (8 sửa đổi bắt buộc trước render cuối): cảnh
+3 rút narration còn 54 từ (từ 74) và giảm `duration_frames` 420→388 để qua gate pacing
+(≤390 frames/cảnh); cảnh 2 sửa nhãn payoff "Tuyến lại"→"Tính lại tuyến"; cảnh 4 sửa cụm
+"gửi tín hiệu kiểm tra" (đọc lên nghe sai tự nhiên) thành "tín hiệu được gửi đi kiểm tra";
+cảnh 6 thêm "có" — "khu vực có nhu cầu cao"; cảnh 7 bỏ hẳn cụm "mô hình cụm hoạt động"
+(headline + narration), đổi thành "giao hàng theo từng vùng" / "GIAO HÀNG THEO VÙNG", nhãn
+vùng CỤM A/B→VÙNG A/B cho khớp; cảnh 5 đổi từ flowchart `diagram_flow` 5 bước sang một tình
+huống dựng bằng `DriverConsentScene` (tái dùng scene có sẵn, thêm prop `headline`/
+`badgeText`/`sourceLabel`) — tài xế nhận thông báo hỏi gửi vị trí mới, chọn gửi, nhận bong
+bóng xác nhận đang chờ duyệt; cảnh 8 thêm `fadeOutAtEnd: false` trên `RippleAggregateScene`
+(prop mới) và rút `duration_frames` 330→300 để cảnh không tự mờ dần trước khi cắt, nối liền
+với cảnh 9 thành một cao trào duy nhất.
+
+### Nguồn
+
+1. Grab Press Centre, 08/06/2022 — GrabMaps
+2. Xanh SM — Lập Bản Đồ Xanh, 23/08/2024
+3. ShopeeFood Driver, 18/08/2021 — bản đồ nhiệt & mô hình HUB
+
+Tên nguồn hiển thị ngắn gọn trên màn hình ở cảnh liên quan, không hiện URL dài.
+
+---
+
+## Cảnh 1 — Bánh xe hay bầu trời (shot_01_hook)
+
+**Hình ảnh:**
+
+Vệ tinh nhìn xuống thành phố, camera lao xuống street-level, bám theo một tài xế; vệt
+sáng sau bánh xe kết tinh thành các node dữ liệu nhỏ dọc đường đi. `TrafficCinematicScene`,
+phase `satellite_dive`.
+
+**Voice-over:**
+
+"Bạn tưởng bản đồ được vẽ từ trên trời? Bánh xe dưới đất cũng đang giúp vẽ lại nó. Tài xế chạy theo bản đồ, nhưng bản đồ cũng học từ hành trình của họ."
+
+**Chữ trên màn hình:**
+
+Hiện một lần, giữ nguyên suốt cảnh: **"BẢN ĐỒ ĐƯỢC VẼ TỪ TRÊN TRỜI?\nHAY TỪ NHỮNG BÁNH XE
+DƯỚI ĐẤT?"**.
+
+---
+
+## Cảnh 2 — Sáu lớp bên dưới, một cổng nhầm (shot_02_map_layers)
+
+**Hình ảnh:**
+
+Bản đồ tách thành các lớp xếp chồng (không lớp nào được highlight riêng), sau đó một hàng
+icon nhỏ minh họa payoff: cổng phụ → rào chắn → cổng chính → tuyến tính lại.
+`SystemLayerScene`, dùng prop `payoff`.
+
+**Voice-over:**
+
+"Bản đồ trên ứng dụng không chỉ hiện đường đi. Nó còn phải hiểu địa chỉ, cổng ra vào và lối dành cho xe máy. Chỉ một thông tin sai, tài xế có thể tới đúng tòa nhà nhưng lại đứng nhầm cổng."
+
+**Chữ trên màn hình:**
+
+Headline: **"ĐÚNG ĐƯỜNG, CHƯA CHẮC ĐÚNG CHỖ"**. Sáu lớp không phân cấp: Đường sá · Địa chỉ ·
+Điểm đón · Lối xe máy · Tuyến đường · Thời gian đến dự kiến. Payoff icon row: Cổng phụ →
+Rào chắn → Cổng chính → Tính lại tuyến.
+
+---
+
+## Cảnh 3 — GrabMaps: tín hiệu vào, vận hành ra (shot_03_grabmaps)
+
+**Hình ảnh:**
+
+Bốn tín hiệu bay vào node trung tâm, node hiện nhãn "TÍN HIỆU ĐƯỢC ĐƯA VÀO KIỂM TRA", sau
+đó ba nhãn output bật sáng lần lượt ngay trong cùng cảnh. `SignalFlowScene`, dùng prop
+`outputLabels` (gộp phần output vào cuối cảnh, không tách `quote_callout` riêng).
+
+**Voice-over:**
+
+"Grab cho biết GrabMaps tổng hợp dữ liệu từ hàng triệu chuyến đi, cùng phản hồi về đường tạm đóng hoặc địa chỉ được thay đổi. Tài xế còn bổ sung địa điểm, ảnh đường phố và biển báo — giúp hệ thống phân bổ tài xế, tính thời gian đến dự kiến và lập tuyến."
+
+**Chữ trên màn hình:**
+
+Bốn tín hiệu (icon vector): Đường tạm không đi được · Thông tin địa chỉ thay đổi · Địa
+điểm mới xuất hiện · Biển báo mới. Node đích: **"TÍN HIỆU ĐƯỢC ĐƯA VÀO KIỂM TRA"**. Ba
+nhãn bật sáng cuối cảnh: **PHÂN BỔ TÀI XẾ · TÍNH THỜI GIAN ĐẾN DỰ KIẾN · LẬP TUYẾN**. Nguồn nhỏ: *Nguồn:
+Grab Press Centre · 08/06/2022*.
+
+---
+
+## Cảnh 4 — Vòng lặp dữ liệu (shot_04_data_loop)
+
+**Hình ảnh:**
+
+Sáu node xếp thành vòng tròn khép kín (không phải danh sách dọc): TÀI XẾ DI CHUYỂN → TÍN
+HIỆU → KIỂM TRA → DỮ LIỆU HỢP LỆ → BẢN ĐỒ HIỂU RÕ HƠN → CHUYẾN SAU → quay lại TÀI XẾ. Tại
+node KIỂM TRA, một nhánh đỏ nhỏ tách ra thể hiện tín hiệu không hợp lệ bị loại.
+`DiagramFlowScene`, `layout: "loop"`.
+
+**Voice-over:**
+
+"Mỗi chuyến đi tạo ra thêm những tín hiệu mới. Sau khi kiểm tra, hệ thống giữ lại thông tin đáng tin cậy để hiểu thành phố rõ hơn và hỗ trợ những chuyến tiếp theo."
+
+**Chữ trên màn hình:**
+
+Headline: **"VÒNG LẶP DỮ LIỆU"**. Sáu node vòng tròn như trên. Nhánh đỏ tại KIỂM TRA:
+**"Tín hiệu không hợp lệ bị loại"**. Footer: **"Không phải mọi hành trình đều tự động
+cập nhật bản đồ."**
+
+---
+
+## Cảnh 5 — Lập Bản Đồ Xanh: một tình huống gửi vị trí (shot_05_xanhsm)
+
+**Hình ảnh:**
+
+Bản dựng lại (rev 3) sau audit /goal: thay flowchart 5 bước bằng một tình huống cụ thể —
+điện thoại tài xế hiện thông báo hỏi có muốn gửi vị trí mới không, tài xế chọn gửi, rồi một
+bong bóng trả lời hiện ra xác nhận đã gửi và đang chờ Xanh SM duyệt. `DriverConsentScene`
+(tái dùng, không tạo scene mới — xem Scene Library Freeze), có thêm `headline`/`badgeText`/
+`sourceLabel` để giữ nhãn chủ đề, badge "MINH HỌA" và nguồn trích dẫn như các cảnh khác.
+Badge **"MINH HỌA"** hiện từ đầu.
+
+**Voice-over:**
+
+"Trong chương trình Lập Bản Đồ Xanh, tài xế có thể gửi những địa điểm còn thiếu trên ứng dụng. Mỗi đóng góp phải được Xanh SM kiểm tra và chấp thuận trước khi bổ sung."
+
+**Chữ trên màn hình:**
+
+Headline: **"LẬP BẢN ĐỒ XANH"**, badge **"MINH HỌA"** ngay từ đầu. Thông báo: **"Gửi vị trí
+mới?"**, chi tiết **"Ghim tọa độ vừa dừng xe"** / **"Kèm ít nhất 2 ảnh mặt tiền"**, nút chọn
+**"Gửi đóng góp"** (so với **"Bỏ qua"**). Bong bóng trả lời: **"Đã gửi — Xanh SM đang kiểm
+tra trước khi thêm vào bản đồ."** Footer nhỏ: **"Chỉ điểm hợp lệ mới được thêm vào bản đồ."**
+Nguồn nhỏ hiện cùng footer: *Xanh SM · Lập Bản Đồ Xanh · 23/08/2024*.
+
+---
+
+## Cảnh 6 — Bản đồ nhiệt ShopeeFood (shot_06_shopeefood_heatmap)
+
+**Hình ảnh:**
+
+Lưới bản đồ nhiệt mềm, phát sáng theo khu vực — không tên quận thật, không số liệu hiển
+thị trên màn hình. `GeohashRevealScene`, `mode: "heatmap"`, districts dùng nhãn chung
+KHU VỰC A/B/C.
+
+**Voice-over:**
+
+"Tài liệu năm 2021 từng hướng dẫn tài xế theo bản đồ nhiệt tới khu vực có nhu cầu cao."
+
+**Chữ trên màn hình:**
+
+Headline: **"BẢN ĐỒ NHIỆT"**. Badge: **"MINH HỌA"**. Nhãn khu vực: KHU VỰC A (nhu cầu
+cao) · KHU VỰC B · KHU VỰC C.
+
+---
+
+## Cảnh 7 — Giao hàng theo vùng cố định (shot_07_shopeefood_hub)
+
+**Hình ảnh:**
+
+Vùng viền rõ, tĩnh (không breathing như heatmap) — khác hẳn ngôn ngữ hình ảnh của cảnh 6.
+`GeohashRevealScene`, `mode: "hub"`, `zones` dùng nhãn chung VÙNG A/B. Bản dựng lại (rev 3)
+sau audit /goal: bỏ cụm "mô hình cụm hoạt động" (cả narration lẫn headline), thay bằng
+"giao hàng theo từng vùng" — vẫn tránh thuật ngữ nội bộ tiếng Anh "HUB", không thân thiện
+với tài xế không rành tiếng Anh, nhưng không dùng lại đúng cụm bị yêu cầu bỏ.
+
+**Voice-over:**
+
+"Một tài liệu khác mô tả cách giao hàng theo từng vùng cố định."
+
+**Chữ trên màn hình:**
+
+Headline: **"GIAO HÀNG THEO VÙNG"**. Badge **"MINH HỌA"**. Nhãn vùng: VÙNG A · VÙNG B.
+Text nhỏ: **"Tài liệu không nêu nhà cung cấp bản đồ."** Nguồn nhỏ: *ShopeeFood Driver ·
+18/08/2021*.
+
+---
+
+## Cảnh 8 — Hàng nghìn hành trình ghép lại (shot_08_aggregate)
+
+**Hình ảnh:**
+
+Một hành trình đơn lẻ zoom ra thành trường dữ liệu dày đặc ghép thành bản đồ thành phố,
+camera bay lên cao. `RippleAggregateScene`, dùng `routeCount` (không còn `phoneCount`). Bản
+dựng lại (rev 3) sau audit /goal: thêm `fadeOutAtEnd: false` và rút thời lượng — cảnh giữ
+độ sáng tối đa cho tới lúc cắt cảnh, không tự mờ dần trước, để cảnh 8 và cảnh 9 nối liền
+thành một cao trào duy nhất thay vì hai nhịp tách rời có khoảng lặng ở giữa.
+
+**Voice-over:**
+
+"Một tài xế chỉ đi qua một góc phố. Hàng nghìn hành trình giúp ứng dụng hiểu thành phố hơn."
+
+**Chữ trên màn hình:**
+
+**"Một hành trình"** → **"Hàng nghìn hành trình ghép lại"**.
+
+---
+
+## Cảnh 9 — Bản đồ học từ tài xế (shot_09_closing)
+
+**Hình ảnh:**
+
+Mạng lưới thu nhỏ vào điện thoại tài xế đang bắt đầu chuyến mới, giữ khung hình trên câu
+kết — punchline đứng yên tối thiểu 4 giây sau khi narration kết thúc. `PunchlineHoldShot`.
+
+**Voice-over:**
+
+"Tài xế nhìn bản đồ để hiểu đường. Còn bản đồ học từ tài xế để hiểu thành phố."
+
+**Chữ trên màn hình:**
+
+Text kết, hai dòng, giữ im ít nhất 4 giây sau khi giọng đọc dứt: **"TÀI XẾ KHÔNG CHỈ CHẠY
+THEO BẢN ĐỒ.\nHỌ CÒN GIÚP BẢN ĐỒ HIỂU THÀNH PHỐ."**
+
+---

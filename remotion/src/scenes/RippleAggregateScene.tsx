@@ -97,12 +97,15 @@ const PhoneIcon: React.FC<{ accent: string; scale?: number }> = ({ accent, scale
 export const RippleAggregateScene: React.FC<RippleAggregateSceneProps> = ({
   singleLabel,
   aggregateLabel,
-  phoneCount = PHONE_COUNT_DEFAULT,
+  routeCount,
+  phoneCount,
   accentColor = ACCENT_DEFAULT,
   hotspotPosition,
+  fadeOutAtEnd = true,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
+  const phoneCountValue = routeCount ?? phoneCount ?? PHONE_COUNT_DEFAULT;
 
   const hotspot = hotspotPosition ?? { x: CX, y: CY };
   // Convergence target in field coordinates: the field is scaled by
@@ -117,7 +120,7 @@ export const RippleAggregateScene: React.FC<RippleAggregateSceneProps> = ({
   // phase-1 phone, pinned to the exact center.
   const phones = useMemo(() => {
     const cols = 5;
-    const rows = Math.ceil((phoneCount + 1) / cols);
+    const rows = Math.ceil((phoneCountValue + 1) / cols);
     const cellW = FIELD_W / cols;
     const cellH = FIELD_H / rows;
     const left = CX - FIELD_W / 2;
@@ -135,7 +138,7 @@ export const RippleAggregateScene: React.FC<RippleAggregateSceneProps> = ({
     }
 
     const positions = [{ x: CX, y: CY }];
-    for (let i = 0; i < Math.min(phoneCount - 1, cells.length); i++) {
+    for (let i = 0; i < Math.min(phoneCountValue - 1, cells.length); i++) {
       // Pick cells in a seeded shuffle order, then jitter inside the cell
       const pick = i + Math.floor(random(`ripple-cell-${i}`) * (cells.length - i));
       [cells[i], cells[pick]] = [cells[pick], cells[i]];
@@ -145,7 +148,7 @@ export const RippleAggregateScene: React.FC<RippleAggregateSceneProps> = ({
       });
     }
     return positions;
-  }, [phoneCount]);
+  }, [phoneCountValue]);
 
   // Phase 1: tap (scale dip) + one expanding ripple
   const tapScale = interpolate(
@@ -200,8 +203,10 @@ export const RippleAggregateScene: React.FC<RippleAggregateSceneProps> = ({
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
-  // Hold + fade at the end, anchored to the pipeline-provided duration
-  const hasExitRoom = durationInFrames > ZOOM_END + EXIT_FRAMES;
+  // Hold + fade at the end, anchored to the pipeline-provided duration —
+  // skipped when fadeOutAtEnd is false so the frame cuts straight from full
+  // brightness into the next shot instead of dimming first.
+  const hasExitRoom = fadeOutAtEnd && durationInFrames > ZOOM_END + EXIT_FRAMES;
   const sceneOpacity = hasExitRoom
     ? interpolate(
         frame,

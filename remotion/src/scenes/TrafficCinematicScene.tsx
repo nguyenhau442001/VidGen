@@ -152,6 +152,16 @@ const Header: React.FC<{
   accent: string;
 }> = ({ frame, eyebrow, headline, subtext, accent }) => {
   const enter = spring({ frame, fps: 30, config: { stiffness: 130, damping: 18 }, durationInFrames: 30 });
+  // Authored "\n" breaks must land as exactly one row per line, never a
+  // further auto-wrap into extra rows — shrink the font when the longest
+  // authored line would overflow the 834px column at the base size (tuned
+  // against short headlines like "Thành phố trở thành"/"một hệ thần kinh",
+  // ~19 chars, which render at full size unchanged).
+  const headlineLines = headline.split("\n");
+  const longestLine = Math.max(...headlineLines.map((l) => l.length));
+  const SAFE_CHARS = 20;
+  const BASE_FONT = 62;
+  const headlineFontSize = longestLine > SAFE_CHARS ? BASE_FONT * (SAFE_CHARS / longestLine) : BASE_FONT;
   return (
     <div
       style={{
@@ -184,10 +194,10 @@ const Header: React.FC<{
           color: "#f5fbff",
           fontFamily: BE_VIETNAM_PRO,
           fontWeight: 850,
-          fontSize: 62,
+          fontSize: headlineFontSize,
           lineHeight: 1.08,
           letterSpacing: "-0.035em",
-          whiteSpace: "pre-line",
+          whiteSpace: "pre",
           textShadow: "0 10px 40px rgba(0,0,0,0.65)",
         }}
       >
@@ -219,6 +229,11 @@ const FinalLockup: React.FC<{
   accent: string;
 }> = ({ frame, eyebrow, headline, accent }) => {
   const enter = spring({ frame, fps: 30, config: { stiffness: 105, damping: 18 }, durationInFrames: 34 });
+  const headlineLines = headline.split("\n");
+  const longestLine = Math.max(...headlineLines.map((l) => l.length));
+  const SAFE_CHARS = 20;
+  const BASE_FONT = 62;
+  const headlineFontSize = longestLine > SAFE_CHARS ? BASE_FONT * (SAFE_CHARS / longestLine) : BASE_FONT;
   return (
     <div
       style={{
@@ -250,10 +265,10 @@ const FinalLockup: React.FC<{
           color: "#f7fcff",
           fontFamily: BE_VIETNAM_PRO,
           fontWeight: 850,
-          fontSize: 62,
+          fontSize: headlineFontSize,
           lineHeight: 1.08,
           letterSpacing: "-0.035em",
-          whiteSpace: "pre-line",
+          whiteSpace: "pre",
           textShadow: "0 12px 42px rgba(0,0,0,0.72)",
         }}
       >
@@ -338,7 +353,22 @@ const CityTrails: React.FC<{
   count: number;
   network?: boolean;
   tracking?: boolean;
-}> = ({ frame, accent, count, network = false, tracking = false }) => {
+  trackingStartFrame?: number;
+  trackingDurationFrames?: number;
+  // Once the driver has traveled past a node's point along the path, drop a
+  // small diamond "map data" marker there and keep it — the wheel light
+  // trail visibly leaves behind map/route data instead of just dissipating.
+  crystallize?: boolean;
+}> = ({
+  frame,
+  accent,
+  count,
+  network = false,
+  tracking = false,
+  trackingStartFrame = 8,
+  trackingDurationFrames = 82,
+  crystallize = false,
+}) => {
   const paths = Array.from({ length: count }, (_, i) => {
     const side = i % 2 === 0 ? -1 : 1;
     const startX = 540 + side * (85 + hash(i + 2) * 390);
@@ -350,7 +380,9 @@ const CityTrails: React.FC<{
     return { startX, startY, endX, endY, cx, cy, i };
   });
   const trackingPath = paths[0];
-  const t = Easing.inOut(Easing.cubic)(interpolate(frame, [8, 90], [0, 1], clamp));
+  const t = Easing.inOut(Easing.cubic)(
+    interpolate(frame, [trackingStartFrame, trackingStartFrame + trackingDurationFrames], [0, 1], clamp)
+  );
   const [carX, carY] = quadPoint(
     t,
     trackingPath.startX,
@@ -360,6 +392,7 @@ const CityTrails: React.FC<{
     trackingPath.endX,
     trackingPath.endY
   );
+  const CRYSTAL_NODE_COUNT = 5;
 
   return (
     <g>
@@ -402,6 +435,30 @@ const CityTrails: React.FC<{
             );
           })
         : null}
+      {tracking && crystallize
+        ? Array.from({ length: CRYSTAL_NODE_COUNT }, (_, ni) => {
+            const nt = (ni + 1) / (CRYSTAL_NODE_COUNT + 1);
+            if (nt > t) return null;
+            const appearFrame = trackingStartFrame + trackingDurationFrames * nt;
+            const opacity = interpolate(frame, [appearFrame, appearFrame + 18], [0, 1], clamp);
+            if (opacity <= 0) return null;
+            const [nx, ny] = quadPoint(
+              nt,
+              trackingPath.startX,
+              trackingPath.startY,
+              trackingPath.cx,
+              trackingPath.cy,
+              trackingPath.endX,
+              trackingPath.endY
+            );
+            return (
+              <g key={`crystal-${ni}`} opacity={opacity} transform={`translate(${nx} ${ny})`} filter="url(#soft-cyan)">
+                <rect x={-7} y={-7} width={14} height={14} rx={3} fill={accent} opacity={0.9} transform="rotate(45)" />
+                <rect x={-7} y={-7} width={14} height={14} rx={3} fill="none" stroke="#ffffff" strokeWidth={1.2} opacity={0.7} transform="rotate(45)" />
+              </g>
+            );
+          })
+        : null}
       {tracking ? (
         <g transform={`translate(${carX} ${carY})`} filter="url(#soft-cyan)">
           <rect x={-22} y={-38} width={44} height={76} rx={15} fill="#e9f8ff" stroke={accent} strokeWidth={4} />
@@ -410,6 +467,68 @@ const CityTrails: React.FC<{
         </g>
       ) : null}
     </g>
+  );
+};
+
+// Top-down/aerial city read: a plain map grid + faint blocks, distinct from
+// NightBackdrop's street-level perspective. satellite_dive crossfades from
+// this into NightBackdrop to sell "camera diving from satellite to street".
+const SatelliteView: React.FC<{ frame: number; accent: string }> = ({ frame, accent }) => {
+  const cols = 8;
+  const rows = 14;
+  const zoomIn = interpolate(frame, [0, 100], [1, 1.55], {
+    ...clamp,
+    easing: Easing.in(Easing.cubic),
+  });
+  const routeOpacity = interpolate(frame, [28, 52], [0, 1], clamp);
+  return (
+    <div style={{ position: "absolute", inset: 0, transform: `scale(${zoomIn})`, transformOrigin: "50% 62%" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        <rect width={W} height={H} fill="#050b16" />
+        {Array.from({ length: cols + 1 }, (_, i) => {
+          const x = (i / cols) * W;
+          const reveal = interpolate(frame, [i * 3, i * 3 + 22], [0, 1], clamp);
+          return <line key={`sv-v-${i}`} x1={x} y1={0} x2={x} y2={H * reveal} stroke="rgba(98,221,255,0.24)" strokeWidth={1.5} />;
+        })}
+        {Array.from({ length: rows + 1 }, (_, i) => {
+          const y = (i / rows) * H;
+          const reveal = interpolate(frame, [i * 2, i * 2 + 22], [0, 1], clamp);
+          return <line key={`sv-h-${i}`} x1={0} y1={y} x2={W * reveal} y2={y} stroke="rgba(98,221,255,0.24)" strokeWidth={1.5} />;
+        })}
+        {Array.from({ length: 24 }, (_, i) => {
+          const bx = 30 + (i % 6) * 175 + hash(i) * 40;
+          const by = 70 + Math.floor(i / 6) * 300 + hash(i + 50) * 60;
+          const bw = 70 + hash(i + 10) * 55;
+          const bh = 70 + hash(i + 20) * 65;
+          const opacity = interpolate(frame, [8 + i * 2, 38 + i * 2], [0, 0.55], clamp);
+          return (
+            <rect
+              key={`sv-blk-${i}`}
+              x={bx}
+              y={by}
+              width={bw}
+              height={bh}
+              rx={4}
+              fill="#0d1d34"
+              stroke="rgba(98,221,255,0.16)"
+              opacity={opacity}
+            />
+          );
+        })}
+        <g opacity={routeOpacity}>
+          <path
+            d="M540 1560 C512 1210,566 940,540 660"
+            fill="none"
+            stroke={accent}
+            strokeWidth={5}
+            strokeDasharray="14 10"
+            strokeLinecap="round"
+            opacity={0.75}
+          />
+          <circle cx={540} cy={1560} r={13} fill={accent} filter="url(#soft-cyan)" />
+        </g>
+      </svg>
+    </div>
   );
 };
 
@@ -508,6 +627,14 @@ export const TrafficCinematicScene: React.FC<TrafficCinematicSceneProps> = ({
   const flyScale = phase === "flythrough" ? interpolate(frame, [0, durationInFrames], [1.08, 1.34], clamp) : 1;
   const brainEnter = spring({ frame: frame - 12, fps, config: { stiffness: 90, damping: 17 }, durationInFrames: 42 });
 
+  const isSatelliteDive = phase === "satellite_dive";
+  // Satellite view holds, then dives: crossfade + the street backdrop settles
+  // in under it between frames 50–108 while CityTrails' tracking (started at
+  // TRACK_START, below) picks the driver up right as the dive lands.
+  const diveProgress = interpolate(frame, [50, 108], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const TRACK_START = 96;
+  const trackDuration = Math.max(60, durationInFrames - TRACK_START - 46);
+
   return (
     <AbsoluteFill style={{ backgroundColor: "#010207", overflow: "hidden", opacity: exitOpacity }}>
       <div
@@ -516,10 +643,16 @@ export const TrafficCinematicScene: React.FC<TrafficCinematicSceneProps> = ({
           inset: -120,
           transform: `scale(${flyScale}) translateY(${phase === "flythrough" ? cameraPush * -48 : 0}px)`,
           transformOrigin: "50% 48%",
+          opacity: isSatelliteDive ? diveProgress : 1,
         }}
       >
         <NightBackdrop frame={frame} cameraPush={cameraPush} />
       </div>
+      {isSatelliteDive ? (
+        <div style={{ position: "absolute", inset: 0, opacity: 1 - diveProgress }}>
+          <SatelliteView frame={frame} accent={accentColor} />
+        </div>
+      ) : null}
 
       <svg viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
         <defs>
@@ -541,6 +674,17 @@ export const TrafficCinematicScene: React.FC<TrafficCinematicSceneProps> = ({
         ) : null}
         {phase === "tracking" ? (
           <CityTrails frame={frame} accent={accentColor} count={1} tracking />
+        ) : null}
+        {phase === "satellite_dive" ? (
+          <CityTrails
+            frame={frame}
+            accent={accentColor}
+            count={1}
+            tracking
+            trackingStartFrame={TRACK_START}
+            trackingDurationFrames={trackDuration}
+            crystallize
+          />
         ) : null}
         {phase === "swarm" ? (
           <CityTrails frame={frame} accent={accentColor} count={vehicleCount} />

@@ -120,6 +120,9 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
   chosenAction,
   accentColor = ACCENT_DEFAULT,
   onScreenText,
+  headline,
+  badgeText,
+  sourceLabel,
 }) => {
   const frame = useCurrentFrame();
 
@@ -128,6 +131,10 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
     extrapolateRight: "clamp",
   });
   const cardOpacity = interpolate(frame, [CARD_ENTER_START, CARD_ENTER_END], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const headlineOpacity = interpolate(frame, [0, CARD_ENTER_END], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -181,6 +188,54 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
           </filter>
         </defs>
       </svg>
+
+      {(headline || badgeText) && (
+        <div
+          style={{
+            position: "absolute",
+            left: SAFE_ZONE.left,
+            right: SAFE_ZONE.right,
+            top: SAFE_ZONE.top,
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            opacity: headlineOpacity,
+          }}
+        >
+          {headline && (
+            <span
+              style={{
+                fontSize: 40,
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: "-0.02em",
+                color: colors.textPrimary,
+                fontFamily: `${INTER}, sans-serif`,
+              }}
+            >
+              {headline}
+            </span>
+          )}
+          {badgeText && (
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: accentColor,
+                border: `1px solid ${accentColor}`,
+                borderRadius: 20,
+                padding: "6px 14px",
+                whiteSpace: "nowrap",
+                marginLeft: 16,
+              }}
+            >
+              {badgeText}
+            </span>
+          )}
+        </div>
+      )}
 
       <div
         style={{
@@ -294,7 +349,7 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
         )}
       </div>
 
-      {onScreenText && (
+      {(onScreenText || sourceLabel) && (
         <AbsoluteFill
           style={{
             justifyContent: "flex-end",
@@ -305,16 +360,33 @@ export const DriverConsentScene: React.FC<DriverConsentSceneProps> = ({
             pointerEvents: "none",
           }}
         >
-          <span
-            style={{
-              fontSize: 16,
-              color: "rgba(0,0,0,0.5)",
-              fontFamily: `${INTER}, sans-serif`,
-              textAlign: "center",
-            }}
-          >
-            {onScreenText}
-          </span>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+            {onScreenText && (
+              <span
+                style={{
+                  fontSize: 16,
+                  color: "rgba(0,0,0,0.5)",
+                  fontFamily: `${INTER}, sans-serif`,
+                  textAlign: "center",
+                }}
+              >
+                {onScreenText}
+              </span>
+            )}
+            {sourceLabel && (
+              <span
+                style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: colors.textDim,
+                  fontFamily: `${INTER}, sans-serif`,
+                  textAlign: "center",
+                }}
+              >
+                {sourceLabel}
+              </span>
+            )}
+          </div>
         </AbsoluteFill>
       )}
     </AbsoluteFill>

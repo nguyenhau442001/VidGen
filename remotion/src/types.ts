@@ -582,11 +582,32 @@ export type GeohashDistrict = {
   demandLevel: number; // 0–1, controls cell brightness
 };
 
+// Bordered, static zone used by mode "hub" — deliberately distinct from a
+// GeohashDistrict cell: no demandLevel-driven breathing, just a fixed-outline
+// region with a generic label (e.g. "VÙNG HUB"), so heatmap and HUB never
+// share the same visual language.
+export type GeohashZone = {
+  x: number; // grid column, same units as GeohashDistrict.x
+  y: number; // grid row, same units as GeohashDistrict.y
+  w?: number; // width in grid cells, default 2
+  h?: number; // height in grid cells, default 2
+  label: string;
+};
+
 export type GeohashRevealVisual = {
   districts: GeohashDistrict[];
   accentColor?: string; // default "#22C55E"
   gridRows?: number; // default 7
   gridCols?: number; // default 9
+  headline?: string; // optional on-screen headline, top safe zone
+  badgeText?: string; // optional small badge pill, e.g. "MINH HỌA"
+  caption?: string; // optional caveat/disclaimer line, above sourceLabel
+  sourceLabel?: string; // small readable source citation, bottom of frame
+  // "hub" swaps the breathing heat-cell grid for static bordered `zones` and a
+  // different legend line, so a HUB claim never reuses heatmap visual grammar.
+  // Default "heatmap" preserves existing districts-only rendering.
+  mode?: "heatmap" | "hub";
+  zones?: GeohashZone[]; // used when mode === "hub"
 };
 
 export type GeohashRevealSceneProps = GeohashRevealVisual & { durationInFrames: number };
@@ -622,6 +643,11 @@ export type SignalFlowVisual = {
   signals: SignalFlowSignal[];
   outputLabel: string; // label next to brain node
   accentColor?: string; // default "#22C55E"
+  sourceLabel?: string; // small readable source citation, bottom of frame
+  // When present, replaces the single outputLabel text with N small badges
+  // that light up in sequence after the brain settles — lets a scene end on
+  // "what the processed signal supports" instead of a separate callout scene.
+  outputLabels?: string[];
 };
 
 export type SignalFlowSceneProps = SignalFlowVisual & { durationInFrames: number };
@@ -651,9 +677,19 @@ export type NetworkFlowSceneProps = NetworkFlowVisual & { durationInFrames: numb
 export type RippleAggregateVisual = {
   singleLabel: string; // label shown phase 1, e.g. "Bạn thấy"
   aggregateLabel: string; // label shown phase 2, e.g. "Hàng nghìn người cùng lúc"
-  phoneCount?: number; // default 28
+  // routeCount is the current name — the aggregated field markers represent
+  // journeys/routes, not phone-device counts. phoneCount is kept as a
+  // deprecated alias for older JSON; routeCount wins when both are set.
+  routeCount?: number;
+  phoneCount?: number; // deprecated alias for routeCount
   accentColor?: string; // default "#22C55E"
   hotspotPosition?: { x: number; y: number }; // default center
+  // Default true: the scene fades its own content to transparent over its
+  // final EXIT_FRAMES before the hard cut. Set false when the next shot must
+  // read as a direct continuation of this one's climax (e.g. a hard cut into
+  // a held punchline) — the aggregated field then stays fully bright right up
+  // to the cut instead of visibly dimming first.
+  fadeOutAtEnd?: boolean;
 };
 
 export type RippleAggregateSceneProps = RippleAggregateVisual & { durationInFrames: number };
@@ -1204,6 +1240,16 @@ export type DiagramFlowNode = {
   sublabel?: string;
   icon: string;
   status: "deleted" | "intact" | "neutral";
+  // loop layout only: a short red side-branch off this node (e.g. "Tín hiệu
+  // không hợp lệ bị loại") showing signals rejected at a checkpoint step
+  // instead of continuing around the loop.
+  rejectNote?: string;
+  // Lets one shot show a state change mid-scene (e.g. "pending" -> "approved"
+  // after review) instead of splitting into two near-identical shots just to
+  // animate a status flip. Before revealFrame, the node renders with
+  // `status`; at/after it, with `revealStatus`.
+  revealFrame?: number;
+  revealStatus?: "deleted" | "intact" | "neutral";
 };
 
 export type DiagramFlowVisual = {
@@ -1212,6 +1258,13 @@ export type DiagramFlowVisual = {
   nodes: DiagramFlowNode[];
   arrow?: string; // default "→"
   footer?: string;
+  sourceLabel?: string; // small readable source citation, below footer
+  badgeText?: string; // optional small badge pill next to headline, e.g. "MINH HỌA"
+  // "loop" arranges nodes around a closed circular track with the last node
+  // connecting back to the first — for cycles (e.g. a data feedback loop)
+  // that must not read as a linear diagram terminating at the last node.
+  // Default "linear" preserves the existing vertical-stack rendering.
+  layout?: "linear" | "loop";
 };
 
 export type DiagramFlowSceneProps = DiagramFlowVisual & { durationInFrames: number };
@@ -1317,7 +1370,13 @@ export type TrafficCinematicPhase =
   | "finale"
   | "route_estimates"
   | "route_ranking"
-  | "endcard";
+  | "endcard"
+  // Opens on a top-down/satellite view of the city, dives down toward street
+  // level, then picks up one motorbike driver (reusing the "tracking" wheel
+  // light-trail) whose trail crystallizes into small map-data nodes near the
+  // end. Purpose-built for a hook that must show "satellite -> street data",
+  // not a generic traffic scene with a headline over it.
+  | "satellite_dive";
 
 export type TrafficScenario = {
   label: string;
@@ -1544,6 +1603,16 @@ export type DriverConsentVisual = {
   chosenAction: "accept" | "decline";
   accentColor?: string; // default "#00ff41"
   onScreenText?: string; // small caption near the bottom, optional
+  // Optional top-of-frame headline + badge pill, matching the DiagramFlowScene/
+  // GeohashRevealScene convention — lets a concrete driver-consent situation
+  // (e.g. submitting a map contribution) carry the same scene-topic label and
+  // "MINH HỌA" illustration badge those scenes use, without a separate scene.
+  headline?: string;
+  badgeText?: string;
+  // Small readable source citation, bottom of frame — same convention as
+  // DiagramFlowScene/GeohashRevealScene's sourceLabel, distinct from
+  // onScreenText (which is a disclaimer/footer line, not a citation).
+  sourceLabel?: string;
 };
 
 export type DriverConsentSceneProps = DriverConsentVisual & { durationInFrames: number };
@@ -1559,12 +1628,26 @@ export type SystemLayer = {
   color?: string; // override accent color for this layer when active
 };
 
+// A short icon+label sequence shown after the layer stack settles — for
+// depicting a concrete real-world payoff (e.g. wrong gate -> blocked ->
+// correct gate -> route recalculated) instead of only narrating it. Mutually
+// exclusive with bodyText: when payoff is set, it renders in bodyText's slot.
+export type SystemLayerPayoffStep = {
+  icon: string;
+  label: string;
+};
+
+export type SystemLayerPayoff = {
+  steps: SystemLayerPayoffStep[];
+};
+
 export type SystemLayerVisual = {
   headline?: string;
   layers: SystemLayer[]; // bottom → top (index 0 = bottom, rendered/enters first)
   accentColor?: string; // default "#00ff41"
   bodyText?: string; // optional caption below the stack
   staggerFrames?: number; // frames between each layer's slide-in, default 35
+  payoff?: SystemLayerPayoff; // renders instead of bodyText when present
 };
 
 export type SystemLayerSceneProps = SystemLayerVisual & { durationInFrames: number };

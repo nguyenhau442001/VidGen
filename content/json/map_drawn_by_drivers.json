@@ -1,0 +1,177 @@
+{
+  "video_id": "map_drawn_by_drivers",
+  "title": "Bản đồ được vẽ từ trên trời hay từ bánh xe?",
+  "language": "vi",
+  "narration_language": "vi",
+  "fps": 30,
+  "estimated_duration_seconds": 88,
+  "shots": [
+    {
+      "id": "shot_01_hook",
+      "type": "traffic_cinematic",
+      "duration_frames": 285,
+      "transition_out_delay_frames": 120,
+      "narration": "Bạn tưởng bản đồ được vẽ từ trên trời? Bánh xe dưới đất cũng đang giúp vẽ lại nó. Tài xế chạy theo bản đồ, nhưng bản đồ cũng học từ hành trình của họ.",
+      "props": {
+        "phase": "satellite_dive",
+        "headline": "BẢN ĐỒ ĐƯỢC VẼ TỪ TRÊN TRỜI?\nHAY TỪ NHỮNG BÁNH XE DƯỚI ĐẤT?",
+        "accentColor": "#61dafb"
+      }
+    },
+    {
+      "id": "shot_02_map_layers",
+      "type": "system_layer",
+      "duration_frames": 345,
+      "transition_out_delay_frames": 95,
+      "narration": "Bản đồ trên ứng dụng không chỉ hiện đường đi. Nó còn phải hiểu địa chỉ, cổng ra vào và lối dành cho xe máy. Chỉ một thông tin sai, tài xế có thể tới đúng tòa nhà nhưng lại đứng nhầm cổng.",
+      "props": {
+        "headline": "ĐÚNG ĐƯỜNG, CHƯA CHẮC ĐÚNG CHỖ",
+        "layers": [
+          { "label": "Đường sá" },
+          { "label": "Địa chỉ" },
+          { "label": "Điểm đón" },
+          { "label": "Lối xe máy" },
+          { "label": "Tuyến đường" },
+          { "label": "Thời gian đến dự kiến" }
+        ],
+        "staggerFrames": 22,
+        "payoff": {
+          "steps": [
+            { "icon": "gate", "label": "Cổng phụ" },
+            { "icon": "road-closure", "label": "Rào chắn" },
+            { "icon": "map-pin", "label": "Cổng chính" },
+            { "icon": "next-trip", "label": "Tính lại tuyến" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "shot_03_grabmaps",
+      "type": "signal_flow",
+      "duration_frames": 388,
+      "transition_out_delay_frames": 47,
+      "narration": "Grab cho biết GrabMaps tổng hợp dữ liệu từ hàng triệu chuyến đi, cùng phản hồi về đường tạm đóng hoặc địa chỉ được thay đổi. Tài xế còn bổ sung địa điểm, ảnh đường phố và biển báo — giúp hệ thống phân bổ tài xế, tính thời gian đến dự kiến và lập tuyến.",
+      "props": {
+        "signals": [
+          { "icon": "road-closure", "label": "Đường tạm không đi được", "color": "#ff4444" },
+          { "icon": "map-pin", "label": "Thông tin địa chỉ thay đổi", "color": "#61dafb" },
+          { "icon": "poi", "label": "Địa điểm mới xuất hiện", "color": "#22C55E" },
+          { "icon": "traffic-sign", "label": "Biển báo mới", "color": "#f59e0b" }
+        ],
+        "outputLabel": "TÍN HIỆU ĐƯỢC ĐƯA VÀO KIỂM TRA",
+        "outputLabels": ["PHÂN BỔ TÀI XẾ", "TÍNH THỜI GIAN ĐẾN DỰ KIẾN", "LẬP TUYẾN"],
+        "accentColor": "#22C55E",
+        "sourceLabel": "Nguồn: Grab Press Centre · 08/06/2022"
+      }
+    },
+    {
+      "id": "shot_04_data_loop",
+      "type": "diagram_flow",
+      "duration_frames": 375,
+      "transition_out_delay_frames": 155,
+      "narration": "Mỗi chuyến đi tạo ra thêm những tín hiệu mới. Sau khi kiểm tra, hệ thống giữ lại thông tin đáng tin cậy để hiểu thành phố rõ hơn và hỗ trợ những chuyến tiếp theo.",
+      "props": {
+        "headline": "VÒNG LẶP DỮ LIỆU",
+        "accentWord": "DỮ LIỆU",
+        "layout": "loop",
+        "nodes": [
+          { "label": "TÀI XẾ DI CHUYỂN", "icon": "motorbike", "status": "neutral" },
+          { "label": "TÍN HIỆU", "icon": "signal", "status": "neutral" },
+          { "label": "KIỂM TRA", "icon": "validation", "status": "neutral", "rejectNote": "Tín hiệu không hợp lệ bị loại" },
+          { "label": "DỮ LIỆU HỢP LỆ", "icon": "poi", "status": "intact" },
+          { "label": "BẢN ĐỒ HIỂU RÕ HƠN", "icon": "map", "status": "intact" },
+          { "label": "CHUYẾN SAU", "icon": "next-trip", "status": "neutral" }
+        ],
+        "footer": "Không phải mọi hành trình đều tự động cập nhật bản đồ."
+      }
+    },
+    {
+      "id": "shot_05_xanhsm",
+      "type": "driver_consent",
+      "duration_frames": 300,
+      "transition_out_delay_frames": 80,
+      "narration": "Trong chương trình Lập Bản Đồ Xanh, tài xế có thể gửi những địa điểm còn thiếu trên ứng dụng. Mỗi đóng góp phải được Xanh SM kiểm tra và chấp thuận trước khi bổ sung.",
+      "props": {
+        "headline": "LẬP BẢN ĐỒ XANH",
+        "badgeText": "MINH HỌA",
+        "notificationTitle": "Gửi vị trí mới?",
+        "detailLines": ["Ghim tọa độ vừa dừng xe", "Kèm ít nhất 2 ảnh mặt tiền"],
+        "acceptLabel": "Gửi đóng góp",
+        "declineLabel": "Bỏ qua",
+        "chosenAction": "accept",
+        "driverReply": "Đã gửi — Xanh SM đang kiểm tra trước khi thêm vào bản đồ.",
+        "accentColor": "#16a34a",
+        "onScreenText": "Chỉ điểm hợp lệ mới được thêm vào bản đồ.",
+        "sourceLabel": "Xanh SM · Lập Bản Đồ Xanh · 23/08/2024"
+      }
+    },
+    {
+      "id": "shot_06_shopeefood_heatmap",
+      "type": "geohash_reveal",
+      "duration_frames": 203,
+      "transition_out_delay_frames": 90,
+      "narration": "Tài liệu năm 2021 từng hướng dẫn tài xế theo bản đồ nhiệt tới khu vực có nhu cầu cao.",
+      "props": {
+        "headline": "BẢN ĐỒ NHIỆT",
+        "badgeText": "MINH HỌA",
+        "mode": "heatmap",
+        "accentColor": "#EE4D2D",
+        "gridRows": 7,
+        "gridCols": 9,
+        "districts": [
+          { "x": 4, "y": 3, "label": "KHU VỰC A", "demandLevel": 0.85 },
+          { "x": 2, "y": 2, "label": "KHU VỰC B", "demandLevel": 0.55 },
+          { "x": 6, "y": 4, "label": "KHU VỰC C", "demandLevel": 0.3 }
+        ]
+      }
+    },
+    {
+      "id": "shot_07_shopeefood_hub",
+      "type": "geohash_reveal",
+      "duration_frames": 203,
+      "transition_out_delay_frames": 115,
+      "narration": "Một tài liệu khác mô tả cách giao hàng theo từng vùng cố định.",
+      "props": {
+        "headline": "GIAO HÀNG THEO VÙNG",
+        "badgeText": "MINH HỌA",
+        "mode": "hub",
+        "accentColor": "#EE4D2D",
+        "gridRows": 7,
+        "gridCols": 9,
+        "districts": [],
+        "zones": [
+          { "x": 3, "y": 3, "w": 3, "h": 2, "label": "VÙNG A" },
+          { "x": 6, "y": 2, "w": 2, "h": 2, "label": "VÙNG B" }
+        ],
+        "caption": "Tài liệu không nêu nhà cung cấp bản đồ.",
+        "sourceLabel": "ShopeeFood Driver · 18/08/2021"
+      }
+    },
+    {
+      "id": "shot_08_aggregate",
+      "type": "ripple_aggregate",
+      "duration_frames": 300,
+      "transition_out_delay_frames": 170,
+      "narration": "Một tài xế chỉ đi qua một góc phố. Hàng nghìn hành trình giúp ứng dụng hiểu thành phố hơn.",
+      "props": {
+        "singleLabel": "Một hành trình",
+        "aggregateLabel": "Hàng nghìn hành trình ghép lại",
+        "routeCount": 30,
+        "accentColor": "#22C55E",
+        "fadeOutAtEnd": false
+      }
+    },
+    {
+      "id": "shot_09_closing",
+      "type": "punchline_hold",
+      "duration_frames": 240,
+      "transition_out_delay_frames": 150,
+      "narration": "Tài xế nhìn bản đồ để hiểu đường. Còn bản đồ học từ tài xế để hiểu thành phố.",
+      "props": {
+        "line1": "TÀI XẾ KHÔNG CHỈ CHẠY THEO BẢN ĐỒ.",
+        "line2": "HỌ CÒN GIÚP BẢN ĐỒ HIỂU THÀNH PHỐ.",
+        "accentColor": "#16a34a"
+      }
+    }
+  ]
+}

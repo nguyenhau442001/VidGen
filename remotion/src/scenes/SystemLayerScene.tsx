@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { SystemLayerSceneProps, SystemLayer } from "../types";
 import { CAPTION_CLEAR_Y, colors, INTER } from "../styles";
+import { VectorIconHtml } from "../icons";
 
 export type { SystemLayerSceneProps, SystemLayer };
 
@@ -66,6 +67,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
   accentColor = "#00ff41",
   bodyText,
   staggerFrames = 35,
+  payoff,
 }) => {
   const frame = useCurrentFrame();
   const n = layers.length;
@@ -141,9 +143,10 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
           textAlign: "center",
           opacity: headlineOpacity,
           fontFamily: `${INTER}, sans-serif`,
-          fontSize: 26,
-          fontWeight: 700,
-          color: "#fff",
+          fontSize: 38,
+          fontWeight: 800,
+          letterSpacing: "-0.01em",
+          color: colors.textPrimary,
           padding: "0 48px",
         }}
       >
@@ -234,9 +237,9 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
             <span
               style={{
                 fontFamily: `${INTER}, sans-serif`,
-                fontSize: 18,
-                fontWeight: isActive ? 700 : 600,
-                color: isActive ? colors.textPrimary : "rgba(0,0,0,0.5)",
+                fontSize: 26,
+                fontWeight: isActive ? 800 : 700,
+                color: isActive ? colors.textPrimary : "rgba(0,0,0,0.78)",
               }}
             >
               {layer.label}
@@ -246,9 +249,9 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
                 style={{
                   marginTop: 4,
                   fontFamily: `${INTER}, sans-serif`,
-                  fontSize: 13,
+                  fontSize: 16,
                   fontWeight: 500,
-                  color: isActive ? rgba(layerColor, 0.7) : "rgba(0,0,0,0.3)",
+                  color: isActive ? rgba(layerColor, 0.7) : "rgba(0,0,0,0.45)",
                 }}
               >
                 {layer.sublabel}
@@ -258,23 +261,79 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
         );
       })}
 
-      {bodyText && (
+      {payoff ? (
         <div
           style={{
             position: "absolute",
             top: CANVAS_H * BODY_TEXT_TOP_FRACTION,
             left: 0,
             right: 0,
-            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: 14,
             opacity: bodyTextOpacity,
-            fontFamily: `${INTER}, sans-serif`,
-            fontSize: 16,
-            color: "rgba(0,0,0,0.45)",
-            padding: "0 64px",
+            padding: "0 40px",
           }}
         >
-          {bodyText}
+          {payoff.steps.map((step, i) => {
+            const stepFrame = bodyTextStart + i * 8;
+            const stepOpacity = interpolate(frame, [stepFrame, stepFrame + 14], [0, 1], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            return (
+              <React.Fragment key={i}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 8,
+                    opacity: stepOpacity,
+                    width: 96,
+                  }}
+                >
+                  <VectorIconHtml name={step.icon} size={38} color={accentColor} />
+                  <span
+                    style={{
+                      fontFamily: `${INTER}, sans-serif`,
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: "rgba(0,0,0,0.7)",
+                      textAlign: "center",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {step.label}
+                  </span>
+                </div>
+                {i < payoff.steps.length - 1 && (
+                  <div style={{ fontSize: 20, color: "rgba(0,0,0,0.35)", marginTop: 14, opacity: stepOpacity }}>→</div>
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
+      ) : (
+        bodyText && (
+          <div
+            style={{
+              position: "absolute",
+              top: CANVAS_H * BODY_TEXT_TOP_FRACTION,
+              left: 0,
+              right: 0,
+              textAlign: "center",
+              opacity: bodyTextOpacity,
+              fontFamily: `${INTER}, sans-serif`,
+              fontSize: 16,
+              color: "rgba(0,0,0,0.45)",
+              padding: "0 64px",
+            }}
+          >
+            {bodyText}
+          </div>
+        )
       )}
     </AbsoluteFill>
   );

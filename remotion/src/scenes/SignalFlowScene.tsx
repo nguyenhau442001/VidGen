@@ -8,6 +8,7 @@ import {
 } from "remotion";
 import { SignalFlowSceneProps } from "../types";
 import { colors, INTER, JETBRAINS_MONO, CAPTION_CLEAR_Y } from "../styles";
+import { VectorIconSvg } from "../icons";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -59,6 +60,18 @@ const CONTENT_CENTER_Y = (SIGNAL_TOP_Y + SIGNAL_BOTTOM_Y) / 2;
 const BRAIN_X = 545;
 const BRAIN_Y = CONTENT_CENTER_Y;
 const BRAIN_RADIUS = 85;
+// The visible slice-cropped band is x ≈ 71–679. Centering output text on the
+// full band's midpoint (375) put it directly on top of the signal label
+// column's right edge (labels at INPUT_X=195 can extend to x≈300+), so long
+// output text/badges visually collided with signal rows 3–4. Instead, the
+// output content is confined to the region strictly right of the widest
+// signal label, between it and the visible right edge — clear of both.
+const SIGNAL_LABEL_MAX_RIGHT_EDGE = 300; // worst-case label half-width + INPUT_X
+const OUTPUT_SAFE_MARGIN = 15;
+const OUTPUT_REGION_LEFT = SIGNAL_LABEL_MAX_RIGHT_EDGE + OUTPUT_SAFE_MARGIN;
+const OUTPUT_REGION_RIGHT = 679 - OUTPUT_SAFE_MARGIN;
+const OUTPUT_X = (OUTPUT_REGION_LEFT + OUTPUT_REGION_RIGHT) / 2;
+const OUTPUT_SAFE_HALF_WIDTH = (OUTPUT_REGION_RIGHT - OUTPUT_REGION_LEFT) / 2;
 
 const PARTICLES_PER_STREAM = 5;
 const PARTICLE_TRAVEL_FRAMES = 70;
@@ -100,6 +113,8 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
   signals = [],
   outputLabel,
   accentColor = ACCENT_DEFAULT,
+  sourceLabel,
+  outputLabels,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -269,13 +284,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
                 stroke={s.color}
                 strokeWidth={2}
               />
-              <text
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={iconFontSize}
-              >
-                {s.icon}
-              </text>
+              <VectorIconSvg name={s.icon} size={iconFontSize * 1.15} color={s.color} textFallbackSize={iconFontSize} />
               <text
                 y={inputRadius + labelOffsetY}
                 textAnchor="middle"
@@ -319,25 +328,100 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
           </g>
         )}
 
-        {/* Output label next to the brain */}
-        {outputLabel && outputOpacity > 0 && (
-          <text
-            x={BRAIN_X}
-            y={BRAIN_Y + BRAIN_RADIUS + 52 + outputRise}
-            textAnchor="middle"
-            fontSize={26}
-            fontWeight={700}
-            paintOrder="stroke"
-            stroke={colors.bg}
-            strokeWidth={7}
-            strokeLinejoin="round"
-            style={{ fill: colors.textPrimary, fontFamily: JETBRAINS_MONO }}
-            opacity={outputOpacity}
-          >
-            {outputLabel}
-          </text>
+        {/* Output label — recentered on the visible band (OUTPUT_X), not the
+            brain node, and shrunk if it would still overflow the safe half
+            width at the base size (JetBrains Mono ≈ 0.6em/char). */}
+        {outputLabel && outputOpacity > 0 && (() => {
+          const baseFontSize = 26;
+          const estWidth = outputLabel.length * baseFontSize * 0.6;
+          const fontSize =
+            estWidth > OUTPUT_SAFE_HALF_WIDTH * 2
+              ? baseFontSize * ((OUTPUT_SAFE_HALF_WIDTH * 2) / estWidth)
+              : baseFontSize;
+          return (
+            <text
+              x={OUTPUT_X}
+              y={BRAIN_Y + BRAIN_RADIUS + 52 + outputRise}
+              textAnchor="middle"
+              fontSize={fontSize}
+              fontWeight={700}
+              paintOrder="stroke"
+              stroke={colors.bg}
+              strokeWidth={7}
+              strokeLinejoin="round"
+              style={{ fill: colors.textPrimary, fontFamily: JETBRAINS_MONO }}
+              opacity={outputOpacity}
+            >
+              {outputLabel}
+            </text>
+          );
+        })()}
+
+        {/* Once the signal is processed, light up what it actually feeds —
+            merged from the standalone "GrabMaps output" callout so the scene
+            ends on a concrete payoff instead of a separate static scene. */}
+        {outputLabels && outputLabels.length > 0 && (
+          <g>
+            {outputLabels.map((label, i) => {
+              const badgeStart = outputStart + OUTPUT_LABEL_FADE + 22 + i * 24;
+              const opacity = interpolate(frame, [badgeStart, badgeStart + 18], [0, 1], {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              });
+              if (opacity <= 0) return null;
+              const y = BRAIN_Y + BRAIN_RADIUS + 52 + outputRise + 62 + i * 46;
+              const badgeW = 240;
+              return (
+                <g key={label} opacity={opacity}>
+                  <rect
+                    x={OUTPUT_X - badgeW / 2}
+                    y={y - 20}
+                    width={badgeW}
+                    height={34}
+                    rx={17}
+                    fill={rgba(accentColor, 0.12)}
+                    stroke={accentColor}
+                    strokeWidth={1.5}
+                  />
+                  <text
+                    x={OUTPUT_X}
+                    y={y + 2}
+                    textAnchor="middle"
+                    fontSize={16}
+                    fontWeight={700}
+                    style={{ fill: colors.textPrimary, fontFamily: INTER }}
+                  >
+                    {label}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
         )}
       </svg>
+      {sourceLabel && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 56,
+            left: 60,
+            right: 60,
+            fontSize: 15,
+            fontWeight: 600,
+            color: colors.textDim,
+            textAlign: "center",
+            fontFamily: INTER,
+            opacity: interpolate(
+              frame,
+              [Math.max(0, durationInFrames - 60), Math.max(1, durationInFrames - 30)],
+              [0, 1],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+            ),
+          }}
+        >
+          {sourceLabel}
+        </div>
+      )}
     </AbsoluteFill>
   );
 };

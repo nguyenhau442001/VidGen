@@ -9,6 +9,7 @@ import {
 import { GeohashRevealSceneProps } from "../types";
 import { colors, INTER, JETBRAINS_MONO } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
+import { rgba as hexRgba } from "./shared/colorHelpers";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -106,8 +107,15 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
   accentColor = ACCENT_DEFAULT,
   gridRows = 7,
   gridCols = 9,
+  headline,
+  badgeText,
+  caption,
+  sourceLabel,
+  mode = "heatmap",
+  zones = [],
   durationInFrames,
 }) => {
+  const isHub = mode === "hub";
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -159,7 +167,7 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
   );
 
   const cells = [];
-  for (let row = 0; row < gridRows; row++) {
+  for (let row = 0; row < gridRows && !isHub; row++) {
     for (let col = 0; col < gridCols; col++) {
       const i = row * gridCols + col;
       const district = districtByCell.get(`${col},${row}`);
@@ -233,56 +241,122 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
 
         <CityOutline opacity={outlineOpacity} />
 
-        {/* Color legend: darker/brighter cell = higher predicted demand */}
+        {/* Legend: heatmap reads intensity by color, hub reads a fixed
+            bordered outline — never the same visual grammar for both. */}
         <g opacity={legendOpacity}>
-          <text
-            x={VW / 2}
-            y={LEGEND_SENTENCE_Y}
-            textAnchor="middle"
-            fontSize={24}
-            fontWeight={600}
-            style={{ fill: "rgba(0,0,0,0.6)", fontFamily: INTER }}
-          >
-            Màu càng đậm — nhu cầu càng cao
-          </text>
-          <rect
-            x={VW / 2 - LEGEND_BAR_WIDTH / 2}
-            y={LEGEND_BAR_Y - LEGEND_BAR_HEIGHT / 2}
-            width={LEGEND_BAR_WIDTH}
-            height={LEGEND_BAR_HEIGHT}
-            rx={LEGEND_BAR_HEIGHT / 2}
-            fill="url(#demand-legend-gradient)"
-            stroke={CELL_BORDER}
-            strokeWidth={1.5}
-          />
-          <text
-            x={VW / 2 - LEGEND_BAR_WIDTH / 2 - 14}
-            y={LEGEND_BAR_Y}
-            textAnchor="end"
-            dominantBaseline="central"
-            fontSize={18}
-            fontWeight={600}
-            style={{ fill: "rgba(0,0,0,0.45)", fontFamily: INTER }}
-          >
-            Nhạt
-          </text>
-          <text
-            x={VW / 2 + LEGEND_BAR_WIDTH / 2 + 14}
-            y={LEGEND_BAR_Y}
-            textAnchor="start"
-            dominantBaseline="central"
-            fontSize={18}
-            fontWeight={700}
-            style={{ fill: accentColor, fontFamily: INTER }}
-          >
-            Đậm
-          </text>
+          {isHub ? (
+            <text
+              x={VW / 2}
+              y={LEGEND_SENTENCE_Y}
+              textAnchor="middle"
+              fontSize={24}
+              fontWeight={600}
+              style={{ fill: "rgba(0,0,0,0.6)", fontFamily: INTER }}
+            >
+              Đường viền rõ — vùng cố định, không đổi theo thời gian
+            </text>
+          ) : (
+            <>
+              <text
+                x={VW / 2}
+                y={LEGEND_SENTENCE_Y}
+                textAnchor="middle"
+                fontSize={24}
+                fontWeight={600}
+                style={{ fill: "rgba(0,0,0,0.6)", fontFamily: INTER }}
+              >
+                Màu càng đậm — nhu cầu càng cao
+              </text>
+              <rect
+                x={VW / 2 - LEGEND_BAR_WIDTH / 2}
+                y={LEGEND_BAR_Y - LEGEND_BAR_HEIGHT / 2}
+                width={LEGEND_BAR_WIDTH}
+                height={LEGEND_BAR_HEIGHT}
+                rx={LEGEND_BAR_HEIGHT / 2}
+                fill="url(#demand-legend-gradient)"
+                stroke={CELL_BORDER}
+                strokeWidth={1.5}
+              />
+              <text
+                x={VW / 2 - LEGEND_BAR_WIDTH / 2 - 14}
+                y={LEGEND_BAR_Y}
+                textAnchor="end"
+                dominantBaseline="central"
+                fontSize={18}
+                fontWeight={600}
+                style={{ fill: "rgba(0,0,0,0.45)", fontFamily: INTER }}
+              >
+                Nhạt
+              </text>
+              <text
+                x={VW / 2 + LEGEND_BAR_WIDTH / 2 + 14}
+                y={LEGEND_BAR_Y}
+                textAnchor="start"
+                dominantBaseline="central"
+                fontSize={18}
+                fontWeight={700}
+                style={{ fill: accentColor, fontFamily: INTER }}
+              >
+                Đậm
+              </text>
+            </>
+          )}
         </g>
 
         {cells}
 
-        {/* District labels on up to 6 cells */}
-        {districts.slice(0, 6).map((d, li) => {
+        {/* Hub mode: static bordered zones — no breathing, no demand color,
+            label drawn directly on the zone so it never reads as a heatmap. */}
+        {isHub &&
+          zones.map((zone, zi) => {
+            const w = zone.w ?? 2;
+            const h = zone.h ?? 2;
+            const enterFrame = GRID_START + zi * 10;
+            const scale = spring({
+              frame: frame - enterFrame,
+              fps,
+              from: 0,
+              to: 1,
+              config: { stiffness: 170, damping: 20 },
+              durationInFrames: 24,
+            });
+            if (scale <= 0) return null;
+            const x = GRID_LEFT + (zone.x - w / 2) * cellW;
+            const y = gridTop + (zone.y - h / 2) * cellH;
+            const boxW = w * cellW - CELL_GAP;
+            const boxH = h * cellH - CELL_GAP;
+            return (
+              <g key={zi} opacity={scale}>
+                <rect
+                  x={x}
+                  y={y}
+                  width={boxW}
+                  height={boxH}
+                  rx={14}
+                  fill={hexRgba(accentColor, 0.08)}
+                  stroke={accentColor}
+                  strokeWidth={2.5}
+                />
+                <text
+                  x={x + boxW / 2}
+                  y={y + boxH / 2 + 8}
+                  textAnchor="middle"
+                  fontSize={22}
+                  fontWeight={700}
+                  paintOrder="stroke"
+                  stroke={colors.bg}
+                  strokeWidth={6}
+                  strokeLinejoin="round"
+                  style={{ fill: colors.textPrimary, fontFamily: JETBRAINS_MONO }}
+                >
+                  {zone.label}
+                </text>
+              </g>
+            );
+          })}
+
+        {/* District labels on up to 6 cells (heatmap mode only) */}
+        {!isHub && districts.slice(0, 6).map((d, li) => {
           const col = Math.min(gridCols - 1, Math.max(0, Math.round(d.x)));
           const row = Math.min(gridRows - 1, Math.max(0, Math.round(d.y)));
           const enterAt = labelStart + li * 8;
@@ -319,6 +393,85 @@ export const GeohashRevealScene: React.FC<GeohashRevealSceneProps> = ({
           );
         })}
       </svg>
+
+      {(headline || badgeText) && (
+        <div
+          style={{
+            position: "absolute",
+            top: 96,
+            left: 90,
+            right: 90,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            opacity: interpolate(frame, [0, 20], [0, 1], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            }),
+          }}
+        >
+          {headline && (
+            <span
+              style={{
+                fontSize: 32,
+                fontWeight: 700,
+                color: colors.textPrimary,
+                fontFamily: INTER,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {headline}
+            </span>
+          )}
+          {badgeText && (
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: accentColor,
+                border: `1px solid ${accentColor}`,
+                borderRadius: 20,
+                padding: "6px 14px",
+                whiteSpace: "nowrap",
+                marginLeft: 16,
+              }}
+            >
+              {badgeText}
+            </span>
+          )}
+        </div>
+      )}
+
+      {(caption || sourceLabel) && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 56,
+            left: 60,
+            right: 60,
+            textAlign: "center",
+            opacity: interpolate(
+              frame,
+              [Math.max(0, durationInFrames - 70), Math.max(1, durationInFrames - 40)],
+              [0, 1],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+            ),
+          }}
+        >
+          {caption && (
+            <div style={{ fontSize: 17, fontWeight: 600, color: colors.textDim, fontFamily: INTER, marginBottom: 6 }}>
+              {caption}
+            </div>
+          )}
+          {sourceLabel && (
+            <div style={{ fontSize: 15, fontWeight: 600, color: colors.textDim, fontFamily: INTER }}>
+              {sourceLabel}
+            </div>
+          )}
+        </div>
+      )}
     </AbsoluteFill>
   );
 };
