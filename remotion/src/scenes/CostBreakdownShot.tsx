@@ -15,9 +15,12 @@ export const CostBreakdownShot: React.FC<CostBreakdownSceneProps> = ({
   merchantLines,
   customerLabel = "PHÍA KHÁCH HÀNG",
   customerValue,
+  customerIcon,
   sourceLabel,
+  accentColor,
   durationInFrames,
 }) => {
+  const accent = accentColor ?? p3Colors.sponsor;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -36,7 +39,7 @@ export const CostBreakdownShot: React.FC<CostBreakdownSceneProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: p3Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: exitOpacity }}>
-        <AmbientBackground accent={p3Colors.sponsor} />
+        <AmbientBackground accent={accent} />
         <SafeZone style={{ justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
           <div
             style={{
@@ -66,10 +69,20 @@ export const CostBreakdownShot: React.FC<CostBreakdownSceneProps> = ({
                     borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  <span style={{ fontSize: 20, fontWeight: 800, color: i === 0 ? p3Colors.textPrimary : p3Colors.sponsor }}>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      fontSize: 20,
+                      fontWeight: 800,
+                      color: i === 0 ? p3Colors.textPrimary : accent,
+                    }}
+                  >
+                    {line.icon && <span style={{ fontSize: 24 }}>{line.icon}</span>}
                     {line.label}
                   </span>
-                  <span style={{ fontSize: 21, fontWeight: 900, color: i === 0 ? p3Colors.cost : p3Colors.sponsor }}>
+                  <span style={{ fontSize: 21, fontWeight: 900, color: i === 0 ? p3Colors.cost : accent }}>
                     {line.value}
                   </span>
                 </div>
@@ -103,7 +116,10 @@ export const CostBreakdownShot: React.FC<CostBreakdownSceneProps> = ({
             <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: 1, color: "rgba(20,30,24,0.55)", marginBottom: 8 }}>
               {customerLabel}
             </div>
-            <div style={{ fontSize: 30, fontWeight: 900, color: "#0e3b20" }}>{customerValue}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 30, fontWeight: 900, color: accent }}>
+              {customerIcon && <span style={{ fontSize: 32 }}>{customerIcon}</span>}
+              {customerValue}
+            </div>
           </div>
 
           {sourceLabel && (

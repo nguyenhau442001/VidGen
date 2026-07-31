@@ -1,0 +1,84 @@
+# VidGen Script Audit and Render Gate
+
+/goal chạy audit kịch bản bằng skill: `vidgen-content-researcher`, `vidgen-narrative-director`,
+`vidgen-script-audit`, `vidgen-visual-audit`, `vidgen-audio-audit`, và nếu cuối cùng thấy ổn thì tạo video.
+
+## Mục tiêu
+
+Đánh giá toàn diện trước khi render. Chỉ render khi đạt production-ready, không còn lỗi
+quan trọng.
+
+## Kịch bản cần audit
+
+Đọc trực tiếp file `content/text/shoppe_food.txt (script đã duyệt) làm input audit — không
+paste nội dung vào prompt này.
+
+## Quy trình audit
+
+1. **Content Research**: fact/số liệu/chính sách còn đúng, phân biệt xác nhận vs suy luận,
+   nguồn uy tín và hỗ trợ đúng luận điểm. Bỏ số liệu chưa có nguồn xác nhận.
+2. **Narrative**: hook 3–5s đầu đủ mạnh, câu hỏi trung tâm rõ, mỗi cảnh đẩy chuyện tiến,
+   không lặp ý/dài dòng, cao trào + kết đủ sức nặng, voice-over tự nhiên, giữ tò mò tới cuối.
+3. **Script**: logic giữa cảnh, nhất quán thuật ngữ, độ dài/thời lượng, narration vs thời
+   lượng cảnh, câu khó nghe, thừa/thiếu nền, JSON đúng cấu trúc dùng được trong VidGen.
+4. **Visual**: visual chứng minh lời thoại hay chỉ trang trí, cảnh quá nhiều ý, scene `type`
+   nằm trong scene đã đăng ký ở `remotion/src/scenes/` (không bịa type mới), props map đúng
+   nội dung, continuity màu/vật thể/nhân vật/camera, điểm nối cảnh, an toàn caption/headline.
+   Hiểu ý chính khi tắt tiếng.
+5. **Audio**: nhịp đọc/khoảng nghỉ/nhấn, từ dễ TTS đọc sai (viết tắt, tiền, brand), câu cần
+   tách ngắn, đồng đều giọng đọc, điểm nhạc/SFX/lặng, khớp thời lượng-visual.
+
+Giới hạn riêng prompt này (không tính script): không vượt 4.000 ký tự.
+
+## Điều kiện được render
+
+Tất cả phải đạt:
+
+* Fact-check xong, không claim chưa xác nhận.
+* Hook đủ mạnh, không cảnh thừa, không câu khó nghe/quá dài.
+* Visual khả thi bằng scene component đã đăng ký (không cần scene mới).
+* Audio direction rõ, JSON hợp lệ.
+* Gate 1 thật của `vidgen`: 6 dimension (Hook/Arc/Visual/Pacing/Voice/Logic) mỗi ≥4/5,
+  tổng ≥22/30.
+* Report 5 skill audit không còn issue chặn render — mỗi skill dùng mức nghiêm trọng riêng
+  của nó, không có nhãn `BLOCKER/MAJOR/MINOR` chung.
+
+## Nếu chưa đạt
+
+1. Liệt kê ngắn gọn vấn đề, kèm skill phát hiện + mức nghiêm trọng theo report skill đó.
+2. 5 skill audit chỉ audit và ra report, không tự sửa. Giao quyền sửa trực tiếp toàn bộ
+   kịch bản cho skill `vidgen` (hoặc Claude thay nếu vidgen chưa xử lý), dựa trên khuyến
+   nghị report.
+3. Không rewrite narration đã duyệt để nâng điểm — vấn đề ở phần đã duyệt thì dừng và hỏi
+   user.
+4. Audit lại bản đã sửa, lặp lại tới khi hết issue chặn render.
+
+Tự quyết sửa kỹ thuật (props/timing/scene) không cần hỏi lại. Đổi nội dung narration đã
+duyệt luôn phải hỏi trước.
+
+## Nếu đã đạt
+
+```text
+AUDIT STATUS: PASS
+GATE 1 SCORE: X/30 (Hook=n Arc=n Visual=n Pacing=n Voice=n Logic=n)
+FACT CHECK / NARRATIVE / SCRIPT / VISUAL / AUDIO / JSON VALIDATION: PASS
+RENDER DECISION: APPROVED
+```
+
+Sau đó theo đúng pipeline `vidgen`:
+
+1. Lưu JSON cuối vào `content/json/<slug>.json` (khớp tên TXT gốc).
+2. Chuẩn bị audio direction/TTS metadata.
+3. Chạy TTS rồi render (`vidgen.pipeline.video_pipeline`) — lệnh nào lỗi: dừng ngay, báo
+   lỗi, hỏi trước khi fix/rerun.
+4. Chạy GATE 2 (visual audit) trên video ra.
+5. Verify MP4 xong (ffprobe: resolution/FPS/duration/audio) thì xoá WAV tạm trong
+   `public/audio`.
+6. Báo lỗi còn lại nếu có.
+
+## Nguyên tắc làm việc
+
+* Không giải thích dài dòng, không đưa nhiều phương án khi đã rõ phương án tốt nhất.
+* Sửa trực tiếp — trừ nội dung/số liệu narration đã duyệt, cần user đồng ý.
+* Không bịa nguồn/số liệu/chính sách. Không render bản "tạm ổn".
+* Lệnh lỗi (TTS/validate/render): dừng ngay, báo lỗi, hỏi trước khi tự sửa/rerun.

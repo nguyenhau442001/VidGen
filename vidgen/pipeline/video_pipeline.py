@@ -56,7 +56,7 @@ def main():
     parser.add_argument("script", nargs="?", default=str(CONTENT_JSON_DIR / "sample_script.json"))
     parser.add_argument("--skip-validation", action="store_true",
                          help="Skip pre-render manifest validation (emergency use only)")
-    parser.add_argument("--speed", type=float, default=1.1,
+    parser.add_argument("--speed", type=float, default=1.0,
                          help="Voiceover speed multiplier, pitch-preserved (1.0 = VieNeu native pace)")
     parser.add_argument("--tts-voice", default=None, help="VieNeu preset voice name")
     parser.add_argument("--reuse-tts", action="store_true",

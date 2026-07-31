@@ -15,6 +15,8 @@ import { ScoreCardScene, calculateScoreCardDuration } from "./scenes/ScoreCardSc
 import { SplitViewScene } from "./scenes/SplitViewScene";
 import { CharacterIconScene } from "./scenes/CharacterIconScene";
 import { CharacterIconCoverScene } from "./scenes/CharacterIconCoverScene";
+import { ShopeeDiscountCoverScene } from "./scenes/ShopeeDiscountCoverScene";
+import { ProductDiscountStackShot } from "./scenes/ProductDiscountStackShot";
 import { ThumbnailScene } from "./scenes/ThumbnailScene";
 import { GrabFoodP2ThumbnailScene } from "./scenes/GrabFoodP2ThumbnailScene";
 import { QuoteCalloutScene, calculateQuoteCalloutDuration } from "./scenes/QuoteCalloutScene";
@@ -41,9 +43,16 @@ import { HSKScreenshotScene } from "./scenes/HSKScreenshotScene";
 import { GoogleMapsRevealScene } from "./scenes/GoogleMapsRevealScene";
 import { TrafficCinematicScene } from "./scenes/TrafficCinematicScene";
 import { ManifestScene, RenderManifest } from "./types";
+import { PayerRevealShot } from "./scenes/PayerRevealShot";
+import { MillionDongLayersShot } from "./scenes/MillionDongLayersShot";
+import { LedgerEntryShot } from "./scenes/LedgerEntryShot";
+import { CostBreakdownShot } from "./scenes/CostBreakdownShot";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro, HSK_PALETTE } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
+
+const shopeeShotById = (id: number) =>
+  (defaultManifest as unknown as RenderManifest).shots.find((s) => s.id === id)!;
 
 // Load fonts before any frame is captured
 const fontHandle = delayRender("Loading fonts");
@@ -253,6 +262,15 @@ export const Root: React.FC = () => {
         defaultProps={{
           eyebrowText: "Ủa là sao",
         }}
+      />
+      <Composition
+        id="ShopeeDiscountCover"
+        component={ShopeeDiscountCoverScene}
+        durationInFrames={1}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{}}
       />
       <Composition
         id="Thumbnail"
@@ -919,6 +937,126 @@ export const Root: React.FC = () => {
           subtext: "Ẩn dụ thị giác cho dòng dữ liệu giao thông",
           accentColor: "#61dafb",
           durationInFrames: 180,
+        }}
+      />
+      <Composition
+        id="ProductDiscountStackPreview"
+        component={ProductDiscountStackShot}
+        durationInFrames={260}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          headline: "NHIỀU LỚP ƯU ĐÃI, MỘT SẢN PHẨM",
+          accentWord: "NHIỀU LỚP",
+          productIcon: "👕",
+          productName: "Áo thun local brand",
+          steps: [
+            { label: "GIÁ GỐC", price: "250.000đ" },
+            { label: "GIÁ ĐÃ GIẢM", price: "220.000đ" },
+            { label: "+ SHOP VOUCHER", price: "190.000đ" },
+            { label: "+ SHOPEE VOUCHER", price: "150.000đ" },
+          ],
+          freeshipLabel: "+ MIỄN PHÍ VẬN CHUYỂN",
+          accentColor: "#EE4D2D",
+          theme: "dark",
+          durationInFrames: 260,
+        }}
+      />
+      <Composition
+        id="ShopeePayerRevealHook"
+        component={PayerRevealShot}
+        durationInFrames={shopeeShotById(3).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(3) as Extract<ManifestScene, { type: "payer_reveal" }>).visual,
+          durationInFrames: shopeeShotById(3).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeMillionDongLayers"
+        component={MillionDongLayersShot}
+        durationInFrames={shopeeShotById(4).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(4) as Extract<ManifestScene, { type: "million_dong_layers" }>).visual,
+          durationInFrames: shopeeShotById(4).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeLedgerEntry"
+        component={LedgerEntryShot}
+        durationInFrames={shopeeShotById(6).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(6) as Extract<ManifestScene, { type: "ledger_entry" }>).visual,
+          durationInFrames: shopeeShotById(6).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeePayerRevealCoSponsor"
+        component={PayerRevealShot}
+        durationInFrames={shopeeShotById(9).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(9) as Extract<ManifestScene, { type: "payer_reveal" }>).visual,
+          durationInFrames: shopeeShotById(9).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeCostBreakdown"
+        component={CostBreakdownShot}
+        durationInFrames={shopeeShotById(11).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(11) as Extract<ManifestScene, { type: "cost_breakdown" }>).visual,
+          durationInFrames: shopeeShotById(11).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeQuoteCallout1"
+        component={QuoteCalloutScene}
+        durationInFrames={shopeeShotById(14).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(14) as Extract<ManifestScene, { type: "quote_callout" }>).visual,
+          durationInFrames: shopeeShotById(14).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeQuoteCallout2"
+        component={QuoteCalloutScene}
+        durationInFrames={shopeeShotById(15).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(15) as Extract<ManifestScene, { type: "quote_callout" }>).visual,
+          durationInFrames: shopeeShotById(15).durationInFrames,
+        }}
+      />
+      <Composition
+        id="ShopeeQuoteCallout3"
+        component={QuoteCalloutScene}
+        durationInFrames={shopeeShotById(16).durationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          ...(shopeeShotById(16) as Extract<ManifestScene, { type: "quote_callout" }>).visual,
+          durationInFrames: shopeeShotById(16).durationInFrames,
         }}
       />
     </>

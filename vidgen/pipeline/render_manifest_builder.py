@@ -106,6 +106,7 @@ TYPE_MAP = {
     "CostTransferOutroShot": "cost_transfer_outro",
     "RevenueClockHookShot": "revenue_clock_hook",
     "MillionDongLayersShot": "million_dong_layers",
+    "ProductDiscountStackShot": "product_discount_stack",
     "ConditionalGuaranteeShot": "conditional_guarantee",
     "TripCountGapShot": "trip_count_gap",
     "BatteryTimelineShot": "battery_timeline",
@@ -143,6 +144,7 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "brand_swap_test",
     "real_footage",
     "screenshot",
+    "shopee_discount_cover",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

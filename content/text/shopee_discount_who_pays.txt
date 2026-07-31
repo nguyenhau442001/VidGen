@@ -1,0 +1,217 @@
+# SHOPEE LẤY TIỀN CỦA AI ĐỂ GIẢM GIÁ?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `shopee_discount_who_pays`, video_id `shopee_discount_who_pays`. 10 cảnh, mục tiêu
+100–115s ở 30fps, 1080×1920. Chủ đề: Shopee (sàn TMĐT) — ai thực sự chi trả cho các lớp
+giảm giá/voucher: Shop Voucher, Shopee Voucher, freeship, đồng tài trợ, đối tác. Không phải
+ShopeeFood, không nhắc giao đồ ăn. Toàn bộ giao diện đơn hàng/voucher trong video là dựng
+minh họa trung tính, không phải ảnh chụp thật từ ứng dụng Shopee. Màu chủ đạo: cam thương
+hiệu Shopee (#EE4D2D), không dùng logo/màu Grab.
+
+**Thời lượng:** 100–115 giây
+**Cover:**
+
+**SHOPEE KHÔNG BÁN HÀNG**
+**VẬY AI TRẢ TIỀN GIẢM GIÁ?**
+
+### Nguồn
+
+1. Shopee Seller Edu — Platform-wide Free Shipping Vouchers — https://seller.shopee.sg/edu/article/21819/Platform-wide-Free-Shipping-Vouchers
+2. Shopee Help Center — What are Free Shipping Vouchers — https://help.shopee.sg/portal/4/article/76861-[Vouchers]-What-are-Free-Shipping-Vouchers
+3. Tuổi Trẻ — "25.5 Lương Về Sale To" — https://tuoitre.vn/25-5-luong-ve-sale-to-tro-lai-voi-uu-dai-den-50-va-voucher-1-trieu-dong-20240525092119514.htm
+4. VnEconomy — Shopee "25/6 lương về sale to" — https://vneconomy.vn/shopee-tung-loat-uu-dai-hap-dan25-6-luong-ve-sale-to
+5. Lịch sale Shopee (ngày đôi 1.1–10.10) — https://magiamgiashopee.vn/lich-sale-shopee/
+6. Shopee — "1.1 Tết Sale Mở Màn" — https://shopee.vn/m/tet-sale-mo-man
+
+Tên nguồn hiển thị ngắn gọn trên màn hình ở cảnh liên quan, không hiện URL dài.
+
+---
+
+## Cảnh 0 — Mở đầu
+
+**Voice-over:**
+
+"Bạn có bao giờ tự hỏi tại sao Shopee luôn khuyến mãi đúng vào ngày đôi và ngày lương về không?"
+
+---
+
+## Cảnh 1 — Tại sao cứ đúng những ngày này?
+
+**Voice-over:**
+
+“Từ ngày 1 tháng 1, ngày 2 tháng 2 đến ngày 12 tháng 12, và cả ngày lương về — đơn giản vì đó là lúc bạn dễ mở ví nhất.”
+
+“Nhưng khoản tiền giảm đó, ai mới là người thật sự bỏ ra?”
+
+**Visual:**
+
+Lịch bật nhanh qua các ngày đôi 1.1, 2.2, 3.3, 4.4 — mỗi ô ngày sáng bừng kèm icon lửa/pháo hoa. Một thẻ riêng bật lên cho “NGÀY LƯƠNG VỀ” với icon ví tiền. Nguồn nhỏ: *Nguồn: Lịch sale Shopee*.
+
+Toàn bộ mờ dần, nhường chỗ cho khoản tiền giảm tách khỏi đơn hàng, bay về phía ba chiếc ví: người bán, Shopee và đối tác.
+
+---
+
+## Cảnh 2 — Một đơn hàng, nhiều lớp ưu đãi
+
+**Voice-over:**
+
+“Thực ra, số tiền bạn tiết kiệm được có thể đến từ nhiều nguồn khác nhau.”
+
+“Giá sản phẩm đã giảm, voucher của shop, Shopee Voucher và mã miễn phí vận chuyển có thể cùng xuất hiện trong một đơn hàng.”
+
+“Nhìn bên ngoài chỉ là một con số nhỏ đi. Nhưng phía sau là nhiều bên cùng tham gia.”
+
+**Visual:**
+
+Một đơn hàng nằm ở trung tâm. Các lớp ưu đãi lần lượt phủ lên hóa đơn, mỗi lớp nối về một chiếc ví khác nhau.
+
+Shopee phân biệt Shop Voucher, Shopee Voucher và voucher miễn phí vận chuyển; điều kiện sử dụng phụ thuộc từng loại mã.
+
+---
+
+## Cảnh 3 — Khi shop tự giảm
+
+**Voice-over:**
+
+“Nếu sản phẩm được giảm trực tiếp, hoặc bạn áp voucher riêng của shop, người bán thường là bên chịu phần giảm đó.”
+
+“Shop chấp nhận kiếm ít hơn trên mỗi món hàng.”
+
+“Đổi lại, sản phẩm dễ thu hút lượt xem, tăng tỷ lệ chốt đơn và kéo thêm khách mới.”
+
+**Visual:**
+
+Một phần lợi nhuận từ ví người bán được chuyển thành voucher. Lợi nhuận trên mỗi đơn giảm xuống, nhưng số đơn hàng dần tăng lên.
+
+---
+
+## Cảnh 4 — Khi Shopee bỏ ngân sách
+
+**Voice-over:**
+
+“Nhưng không phải mã nào cũng do shop trả.”
+
+“Shopee cũng có thể dùng ngân sách của nền tảng để phát voucher, hỗ trợ phí vận chuyển hoặc kéo người dùng quay lại ứng dụng.”
+
+“Với Shopee, phần tiền này không đơn thuần là quà tặng.”
+
+“Nó là chi phí để tạo thêm lượt truy cập và giao dịch.”
+
+**Visual:**
+
+Một trung tâm điều hành phát voucher xuống hàng nghìn điện thoại. Các giỏ hàng đang đứng yên bắt đầu chuyển thành đơn hàng.
+
+---
+
+## Cảnh 5 — Khi Shopee và shop cùng chịu
+
+**Voice-over:**
+
+“Có những chương trình lại được đồng tài trợ.”
+
+“Shopee chịu một phần, người bán chịu phần còn lại.”
+
+“Người mua chỉ thấy một dòng giảm giá. Nhưng khi đơn hàng được đối soát, phần shop đóng góp có thể được khấu trừ khỏi doanh thu.”
+
+**Visual:**
+
+Một voucher lớn tách làm hai phần, nối vào ví Shopee và ví người bán rồi hợp lại trên cùng một hóa đơn.
+
+Shopee xác nhận có cơ chế mã ưu đãi đồng tài trợ; tỷ lệ và giới hạn đóng góp phụ thuộc chính sách của từng chương trình.
+
+---
+
+## Cảnh 6 — Đối tác cũng có thể trả
+
+**Voice-over:**
+
+“Nếu mã giảm giá gắn với ngân hàng, ví điện tử, thương hiệu hoặc chương trình trả góp, ngân sách còn có thể đến từ đối tác.”
+
+“Vì vậy, một đơn hàng đôi khi được hỗ trợ bởi shop, Shopee và một bên thứ ba cùng lúc.”
+
+**Visual:**
+
+Ba dòng tiền từ người bán, nền tảng và ngân hàng cùng chảy vào một đơn hàng đang phát sáng.
+
+Shopee cũng có các voucher do đối tác phát hành và có thể quy đổi thành Shopee Voucher.
+
+---
+
+## Cảnh 7 — Freeship không thật sự miễn phí
+
+**Voice-over:**
+
+“Ngay cả freeship cũng không có nghĩa là chuyến giao hàng không tốn tiền.”
+
+“Xe vẫn chạy. Tài xế vẫn giao. Kho vận vẫn phải hoạt động.”
+
+“Chỉ là một phần chi phí đã được nền tảng, người bán hoặc chương trình ưu đãi thanh toán thay cho bạn.”
+
+**Visual:**
+
+Một kiện hàng đi qua kho, xe giao hàng và tài xế. Các khoản chi phí xuất hiện rồi được chia về nhiều nguồn khác nhau.
+
+Người bán tham gia một số chương trình ưu đãi vận chuyển có thể phải trả phí dịch vụ được khấu trừ trực tiếp trên đơn hàng thành công. Nguồn nhỏ: *Nguồn: Shopee Seller Edu*.
+
+---
+
+## Cảnh 8 — Vì sao phải là ngày đôi?
+
+**Voice-over:**
+
+“Nhưng tại sao Shopee không giảm đều mỗi ngày?”
+
+“Tại sao phải đợi đến ngày 8 tháng 8, ngày 9 tháng 9 hay ngày 10 tháng 10?”
+
+“Vì những ngày này rất dễ nhớ.”
+
+“Shopee biến chúng thành một cuộc hẹn mua sắm: bạn lưu mã, thêm hàng vào giỏ rồi chờ đúng ngày mới thanh toán.”
+
+**Visual:**
+
+Lịch lật nhanh qua những ngày bình thường. Các ngày đôi lần lượt phát sáng. Hàng nghìn giỏ hàng dần được lấp đầy nhưng chưa thanh toán.
+
+Shopee hiện duy trì các chiến dịch sale ngày đôi như 8.8, 9.9 và 10.10. Nguồn nhỏ: *Nguồn: Lịch sale Shopee*.
+
+---
+
+## Cảnh 9 — Vì sao lại là ngày lương về?
+
+**Voice-over:**
+
+“Ngày 25 lại đánh vào một thời điểm khác.”
+
+“Đó là lúc nhiều người vừa nhận lương, hoặc chuẩn bị bước sang kỳ chi tiêu mới.”
+
+“Lương tạo khả năng mua.”
+
+“Voucher tạo lý do mua.”
+
+“Còn thời hạn của chương trình khiến quyết định khó bị trì hoãn.”
+
+**Visual:**
+
+Tiền xuất hiện trong tài khoản. Voucher sáng lên. Đồng hồ bắt đầu đếm ngược và giỏ hàng được thanh toán.
+
+Shopee gọi đợt sale cuối tháng, thường diễn ra vào ngày 25, là chương trình “Lương Về Sale To”. Nguồn nhỏ: *Nguồn: Tuổi Trẻ, VnEconomy*.
+
+---
+
+## Cảnh 10 — Món hời đến từ đâu?
+
+**Voice-over:**
+Bạn có bao giờ tự hỏi… những “món hời” này thực sự đến từ đâu không?
+Vì nếu nhìn bề ngoài, nó giống như một cơ hội ngẫu nhiên — ai nhanh tay thì thắng.
+
+Nhưng khi nhìn sâu hơn, bạn sẽ thấy một điều khác:
+không phải lúc nào bạn cũng đang “săn deal”… mà đôi khi chính bạn đang bị dẫn dắt để tin rằng mình vừa thắng.
+
+Và câu hỏi quan trọng nhất là:
+liệu đây là may mắn thật sự… hay chỉ là một hệ thống được thiết kế để bạn luôn cảm thấy mình sắp bỏ lỡ điều gì đó?
+
+**Visual:**
+
+Nền tối. Các biểu tượng đã xuất hiện xuyên suốt video — ba chiếc ví, voucher, đồng hồ đếm ngược, giỏ hàng — lần lượt mờ dần và tắt, để lại màn hình gần như trống.
+
+Cuối cùng chỉ còn một dòng chữ sáng lên chính giữa khung hình: “MAY MẮN THẬT? HAY THIẾT KẾ THẬT KỸ?” — chữ “THIẾT KẾ” được nhấn accent, không có logo hay lời kêu gọi nào khác.

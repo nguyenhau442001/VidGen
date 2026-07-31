@@ -150,7 +150,7 @@ def main() -> None:
     )
     parser.add_argument("script", help="Path to VidGen script JSON")
     parser.add_argument("--output-dir", default="audio")
-    parser.add_argument("--speed", type=float, default=1.2)
+    parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--voice", default=None)
     parser.add_argument("--no-trim", action="store_true")
     parser.add_argument("--max-silence-ms", type=int, default=120)

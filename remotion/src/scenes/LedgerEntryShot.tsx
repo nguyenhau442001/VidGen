@@ -21,8 +21,10 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
   lineItems,
   sourceLabel,
   illustrativeLabel,
+  accentColor,
   durationInFrames,
 }) => {
+  const accent = accentColor ?? p3Colors.grab;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -43,7 +45,7 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: p3Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: exitOpacity }}>
-        <AmbientBackground accent={p3Colors.grab} />
+        <AmbientBackground accent={accent} />
         <SafeZone style={{ justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
           {illustrativeLabel && (
             <div
@@ -96,8 +98,8 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
                 width: 46,
                 height: 26,
                 borderRadius: 999,
-                background: `rgba(0,177,79,${0.25 + toggleOn * 0.55})`,
-                border: `1.5px solid ${p3Colors.grab}`,
+                background: `${accent}${Math.round((0.25 + toggleOn * 0.55) * 255).toString(16).padStart(2, "0")}`,
+                border: `1.5px solid ${accent}`,
                 position: "relative",
               }}
             >
@@ -150,12 +152,16 @@ export const LedgerEntryShot: React.FC<LedgerEntrySceneProps> = ({
                 >
                   <span
                     style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
                       fontSize: row.emphasis ? 21 : 19,
                       fontWeight: row.emphasis ? 900 : 600,
                       color: row.emphasis ? p3Colors.cost : p3Colors.textDim,
                       letterSpacing: row.emphasis ? 0.4 : 0,
                     }}
                   >
+                    {row.icon && <span style={{ fontSize: row.emphasis ? 24 : 22 }}>{row.icon}</span>}
                     {row.label}
                   </span>
                   <span style={{ fontSize: row.emphasis ? 24 : 20, fontWeight: 900, color: rowColor }}>{row.value}</span>

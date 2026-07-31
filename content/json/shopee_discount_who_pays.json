@@ -1,0 +1,392 @@
+{
+  "video_id": "shopee_discount_who_pays",
+  "title": "Shopee lấy tiền của ai để giảm giá?",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_00",
+      "type": "shopee_discount_cover",
+      "duration_frames": 135,
+      "narration": "Bạn có bao giờ tự hỏi tại sao Shopee luôn khuyến mãi đúng vào ngày đôi và ngày lương về không?",
+      "props": {
+        "lines": [
+          { "text": "TẠI SAO SHOPEE LUÔN" },
+          { "text": "KHUYẾN MÃI VÀO" },
+          { "text": "NGÀY ĐÔI", "accent": true },
+          { "text": "& NGÀY LƯƠNG VỀ?", "accent": true }
+        ],
+        "tags": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8", "9.9", "10.10", "11.11", "12.12"]
+      },
+      "on_screen_text": "TẠI SAO SHOPEE LUÔN KHUYẾN MÃI VÀO NGÀY ĐÔI & NGÀY LƯƠNG VỀ?"
+    },
+    {
+      "id": "shot_01a",
+      "type": "ScanAnimationScene",
+      "duration_frames": 198,
+      "narration": "Từ ngày 1 tháng 1, ngày 2 tháng 2 đến ngày 12 tháng 12, và cả ngày lương về — đơn giản vì đó là lúc bạn dễ mở ví nhất.",
+      "props": {
+        "headline": "TẠI SAO CỨ ĐÚNG NHỮNG NGÀY NÀY?",
+        "accentWord": "NHỮNG NGÀY NÀY",
+        "scanLabel": "LỊCH KHUYẾN MÃI SHOPEE",
+        "targets": ["1.1", "2.2", "3.3", "4.4", "5.5", "6.6", "7.7", "8.8", "9.9", "10.10", "11.11", "12.12"],
+        "cardEmojis": ["🔥", "🎉", "💯", "🚀", "🌸", "☀️", "🎈", "🎁", "🛍️", "🍁", "🛒", "🎄"],
+        "extraCards": [
+          { "icon": "💰", "title": "NGÀY LƯƠNG VỀ", "subtitle": "25 hàng tháng" }
+        ],
+        "cardStagger": 6,
+        "emojiRow": "🔥💸🎯",
+        "result": "DỄ NHỚ, DỄ MỞ VÍ",
+        "note": "Nguồn: Lịch sale Shopee",
+        "calendarMode": true,
+        "theme": "dark",
+        "accentColor": "#EE4D2D"
+      },
+      "on_screen_text": "TẠI SAO CỨ ĐÚNG NHỮNG NGÀY NÀY? · 1.1 · 2.2 · 3.3 · 4.4 · NGÀY LƯƠNG VỀ"
+    },
+    {
+      "id": "shot_01c",
+      "type": "PayerRevealShot",
+      "duration_frames": 100,
+      "narration": "Nhưng khoản tiền giảm đó, ai mới là người thật sự bỏ ra?",
+      "props": {
+        "headline": "AI THẬT SỰ TRẢ TIỀN?",
+        "accentWord": "AI",
+        "amount": "100K",
+        "payers": [
+          "Người bán",
+          "Shopee",
+          "Đối tác"
+        ],
+        "payerIcons": ["🏷️", "🛍️", "🏦"],
+        "illustrativeLabel": "TÌNH HUỐNG MINH HỌA",
+        "platformLabel": "Shopee",
+        "platformColor": "#EE4D2D",
+        "flourish": true
+      },
+      "on_screen_text": "AI THẬT SỰ TRẢ TIỀN? · NGƯỜI BÁN · SHOPEE · ĐỐI TÁC"
+    },
+    {
+      "id": "shot_02a",
+      "type": "MillionDongLayersShot",
+      "duration_frames": 274,
+      "narration": "Thực ra, số tiền bạn tiết kiệm được có thể đến từ nhiều nguồn khác nhau. Giá sản phẩm đã giảm, voucher của shop, Shopee Voucher và mã miễn phí vận chuyển có thể cùng xuất hiện trong một đơn hàng.",
+      "props": {
+        "amountLabel": "MỘT ĐƠN HÀNG",
+        "headline": "NHIỀU LỚP ƯU ĐÃI",
+        "accentWord": "NHIỀU LỚP",
+        "layers": [
+          {
+            "label": "Giá đã giảm",
+            "color": "#EE4D2D",
+            "icon": "🏷️"
+          },
+          {
+            "label": "Shop Voucher",
+            "color": "#F59E0B",
+            "icon": "🎟️"
+          },
+          {
+            "label": "Shopee Voucher",
+            "color": "#22C55E",
+            "icon": "🛍️"
+          },
+          {
+            "label": "Miễn phí vận chuyển",
+            "color": "#3B82F6",
+            "icon": "🚚"
+          }
+        ],
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "NHIỀU LỚP ƯU ĐÃI, MỘT ĐƠN HÀNG"
+    },
+    {
+      "id": "shot_02b",
+      "type": "MillionDongLayersShot",
+      "duration_frames": 119,
+      "narration": "Nhìn bên ngoài chỉ là một con số nhỏ đi. Nhưng phía sau là nhiều bên cùng tham gia.",
+      "props": {
+        "amountLabel": "MỘT ĐƠN HÀNG",
+        "headline": "NHIỀU LỚP ƯU ĐÃI",
+        "accentWord": "NHIỀU LỚP",
+        "layers": [
+          {
+            "label": "Giá đã giảm",
+            "color": "#EE4D2D",
+            "icon": "🏷️"
+          },
+          {
+            "label": "Shop Voucher",
+            "color": "#F59E0B",
+            "icon": "🎟️"
+          },
+          {
+            "label": "Shopee Voucher",
+            "color": "#22C55E",
+            "icon": "🛍️"
+          },
+          {
+            "label": "Miễn phí vận chuyển",
+            "color": "#3B82F6",
+            "icon": "🚚"
+          }
+        ],
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "NHIỀU LỚP ƯU ĐÃI, MỘT ĐƠN HÀNG"
+    },
+    {
+      "id": "shot_03",
+      "type": "LedgerEntryShot",
+      "duration_frames": 328,
+      "narration": "Nếu sản phẩm được giảm trực tiếp, hoặc bạn áp voucher riêng của shop, người bán thường là bên chịu phần giảm đó. Shop chấp nhận kiếm ít hơn trên mỗi món hàng. Đổi lại, sản phẩm dễ thu hút lượt xem, tăng tỷ lệ chốt đơn và kéo thêm khách mới.",
+      "props": {
+        "eyebrow": "SHOP TỰ TẠO ƯU ĐÃI",
+        "toggleLabel": "Tạo ưu đãi",
+        "lineItems": [
+          {
+            "label": "LỢI NHUẬN MỖI ĐƠN",
+            "value": "GIẢM",
+            "emphasis": true,
+            "icon": "📉"
+          },
+          {
+            "label": "LƯỢT XEM & CHỐT ĐƠN",
+            "value": "TĂNG",
+            "icon": "📈"
+          }
+        ],
+        "illustrativeLabel": "TÌNH HUỐNG MINH HỌA",
+        "accentColor": "#EE4D2D"
+      },
+      "on_screen_text": "LỢI NHUẬN MỖI ĐƠN: GIẢM · LƯỢT XEM & CHỐT ĐƠN: TĂNG"
+    },
+    {
+      "id": "shot_04a",
+      "type": "SignalFlowScene",
+      "duration_frames": 227,
+      "narration": "Nhưng không phải mã nào cũng do shop trả. Shopee cũng có thể dùng ngân sách của nền tảng để phát voucher, hỗ trợ phí vận chuyển hoặc kéo người dùng quay lại ứng dụng.",
+      "props": {
+        "signals": [
+          {
+            "icon": "🏢",
+            "label": "Ngân sách Shopee",
+            "color": "#EE4D2D"
+          }
+        ],
+        "outputLabel": "Voucher & hỗ trợ vận chuyển",
+        "outputLabels": [
+          "VOUCHER",
+          "HỖ TRỢ SHIP",
+          "GIỎ HÀNG THÀNH ĐƠN"
+        ],
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "NGÂN SÁCH SHOPEE → VOUCHER · HỖ TRỢ SHIP · GIỎ HÀNG THÀNH ĐƠN"
+    },
+    {
+      "id": "shot_04b",
+      "type": "SignalFlowScene",
+      "duration_frames": 145,
+      "narration": "Với Shopee, phần tiền này không đơn thuần là quà tặng. Nó là chi phí để tạo thêm lượt truy cập và giao dịch.",
+      "props": {
+        "signals": [
+          {
+            "icon": "🏢",
+            "label": "Ngân sách Shopee",
+            "color": "#EE4D2D"
+          }
+        ],
+        "outputLabel": "Voucher & hỗ trợ vận chuyển",
+        "outputLabels": [
+          "VOUCHER",
+          "HỖ TRỢ SHIP",
+          "GIỎ HÀNG THÀNH ĐƠN"
+        ],
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "CHI PHÍ ĐỂ TẠO THÊM TRUY CẬP & GIAO DỊCH"
+    },
+    {
+      "id": "shot_05",
+      "type": "PayerRevealShot",
+      "duration_frames": 273,
+      "narration": "Có những chương trình lại được đồng tài trợ. Shopee chịu một phần, người bán chịu phần còn lại. Người mua chỉ thấy một dòng giảm giá. Nhưng khi đơn hàng được đối soát, phần shop đóng góp có thể được khấu trừ khỏi doanh thu.",
+      "props": {
+        "headline": "SHOPEE VÀ SHOP CÙNG CHỊU",
+        "accentWord": "CÙNG CHỊU",
+        "amount": "MỘT PHẦN",
+        "payers": [
+          "Shopee",
+          "Người bán"
+        ],
+        "payerIcons": ["🛍️", "🏪"],
+        "illustrativeLabel": "TÌNH HUỐNG MINH HỌA",
+        "platformLabel": "Shopee",
+        "platformColor": "#EE4D2D"
+      },
+      "on_screen_text": "SHOPEE VÀ SHOP CÙNG CHỊU · Nguồn: Đồng tài trợ khuyến mãi"
+    },
+    {
+      "id": "shot_06",
+      "type": "NetworkFlowScene",
+      "duration_frames": 273,
+      "narration": "Nếu mã giảm giá gắn với ngân hàng, ví điện tử, thương hiệu hoặc chương trình trả góp, ngân sách còn có thể đến từ đối tác. Vì vậy, một đơn hàng đôi khi được hỗ trợ bởi shop, Shopee và một bên thứ ba cùng lúc.",
+      "props": {
+        "signals": [
+          {
+            "icon": "🏪",
+            "label": "Người bán",
+            "color": "#61dafb"
+          },
+          {
+            "icon": "🛍️",
+            "label": "Shopee",
+            "color": "#EE4D2D"
+          },
+          {
+            "icon": "🏦",
+            "label": "Đối tác",
+            "color": "#f97316"
+          }
+        ],
+        "outputLabel": "Một đơn hàng",
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "NGƯỜI BÁN · SHOPEE · ĐỐI TÁC → MỘT ĐƠN HÀNG"
+    },
+    {
+      "id": "shot_07",
+      "type": "CostBreakdownShot",
+      "duration_frames": 296,
+      "narration": "Ngay cả freeship cũng không có nghĩa là chuyến giao hàng không tốn tiền. Xe vẫn chạy. Tài xế vẫn giao. Kho vận vẫn phải hoạt động. Chỉ là một phần chi phí đã được nền tảng, người bán hoặc chương trình ưu đãi thanh toán thay cho bạn.",
+      "props": {
+        "merchantLabel": "CHI PHÍ THẬT",
+        "merchantLines": [
+          {
+            "label": "XE & TÀI XẾ",
+            "value": "Vẫn chạy",
+            "icon": "🏍️"
+          },
+          {
+            "label": "KHO VẬN",
+            "value": "Vẫn hoạt động",
+            "icon": "🏭"
+          }
+        ],
+        "customerLabel": "KHÁCH THẤY",
+        "customerValue": "FREESHIP",
+        "customerIcon": "📦",
+        "sourceLabel": "Nguồn: Shopee Seller Edu",
+        "accentColor": "#EE4D2D"
+      },
+      "on_screen_text": "XE & TÀI XẾ VẪN CHẠY · KHO VẬN VẪN HOẠT ĐỘNG → KHÁCH THẤY: FREESHIP"
+    },
+    {
+      "id": "shot_08",
+      "type": "ScanAnimationScene",
+      "duration_frames": 351,
+      "narration": "Nhưng tại sao Shopee không giảm đều mỗi ngày? Tại sao phải đợi đến ngày 8 tháng 8, ngày 9 tháng 9 hay ngày 10 tháng 10? Vì những ngày này rất dễ nhớ. Shopee biến chúng thành một cuộc hẹn mua sắm: bạn lưu mã, thêm hàng vào giỏ rồi chờ đúng ngày mới thanh toán.",
+      "props": {
+        "headline": "TẠI SAO PHẢI LÀ NGÀY ĐÔI?",
+        "accentWord": "NGÀY ĐÔI",
+        "scanLabel": "LỊCH SALE SHOPEE",
+        "targets": [
+          "8.8",
+          "9.9",
+          "10.10"
+        ],
+        "result": "MỘT CUỘC HẸN MUA SẮM",
+        "note": "Nguồn: Lịch sale Shopee",
+        "accentColor": "#EE4D2D",
+        "calendarMode": true,
+        "theme": "dark"
+      },
+      "on_screen_text": "TẠI SAO PHẢI LÀ NGÀY ĐÔI? · 8.8 · 9.9 · 10.10"
+    },
+    {
+      "id": "shot_09",
+      "type": "TimelineStagesScene",
+      "duration_frames": 294,
+      "narration": "Ngày 25 lại đánh vào một thời điểm khác. Đó là lúc nhiều người vừa nhận lương, hoặc chuẩn bị bước sang kỳ chi tiêu mới. Lương tạo khả năng mua. Voucher tạo lý do mua. Còn thời hạn của chương trình khiến quyết định khó bị trì hoãn.",
+      "props": {
+        "headline": "TẠI SAO LẠI LÀ NGÀY LƯƠNG VỀ?",
+        "accentWord": "LƯƠNG VỀ",
+        "stages": [
+          {
+            "label": "LƯƠNG VỀ",
+            "icon": "💰",
+            "state": "safe"
+          },
+          {
+            "label": "VOUCHER SÁNG",
+            "icon": "🎟️",
+            "state": "warning"
+          },
+          {
+            "label": "SẮP HẾT HẠN",
+            "icon": "⏰",
+            "state": "danger"
+          },
+          {
+            "label": "ĐÃ THANH TOÁN",
+            "icon": "✅",
+            "state": "safe"
+          }
+        ],
+        "note": "Nguồn: Tuổi Trẻ, VnEconomy",
+        "accentColor": "#EE4D2D",
+        "theme": "dark"
+      },
+      "on_screen_text": "LƯƠNG VỀ → VOUCHER SÁNG → SẮP HẾT HẠN → ĐÃ THANH TOÁN"
+    },
+    {
+      "id": "shot_10a",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 198,
+      "narration": "Bạn có bao giờ tự hỏi… những “món hời” này thực sự đến từ đâu không? Vì nếu nhìn bề ngoài, nó giống như một cơ hội ngẫu nhiên — ai nhanh tay thì thắng.",
+      "props": {
+        "text": "NHỮNG “MÓN HỜI” NÀY THỰC SỰ ĐẾN TỪ ĐÂU?",
+        "accentWord": "MÓN HỜI",
+        "backgroundStyle": "dark",
+        "accentColor": "#EE4D2D",
+        "icon": "🤔"
+      },
+      "on_screen_text": "NHỮNG “MÓN HỜI” NÀY THỰC SỰ ĐẾN TỪ ĐÂU?"
+    },
+    {
+      "id": "shot_10b",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 207,
+      "narration": "Nhưng khi nhìn sâu hơn, bạn sẽ thấy một điều khác: không phải lúc nào bạn cũng đang “săn deal”… mà đôi khi chính bạn đang bị dẫn dắt để tin rằng mình vừa thắng.",
+      "props": {
+        "text": "BẠN ĐANG SĂN DEAL… HAY ĐANG BỊ DẪN DẮT ĐỂ TIN RẰNG MÌNH VỪA THẮNG?",
+        "accentWord": "DẪN DẮT",
+        "backgroundStyle": "dark",
+        "accentColor": "#EE4D2D",
+        "icon": "🎭"
+      },
+      "on_screen_text": "BẠN ĐANG SĂN DEAL… HAY ĐANG BỊ DẪN DẮT?"
+    },
+    {
+      "id": "shot_10c",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 209,
+      "narration": "Và câu hỏi quan trọng nhất là: liệu đây là may mắn thật sự… hay chỉ là một hệ thống được thiết kế để bạn luôn cảm thấy mình sắp bỏ lỡ điều gì đó?",
+      "props": {
+        "text": "MAY MẮN THẬT? HAY THIẾT KẾ THẬT KỸ?",
+        "accentWord": "THIẾT KẾ",
+        "backgroundStyle": "dark",
+        "accentColor": "#EE4D2D",
+        "icon": "🎲"
+      },
+      "on_screen_text": "MAY MẮN THẬT? HAY THIẾT KẾ THẬT KỸ?"
+    }
+  ]
+}

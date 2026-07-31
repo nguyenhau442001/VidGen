@@ -162,6 +162,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
   backgroundStyle = "dark",
   accentColor,
   screenshotPath,
+  icon,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -251,21 +252,31 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
         )}
         <div
           style={{
-            maxWidth: MAX_TEXT_WIDTH,
-            textAlign: "center",
-            textWrap: "balance",
-            whiteSpace: "pre-line",
-            fontFamily: BE_VIETNAM_PRO,
-            fontWeight: 700,
-            fontSize: hasScreenshot ? 43 : fontSize,
-            lineHeight: 1.32,
-            letterSpacing: "-0.01em",
-            color: "var(--text-color)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 22,
             opacity: hasScreenshot ? quoteOpacity : textOpacity,
             transform: `scale(${textScale})`,
           }}
         >
-          <QuoteText text={text} accentWord={accentWord} frame={frame} fps={fps} />
+          {icon && <div style={{ fontSize: 72 }}>{icon}</div>}
+          <div
+            style={{
+              maxWidth: MAX_TEXT_WIDTH,
+              textAlign: "center",
+              textWrap: "balance",
+              whiteSpace: "pre-line",
+              fontFamily: BE_VIETNAM_PRO,
+              fontWeight: 700,
+              fontSize: hasScreenshot ? 43 : fontSize,
+              lineHeight: 1.32,
+              letterSpacing: "-0.01em",
+              color: "var(--text-color)",
+            }}
+          >
+            <QuoteText text={text} accentWord={accentWord} frame={frame} fps={fps} />
+          </div>
         </div>
       </SafeZone>
     </AbsoluteFill>

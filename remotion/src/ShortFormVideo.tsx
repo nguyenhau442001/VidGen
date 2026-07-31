@@ -83,6 +83,7 @@ import { TriPhoneRevealShot } from "./scenes/TriPhoneRevealShot";
 import { CostTransferOutroShot } from "./scenes/CostTransferOutroShot";
 import { RevenueClockHookShot } from "./scenes/RevenueClockHookShot";
 import { MillionDongLayersShot } from "./scenes/MillionDongLayersShot";
+import { ProductDiscountStackShot } from "./scenes/ProductDiscountStackShot";
 import { ConditionalGuaranteeShot } from "./scenes/ConditionalGuaranteeShot";
 import { TripCountGapShot } from "./scenes/TripCountGapShot";
 import { BatteryTimelineShot } from "./scenes/BatteryTimelineShot";
@@ -99,6 +100,7 @@ import { NetworkPathShot } from "./scenes/NetworkPathShot";
 import { ThreeLayerRecapShot } from "./scenes/ThreeLayerRecapShot";
 import { PunchlineHoldShot } from "./scenes/PunchlineHoldShot";
 import { RealFootageScene } from "./scenes/RealFootageScene";
+import { ShopeeDiscountCoverScene } from "./scenes/ShopeeDiscountCoverScene";
 import { ScreenshotScene } from "./scenes/ScreenshotScene";
 import {
   BrandSwapTestScene,
@@ -402,6 +404,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <RevenueClockHookShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "million_dong_layers":
       return <MillionDongLayersShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "product_discount_stack":
+      return <ProductDiscountStackShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "conditional_guarantee":
       return <ConditionalGuaranteeShot {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "trip_count_gap":
@@ -436,6 +440,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <RealFootageScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "screenshot":
       return <ScreenshotScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "shopee_discount_cover":
+      return <ShopeeDiscountCoverScene {...shot.visual} />;
     default:
       throw new Error(`Unknown shot type: ${(shot as { type: string }).type}`);
   }

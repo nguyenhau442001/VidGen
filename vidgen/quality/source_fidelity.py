@@ -8,12 +8,32 @@ import re
 import sys
 from pathlib import Path
 
+from vidgen.pipeline.render_manifest_builder import scene_name_for
 from vidgen.pipeline.shot_schema import script_shots
+
+
+def _grouped_json_narrations(script: dict) -> list[str]:
+    """Concatenate multi-shot scenes (ids like shot_02a/shot_02b) into one
+    narration per TXT scene before comparing — a TXT scene whose narration
+    is split across several JSON shots (to satisfy per-shot duration limits)
+    still corresponds to exactly one narrated TXT scene."""
+    groups: dict[str, list[str]] = {}
+    for shot in script_shots(script):
+        narration = str(shot.get("narration", "")).strip()
+        if not narration:
+            continue
+        key = scene_name_for(shot.get("id")) or str(shot.get("id"))
+        groups.setdefault(key, []).append(narration)
+    return [_normalize_whitespace(" ".join(parts)) for parts in groups.values()]
 
 
 _SCENE_HEADING_RE = re.compile(r"^##\s+(?:Cảnh\b|Teaser\b)", re.IGNORECASE)
 _FIELD_LABEL_RE = re.compile(r"^\*\*([^*]+):\*\*\s*$")
 _FIELD_HEADING_RE = re.compile(r"^#{3,6}\s+(.+?)\s*$")
+# A standalone bold line with no colon (e.g. "**Ngắt nhẹ.**") is a production
+# stage direction (pacing/pause cue for the reader), not spoken narration —
+# distinct from _FIELD_LABEL_RE, which requires a trailing colon.
+_STAGE_DIRECTION_RE = re.compile(r"^\*\*([^*:]{1,30})\*\*$")
 
 
 def _normalize_whitespace(value: str) -> str:
@@ -26,6 +46,9 @@ def _clean_voiceover_block(lines: list[str]) -> str:
 
     def flush_paragraph() -> None:
         if not paragraph_lines:
+            return
+        if len(paragraph_lines) == 1 and _STAGE_DIRECTION_RE.match(paragraph_lines[0].strip()):
+            paragraph_lines.clear()
             return
         paragraph = _normalize_whitespace(" ".join(paragraph_lines))
         paragraph = paragraph.removeprefix("**").removesuffix("**").strip()
@@ -117,11 +140,7 @@ def audit_source_fidelity(source_path: str | Path, json_path: str | Path) -> dic
 
     source_narrations = extract_voiceover_scenes(source.read_text(encoding="utf-8"))
     script = json.loads(generated.read_text(encoding="utf-8"))
-    json_narrations = [
-        _normalize_whitespace(str(shot.get("narration", "")))
-        for shot in script_shots(script)
-        if str(shot.get("narration", "")).strip()
-    ]
+    json_narrations = _grouped_json_narrations(script)
 
     if len(source_narrations) != len(json_narrations):
         issues.append(

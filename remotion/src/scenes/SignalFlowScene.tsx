@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { SignalFlowSceneProps } from "../types";
-import { colors, INTER, JETBRAINS_MONO, CAPTION_CLEAR_Y } from "../styles";
+import { colors, colorsDark, INTER, JETBRAINS_MONO, CAPTION_CLEAR_Y } from "../styles";
 import { VectorIconSvg } from "../icons";
 
 // ---------------------------------------------------------------------------
@@ -115,8 +115,10 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
   accentColor = ACCENT_DEFAULT,
   sourceLabel,
   outputLabels,
+  theme = "light",
   durationInFrames,
 }) => {
+  const palette = theme === "dark" ? colorsDark : colors;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -191,7 +193,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
   );
 
   return (
-    <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+    <AbsoluteFill style={{ backgroundColor: palette.bg }}>
       <svg
         width="100%"
         height="100%"
@@ -290,7 +292,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
                 textAnchor="middle"
                 fontSize={labelFontSize}
                 fontWeight={600}
-                style={{ fill: colors.textPrimary, fontFamily: INTER }}
+                style={{ fill: palette.textPrimary, fontFamily: INTER }}
               >
                 {s.label}
               </text>
@@ -346,10 +348,10 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
               fontSize={fontSize}
               fontWeight={700}
               paintOrder="stroke"
-              stroke={colors.bg}
+              stroke={palette.bg}
               strokeWidth={7}
               strokeLinejoin="round"
-              style={{ fill: colors.textPrimary, fontFamily: JETBRAINS_MONO }}
+              style={{ fill: palette.textPrimary, fontFamily: JETBRAINS_MONO }}
               opacity={outputOpacity}
             >
               {outputLabel}
@@ -389,7 +391,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
                     textAnchor="middle"
                     fontSize={16}
                     fontWeight={700}
-                    style={{ fill: colors.textPrimary, fontFamily: INTER }}
+                    style={{ fill: palette.textPrimary, fontFamily: INTER }}
                   >
                     {label}
                   </text>
@@ -408,7 +410,7 @@ export const SignalFlowScene: React.FC<SignalFlowSceneProps> = ({
             right: 60,
             fontSize: 15,
             fontWeight: 600,
-            color: colors.textDim,
+            color: palette.textDim,
             textAlign: "center",
             fontFamily: INTER,
             opacity: interpolate(

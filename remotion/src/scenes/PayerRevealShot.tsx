@@ -5,15 +5,25 @@ import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { BE_VIETNAM_PRO } from "../styles";
 import { p3Colors, GrabMark } from "./shared/grabfoodP3Palette";
+import { ImpactFlash, hash01 } from "./shared/cinematicPrimitives";
+
+const PARTICLE_COUNT = 18;
+const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
+  x: hash01(i * 3.1) * 100,
+  y: hash01(i * 7.7 + 1) * 100,
+  size: 4 + hash01(i * 5.3 + 2) * 7,
+  phase: hash01(i * 2.9 + 3) * Math.PI * 2,
+  speed: 0.4 + hash01(i * 4.1 + 4) * 0.5,
+}));
 
 // Frame plan: the −40.000đ pill (carried over from the hook shot) flies up
 // toward a centered Grab mark and stops just short of touching it (0-55) —
 // per the script it must NOT land on Grab, since the point of this scene is
 // that Grab is only one of three possible destinations. The mark then dims
 // and three payer chips fan out below (60-110), followed by the headline.
-const FLY_END = 55;
-const FAN_START = 62;
-const HEADLINE_START = 100; // after the third payer chip has settled in
+const FLY_END = 25;
+const FAN_START = 30;
+const HEADLINE_START = 50; // after the third payer chip has settled in
 
 export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   headline,
@@ -21,8 +31,14 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   amount,
   payers,
   illustrativeLabel,
+  platformLabel,
+  platformColor,
+  flourish,
+  payerIcons,
   durationInFrames,
 }) => {
+  const accent = platformColor ?? p3Colors.grab;
+  const highlightIndex = platformLabel ? payers.indexOf(platformLabel) : 1;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -31,7 +47,7 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   const flyScale = interpolate(Math.min(1, flySpring), [0, 1], [0.7, 1]);
   const markDim = interpolate(frame, [FLY_END, FLY_END + 20], [1, 0.4], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const badgeOpacity = interpolate(frame, [8, 24], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const headlineOpacity = interpolate(frame, [HEADLINE_START, HEADLINE_START + 28], [0, 1], {
+  const headlineOpacity = interpolate(frame, [HEADLINE_START, HEADLINE_START + 15], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -47,7 +63,36 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: p3Colors.bg, fontFamily: BE_VIETNAM_PRO, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: exitOpacity }}>
-        <AmbientBackground accent={p3Colors.grab} />
+        <AmbientBackground accent={accent} />
+        {flourish && (
+          <>
+            <AbsoluteFill style={{ pointerEvents: "none" }}>
+              {particles.map((p, i) => {
+                const t = frame / 30;
+                const drift = Math.sin(t * p.speed + p.phase) * 22;
+                const twinkle = 0.35 + 0.4 * (0.5 + 0.5 * Math.sin(t * (0.8 + p.speed) + p.phase));
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      position: "absolute",
+                      left: `${p.x}%`,
+                      top: `${p.y}%`,
+                      width: p.size,
+                      height: p.size,
+                      borderRadius: "50%",
+                      background: accent,
+                      opacity: twinkle,
+                      boxShadow: `0 0 ${p.size * 2}px ${accent}`,
+                      transform: `translate(${drift}px, ${drift * 0.6}px)`,
+                    }}
+                  />
+                );
+              })}
+            </AbsoluteFill>
+            <ImpactFlash frame={frame} startFrame={FLY_END} durationFrames={18} color={accent} strength={0.7} />
+          </>
+        )}
         <SafeZone style={{ justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
           {illustrativeLabel && (
             <div
@@ -70,7 +115,29 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
           )}
 
           <div style={{ opacity: markDim, transform: `scale(${0.85 + markDim * 0.15})` }}>
-            <GrabMark size={110} />
+            {platformLabel ? (
+              <div
+                style={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: accent,
+                  color: "#fff",
+                  fontSize: 22,
+                  fontWeight: 900,
+                  textAlign: "center",
+                  padding: 8,
+                  boxShadow: flourish ? `0 0 50px ${accent}99, 0 0 110px ${accent}55` : undefined,
+                }}
+              >
+                {platformLabel}
+              </div>
+            ) : (
+              <GrabMark size={110} />
+            )}
           </div>
 
           <div
@@ -83,7 +150,9 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
               color: "#fff",
               fontSize: 34,
               fontWeight: 900,
-              boxShadow: "0 20px 50px rgba(239,68,68,0.4)",
+              boxShadow: flourish
+                ? "0 20px 50px rgba(239,68,68,0.55), 0 0 70px rgba(239,68,68,0.5)"
+                : "0 20px 50px rgba(239,68,68,0.4)",
               zIndex: 2,
             }}
           >
@@ -92,7 +161,7 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
 
           <div style={{ display: "flex", gap: 22, marginTop: 64 }}>
             {payers.map((payer, i) => {
-              const start = FAN_START + i * 12;
+              const start = FAN_START + i * 5;
               const s = spring({ frame: frame - start, fps, config: { damping: 14, stiffness: 160 }, durationInFrames: 22 });
               return (
                 <div
@@ -103,7 +172,11 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
                     padding: "16px 26px",
                     borderRadius: 18,
                     background: "rgba(255,255,255,0.06)",
-                    border: `1.5px solid ${i === 1 ? p3Colors.grab : "rgba(255,255,255,0.22)"}`,
+                    border: `1.5px solid ${i === highlightIndex ? accent : "rgba(255,255,255,0.22)"}`,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 6,
                     fontSize: 20,
                     fontWeight: 800,
                     color: p3Colors.textPrimary,
@@ -111,7 +184,8 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
                     minWidth: 150,
                   }}
                 >
-                  {payer}
+                  {payerIcons?.[i] && <span style={{ fontSize: 30 }}>{payerIcons[i]}</span>}
+                  <span>{payer}</span>
                 </div>
               );
             })}
@@ -120,7 +194,7 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
           <div
             style={{
               marginTop: 56,
-              fontSize: 32,
+              fontSize: flourish ? 36 : 32,
               fontWeight: 900,
               color: p3Colors.textPrimary,
               textAlign: "center",
@@ -132,7 +206,9 @@ export const PayerRevealShot: React.FC<PayerRevealSceneProps> = ({
             {accentIndex >= 0 ? (
               <>
                 {before}
-                <span style={{ color: p3Colors.grab }}>{accentWord}</span>
+                <span style={{ color: accent, textShadow: flourish ? `0 0 24px ${accent}` : undefined }}>
+                  {accentWord}
+                </span>
                 {after}
               </>
             ) : (

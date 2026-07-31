@@ -199,6 +199,7 @@ export type ManifestScene =
   | { type: "cost_transfer_outro"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CostTransferOutroVisual }
   | { type: "revenue_clock_hook"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RevenueClockHookVisual }
   | { type: "million_dong_layers"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MillionDongLayersVisual }
+  | { type: "product_discount_stack"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ProductDiscountStackVisual }
   | { type: "conditional_guarantee"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ConditionalGuaranteeVisual }
   | { type: "trip_count_gap"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TripCountGapVisual }
   | { type: "battery_timeline"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatteryTimelineVisual }
@@ -222,7 +223,8 @@ export type ManifestScene =
   | { type: "reuse_system"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ReuseSystemVisual }
   | { type: "brand_swap_test"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BrandSwapTestVisual }
   | { type: "real_footage"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RealFootageVisual }
-  | { type: "screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenshotVisual };
+  | { type: "screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenshotVisual }
+  | { type: "shopee_discount_cover"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ShopeeDiscountCoverVisual };
 
 export type MarketingCaptionHookVisual = {
   label: string;
@@ -648,6 +650,7 @@ export type SignalFlowVisual = {
   // that light up in sequence after the brain settles — lets a scene end on
   // "what the processed signal supports" instead of a separate callout scene.
   outputLabels?: string[];
+  theme?: "light" | "dark"; // default "light" (channel default); "dark" uses colorsDark
 };
 
 export type SignalFlowSceneProps = SignalFlowVisual & { durationInFrames: number };
@@ -667,6 +670,7 @@ export type NetworkFlowVisual = {
   signals: NetworkFlowSignal[];
   outputLabel: string; // label on the merged output node
   accentColor?: string; // default "#00ff41"
+  theme?: "light" | "dark"; // default "light" (channel default); "dark" uses colorsDark
 };
 
 export type NetworkFlowSceneProps = NetworkFlowVisual & { durationInFrames: number };
@@ -948,12 +952,27 @@ export type CharacterIconCoverVisual = {
 
 export type CharacterIconCoverSceneProps = CharacterIconCoverVisual;
 
+// Emoji-forward Gen-Z opening cover for shopee_discount_who_pays, reused as an
+// in-video title-card shot (not just a still thumbnail render) — see
+// scenes/ShopeeDiscountCoverScene.tsx. Purely static (no per-frame animation
+// keyed off durationInFrames), so it just holds for the shot's duration.
+export type ShopeeDiscountCoverLine = { text: string; accent?: boolean };
+
+export type ShopeeDiscountCoverVisual = {
+  eyebrowText?: string;
+  lines?: ShopeeDiscountCoverLine[];
+  tags?: string[];
+};
+
 export type QuoteCalloutVisual = {
   text: string;
   accentWord?: string;
   backgroundStyle?: "dark" | "gradient-subtle";
   accentColor?: string;
   screenshotPath?: string;
+  // Optional large emoji shown above the quote text as a visual anchor, so a
+  // text-only quote card isn't pure wall-of-text. Omit to keep old behavior.
+  icon?: string;
 };
 
 export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };
@@ -1282,6 +1301,8 @@ export type TimelineStagesVisual = {
   accentWord?: string;
   stages: TimelineStage[];
   note?: string;
+  accentColor?: string; // default colors.cyan; headline accent + progress line only (stage state colors stay semantic)
+  theme?: "light" | "dark"; // default "light" (channel default); "dark" uses colorsDark
 };
 
 export type TimelineStagesSceneProps = TimelineStagesVisual & { durationInFrames: number };
@@ -1292,10 +1313,28 @@ export type ScanAnimationVisual = {
   headline: string;
   accentWord?: string;
   scanLabel: string;
-  targets: string[];
+  targets: string[]; // e.g. ["8.8", "9.9", "10.10"] — parsed as "month.day"
   result: string;
   note?: string;
   accentColor?: string;
+  // When true, replaces the abstract scan-grid with one mini calendar-month
+  // card per target (each target's "day" part highlighted, the rest of the
+  // month dim) — a richer, on-theme visual for "these dates are easy to
+  // remember" claims. Default false preserves the original scan-line grid.
+  calendarMode?: boolean;
+  theme?: "light" | "dark"; // default "light" (channel default); "dark" uses colorsDark
+  // calendarMode only: one emoji badge per target (same order/length as
+  // targets), floating top-right of each calendar card. Omit for no badges.
+  cardEmojis?: string[];
+  // calendarMode only: extra non-date cards appended after the calendar
+  // cards (e.g. a "payday" callout that isn't a month.day pattern).
+  extraCards?: Array<{ icon: string; title: string; subtitle?: string }>;
+  // Row of decorative emoji shown above the headline (e.g. "🔥💸🎯").
+  emojiRow?: string;
+  // calendarMode only: frames between each card's stagger-in start (default
+  // TARGET_STAGGER=14). Lower this when targets+extraCards is large so the
+  // full reveal + result + note still fits inside durationInFrames.
+  cardStagger?: number;
 };
 
 export type ScanAnimationSceneProps = ScanAnimationVisual & { durationInFrames: number };
@@ -1835,6 +1874,23 @@ export type PayerRevealVisual = {
   amount: string; // e.g. "40.000Đ"
   payers: string[]; // e.g. ["Nhà hàng", "Grab", "Nhãn hàng"]
   illustrativeLabel?: string;
+  // Default (both omitted) renders the original hardcoded Grab mark + green
+  // accent, for existing GrabFood scripts. Set both when the payer is not
+  // Grab (e.g. Shopee) — platformLabel replaces the Grab logo mark with a
+  // generic text badge, and platformColor recolors the accent/highlight
+  // instead of defaulting to Grab's brand green. The payer chip whose label
+  // equals platformLabel (falling back to payers[1] when unset, matching the
+  // original Grab-in-the-middle convention) gets the highlighted border.
+  platformLabel?: string;
+  platformColor?: string;
+  // Adds floating particle glow, an impact flash on pill-landing, and glow
+  // shadows for a higher-energy hook treatment. Default false preserves the
+  // original flat look for existing scripts (e.g. grabfood_discount_who_pays_p3).
+  flourish?: boolean;
+  // Index-matched emoji per payers[i], rendered above each chip label so the
+  // row reads at a glance instead of as plain text. Omitted entries/whole
+  // array preserve the original text-only chip.
+  payerIcons?: string[];
 };
 
 export type PayerRevealSceneProps = PayerRevealVisual & { durationInFrames: number };
@@ -1844,9 +1900,10 @@ export type PayerRevealSceneProps = PayerRevealVisual & { durationInFrames: numb
 export type LedgerEntryVisual = {
   eyebrow?: string;
   toggleLabel?: string; // default "Tạo ưu đãi"
-  lineItems: Array<{ label: string; value: string; emphasis?: boolean }>;
+  lineItems: Array<{ label: string; value: string; emphasis?: boolean; icon?: string }>;
   sourceLabel?: string;
   illustrativeLabel?: string;
+  accentColor?: string; // default p3Colors.grab; override for non-Grab scripts
 };
 
 export type LedgerEntrySceneProps = LedgerEntryVisual & { durationInFrames: number };
@@ -1855,10 +1912,12 @@ export type LedgerEntrySceneProps = LedgerEntryVisual & { durationInFrames: numb
 // down to a small customer-facing screen that only ever shows the first row.
 export type CostBreakdownVisual = {
   merchantLabel?: string; // default "PHÍA NHÀ HÀNG"
-  merchantLines: Array<{ label: string; value: string }>;
+  merchantLines: Array<{ label: string; value: string; icon?: string }>;
   customerLabel?: string; // default "PHÍA KHÁCH HÀNG"
   customerValue: string;
+  customerIcon?: string; // optional emoji shown beside customerValue
   sourceLabel?: string;
+  accentColor?: string; // default p3Colors.sponsor (#f59e0b)
 };
 
 export type CostBreakdownSceneProps = CostBreakdownVisual & { durationInFrames: number };
@@ -1927,10 +1986,32 @@ export type MillionDongLayersVisual = {
   amountLabel: string; // e.g. "1.000.000Đ"
   headline: string;
   accentWord?: string;
-  layers: Array<{ label: string }>;
+  layers: Array<{ label: string; color?: string; icon?: string }>; // color defaults to accentColor if omitted
+  accentColor?: string; // default xanhSmBlue (this shot's original video's brand blue)
+  theme?: "light" | "dark"; // default "light" (channel default); "dark" uses colorsDark
 };
 
 export type MillionDongLayersSceneProps = MillionDongLayersVisual & { durationInFrames: number };
+
+// A concrete worked example: one product's price ticks down step by step as
+// each discount layer (own price cut / shop voucher / platform voucher /
+// freeship) applies, instead of an abstract stack of layer-name chips.
+export type ProductDiscountStackVisual = {
+  headline: string;
+  accentWord?: string;
+  productIcon: string; // emoji, e.g. "👕"
+  productName: string;
+  steps: Array<{ label: string; price: string }>; // steps[0] is the original price (no discount label needed but still shown struck-through once step 1 starts)
+  freeshipLabel?: string; // shown after the last step, e.g. "MIỄN PHÍ VẬN CHUYỂN"
+  accentColor?: string;
+  theme?: "light" | "dark"; // default "dark"
+  // When true, skip the step-by-step reveal and render already settled on
+  // the final step + freeship badge from frame 0 — for a second shot that
+  // continues holding on this scene's end state for a later narration beat.
+  startSettled?: boolean;
+};
+
+export type ProductDiscountStackSceneProps = ProductDiscountStackVisual & { durationInFrames: number };
 
 // A finish-line-style target number that fans out into its qualifying
 // conditions, stamped with a conditional-guarantee seal.

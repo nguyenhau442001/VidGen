@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { TimelineStage, TimelineStagesSceneProps } from "../types";
-import { colors, INTER } from "../styles";
+import { colors, colorsDark, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 
@@ -10,10 +10,10 @@ const EXIT_FRAMES = 8;
 const STAGES_START = 24;
 const STAGE_STAGGER = 14;
 
-const STATE_COLOR: Record<TimelineStage["state"], string> = {
-  danger: "#ff6666",
-  warning: "#f5a623",
-  safe: colors.green,
+const stateColorFor = (state: TimelineStage["state"], green: string): string => {
+  if (state === "danger") return "#ff6666";
+  if (state === "warning") return "#f5a623";
+  return green;
 };
 
 const renderHeadline = (
@@ -40,8 +40,12 @@ export const TimelineStagesScene: React.FC<TimelineStagesSceneProps> = ({
   accentWord,
   stages,
   note,
+  accentColor,
+  theme = "light",
   durationInFrames,
 }) => {
+  const palette = theme === "dark" ? colorsDark : colors;
+  const accent = accentColor ?? palette.cyan;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -73,8 +77,8 @@ export const TimelineStagesScene: React.FC<TimelineStagesSceneProps> = ({
   });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: colors.bg, opacity: sceneOpacity }}>
-      <AmbientBackground accent={colors.cyan} />
+    <AbsoluteFill style={{ backgroundColor: palette.bg, opacity: sceneOpacity }}>
+      <AmbientBackground accent={accent} />
       <SafeZone
         style={{ justifyContent: "center", alignItems: "stretch", flexDirection: "column", fontFamily: INTER }}
       >
@@ -84,12 +88,12 @@ export const TimelineStagesScene: React.FC<TimelineStagesSceneProps> = ({
             fontWeight: 700,
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
-            color: colors.textPrimary,
+            color: palette.textPrimary,
             opacity: headlineOpacity,
             marginBottom: 90,
           }}
         >
-          {renderHeadline(headline, accentWord, colors.cyan)}
+          {renderHeadline(headline, accentWord, accent)}
         </div>
 
         <div style={{ position: "relative", display: "flex", justifyContent: "space-between", padding: "0 4px" }}>
@@ -110,13 +114,13 @@ export const TimelineStagesScene: React.FC<TimelineStagesSceneProps> = ({
               left: 27,
               height: 3,
               width: `calc((100% - 54px) * ${lineDraw})`,
-              backgroundColor: colors.cyan,
+              backgroundColor: accent,
             }}
           />
           {stages.map((stage, i) => {
             const start = STAGES_START + i * STAGE_STAGGER;
             const s = spring({ frame: frame - start, fps, config: { stiffness: 300, damping: 18 }, durationInFrames: 16 });
-            const color = STATE_COLOR[stage.state];
+            const color = stateColorFor(stage.state, palette.green);
             return (
               <div
                 key={i}
@@ -159,7 +163,7 @@ export const TimelineStagesScene: React.FC<TimelineStagesSceneProps> = ({
               marginTop: 70,
               fontSize: 24,
               fontWeight: 500,
-              color: colors.textDim,
+              color: palette.textDim,
               textAlign: "center",
               opacity: noteOpacity,
             }}

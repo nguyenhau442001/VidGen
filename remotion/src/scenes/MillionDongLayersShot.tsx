@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { MillionDongLayersSceneProps } from "../types";
-import { colors, INTER } from "../styles";
+import { colors, colorsDark, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
 import { xanhSmBlue } from "./shared/greensmBikePalette";
@@ -36,8 +36,12 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
   headline,
   accentWord,
   layers,
+  accentColor,
+  theme = "light",
   durationInFrames,
 }) => {
+  const palette = theme === "dark" ? colorsDark : colors;
+  const accent = accentColor ?? xanhSmBlue;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -59,8 +63,8 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
   const amountSpring = spring({ frame, fps, config: { stiffness: 220, damping: 18 }, durationInFrames: 20 });
 
   return (
-    <AbsoluteFill style={{ backgroundColor: colors.bg, opacity: sceneOpacity }}>
-      <AmbientBackground accent={xanhSmBlue} />
+    <AbsoluteFill style={{ backgroundColor: palette.bg, opacity: sceneOpacity }}>
+      <AmbientBackground accent={accent} />
       <SafeZone
         style={{ justifyContent: "center", alignItems: "center", flexDirection: "column", fontFamily: INTER }}
       >
@@ -72,12 +76,12 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
               lineHeight: 1.2,
               textAlign: "center",
               maxWidth: 780,
-              color: colors.textPrimary,
+              color: palette.textPrimary,
               opacity: headlineOpacity,
               marginBottom: 44,
             }}
           >
-            {renderHeadline(headline, accentWord, xanhSmBlue)}
+            {renderHeadline(headline, accentWord, accent)}
           </div>
         )}
 
@@ -88,8 +92,8 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
             padding: "44px 36px",
             borderRadius: 28,
             textAlign: "center",
-            backgroundColor: "rgba(14,165,233,0.06)",
-            border: `2px dashed ${xanhSmBlue}88`,
+            backgroundColor: `${accent}0F`,
+            border: `2px dashed ${accent}88`,
             opacity: Math.min(1, amountSpring),
             transform: `scale(${0.92 + Math.min(1, amountSpring) * 0.08})`,
           }}
@@ -98,7 +102,7 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
             style={{
               fontSize: 60,
               fontWeight: 900,
-              color: colors.textPrimary,
+              color: palette.textPrimary,
               marginBottom: 30,
               letterSpacing: "-0.01em",
             }}
@@ -110,23 +114,30 @@ export const MillionDongLayersShot: React.FC<MillionDongLayersSceneProps> = ({
             {layers.map((layer, i) => {
               const start = LAYERS_START + i * LAYER_STAGGER;
               const s = spring({ frame: frame - start, fps, config: { stiffness: 260, damping: 20 }, durationInFrames: 18 });
+              const layerColor = layer.color ?? accent;
               return (
                 <div
                   key={i}
                   style={{
                     padding: "14px 22px",
                     borderRadius: 14,
-                    backgroundColor: `rgba(14,165,233,${0.08 + i * 0.06})`,
-                    border: `1px solid ${xanhSmBlue}55`,
+                    backgroundColor: `${layerColor}1f`,
+                    border: `1.5px solid ${layerColor}88`,
                     opacity: Math.min(1, s),
                     transform: `translateY(${(1 - Math.min(1, s)) * 16}px)`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 12,
                     fontSize: 23,
-                    fontWeight: 700,
+                    fontWeight: 800,
                     letterSpacing: "0.02em",
-                    color: colors.textPrimary,
+                    color: layerColor,
+                    textShadow: `0 0 16px ${layerColor}66`,
                   }}
                 >
-                  {layer.label}
+                  {layer.icon && <span style={{ fontSize: 28 }}>{layer.icon}</span>}
+                  <span>{layer.label}</span>
                 </div>
               );
             })}

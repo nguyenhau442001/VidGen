@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { NetworkFlowSceneProps } from "../types";
-import { colors, INTER, JETBRAINS_MONO } from "../styles";
+import { colors, colorsDark, INTER, JETBRAINS_MONO } from "../styles";
 
 // Re-exported for callers that only need the shape (signals/outputLabel/
 // accentColor), matching the props interface as authored:
@@ -73,7 +73,9 @@ export const NetworkFlowScene: React.FC<NetworkFlowSceneProps> = ({
   signals = [],
   outputLabel,
   accentColor = ACCENT_DEFAULT,
+  theme = "light",
 }) => {
+  const palette = theme === "dark" ? colorsDark : colors;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -123,7 +125,7 @@ export const NetworkFlowScene: React.FC<NetworkFlowSceneProps> = ({
   const pulseRadius = OUTPUT_RADIUS + pulseT * OUTPUT_RADIUS * 0.9;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+    <AbsoluteFill style={{ backgroundColor: palette.bg }}>
       <svg
         width="100%"
         height="100%"
@@ -190,7 +192,7 @@ export const NetworkFlowScene: React.FC<NetworkFlowSceneProps> = ({
                 textAnchor="middle"
                 fontSize={22}
                 fontWeight={600}
-                style={{ fill: colors.textPrimary, fontFamily: INTER }}
+                style={{ fill: palette.textPrimary, fontFamily: INTER }}
               >
                 {s.label}
               </text>
@@ -223,10 +225,10 @@ export const NetworkFlowScene: React.FC<NetworkFlowSceneProps> = ({
                 fontSize={26}
                 fontWeight={700}
                 paintOrder="stroke"
-                stroke={colors.bg}
+                stroke={palette.bg}
                 strokeWidth={7}
                 strokeLinejoin="round"
-                style={{ fill: colors.textPrimary, fontFamily: JETBRAINS_MONO }}
+                style={{ fill: palette.textPrimary, fontFamily: JETBRAINS_MONO }}
               >
                 {outputLabel}
               </text>

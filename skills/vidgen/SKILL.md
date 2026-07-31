@@ -422,7 +422,7 @@ pitch-preserving speed adjustment, silence trim, and loudness normalization.
 ```bash
 python -m vidgen.audio.speech_synthesizer content/json/<slug>.json \
   --output-dir public/audio \
-  --speed 1.2 \
+  --speed 1.0 \
   --max-silence-ms 120
 ```
 
@@ -436,7 +436,7 @@ script = json.loads(open("content/json/<slug>.json").read())
 synthesize_scenes(
     scenes=script["shots"],
     output_dir="public/audio",
-    speed=1.2,
+    speed=1.0,
     trim_silence=True,
     max_silence_ms=120,
 )
@@ -445,7 +445,7 @@ synthesize_scenes(
 Per-shot overrides are supported too:
 
 ```python
-script["shots"][0]["tts_speed"] = 1.25  # hook
+script["shots"][0]["tts_speed"] = 1.05  # hook
 script["shots"][-1]["tts_speed"] = 0.95  # CTA
 ```
 
@@ -453,10 +453,10 @@ script["shots"][-1]["tts_speed"] = 0.95  # CTA
 
 | Speed | Effect | Use when |
 |-------|--------|----------|
-| `1.0` | Normal pace | Reference/debugging only |
+| `1.0` | **Recommended / default** | Normal pace — owner found 1.2x too fast (2026-07-31) |
 | `1.15` | Slightly faster | Dense narration, long sentences |
-| `1.2` | **Recommended** | Standard short-form video |
-| `1.25` | Aggressive | Very short scenes < 4s |
+| `1.2` | Fast | ❌ Do not use as default — reads too rushed |
+| `1.25` | Aggressive | Very short scenes < 4s only |
 | `> 1.3` | ❌ Do NOT use | Vietnamese tones degrade |
 
 **What the wrapper does automatically:**
