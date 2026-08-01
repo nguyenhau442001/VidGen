@@ -115,6 +115,14 @@ import { SafeZoneGuide } from "./SafeZoneGuide";
 import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors, HSK_PALETTE } from "./styles";
 import { LayoutAudit } from "./LayoutAudit";
+import { SceneErrorBoundary } from "./SceneErrorBoundary";
+
+const handleAudioError =
+  (label: string): React.ReactEventHandler<HTMLAudioElement> =>
+  (event) => {
+    // eslint-disable-next-line no-console
+    console.error(`[Audio] failed to load for ${label}:`, event.currentTarget.src);
+  };
 
 type ManifestShotWithPreviewAudio = ManifestScene & {
   previewAudioPath?: string;
@@ -126,7 +134,11 @@ export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifes
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
       <LayoutAudit />
       {manifest.soundtrack && (
-        <Audio src={staticFile(manifest.soundtrack.path)} volume={manifest.soundtrack.volume} />
+        <Audio
+          src={staticFile(manifest.soundtrack.path)}
+          volume={manifest.soundtrack.volume}
+          onError={handleAudioError("soundtrack")}
+        />
       )}
       <Series>
         {shots.map((shot) => (
@@ -137,15 +149,23 @@ export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifes
           >
             {(shot.previewAudioPath ?? shot.audioPath) && (
               <Sequence from={shot.audioOffsetFrames ?? 0}>
-                <Audio src={staticFile(shot.previewAudioPath ?? shot.audioPath)} />
+                <Audio
+                  src={staticFile(shot.previewAudioPath ?? shot.audioPath)}
+                  onError={handleAudioError(String(shot.id))}
+                />
               </Sequence>
             )}
             {shot.extraAudio?.map((seg, i) => (
               <Sequence key={i} from={seg.offsetFrames}>
-                <Audio src={staticFile(seg.previewPath ?? seg.path)} />
+                <Audio
+                  src={staticFile(seg.previewPath ?? seg.path)}
+                  onError={handleAudioError(`${shot.id}-extra-${i}`)}
+                />
               </Sequence>
             ))}
-            <SceneRenderer shot={shot} />
+            <SceneErrorBoundary label={`${shot.id} (${shot.type})`}>
+              <SceneRenderer shot={shot} />
+            </SceneErrorBoundary>
           </Series.Sequence>
         ))}
       </Series>

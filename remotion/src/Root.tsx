@@ -51,8 +51,16 @@ import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro, HSK_PALETTE } from "./styles";
 import defaultManifest from "../../output/render_manifest.json";
 
-const shopeeShotById = (id: number) =>
-  (defaultManifest as unknown as RenderManifest).shots.find((s) => s.id === id)!;
+const shopeeShotById = (id: number) => {
+  const shot = (defaultManifest as unknown as RenderManifest).shots.find((s) => s.id === id);
+  if (!shot) {
+    throw new Error(
+      `shopeeShotById(${id}): no shot with this id in current output/render_manifest.json — ` +
+        `this composition expects a Shopee-shaped manifest, switch Studio back to it or update these ids.`
+    );
+  }
+  return shot;
+};
 
 // Load fonts before any frame is captured
 const fontHandle = delayRender("Loading fonts");
