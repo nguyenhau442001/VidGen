@@ -47,9 +47,20 @@ def _clean_voiceover_block(lines: list[str]) -> str:
     def flush_paragraph() -> None:
         if not paragraph_lines:
             return
-        if len(paragraph_lines) == 1 and _STAGE_DIRECTION_RE.match(paragraph_lines[0].strip()):
-            paragraph_lines.clear()
-            return
+        if len(paragraph_lines) == 1:
+            candidate = paragraph_lines[0].strip()
+            stage_match = _STAGE_DIRECTION_RE.match(candidate)
+            if stage_match:
+                inner = stage_match.group(1).strip()
+                # Bold pacing cues are not narration, but bold quoted copy under an
+                # explicit Voice-over field is authored speech and must be preserved.
+                is_quoted_speech = (
+                    (inner.startswith("“") and inner.endswith("”"))
+                    or (inner.startswith('"') and inner.endswith('"'))
+                )
+                if not is_quoted_speech:
+                    paragraph_lines.clear()
+                    return
         paragraph = _normalize_whitespace(" ".join(paragraph_lines))
         paragraph = paragraph.removeprefix("**").removesuffix("**").strip()
         if len(paragraph) >= 2 and (

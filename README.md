@@ -2,6 +2,18 @@
 
 Generate short-form (TikTok-style, 1080×1920) videos from a human-approved TXT script. VidGen converts the approved narration and visual direction into a schema-valid JSON shot plan; after audit and explicit render approval, the production pipeline synthesizes Vietnamese voiceover with VieNeu-TTS, renders cinematic shots with captions via Remotion, and opens the result in Remotion Studio.
 
+VidGen also includes **VidGen Publisher**, a separate creator-facing review workspace for TikTok Content Posting API integration. A render can be handed off with proposed copy, but the creator must connect TikTok, preview and edit the post, choose current account-supported settings, confirm, and press Publish. It does not support blind unattended TikTok posting.
+
+### Run the Publisher locally
+
+Copy `.env.example` to an untracked `.env`, populate the required values, export them into the server environment, then run:
+
+```bash
+uvicorn vidgen.publisher.app:app --reload --port 8000
+```
+
+Use `TIKTOK_MODE=demo` only for a clearly labelled UI walkthrough with no TikTok calls. Use `TIKTOK_MODE=live` for Sandbox/production API testing. Review setup is documented in `docs/TIKTOK_REVIEW_CHECKLIST.md` and `docs/TIKTOK_REVIEW_SUBMISSION.md`.
+
 The core principle: **the TXT is authored; the JSON is generated**. Each production maps `content/text/<slug>.txt` to `content/json/<slug>.json`. Existing JSON files are historical generated outputs, not future inputs. Audit must pass before the user decides whether to render. Everything in `output/` is generated and disposable.
 
 ## Usage

@@ -9,6 +9,10 @@ dependencies = [
     "librosa",
     "soundfile",
     "requests",
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.30,<1",
+    "cryptography>=43,<46",
+    "itsdangerous>=2.2,<3",
 ]
 
 [project.optional-dependencies]
