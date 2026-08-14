@@ -9,7 +9,7 @@
 .facebook_tokens.json
 
 # Generated output files
-output/
+build/
 remotion/public/audio/
 public/audio/
 
@@ -21,7 +21,7 @@ remotion/public/video/
 remotion/public/images/
 
 # Personal reference audio (voice cloning tests, etc.)
-input/
+build/reference-audio/
 
 # Python bytecode
 __pycache__/
