@@ -1,0 +1,143 @@
+# TẠI SAO GRAB BÁO TỚI RỒI… MÀ KHÁCH VẪN HỎI “ANH ĐÂU?”
+
+**Đối tượng:** tài xế Grab/GrabFood
+**Tone:** đời thường, hài nhẹ, dễ hiểu, có kiến thức kỹ thuật
+**Duration target:** 75–90s
+**Visual style:** cinematic + motion graphic hiện đại, chuyển từ tình huống thật sang ba lớp vị trí, sai số định vị và cách xử lý.
+**Lưu ý:** 111/35 và 111/35A là tình huống minh họa.
+
+---
+
+## SCENE 1 — HOOK | 0–6s
+
+### Visual
+
+Split-screen. Tài xế đứng trước một căn nhà; khách đứng trước cổng kế bên. Màn hình khách báo tài xế đã tới, còn tài xế đang ở điểm app dẫn đến.
+
+### Dialogue
+
+**Tài xế:**
+“Alo, anh tới rồi em.”
+
+**Khách:**
+“Ủa anh ở đâu? Em không thấy.”
+
+**Tài xế:**
+“Anh đứng ngay trước nhà.”
+
+**Khách:**
+“Nhà ai vậy anh?”
+
+### On-screen text
+
+**TỚI RỒI. SAO KHÔNG THẤY?**
+
+---
+
+## SCENE 2 — LỆCH MỘT CHỮ | 6–13s
+
+### Visual
+
+Camera lao xuống một con hẻm. Khách đứng trước 111/35A, tài xế dừng trước 111/35. Hiện nhãn “TÌNH HUỐNG MINH HỌA”.
+
+### Narration
+
+“Nhà khách là 111/35A, còn tài xế được app dẫn tới 111/35. Trên màn hình chỉ lệch một chữ. Ngoài đời, đó là hai cánh cửa khác nhau.”
+
+---
+
+## SCENE 3 — BA LỚP VỊ TRÍ | 13–25s
+
+### Visual
+
+Ba lớp xuất hiện sớm và tách khỏi nhau:
+
+1. Địa chỉ hoặc pin khách chọn: `111/35A`
+2. Vị trí điện thoại đang ước lượng: `quanh 35–35A`
+3. Điểm tài xế được dẫn tới: `gần 111/35`
+
+### Narration
+
+“Điểm mấu chốt nằm ở đây: app không có một ‘sự thật vị trí’ duy nhất. Trên cùng màn hình có ba lớp mà mình thường tưởng là một.”
+
+“Địa chỉ hoặc pin khách chọn. Vị trí điện thoại đang ước lượng. Và điểm tài xế được dẫn tới. Ba lớp có thể rất gần, nhưng chưa chắc trùng nhau ngoài đời.”
+
+---
+
+## SCENE 4 — CHẤM XANH LÀ ƯỚC LƯỢNG | 25–33s
+
+### Visual
+
+Zoom vào chấm xanh. Chấm nở thành một vòng tròn sai số trên khu phố thật.
+
+### Narration
+
+“Cái chấm xanh không nói bạn chắc chắn đứng đúng tại đây. Nó là kết quả ước lượng từ nhiều phép đo, kèm một vùng sai số: khả năng cao bạn đang ở quanh đây.”
+
+---
+
+## SCENE 5 — 5 MÉT LÀ NHÀ HÀNG XÓM | 33–43s
+
+### Visual
+
+Vòng tròn bán kính 5 mét từ đường thoáng được kéo vào con hẻm và phủ cả 35 lẫn 35A.
+
+### Narration
+
+“Ngoài trời thoáng, GPS trên điện thoại thường chính xác trong khoảng 5 mét. Nghe rất nhỏ. Nhưng đặt vòng 5 mét vào con hẻm, nó có thể phủ cả 35 lẫn 35A. Năm mét chính là nhà hàng xóm.”
+
+---
+
+## SCENE 6 — TÍN HIỆU ĐI ĐƯỜNG VÒNG | 43–55s
+
+### Visual
+
+Tín hiệu vệ tinh bị nhà cao tầng che; một tia phản xạ qua tường rồi mới tới điện thoại. Chấm vị trí trôi khỏi vị trí thật.
+
+### Narration
+
+“Vào hẻm, tín hiệu vệ tinh có thể bị nhà cao tầng che hoặc phản xạ qua tường. Đường truyền dài hơn làm máy ước lượng sai khoảng cách. Dữ liệu đầu vào lệch, vị trí tính ra có thể lệch từ vài mét đến hàng chục mét.”
+
+### On-screen text
+
+**SAI SỐ: VÀI MÉT → HÀNG CHỤC MÉT**
+
+---
+
+## SCENE 7 — CÓ THÊM MANH MỐI, VẪN KHÔNG TUYỆT ĐỐI | 55–65s
+
+### Visual
+
+Wi-Fi, sóng di động và cảm biến chuyển động cùng hội tụ vào điện thoại.
+
+### Narration
+
+“Điện thoại có thể ghép thêm Wi-Fi, sóng di động và cảm biến chuyển động để cải thiện ước lượng. Nhưng cảm biến chủ yếu giúp theo dõi máy đang di chuyển thế nào, không biến điện thoại thành cây thước đo chính xác từng cánh cửa.”
+
+---
+
+## SCENE 8 — PAYOFF | 65–76s
+
+### Visual
+
+Quay lại tình huống: khách ở 35A, tài xế ở 35, vòng sai số phủ cả hai. Hai giao diện không hiện dấu xác nhận “đúng vị trí”.
+
+### Narration
+
+“Vì thế, khách có thể thấy ứng dụng báo tài xế đã tới, còn tài xế thấy mình đang ở điểm app dẫn đến. Cả hai cùng làm theo màn hình, nhưng đang dựa vào những lớp vị trí không hoàn toàn trùng nhau.”
+
+---
+
+## SCENE 9 — CÁCH XỬ LÝ | 76–86s
+
+### Visual
+
+Checklist ba bước hiện lần lượt: số nhà đầy đủ, ảnh cổng hoặc tên hẻm, gọi xác nhận mốc gần nhất.
+
+### Narration
+
+“Khi khó gặp nhau, đừng chỉ nhìn chấm xanh. Kiểm tra số nhà có chữ A, tên hẻm, ảnh cổng; rồi gọi xác nhận mốc gần nhất. Vì vài mét trên bản đồ có thể là một căn nhà khác ngoài đời.”
+
+### Final text
+
+**ĐỪNG CHỈ NHÌN CHẤM XANH.**

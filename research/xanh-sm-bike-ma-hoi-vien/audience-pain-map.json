@@ -1,0 +1,92 @@
+{
+  "topic": "Xanh SM Bike — mã khuyến mãi hội viên không chọn được, tự trỏ về mã mặc định",
+  "segments": [
+    {
+      "name": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "role": "Khách hàng đã mua gói hội viên Xanh SM (Xanh Hội Viên/Xanh Unlimited/Xanh Đi Làm), dùng Bike gần như hằng ngày cho đi làm/đi học",
+      "experience_level": "Có kinh nghiệm dùng app, đã quen quy trình đặt xe cơ bản nhưng chưa chắc hiểu cơ chế ưu tiên mã khi có nhiều mã",
+      "current_workflow": [
+        "Mua gói hội viên nhận trước một tập mã ưu đãi (nhiều mệnh giá khác nhau)",
+        "Mở app, nhập điểm đón/đến, chọn dịch vụ Bike",
+        "Nhấn 'Ưu đãi' trên nút đặt xe để xem/áp mã",
+        "Đặt xe, hy vọng mã mong muốn được áp"
+      ],
+      "trigger_events": [
+        "Thấy mã hội viên sắp hết hạn trong app",
+        "Cố tình vào phần Ưu đãi để chọn mã cụ thể nhưng không tìm ra cách chọn",
+        "Sau nhiều chuyến, nhận ra một số mã đã mua chưa từng được dùng"
+      ],
+      "functional_pains": [
+        "Không thấy tùy chọn chọn thủ công mã cụ thể muốn dùng khi đặt xe",
+        "Mã giá trị cao hơn (đã trả tiền) hết hạn không dùng được trong khi mã khác được áp tự động"
+      ],
+      "emotional_pains": [
+        "Cảm giác mất kiểm soát với thứ mình đã bỏ tiền mua",
+        "Nghi ngờ không biết đây là lỗi thao tác của mình hay lỗi hệ thống"
+      ],
+      "professional_pains": [],
+      "current_alternatives": [
+        "Liên hệ hotline CSKH 1900 2097 hoặc email cskh@xanhsm.com (chưa xác thực hiệu quả trong nghiên cứu này)",
+        "Không có giải pháp tự lực nào được xác nhận"
+      ],
+      "desired_outcomes": [
+        "Chọn được chính xác mã muốn dùng cho mỗi chuyến",
+        "Dùng hết giá trị mã đã mua trước khi hết hạn",
+        "Hiểu rõ logic hệ thống dùng để chọn mã, để không lặp lại tình huống mất mã"
+      ],
+      "objections": [
+        "Có thể do tôi thao tác sai, không phải lỗi hệ thống",
+        "Chưa chắc đây là vấn đề phổ biến, chỉ 1 người gặp"
+      ],
+      "customer_language": [
+        "mã hội viên",
+        "trỏ về mặc định",
+        "không thế nào chọn",
+        "để 20k kia hết hạn"
+      ],
+      "awareness_stage": "Problem Aware",
+      "evidence": ["S004", "S002"],
+      "confidence": "low"
+    },
+    {
+      "name": "Người dùng phổ thông thu thập mã từ nhiều nguồn",
+      "role": "Khách hàng không có gói hội viên cố định nhưng có mã từ ngân hàng liên kết (MB, BIDV, Techcombank), VinID, hoặc chương trình giới thiệu",
+      "experience_level": "Mới đến trung bình — dùng app không thường xuyên, ít quen thuộc với luồng ưu đãi phức tạp",
+      "current_workflow": [
+        "Nhận mã từ nhiều kênh khác nhau (app ngân hàng, VinID, referral)",
+        "Đặt xe không kiểm tra kỹ mã nào sẽ được áp",
+        "Nhận hóa đơn sau chuyến, đôi khi mới phát hiện mã mong muốn không được dùng"
+      ],
+      "trigger_events": [
+        "Nhận thông báo mã sắp hết hạn từ ngân hàng/VinID",
+        "So sánh giá chuyến thực tế với giá kỳ vọng sau khi áp mã"
+      ],
+      "functional_pains": [
+        "Không rõ mã nào đang được áp trước khi xác nhận đặt xe",
+        "Không biết mã từ nguồn khác (ngân hàng) có tương thích/ưu tiên thế nào so với mã hội viên"
+      ],
+      "emotional_pains": [
+        "Bối rối vì có quá nhiều mã từ nhiều nguồn, không rõ luồng ưu tiên"
+      ],
+      "professional_pains": [],
+      "current_alternatives": [
+        "Không có — chưa xác thực được giải pháp nào trong nghiên cứu này"
+      ],
+      "desired_outcomes": [
+        "Biết trước mã nào sẽ được áp trước khi xác nhận đặt xe",
+        "Không bị mất giá trị mã do không hiểu luồng ưu tiên"
+      ],
+      "objections": [
+        "Có khi nào đây là chính sách ghi rõ trong điều khoản mà tôi chưa đọc?"
+      ],
+      "customer_language": [
+        "mã ngân hàng",
+        "mã VinID",
+        "không biết mã nào được áp"
+      ],
+      "awareness_stage": "Unaware",
+      "evidence": ["S002"],
+      "confidence": "low"
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "video_id": "xanh_sm_doi_pin_mien_phi_co_dieu_kien",
+  "title": "Xanh SM Bike: miễn phí đổi pin có điều kiện?",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01_hook",
+      "type": "battery_swap_policy",
+      "duration_frames": 120,
+      "narration": "Tại sao đổi pin miễn phí lại phụ thuộc vào số cuốc hôm qua?",
+      "props": {
+        "mode": "hook",
+        "eyebrow": "XANH SM BIKE · POLICY AUDIT",
+        "headline": "PIN HÔM NAY\nCUỐC HÔM QUA?",
+        "accentWord": "CUỐC HÔM QUA?",
+        "subhead": "Quyền đổi pin hôm nay được mở bằng dữ liệu ngày trước.",
+        "thumbnailHeadline": "ĐỔI PIN MIỄN PHÍ\nNHƯNG PHẢI ĐỦ CUỐC?",
+        "thumbnailAccentWord": "ĐỦ CUỐC?",
+        "thumbnailSubtext": "PIN HÔM NAY · KPI HÔM QUA",
+        "thumbnailIllustration": "batterySwap",
+        "thumbnailAccentColor": "#FF425F"
+      },
+      "on_screen_text": "PIN HÔM NAY · CUỐC HÔM QUA? · HÔM QUA 0/10 CUỐC · PIN 8% LOCKED"
+    },
+    {
+      "id": "shot_02_promise",
+      "type": "battery_swap_policy",
+      "duration_frames": 210,
+      "narration": "Ngày hai mươi sáu tháng Ba, GSM công bố tài xế Xanh SM Bike được miễn phí thuê và đổi pin ba năm, đổi không giới hạn số lần.",
+      "props": {
+        "mode": "promise",
+        "eyebrow": "THÔNG CÁO CHÍNH THỨC",
+        "headline": "LỜI HỨA BAN ĐẦU",
+        "accentWord": "BAN ĐẦU",
+        "subhead": "ĐỔI PIN KHÔNG GIỚI HẠN",
+        "metrics": [
+          { "label": "THỜI HẠN", "value": "3 NĂM", "tone": "blue" }
+        ],
+        "sourceLabel": "Nguồn: Vingroup / GSM · Thông cáo ngày 26/03/2026"
+      },
+      "on_screen_text": "LỜI HỨA BAN ĐẦU · 3 NĂM · ĐỔI PIN KHÔNG GIỚI HẠN"
+    },
+    {
+      "id": "shot_03_conditions",
+      "type": "battery_swap_policy",
+      "duration_frames": 270,
+      "narration": "Nhưng trang chính sách cập nhật sau đó ghi tối đa năm lần mỗi ngày, và chỉ miễn phí nếu ngày trước đạt mười cuốc, bốn trăm nghìn doanh số, cùng tỷ lệ nhận và hoàn thành chuyến.",
+      "props": {
+        "mode": "conditions",
+        "eyebrow": "ĐIỀU KIỆN MỞ KHÓA",
+        "headline": "MIỄN PHÍ,\nNHƯNG KHÓA",
+        "accentWord": "NHƯNG KHÓA",
+        "metrics": [
+          { "label": "GIỚI HẠN", "value": "5 LẦN / NGÀY", "tone": "amber" },
+          { "label": "NGÀY T-1", "value": "≥ 10 CUỐC", "tone": "red" },
+          { "label": "DOANH SỐ T-1", "value": "≥ 400K", "tone": "red" },
+          { "label": "KỶ LUẬT", "value": "NHẬN 90%\nHOÀN THÀNH 95%", "tone": "red" }
+        ],
+        "footer": "NGÀY T PHỤ THUỘC KẾT QUẢ NGÀY T-1",
+        "sourceLabel": "Nguồn: Green SM · Trang cập nhật chương trình RTO · truy cập 14/08/2026"
+      },
+      "on_screen_text": "MIỄN PHÍ NHƯNG KHÓA · 5 LẦN/NGÀY · T-1 10 CUỐC · T-1 400K · NHẬN 90% · HOÀN THÀNH 95%"
+    },
+    {
+      "id": "shot_04_after_june",
+      "type": "battery_swap_policy",
+      "duration_frames": 260,
+      "narration": "Sau ngày ba mươi tháng Sáu, điều kiện còn tăng: Hà Nội, Thành phố Hồ Chí Minh phải đủ mười ba cuốc hoặc năm trăm hai mươi nghìn; nơi khác mười một cuốc hoặc bốn trăm bốn mươi nghìn.",
+      "props": {
+        "mode": "after_june",
+        "eyebrow": "SAU MỐC 30/06",
+        "headline": "NGƯỠNG LẠI TĂNG",
+        "accentWord": "TĂNG",
+        "metrics": [
+          { "label": "HÀ NỘI · TP.HCM", "value": "≥ 13 CUỐC  /  520K", "tone": "red" },
+          { "label": "KHU VỰC KHÁC", "value": "≥ 11 CUỐC  /  440K", "tone": "amber" },
+          { "label": "TỶ LỆ VẬN HÀNH", "value": "HỦY <5%  ·  BỎ TRÔI <10%", "tone": "red" }
+        ],
+        "footer": "Headline nói miễn phí. Đường điều kiện tiếp tục đi lên.",
+        "sourceLabel": "Nguồn: Green SM · Điều kiện chính sách sau 30/06/2026"
+      },
+      "on_screen_text": "NGƯỠNG LẠI TĂNG · HÀ NỘI/TP.HCM 13 CUỐC HOẶC 520K · KHU VỰC KHÁC 11 CUỐC HOẶC 440K"
+    },
+    {
+      "id": "shot_05_driver_bind",
+      "type": "battery_swap_policy",
+      "duration_frames": 300,
+      "narration": "Nghĩa là hôm qua nghỉ ốm, ít cuốc, hay hệ thống phát cuốc không đủ, quyền miễn phí hôm nay có thể biến mất. Pin là năng lượng để chạy, nhưng muốn được miễn phí, bạn phải chạy đủ trước đó.",
+      "props": {
+        "mode": "driver_bind",
+        "eyebrow": "QUYỀN LỢI THEO NGÀY",
+        "headline": "PIN HÔM NAY\nBỊ BUỘC VÀO KPI",
+        "accentWord": "KPI",
+        "subhead": "Muốn có năng lượng để chạy hôm nay, hôm qua phải đạt ngưỡng.",
+        "footer": "Nghỉ ốm · ít cuốc · hệ thống phát thiếu cuốc → quyền miễn phí có thể mất"
+      },
+      "on_screen_text": "PIN HÔM NAY BỊ BUỘC VÀO KPI · NGÀY T-1 0/10 CUỐC · NGÀY T QUYỀN MIỄN PHÍ ?"
+    },
+    {
+      "id": "shot_06_duration_conflict",
+      "type": "battery_swap_policy",
+      "duration_frames": 250,
+      "narration": "Chưa hết: thông cáo nói ba năm cho người đăng ký đến ba mươi tháng Sáu. Trang cập nhật lại ghi hai năm, chỉ nhóm vào trước ba mươi tháng Năm mới giữ ba năm.",
+      "props": {
+        "mode": "duration_conflict",
+        "eyebrow": "HAI TRANG CHÍNH THỨC",
+        "headline": "CÙNG MỘT ƯU ĐÃI\nHAI THỜI HẠN",
+        "accentWord": "HAI THỜI HẠN",
+        "metrics": [
+          { "label": "THÔNG CÁO 26/03", "value": "3 NĂM", "tone": "blue" },
+          { "label": "TRANG CẬP NHẬT", "value": "2 NĂM", "tone": "amber" }
+        ],
+        "footer": "Chỉ nhóm vào hoặc đặt cọc trước 30/05 mới giữ mốc 3 năm.",
+        "sourceLabel": "Đối chiếu: Vingroup/GSM 26/03/2026 ↔ Green SM trang cập nhật RTO"
+      },
+      "on_screen_text": "CÙNG MỘT ƯU ĐÃI · HAI THỜI HẠN · THÔNG CÁO 3 NĂM · TRANG CẬP NHẬT 2 NĂM"
+    },
+    {
+      "id": "shot_07_current_ambiguity",
+      "type": "battery_swap_policy",
+      "duration_frames": 240,
+      "narration": "Trong khi đó, hướng dẫn đổi pin tháng Sáu chỉ bảo tài xế theo dõi thông báo cập nhật về chi phí. Không có một bảng chính sách thống nhất, dễ tìm, còn hiệu lực ngay lúc này.",
+      "props": {
+        "mode": "ambiguity",
+        "eyebrow": "THÔNG TIN ĐANG CÔNG KHAI",
+        "headline": "CHÍNH SÁCH NÀO\nĐANG CHẠY?",
+        "accentWord": "NÀO",
+        "metrics": [
+          { "label": "THÔNG CÁO", "value": "3 NĂM · KHÔNG GIỚI HẠN", "tone": "blue" },
+          { "label": "TRANG RTO", "value": "2 NĂM · 5 LẦN / NGÀY", "tone": "amber" },
+          { "label": "SAU 30/06", "value": "13 CUỐC / 520K", "tone": "red" },
+          { "label": "HƯỚNG DẪN 02/06", "value": "THEO DÕI THÔNG BÁO CẬP NHẬT", "tone": "red" }
+        ],
+        "footer": "Một tài xế cần một câu trả lời duy nhất — không phải tự ghép bốn trang.",
+        "sourceLabel": "Nguồn: Green SM · Hướng dẫn đổi pin ngày 02/06/2026"
+      },
+      "on_screen_text": "CHÍNH SÁCH NÀO ĐANG CHẠY? · 3 NĂM · 2 NĂM · 5 LẦN/NGÀY · THEO DÕI CẬP NHẬT"
+    },
+    {
+      "id": "shot_08_cta",
+      "type": "battery_swap_policy",
+      "duration_frames": 310,
+      "narration": "Đây chưa phải bằng chứng Xanh SM cố tình thu phí. Nhưng đủ để hỏi: ưu đãi năng lượng cho tài xế, hay KPI đội lốt miễn phí? Anh em đang chạy thật, hôm nào không đủ cuốc thì đổi pin bị tính thế nào?",
+      "props": {
+        "mode": "cta",
+        "eyebrow": "CÂU HỎI CÒN MỞ",
+        "headline": "ƯU ĐÃI\nHAY KPI ĐỘI LỐT?",
+        "accentWord": "KPI ĐỘI LỐT?",
+        "metrics": [
+          { "label": "", "value": "ƯU ĐÃI", "tone": "blue" },
+          { "label": "", "value": "KPI NĂNG LƯỢNG", "tone": "red" },
+          { "label": "", "value": "THÔNG TIN MỜ", "tone": "amber" }
+        ],
+        "footer": "Đang chạy thật? Hôm không đủ cuốc, lượt đổi pin bị tính thế nào?"
+      },
+      "on_screen_text": "ƯU ĐÃI HAY KPI ĐỘI LỐT? · HÔM KHÔNG ĐỦ CUỐC, ĐỔI PIN BỊ TÍNH THẾ NÀO?"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "video_id": "grab_gps_anh_dau",
+  "title": "Tại sao Grab báo tới rồi mà khách vẫn hỏi anh đâu?",
+  "fps": 30,
+  "language": "vi",
+  "narration_language": "vi",
+  "estimated_duration_seconds": 85,
+  "editorial_notes": {
+    "source_timing": "Re-authored with owner approval for a 75–90 second final cut; pipeline may tighten authored validation durations to fresh TTS.",
+    "visual_style": "Cinematic Saigon alley plate with deterministic motion graphics; the three location layers are revealed before the GPS mechanism.",
+    "narration_policy": "Dialogue and narration copied verbatim from the newly approved TXT.",
+    "illustration_disclaimer": "111/35 and 111/35A are an illustrative scenario."
+  },
+  "shots": [
+    {
+      "id": "shot_01",
+      "type": "gps_accuracy",
+      "duration_frames": 180,
+      "transition_out_delay_frames": 0,
+      "props": {
+        "mode": "hook_split",
+        "headline": "TỚI RỒI.\nSAO KHÔNG THẤY?",
+        "accentWord": "KHÔNG THẤY",
+        "dialogue": [
+          {"speaker": "driver", "text": "Alo, anh tới rồi em.", "start_frame": 0},
+          {"speaker": "customer", "text": "Ủa anh ở đâu? Em không thấy.", "start_frame": 38},
+          {"speaker": "driver", "text": "Anh đứng ngay trước nhà.", "start_frame": 88},
+          {"speaker": "customer", "text": "Nhà ai vậy anh?", "start_frame": 124}
+        ]
+      },
+      "on_screen_text": "TỚI RỒI. SAO KHÔNG THẤY?"
+    },
+    {
+      "id": "shot_02",
+      "type": "gps_accuracy",
+      "duration_frames": 234,
+      "narration": "Nhà khách là 111/35A, còn tài xế được app dẫn tới 111/35. Trên màn hình chỉ lệch một chữ. Ngoài đời, đó là hai cánh cửa khác nhau.",
+      "narration_timing_frames": [0, 224],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "address_case",
+        "segment": 1,
+        "headline": "LỆCH MỘT CHỮ",
+        "accentWord": "MỘT CHỮ",
+        "subheadline": "TÌNH HUỐNG MINH HỌA"
+      },
+      "on_screen_text": "TÌNH HUỐNG MINH HỌA"
+    },
+    {
+      "id": "shot_03a",
+      "type": "gps_accuracy",
+      "duration_frames": 250,
+      "narration": "Điểm mấu chốt nằm ở đây: app không có một ‘sự thật vị trí’ duy nhất. Trên cùng màn hình có ba lớp mà mình thường tưởng là một.",
+      "narration_timing_frames": [0, 240],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "three_layers",
+        "segment": 1,
+        "headline": "BA LỚP VỊ TRÍ",
+        "accentWord": "BA LỚP"
+      }
+    },
+    {
+      "id": "shot_03b",
+      "type": "gps_accuracy",
+      "duration_frames": 298,
+      "narration": "Địa chỉ hoặc pin khách chọn. Vị trí điện thoại đang ước lượng. Và điểm tài xế được dẫn tới. Ba lớp có thể rất gần, nhưng chưa chắc trùng nhau ngoài đời.",
+      "narration_timing_frames": [0, 288],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "three_layers",
+        "segment": 2,
+        "headline": "RẤT GẦN ≠ TRÙNG NHAU",
+        "accentWord": "≠"
+      }
+    },
+    {
+      "id": "shot_04",
+      "type": "gps_accuracy",
+      "duration_frames": 290,
+      "narration": "Cái chấm xanh không nói bạn chắc chắn đứng đúng tại đây. Nó là kết quả ước lượng từ nhiều phép đo, kèm một vùng sai số: khả năng cao bạn đang ở quanh đây.",
+      "narration_timing_frames": [0, 280],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "uncertainty",
+        "segment": 2,
+        "headline": "CHẤM XANH = ƯỚC LƯỢNG",
+        "accentWord": "ƯỚC LƯỢNG",
+        "subheadline": "Khả năng cao bạn đang ở quanh đây."
+      }
+    },
+    {
+      "id": "shot_05",
+      "type": "gps_accuracy",
+      "duration_frames": 330,
+      "narration": "Ngoài trời thoáng, GPS trên điện thoại thường chính xác trong khoảng 5 mét. Nghe rất nhỏ. Nhưng đặt vòng 5 mét vào con hẻm, nó có thể phủ cả 35 lẫn 35A. Năm mét chính là nhà hàng xóm.",
+      "narration_timing_frames": [0, 320],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "five_meters",
+        "headline": "5 MÉT NGHE RẤT NHỎ",
+        "accentWord": "5 MÉT",
+        "subheadline": "NĂM MÉT LÀ NHÀ HÀNG XÓM."
+      }
+    },
+    {
+      "id": "shot_06a",
+      "type": "gps_accuracy",
+      "duration_frames": 242,
+      "narration": "Vào hẻm, tín hiệu vệ tinh có thể bị nhà cao tầng che hoặc phản xạ qua tường. Đường truyền dài hơn làm máy ước lượng sai khoảng cách.",
+      "narration_timing_frames": [0, 232],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "multipath",
+        "segment": 1,
+        "headline": "TÍN HIỆU ĐI ĐƯỜNG VÒNG",
+        "accentWord": "ĐƯỜNG VÒNG"
+      }
+    },
+    {
+      "id": "shot_06b",
+      "type": "gps_accuracy",
+      "duration_frames": 178,
+      "narration": "Dữ liệu đầu vào lệch, vị trí tính ra có thể lệch từ vài mét đến hàng chục mét.",
+      "narration_timing_frames": [0, 168],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "uncertainty",
+        "segment": 3,
+        "headline": "ĐẦU VÀO LỆCH → VỊ TRÍ LỆCH",
+        "accentWord": "VỊ TRÍ LỆCH",
+        "subheadline": "Sai số có thể từ vài mét → hàng chục mét."
+      },
+      "on_screen_text": "SAI SỐ: VÀI MÉT → HÀNG CHỤC MÉT"
+    },
+    {
+      "id": "shot_07",
+      "type": "gps_accuracy",
+      "duration_frames": 386,
+      "narration": "Điện thoại có thể ghép thêm Wi-Fi, sóng di động và cảm biến chuyển động để cải thiện ước lượng. Nhưng cảm biến chủ yếu giúp theo dõi máy đang di chuyển thế nào, không biến điện thoại thành cây thước đo chính xác từng cánh cửa.",
+      "narration_timing_frames": [0, 376],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "fallback_sensors",
+        "segment": 2,
+        "headline": "THÊM MANH MỐI, VẪN CÓ SAI SỐ",
+        "accentWord": "VẪN CÓ SAI SỐ",
+        "subheadline": "Cảm biến theo dõi chuyển động, không đo chính xác từng cánh cửa."
+      }
+    },
+    {
+      "id": "shot_08",
+      "type": "gps_accuracy",
+      "duration_frames": 362,
+      "narration": "Vì thế, khách có thể thấy ứng dụng báo tài xế đã tới, còn tài xế thấy mình đang ở điểm app dẫn đến. Cả hai cùng làm theo màn hình, nhưng đang dựa vào những lớp vị trí không hoàn toàn trùng nhau.",
+      "narration_timing_frames": [0, 352],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "payoff",
+        "headline": "CÙNG LÀM THEO MÀN HÌNH",
+        "accentWord": "MÀN HÌNH",
+        "subheadline": "Các lớp vị trí rất gần, nhưng không hoàn toàn trùng nhau."
+      }
+    },
+    {
+      "id": "shot_09",
+      "type": "gps_accuracy",
+      "duration_frames": 346,
+      "narration": "Khi khó gặp nhau, đừng chỉ nhìn chấm xanh. Kiểm tra số nhà có chữ A, tên hẻm, ảnh cổng; rồi gọi xác nhận mốc gần nhất. Vì vài mét trên bản đồ có thể là một căn nhà khác ngoài đời.",
+      "narration_timing_frames": [0, 336],
+      "transition_out_delay_frames": 10,
+      "props": {
+        "mode": "action_steps",
+        "headline": "ĐỪNG CHỈ NHÌN CHẤM XANH",
+        "accentWord": "CHẤM XANH",
+        "finalText": "VÀI MÉT TRÊN BẢN ĐỒ\nCÓ THỂ LÀ MỘT CĂN NHÀ KHÁC."
+      },
+      "on_screen_text": "ĐỪNG CHỈ NHÌN CHẤM XANH."
+    }
+  ]
+}

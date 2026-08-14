@@ -1,0 +1,217 @@
+{
+  "angles": [
+    {
+      "title": "Hidden Objective Function: Mã ưu đãi của bạn đang phục vụ ai?",
+      "one_sentence_concept": "Bắt đầu từ 1 trải nghiệm thật, đặt câu hỏi hệ thống ưu đãi Xanh SM thực sự tối ưu cho điều gì — rồi trung thực trình bày những gì xác thực được và những gì còn là câu hỏi mở.",
+      "hook": "Câu hỏi mở đầu video PHẢI là chính bí ẩn chưa giải mã: 'Vì sao một mã khuyến mãi hội viên trị giá 20k lại không thể chọn để dùng — và cứ thế hết hạn?' Đưa thẳng vào tình huống cụ thể (mã 20k, không chọn được, trỏ về mã khác, hết hạn) trong 5 giây đầu, KHÔNG mở bằng framing trừu tượng ('hệ thống tối ưu cái gì') trước — framing đó xuất hiện sau, ở phần reframe, khi đã đặt xong câu hỏi cụ thể.",
+      "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "core_pain": "Mã đã trả tiền mua hết hạn mà không dùng được, không rõ vì sao",
+      "core_tension": "Người dùng tin mã là tài sản họ toàn quyền chọn, nhưng hệ thống tự động quyết định thay họ theo logic không minh bạch",
+      "new_belief": "Hệ thống ưu đãi voucher không phải lúc nào cũng để người dùng chọn — và việc hiểu rõ cơ chế đó giúp mình tránh mất tiền, dù chưa biết chắc đây là bug hay thiết kế",
+      "proof_mechanism": "Đối chiếu FAQ chính thức (mục 4.4 xác nhận công ty tự biết có vấn đề mã lỗi) với báo cáo thực tế của người dùng, chỉ rõ phần đã xác thực và phần còn là giả thuyết mở",
+      "evidence": ["S002", "S004"],
+      "visual_metaphor": "Hai luồng mã (mã hội viên giá trị cao vs mã mặc định giá trị thấp) đi vào một 'hộp đen' hệ thống, chỉ một luồng đi ra — hộp đen không rõ nhãn",
+      "cta": "Nếu bạn từng gặp tình huống tương tự, để lại bình luận mô tả — video sau sẽ tổng hợp và thử liên hệ CSKH để hỏi rõ cơ chế",
+      "series_potential": "Có thể mở rộng thành series 'Hidden Objective Function của app gọi xe Việt Nam' — Grab, Be, ShopeeFood đều có cơ chế voucher tương tự đáng điều tra",
+      "risks": [
+        "Rủi ro người xem hiểu nhầm thành kết luận chắc chắn 'Xanh SM lừa đảo' dù video không tuyên bố vậy",
+        "Chỉ có 1 nguồn báo cáo cá nhân — nếu Xanh SM phản hồi và giải thích khác, video có thể phải đính chính"
+      ],
+      "disclaimers": [
+        "Đây là 1 báo cáo cá nhân chưa xác thực quy mô, không đại diện cho trải nghiệm toàn bộ người dùng",
+        "Chưa xác định được đây là lỗi phần mềm hay giới hạn thiết kế cố ý"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 7,
+        "emotional_tension": 6,
+        "credibility": 6,
+        "proof_potential": 5,
+        "visual_potential": 7,
+        "shareability": 6,
+        "save_value": 6,
+        "channel_fit": 9,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "Xanh SM lừa bạn để mã hết hạn?",
+      "one_sentence_concept": "Hook giật gân khẳng định thẳng đây là chiêu trò cố ý của công ty để không phải trả ưu đãi.",
+      "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "core_pain": "Mất tiền vì mã hết hạn không rõ lý do",
+      "new_belief": "Công ty cố tình thiết kế để mã của bạn hết hạn",
+      "core_tension": "Người dùng bị 'lừa' một cách có hệ thống bởi công ty lớn",
+      "proof_mechanism": "",
+      "evidence": [],
+      "visual_metaphor": "Đồng tiền của người dùng bị 'nuốt' bởi hệ thống",
+      "cta": "Cẩn thận khi dùng gói hội viên",
+      "series_potential": "Thấp — nếu sai sẽ mất uy tín kênh, khó làm tiếp phần 2",
+      "risks": [
+        "Không có bằng chứng cho ý định cố ý — đây là cáo buộc có thể sai sự thật",
+        "Rủi ro pháp lý nếu Xanh SM phản ứng với cáo buộc vô căn cứ",
+        "Vi phạm guardrail của skill: không được kết luận sẵn khi chưa đủ evidence"
+      ],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 7,
+        "novelty": 5,
+        "emotional_tension": 9,
+        "credibility": 2,
+        "proof_potential": 2,
+        "visual_potential": 6,
+        "shareability": 8,
+        "save_value": 4,
+        "channel_fit": 2,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 9
+      }
+    },
+    {
+      "title": "Voucher 1-chuyến: luật chung của mọi app gọi xe, không riêng Xanh SM",
+      "one_sentence_concept": "Đặt hiện tượng trong bối cảnh ngành — hầu hết app gọi xe/giao đồ ăn đều giới hạn 1 ưu đãi/chuyến, giải thích vì sao và người dùng nên làm gì để không mất mã.",
+      "audience": "Người dùng phổ thông thu thập mã từ nhiều nguồn",
+      "core_pain": "Không hiểu tại sao chỉ 1 mã được áp dù có nhiều mã khả dụng",
+      "core_tension": "Người dùng nghĩ càng nhiều mã càng lợi, nhưng hệ thống chỉ cho dùng 1 mã/chuyến nên phải chủ động quản lý thứ tự dùng",
+      "new_belief": "Việc chỉ dùng được 1 mã/chuyến là luật chung ngành, không phải riêng Xanh SM — nhưng cách mỗi app chọn mã nào lại khác nhau và thường không minh bạch",
+      "proof_mechanism": "So sánh cơ chế công khai của vài app tương tự (nếu tìm được tài liệu chính thức), đối chiếu với FAQ Xanh SM",
+      "evidence": ["S002"],
+      "visual_metaphor": "Nhiều mã xếp hàng chờ vào một cổng chỉ mở cho 1 mã duy nhất mỗi lượt",
+      "cta": "Kiểm tra hạn dùng từng mã trong app của bạn ngay hôm nay",
+      "series_potential": "Trung bình — có thể nối vào series so sánh cơ chế voucher các app khác nhau",
+      "risks": [
+        "Ít kịch tính hơn, có thể không đủ hấp dẫn để giữ chân người xem tới cuối",
+        "Cần thêm nguồn về cơ chế các app khác để so sánh công bằng — hiện chưa có"
+      ],
+      "disclaimers": [
+        "Chưa xác thực được cơ chế chọn mã cụ thể của Xanh SM (ưu tiên theo gì) — chỉ xác nhận giới hạn 1 mã/chuyến có khả năng tồn tại"
+      ],
+      "scores": {
+        "pain_recognition": 5,
+        "relevance": 6,
+        "novelty": 4,
+        "emotional_tension": 3,
+        "credibility": 6,
+        "proof_potential": 5,
+        "visual_potential": 5,
+        "shareability": 4,
+        "save_value": 7,
+        "channel_fit": 6,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Tôi thử tìm bằng chứng — và không tìm được",
+      "one_sentence_concept": "Video dạng 'nhật ký điều tra': theo dõi quá trình đi tìm bằng chứng cho báo cáo của 1 người dùng, cho thấy rõ ràng những gì tìm được và những gì bế tắc, kết thúc bằng câu hỏi mở cho khán giả.",
+      "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "core_pain": "Cảm giác 'một mình gặp vấn đề, không ai tin/xác nhận'",
+      "core_tension": "Một trải nghiệm cá nhân có thật nhưng không thể chứng minh quy mô — sự thật đôi khi khó xác định hơn tin đồn",
+      "new_belief": "Không phải mọi nghi ngờ về app đều có thể xác minh ngay — sự minh bạch (hoặc thiếu minh bạch) của công ty tự nó là một phần của câu chuyện",
+      "proof_mechanism": "Trình chiếu trực tiếp quá trình tìm kiếm: các từ khóa đã thử, các nguồn đã kiểm tra, kết quả rỗng — đây chính là 'bằng chứng về sự thiếu bằng chứng'",
+      "evidence": ["S001", "S002", "S003", "S004"],
+      "visual_metaphor": "Bảng điều tra kiểu 'cork board' với các đường nối, nhiều đường bị cắt/đứt giữa chừng vì không tìm được xác nhận",
+      "cta": "Nếu bạn có bằng chứng (screenshot, video) về tình huống tương tự, gửi cho kênh để làm phần 2 với dữ liệu thật",
+      "series_potential": "Cao — mở đường cho phần 2 nếu khán giả cung cấp thêm bằng chứng thật",
+      "risks": [
+        "Không có 'aha moment' rõ ràng — có thể khiến người xem cảm thấy hụt hẫng vì không có câu trả lời",
+        "Cần dẫn dắt khéo để 'không tìm được bằng chứng' vẫn đủ hấp dẫn, không nhàm chán"
+      ],
+      "disclaimers": [
+        "Kết luận cuối video là 'chưa xác định', không phải 'đã xác định'"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 8,
+        "emotional_tension": 5,
+        "credibility": 9,
+        "proof_potential": 6,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 5,
+        "channel_fit": 8,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 1
+      }
+    },
+    {
+      "title": "Mua gói hội viên xong mới biết: không phải mã nào cũng do bạn chọn",
+      "one_sentence_concept": "Tập trung vào khoảng cách giữa kỳ vọng khi MUA gói hội viên (nghĩ mình kiểm soát mã) và trải nghiệm thực tế khi DÙNG (hệ thống tự quyết).",
+      "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "core_pain": "Kỳ vọng lúc mua gói khác với trải nghiệm lúc dùng",
+      "core_tension": "Quảng cáo gói hội viên nhấn mạnh 'nhiều ưu đãi cho bạn', nhưng không nói rõ bạn không được chọn ưu đãi nào dùng lúc nào",
+      "new_belief": "Trước khi mua gói hội viên, cần hiểu rõ mã sẽ được áp theo cơ chế nào, không chỉ nhìn tổng giá trị mã quảng cáo",
+      "proof_mechanism": "Đối chiếu trang quảng cáo gói hội viên (nhấn mạnh tổng giá trị ưu đãi) với FAQ mục lỗi mã khuyến mãi (mục 4.4) — cho thấy khoảng cách thông tin",
+      "evidence": ["S002"],
+      "visual_metaphor": "Một túi quà with nhiều gói nhỏ (mã ưu đãi) — nhưng tay người dùng bị 'khoá', chỉ hệ thống mới mở được từng gói",
+      "cta": "Đọc kỹ điều khoản gói hội viên trước khi mua, đặc biệt phần cơ chế áp mã",
+      "series_potential": "Trung bình — có thể mở rộng sang phân tích các gói subscription khác (không chỉ Xanh SM)",
+      "risks": [
+        "Cần nguồn về nội dung quảng cáo gói hội viên cụ thể để so sánh công bằng — hiện có nhưng chưa phân tích sâu",
+        "Dễ bị hiểu nhầm thành 'quảng cáo lừa dối' nếu không cẩn thận câu chữ"
+      ],
+      "disclaimers": [
+        "Chưa có bằng chứng cho thấy quảng cáo gói hội viên nói sai sự thật — chỉ là thiếu chi tiết về cơ chế áp mã"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 6,
+        "emotional_tension": 5,
+        "credibility": 6,
+        "proof_potential": 5,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 6,
+        "channel_fit": 7,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "So sánh 2 giả thuyết: Bug hay Thiết kế cố ý?",
+      "one_sentence_concept": "Trình bày song song hai giả thuyết (H2: lỗi UX/luồng hiển thị, H3: bug phần mềm) với lý lẽ ủng hộ/phản bác từng bên, không chốt bên nào thắng.",
+      "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+      "core_pain": "Không biết nên trách ai/trách gì khi gặp lỗi này",
+      "core_tension": "Hai lời giải thích hoàn toàn khác nhau (lỗi kỹ thuật vô tình vs. giới hạn thiết kế) dẫn tới hai cách người dùng nên phản ứng khác nhau",
+      "new_belief": "Trước khi kết luận 'công ty cố tình', cần phân biệt được đâu là bug thật và đâu là giới hạn thiết kế — hai thứ cần cách phản hồi khác nhau",
+      "proof_mechanism": "Liệt kê dấu hiệu ủng hộ mỗi giả thuyết dựa trên cấu trúc FAQ hiện có (ví dụ: có mục FAQ riêng cho lỗi mã → công ty biết vấn đề tồn tại, nhưng không rõ là bug hay by-design)",
+      "evidence": ["S002", "S004"],
+      "visual_metaphor": "Cán cân với hai bên: một bên nhãn 'Bug', một bên nhãn 'Thiết kế' — kim cân không nghiêng hẳn về bên nào",
+      "cta": "Nếu bạn gặp lỗi tương tự, hãy thử liên hệ CSKH và chia sẻ câu trả lời họ đưa ra",
+      "series_potential": "Cao — phần 2 có thể là kết quả thật từ việc liên hệ CSKH",
+      "risks": [
+        "Cấu trúc 'hai giả thuyết song song' có thể kém kịch tính hơn một kết luận rõ ràng",
+        "Cần cẩn thận không để một bên trông 'thuyết phục hơn' một cách không công bằng nếu evidence không cân xứng"
+      ],
+      "disclaimers": [
+        "Cả hai giả thuyết đều chưa được xác thực — trình bày như khả năng, không phải kết luận"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 6,
+        "emotional_tension": 5,
+        "credibility": 7,
+        "proof_potential": 5,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 2
+      }
+    }
+  ],
+  "recommended_angle": "Hidden Objective Function: Mã ưu đãi của bạn đang phục vụ ai?",
+  "reasoning": "Angle này khớp trực tiếp DNA cốt lõi của kênh (Hidden Objective Function — 'hệ thống này thật sự đang tối ưu cái gì') và có channel_fit cao nhất (9/10) cùng exaggeration_risk thấp (3/10) nhờ khung 'câu hỏi mở, chưa kết luận' thay vì tuyên bố chắc chắn. Angle 'Tôi thử tìm bằng chứng — và không tìm được' có credibility cao hơn (9 vs 6) và exaggeration_risk thấp hơn (1 vs 3), là lựa chọn AN TOÀN NHẤT về mặt sự thật, nhưng proof_potential và shareability thấp hơn — rủi ro video kém hấp dẫn vì thiếu 'aha moment'. Angle được chọn dung hòa được: vẫn dùng cấu trúc Hidden Objective Function quen thuộc của kênh (dễ sản xuất, đúng định vị) trong khi giữ toàn bộ tinh thần trung thực của angle 'không tìm được bằng chứng' — thực chất angle được chọn có thể lồng ghép trực tiếp phần 'quá trình điều tra không ra kết quả' của angle 4 vào giữa video, thay vì tách thành 2 video riêng.",
+  "tradeoffs": [
+    "Chọn angle 1 thay vì angle 4 (an toàn hơn về sự thật) vì angle 1 có visual_potential và proof_potential cao hơn, dễ giữ chân người xem hơn — nhưng bắt buộc phải giữ nguyên tinh thần thận trọng của angle 4 khi viết narration (không kết luận sẵn).",
+    "Loại bỏ hoàn toàn angle 'Xanh SM lừa bạn để mã hết hạn?' dù shareability cao nhất (8/10) vì credibility quá thấp (2/10) và exaggeration_risk cao nhất (9/10) — vi phạm trực tiếp guardrail không bịa/không cáo buộc vô căn cứ của skill nghiên cứu.",
+    "Angle 'Voucher 1-chuyến: luật chung ngành' bị loại khỏi đề xuất chính vì ít kịch tính (emotional_tension chỉ 3/10) dù an toàn về sự thật — có thể dùng làm phần giải thích bối cảnh bên trong angle 1 thay vì làm angle độc lập.",
+    "Angle 'Bug hay Thiết kế cố ý' có channel_fit tốt (8/10) và là lựa chọn dự phòng hợp lý nếu angle 1 không đủ tư liệu hình ảnh khi sang Phase 3 — giữ lại làm phương án B."
+  ]
+}

@@ -1,0 +1,140 @@
+# TẠI SAO BẠN KHÔNG THỂ ÁP MÃ HỘI VIÊN?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `xanh_sm_bike_ma_hoi_vien`, video_id `xanh_sm_bike_ma_hoi_vien`. Bản làm lại (v2) theo
+brief UI forensic / product investigation ngày 2026-08-04 — thay toàn bộ 6 cảnh bản cũ bằng
+8 cảnh mới, KHÔNG tái sử dụng bố cục/frame cũ (chỉ tái sử dụng component/animation
+primitive). Nguồn: research/xanh-sm-bike-ma-hoi-vien/ (research-brief.md, angle-matrix.json,
+video-opportunity.json, narrative-outline.md). Chủ đề: Xanh SM Bike — mã khuyến mãi hội
+viên không chọn được khi đặt xe, hệ thống tự trỏ về mã mặc định giá trị thấp hơn. Đây là
+VIDEO ĐIỀU TRA MỞ, không phải video kết luận. Nguồn gốc chủ đề là MỘT báo cáo cá nhân (người
+quen của user) — chưa xác thực quy mô, chưa xác thực bug hay thiết kế cố ý. Tuyệt đối không
+khẳng định "Xanh SM lừa đảo/cố tình" hoặc "nhiều người dùng đang gặp lỗi này". Toàn bộ giao
+diện đặt xe/voucher trong video là dựng minh họa trung tính (UI forensic — phone mockup,
+crop/zoom, scroll, tap, selection state, split-screen, highlight, freeze-frame, focus shift,
+timeline, layered UI), không phải ảnh chụp thật từ ứng dụng Xanh SM/GreenSM, không sao chép
+logo/thương hiệu theo cách gây hiểu nhầm là ảnh thật. Không dùng 3D hand, robot, AI brain,
+hộp quà, ổ khóa, voucher bay hoặc icon trang trí vô nghĩa. Số liệu (20K/8K, số chuyến) là ví
+dụ minh hoạ — không phải số liệu thật của người quen user (bảo vệ quyền riêng tư).
+
+**Phong cách:** cinematic nhưng sạch, nhiều depth và chuyển động có mục đích, ít chữ, tránh
+cảm giác PowerPoint. Nền tối, accent xanh dương thương hiệu Xanh SM (#0EA5E9).
+
+**Thời lượng:** < 60 giây tổng.
+
+### Nguồn
+
+1. Green SM — Trung tâm giải đáp / FAQ mục 4 (Mã khuyến mãi và ưu đãi) — https://www.greensm.com/helps
+2. Báo cáo cá nhân từ người quen của user — chưa xác thực quy mô, không có screenshot/video đính kèm trong phạm vi nghiên cứu
+
+Tên nguồn hiển thị ngắn gọn trên màn hình ở cảnh liên quan, không hiện URL dài.
+
+---
+
+## Cảnh 1 — Hook
+
+**Voice-over:**
+
+"Tại sao bạn không thể áp mã hội viên…"
+
+"dù bạn đang là hội viên của Xanh SM?"
+
+**Visual:**
+
+(1a) Mở ngay UI đang hoạt động, không title intro. `HỘI VIÊN` → scroll tới `MÃ HỘI VIÊN
+-20K` → tap chọn → transition sang checkout → checkout hiện `-8K`.
+
+(1b) Freeze + zoom vào dòng `20K → 8K?`. Visual mạnh nhất video.
+
+---
+
+## Cảnh 2
+
+**Voice-over:**
+
+"Mã 20K vẫn còn. Chọn vào được. Nhưng quay lại màn hình đặt xe… mã được áp vẫn là 8K."
+
+**Visual:**
+
+Forensic replay: `20K → CHỌN → ĐÃ CHỌN → CHECKOUT → 8K`. Camera/crop thay đổi theo từng thao
+tác. Kết: `20K → ? → 8K`.
+
+---
+
+## Cảnh 3
+
+**Voice-over:**
+
+"Đây là tình huống một người quen vừa gửi cho tôi khi đặt Xanh SM Bike."
+
+**Visual:**
+
+Voucher UI trượt sang trái, checkout trượt vào phải thành dynamic split-screen: `20K · CÒN
+HIỂN THỊ` vs `CHECKOUT · 8K`. Text nhỏ: "Tái hiện từ một báo cáo cá nhân".
+
+---
+
+## Cảnh 4
+
+**Voice-over:**
+
+"Điểm lạ là mã người dùng chọn và mã cuối cùng được áp lại không giống nhau."
+
+**Visual:**
+
+Build flow trực tiếp: `HIỂN THỊ 20K` → `CHỌN 20K` → `CHECKOUT 8K`. Camera follow flow rồi
+dừng tại `?`.
+
+---
+
+## Cảnh 5
+
+**Voice-over:**
+
+"Tôi kiểm tra Trung tâm hỗ trợ của Green SM. Ở đó có mục về trường hợp không sử dụng được mã
+khuyến mãi."
+
+**Visual:**
+
+Browser forensic view, có scroll rồi highlight: "Tôi không sử dụng được mã khuyến mãi".
+Source: "Green SM — Trung tâm hỗ trợ".
+
+---
+
+## Cảnh 6
+
+**Voice-over:**
+
+"Nhưng tôi chưa thấy phần nào giải thích rõ trường hợp chọn một mã, rồi checkout lại áp mã
+khác."
+
+**Visual:**
+
+FAQ lùi xuống background. Foreground: `CHỌN 20K → ? → CHECKOUT 8K`. Text: `NGUYÊN NHÂN: CHƯA
+RÕ`.
+
+---
+
+## Cảnh 7
+
+**Voice-over:**
+
+"Có thể là điều kiện voucher, logic chọn ưu đãi, hoặc lỗi giữa giao diện và hệ thống."
+
+**Visual:**
+
+Từ `?` mở thành 3 nhánh: `ĐIỀU KIỆN VOUCHER` / `LOGIC ƯU ĐÃI` / `UI / HỆ THỐNG`. Không xác
+nhận nhánh nào đúng.
+
+---
+
+## Cảnh 8 — End
+
+**Voice-over:**
+
+"Hiện chưa đủ bằng chứng để kết luận. Nếu bạn từng gặp trường hợp này, hãy kể lại."
+
+**Visual:**
+
+Các nhánh collapse về `20K → ? → 8K`. Final: `BẠN ĐÃ TỪNG GẶP?`

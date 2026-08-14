@@ -1,0 +1,280 @@
+{
+  "video_id": "xanh_sm_bike_ma_hoi_vien",
+  "title": "Tại sao bạn không thể áp mã hội viên?",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01a",
+      "type": "PhoneMockupScene",
+      "duration_frames": 100,
+      "narration": "Tại sao bạn không thể áp mã hội viên…",
+      "props": {
+        "screenState": "voucherFlow",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "voucherFlow": {
+          "listHeading": "HỘI VIÊN",
+          "items": [
+            { "label": "ĐIỂM THƯỞNG", "amountLabel": "1.240" },
+            { "label": "MÃ HỘI VIÊN", "amountLabel": "-20.000đ" },
+            { "label": "MÃ CHÀO MỪNG", "amountLabel": "-5.000đ" }
+          ],
+          "scrollFrame": 30,
+          "tapItemLabel": "MÃ HỘI VIÊN",
+          "tapFrame": 42,
+          "transitionFrame": 66,
+          "checkoutVouchers": [
+            { "code": "MÃ HỘI VIÊN -20K", "amountLabel": "-20.000đ", "applied": false },
+            { "code": "ƯU ĐÃI -8K", "amountLabel": "-8.000đ", "applied": true }
+          ],
+          "checkoutTotalLabel": "12.000đ",
+          "checkoutRideLabel": "XANH SM BIKE · CHUYẾN ĐI"
+        }
+      },
+      "on_screen_text": "HỘI VIÊN → MÃ HỘI VIÊN -20K → CHECKOUT -8K"
+    },
+    {
+      "id": "shot_01b",
+      "type": "PhoneMockupScene",
+      "duration_frames": 95,
+      "narration": "dù bạn đang là hội viên của Xanh SM?",
+      "props": {
+        "screenState": "forensicReplay",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "forensicReplay": {
+          "listHeading": "HỘI VIÊN",
+          "items": [],
+          "checkoutVouchers": [
+            { "code": "MÃ HỘI VIÊN -20K", "amountLabel": "-20.000đ", "applied": false },
+            { "code": "ƯU ĐÃI -8K", "amountLabel": "-8.000đ", "applied": true }
+          ],
+          "checkoutTotalLabel": "12.000đ",
+          "checkoutRideLabel": "XANH SM BIKE · CHUYẾN ĐI",
+          "phases": [
+            { "screen": "checkout", "frame": 0, "focus": { "x": 0.5, "y": 0.24 }, "zoomScale": 1 },
+            { "screen": "checkout", "frame": 18, "focus": { "x": 0.72, "y": 0.24 }, "zoomScale": 1.6 }
+          ],
+          "freezeLabel": "20K → 8K?",
+          "freezeAccentWord": "8K?",
+          "freezeFrame": 32
+        }
+      },
+      "on_screen_text": "20K → 8K?"
+    },
+    {
+      "id": "shot_02",
+      "type": "PhoneMockupScene",
+      "duration_frames": 178,
+      "narration": "Mã 20K vẫn còn. Chọn vào được. Nhưng quay lại màn hình đặt xe… mã được áp vẫn là 8K.",
+      "props": {
+        "screenState": "forensicReplay",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "forensicReplay": {
+          "listHeading": "HỘI VIÊN",
+          "items": [
+            { "label": "MÃ HỘI VIÊN", "amountLabel": "-20.000đ" },
+            { "label": "ƯU ĐÃI", "amountLabel": "-8.000đ" }
+          ],
+          "tapItemLabel": "MÃ HỘI VIÊN",
+          "tapFrame": 30,
+          "checkoutVouchers": [
+            { "code": "MÃ HỘI VIÊN -20K", "amountLabel": "-20.000đ", "applied": false },
+            { "code": "ƯU ĐÃI -8K", "amountLabel": "-8.000đ", "applied": true }
+          ],
+          "checkoutTotalLabel": "12.000đ",
+          "checkoutRideLabel": "XANH SM BIKE · CHUYẾN ĐI",
+          "phases": [
+            { "screen": "list", "frame": 0, "tag": "20K", "focus": { "x": 0.5, "y": 0.32 }, "zoomScale": 1 },
+            { "screen": "list", "frame": 30, "tag": "CHỌN", "focus": { "x": 0.5, "y": 0.26 }, "zoomScale": 1.2 },
+            { "screen": "list", "frame": 60, "tag": "ĐÃ CHỌN", "focus": { "x": 0.5, "y": 0.26 }, "zoomScale": 1.22 },
+            { "screen": "checkout", "frame": 100, "tag": "CHECKOUT", "focus": { "x": 0.5, "y": 0.5 }, "zoomScale": 1 },
+            { "screen": "checkout", "frame": 130, "tag": "8K", "focus": { "x": 0.72, "y": 0.24 }, "zoomScale": 1.5 }
+          ],
+          "freezeLabel": "20K → ? → 8K",
+          "freezeAccentWord": "?",
+          "freezeFrame": 160
+        }
+      },
+      "on_screen_text": "20K → CHỌN → ĐÃ CHỌN → CHECKOUT → 8K"
+    },
+    {
+      "id": "shot_03",
+      "type": "PhoneMockupScene",
+      "duration_frames": 130,
+      "narration": "Đây là tình huống một người quen vừa gửi cho tôi khi đặt Xanh SM Bike.",
+      "props": {
+        "screenState": "splitScreen",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "splitScreen": {
+          "topLabel": "VOUCHER",
+          "topHeading": "20K",
+          "topBody": "CÒN HIỂN THỊ",
+          "bottomLabel": "CHECKOUT",
+          "bottomHeading": "8K",
+          "bottomBody": "ĐANG ÁP DỤNG"
+        },
+        "sourceLabel": "Tái hiện từ một báo cáo cá nhân"
+      },
+      "on_screen_text": "20K · CÒN HIỂN THỊ — CHECKOUT · 8K. TÁI HIỆN TỪ MỘT BÁO CÁO CÁ NHÂN."
+    },
+    {
+      "id": "shot_04",
+      "type": "PhoneMockupScene",
+      "duration_frames": 140,
+      "narration": "Điểm lạ là mã người dùng chọn và mã cuối cùng được áp lại không giống nhau.",
+      "props": {
+        "screenState": "forensicReplay",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "forensicReplay": {
+          "listHeading": "HỘI VIÊN",
+          "items": [
+            { "label": "MÃ HỘI VIÊN", "amountLabel": "-20.000đ" },
+            { "label": "ƯU ĐÃI", "amountLabel": "-8.000đ" }
+          ],
+          "tapItemLabel": "MÃ HỘI VIÊN",
+          "tapFrame": 35,
+          "checkoutVouchers": [
+            { "code": "MÃ HỘI VIÊN -20K", "amountLabel": "-20.000đ", "applied": false },
+            { "code": "ƯU ĐÃI -8K", "amountLabel": "-8.000đ", "applied": true }
+          ],
+          "checkoutTotalLabel": "12.000đ",
+          "checkoutRideLabel": "XANH SM BIKE · CHUYẾN ĐI",
+          "phases": [
+            { "screen": "list", "frame": 0, "tag": "HIỂN THỊ 20K", "focus": { "x": 0.5, "y": 0.32 }, "zoomScale": 1 },
+            { "screen": "list", "frame": 35, "tag": "CHỌN 20K", "focus": { "x": 0.5, "y": 0.26 }, "zoomScale": 1.2 },
+            { "screen": "checkout", "frame": 75, "tag": "CHECKOUT 8K", "focus": { "x": 0.72, "y": 0.24 }, "zoomScale": 1.5 }
+          ],
+          "freezeLabel": "?",
+          "freezeFrame": 105
+        }
+      },
+      "on_screen_text": "HIỂN THỊ 20K → CHỌN 20K → CHECKOUT 8K"
+    },
+    {
+      "id": "shot_05",
+      "type": "PhoneMockupScene",
+      "duration_frames": 190,
+      "narration": "Tôi kiểm tra Trung tâm hỗ trợ của Green SM. Ở đó có mục về trường hợp không sử dụng được mã khuyến mãi.",
+      "props": {
+        "screenState": "mobileBrowser",
+        "driverName": "",
+        "driverEta": "",
+        "accentColor": "#0EA5E9",
+        "appName": "Green SM",
+        "appIcon": "xanhsm",
+        "mobileBrowser": {
+          "urlLabel": "greensm.com/helps",
+          "scrollLines": [
+            "Tôi muốn hủy chuyến đi",
+            "Làm sao để đổi phương thức thanh toán",
+            "Tài xế đến trễ, tôi cần hỗ trợ"
+          ],
+          "highlightLine": "\"Tôi không sử dụng được mã khuyến mãi\"",
+          "scrollDurationFrames": 50
+        }
+      },
+      "on_screen_text": "GREEN SM — TRUNG TÂM HỖ TRỢ: \"TÔI KHÔNG SỬ DỤNG ĐƯỢC MÃ KHUYẾN MÃI\""
+    },
+    {
+      "id": "shot_06",
+      "type": "DiagramFlowScene",
+      "duration_frames": 160,
+      "narration": "Nhưng tôi chưa thấy phần nào giải thích rõ trường hợp chọn một mã, rồi checkout lại áp mã khác.",
+      "props": {
+        "headline": "NGUYÊN NHÂN: CHƯA RÕ",
+        "accentWord": "CHƯA RÕ",
+        "nodes": [],
+        "layout": "timeline",
+        "backgroundPanel": {
+          "urlLabel": "greensm.com/helps",
+          "highlightLine": "\"Tôi không sử dụng được mã khuyến mãi\""
+        },
+        "timelineSteps": [
+          { "label": "CHỌN 20K", "frame": 10 },
+          { "label": "?", "frame": 55 },
+          { "label": "CHECKOUT 8K", "frame": 100 }
+        ],
+        "timelineCollapseFrame": 130,
+        "accentColor": "#0EA5E9",
+        "brandIcon": "xanhsm"
+      },
+      "on_screen_text": "CHỌN 20K → ? → CHECKOUT 8K. NGUYÊN NHÂN: CHƯA RÕ."
+    },
+    {
+      "id": "shot_07",
+      "type": "DiagramFlowScene",
+      "duration_frames": 150,
+      "narration": "Có thể là điều kiện voucher, logic chọn ưu đãi, hoặc lỗi giữa giao diện và hệ thống.",
+      "props": {
+        "headline": "20K → ? → 8K",
+        "accentWord": "?",
+        "nodes": [],
+        "layout": "timeline",
+        "branches": [
+          { "label": "ĐIỀU KIỆN VOUCHER" },
+          { "label": "LOGIC ƯU ĐÃI" },
+          { "label": "UI / HỆ THỐNG" }
+        ],
+        "branchesFrame": 10,
+        "accentColor": "#0EA5E9",
+        "brandIcon": "xanhsm"
+      },
+      "on_screen_text": "01 ĐIỀU KIỆN VOUCHER · 02 LOGIC ƯU ĐÃI · 03 UI/HỆ THỐNG"
+    },
+    {
+      "id": "shot_08a",
+      "type": "DiagramFlowScene",
+      "duration_frames": 100,
+      "narration": "Hiện chưa đủ bằng chứng để kết luận.",
+      "props": {
+        "headline": "20K → ? → 8K",
+        "accentWord": "?",
+        "nodes": [],
+        "layout": "timeline",
+        "branches": [
+          { "label": "ĐIỀU KIỆN VOUCHER" },
+          { "label": "LOGIC ƯU ĐÃI" },
+          { "label": "UI / HỆ THỐNG" }
+        ],
+        "branchesCollapseFrame": 60,
+        "accentColor": "#0EA5E9",
+        "brandIcon": "xanhsm"
+      },
+      "on_screen_text": "CHƯA ĐỦ BẰNG CHỨNG ĐỂ KẾT LUẬN."
+    },
+    {
+      "id": "shot_08b",
+      "type": "QuoteCalloutScene",
+      "duration_frames": 100,
+      "narration": "Nếu bạn từng gặp trường hợp này, hãy kể lại.",
+      "props": {
+        "text": "BẠN ĐÃ TỪNG GẶP?",
+        "accentWord": "TỪNG GẶP?",
+        "backgroundStyle": "dark",
+        "accentColor": "#0EA5E9",
+        "brandIcon": "xanhsm"
+      },
+      "on_screen_text": "BẠN ĐÃ TỪNG GẶP? KỂ LẠI Ở PHẦN BÌNH LUẬN."
+    }
+  ]
+}

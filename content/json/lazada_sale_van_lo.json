@@ -1,0 +1,112 @@
+{
+  "video_id": "lazada_sale_van_lo",
+  "title": "Lazada càng sale, càng lỗ?",
+  "fps": 30,
+  "narration_language": "vi",
+  "estimated_duration_seconds": 64.67,
+  "editorial_notes": "Không khẳng định Lazada hiện lỗ độc lập. AIDC là mảng nhiều nền tảng; EBITDA 07/2024 là mốc theo tháng. Mọi sơ đồ dòng tiền đều là minh họa cơ chế.",
+  "shots": [
+    {
+      "id": "shot_00_hook",
+      "type": "lazada_economics",
+      "duration_frames": 100,
+      "narration": "Lazada càng sale, càng lỗ?",
+      "props": {
+        "mode": "hook",
+        "headline": "LAZADA CÀNG SALE,\nCÀNG LỖ?",
+        "accentWord": "CÀNG LỖ?",
+        "thumbnailHeadline": "SALE SẬP SÀN\nSAO VẪN LỖ?",
+        "thumbnailAccentWord": "VẪN LỖ?",
+        "thumbnailSubtext": "GMV ≠ LỢI NHUẬN",
+        "thumbnailIllustration": "lazadaEconomics",
+        "thumbnailAccentColor": "#ff4f9a"
+      },
+      "on_screen_text": "LAZADA CÀNG SALE, CÀNG LỖ? · 9.9 · 11.11 · 12.12 · ĐƠN HÀNG TĂNG · LỢI NHUẬN?"
+    },
+    {
+      "id": "shot_01_disclosure",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Chưa chắc. Lazada không công bố lợi nhuận riêng. Tháng Bảy năm 2024, hãng báo EBITDA dương lần đầu. Số lỗ thường được nhắc là của mảng quốc tế Alibaba, không riêng Lazada.",
+      "props": {
+        "mode": "disclosure",
+        "headline": "AIDC KHÔNG PHẢI\nLAZADA",
+        "accentWord": "KHÔNG PHẢI"
+      },
+      "on_screen_text": "AIDC · CẢ MẢNG QUỐC TẾ · LAZADA KHÔNG CÔNG BỐ LỢI NHUẬN RIÊNG · 07/2024 EBITDA DƯƠNG THEO THÁNG"
+    },
+    {
+      "id": "shot_02_gmv_split",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Bán nhiều chưa chắc có lời, vì tiền hàng không phải doanh thu Lazada. Đơn năm trăm nghìn, phần lớn về người bán; sàn giữ hoa hồng, quảng cáo và phí dịch vụ.",
+      "props": {
+        "mode": "gmv_split",
+        "headline": "GMV KHÔNG PHẢI\nDOANH THU",
+        "accentWord": "KHÔNG PHẢI"
+      },
+      "on_screen_text": "500.000Đ GMV · PHẦN LỚN VỀ NGƯỜI BÁN · HOA HỒNG · QUẢNG CÁO · PHÍ DỊCH VỤ · KHÔNG PHẢI TAKE RATE LAZADA"
+    },
+    {
+      "id": "shot_03_cost_ledger",
+      "type": "lazada_economics",
+      "duration_frames": 256,
+      "narration": "Phần giữ lại trả phí vận hành, chăm sóc khách hàng, kho và hệ thống. Nếu sàn tài trợ voucher hay vận chuyển, chi phí mỗi đơn có thể vượt doanh thu.",
+      "props": {
+        "mode": "cost_ledger",
+        "headline": "GIỮ LẠI CHƯA PHẢI\nLỢI NHUẬN",
+        "accentWord": "CHƯA PHẢI"
+      },
+      "on_screen_text": "DOANH THU TỪ ĐƠN · VẬN HÀNH + HỆ THỐNG · CHĂM SÓC KHÁCH HÀNG · KHO + LOGISTICS · VOUCHER / SHIP SÀN TÀI TRỢ · CÓ THỂ ÂM"
+    },
+    {
+      "id": "shot_04_hidden_objective",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Hệ thống không chỉ tối ưu lợi nhuận hôm nay. Nó mua khách mới, thói quen và mật độ đơn. Voucher trông như quà tặng, nhưng còn là chi phí mua tăng trưởng.",
+      "props": {
+        "mode": "hidden_objective",
+        "headline": "MỤC TIÊU THẬT:\nMUA TĂNG TRƯỞNG",
+        "accentWord": "MUA TĂNG TRƯỞNG"
+      },
+      "on_screen_text": "MỤC TIÊU THẬT: MUA TĂNG TRƯỞNG · NGÂN SÁCH → KHÁCH MỚI → THÓI QUEN → MẬT ĐỘ ĐƠN"
+    },
+    {
+      "id": "shot_05_scale_flywheel",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Khi đơn đủ dày, xe gom nhiều kiện hơn, kho chạy hiệu quả. Người bán mua quảng cáo, dịch vụ để tranh vị trí. Nhờ vậy, lỗ trên mỗi đơn có thể giảm.",
+      "props": {
+        "mode": "scale_flywheel",
+        "headline": "QUY MÔ BẮT ĐẦU\nTRẢ TIỀN",
+        "accentWord": "QUY MÔ"
+      },
+      "on_screen_text": "QUY MÔ BẮT ĐẦU TRẢ TIỀN · ĐƠN ĐỦ DÀY → GOM NHIỀU KIỆN → KHO HIỆU QUẢ → LỖ/ĐƠN GIẢM"
+    },
+    {
+      "id": "shot_06_profitability_timeline",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Alibaba báo Lazada thu hẹp lỗ nhờ tăng khả năng kiếm tiền và vận hành hiệu quả hơn. Đến tháng Bảy năm 2024, Lazada lần đầu công bố EBITDA dương trong một tháng.",
+      "props": {
+        "mode": "profitability_timeline",
+        "headline": "TỪ THU HẸP LỖ\nĐẾN EBITDA DƯƠNG",
+        "accentWord": "EBITDA DƯƠNG",
+        "sourceLabel": "Nguồn: Alibaba FY2023 · quý kết thúc 30/06/2024 · Lazada CEO, 07/2024"
+      },
+      "on_screen_text": "GIAI ĐOẠN ĐẦU · THU HẸP LỖ · MONETIZATION + HIỆU QUẢ · 07/2024 EBITDA DƯƠNG THEO THÁNG"
+    },
+    {
+      "id": "shot_07_cta",
+      "type": "lazada_economics",
+      "duration_frames": 264,
+      "narration": "Sale sập sàn không chứng minh Lazada lời, cũng không tự động gây lỗ. Đó là cách đổi tiền hôm nay lấy quy mô ngày mai. Nhưng voucher một trăm nghìn, ai trả?",
+      "props": {
+        "mode": "cta",
+        "headline": "SALE ≠ LỜI\nSALE ≠ LỖ",
+        "accentWord": "≠"
+      },
+      "on_screen_text": "SALE ≠ LỜI · SALE ≠ LỖ · SALE MUA QUY MÔ · AI TRẢ VOUCHER 100.000Đ? · LAZADA · SHOP · NGÂN HÀNG"
+    }
+  ]
+}

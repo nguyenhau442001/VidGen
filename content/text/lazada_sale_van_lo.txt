@@ -1,0 +1,170 @@
+# LAZADA CÀNG SALE, CÀNG LỖ?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `lazada_sale_van_lo`, video_id cùng tên. Video giải thích cơ chế kinh tế của sàn
+thương mại điện tử, khung dọc 1080×1920, mục tiêu 60–75 giây. Không khẳng định Lazada hiện
+đang lỗ độc lập: Alibaba không công bố lợi nhuận riêng của Lazada; số liệu AIDC là của cả
+mảng quốc tế. Mốc EBITDA dương tháng 07/2024 là theo tháng, không đồng nghĩa lợi nhuận ròng
+bền vững. Các sơ đồ dòng tiền là minh họa cơ chế, không phải take rate hay số nội bộ Lazada.
+
+**Nguồn:**
+
+1. Alibaba FY2026 Form 20-F — https://www.sec.gov/Archives/edgar/data/1577552/000119312526231755/baba-20260331.htm
+2. Alibaba FY2023 Annual Report — https://static.alibabagroup.com/reports/fy2023/ar/ebook/en/118/index.html
+3. Alibaba quarter ended 30/06/2024 — https://www.sec.gov/Archives/edgar/data/1577552/000110465924090102/tm2421791d1_ex99-1.htm
+4. Lazada EBITDA-positive month, 07/2024 — https://www.scmp.com/tech/big-tech/article/3274370/alibabas-lazada-posts-first-monthly-profit-amid-intense-competition-southeast-asia
+
+---
+
+## Cảnh 0 — Hook
+
+**Hình ảnh:**
+
+Các thẻ sale 9.9, 11.11 và 12.12 lao vào khung hình. Đồng hồ đơn hàng tăng tốc, còn thẻ
+lợi nhuận chỉ hiện dấu hỏi. Headline giữ đúng hai dòng.
+
+**Chữ trên màn hình:**
+
+**LAZADA CÀNG SALE,**
+**CÀNG LỖ?**
+
+**Voice-over:**
+
+“Lazada càng sale, càng lỗ?”
+
+---
+
+## Cảnh 1 — Sửa tiền đề
+
+**Hình ảnh:**
+
+Một hồ sơ tài chính tách đôi: bên trái là AIDC gồm nhiều nền tảng; bên phải là Lazada với
+dấu “không có số lợi nhuận riêng”. Mốc 07/2024 đóng dấu EBITDA dương theo tháng.
+
+**Chữ trên màn hình:**
+
+**AIDC ≠ LAZADA** · **07/2024: EBITDA DƯƠNG THEO THÁNG**
+
+**Voice-over:**
+
+“Chưa chắc. Lazada không công bố lợi nhuận riêng. Tháng Bảy năm 2024, hãng báo EBITDA dương
+lần đầu. Số lỗ thường được nhắc là của mảng quốc tế Alibaba, không riêng Lazada.”
+
+---
+
+## Cảnh 2 — GMV không phải doanh thu
+
+**Hình ảnh:**
+
+Một hóa đơn 500.000 đồng bung thành dòng tiền lớn về người bán và ba dòng nhỏ: hoa hồng,
+quảng cáo, phí dịch vụ. Gắn nhãn minh họa, không dùng tỷ lệ giả.
+
+**Chữ trên màn hình:**
+
+**GMV ≠ DOANH THU ≠ LỢI NHUẬN**
+
+**Voice-over:**
+
+“Bán nhiều chưa chắc có lời, vì tiền hàng không phải doanh thu Lazada. Đơn năm trăm nghìn,
+phần lớn về người bán; sàn giữ hoa hồng, quảng cáo và phí dịch vụ.”
+
+---
+
+## Cảnh 3 — Mỗi đơn vẫn có thể âm
+
+**Hình ảnh:**
+
+Sổ cái hiện doanh thu từ đơn ở trên, rồi lần lượt khấu trừ vận hành, chăm sóc khách hàng,
+kho, hệ thống, voucher hoặc hỗ trợ vận chuyển do sàn tài trợ. Kết quả chỉ hiện “CÓ THỂ ÂM”,
+không bịa số tiền.
+
+**Chữ trên màn hình:**
+
+**GIỮ LẠI CHƯA PHẢI LỢI NHUẬN**
+
+**Voice-over:**
+
+“Phần giữ lại trả phí vận hành, chăm sóc khách hàng, kho và hệ thống. Nếu sàn tài trợ voucher
+hay vận chuyển, chi phí mỗi đơn có thể vượt doanh thu.”
+
+---
+
+## Cảnh 4 — Mục tiêu thật sự
+
+**Hình ảnh:**
+
+Một voucher biến thành chuỗi bốn bước: ngân sách, khách mới, thói quen, mật độ đơn. Dòng
+cuối khóa vào hidden objective “MUA TĂNG TRƯỞNG”.
+
+**Chữ trên màn hình:**
+
+**MỤC TIÊU THẬT: MUA TĂNG TRƯỞNG**
+
+**Voice-over:**
+
+“Hệ thống không chỉ tối ưu lợi nhuận hôm nay. Nó mua khách mới, thói quen và mật độ đơn.
+Voucher trông như quà tặng, nhưng còn là chi phí mua tăng trưởng.”
+
+---
+
+## Cảnh 5 — Khi quy mô bắt đầu trả tiền
+
+**Hình ảnh:**
+
+Băng chuyền đơn hàng đi qua bốn chặng: đơn đủ dày, gom nhiều kiện, kho hiệu quả, lỗ trên mỗi
+đơn giảm. Dán nhãn “cơ chế minh họa”, không trình bày như dữ liệu riêng của Lazada.
+
+**Chữ trên màn hình:**
+
+**QUY MÔ BẮT ĐẦU TRẢ TIỀN**
+
+**Voice-over:**
+
+“Khi đơn đủ dày, xe gom nhiều kiện hơn, kho chạy hiệu quả. Người bán mua quảng cáo, dịch vụ
+để tranh vị trí. Nhờ vậy, lỗ trên mỗi đơn có thể giảm.”
+
+---
+
+## Cảnh 6 — Dữ kiện đóng vòng lặp
+
+**Hình ảnh:**
+
+Timeline ba mốc: giai đoạn đầu, thu hẹp lỗ nhờ monetization và hiệu quả vận hành, tháng
+07/2024 EBITDA dương lần đầu. Nguồn ngắn nằm dưới timeline.
+
+**Chữ trên màn hình:**
+
+**THU HẸP LỖ → 07/2024 EBITDA DƯƠNG**
+
+**Voice-over:**
+
+“Alibaba báo Lazada thu hẹp lỗ nhờ tăng khả năng kiếm tiền và vận hành hiệu quả hơn. Đến
+tháng Bảy năm 2024, Lazada lần đầu công bố EBITDA dương trong một tháng.”
+
+---
+
+## Cảnh 7 — Aha và open loop
+
+**Hình ảnh:**
+
+Hai kết luận “SALE ≠ LỜI” và “SALE ≠ LỖ” khóa lại. Sau đó voucher 100.000 đồng bay về giữa
+ba ví Lazada, shop và ngân hàng, để lại câu hỏi mở cho video tiếp theo.
+
+**Chữ trên màn hình:**
+
+**SALE ≠ LỜI · SALE ≠ LỖ**
+
+**AI TRẢ VOUCHER 100.000Đ?**
+
+**Voice-over:**
+
+“Sale sập sàn không chứng minh Lazada lời, cũng không tự động gây lỗ. Đó là cách đổi tiền hôm
+nay lấy quy mô ngày mai. Nhưng voucher một trăm nghìn, ai trả?”
+
+---
+
+## Caption đăng video
+
+Lazada sale sập sàn nhưng vì sao từng lỗ? Vì GMV, doanh thu và lợi nhuận là ba con số khác
+nhau. #lazada #techvietnam #systemdesign

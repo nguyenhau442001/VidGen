@@ -1,0 +1,64 @@
+{
+  "recommended_angle": "Hidden Objective Function: Mã ưu đãi của bạn đang phục vụ ai?",
+  "audience": "Người dùng hội viên (subscription) đặt xe thường xuyên",
+  "viewer_belief_before": "Mã khuyến mãi hội viên là tài sản cá nhân — tôi toàn quyền chọn dùng mã nào, lúc nào, vì tôi đã trả tiền mua.",
+  "viewer_belief_after": "Hệ thống ưu đãi có thể vận hành theo một logic tự động không hiển thị rõ cho người dùng — quyền kiểm soát thực tế có thể không hoàn toàn nằm ở người dùng như họ tưởng, dù cơ chế chính xác (bug hay thiết kế) vẫn là câu hỏi mở cần thêm bằng chứng.",
+  "core_argument": "Trải nghiệm thật của một người dùng (mã hội viên 20k không chọn được, hệ thống tự trỏ mã mặc định thấp hơn, mã 20k hết hạn) đặt ra câu hỏi chính đáng về cách hệ thống ưu đãi Xanh SM chọn mã — nhưng sau khi tìm kiếm mở rộng, không có bằng chứng độc lập nào xác nhận quy mô hay cơ chế cụ thể, nên video trình bày trung thực ranh giới giữa điều đã xác thực (công ty tự nhận có mục FAQ riêng cho lỗi mã) và điều chưa xác thực (bug hay thiết kế, phổ biến hay cá biệt).",
+  "proof_needed": [
+    "Hiển thị trực quan sự tồn tại của mục FAQ 4.4 (GreenSM tự nhận có vấn đề mã lỗi) như một 'thừa nhận gián tiếp'",
+    "Đối chiếu song song: 'điều xác thực được' vs 'điều chưa xác thực được' — tách biệt rõ ràng bằng visual",
+    "Thể hiện quá trình tìm kiếm bằng chứng thất bại như một phần của câu chuyện, không giấu đi"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "HOOK MỞ ĐẦU (0-5s) — vào thẳng câu hỏi chưa giải mã, không dẫn dắt: on-screen text/narration đặt câu hỏi trực tiếp 'Vì sao mã hội viên 20k này không thể chọn để dùng?' đồng thời với hình: màn hình app đặt xe với 2 mã ưu đãi hiển thị (mã hội viên 20k nổi bật, mã mặc định giá trị thấp hơn) — người dùng cố nhấn chọn mã 20k nhưng không có phản hồi/không đổi được, ngón tay chạm màn hình lặp lại vô ích. Đây là cảnh mở đầu video, không phải cảnh minh hoạ giữa bài.",
+      "possible_scene_types": ["PhoneMockupScene", "ScreenshotScene", "PhoneMapScene — cần xác nhận với vidgen-scene-director scene nào hỗ trợ mock UI app đặt xe voucher"],
+      "required_assets": ["Mock UI màn hình đặt xe Xanh SM Bike với 2 mã ưu đãi (dựng lại, không dùng ảnh chụp thật của công ty để tránh vấn đề bản quyền/thương hiệu)"],
+      "risk": "Cần đảm bảo mock UI không sao chép chính xác logo/thương hiệu Xanh SM theo cách gây hiểu nhầm là ảnh chụp màn hình thật hoặc vi phạm thương hiệu — nên cách điệu hoá rõ ràng"
+    },
+    {
+      "narrative_function": "escalation",
+      "concept": "Đếm ngược thời gian mã 20k hết hạn trong khi mã mặc định (giá trị thấp hơn) liên tục được áp cho các chuyến — countdown timer chạy song song với danh sách chuyến đã đặt",
+      "possible_scene_types": ["CounterAnimScene", "BatteryTimelineShot — cần xác nhận scene countdown/timeline phù hợp nhất với vidgen-scene-director"],
+      "required_assets": ["Số liệu giả lập minh hoạ (không phải số liệu thật của 1 người dùng cụ thể, để bảo vệ quyền riêng tư) — cần ghi rõ disclaimer 'minh hoạ' trên màn hình nếu dùng số cụ thể"],
+      "risk": "Không được dùng thông tin cá nhân thật của người quen user (theo guardrail của skill nghiên cứu) — phải dùng số liệu minh hoạ hư cấu hợp lý, ghi rõ là ví dụ minh hoạ"
+    },
+    {
+      "narrative_function": "reframe",
+      "concept": "Chuyển góc nhìn: từ 'người dùng chọn mã' sang 'hệ thống chọn mã' — hình ảnh bàn tay người dùng với tới nút chọn, nhưng một lớp/cổng vô hình (hộp đen hệ thống) chặn lại và tự động đẩy ra một lựa chọn khác",
+      "possible_scene_types": ["DiagramFlowScene", "SystemLayerScene — có vẻ phù hợp nhất để thể hiện lớp hệ thống ẩn giữa người dùng và kết quả"],
+      "required_assets": ["Sơ đồ luồng đơn giản: Input (nhiều mã) → Hộp đen hệ thống (nhãn '?') → Output (1 mã được áp)"],
+      "risk": "Cần cẩn thận không vẽ hộp đen theo cách ngụ ý chắc chắn có chủ đích xấu — giữ trung lập, đúng tinh thần 'câu hỏi mở'"
+    },
+    {
+      "narrative_function": "mechanism",
+      "concept": "Hiển thị trực tiếp mục FAQ 4.4 của GreenSM ('Tôi không sử dụng được mã khuyến mãi/mã ưu đãi') như một bằng chứng công ty tự biết vấn đề tồn tại — kèm câu hỏi trên màn hình 'nhưng nội dung bên trong nói gì?'",
+      "possible_scene_types": ["ScreenshotScene", "QuoteCalloutScene — cần xác nhận scene phù hợp để trích dẫn nguyên văn từ nguồn chính thức"],
+      "required_assets": ["Ảnh chụp màn hình hợp lệ của trang FAQ công khai greensm.com/helps (nguồn công khai, có thể dùng làm minh chứng báo chí/bình luận)"],
+      "risk": "Kiểm tra lại nội dung mục 4.4 trước khi render — nghiên cứu này chưa fetch được nội dung đầy đủ bên trong, cần xác nhận lại nếu nội dung đó không hỗ trợ điểm đang nêu"
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Bảng 'Đã xác thực / Chưa xác thực' chia đôi màn hình — bên trái liệt kê điều có nguồn xác nhận (FAQ tồn tại, quy trình nhập mã), bên phải liệt kê điều còn là giả thuyết (cơ chế chọn mã cụ thể, bug hay thiết kế, mức độ phổ biến)",
+      "possible_scene_types": ["SplitViewScene", "SplitCompareScene", "VerdictListScene — cần xác nhận scene nào hỗ trợ layout 2 cột đối chiếu"],
+      "required_assets": ["Danh sách text ngắn gọn cho mỗi cột, đã rút gọn từ research-brief.md mục Facts/Hypotheses"],
+      "risk": "Cần giữ đúng số lượng và nội dung khớp với research-brief.md — không thêm bớt claim khi chuyển sang visual"
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Khoảnh khắc 'aha' không phải là một câu trả lời chắc chắn, mà là nhận thức: hệ thống voucher của các app quen thuộc phức tạp và ít minh bạch hơn người dùng tưởng — khép lại bằng câu hỏi mở gửi tới khán giả",
+      "possible_scene_types": ["QuoteCalloutScene", "ThesisTeaserShot — cần xác nhận scene phù hợp cho khoảnh khắc chốt luận điểm mở"],
+      "required_assets": ["Câu chốt narration + text on-screen ngắn gọn, không cần asset phức tạp"],
+      "risk": "Payoff dạng 'câu hỏi mở' có thể cảm thấy hụt hẫng với khán giả quen video có kết luận rõ ràng — cần narration khéo léo để vẫn tạo cảm giác thoả mãn dù không chốt được đúng/sai"
+    },
+    {
+      "narrative_function": "cta",
+      "concept": "Lời mời khán giả để lại bình luận nếu từng gặp tình huống tương tự, kèm gợi ý phần 2 sẽ tổng hợp phản hồi và thử liên hệ CSKH để hỏi trực tiếp",
+      "possible_scene_types": ["CTAScene — cần xác nhận tên scene CTA chuẩn hiện có trong catalog với vidgen-scene-director"],
+      "required_assets": ["Text CTA ngắn gọn"],
+      "risk": "Không hứa hẹn chắc chắn sẽ có phần 2 nếu chưa chắc thực hiện được — dùng ngôn ngữ mở ('có thể sẽ làm phần 2 nếu có đủ phản hồi') thay vì cam kết cứng"
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}
