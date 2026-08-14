@@ -22,10 +22,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path("/Users/haunguyen/GitHub/VidGen")
-SCREEN = ROOT / "input/footage/hsk_flashcards_promo/01_screen"
-VO = ROOT / "input/footage/hsk_flashcards_promo/02_voiceover"
+SCREEN = ROOT / "build/reference-audio/footage/hsk_flashcards_promo/01_screen"
+VO = ROOT / "build/reference-audio/footage/hsk_flashcards_promo/02_voiceover"
 AUDIO = ROOT / "public/audio/hsk_flashcards_promo"
-WORK = ROOT / "output/.hsk_promo_work"
+WORK = ROOT / "build/pipeline/.hsk_promo_work"
 WORK.mkdir(parents=True, exist_ok=True)
 
 VF_NORM = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,format=yuv420p"
@@ -194,7 +194,7 @@ def main() -> None:
     concat_list = WORK / "concat_list.txt"
     concat_list.write_text("".join(f"file '{p.name}'\n" for p in segments))
 
-    final_out = ROOT / "output/hsk_flashcards_promo_final.mp4"
+    final_out = ROOT / "build/pipeline/hsk_flashcards_promo_final.mp4"
     run(
         ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list)]
         + VCODEC + ACODEC + [str(final_out)]

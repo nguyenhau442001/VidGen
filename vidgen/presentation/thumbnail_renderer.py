@@ -74,6 +74,9 @@ def _extract_generic_props(script: dict, scene_index: int = 0) -> dict:
     illustration = props.get("thumbnailIllustration") or thumbnail.get("illustration")
     if illustration:
         result["illustration"] = illustration
+    accent_color = props.get("thumbnailAccentColor") or thumbnail.get("accent_color") or props.get("accentColor")
+    if accent_color:
+        result["accentColor"] = accent_color
     return result
 
 
@@ -215,7 +218,7 @@ if __name__ == "__main__":
     parser.add_argument("--remotion-dir", default="remotion")
     args = parser.parse_args()
 
-    output = args.output or f"output/thumbnails/{Path(args.script).stem}_thumb.png"
+    output = args.output or f"build/pipeline/thumbnails/{Path(args.script).stem}_thumb.png"
     generate_thumbnail(
         args.script,
         output,

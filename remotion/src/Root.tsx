@@ -49,15 +49,21 @@ import { LedgerEntryShot } from "./scenes/LedgerEntryShot";
 import { CostBreakdownShot } from "./scenes/CostBreakdownShot";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro, HSK_PALETTE } from "./styles";
-import defaultManifest from "../../output/render_manifest.json";
+import defaultManifest from "../../build/pipeline/render_manifest.json";
 
+// Falls back to an empty placeholder shot when build/pipeline/render_manifest.json is
+// not currently Shopee-shaped (e.g. another video's manifest is loaded for
+// preview), so unrelated `remotion compositions` / studio / render calls
+// don't crash the whole Root.tsx module. Switch Studio back to the Shopee
+// manifest to render this composition with real content.
 const shopeeShotById = (id: number) => {
   const shot = (defaultManifest as unknown as RenderManifest).shots.find((s) => s.id === id);
   if (!shot) {
-    throw new Error(
-      `shopeeShotById(${id}): no shot with this id in current output/render_manifest.json — ` +
-        `this composition expects a Shopee-shaped manifest, switch Studio back to it or update these ids.`
-    );
+    return {
+      id,
+      durationInFrames: 90,
+      visual: {},
+    } as unknown as ManifestScene;
   }
   return shot;
 };

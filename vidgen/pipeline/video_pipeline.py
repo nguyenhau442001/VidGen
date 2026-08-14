@@ -62,7 +62,7 @@ def main():
     parser.add_argument("--reuse-tts", action="store_true",
                          help="Reuse existing WAV files instead of synthesizing them again")
     parser.add_argument("--prebuilt-audio-dir", default=None,
-                         help=("Directory of prebuilt per-scene WAV files (e.g. input/audio/wav). "
+                         help=("Directory of prebuilt per-scene WAV files (e.g. build/pipeline/audio/wav). "
                                "Each scene's audio is looked up by filename — scene_01_shout_through_wall "
                                "uses scene_01_shout_through_wall.wav. When set, no TTS is synthesized for "
                                "any scene that has a matching file in this directory."))

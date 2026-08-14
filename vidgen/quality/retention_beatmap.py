@@ -12,7 +12,7 @@ Usage:
     from vidgen.quality.retention_beatmap import score_beatmap, write_beatmap, format_report
 
     beatmap = score_beatmap(script, manifest)
-    write_beatmap(beatmap, "output/beatmap.json")
+    write_beatmap(beatmap, "build/pipeline/beatmap.json")
     print(format_report(beatmap))
 """
 

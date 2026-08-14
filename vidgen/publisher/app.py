@@ -122,10 +122,10 @@ def create_app() -> FastAPI:
     session_secret = _required_env("SESSION_SECRET")
     encryption_key = _required_env("TOKEN_ENCRYPTION_KEY")
     app_url = os.getenv("APP_URL", "http://localhost:8000").rstrip("/")
-    db_path = Path(os.getenv("PUBLISHER_DB_PATH", "output/publisher/publisher.db"))
+    db_path = Path(os.getenv("PUBLISHER_DB_PATH", "build/pipeline/publisher/publisher.db"))
     if not db_path.is_absolute():
         db_path = REPO_ROOT / db_path
-    upload_dir = Path(os.getenv("PUBLISHER_UPLOAD_DIR", "output/publisher/uploads"))
+    upload_dir = Path(os.getenv("PUBLISHER_UPLOAD_DIR", "build/pipeline/publisher/uploads"))
     if not upload_dir.is_absolute():
         upload_dir = REPO_ROOT / upload_dir
     upload_dir.mkdir(parents=True, exist_ok=True)

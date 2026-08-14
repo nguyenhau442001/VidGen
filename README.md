@@ -14,7 +14,7 @@ uvicorn vidgen.publisher.app:app --reload --port 8000
 
 Use `TIKTOK_MODE=demo` only for a clearly labelled UI walkthrough with no TikTok calls. Use `TIKTOK_MODE=live` for Sandbox/production API testing. Review setup is documented in `docs/TIKTOK_REVIEW_CHECKLIST.md` and `docs/TIKTOK_REVIEW_SUBMISSION.md`.
 
-The core principle: **the TXT is authored; the JSON is generated**. Each production maps `content/text/<slug>.txt` to `content/json/<slug>.json`. Existing JSON files are historical generated outputs, not future inputs. Audit must pass before the user decides whether to render. Everything in `output/` is generated and disposable.
+The core principle: **the TXT is authored; the JSON is generated**. Each production maps `content/text/<slug>.txt` to `content/json/<slug>.json`. Existing JSON files are historical generated outputs, not future inputs. Audit must pass before the user decides whether to render. Everything in `build/pipeline/` is generated and disposable.
 
 ## Usage
 
@@ -72,7 +72,7 @@ content/json/<slug>.json             ← generated shot plan, reviewed before re
 │  publishing/                          explicit platform publishers   │
 │  discovery/                           optional topic idea tools       │
 └────────────────────────────────────────────────────────────────────┘
-         │  output/render_manifest.json   ← sole handoff contract
+         │  build/pipeline/render_manifest.json   ← sole handoff contract
          ▼
 ┌─ Remotion project (remotion/) ─────────────────────────────────────┐
 │  src/ShortFormVideo.tsx   root composition: Series of shots, each     │
@@ -89,10 +89,10 @@ Key artifacts:
 
 - `content/text/<slug>.txt` — human-approved narration and visual direction; the authored source of truth
 - `content/json/<slug>.json` — generated and audited shot plan consumed by the production pipeline
-- `output/audio/wav/scene_<id>.wav` — per-shot TTS clips (also copied to `remotion/public/audio/`)
-- `output/render_manifest.json` — the flat, fully-resolved render plan Remotion consumes (Studio imports it live; never hand-edit or write it from partial data)
-- `output/render_cache/` — per-shot MP4 chunks keyed by content hash, pruned after 14 days
-- `remotion/out/` — final videos, named after the generated JSON (e.g. `content/json/script_grab_dispatch_p4.json` → `remotion/out/grab_dispatch_p4.mp4`); `output/thumbnails/` — cover stills
+- `build/pipeline/audio/wav/scene_<id>.wav` — per-shot TTS clips (also copied to `remotion/public/audio/`)
+- `build/pipeline/render_manifest.json` — the flat, fully-resolved render plan Remotion consumes (Studio imports it live; never hand-edit or write it from partial data)
+- `build/pipeline/render_cache/` — per-shot MP4 chunks keyed by content hash, pruned after 14 days
+- `remotion/out/` — final videos, named after the generated JSON (e.g. `content/json/script_grab_dispatch_p4.json` → `remotion/out/grab_dispatch_p4.mp4`); `build/pipeline/thumbnails/` — cover stills
 
 ### Script schema
 
@@ -165,7 +165,7 @@ The video is assembled from **28 reusable shot templates** — the tool's "skill
 
 `AnimatedFlowScene`, `BubbleComparatorScene`, `PhoneMapScene`, `ConversationScene`, `BeforeAfterScene`, and `GridHeatmapScene` aren't in `TYPE_MAP` — author their `type` as the snake_case manifest key directly (e.g. `"type": "grid_heatmap"`).
 
-Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `output/thumbnails/`.
+Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `build/pipeline/thumbnails/`.
 
 Six more components exist in `remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`ShortFormVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
 
@@ -182,7 +182,7 @@ The authoring stage is intentionally separate from the production command:
 5. **Stop for review** — no TTS, manifest build, Studio launch, or render. The user reviews the generated JSON and audit report.
 6. **Render only after explicit approval** — run `python -m vidgen.pipeline.video_pipeline content/json/<slug>.json` only when the user separately authorizes rendering.
 
-After approval, `video_pipeline` loads and resolves the generated JSON, re-runs Gate 1 and validation, synthesizes voiceover, tightens durations, writes `output/render_manifest.json`, renders cached chunks, audits the video, and opens Studio for human review.
+After approval, `video_pipeline` loads and resolves the generated JSON, re-runs Gate 1 and validation, synthesizes voiceover, tightens durations, writes `build/pipeline/render_manifest.json`, renders cached chunks, audits the video, and opens Studio for human review.
 
 ### Authoring workflow (Claude Code skills)
 
@@ -220,7 +220,7 @@ VidGen deliberately starts after content approval. Topic selection, research, na
 6. Run `vidgen.pipeline.video_pipeline` only after that approval, then inspect every shot and the final MP4 before publishing.
 
 `vidgen.discovery.topic_harvester` remains an optional idea source for days when the
-backlog is empty. It writes candidates to `resources/topics_queue.json`; it never
+backlog is empty. It writes candidates to `config/topics_queue.json`; it never
 starts script generation, TTS, rendering, or publishing.
 
 ```bash

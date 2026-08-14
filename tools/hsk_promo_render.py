@@ -1,4 +1,4 @@
-"""Rebuild output/hsk_flashcards_promo_with_text.mp4 from the untouched
+"""Rebuild build/pipeline/hsk_flashcards_promo_with_text.mp4 from the untouched
 rawcut with a corrected ffmpeg drawtext filtergraph.
 
 Root cause of the bug being fixed: the previous (lost, never-committed)

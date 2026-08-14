@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { RenderManifest } from "./types";
 import { colors } from "./styles";
-import beatmapData from "../../output/beatmap.json";
+import beatmapData from "../../build/pipeline/beatmap.json";
 
 type BeatMapScene = {
   id: string;
