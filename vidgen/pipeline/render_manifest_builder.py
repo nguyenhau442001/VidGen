@@ -145,6 +145,9 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "real_footage",
     "screenshot",
     "shopee_discount_cover",
+    "gps_accuracy",
+    "battery_swap_policy",
+    "lazada_economics",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

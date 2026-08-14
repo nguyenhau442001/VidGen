@@ -21,13 +21,20 @@ def _grouped_json_narrations(script: dict) -> list[str]:
     for shot in script_shots(script):
         narration = str(shot.get("narration", "")).strip()
         if not narration:
+            dialogue = shot.get("props", {}).get("dialogue", [])
+            narration = " ".join(
+                str(line.get("text", "")).strip()
+                for line in dialogue
+                if str(line.get("text", "")).strip()
+            )
+        if not narration:
             continue
         key = scene_name_for(shot.get("id")) or str(shot.get("id"))
         groups.setdefault(key, []).append(narration)
     return [_normalize_whitespace(" ".join(parts)) for parts in groups.values()]
 
 
-_SCENE_HEADING_RE = re.compile(r"^##\s+(?:Cảnh\b|Teaser\b)", re.IGNORECASE)
+_SCENE_HEADING_RE = re.compile(r"^##\s+(?:Cảnh\b|Scene\b|Teaser\b)", re.IGNORECASE)
 _FIELD_LABEL_RE = re.compile(r"^\*\*([^*]+):\*\*\s*$")
 _FIELD_HEADING_RE = re.compile(r"^#{3,6}\s+(.+?)\s*$")
 # A standalone bold line with no colon (e.g. "**Ngắt nhẹ.**") is a production
@@ -47,9 +54,12 @@ def _clean_voiceover_block(lines: list[str]) -> str:
     def flush_paragraph() -> None:
         if not paragraph_lines:
             return
+        candidate = _normalize_whitespace(" ".join(paragraph_lines))
+        if re.match(r"^(?:Beat\.?|Camera\b|Freeze frame\.?)", candidate, re.IGNORECASE):
+            paragraph_lines.clear()
+            return
         if len(paragraph_lines) == 1:
-            candidate = paragraph_lines[0].strip()
-            stage_match = _STAGE_DIRECTION_RE.match(candidate)
+            stage_match = _STAGE_DIRECTION_RE.match(paragraph_lines[0].strip())
             if stage_match:
                 inner = stage_match.group(1).strip()
                 # Bold pacing cues are not narration, but bold quoted copy under an
@@ -61,8 +71,7 @@ def _clean_voiceover_block(lines: list[str]) -> str:
                 if not is_quoted_speech:
                     paragraph_lines.clear()
                     return
-        paragraph = _normalize_whitespace(" ".join(paragraph_lines))
-        paragraph = paragraph.removeprefix("**").removesuffix("**").strip()
+        paragraph = candidate.replace("**", "").strip()
         if len(paragraph) >= 2 and (
             (paragraph.startswith("“") and paragraph.endswith("”"))
             or (paragraph.startswith('"') and paragraph.endswith('"'))
@@ -73,13 +82,25 @@ def _clean_voiceover_block(lines: list[str]) -> str:
         paragraph_lines.clear()
 
     for raw_line in lines:
-        line = raw_line.strip()
+        line = re.sub(r"^>\s*", "", raw_line.strip())
         if not line:
             flush_paragraph()
         elif line != "---":
             paragraph_lines.append(line)
     flush_paragraph()
     return _normalize_whitespace(" ".join(paragraphs))
+
+
+def _clean_dialogue_block(lines: list[str]) -> str:
+    """Return only authored spoken lines from a Markdown dialogue block.
+
+    Speaker labels and stage directions are intentionally excluded. Curly or
+    straight quoted utterances are preserved in order, with their quote marks
+    removed to match the JSON dialogue ``text`` fields.
+    """
+    block = "\n".join(re.sub(r"^>\s*", "", line.strip()) for line in lines)
+    utterances = re.findall(r"[“\"]([^”\"]+)[”\"]", block)
+    return _normalize_whitespace(" ".join(utterances))
 
 
 def extract_voiceover_scenes(source_text: str) -> list[str]:
@@ -101,15 +122,21 @@ def extract_voiceover_scenes(source_text: str) -> list[str]:
     for section in sections:
         voiceover_blocks: list[str] = []
         active_lines: list[str] | None = None
+        active_kind: str | None = None
 
         def flush_block() -> None:
-            nonlocal active_lines
+            nonlocal active_lines, active_kind
             if active_lines is None:
                 return
-            block = _clean_voiceover_block(active_lines)
+            block = (
+                _clean_dialogue_block(active_lines)
+                if active_kind == "dialogue"
+                else _clean_voiceover_block(active_lines)
+            )
             if block:
                 voiceover_blocks.append(block)
             active_lines = None
+            active_kind = None
 
         for line in section:
             stripped = line.strip()
@@ -121,10 +148,20 @@ def extract_voiceover_scenes(source_text: str) -> list[str]:
             elif heading_match:
                 label = heading_match.group(1).casefold()
 
+            # Bold labels inside a Dialogue section identify speakers, not a
+            # new production field. Keep collecting the dialogue block while
+            # excluding those labels from the spoken text.
+            if active_kind == "dialogue" and field_match and not heading_match:
+                continue
+
             if label is not None:
                 flush_block()
-                if "voice-over" in label:
+                if "voice-over" in label or label == "narration":
                     active_lines = []
+                    active_kind = "voiceover"
+                elif label == "dialogue":
+                    active_lines = []
+                    active_kind = "dialogue"
             elif stripped == "---":
                 flush_block()
             elif active_lines is not None:

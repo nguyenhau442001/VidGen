@@ -82,8 +82,112 @@ export type ErrorLogVisual = {
 
 export type PhoneMockupStateRange = [number, number]; // [startFrame, endFrame]
 
+// One voucher row in the checkout screen state: a code + its discount value.
+// `applied` marks the one row currently applied at checkout (shown with the
+// accent-filled "applied" badge); the other row reads as selectable but inert.
+export type PhoneMockupCheckoutVoucher = {
+  code: string;
+  amountLabel: string;
+  applied: boolean;
+};
+
+// Scripted tap-and-revert beat on a non-applied voucher row: at tapFrame the
+// row highlights (as if selected), holds, then reverts — while the applied
+// row/total never changes. This is the "you tap it, nothing happens" proof.
+export type PhoneMockupCheckoutTap = {
+  voucherCode: string; // must match a voucher's `code`
+  tapFrame: number;
+  holdFrames?: number; // default 20
+};
+
+// One row in the membership/voucher list screen before checkout.
+export type PhoneMockupVoucherListItem = {
+  label: string; // e.g. "HỘI VIÊN"
+  amountLabel: string; // e.g. "-20.000đ"
+};
+
+// Single continuous forensic beat: a membership voucher list that scrolls
+// into view, a scripted tap on one row, then a hard transition into the
+// checkout screen (reusing checkoutVouchers/checkoutTap) — captures
+// "scroll → tap → transition → checkout" as one unbroken shot instead of
+// cutting between separate static screens.
+export type PhoneMockupVoucherFlow = {
+  listHeading: string; // e.g. "HỘI VIÊN"
+  items: PhoneMockupVoucherListItem[];
+  scrollFrame: number; // frame the list finishes scrolling the target row into view
+  tapItemLabel: string; // must match one item's label
+  tapFrame: number;
+  transitionFrame: number; // frame the screen transitions (slide up) into checkout
+  checkoutVouchers: PhoneMockupCheckoutVoucher[];
+  checkoutTap?: PhoneMockupCheckoutTap;
+  checkoutTotalLabel: string;
+  checkoutRideLabel: string;
+};
+
+// One beat in a forensic-replay camera move: which screen is showing, a
+// small state-label tag, and where the camera zooms/crops to on real UI
+// (focus is a 0-1 fraction of the screen box — CSS transform-origin, so
+// scaling zooms toward that exact point) instead of an abstract diagram card.
+export type PhoneMockupForensicPhase = {
+  screen: "list" | "checkout";
+  frame: number;
+  tag?: string;
+  focus?: { x: number; y: number }; // 0-1 fraction of the phone screen
+  zoomScale?: number; // default 1 (no zoom)
+};
+
+export type PhoneMockupForensicReplay = {
+  listHeading: string;
+  items: PhoneMockupVoucherListItem[];
+  tapItemLabel?: string;
+  tapFrame?: number;
+  checkoutVouchers: PhoneMockupCheckoutVoucher[];
+  checkoutTap?: PhoneMockupCheckoutTap;
+  checkoutTotalLabel: string;
+  checkoutRideLabel: string;
+  phases: PhoneMockupForensicPhase[];
+  // Big punchline overlaid on top of the (possibly zoomed) real UI at the
+  // end of the beat — the "freeze + zoom" reveal, but over real UI pixels
+  // instead of a floating text card on a gradient.
+  freezeLabel?: string;
+  freezeAccentWord?: string;
+  freezeFrame?: number;
+};
+
+// Split-screen-only: one real phone screen divided top/bottom into two
+// simultaneous states (e.g. "voucher list still shows 20K" over "checkout
+// applies 8K") — a literal on-device split instead of two floating text
+// panels, so the contradiction reads as one screenshot, not an abstraction.
+export type PhoneMockupSplitScreen = {
+  topLabel: string;
+  topHeading: string;
+  topBody: string;
+  bottomLabel: string;
+  bottomHeading: string;
+  bottomBody: string;
+};
+
+// Mobile-browser-only: a compact in-app URL bar + scrolling FAQ list inside
+// the real phone frame (mobile counterpart of QuoteCalloutVisual.browserFrame,
+// which renders as a floating desktop-style card) — keeps the "browser
+// evidence" beat on-device instead of switching to an unrelated card shape.
+export type PhoneMockupMobileBrowser = {
+  urlLabel: string;
+  scrollLines: string[];
+  highlightLine: string;
+  scrollDurationFrames: number;
+};
+
 export type PhoneMockupVisual = {
-  screenState: "idle" | "loading" | "matched";
+  screenState:
+    | "idle"
+    | "loading"
+    | "matched"
+    | "checkout"
+    | "voucherFlow"
+    | "forensicReplay"
+    | "splitScreen"
+    | "mobileBrowser";
   driverName: string;
   driverEta: string;
   accentColor: string;
@@ -92,6 +196,26 @@ export type PhoneMockupVisual = {
   idleRange?: PhoneMockupStateRange;
   loadingRange?: PhoneMockupStateRange;
   matchedRange?: PhoneMockupStateRange;
+  // Checkout-screen-only: a neutral ride-booking checkout mockup showing two
+  // voucher rows and a scripted tap-then-revert on the non-applied one.
+  checkoutVouchers?: PhoneMockupCheckoutVoucher[];
+  checkoutTap?: PhoneMockupCheckoutTap;
+  checkoutTotalLabel?: string;
+  checkoutRideLabel?: string;
+  // voucherFlow-screen-only: scroll → tap → transition-to-checkout sequence.
+  voucherFlow?: PhoneMockupVoucherFlow;
+  // forensicReplay-screen-only: multi-phase camera crop/zoom replay across
+  // real list/checkout UI, with state tags and an optional freeze-zoom
+  // punchline at the end.
+  forensicReplay?: PhoneMockupForensicReplay;
+  // splitScreen-screen-only: one screen, two states stacked top/bottom.
+  splitScreen?: PhoneMockupSplitScreen;
+  // mobileBrowser-screen-only: in-app URL bar + scrolling FAQ list.
+  mobileBrowser?: PhoneMockupMobileBrowser;
+  // Small source citation/disclaimer centered below the phone body — e.g.
+  // "reconstructed from a single personal report" — so a dramatized mockup
+  // doesn't read as a verified widespread claim.
+  sourceLabel?: string;
   // Idle-screen-only: animates a driver dot converging on the user's pin,
   // for scenes whose narration describes a driver already en route.
   showApproachingDriver?: boolean;
@@ -101,7 +225,7 @@ export type PhoneMockupVisual = {
   // App header branding — defaults to the generic "RideApp" label used by
   // ride-hailing scripts. Set both to brand this mockup as Google Maps.
   appName?: string;
-  appIcon?: "google_maps";
+  appIcon?: "google_maps" | "xanhsm";
   // Loading/matched screen copy — defaults to the ride-hailing "tìm tài xế"
   // wording used by Grab dispatch scripts. Override for non-driver contexts
   // (e.g. Google Maps route calculation) so the mockup doesn't drift back
@@ -112,6 +236,99 @@ export type PhoneMockupVisual = {
   matchedKind?: "driver" | "route";
 };
 
+export type GpsAccuracyMode =
+  | "hook_split"
+  | "address_case"
+  | "both_right"
+  | "uncertainty"
+  | "sensor_fusion"
+  | "five_meters"
+  | "multipath"
+  | "fallback_sensors"
+  | "three_layers"
+  | "payoff"
+  | "action_steps"
+  | "ending";
+
+export type GpsAccuracyDialogueLine = {
+  speaker: "driver" | "customer";
+  text: string;
+  start_frame: number;
+  mute?: boolean;
+};
+
+export type GpsAccuracyVisual = {
+  mode: GpsAccuracyMode;
+  segment?: number;
+  headline?: string;
+  accentWord?: string;
+  subheadline?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
+  finalText?: string;
+  dialogue?: GpsAccuracyDialogueLine[];
+};
+
+export type GpsAccuracySceneProps = GpsAccuracyVisual & { durationInFrames: number };
+
+export type BatterySwapPolicyMode =
+  | "hook"
+  | "promise"
+  | "conditions"
+  | "after_june"
+  | "driver_bind"
+  | "duration_conflict"
+  | "ambiguity"
+  | "cta";
+
+export type BatterySwapPolicyMetric = {
+  label: string;
+  value: string;
+  tone?: "blue" | "red" | "amber";
+};
+
+export type BatterySwapPolicyVisual = {
+  mode: BatterySwapPolicyMode;
+  eyebrow?: string;
+  headline: string;
+  accentWord?: string;
+  subhead?: string;
+  metrics?: BatterySwapPolicyMetric[];
+  sourceLabel?: string;
+  footer?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "batterySwap";
+  thumbnailAccentColor?: string;
+};
+
+export type BatterySwapPolicySceneProps = BatterySwapPolicyVisual & { durationInFrames: number };
+
+export type LazadaEconomicsMode =
+  | "hook"
+  | "disclosure"
+  | "gmv_split"
+  | "cost_ledger"
+  | "hidden_objective"
+  | "scale_flywheel"
+  | "profitability_timeline"
+  | "cta";
+
+export type LazadaEconomicsVisual = {
+  mode: LazadaEconomicsMode;
+  headline: string;
+  accentWord?: string;
+  sourceLabel?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "lazadaEconomics";
+  thumbnailAccentColor?: string;
+};
+
+export type LazadaEconomicsSceneProps = LazadaEconomicsVisual & { durationInFrames: number };
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
@@ -120,6 +337,9 @@ export type ManifestScene =
   | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CodeVisual }
   | { type: "error_log"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ErrorLogVisual }
   | { type: "phone_mockup"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PhoneMockupVisual }
+  | { type: "gps_accuracy"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GpsAccuracyVisual }
+  | { type: "battery_swap_policy"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatterySwapPolicyVisual }
+  | { type: "lazada_economics"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: LazadaEconomicsVisual }
   | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapPingVisual }
   | { type: "map_dot_to_human"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapDotToHumanVisual }
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GeohashRevealVisual }
@@ -763,6 +983,11 @@ export type SplitViewVisual = {
   // comparisons). Set "light" for non-code comparisons on the light channel
   // theme, where a dark panel would otherwise read as a jarring dark patch.
   panelTheme?: "dark" | "light";
+  // Optional faint brand watermark in a corner, decorative only.
+  brandIcon?: "xanhsm";
+  // Optional small caveat/caption line under the panels, e.g. "Tái hiện từ
+  // một báo cáo cá nhân".
+  captionText?: string;
 };
 
 export type SplitViewSceneProps = SplitViewVisual & { durationInFrames: number };
@@ -973,6 +1198,25 @@ export type QuoteCalloutVisual = {
   // Optional large emoji shown above the quote text as a visual anchor, so a
   // text-only quote card isn't pure wall-of-text. Omit to keep old behavior.
   icon?: string;
+  // Optional faint brand watermark (e.g. Xanh SM bird) in a corner, purely
+  // decorative — never overlaps the text safe zone.
+  brandIcon?: "xanhsm";
+  // Optional minimal dark browser-window frame shown above the quote text,
+  // in place of screenshotPath, for "we checked the official FAQ" beats that
+  // have no real screenshot asset to embed. urlLabel is the address-bar text;
+  // highlightLine is the one FAQ line rendered lit-up inside the frame.
+  // scrollLines: faux FAQ rows scrolled past before settling on
+  // highlightLine, which then gets the accent highlight treatment —
+  // "scroll then highlight" instead of the line appearing instantly static.
+  browserFrame?: { urlLabel: string; highlightLine: string; scrollLines?: string[]; scrollDurationFrames?: number };
+  // Read by vidgen's thumbnail_renderer (not by this scene itself) when this
+  // shot is scene_index 0 — carries thumbnail-only overrides through the
+  // shot's own props instead of a separate composition.
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "map" | "notebook" | "brandSwap" | "xanhsm";
+  thumbnailAccentColor?: string;
 };
 
 export type QuoteCalloutSceneProps = QuoteCalloutVisual & { durationInFrames: number };
@@ -1271,6 +1515,19 @@ export type DiagramFlowNode = {
   revealStatus?: "deleted" | "intact" | "neutral";
 };
 
+// One step card in a "timeline" layout — a horizontal filmstrip the camera
+// pans across as `frame` advances, unlike "linear" (all nodes visible at
+// once) or "loop" (closed circular track).
+export type DiagramFlowTimelineStep = {
+  label: string;
+  frame: number; // frame this step becomes the active (centered, bright) one
+};
+
+// One fanned-out hypothesis card, radiating from the timeline's center point.
+export type DiagramFlowBranch = {
+  label: string;
+};
+
 export type DiagramFlowVisual = {
   headline: string;
   accentWord?: string;
@@ -1282,8 +1539,31 @@ export type DiagramFlowVisual = {
   // "loop" arranges nodes around a closed circular track with the last node
   // connecting back to the first — for cycles (e.g. a data feedback loop)
   // that must not read as a linear diagram terminating at the last node.
+  // "timeline" is a horizontal filmstrip the camera pans across, driven by
+  // `timelineSteps`/`branches` below (nodes is ignored in this layout).
   // Default "linear" preserves the existing vertical-stack rendering.
-  layout?: "linear" | "loop";
+  layout?: "linear" | "loop" | "timeline";
+  brandIcon?: "xanhsm";
+  accentColor?: string; // default colors.cyan
+  // timeline layout only: a forensic-replay filmstrip. Camera (track
+  // translateX) follows whichever step's `frame` has most recently passed;
+  // earlier steps stay visible but dim/small, later ones are hidden.
+  timelineSteps?: DiagramFlowTimelineStep[];
+  // timeline layout only: at this frame the filmstrip fades out and
+  // `headline`/`accentWord`/`footer` fade in centered — the "collapse into
+  // one punchline" beat (e.g. steps collapsing into "20K → ? → 8K").
+  timelineCollapseFrame?: number;
+  // timeline layout only: hypothesis cards that fan out from the timeline's
+  // center point. Combine with `branchesFrame` (fan out, from closed) or
+  // `branchesCollapseFrame` (fan already open at frame 0, converges closed
+  // by this frame) — set only one per shot.
+  branches?: DiagramFlowBranch[];
+  branchesFrame?: number;
+  branchesCollapseFrame?: number;
+  // timeline layout only: a small, dimmed browser-chrome panel held behind
+  // the filmstrip for the whole shot — visual continuity from a preceding
+  // browser/FAQ beat that has since "receded" into the background.
+  backgroundPanel?: { urlLabel: string; highlightLine: string };
 };
 
 export type DiagramFlowSceneProps = DiagramFlowVisual & { durationInFrames: number };
@@ -1373,6 +1653,8 @@ export type VerdictListVisual = {
   accentWord?: string;
   verdicts: VerdictItem[];
   standard?: string;
+  brandIcon?: "xanhsm";
+  accentColor?: string; // default colors.green — headline/standard-badge theme only, not verdict danger/safe colors
 };
 
 export type VerdictListSceneProps = VerdictListVisual & { durationInFrames: number };
@@ -1443,6 +1725,8 @@ export type PreviewTeaserVisual = {
   subtext?: string;
   preview: { items: string[]; icon?: string };
   channel?: string;
+  brandIcon?: "xanhsm";
+  accentColor?: string; // default colors.cyan
 };
 
 export type PreviewTeaserSceneProps = PreviewTeaserVisual & { durationInFrames: number };
@@ -1687,6 +1971,7 @@ export type SystemLayerVisual = {
   bodyText?: string; // optional caption below the stack
   staggerFrames?: number; // frames between each layer's slide-in, default 35
   payoff?: SystemLayerPayoff; // renders instead of bodyText when present
+  brandIcon?: "xanhsm";
 };
 
 export type SystemLayerSceneProps = SystemLayerVisual & { durationInFrames: number };
@@ -1816,7 +2101,8 @@ export type GenericHookThumbnailVisual = {
   subtext?: string;
   partLabel?: string;
   channelName?: string;
-  illustration?: "map" | "notebook" | "brandSwap";
+  illustration?: "map" | "notebook" | "brandSwap" | "xanhsm" | "batterySwap" | "lazadaEconomics";
+  accentColor?: string; // overrides the default green theme (e.g. Xanh SM blue)
 };
 
 export type GenericHookThumbnailSceneProps = GenericHookThumbnailVisual;

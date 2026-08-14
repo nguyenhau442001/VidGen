@@ -82,6 +82,75 @@ Một flashcard.
     assert extract_voiceover_scenes(source) == ["Một câu dùng heading."]
 
 
+def test_extract_voiceover_scenes_accepts_english_scene_and_dialogue_block():
+    source = """# VIDEO
+
+## SCENE 1 — HOOK
+
+### Dialogue
+
+**Tài xế:**
+“Alo anh tới rồi em.”
+
+**Khách:**
+“Ủa anh ở đâu vậy anh?”
+
+Freeze frame.
+
+## SCENE 2 — REVEAL
+
+### Narration
+
+> **“Nó là nhà hàng xóm.”**
+"""
+
+    assert extract_voiceover_scenes(source) == [
+        "Alo anh tới rồi em. Ủa anh ở đâu vậy anh?",
+        "Nó là nhà hàng xóm.",
+    ]
+
+
+def test_audit_source_fidelity_accepts_dialogue_led_json_shot(tmp_path):
+    source_path = tmp_path / "demo.txt"
+    json_path = tmp_path / "demo.json"
+    source_path.write_text(
+        """# VIDEO
+
+## SCENE 1 — HOOK
+
+### Dialogue
+
+**Tài xế:**
+“Alo anh tới rồi em.”
+
+**Khách:**
+“Ủa anh ở đâu vậy anh?”
+""",
+        encoding="utf-8",
+    )
+    json_path.write_text(
+        json.dumps(
+            {
+                "shots": [
+                    {
+                        "id": "shot_01",
+                        "props": {
+                            "dialogue": [
+                                {"text": "Alo anh tới rồi em."},
+                                {"text": "Ủa anh ở đâu vậy anh?"},
+                            ]
+                        },
+                    }
+                ]
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    assert audit_source_fidelity(source_path, json_path)["status"] == "PASS"
+
+
 def test_audit_source_fidelity_accepts_whitespace_only_differences(tmp_path):
     source_path, json_path = _write_pair(
         tmp_path,

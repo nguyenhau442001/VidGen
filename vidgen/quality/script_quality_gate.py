@@ -83,6 +83,18 @@ def _looks_like_hook(text: str) -> bool:
     return any(_contains_marker(text, marker) for marker in HOOK_WEAK_MARKERS)
 
 
+def _spoken_text(shot: dict) -> str:
+    """Return narration, or authored dialogue for dialogue-led shots."""
+    narration = str(shot.get("narration") or "").strip()
+    if narration:
+        return narration
+    return " ".join(
+        str(line.get("text", "")).strip()
+        for line in shot.get("props", {}).get("dialogue", [])
+        if str(line.get("text", "")).strip()
+    )
+
+
 # ---------------------------------------------------------------------------
 # Scorer
 # ---------------------------------------------------------------------------
@@ -105,8 +117,16 @@ def score_script(script: dict) -> dict:
     # Dimension 1: Hook strength
     # ------------------------------------------------------------------
     hook = scenes[0]
-    hook_narration = hook.get("narration") or ""
-    hook_word_count = len(hook_narration.split())
+    hook_narration = _spoken_text(hook)
+    # Dialogue-led cold opens are paced and scored through their authored
+    # freeze-frame question, not as one monolithic narration sentence. The
+    # complete dialogue remains relevant to TTS/duration checks below.
+    hook_scoring_text = (
+        str(hook.get("props", {}).get("headline") or "").strip()
+        if hook.get("props", {}).get("dialogue")
+        else hook_narration
+    ) or hook_narration
+    hook_word_count = len(hook_scoring_text.split())
 
     hook_score = 5
     if hook_word_count > IDEAL_HOOK_WORDS:
@@ -115,7 +135,7 @@ def score_script(script: dict) -> dict:
     if hook_word_count > MAX_HOOK_WORDS:
         hook_score -= 1
         issues.append(f"hook: narration too long ({hook_word_count} words, max {MAX_HOOK_WORDS})")
-    filler_hits = _filler_hits(hook_narration)
+    filler_hits = _filler_hits(hook_scoring_text)
     if filler_hits:
         hook_score -= 1
         issues.append(f"hook: filler words detected — {filler_hits}")
@@ -201,7 +221,7 @@ def score_script(script: dict) -> dict:
     # Narration must be present on every shot
     missing_narration = [
         s.get("id", "?") for s in scenes
-        if not (s.get("narration") or "").strip() and not s.get("narration_per_criterion")
+        if not _spoken_text(s) and not s.get("narration_per_criterion")
     ]
     if missing_narration:
         arc_score -= 1
@@ -214,7 +234,11 @@ def score_script(script: dict) -> dict:
     # ------------------------------------------------------------------
     beat_order_score = 5
     first_scene = scenes[0]
-    first_narration = (first_scene.get("narration") or "").strip()
+    first_narration = (
+        str(first_scene.get("props", {}).get("headline") or "").strip()
+        if first_scene.get("props", {}).get("dialogue")
+        else _spoken_text(first_scene)
+    )
 
     first_ok = _looks_like_hook(first_narration)
 

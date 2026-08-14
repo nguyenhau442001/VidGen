@@ -4,7 +4,7 @@ Chạy tuần tự 5 phase dưới. Sau mỗi phase: dừng, báo output, đợi
 mới sang phase kế — trừ khi user đã nói trước "chạy hết không cần đợi".
 
 Chủ đề / input phase 1 do user cung cấp khi gọi prompt này, ví dụ:
-"Dùng skill để tìm về chủ đề <ABC>."
+"Dùng skill để tìm về chủ đề chế độ khuyến mãi của xanh SM bike, người quen của tôi không áp mã khuyến mãi của hội viên được, nó cứ trỏ về mặc định, ví dụ mã hội viên là 20k, nhưng không thế nào chọn, chỉ có thể chọn cái khác ít tiền hơn và để 20k kia hết hạn, hãy nghiên cứu xem cái này có phải là"
 
 ---
 

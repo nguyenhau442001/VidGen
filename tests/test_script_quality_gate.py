@@ -136,3 +136,44 @@ def test_new_cinematic_scene_types_are_valid_for_gate1():
     audit = gate1_assert(script)
 
     assert audit["visual"] == 5
+
+
+def test_dialogue_led_hook_scores_authored_headline_not_full_conversation():
+    script = _script([
+        {
+            "id": "shot_01",
+            "type": "gps_accuracy",
+            "duration_frames": 300,
+            "props": {
+                "mode": "hook_split",
+                "headline": "SAO HAI NGƯỜI VẪN KHÔNG THẤY NHAU?",
+                "dialogue": [
+                    {"speaker": "driver", "text": "Alo anh tới rồi em.", "start_frame": 0},
+                    {
+                        "speaker": "customer",
+                        "text": "Ủa anh ở đâu vậy anh? Em có thấy anh đâu… anh mặc áo màu gì vậy anh?",
+                        "start_frame": 50,
+                    },
+                ],
+            },
+        },
+        {
+            "id": "shot_02",
+            "type": "gps_accuracy",
+            "duration_frames": 180,
+            "narration": "Một cơ chế cụ thể kéo câu chuyện tiến về phía trước.",
+            "props": {"mode": "address_case", "headline": "CƠ CHẾ"},
+        },
+        {
+            "id": "shot_03",
+            "type": "gps_accuracy",
+            "duration_frames": 180,
+            "narration": "Kết luận đóng lại đúng câu hỏi ở phần mở đầu.",
+            "props": {"mode": "payoff", "headline": "KẾT LUẬN"},
+        },
+    ])
+
+    result = score_script(script)
+
+    assert result["hook"] == 5
+    assert result["beat_order"] == 5
