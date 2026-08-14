@@ -2,7 +2,7 @@
 vidgen/discovery/topic_harvester.py — AI News + Trending Topic Harvester
 
 Scrapes AI release news, GitHub trending repos, and npm packages. Scores
-each item and writes optional ideas to resources/topics_queue.json for human review.
+each item and writes optional ideas to config/topics_queue.json for human review.
 
 Sources (no API key required, no RSS that blocks scripts):
   • GitHub Search API  — AI/LLM repos created/updated this week
