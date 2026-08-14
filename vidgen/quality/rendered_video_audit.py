@@ -62,7 +62,7 @@ except ImportError:
 # CodeScene that carry no accent color at all by design) — checked as
 # "present somewhere across the sampled frames" instead. The set of colors
 # that count as a valid accent is not hardcoded here: it's read from
-# config/colors.json (the project's shared name → hex registry) so new scripts can
+# references/config/colors.json (the project's shared name → hex registry) so new scripts can
 # introduce a new palette by adding a name there, not by editing this file.
 # ---------------------------------------------------------------------------
 
@@ -293,7 +293,7 @@ def gate2_assert(mp4_path: str) -> dict:
             "║    • Low contrast  → check scene background color (colors.bg, ~#f8f9fa)",
             "║    • Blurry text   → increase font size or reduce headline length",
             "║    • Muddy bg      → increase separation between background and highlights",
-            "║    • No accent     → verify accentColor in JSON is a hex from config/colors.json",
+            "║    • No accent     → verify accentColor in JSON is a hex from references/config/colors.json",
             "╚════════════════════════════════════════════════",
         ]
         raise ValueError("\n".join(lines))

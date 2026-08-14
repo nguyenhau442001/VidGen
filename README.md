@@ -199,7 +199,7 @@ Scripts and shot components in this repo are authored with Claude Code using two
 content/text/       human-approved TXT scripts (source of truth)
 content/json/       VidGen-generated JSON shot plans and historical outputs
 tools/              helper shell entrypoints and CI wrappers
-config/             shared colors and optional topic-idea queue
+references/config/  shared colors and optional topic-idea queue
 vidgen/             role-based Python packages for production tooling
 remotion/           compositions, scenes, and chunk renderer
 build/pipeline/     generated audio, manifests, caches, and reports
@@ -220,7 +220,7 @@ VidGen deliberately starts after content approval. Topic selection, research, na
 6. Run `vidgen.pipeline.video_pipeline` only after that approval, then inspect every shot and the final MP4 before publishing.
 
 `vidgen.discovery.topic_harvester` remains an optional idea source for days when the
-backlog is empty. It writes candidates to `config/topics_queue.json`; it never
+backlog is empty. It writes candidates to `references/config/topics_queue.json`; it never
 starts script generation, TTS, rendering, or publishing.
 
 ```bash
