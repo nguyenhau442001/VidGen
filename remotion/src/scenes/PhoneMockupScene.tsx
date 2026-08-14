@@ -6,10 +6,22 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { PhoneMockupSceneProps, PhoneMockupStateRange } from "../types";
+import {
+  PhoneMockupSceneProps,
+  PhoneMockupStateRange,
+  PhoneMockupCheckoutVoucher,
+  PhoneMockupCheckoutTap,
+  PhoneMockupVoucherFlow,
+  PhoneMockupVoucherListItem,
+  PhoneMockupForensicReplay,
+  PhoneMockupForensicPhase,
+  PhoneMockupSplitScreen,
+  PhoneMockupMobileBrowser,
+} from "../types";
 import { BE_VIETNAM_PRO, colors } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
 import { GoogleMapsIcon } from "../icons/GoogleMapsIcon";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -50,11 +62,27 @@ export function calculatePhoneMockupDuration(
 // ---------------------------------------------------------------------------
 function resolveState(
   frame: number,
-  fallback: "idle" | "loading" | "matched",
+  fallback:
+    | "idle"
+    | "loading"
+    | "matched"
+    | "checkout"
+    | "voucherFlow"
+    | "forensicReplay"
+    | "splitScreen"
+    | "mobileBrowser",
   idleRange?: PhoneMockupStateRange,
   loadingRange?: PhoneMockupStateRange,
   matchedRange?: PhoneMockupStateRange
-): "idle" | "loading" | "matched" {
+):
+  | "idle"
+  | "loading"
+  | "matched"
+  | "checkout"
+  | "voucherFlow"
+  | "forensicReplay"
+  | "splitScreen"
+  | "mobileBrowser" {
   if (matchedRange && frame >= matchedRange[0] && frame <= matchedRange[1]) return "matched";
   if (loadingRange && frame >= loadingRange[0] && frame <= loadingRange[1]) return "loading";
   if (idleRange && frame >= idleRange[0] && frame <= idleRange[1]) return "idle";
@@ -593,7 +621,7 @@ const MatchedScreen: React.FC<{
                 style={{
                   fontSize: 16,
                   fontWeight: 700,
-                  color: colors.textPrimary,
+                  color: "rgba(255,255,255,0.92)",
                   fontFamily: BE_VIETNAM_PRO,
                   marginBottom: 3,
                 }}
@@ -648,7 +676,7 @@ const MatchedScreen: React.FC<{
                 style={{
                   fontSize: 18,
                   fontWeight: 700,
-                  color: colors.textPrimary,
+                  color: "rgba(255,255,255,0.92)",
                   fontFamily: BE_VIETNAM_PRO,
                   lineHeight: 1,
                 }}
@@ -695,6 +723,733 @@ const MatchedScreen: React.FC<{
   );
 };
 
+// UI-forensic checkout screen: a neutral ride-booking checkout with two
+// voucher rows. One row is the applied discount (accent-filled "applied"
+// badge); the other is scripted to highlight briefly on tap, then revert —
+// proving the tap registers but never changes which code gets applied.
+const CheckoutScreen: React.FC<{
+  vouchers: PhoneMockupCheckoutVoucher[];
+  tap?: PhoneMockupCheckoutTap;
+  totalLabel: string;
+  rideLabel: string;
+  accentColor: string;
+  frame: number;
+  fps: number;
+}> = ({ vouchers, tap, totalLabel, rideLabel, accentColor, frame, fps }) => {
+  const rowsIn = interpolate(frame, [0, 16], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const tapVoucherHighlight = (code: string): number => {
+    if (!tap || tap.voucherCode !== code) return 0;
+    const hold = tap.holdFrames ?? 20;
+    return interpolate(
+      frame,
+      [tap.tapFrame, tap.tapFrame + 6, tap.tapFrame + hold, tap.tapFrame + hold + 10],
+      [0, 1, 1, 0],
+      { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+    );
+  };
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        padding: "20px 18px",
+        gap: 14,
+        opacity: rowsIn,
+      }}
+    >
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 600,
+          color: "rgba(255,255,255,0.4)",
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          fontFamily: BE_VIETNAM_PRO,
+        }}
+      >
+        {rideLabel}
+      </div>
+
+      {vouchers.map((v) => {
+        const tapGlow = tapVoucherHighlight(v.code);
+        const isLit = v.applied || tapGlow > 0;
+        return (
+          <div
+            key={v.code}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "16px 18px",
+              borderRadius: 16,
+              backgroundColor: v.applied ? `${accentColor}1a` : "rgba(255,255,255,0.04)",
+              border: `2px solid ${
+                v.applied
+                  ? accentColor
+                  : tapGlow > 0
+                  ? accentColor
+                  : "rgba(255,255,255,0.12)"
+              }`,
+              opacity: v.applied ? 1 : 0.4 + 0.6 * tapGlow,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: isLit ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.55)",
+                fontFamily: BE_VIETNAM_PRO,
+              }}
+            >
+              {v.code}
+            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span
+                style={{
+                  fontSize: 17,
+                  fontWeight: 700,
+                  color: isLit ? accentColor : "rgba(255,255,255,0.4)",
+                  fontFamily: BE_VIETNAM_PRO,
+                }}
+              >
+                {v.amountLabel}
+              </span>
+              {v.applied && (
+                <span
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#0a0a0f",
+                    backgroundColor: accentColor,
+                    borderRadius: 999,
+                    padding: "4px 9px",
+                    letterSpacing: "0.04em",
+                    fontFamily: BE_VIETNAM_PRO,
+                  }}
+                >
+                  ĐANG ÁP
+                </span>
+              )}
+            </div>
+          </div>
+        );
+      })}
+
+      <div style={{ flex: 1 }} />
+
+      <div
+        style={{
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+          paddingTop: 16,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.6)",
+            fontFamily: BE_VIETNAM_PRO,
+          }}
+        >
+          Tổng thanh toán
+        </span>
+        <span
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            color: "rgba(255,255,255,0.92)",
+            fontFamily: BE_VIETNAM_PRO,
+          }}
+        >
+          {totalLabel}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// One real screen, physically split top/bottom into two simultaneous states
+// (e.g. voucher list still showing 20K over checkout applying 8K) instead of
+// two floating side-by-side text panels — the contradiction reads as one
+// screenshot. Top half settles in first, the divider draws across, then the
+// bottom half settles in — so it plays as a reveal, not a static split.
+const SplitScreenView: React.FC<{
+  split: PhoneMockupSplitScreen;
+  accentColor: string;
+  frame: number;
+  fps: number;
+}> = ({ split, accentColor, frame, fps }) => {
+  const topSpring = spring({ frame, fps, config: { stiffness: 200, damping: 22 }, durationInFrames: 18 });
+  const dividerFrame = 16;
+  const dividerWidth = interpolate(frame, [dividerFrame, dividerFrame + 14], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const bottomSpring = spring({
+    frame: frame - (dividerFrame + 10),
+    fps,
+    config: { stiffness: 200, damping: 22 },
+    durationInFrames: 18,
+  });
+
+  const Half: React.FC<{ label: string; heading: string; body: string; s: number }> = ({ label, heading, body, s }) => (
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
+        opacity: s,
+        transform: `translateY(${interpolate(s, [0, 1], [14, 0])}px)`,
+      }}
+    >
+      <span
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.4)",
+          fontFamily: BE_VIETNAM_PRO,
+        }}
+      >
+        {label}
+      </span>
+      <span style={{ fontSize: 44, fontWeight: 700, color: accentColor, fontFamily: BE_VIETNAM_PRO, lineHeight: 1 }}>
+        {heading}
+      </span>
+      <span style={{ fontSize: 17, fontWeight: 600, color: "rgba(255,255,255,0.85)", fontFamily: BE_VIETNAM_PRO, textAlign: "center" }}>
+        {body}
+      </span>
+    </div>
+  );
+
+  return (
+    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column" }}>
+      <Half label={split.topLabel} heading={split.topHeading} body={split.topBody} s={topSpring} />
+      <div style={{ position: "relative", height: 1, flexShrink: 0 }}>
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: 0,
+            height: 1,
+            width: `${dividerWidth * 100}%`,
+            transform: "translateX(-50%)",
+            backgroundColor: `${accentColor}55`,
+          }}
+        />
+      </div>
+      <Half label={split.bottomLabel} heading={split.bottomHeading} body={split.bottomBody} s={bottomSpring} />
+    </div>
+  );
+};
+
+// Compact in-app URL bar + a scrolling FAQ list that lands on the target
+// line, all inside the real phone frame — mobile counterpart of
+// QuoteCalloutScene's floating desktop browser card, kept on-device so the
+// "browser evidence" beat matches the phone-mockup shots around it.
+const MobileBrowserScreen: React.FC<{
+  browser: PhoneMockupMobileBrowser;
+  accentColor: string;
+  frame: number;
+}> = ({ browser, accentColor, frame }) => {
+  const { urlLabel, scrollLines, highlightLine, scrollDurationFrames } = browser;
+  const ROW_STEP = 46;
+  const WINDOW_H = ROW_STEP * 3 + 20;
+  const contentH = (scrollLines.length + 1) * ROW_STEP;
+  const maxScroll = Math.max(0, contentH - WINDOW_H);
+  const scrollY = -interpolate(frame, [10, 10 + scrollDurationFrames], [0, maxScroll], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const settled = interpolate(
+    frame,
+    [10 + scrollDurationFrames, 10 + scrollDurationFrames + 10],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
+  return (
+    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          margin: "16px 18px 10px",
+          padding: "9px 14px",
+          borderRadius: 10,
+          backgroundColor: "rgba(255,255,255,0.06)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          flexShrink: 0,
+        }}
+      >
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>🔒</span>
+        <span style={{ fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.55)", fontFamily: BE_VIETNAM_PRO }}>
+          {urlLabel}
+        </span>
+      </div>
+      <div style={{ height: WINDOW_H, overflow: "hidden", position: "relative", padding: "0 18px" }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 18,
+            right: 18,
+            transform: `translateY(${scrollY}px)`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}
+        >
+          {scrollLines.map((line, i) => (
+            <div
+              key={i}
+              style={{
+                fontFamily: BE_VIETNAM_PRO,
+                fontSize: 15,
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.32)",
+                lineHeight: 1.35,
+              }}
+            >
+              {line}
+            </div>
+          ))}
+          <div
+            style={{
+              fontFamily: BE_VIETNAM_PRO,
+              fontWeight: 700,
+              fontSize: 18,
+              lineHeight: 1.35,
+              color: settled > 0.5 ? accentColor : "rgba(255,255,255,0.55)",
+              textShadow: settled > 0.5 ? `0 0 ${10 * settled}px ${accentColor}` : "none",
+            }}
+          >
+            {highlightLine}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// One continuous forensic beat: a membership voucher list scrolls the tap
+// target into view, taps it (brief highlight, same "registers but doesn't
+// change what's applied" language as CheckoutScreen's tap), then hard-slides
+// up into the checkout screen. checkoutTap.tapFrame (if present) is relative
+// to `flow.transitionFrame`, not to the shot's own frame 0.
+const VoucherFlowScreen: React.FC<{
+  flow: PhoneMockupVoucherFlow;
+  accentColor: string;
+  frame: number;
+  fps: number;
+}> = ({ flow, accentColor, frame, fps }) => {
+  const {
+    listHeading,
+    items,
+    scrollFrame,
+    tapItemLabel,
+    tapFrame,
+    transitionFrame,
+    checkoutVouchers,
+    checkoutTap,
+    checkoutTotalLabel,
+    checkoutRideLabel,
+  } = flow;
+
+  const ROW_H = 78;
+  const tapIndex = Math.max(0, items.findIndex((it) => it.label === tapItemLabel));
+  const scrollY = interpolate(frame, [0, scrollFrame], [0, -tapIndex * ROW_H], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const tapHighlight = interpolate(
+    frame,
+    [tapFrame, tapFrame + 6, tapFrame + 16, tapFrame + 24],
+    [0, 1, 1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
+  const transitionProgress = interpolate(frame, [transitionFrame, transitionFrame + 16], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+      {/* List layer — scrolls, taps, then slides fully up out of frame */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          transform: `translateY(${-transitionProgress * 100}%)`,
+          opacity: 1 - transitionProgress,
+        }}
+      >
+        <div
+          style={{
+            padding: "20px 18px 12px",
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.4)",
+            fontFamily: BE_VIETNAM_PRO,
+            flexShrink: 0,
+          }}
+        >
+          {listHeading}
+        </div>
+        <div style={{ position: "relative", flex: 1, overflow: "hidden" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              transform: `translateY(${scrollY}px)`,
+              padding: "0 18px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            {items.map((it) => {
+              const isTapRow = it.label === tapItemLabel;
+              const glow = isTapRow ? tapHighlight : 0;
+              return (
+                <div
+                  key={it.label}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "16px 18px",
+                    borderRadius: 16,
+                    backgroundColor: glow > 0 ? `${accentColor}1a` : "rgba(255,255,255,0.04)",
+                    border: `2px solid ${glow > 0 ? accentColor : "rgba(255,255,255,0.12)"}`,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 17,
+                      fontWeight: 700,
+                      color: "rgba(255,255,255,0.92)",
+                      fontFamily: BE_VIETNAM_PRO,
+                    }}
+                  >
+                    {it.label}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 17,
+                      fontWeight: 700,
+                      color: glow > 0 ? accentColor : "rgba(255,255,255,0.6)",
+                      fontFamily: BE_VIETNAM_PRO,
+                    }}
+                  >
+                    {it.amountLabel}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Checkout layer — hard-slides up from below as the list exits */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          transform: `translateY(${(1 - transitionProgress) * 100}%)`,
+        }}
+      >
+        <CheckoutScreen
+          vouchers={checkoutVouchers}
+          tap={checkoutTap}
+          totalLabel={checkoutTotalLabel}
+          rideLabel={checkoutRideLabel}
+          accentColor={accentColor}
+          frame={frame - transitionFrame}
+          fps={fps}
+        />
+      </div>
+    </div>
+  );
+};
+
+// Short, non-scrolling voucher list for forensic-replay beats — the replay
+// only ever needs 1-2 rows in view at once, so this skips VoucherFlowScreen's
+// scroll choreography and just renders rows with a tap-highlight.
+const ForensicListView: React.FC<{
+  items: PhoneMockupVoucherListItem[];
+  tapItemLabel?: string;
+  tapFrame?: number;
+  accentColor: string;
+  frame: number;
+}> = ({ items, tapItemLabel, tapFrame, accentColor, frame }) => {
+  const tapGlow = (code: string): number => {
+    if (!tapItemLabel || tapItemLabel !== code || tapFrame == null) return 0;
+    return interpolate(frame, [tapFrame, tapFrame + 6], [0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    });
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", padding: "24px 18px", gap: 14 }}>
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.4)",
+          fontFamily: BE_VIETNAM_PRO,
+          marginBottom: 4,
+        }}
+      >
+        HỘI VIÊN
+      </div>
+      {items.map((it) => {
+        const glow = tapGlow(it.label);
+        const isLit = glow > 0;
+        return (
+          <div
+            key={it.label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "18px 20px",
+              borderRadius: 16,
+              backgroundColor: isLit ? `${accentColor}1a` : "rgba(255,255,255,0.04)",
+              border: `2px solid ${isLit ? accentColor : "rgba(255,255,255,0.12)"}`,
+            }}
+          >
+            <span style={{ fontSize: 18, fontWeight: 700, color: "rgba(255,255,255,0.92)", fontFamily: BE_VIETNAM_PRO }}>
+              {it.label}
+            </span>
+            <span
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: isLit ? accentColor : "rgba(255,255,255,0.6)",
+                fontFamily: BE_VIETNAM_PRO,
+              }}
+            >
+              {it.amountLabel}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+// Multi-phase forensic beat: camera zooms/crops toward real UI (CSS
+// transform-origin scale — no faked coordinates) as the shot cuts between
+// the voucher list and checkout screens, with a small state tag riding
+// along and an optional big freeze-zoom punchline at the end. This is the
+// "camera/crop thay đổi theo từng thao tác" replay directly on real UI
+// instead of an abstract diagram card.
+const ForensicReplayScreen: React.FC<{
+  replay: PhoneMockupForensicReplay;
+  accentColor: string;
+  frame: number;
+  fps: number;
+}> = ({ replay, accentColor, frame, fps }) => {
+  const {
+    items,
+    tapItemLabel,
+    tapFrame,
+    checkoutVouchers,
+    checkoutTap,
+    checkoutTotalLabel,
+    checkoutRideLabel,
+    phases,
+    freezeLabel,
+    freezeAccentWord,
+    freezeFrame,
+  } = replay;
+
+  const phaseFrames = phases.map((p) => p.frame);
+  const activeIndex = phases.reduce((acc, p, i) => (frame >= p.frame ? i : acc), 0);
+  const active: PhoneMockupForensicPhase = phases[activeIndex];
+
+  const scaleTrack = phases.map((p) => p.zoomScale ?? 1);
+  const focusXTrack = phases.map((p) => p.focus?.x ?? 0.5);
+  const focusYTrack = phases.map((p) => p.focus?.y ?? 0.5);
+
+  const zoomScale =
+    phases.length === 1
+      ? scaleTrack[0]
+      : interpolate(frame, phaseFrames, scaleTrack, { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const focusX =
+    phases.length === 1
+      ? focusXTrack[0]
+      : interpolate(frame, phaseFrames, focusXTrack, { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const focusY =
+    phases.length === 1
+      ? focusYTrack[0]
+      : interpolate(frame, phaseFrames, focusYTrack, { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+
+  const listOpacity = interpolate(
+    frame,
+    active.screen === "list" ? [active.frame, active.frame + 8] : [active.frame, active.frame + 8],
+    active.screen === "list" ? [0, 1] : [1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+  // Cross-fade is driven off whichever screen is active at THIS frame, not a
+  // fixed "list then checkout" order — find the most recent real screen
+  // switch. The opening screen (no switch yet) shows instantly opaque
+  // instead of fading in from blank, so a shot can continue visually from
+  // wherever the previous shot's phone screen ended.
+  const lastSwitchFrame = (() => {
+    for (let i = activeIndex; i >= 1; i--) {
+      if (phases[i].screen !== phases[i - 1].screen) return phases[i].frame;
+    }
+    return -1;
+  })();
+  const activeScreenOpacity =
+    lastSwitchFrame < 0
+      ? 1
+      : interpolate(frame, [lastSwitchFrame, lastSwitchFrame + 8], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+        });
+
+  const tagOpacity = interpolate(frame, [active.frame + 2, active.frame + 12], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const freezeOpacity =
+    freezeFrame != null
+      ? interpolate(frame, [freezeFrame, freezeFrame + 16], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+      : 0;
+
+  const renderScreenLabel = (label: string, accentWord: string | undefined, accent: string) => {
+    if (!accentWord) return <>{label}</>;
+    const idx = label.indexOf(accentWord);
+    if (idx === -1) return <>{label}</>;
+    return (
+      <>
+        {label.slice(0, idx)}
+        <span style={{ color: accent, textShadow: `0 0 12px ${accent}` }}>{accentWord}</span>
+        {label.slice(idx + accentWord.length)}
+      </>
+    );
+  };
+
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          transformOrigin: `${focusX * 100}% ${focusY * 100}%`,
+          transform: `scale(${zoomScale})`,
+        }}
+      >
+        <div style={{ position: "absolute", inset: 0, opacity: active.screen === "list" ? activeScreenOpacity : 1 - activeScreenOpacity }}>
+          <ForensicListView
+            items={items}
+            tapItemLabel={tapItemLabel}
+            tapFrame={tapFrame}
+            accentColor={accentColor}
+            frame={frame}
+          />
+        </div>
+        <div style={{ position: "absolute", inset: 0, opacity: active.screen === "checkout" ? activeScreenOpacity : 1 - activeScreenOpacity }}>
+          <CheckoutScreen
+            vouchers={checkoutVouchers}
+            tap={checkoutTap}
+            totalLabel={checkoutTotalLabel}
+            rideLabel={checkoutRideLabel}
+            accentColor={accentColor}
+            frame={frame}
+            fps={fps}
+          />
+        </div>
+      </div>
+
+      {active.tag && (
+        <div
+          style={{
+            position: "absolute",
+            top: 14,
+            left: "50%",
+            transform: "translateX(-50%)",
+            opacity: tagOpacity,
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: accentColor,
+            background: "rgba(0,0,0,0.55)",
+            border: `1px solid ${accentColor}66`,
+            borderRadius: 999,
+            padding: "6px 14px",
+            fontFamily: BE_VIETNAM_PRO,
+            whiteSpace: "nowrap",
+            zIndex: 5,
+          }}
+        >
+          {active.tag}
+        </div>
+      )}
+
+      {freezeLabel && freezeOpacity > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: freezeOpacity,
+            background: "rgba(5,8,14,0.5)",
+            zIndex: 6,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 34,
+              fontWeight: 800,
+              color: "#fff",
+              fontFamily: BE_VIETNAM_PRO,
+              textAlign: "center",
+              padding: "0 20px",
+              lineHeight: 1.3,
+            }}
+          >
+            {renderScreenLabel(freezeLabel, freezeAccentWord, accentColor)}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
@@ -717,6 +1472,15 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
   matchedStatusLabel = "Đã tìm thấy tài xế",
   matchedConfirmLabel = "Xác nhận chuyến đi",
   matchedKind = "driver",
+  checkoutVouchers,
+  checkoutTap,
+  checkoutTotalLabel = "0đ",
+  checkoutRideLabel = "Xanh SM Bike · Chuyến đi",
+  voucherFlow,
+  forensicReplay,
+  splitScreen,
+  mobileBrowser,
+  sourceLabel,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -868,6 +1632,7 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
               }}
             >
               {appIcon === "google_maps" && <GoogleMapsIcon size={16} />}
+              {appIcon === "xanhsm" && <XanhSMBirdIcon size={16} color={accentColor} />}
               <span
                 style={{
                   fontSize: 15,
@@ -909,10 +1674,50 @@ export const PhoneMockupScene: React.FC<PhoneMockupSceneProps> = ({
                   kind={matchedKind}
                 />
               )}
+              {effective === "checkout" && checkoutVouchers && (
+                <CheckoutScreen
+                  vouchers={checkoutVouchers}
+                  tap={checkoutTap}
+                  totalLabel={checkoutTotalLabel}
+                  rideLabel={checkoutRideLabel}
+                  accentColor={accentColor}
+                  frame={frame}
+                  fps={fps}
+                />
+              )}
+              {effective === "voucherFlow" && voucherFlow && (
+                <VoucherFlowScreen flow={voucherFlow} accentColor={accentColor} frame={frame} fps={fps} />
+              )}
+              {effective === "forensicReplay" && forensicReplay && (
+                <ForensicReplayScreen replay={forensicReplay} accentColor={accentColor} frame={frame} fps={fps} />
+              )}
+              {effective === "splitScreen" && splitScreen && (
+                <SplitScreenView split={splitScreen} accentColor={accentColor} frame={frame} fps={fps} />
+              )}
+              {effective === "mobileBrowser" && mobileBrowser && (
+                <MobileBrowserScreen browser={mobileBrowser} accentColor={accentColor} frame={frame} />
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {sourceLabel && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 140,
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            opacity: sceneOpacity,
+          }}
+        >
+          <span style={{ fontSize: 15, fontWeight: 500, color: colors.textDim, fontFamily: BE_VIETNAM_PRO }}>
+            {sourceLabel}
+          </span>
+        </div>
+      )}
     </AbsoluteFill>
   );
 };

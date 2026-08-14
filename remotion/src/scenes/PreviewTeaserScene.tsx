@@ -4,6 +4,7 @@ import { PreviewTeaserSceneProps } from "../types";
 import { colors, INTER, JETBRAINS_MONO } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -35,10 +36,13 @@ export const PreviewTeaserScene: React.FC<PreviewTeaserSceneProps> = ({
   subtext,
   preview,
   channel,
+  brandIcon,
+  accentColor,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const accent = accentColor ?? colors.cyan;
 
   const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
   const sceneOpacity = interpolate(
@@ -68,7 +72,12 @@ export const PreviewTeaserScene: React.FC<PreviewTeaserSceneProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg, opacity: sceneOpacity }}>
-      <AmbientBackground accent={colors.cyan} />
+      <AmbientBackground accent={accent} />
+      {brandIcon === "xanhsm" && (
+        <div style={{ position: "absolute", top: 64, right: 64, opacity: 0.28 }}>
+          <XanhSMBirdIcon size={40} color={accent} />
+        </div>
+      )}
       <SafeZone
         style={{ justifyContent: "center", alignItems: "stretch", flexDirection: "column", fontFamily: INTER }}
       >
@@ -83,7 +92,7 @@ export const PreviewTeaserScene: React.FC<PreviewTeaserSceneProps> = ({
             marginBottom: 14,
           }}
         >
-          {renderHeadline(headline, accentWord, colors.cyan)}
+          {renderHeadline(headline, accentWord, accent)}
         </div>
 
         {subtext && (
@@ -136,7 +145,7 @@ export const PreviewTeaserScene: React.FC<PreviewTeaserSceneProps> = ({
               fontWeight: 600,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: colors.cyan,
+              color: accent,
               opacity: channelOpacity,
             }}
           >

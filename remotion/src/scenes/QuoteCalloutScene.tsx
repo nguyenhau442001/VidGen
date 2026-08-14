@@ -11,6 +11,8 @@ import {
 import { QuoteCalloutSceneProps } from "../types";
 import { colors, colorsDark, BE_VIETNAM_PRO } from "../styles";
 import { SafeZone } from "../SafeZone";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
+import { BrowserChrome } from "./shared/incognitoShared";
 
 // ---------------------------------------------------------------------------
 // Timing constants (frames)
@@ -154,6 +156,84 @@ const QuoteText: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Faux FAQ list that scrolls past a few dim decoy rows before settling on
+// highlightLine, which then gets the accent "found it" treatment — a
+// "scroll then highlight" beat instead of the target line appearing static.
+// ---------------------------------------------------------------------------
+const BrowserScrollHighlight: React.FC<{
+  scrollLines: string[];
+  highlightLine: string;
+  scrollDurationFrames: number;
+  accent: string;
+  frame: number;
+}> = ({ scrollLines, highlightLine, scrollDurationFrames, accent, frame }) => {
+  // ROW_STEP = row height + gap, matching the row/gap values below. Scroll
+  // just far enough that the highlight line lands fully inside the visible
+  // window (with one decoy line still peeking above it for scroll context)
+  // instead of a fixed offset that doesn't account for the window's own
+  // height and clips the target line half out of view.
+  const ROW_STEP = 56;
+  const WINDOW_H = ROW_STEP * 2 + 30;
+  const contentH = (scrollLines.length + 1) * ROW_STEP;
+  const maxScroll = Math.max(0, contentH - WINDOW_H);
+  const scrollY = -interpolate(frame, [0, scrollDurationFrames], [0, maxScroll], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const settled = interpolate(
+    frame,
+    [scrollDurationFrames, scrollDurationFrames + 10],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
+
+  return (
+    <div style={{ height: WINDOW_H, overflow: "hidden", position: "relative" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          transform: `translateY(${scrollY}px)`,
+          display: "flex",
+          flexDirection: "column",
+          gap: 10,
+        }}
+      >
+        {scrollLines.map((line, i) => (
+          <div
+            key={i}
+            style={{
+              fontFamily: BE_VIETNAM_PRO,
+              fontSize: 18,
+              fontWeight: 500,
+              color: "rgba(255,255,255,0.32)",
+              lineHeight: 1.4,
+            }}
+          >
+            {line}
+          </div>
+        ))}
+        <div
+          style={{
+            fontFamily: BE_VIETNAM_PRO,
+            fontWeight: 700,
+            fontSize: 26,
+            lineHeight: 1.4,
+            color: settled > 0.5 ? accent : "rgba(255,255,255,0.55)",
+            textShadow: settled > 0.5 ? `0 0 ${10 * settled}px ${accent}` : "none",
+            textAlign: "left",
+          }}
+        >
+          {highlightLine}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
 export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
@@ -163,6 +243,8 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
   accentColor,
   screenshotPath,
   icon,
+  brandIcon,
+  browserFrame,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
@@ -196,7 +278,7 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
   });
 
   const fontSize = getFontSizeForLength(text.length);
-  const hasScreenshot = Boolean(screenshotPath);
+  const hasScreenshot = Boolean(screenshotPath) || Boolean(browserFrame);
 
   const contextOpacity = interpolate(frame, [8, 22], [0, 1], {
     extrapolateLeft: "clamp",
@@ -224,6 +306,12 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
     >
       <BackgroundMotion frame={frame} accent={accent} backgroundStyle={backgroundStyle} />
 
+      {brandIcon === "xanhsm" && (
+        <div style={{ position: "absolute", top: 64, right: 64, opacity: 0.28 }}>
+          <XanhSMBirdIcon size={48} color={accent} />
+        </div>
+      )}
+
       <SafeZone
         style={{
           justifyContent: "center",
@@ -248,6 +336,35 @@ export const QuoteCalloutScene: React.FC<QuoteCalloutSceneProps> = ({
               src={staticFile(screenshotPath)}
               style={{ width: "100%", height: "auto", display: "block" }}
             />
+          </div>
+        )}
+
+        {browserFrame && (
+          <div style={{ opacity: contextOpacity }}>
+            <BrowserChrome width={780} urlLabel={browserFrame.urlLabel} accentColor={accent} incognito>
+              {browserFrame.scrollLines && browserFrame.scrollLines.length > 0 ? (
+                <BrowserScrollHighlight
+                  scrollLines={browserFrame.scrollLines}
+                  highlightLine={browserFrame.highlightLine}
+                  scrollDurationFrames={browserFrame.scrollDurationFrames ?? 40}
+                  accent={accent}
+                  frame={frame}
+                />
+              ) : (
+                <div
+                  style={{
+                    fontFamily: BE_VIETNAM_PRO,
+                    fontWeight: 700,
+                    fontSize: 26,
+                    lineHeight: 1.4,
+                    color: accent,
+                    textAlign: "left",
+                  }}
+                >
+                  {browserFrame.highlightLine}
+                </div>
+              )}
+            </BrowserChrome>
           </div>
         )}
         <div

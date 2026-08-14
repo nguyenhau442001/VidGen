@@ -4,6 +4,7 @@ import { VerdictItem, VerdictListSceneProps } from "../types";
 import { colors, INTER } from "../styles";
 import { SafeZone } from "../SafeZone";
 import { AmbientBackground } from "../AmbientBackground";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 const ENTER_FRAMES = 10;
 const EXIT_FRAMES = 8;
@@ -39,10 +40,13 @@ export const VerdictListScene: React.FC<VerdictListSceneProps> = ({
   accentWord,
   verdicts,
   standard,
+  brandIcon,
+  accentColor,
   durationInFrames,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const accent = accentColor ?? colors.green;
 
   const hasExitRoom = durationInFrames > ENTER_FRAMES + EXIT_FRAMES;
   const sceneOpacity = interpolate(
@@ -69,7 +73,12 @@ export const VerdictListScene: React.FC<VerdictListSceneProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg, opacity: sceneOpacity }}>
-      <AmbientBackground accent={colors.green} />
+      <AmbientBackground accent={accent} />
+      {brandIcon === "xanhsm" && (
+        <div style={{ position: "absolute", top: 64, right: 64, opacity: 0.28 }}>
+          <XanhSMBirdIcon size={40} color={accent} />
+        </div>
+      )}
       <SafeZone
         style={{ justifyContent: "center", alignItems: "stretch", flexDirection: "column", fontFamily: INTER }}
       >
@@ -84,7 +93,7 @@ export const VerdictListScene: React.FC<VerdictListSceneProps> = ({
             marginBottom: 56,
           }}
         >
-          {renderHeadline(headline, accentWord, colors.green)}
+          {renderHeadline(headline, accentWord, accent)}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
@@ -125,13 +134,13 @@ export const VerdictListScene: React.FC<VerdictListSceneProps> = ({
               alignSelf: "flex-start",
               padding: "16px 24px",
               borderRadius: 14,
-              backgroundColor: `${colors.green}1a`,
-              border: `1px solid ${colors.green}55`,
+              backgroundColor: `${accent}1a`,
+              border: `1px solid ${accent}55`,
               opacity: Math.min(standardSpring, 1),
               transform: `scale(${interpolate(standardSpring, [0, 1], [0.92, 1])})`,
             }}
           >
-            <span style={{ fontSize: 20, fontWeight: 700, color: colors.green }}>{standard}</span>
+            <span style={{ fontSize: 20, fontWeight: 700, color: accent }}>{standard}</span>
           </div>
         )}
       </SafeZone>

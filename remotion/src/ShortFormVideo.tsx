@@ -102,6 +102,9 @@ import { PunchlineHoldShot } from "./scenes/PunchlineHoldShot";
 import { RealFootageScene } from "./scenes/RealFootageScene";
 import { ShopeeDiscountCoverScene } from "./scenes/ShopeeDiscountCoverScene";
 import { ScreenshotScene } from "./scenes/ScreenshotScene";
+import { GpsAccuracyScene } from "./scenes/GpsAccuracyScene";
+import { BatterySwapPolicyScene } from "./scenes/BatterySwapPolicyScene";
+import { LazadaEconomicsScene } from "./scenes/LazadaEconomicsScene";
 import {
   BrandSwapTestScene,
   BriefBlueprintScene,
@@ -218,6 +221,12 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <ErrorLogScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "phone_mockup":
       return <PhoneMockupScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "gps_accuracy":
+      return <GpsAccuracyScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "battery_swap_policy":
+      return <BatterySwapPolicyScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "lazada_economics":
+      return <LazadaEconomicsScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "map_ping":
       return <MapPingScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "geohash_reveal":

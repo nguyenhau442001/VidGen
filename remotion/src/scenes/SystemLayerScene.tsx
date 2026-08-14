@@ -3,6 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { SystemLayerSceneProps, SystemLayer } from "../types";
 import { CAPTION_CLEAR_Y, colors, INTER } from "../styles";
 import { VectorIconHtml } from "../icons";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 export type { SystemLayerSceneProps, SystemLayer };
 
@@ -68,6 +69,7 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
   bodyText,
   staggerFrames = 35,
   payoff,
+  brandIcon,
 }) => {
   const frame = useCurrentFrame();
   const n = layers.length;
@@ -134,6 +136,11 @@ export const SystemLayerScene: React.FC<SystemLayerSceneProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: colors.bg }}>
+      {brandIcon === "xanhsm" && (
+        <div style={{ position: "absolute", top: 64, right: 64, opacity: 0.28 }}>
+          <XanhSMBirdIcon size={40} color={accentColor} />
+        </div>
+      )}
       <div
         style={{
           position: "absolute",

@@ -9,6 +9,7 @@ import {
 import { SplitViewSceneProps, SplitPanelContent, MapPingAxis, MapPingAxisDriver } from "../types";
 import { colors, INTER, JETBRAINS_MONO, type as t } from "../styles";
 import { AmbientBackground } from "../AmbientBackground";
+import { XanhSMBirdIcon } from "./shared/greensmBikePalette";
 
 // ---------------------------------------------------------------------------
 // Layout constants
@@ -27,6 +28,7 @@ const PANEL_THEMES = {
   dark: {
     leftBg: "#0d1117",   // colors.terminalBg
     rightBg: "#07101e",  // slightly blue-tinted dark
+    bodyText: "rgba(255,255,255,0.95)",
     label: "rgba(255,255,255,0.35)",
     divider: "rgba(255,255,255,0.10)",
     roadFill: "rgba(255,255,255,0.04)",
@@ -41,6 +43,7 @@ const PANEL_THEMES = {
   light: {
     leftBg: "#eef1f4",
     rightBg: "#e6ebf1",
+    bodyText: "rgba(0,0,0,0.90)",
     label: "rgba(0,0,0,0.4)",
     divider: "rgba(0,0,0,0.10)",
     roadFill: "rgba(0,0,0,0.035)",
@@ -426,7 +429,7 @@ const PanelContent: React.FC<{
           style={{
             fontSize: 26,
             fontWeight: 400,
-            color: colors.textPrimary,
+            color: theme.bodyText,
             fontFamily: INTER,
             lineHeight: 1.5,
           }}
@@ -457,7 +460,7 @@ const PanelContent: React.FC<{
                 fontSize: isLast ? 26 : 21,
                 fontWeight: isLast ? 700 : 400,
                 lineHeight: 1.4,
-                color: isLast ? accentColor : colors.textPrimary,
+                color: isLast ? accentColor : theme.bodyText,
                 fontFamily: INTER,
                 textAlign: "center",
               }}
@@ -613,6 +616,8 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
   leftContent,
   rightContent,
   panelTheme = "dark",
+  brandIcon,
+  captionText,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -673,6 +678,21 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
     >
       <AmbientBackground accent={accent} />
 
+      {brandIcon === "xanhsm" && (
+        <div
+          style={{
+            position: "absolute",
+            top: 64,
+            left: "50%",
+            transform: "translateX(-50%)",
+            opacity: 0.3,
+            zIndex: 1,
+          }}
+        >
+          <XanhSMBirdIcon size={40} color={accent} />
+        </div>
+      )}
+
       <Panel
         side="left"
         slideX={leftSlide}
@@ -698,6 +718,31 @@ export const SplitViewScene: React.FC<SplitViewProps> = ({
         accentColor={accent}
         theme={theme}
       />
+
+      {captionText && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: SAFE_BOTTOM - 108,
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            opacity: labelOpacity,
+            zIndex: 2,
+          }}
+        >
+          <span
+            style={{
+              fontSize: 15,
+              fontWeight: 500,
+              color: theme.label,
+              fontFamily: INTER,
+            }}
+          >
+            {captionText}
+          </span>
+        </div>
+      )}
     </AbsoluteFill>
   );
 };
