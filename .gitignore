@@ -1,5 +1,7 @@
 .vscode/
 .worktrees/
+.cache/
+.remotion/
 .DS_Store
 .env
 .tiktok_tokens.json
