@@ -27,9 +27,9 @@ jobs:
       - name: Build + render
         run: |
           if [ -n "${{ inputs.speed }}" ]; then
-            scripts/ci_build_render.sh "${{ inputs.script }}" --speed "${{ inputs.speed }}"
+            tools/ci_build_render.sh "${{ inputs.script }}" --speed "${{ inputs.speed }}"
           else
-            scripts/ci_build_render.sh "${{ inputs.script }}"
+            tools/ci_build_render.sh "${{ inputs.script }}"
           fi
         env:
           GITHUB_REPO: ${{ github.repository }}

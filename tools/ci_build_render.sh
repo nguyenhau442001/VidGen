@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# scripts/ci_build_render.sh — build + render a VidGen script end to end.
+# tools/ci_build_render.sh — build + render a VidGen script end to end.
 #
 # Wraps the same pipeline a human runs by hand (`python -m vidgen.pipeline.video_pipeline`),
 # with a fast Gate 1 pre-check, timing, and a GitHub Actions notify.yml
@@ -9,8 +9,8 @@
 # the same inbox the same way.
 #
 # Usage:
-#   scripts/ci_build_render.sh content/json/script_grab_dispatch_p3.json
-#   scripts/ci_build_render.sh content/json/script_grab_dispatch_p3.json --speed 1.1
+#   tools/ci_build_render.sh content/json/script_grab_dispatch_p3.json
+#   tools/ci_build_render.sh content/json/script_grab_dispatch_p3.json --speed 1.1
 #
 # Requires VieNeu-TTS + Remotion + ffmpeg locally, so this is meant for a
 # self-hosted runner (or a developer machine) — not a hosted GitHub runner.

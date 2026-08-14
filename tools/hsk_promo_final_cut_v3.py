@@ -1,7 +1,7 @@
 """Build the v3 (feature-first, no-joke) HSK flashcards promo video.
 
 Same real footage + TTS narration + no text overlay approach as the v2 cut
-(scripts/hsk_promo_final_cut.py), but reordered per the v3 script
+(tools/hsk_promo_final_cut.py), but reordered per the v3 script
 (content/text/hsk_flashcards_promo.txt): the "đau khổ" misdirect hook (old
 Cảnh 1-3) is removed, the opening scene introduces the flashcard feature
 directly, and the traffic/social-proof scene (old Cảnh 5) moves to Cảnh 8,

@@ -198,11 +198,11 @@ Scripts and shot components in this repo are authored with Claude Code using two
 ```text
 content/text/       human-approved TXT scripts (source of truth)
 content/json/       VidGen-generated JSON shot plans and historical outputs
-scripts/            helper shell entrypoints and CI wrappers
-resources/          shared colors and optional topic-idea queue
+tools/              helper shell entrypoints and CI wrappers
+config/             shared colors and optional topic-idea queue
 vidgen/             role-based Python packages for production tooling
 remotion/           compositions, scenes, and chunk renderer
-output/             generated audio, manifests, caches, and reports
+build/pipeline/     generated audio, manifests, caches, and reports
 tests/              critical pipeline regression tests
 references/         source contract, schema refs, audits, and production notes
 ```
