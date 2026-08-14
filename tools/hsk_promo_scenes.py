@@ -1,7 +1,7 @@
 """Text cue list for the HSK flashcards promo video.
 
 Content and timing are reconstructed from the surviving artifact
-(output/hsk_flashcards_promo_with_text.mp4) since the original ffmpeg
+(build/pipeline/hsk_flashcards_promo_with_text.mp4) since the original ffmpeg
 drawtext generation script was never saved. Wording matches the authored
 narration in content/text/hsk_flashcards_promo.txt; timing matches what
 is currently burned into the video (verified against extracted frames).
