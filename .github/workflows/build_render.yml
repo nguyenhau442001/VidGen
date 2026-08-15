@@ -27,9 +27,9 @@ jobs:
       - name: Build + render
         run: |
           if [ -n "${{ inputs.speed }}" ]; then
-            tools/ci_build_render.sh "${{ inputs.script }}" --speed "${{ inputs.speed }}"
+            tool/tools/ci_build_render.sh "${{ inputs.script }}" --speed "${{ inputs.speed }}"
           else
-            tools/ci_build_render.sh "${{ inputs.script }}"
+            tool/tools/ci_build_render.sh "${{ inputs.script }}"
           fi
         env:
           GITHUB_REPO: ${{ github.repository }}
@@ -40,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rendered-video
-          path: build/pipeline/video/mp4/*.mp4
+          path: output/build/pipeline/video/mp4/*.mp4
           if-no-files-found: ignore
