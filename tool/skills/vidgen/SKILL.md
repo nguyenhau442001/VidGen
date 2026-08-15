@@ -20,6 +20,40 @@ one where a non-technical viewer watches 80%+ before realising it was educationa
 
 ---
 
+## Visual Quality First — Ưu Tiên Cao Nhất
+
+> Đọc trước khi làm bất cứ điều gì khác. Nguyên tắc này đứng trên cả Series DNA bên dưới
+> khi hai thứ xung đột về mặt thực thi (không phải về chọn chủ đề).
+
+Người xem quyết định dừng lại hay lướt qua trong 1 giây dựa trên **visual** trước khi họ
+kịp đọc hoặc nghe nội dung. Một script hay với visual tầm thường thua một script trung bình
+với visual xuất sắc. Vì vậy:
+
+- **Visual đẹp mắt nhất luôn là mục tiêu, không phải "đủ dùng" hay "đúng schema".** Mỗi
+  scene phải trông như được thiết kế riêng cho đúng chủ đề đó, không phải lắp khuôn có sẵn
+  cho vừa.
+- **Bespoke scene component là lựa chọn mặc định, không phải phương án cuối khi generic
+  scene thất bại.** Nếu một generic scene (`ExplanationScene`, `SplitViewScene`,
+  `QuoteCalloutScene`, v.v.) có thể *chạy được* nhưng không phải cách trình bày đẹp nhất,
+  đẹp nhất có thể cho đúng nội dung này — tạo bespoke scene mới. Không tự giới hạn vào scene
+  đã có chỉ vì nó tồn tại sẵn.
+- **Không còn "Scene Library Freeze".** Mọi giới hạn trước đây yêu cầu ưu tiên tái dùng
+  scene cũ trước khi tạo mới đã được gỡ bỏ. Tạo scene mới bất cứ khi nào nó phục vụ visual
+  tốt hơn — kể cả khi một generic scene có thể "đủ dùng" về mặt kỹ thuật.
+- **Nội dung (content) đến sau, không phải trước.** Thứ tự ưu tiên khi có xung đột nguồn
+  lực hoặc thời gian: (1) visual đẹp, rõ ràng, đúng tông chủ đề → (2) nội dung/kịch bản chắc
+  chắn, đúng dữ kiện. Điều này không có nghĩa nội dung được phép sai hay cẩu thả — nó có
+  nghĩa khi cân nhắc "có nên đầu tư thêm effort để visual đẹp hơn không", câu trả lời mặc
+  định là có.
+- **Chuẩn tối thiểu cho một scene mới**: theme màu nhất quán với tông chủ đề (không mặc
+  định dùng lại palette của video khác), animation có chủ đích (spring/easing, không phải
+  fade tuyến tính đơn điệu), không dùng emoji ký tự — dùng SVG/line-art vẽ tay hoặc Lucide
+  React để giữ độ nét và nhất quán phong cách, và luôn verify bằng frame thật ở GATE 2 trước
+  khi coi là xong.
+- Chi tiết production cho bespoke scene xem "Bespoke Scene Production Guide" ở Step 2.
+
+---
+
 ## Ủa là sao Series DNA — Hidden Objective Function
 
 > Đây là nguyên tắc cấp cao nhất. Không phải kỹ thuật viết script.
@@ -269,7 +303,8 @@ These rules prevent blurry, cluttered, or low-contrast visuals:
 
 ### Scene Type Selection
 
-Verify registered types against repo before using. Common types:
+Verify registered types against repo before using. Common generic types (starting point,
+not a ceiling — see Visual Quality First above):
 
 | Type | Use for | Retention tip |
 |------|---------|--------------|
@@ -280,10 +315,38 @@ Verify registered types against repo before using. Common types:
 | `SplitViewScene` | Before/after, A vs B | Put the "worse" option on the left always |
 | `CTAScene` | Closing 3–4s | Tease next open loop, not just "subscribe" |
 
-Preserve the TXT scene order. Use a hook-capable registered scene for the opening and a
-CTA/teaser scene only when the approved TXT contains one; never invent or remove a scene
-to force a template. The 5–8 scene / 70-second shape is an audit preference, not permission
-to rewrite the approved source.
+**Deciding bespoke vs. generic**: ask "is this the most visually compelling way to show
+this specific content?" — not "does a registered type technically render this?". If a
+custom visual metaphor (gauge, timeline, switch, comparison card, etc.) fits the topic
+better than a generic layout, build it. Default to bespoke when the topic has a strong
+central visual idea (a mechanism, a threshold, an asymmetry, a transformation) — that's
+almost always worth a dedicated scene.
+
+Preserve the TXT scene order. Use a hook-capable scene for the opening and a CTA/teaser
+scene only when the approved TXT contains one; never invent or remove a scene to force a
+template. The 5–8 scene / 70-second shape is an audit preference, not permission to
+rewrite the approved source.
+
+### Bespoke Scene Production Guide
+
+When building a new `*Scene.tsx` (see `tool/remotion/src/scenes/RatingThresholdScene.tsx`
+and `LazadaEconomicsScene.tsx` as reference implementations):
+
+1. **Register at all 3 points** — miss one and the render silently falls back or errors:
+   - `tool/remotion/src/types.ts` — add the props type + `ManifestScene` union member
+   - `tool/remotion/src/ShortFormVideo.tsx` — import + `switch` case on `shot.type`
+   - `tool/vidgen/pipeline/render_manifest_builder.py` — add the type string to
+     `DIRECT_SNAKE_CASE_SCENE_TYPES`
+2. **One scene, multiple modes** — prefer a single component with a `mode` prop switching
+   between visual variants (like `RatingThresholdScene`'s hook/timeline/mechanism/... modes)
+   over many near-duplicate components, when the modes share a visual language.
+3. **No literal emoji characters** — ever, in any prop or JSX. Use inline SVG (`<svg>` with
+   `<path>`/`<circle>`) matching the scene's own stroke width and accent colors, not a
+   generic icon pack mismatched to the palette. Grep the finished file for emoji ranges
+   before calling it done: `grep -nP "[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]" <file>`.
+4. **Verify before claiming done** — `npx --prefix tool/remotion tsc --noEmit -p
+   tool/remotion/tsconfig.json`, then render and extract frames per GATE 2. A scene that
+   compiles is not a scene that looks good; only a rendered frame proves that.
 
 ### JSON Structure
 
