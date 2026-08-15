@@ -329,6 +329,30 @@ export type LazadaEconomicsVisual = {
 
 export type LazadaEconomicsSceneProps = LazadaEconomicsVisual & { durationInFrames: number };
 
+export type RatingThresholdMode =
+  | "hook"
+  | "timeline"
+  | "mechanism"
+  | "driver_claim"
+  | "reframe"
+  | "objection"
+  | "asymmetry"
+  | "cta";
+
+export type RatingThresholdVisual = {
+  mode: RatingThresholdMode;
+  headline: string;
+  accentWord?: string;
+  note?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "ratingThreshold";
+  thumbnailAccentColor?: string;
+};
+
+export type RatingThresholdSceneProps = RatingThresholdVisual & { durationInFrames: number };
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
@@ -340,6 +364,7 @@ export type ManifestScene =
   | { type: "gps_accuracy"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GpsAccuracyVisual }
   | { type: "battery_swap_policy"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BatterySwapPolicyVisual }
   | { type: "lazada_economics"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: LazadaEconomicsVisual }
+  | { type: "rating_threshold"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RatingThresholdVisual }
   | { type: "map_ping"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapPingVisual }
   | { type: "map_dot_to_human"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: MapDotToHumanVisual }
   | { type: "geohash_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: GeohashRevealVisual }

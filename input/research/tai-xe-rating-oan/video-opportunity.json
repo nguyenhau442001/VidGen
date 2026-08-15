@@ -1,0 +1,58 @@
+{
+  "recommended_angle": "Ngưỡng rating vô hình",
+  "audience": "Tài xế công nghệ (ô tô + xe máy) đang chạy Grab/Be/Xanh SM, thứ cấp là khán giả phổ thông từng đi xe công nghệ",
+  "viewer_belief_before": "Đánh giá sao chỉ là phản hồi chất lượng phục vụ — tài xế phục vụ tốt thì không có gì phải lo",
+  "viewer_belief_after": "Rating là một ngưỡng vận hành ẩn — chỉ vài đánh giá xấu (oan hay không) đủ để một cơ chế tự động cắt quyền lợi ngay lập tức, không có cảnh báo trước",
+  "core_argument": "Hệ thống rating được quảng bá như công cụ phản hồi công bằng hai chiều, nhưng vận hành như công tắc tự động một chiều: khách gần như không chịu hậu quả gì từ đánh giá của mình, còn tài xế có thể mất quyền lợi hoặc tài khoản trong vài ngày mà không được giải thích trước.",
+  "proof_needed": [
+    "Timeline case Grab/Minh Khang (12/3 liên hệ → 16/3 khóa vĩnh viễn) làm hook mở, có nguồn báo chí xác nhận",
+    "Chính sách chính thức Grab (Code of Conduct) xác nhận nguyên tắc ràng buộc rating nhưng không công bố ngưỡng cụ thể",
+    "Phát biểu tài xế qua báo Tuổi Trẻ về ngưỡng 4,7 / tỷ lệ 5-6 trên 100 khách — PHẢI gắn nhãn rõ đây là chia sẻ cá nhân, chưa xác thực chính thức",
+    "Phản ứng dư luận (bão 1 sao ngược lại Grab) làm bằng chứng cho thấy công chúng đồng cảm với tài xế"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "Mở bằng tình huống quen thuộc: tài xế nhận cuốc, hoàn thành, rồi một thông báo rating giảm xuất hiện không kèm lý do — đúng khoảnh khắc mọi tài xế từng trải qua",
+      "possible_scene_types": ["HookScene"],
+      "required_assets": ["Mock UI thông báo rating giảm (dựng minh họa, không dùng ảnh chụp thật từ app Grab/Be/Xanh SM)"],
+      "risk": "Cần giữ nhãn 'TÌNH HUỐNG MINH HỌA' như các video Xanh SM trước, tránh bị hiểu là ảnh chụp thật từ app"
+    },
+    {
+      "narrative_function": "mechanism",
+      "concept": "Đồng hồ đo rating với vạch đỏ ẩn — kim chỉ số điểm trung bình giảm dần khi từng lượt 1 sao cộng vào, chạm vạch ẩn thì quyền lợi tắt ngay lập tức",
+      "possible_scene_types": ["ExplanationScene"],
+      "required_assets": ["Animation đồng hồ đo/gauge với vạch ngưỡng, icon 1 sao rơi vào từng nấc"],
+      "risk": "Không hiển thị con số 4,7 như số liệu chính thức đã xác thực — chỉ hiển thị dưới dạng 'theo chia sẻ của tài xế' kèm nguồn nhỏ trên màn hình"
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Timeline case thật: 12/3 Grab liên hệ → 13/3 → 16/3 khóa vĩnh viễn, đối chiếu với phản ứng dư luận (làn sóng 1 sao ngược) ngay sau đó",
+      "possible_scene_types": ["ExplanationScene hoặc scene timeline dạng mốc thời gian tuần tự — cần xác nhận với vidgen-scene-director nếu chưa có scene timeline chuyên dụng"],
+      "required_assets": ["Mốc ngày tháng, biểu tượng khóa, biểu tượng làn sóng đánh giá 1 sao"],
+      "risk": "Cần nêu rõ đây là case liên quan vi phạm quyền riêng tư dữ liệu khách hàng (nghiêm trọng, cụ thể), khác với cơ chế rating tự động áp dụng hàng ngày — tránh gộp hai cơ chế làm một"
+    },
+    {
+      "narrative_function": "reframe",
+      "concept": "Chuyển góc nhìn: từ 'rating là phản hồi dịch vụ' sang 'rating là công tắc vận hành' — hình ảnh nút bấm ẩn phía sau lớp vỏ ngôi sao lấp lánh",
+      "possible_scene_types": ["ExplanationScene hoặc QuoteCalloutScene cho headline lật ý"],
+      "required_assets": ["Icon ngôi sao tách lớp lộ ra công tắc/cầu dao bên trong"],
+      "risk": "Ẩn dụ cần đơn giản, tránh quá trừu tượng khiến người xem không hiểu ngay trong vài giây"
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Chốt lại: khách hầu như không chịu hậu quả gì từ đánh giá của mình, trong khi tài xế có thể mất quyền lợi/tài khoản chỉ trong vài ngày — đặt cạnh nhau để người xem tự thấy sự bất cân xứng",
+      "possible_scene_types": ["SplitViewScene"],
+      "required_assets": ["Hai cột: 'KHÁCH ĐÁNH GIÁ 1 SAO' (hậu quả: không có) vs 'TÀI XẾ NHẬN 1 SAO' (hậu quả: có thể mất quyền lợi)"],
+      "risk": "Tránh diễn đạt cực đoan kiểu 'khách không bao giờ chịu hậu quả gì' — nên dùng ngôn ngữ có chừa mực như 'gần như không có cơ chế tương xứng được biết đến công khai'"
+    },
+    {
+      "narrative_function": "cta",
+      "concept": "Kết bằng câu hỏi mở mời tài xế chia sẻ: bạn có biết chính xác ngưỡng rating của mình là bao nhiêu không, và từng bị ảnh hưởng oan chưa",
+      "possible_scene_types": ["CTAScene"],
+      "required_assets": ["Ô bình luận mời điền trải nghiệm thật, theo đúng tinh thần 'video điều tra mở' của các video Xanh SM trước"],
+      "risk": "Không kết luận thay người xem — giữ đúng nguyên tắc điều tra mở đã áp dụng ở các video trước trong series"
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}

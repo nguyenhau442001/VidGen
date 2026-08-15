@@ -1,0 +1,187 @@
+# NGƯỠNG RATING VÔ HÌNH
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `tai_xe_rating_oan`, video_id cùng tên. Video giải thích cơ chế ngưỡng rating tự động
+của nền tảng gọi xe công nghệ, khung dọc 1080×1920, mục tiêu 60–75 giây. Case Grab/Minh Khang
+(03/2026) là case có thật, đa nguồn xác nhận, nhưng liên quan vi phạm quyền riêng tư dữ liệu
+khách hàng — KHÁC cơ chế rating tự động hàng ngày, chỉ dùng làm ví dụ cho thấy nền tảng có
+thể ra quyết định nhanh. Con số "4,7" và tỷ lệ "5-6/100 khách" là phát biểu cá nhân của tài xế
+qua báo Tuổi Trẻ, KHÔNG phải số liệu chính thức Grab/Be công bố — mọi lần xuất hiện phải gắn
+nhãn rõ "theo chia sẻ tài xế, chưa xác thực chính thức". Không khẳng định nền tảng "cố tình"
+thiết kế ngưỡng để bóc lột tài xế — chỉ có bằng chứng về cơ chế và hậu quả, không có bằng
+chứng về ý định. Không mở rộng case Minh Khang thành "tất cả tài xế đều bị khóa như vậy".
+Video không kết luận thay người xem — giữ tinh thần điều tra mở như các video Xanh SM trước.
+
+**Nguồn:**
+
+1. Kenh14 — Grab khoá tài khoản tài xế có ĐÚNG LUẬT? Luật sư lên tiếng (19/03/2026)
+   https://kenh14.vn/vu-tai-xe-grab-va-nhac-si-minh-khang-grab-khoa-tai-khoan-tai-xe-co-dung-luat-luat-su-len-tieng-215260319115118189.chn
+2. Kenh14 — Grab nói gì về việc khóa tài khoản tài xế (18/03/2026)
+   https://kenh14.vn/grab-noi-gi-ve-viec-khoa-tai-khoan-tai-xe-trong-vu-nhac-si-minh-khang-215260318185515568.chn
+3. CafeF — Grab nhận "bão" 1 sao sau vụ khoá tài khoản tài xế (19/03/2026)
+   https://cafef.vn/grab-nhan-bao-1-sao-sau-vu-khoa-tai-khoan-tai-xe-188260319133453711.chn
+4. Grab (chính thức) — Code of Conduct: Driver / Delivery Partner Guidelines
+   https://www.grab.com/vn/en/terms-policies/code-of-conduct-driver/
+5. Tuổi Trẻ Online — Gần Tết: Vì sao gọi xe công nghệ quá khó? (22/01/2025)
+   https://tuoitre.vn/gan-tet-vi-sao-goi-xe-cong-nghe-qua-kho-20250122222903629.htm
+6. Autopro — Bị Grab khóa tài khoản sau vụ nhạc sĩ Minh Khang, tài xế chuyển sang chạy Xanh SM
+   https://autopro.com.vn/bi-grab-khoa-tai-khoan-sau-vu-nhac-si-minh-khang-tai-xe-chuyen-sang-chay-xanh-sm-17726031912080593.chn
+
+---
+
+## Cảnh 0 — Hook
+
+**Hình ảnh:**
+
+Mock UI minh họa: trong xe, khách buông câu "để tôi chấm 1 sao đó" giữa chuyến đi, tài xế nhìn
+gương chiếu hậu, im lặng. Gắn nhãn nhỏ "TÌNH HUỐNG MINH HỌA" ở góc màn hình, không dùng ảnh
+chụp thật từ app Grab/Be/Xanh SM. Đây là tình huống quen thuộc nhiều tài xế từng gặp, không
+phải số liệu hay case cụ thể.
+
+**Chữ trên màn hình:**
+
+**BỊ KHÁCH HĂM DỌA 1 SAO,**
+**TÀI XẾ NÊN LÀM GÌ?**
+
+**Voice-over:**
+
+"Bị khách hăm dọa 1 sao, tài xế nên làm gì?"
+
+---
+
+## Cảnh 1 — Case thật: ba ngày
+
+**Hình ảnh:**
+
+Timeline ba mốc ngày tháng: 12/3 Grab liên hệ, 13/3 tiếp tục liên hệ, 16/3 khóa vĩnh viễn.
+Biểu tượng khóa xuất hiện ở mốc cuối. Ghi chú nhỏ dưới timeline: "Case liên quan vi phạm
+quyền riêng tư dữ liệu khách hàng — khác cơ chế rating tự động hàng ngày."
+
+**Chữ trên màn hình:**
+
+**12/3 LIÊN HỆ → 16/3 KHÓA VĨNH VIỄN**
+
+**Voice-over:**
+
+"Tháng Ba năm hai nghìn hai mươi sáu, Grab liên hệ một tài xế ngày mười hai. Bốn ngày sau,
+tài khoản bị khóa vĩnh viễn. Không phải vì rating thấp — mà vì một quyết định của nền tảng."
+
+---
+
+## Cảnh 2 — Cơ chế: ngưỡng không công bố
+
+**Hình ảnh:**
+
+Đồng hồ đo rating dạng gauge, kim chỉ điểm trung bình. Một vạch đỏ ẩn xuất hiện mờ trên mặt
+đồng hồ — không có số. Icon một sao rơi vào từng nấc, kim từ từ tiến gần vạch đỏ.
+
+**Chữ trên màn hình:**
+
+**NGƯỠNG RATING: KHÔNG CÔNG BỐ**
+
+**Voice-over:**
+
+"Chính sách Grab chỉ ghi tài xế phải duy trì rating theo quy định hiện hành. Ngưỡng chính
+xác — không công bố con số. Tài xế chỉ biết mình đang ở đâu, không biết vạch đỏ nằm chỗ nào."
+
+---
+
+## Cảnh 3 — Lời tài xế: vạch đỏ hiện hình
+
+**Hình ảnh:**
+
+Vạch đỏ trên đồng hồ ở Cảnh 2 hiện rõ dần, kèm chú thích nhỏ "THEO CHIA SẺ CỦA TÀI XẾ, CHƯA
+XÁC THỰC CHÍNH THỨC". Icon một trăm khách hàng, năm hoặc sáu người trong đó đổi màu đỏ.
+
+**Chữ trên màn hình:**
+
+**5–6/100 KHÁCH 1 SAO → RỚT NGƯỠNG**
+*(theo chia sẻ của tài xế, chưa xác thực chính thức)*
+
+**Voice-over:**
+
+"Theo lời một tài xế, chỉ cần năm, sáu trong một trăm khách chấm một sao. Điểm trung bình
+rớt ngưỡng — khóa ứng dụng ngay."
+
+---
+
+## Cảnh 4 — Lật ý: công tắc, không phải phản hồi
+
+**Hình ảnh:**
+
+Icon ngôi sao tách lớp vỏ lấp lánh, lộ ra một công tắc hoặc cầu dao bên trong. Công tắc bật
+sang vị trí "TẮT" đồng thời với hiệu ứng khóa xuất hiện.
+
+**Chữ trên màn hình:**
+
+**RATING KHÔNG CHỈ LÀ PHẢN HỒI**
+**NÓ LÀ CÔNG TẮC**
+
+**Voice-over:**
+
+"Ngôi sao trông như phản hồi dịch vụ. Thực chất, nó là công tắc — tắt quyền lợi bất cứ lúc
+nào, không báo trước. Khách bấm một cái, hệ thống tự động phía sau xử lý ngay lập tức."
+
+---
+
+## Cảnh 5 — Góc nhìn nền tảng: đúng quy định
+
+**Hình ảnh:**
+
+Văn bản Code of Conduct hiện ra dạng điều khoản, con dấu "ĐÃ ĐỒNG Ý" đóng lên khi tài xế đăng
+ký tài khoản lần đầu. Không dùng giao diện thật, chỉ minh họa khái niệm điều khoản.
+
+**Chữ trên màn hình:**
+
+**GRAB: KHÓA TỪ VI PHẠM ĐẦU, ĐÚNG QUY ĐỊNH**
+
+**Voice-over:**
+
+"Về phía Grab, chính sách công khai cho phép khóa ngay từ vi phạm đầu tiên. Tài xế đã đồng ý
+điều khoản này khi đăng ký."
+
+---
+
+## Cảnh 6 — Bất cân xứng hậu quả
+
+**Hình ảnh:**
+
+Hai cột đặt cạnh nhau. Cột trái "KHÁCH ĐÁNH GIÁ 1 SAO" với biểu tượng dấu gạch ngang (không
+có cơ chế tương xứng được biết đến công khai). Cột phải "TÀI XẾ NHẬN 1 SAO" với biểu tượng
+khóa (có thể mất quyền lợi ngay lập tức).
+
+**Chữ trên màn hình:**
+
+**KHÁCH 1 SAO: KHÔNG CƠ CHẾ TƯƠNG XỨNG**
+**TÀI XẾ 1 SAO: CÓ THỂ MẤT QUYỀN LỢI NGAY**
+
+**Voice-over:**
+
+"Nhưng đúng quy định không đồng nghĩa cân bằng. Khách chấm một sao, gần như không có cơ chế
+tương xứng được biết đến công khai. Tài xế nhận một sao, có thể mất quyền lợi ngay lập tức."
+
+---
+
+## Cảnh 7 — CTA và open loop
+
+**Hình ảnh:**
+
+Màn hình chuyển sang ô hỏi mở, mời tài xế điền trải nghiệm thật. Giữ đúng tinh thần "video
+điều tra mở" của series — không hiện đáp án, chỉ hiện câu hỏi.
+
+**Chữ trên màn hình:**
+
+**NGƯỠNG RATING CỦA BẠN LÀ BAO NHIÊU?**
+**TỪNG BỊ OAN CHƯA?**
+
+**Voice-over:**
+
+"Ngưỡng rating của bạn là bao nhiêu? Và bạn từng bị đánh giá oan chưa?"
+
+---
+
+## Caption đăng video
+
+Rating tưởng chỉ là phản hồi dịch vụ, nhưng lại là ngưỡng tự động có thể khóa quyền lợi tài
+xế bất cứ lúc nào. #taixecongnghe #grab #techvietnam

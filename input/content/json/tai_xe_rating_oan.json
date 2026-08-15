@@ -1,0 +1,110 @@
+{
+  "video_id": "tai_xe_rating_oan",
+  "title": "Ngưỡng rating vô hình",
+  "fps": 30,
+  "narration_language": "vi",
+  "editorial_notes": "Case Minh Khang (03/2026) là vi phạm quyền riêng tư dữ liệu khách hàng, khác cơ chế rating tự động hàng ngày — chỉ dùng làm ví dụ tốc độ ra quyết định. Con số 4,7 và tỷ lệ 5-6/100 là phát biểu cá nhân tài xế qua báo Tuổi Trẻ, không phải số liệu chính thức — luôn gắn nhãn rõ. Không kết luận thay người xem.",
+  "shots": [
+    {
+      "id": "shot_00_hook",
+      "type": "rating_threshold",
+      "duration_frames": 130,
+      "narration": "Bị khách hăm dọa 1 sao, tài xế nên làm gì?",
+      "props": {
+        "mode": "hook",
+        "headline": "BỊ KHÁCH HĂM DỌA 1 SAO,\nTÀI XẾ NÊN LÀM GÌ?",
+        "accentWord": "1 SAO,",
+        "thumbnailHeadline": "KHÁCH HĂM 1 SAO\nLÀM GÌ ĐÂY?",
+        "thumbnailAccentWord": "LÀM GÌ ĐÂY?",
+        "thumbnailSubtext": "NGƯỠNG RATING VÔ HÌNH",
+        "thumbnailAccentColor": "#ff5470"
+      },
+      "on_screen_text": "BỊ KHÁCH HĂM DỌA 1 SAO, TÀI XẾ NÊN LÀM GÌ? · TÌNH HUỐNG MINH HỌA"
+    },
+    {
+      "id": "shot_01_timeline",
+      "type": "rating_threshold",
+      "duration_frames": 320,
+      "narration": "Tháng Ba năm hai nghìn hai mươi sáu, Grab liên hệ một tài xế ngày mười hai. Bốn ngày sau, tài khoản bị khóa vĩnh viễn. Không phải vì rating thấp — mà vì một quyết định của nền tảng.",
+      "props": {
+        "mode": "timeline",
+        "headline": "12/3 LIÊN HỆ →\n16/3 KHÓA VĨNH VIỄN",
+        "accentWord": "KHÓA VĨNH VIỄN",
+        "note": "Case liên quan vi phạm quyền riêng tư dữ liệu khách hàng — khác cơ chế rating tự động hàng ngày."
+      },
+      "on_screen_text": "12/3 LIÊN HỆ → 13/3 → 16/3 KHÓA VĨNH VIỄN · CASE RIÊNG, KHÔNG PHẢI RATING TỰ ĐỘNG"
+    },
+    {
+      "id": "shot_02_mechanism",
+      "type": "rating_threshold",
+      "duration_frames": 320,
+      "narration": "Chính sách Grab chỉ ghi tài xế phải duy trì rating theo quy định hiện hành. Ngưỡng chính xác — không công bố con số. Tài xế chỉ biết mình đang ở đâu, không biết vạch đỏ nằm chỗ nào.",
+      "props": {
+        "mode": "mechanism",
+        "headline": "NGƯỠNG RATING:\nKHÔNG CÔNG BỐ",
+        "accentWord": "KHÔNG CÔNG BỐ"
+      },
+      "on_screen_text": "NGƯỠNG RATING: KHÔNG CÔNG BỐ · CHÍNH SÁCH GRAB · KHÔNG SỐ CỤ THỂ"
+    },
+    {
+      "id": "shot_03_driver_claim",
+      "type": "rating_threshold",
+      "duration_frames": 208,
+      "narration": "Theo lời một tài xế, chỉ cần năm, sáu trong một trăm khách chấm một sao. Điểm trung bình rớt ngưỡng — khóa ứng dụng ngay.",
+      "props": {
+        "mode": "driver_claim",
+        "headline": "5–6/100 KHÁCH 1 SAO\n→ RỚT NGƯỠNG",
+        "accentWord": "RỚT NGƯỠNG"
+      },
+      "on_screen_text": "5–6/100 KHÁCH 1 SAO → RỚT NGƯỠNG 4,7 · THEO CHIA SẺ TÀI XẾ, CHƯA XÁC THỰC CHÍNH THỨC"
+    },
+    {
+      "id": "shot_04_reframe",
+      "type": "rating_threshold",
+      "duration_frames": 320,
+      "narration": "Ngôi sao trông như phản hồi dịch vụ. Thực chất, nó là công tắc — tắt quyền lợi bất cứ lúc nào, không báo trước. Khách bấm một cái, hệ thống tự động phía sau xử lý ngay lập tức.",
+      "props": {
+        "mode": "reframe",
+        "headline": "RATING KHÔNG CHỈ LÀ PHẢN HỒI.\nNÓ LÀ CÔNG TẮC.",
+        "accentWord": "CÔNG TẮC."
+      },
+      "on_screen_text": "RATING KHÔNG CHỈ LÀ PHẢN HỒI · NÓ LÀ CÔNG TẮC · TẮT QUYỀN LỢI NGAY, KHÔNG BÁO TRƯỚC"
+    },
+    {
+      "id": "shot_05_objection",
+      "type": "rating_threshold",
+      "duration_frames": 216,
+      "narration": "Về phía Grab, chính sách công khai cho phép khóa ngay từ vi phạm đầu tiên. Tài xế đã đồng ý điều khoản này khi đăng ký.",
+      "props": {
+        "mode": "objection",
+        "headline": "GRAB: KHÓA TỪ VI PHẠM ĐẦU,\nĐÚNG QUY ĐỊNH",
+        "accentWord": "ĐÚNG QUY ĐỊNH"
+      },
+      "on_screen_text": "GRAB: KHÓA TỪ VI PHẠM ĐẦU · ĐÚNG QUY ĐỊNH · TÀI XẾ ĐÃ ĐỒNG Ý ĐIỀU KHOẢN"
+    },
+    {
+      "id": "shot_06_asymmetry",
+      "type": "rating_threshold",
+      "duration_frames": 312,
+      "narration": "Nhưng đúng quy định không đồng nghĩa cân bằng. Khách chấm một sao, gần như không có cơ chế tương xứng được biết đến công khai. Tài xế nhận một sao, có thể mất quyền lợi ngay lập tức.",
+      "props": {
+        "mode": "asymmetry",
+        "headline": "ĐÚNG QUY ĐỊNH\nKHÔNG CÂN BẰNG",
+        "accentWord": "KHÔNG CÂN BẰNG"
+      },
+      "on_screen_text": "KHÁCH 1 SAO: KHÔNG CƠ CHẾ TƯƠNG XỨNG · TÀI XẾ 1 SAO: CÓ THỂ MẤT QUYỀN LỢI NGAY"
+    },
+    {
+      "id": "shot_07_cta",
+      "type": "rating_threshold",
+      "duration_frames": 120,
+      "narration": "Ngưỡng rating của bạn là bao nhiêu? Và bạn từng bị đánh giá oan chưa?",
+      "props": {
+        "mode": "cta",
+        "headline": "NGƯỠNG RATING CỦA BẠN\nLÀ BAO NHIÊU?",
+        "accentWord": "BAO NHIÊU?"
+      },
+      "on_screen_text": "NGƯỠNG RATING CỦA BẠN LÀ BAO NHIÊU? · TỪNG BỊ OAN CHƯA?"
+    }
+  ]
+}

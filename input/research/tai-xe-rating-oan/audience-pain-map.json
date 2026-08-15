@@ -1,0 +1,114 @@
+{
+  "topic": "Tài xế công nghệ bị 1 sao oan, mất quyền chạy vì ngưỡng rating tự động",
+  "segments": [
+    {
+      "name": "Tài xế ô tô công nghệ full-time",
+      "role": "Lái xe GrabCar/Xanh SM Taxi/Be Car, thu nhập chính hoặc duy nhất từ chạy xe",
+      "experience_level": "Có kinh nghiệm, đã tích lũy rating và lịch sử cuốc trên nền tảng nhiều tháng/năm",
+      "current_workflow": [
+        "Bật app đầu ca, nhận cuốc theo thứ tự hệ thống phân bổ",
+        "Hoàn thành cuốc, chờ khách đánh giá sau mỗi chuyến",
+        "Theo dõi điểm rating trung bình định kỳ trên app",
+        "Nếu rating giảm, chủ động 'xin' khách chấm 5 sao cuối chuyến kế tiếp"
+      ],
+      "trigger_events": [
+        "Nhận thông báo rating giảm đột ngột sau một cuốc tài xế tin mình phục vụ tốt",
+        "Nhận cảnh báo hạn chế nhận cuốc giá trị cao do rating thấp",
+        "Đọc tin tức về case khóa tài khoản gây tranh cãi và tự hỏi liệu mình có rủi ro tương tự"
+      ],
+      "functional_pains": [
+        "Mất quyền nhận cuốc giá trị cao khi rating rớt dưới ngưỡng không công bố",
+        "Không biết chính xác ngưỡng nào kích hoạt hậu quả gì"
+      ],
+      "emotional_pains": [
+        "Cảm giác bị phạt oan vì lý do ngoài tầm kiểm soát (khách giận giá cước, thời tiết, kẹt xe)",
+        "Lo lắng thường trực về một đánh giá xấu có thể ảnh hưởng thu nhập ngay lập tức"
+      ],
+      "professional_pains": [
+        "Mất lịch sử/uy tín tích lũy nếu bị khóa và phải chuyển nền tảng khác",
+        "Không có cơ chế kháng cáo hiệu quả trước khi hậu quả xảy ra"
+      ],
+      "current_alternatives": [
+        "Chủ động xin khách chấm 5 sao cuối chuyến",
+        "Liên hệ bộ phận hỗ trợ khiếu nại sau khi đã bị ảnh hưởng",
+        "Chuyển sang nền tảng khác nếu bị khóa tài khoản"
+      ],
+      "desired_outcomes": [
+        "Được biết rõ ngưỡng và lý do trước khi hậu quả xảy ra",
+        "Có cơ chế phân biệt đánh giá oan và đánh giá đúng trước khi trừ quyền lợi"
+      ],
+      "objections": [
+        "Nền tảng có quyền đặt luật chơi vì tài xế đã đồng ý điều khoản khi đăng ký"
+      ],
+      "customer_language": ["1 sao", "khóa app", "khóa tài khoản", "xin 5 sao"],
+      "awareness_stage": "Problem Aware",
+      "evidence": ["S001", "S002", "S006", "S007"],
+      "confidence": "medium"
+    },
+    {
+      "name": "Tài xế xe máy công nghệ (GrabBike/Xanh SM Bike)",
+      "role": "Lái xe máy công nghệ, biên lợi nhuận mỏng, phụ thuộc số cuốc/ngày",
+      "experience_level": "Đa dạng — từ mới vào nghề đến lâu năm",
+      "current_workflow": [
+        "Chạy nhiều cuốc ngắn liên tục trong ngày để đạt doanh thu mục tiêu",
+        "Ít thời gian xử lý khiếu nại/tranh chấp so với tài xế ô tô vì cuốc ngắn, xoay vòng nhanh"
+      ],
+      "trigger_events": [
+        "Bị khóa hoặc hạn chế đúng lúc cần thu nhập gấp trong ngày",
+        "Chứng kiến đồng nghiệp bị khóa tài khoản và mất nguồn thu ngay lập tức"
+      ],
+      "functional_pains": [
+        "Một lần bị khóa ảnh hưởng ngay sinh hoạt phí ngắn hạn do biên lợi nhuận mỏng"
+      ],
+      "emotional_pains": [
+        "Cảm giác bấp bênh, không có lưới an toàn nếu bị khóa đột ngột"
+      ],
+      "professional_pains": [
+        "Khó chứng minh mình đúng khi tranh chấp diễn ra nhanh, không có bằng chứng ghi lại kịp"
+      ],
+      "current_alternatives": [
+        "Chạy song song nhiều app để giảm rủi ro phụ thuộc một nền tảng"
+      ],
+      "desired_outcomes": [
+        "Thu nhập ổn định, không bị gián đoạn đột ngột vì lý do không rõ ràng"
+      ],
+      "objections": [
+        "Đây chỉ là case cá biệt, không đại diện số đông tài xế xe máy"
+      ],
+      "customer_language": ["khóa cả đường mưu sinh", "bão 1 sao"],
+      "awareness_stage": "Unaware",
+      "evidence": ["S008"],
+      "confidence": "low"
+    },
+    {
+      "name": "Khán giả phổ thông từng đi xe công nghệ",
+      "role": "Hành khách, không trực tiếp bị ảnh hưởng bởi cơ chế rating tài xế",
+      "experience_level": "Không áp dụng — vai trò người quan sát/người dùng dịch vụ",
+      "current_workflow": [
+        "Đặt xe, hoàn thành chuyến, đánh giá sao theo cảm nhận tức thời"
+      ],
+      "trigger_events": [
+        "Từng chứng kiến tài xế 'năn nỉ' xin 5 sao và tò mò vì sao",
+        "Đọc tin tức về vụ khóa tài khoản gây tranh cãi (Minh Khang) trên mạng xã hội"
+      ],
+      "functional_pains": [],
+      "emotional_pains": [
+        "Cảm giác áy náy/tò mò khi nhận ra một đánh giá bốc đồng có thể ảnh hưởng nặng đến người khác"
+      ],
+      "professional_pains": [],
+      "current_alternatives": [
+        "Không tìm hiểu sâu, chỉ đánh giá theo cảm tính tức thời"
+      ],
+      "desired_outcomes": [
+        "Hiểu rõ hơn hậu quả thực sự của một lượt đánh giá để đánh giá có trách nhiệm hơn"
+      ],
+      "objections": [
+        "Đây là chuyện của tài xế và nền tảng, không liên quan đến mình"
+      ],
+      "customer_language": ["bão 1 sao", "1 sao"],
+      "awareness_stage": "Unaware",
+      "evidence": ["S003"],
+      "confidence": "medium"
+    }
+  ]
+}

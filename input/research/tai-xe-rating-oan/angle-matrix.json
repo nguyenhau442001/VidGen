@@ -1,0 +1,210 @@
+{
+  "angles": [
+    {
+      "title": "Ngưỡng rating vô hình",
+      "one_sentence_concept": "Chỉ vài khách bấm 1 sao là đủ kéo tài xế xuống dưới một ngưỡng không ai công bố, và hậu quả xảy ra ngay lập tức.",
+      "audience": "Tài xế ô tô công nghệ full-time",
+      "core_pain": "Không biết ngưỡng chính xác, không có cảnh báo trước khi mất quyền lợi",
+      "core_tension": "Rating được quảng bá là phản hồi công bằng hai chiều nhưng vận hành như công tắc tự động một chiều",
+      "new_belief": "Rating không chỉ là con số phản hồi — nó là ngưỡng vận hành có thể cắt thu nhập bất cứ lúc nào mà tài xế không được báo trước",
+      "proof_mechanism": "Đối chiếu chính sách chính thức Grab (S006 — yêu cầu duy trì rating theo 'prevailing policy', không công bố số cụ thể) với phát biểu tài xế qua báo Tuổi Trẻ (S007 — 5-6/100 khách 1 sao đủ rớt ngưỡng 4,7) để lộ ra khoảng trống minh bạch",
+      "evidence": ["S006", "S007"],
+      "visual_metaphor": "Đồng hồ đo rating có một vạch đỏ ẩn — kim chỉ vừa chạm vạch, đèn báo tắt quyền lợi ngay lập tức, không có cảnh báo trước",
+      "cta": "Mời tài xế chia sẻ: bạn có biết chính xác ngưỡng rating của mình là bao nhiêu không?",
+      "series_potential": "Có thể mở rộng sang so sánh ngưỡng giữa các nền tảng (Grab/Be/Xanh SM) nếu thu thập thêm nguồn ở phần sau",
+      "risks": [
+        "Con số 4,7 và tỷ lệ 5-6/100 chỉ là phát biểu cá nhân qua báo chí, không phải số liệu chính thức — dễ bị hiểu nhầm là sự thật đã kiểm chứng nếu không gắn nhãn rõ"
+      ],
+      "disclaimers": [
+        "Ghi rõ trên màn hình: 'Theo chia sẻ của tài xế qua báo chí, chưa xác thực chính thức từ nền tảng'"
+      ],
+      "scores": {
+        "pain_recognition": 9,
+        "relevance": 9,
+        "novelty": 7,
+        "emotional_tension": 8,
+        "credibility": 6,
+        "proof_potential": 7,
+        "visual_potential": 8,
+        "shareability": 8,
+        "save_value": 6,
+        "channel_fit": 9,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "Ba ngày để khóa vĩnh viễn",
+      "one_sentence_concept": "Case thật: Grab liên hệ tài xế ngày 12/3, khóa vĩnh viễn ngày 16/3 — tốc độ ra quyết định nhanh hơn tốc độ tài xế có thể tự bảo vệ mình.",
+      "audience": "Tài xế ô tô công nghệ full-time",
+      "core_pain": "Thời gian phản hồi/kháng cáo quá ngắn so với hậu quả vĩnh viễn",
+      "core_tension": "Nền tảng có thể ra quyết định vĩnh viễn trong vài ngày, nhưng tài xế mất nhiều tháng/năm để xây dựng lại uy tín ở nền tảng khác",
+      "new_belief": "Tốc độ xử lý vi phạm không tương xứng với mức độ vĩnh viễn của hậu quả",
+      "proof_mechanism": "Timeline cụ thể từ case Minh Khang: liên hệ 12-13/3 → khóa vĩnh viễn 16/3/2026, xác nhận qua nhiều báo độc lập (S001, S002, S003, S004)",
+      "evidence": ["S001", "S002", "S003", "S004"],
+      "visual_metaphor": "Đồng hồ đếm ngược 3 ngày trên nền timeline, kết thúc bằng dấu khóa vĩnh viễn đóng sầm xuống toàn bộ lịch sử cuốc xe tích lũy",
+      "cta": "Đặt câu hỏi mở: 3 ngày có đủ để một quyết định vĩnh viễn công bằng không?",
+      "series_potential": "Phần 2 có thể đào sâu quy trình khiếu nại thực tế — cần thêm nguồn về tỷ lệ thành công/thời gian xử lý",
+      "risks": [
+        "Case Minh Khang là vi phạm quyền riêng tư dữ liệu khách hàng, khác bản chất với rating tự động — dễ gây hiểu lầm nếu không phân biệt rõ hai cơ chế"
+      ],
+      "disclaimers": [
+        "Nêu rõ đây là case liên quan vi phạm cụ thể (phát tán thông tin cá nhân khách hàng), không phải ví dụ của cơ chế rating tự động nói chung"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 6,
+        "emotional_tension": 8,
+        "credibility": 9,
+        "proof_potential": 9,
+        "visual_potential": 7,
+        "shareability": 7,
+        "save_value": 5,
+        "channel_fit": 8,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "Bão 1 sao ngược",
+      "one_sentence_concept": "Khi Grab khóa tài khoản một tài xế, chính công chúng — không phải tài xế — trả đũa bằng làn sóng 1 sao nhắm lại vào Grab.",
+      "audience": "Khán giả phổ thông từng đi xe công nghệ",
+      "core_pain": "Cảm giác bất công thay cho tài xế dù bản thân không bị ảnh hưởng trực tiếp",
+      "core_tension": "Công cụ 1 sao vốn dùng để đánh giá tài xế, nay bị chính công chúng dùng ngược lại để trừng phạt nền tảng",
+      "new_belief": "1 sao không chỉ là công cụ quản lý tài xế — nó là vũ khí hai chiều mà công chúng cũng có thể dùng để phản đối nền tảng",
+      "proof_mechanism": "Sự kiện có thật: sau vụ khóa tài khoản, Grab hứng làn sóng đánh giá 1 sao trên các nền tảng (S003)",
+      "evidence": ["S003"],
+      "visual_metaphor": "Mũi tên 1 sao thường chỉ từ khách xuống tài xế, đảo chiều bắn ngược lên logo nền tảng",
+      "cta": "Hỏi khán giả: bạn đã từng đánh giá 1 sao vì lý do không phải lỗi tài xế chưa?",
+      "series_potential": "Thấp — đây là góc phản ứng dư luận, khó mở rộng thành series dài hạn",
+      "risks": [
+        "Dễ bị hiểu là cổ vũ hành vi 'review bomb' — cần đóng khung là hiện tượng quan sát được, không phải lời kêu gọi hành động"
+      ],
+      "disclaimers": [
+        "Không khuyến khích người xem đi đánh giá 1 sao trả đũa — chỉ thuật lại sự kiện đã xảy ra"
+      ],
+      "scores": {
+        "pain_recognition": 5,
+        "relevance": 5,
+        "novelty": 8,
+        "emotional_tension": 7,
+        "credibility": 7,
+        "proof_potential": 6,
+        "visual_potential": 6,
+        "shareability": 7,
+        "save_value": 4,
+        "channel_fit": 6,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 5
+      }
+    },
+    {
+      "title": "Khóa xong mới hỏi vì sao",
+      "one_sentence_concept": "Quy trình khiếu nại của nền tảng chỉ chạy SAU khi hậu quả (mất cuốc, mất tài khoản) đã xảy ra, không phải TRƯỚC.",
+      "audience": "Tài xế ô tô công nghệ full-time",
+      "core_pain": "Không có cơ chế phòng ngừa, chỉ có cơ chế khắc phục hậu quả sau khi đã bị thiệt hại",
+      "core_tension": "Hệ thống hành động như 'phạt trước, giải thích sau' thay vì xác minh trước khi phạt",
+      "new_belief": "Quy trình khiếu nại tồn tại nhưng không ngăn được thiệt hại — nó chỉ giúp đòi lại (nếu được) sau khi thiệt hại đã xảy ra",
+      "proof_mechanism": "Chưa có proof mechanism đủ mạnh — cần dữ liệu về thời gian xử lý khiếu nại thực tế và tỷ lệ thành công, hiện là evidence gap (xem research-brief mục 18)",
+      "evidence": [],
+      "visual_metaphor": "Cánh cửa quyền lợi đóng sầm ngay lập tức, và chỉ sau đó một cánh cửa nhỏ 'khiếu nại' mới hiện ra phía sau",
+      "cta": "Mời tài xế đã từng khiếu nại chia sẻ: mất bao lâu để được giải quyết, và có thành công không?",
+      "series_potential": "Cao nếu thu thập thêm dữ liệu thực tế về quy trình khiếu nại — có thể thành video riêng",
+      "risks": [
+        "Không có proof_mechanism xác thực — góc này hiện chỉ là khung khái niệm, chưa đủ bằng chứng cụ thể để làm angle chính"
+      ],
+      "disclaimers": [
+        "Cần thu thập thêm case cụ thể về thời gian/tỷ lệ khiếu nại thành công trước khi sản xuất"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 8,
+        "novelty": 6,
+        "emotional_tension": 7,
+        "credibility": 3,
+        "proof_potential": 2,
+        "visual_potential": 6,
+        "shareability": 5,
+        "save_value": 5,
+        "channel_fit": 7,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 6
+      }
+    },
+    {
+      "title": "Đúng quy định, vẫn thấy sai",
+      "one_sentence_concept": "Nền tảng làm đúng 100% những gì họ đã viết trong điều khoản — vậy tại sao công chúng vẫn thấy bất công?",
+      "audience": "Khán giả phổ thông từng đi xe công nghệ",
+      "core_pain": "Khoảng cách giữa 'hợp pháp/đúng quy trình' và 'công bằng theo cảm nhận thông thường'",
+      "core_tension": "Một hành động có thể đồng thời đúng luật và vẫn gây phẫn nộ — luật và cảm nhận công bằng không phải lúc nào cũng trùng nhau",
+      "new_belief": "Đọc kỹ điều khoản không đủ để thấy trước một chính sách sẽ gây tranh cãi — vì bản thân điều khoản có thể hợp pháp nhưng vẫn thiếu công bằng trong thực thi",
+      "proof_mechanism": "Đối chiếu góc nhìn 'đúng quy định' (S005 — Code of Conduct cho phép khóa từ vi phạm đầu) với phản ứng dư luận thực tế (S003 — bão 1 sao)",
+      "evidence": ["S005", "S003"],
+      "visual_metaphor": "Hai cột cân: một bên ghi 'ĐÚNG QUY ĐỊNH' nặng trĩu văn bản pháp lý, bên kia ghi 'CẢM NHẬN CÔNG BẰNG' nhẹ hều nhưng vẫn kéo lệch cán cân dư luận",
+      "cta": "Đặt câu hỏi mở: một chính sách đúng luật có mặc nhiên là công bằng không?",
+      "series_potential": "Trung bình — góc triết lý này có thể tái sử dụng cho nhiều chủ đề chính sách nền tảng khác",
+      "risks": [
+        "Dễ trở nên trừu tượng, thiếu tính cụ thể nếu không neo chặt vào case Minh Khang xuyên suốt"
+      ],
+      "disclaimers": [
+        "Không kết luận nền tảng sai luật — chỉ đặt câu hỏi về khoảng cách giữa hợp pháp và công bằng"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 7,
+        "emotional_tension": 6,
+        "credibility": 7,
+        "proof_potential": 6,
+        "visual_potential": 5,
+        "shareability": 6,
+        "save_value": 6,
+        "channel_fit": 6,
+        "vidgen_fit": 5,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "Mất app là mất nghề, phải làm lại từ số 0",
+      "one_sentence_concept": "Bị khóa ở một nền tảng không chỉ mất cuốc hôm đó — mất luôn toàn bộ lịch sử/uy tín, phải xây lại từ đầu ở nền tảng khác.",
+      "audience": "Tài xế xe máy công nghệ (GrabBike/Xanh SM Bike)",
+      "core_pain": "Tài sản vô hình (lịch sử, uy tín, rating tích lũy) không di chuyển được giữa các nền tảng",
+      "core_tension": "Tài xế đầu tư nhiều tháng/năm xây dựng uy tín trên một nền tảng, nhưng uy tín đó thuộc về nền tảng, không thuộc về tài xế — mất tài khoản là mất trắng",
+      "new_belief": "Uy tín tài xế tích lũy không phải tài sản của tài xế — nó là tài sản của nền tảng, và có thể bị thu hồi bất cứ lúc nào",
+      "proof_mechanism": "Case thực tế: tài xế bị Grab khóa chuyển sang chạy cho Xanh SM, phải bắt đầu lại (S009)",
+      "evidence": ["S009"],
+      "visual_metaphor": "Thanh tiến trình uy tín đầy ắp trên app A đột ngột reset về 0% khi chuyển sang app B",
+      "cta": "Hỏi tài xế: nếu phải đổi nền tảng ngày mai, bạn mất bao nhiêu 'tài sản vô hình' đã xây dựng?",
+      "series_potential": "Cao — có thể mở rộng thành góc rộng hơn về 'gig economy không có bảo hiểm nghề nghiệp'",
+      "risks": [
+        "Case đơn lẻ (S009), chưa có dữ liệu định lượng về việc bao nhiêu tài xế bị khóa phải chuyển nền tảng"
+      ],
+      "disclaimers": [
+        "Đây là một case cụ thể, không phải số liệu đại diện cho toàn bộ tài xế bị khóa"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 7,
+        "emotional_tension": 7,
+        "credibility": 6,
+        "proof_potential": 5,
+        "visual_potential": 8,
+        "shareability": 6,
+        "save_value": 5,
+        "channel_fit": 7,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 4
+      }
+    }
+  ],
+  "recommended_angle": "Ngưỡng rating vô hình",
+  "reasoning": "Angle 'Ngưỡng rating vô hình' được chọn vì chạm đúng pain phổ biến nhất (pain_recognition 9, relevance 9) — mọi tài xế công nghệ đều có rating và đều lo lắng về nó, không chỉ nhóm từng gặp case nghiêm trọng như Minh Khang. Visual_potential cao (8) — đồng hồ đo với vạch đỏ ẩn là ẩn dụ trực quan mạnh, dễ dựng trong VidGen. Angle 'Ba ngày để khóa vĩnh viễn' có credibility và proof_potential cao hơn (9/9) vì bám sát case thật có timeline rõ, nhưng phạm vi hẹp hơn (chỉ áp dụng cho case vi phạm nghiêm trọng, không phải trải nghiệm hàng ngày của đa số tài xế) — dùng làm cảnh mở (hook) trong video, không làm angle chính. Angle 'Khóa xong mới hỏi vì sao' bị loại khỏi vị trí đề xuất vì proof_mechanism rỗng — vi phạm nguyên tắc bắt buộc phải có evidence trước khi làm angle chính.",
+  "tradeoffs": [
+    "Angle 'Ngưỡng rating vô hình' có credibility thấp hơn (6) vì con số cụ thể (4,7 / 5-6 trên 100) chỉ đến từ phát biểu cá nhân tài xế qua báo chí — bù lại bằng cách gắn nhãn rõ ràng trong video thay vì trình bày như số liệu chính thức đã kiểm chứng.",
+    "Angle 'Ba ngày để khóa vĩnh viễn' có proof mạnh nhất nhưng phạm vi hẹp — được dùng bổ trợ làm case mở đầu (hook) thay vì làm trụ cột chính, để video vừa có case thật cụ thể vừa có cơ chế phổ quát ảnh hưởng số đông.",
+    "Angle 'Bão 1 sao ngược' có novelty cao (8) và góc nhìn thú vị nhưng relevance thấp hơn (5) vì không trực tiếp là pain của tài xế — phù hợp làm chi tiết phụ trong video hơn là angle độc lập.",
+    "Angle 'Khóa xong mới hỏi vì sao' bị loại vì thiếu evidence — cần nghiên cứu thêm về quy trình khiếu nại thực tế trước khi có thể nâng cấp thành angle chính ở một video sau."
+  ]
+}
