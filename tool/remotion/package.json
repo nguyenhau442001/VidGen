@@ -1,0 +1,22 @@
+{
+  "name": "vidgen-remotion",
+  "scripts": {
+    "dev": "npx remotion studio",
+    "audit:layout": "node scripts/audit-layout.mjs ../../output/build/pipeline/render_manifest.json",
+    "render": "npx remotion render ShortFormVideo",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.293",
+    "@remotion/google-fonts": "4.0.293",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "remotion": "4.0.293"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "patch-package": "^8.0.1",
+    "typescript": "^7.0.2"
+  }
+}

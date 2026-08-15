@@ -6,31 +6,36 @@ VidGen also includes **VidGen Publisher**, a separate creator-facing review work
 
 ### Run the Publisher locally
 
-Copy `.env.example` to an untracked `.env`, populate the required values, export them into the server environment, then run:
+Copy `.env.example` to an untracked `.env`, populate the required values, export them into the server environment, then run (from `tool/`, so `vidgen` resolves):
 
 ```bash
+cd tool
 uvicorn vidgen.publisher.app:app --reload --port 8000
 ```
 
-Use `TIKTOK_MODE=demo` only for a clearly labelled UI walkthrough with no TikTok calls. Use `TIKTOK_MODE=live` for Sandbox/production API testing. Review setup is documented in `docs/TIKTOK_REVIEW_CHECKLIST.md` and `docs/TIKTOK_REVIEW_SUBMISSION.md`.
+Use `TIKTOK_MODE=demo` only for a clearly labelled UI walkthrough with no TikTok calls. Use `TIKTOK_MODE=live` for Sandbox/production API testing. Review setup is documented in `input/docs/TIKTOK_REVIEW_CHECKLIST.md` and `input/docs/TIKTOK_REVIEW_SUBMISSION.md`.
 
-The core principle: **the TXT is authored; the JSON is generated**. Each production maps `content/text/<slug>.txt` to `content/json/<slug>.json`. Existing JSON files are historical generated outputs, not future inputs. Audit must pass before the user decides whether to render. Everything in `build/pipeline/` is generated and disposable.
+The core principle: **the TXT is authored; the JSON is generated**. Each production maps `input/content/text/<slug>.txt` to `input/content/json/<slug>.json`. Existing JSON files are historical generated outputs, not future inputs. Audit must pass before the user decides whether to render. Everything in `output/build/pipeline/` is generated and disposable.
 
 ## Usage
 
-1. Finalize the script with Claude/ChatGPT and save it as `content/text/<slug>.txt`.
-2. Ask VidGen to generate and audit `content/json/<slug>.json`. VidGen stops after reporting the audit.
+Run all commands below from `tool/` (so `vidgen` resolves as a top-level import); script paths in the examples are given relative to the repo root and resolved from there with `../`.
+
+1. Finalize the script with Claude/ChatGPT and save it as `input/content/text/<slug>.txt`.
+2. Ask VidGen to generate and audit `input/content/json/<slug>.json`. VidGen stops after reporting the audit.
 3. Only after approving that JSON, run:
 
 ```bash
+cd tool
+
 # Pre-render audit (VidGen runs these and stops)
 python -m vidgen.quality.source_fidelity \
-  content/text/<slug>.txt \
-  content/json/<slug>.json
-python -m vidgen.quality.script_quality_gate content/json/<slug>.json
+  ../input/content/text/<slug>.txt \
+  ../input/content/json/<slug>.json
+python -m vidgen.quality.script_quality_gate ../input/content/json/<slug>.json
 
 # Separate, explicitly approved render step
-python -m vidgen.pipeline.video_pipeline content/json/<slug>.json
+python -m vidgen.pipeline.video_pipeline ../input/content/json/<slug>.json
 ```
 
 Options:
@@ -45,22 +50,22 @@ Options:
 | `--skip-gate1` | off | Skip Gate 1 content-quality check (emergency use only) |
 | `--skip-gate2` | off | Skip Gate 2 visual-quality check (emergency use only) |
 
-Fast tests: `pytest tests/`
+Fast tests: `pytest tool/tests/` (run from repo root; `pyproject.toml` adds `tool/` to `pythonpath` so `import vidgen` resolves)
 
-Real browser layout audit: `npm --prefix remotion run audit:layout`. It renders the
+Real browser layout audit: `npm --prefix tool/remotion run audit:layout`. It renders the
 start, middle, and end of every shot and fails when any marked text container has
 `scrollWidth > clientWidth` or `scrollHeight > clientHeight`.
 
 ## Architecture
 
 ```
-content/text/<slug>.txt              ← human-approved source of truth
+input/content/text/<slug>.txt        ← human-approved source of truth
          │  VidGen: generate JSON + audit, then STOP
          ▼
-content/json/<slug>.json             ← generated shot plan, reviewed before render
+input/content/json/<slug>.json       ← generated shot plan, reviewed before render
          │  explicit user render approval
          ▼
-┌─ Python pipeline (vidgen/) ────────────────────────────────────────┐
+┌─ Python pipeline (tool/vidgen/) ───────────────────────────────────┐
 │  pipeline/video_pipeline.py          production orchestrator       │
 │  pipeline/render_manifest_builder.py script → Remotion contract    │
 │  pipeline/chunked_video_renderer.py  chunk render + ffmpeg mux     │
@@ -72,9 +77,9 @@ content/json/<slug>.json             ← generated shot plan, reviewed before re
 │  publishing/                          explicit platform publishers   │
 │  discovery/                           optional topic idea tools       │
 └────────────────────────────────────────────────────────────────────┘
-         │  build/pipeline/render_manifest.json   ← sole handoff contract
+         │  output/build/pipeline/render_manifest.json  ← sole handoff contract
          ▼
-┌─ Remotion project (remotion/) ─────────────────────────────────────┐
+┌─ Remotion project (tool/remotion/) ────────────────────────────────┐
 │  src/ShortFormVideo.tsx   root composition: Series of shots, each     │
 │                        with its visual, caption, and <Audio>       │
 │  src/scenes/*          the shot template library (see below)       │
@@ -82,17 +87,17 @@ content/json/<slug>.json             ← generated shot plan, reviewed before re
 └────────────────────────────────────────────────────────────────────┘
          │
          ▼
-remotion/out/<script>.mp4  +  Remotion Studio (localhost:3000)
+tool/remotion/out/<script>.mp4  +  Remotion Studio (localhost:3000)
 ```
 
 Key artifacts:
 
-- `content/text/<slug>.txt` — human-approved narration and visual direction; the authored source of truth
-- `content/json/<slug>.json` — generated and audited shot plan consumed by the production pipeline
-- `build/pipeline/audio/wav/scene_<id>.wav` — per-shot TTS clips (also copied to `remotion/public/audio/`)
-- `build/pipeline/render_manifest.json` — the flat, fully-resolved render plan Remotion consumes (Studio imports it live; never hand-edit or write it from partial data)
-- `build/pipeline/render_cache/` — per-shot MP4 chunks keyed by content hash, pruned after 14 days
-- `remotion/out/` — final videos, named after the generated JSON (e.g. `content/json/script_grab_dispatch_p4.json` → `remotion/out/grab_dispatch_p4.mp4`); `build/pipeline/thumbnails/` — cover stills
+- `input/content/text/<slug>.txt` — human-approved narration and visual direction; the authored source of truth
+- `input/content/json/<slug>.json` — generated and audited shot plan consumed by the production pipeline
+- `output/build/pipeline/audio/wav/scene_<id>.wav` — per-shot TTS clips (also copied to `tool/remotion/public/audio/`)
+- `output/build/pipeline/render_manifest.json` — the flat, fully-resolved render plan Remotion consumes (Studio imports it live; never hand-edit or write it from partial data)
+- `output/build/pipeline/render_cache/` — per-shot MP4 chunks keyed by content hash, pruned after 14 days
+- `tool/remotion/out/` — final videos, named after the generated JSON (e.g. `input/content/json/script_grab_dispatch_p4.json` → `tool/remotion/out/grab_dispatch_p4.mp4`); `output/build/pipeline/thumbnails/` — cover stills
 
 ### Script schema
 
@@ -122,11 +127,11 @@ Example:
 }
 ```
 
-Gotchas: unknown shot types render blank silently — only the types in `remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a shot's `type` as either the snake_case manifest key or a PascalCase Remotion component name registered in `pipeline/render_manifest_builder.py`. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
+Gotchas: unknown shot types render blank silently — only the types in `tool/remotion/src/types.ts`'s `ManifestScene` union (with matching props) are valid. Scripts may author a shot's `type` as either the snake_case manifest key or a PascalCase Remotion component name registered in `pipeline/render_manifest_builder.py`. Narration pacing must allow ≥ 8 frames/word at 30 fps or validation fails.
 
 ## Shot library (32 wired shot types + 2 covers)
 
-The video is assembled from **28 reusable shot templates** — the tool's "skills" — each a React component in `remotion/src/scenes/`, registered in `remotion/src/types.ts` and dispatched by `remotion/src/ShortFormVideo.tsx`'s shot switch:
+The video is assembled from **28 reusable shot templates** — the tool's "skills" — each a React component in `tool/remotion/src/scenes/`, registered in `tool/remotion/src/types.ts` and dispatched by `tool/remotion/src/ShortFormVideo.tsx`'s shot switch:
 
 | Shot type | What it renders |
 |---|---|
@@ -165,24 +170,24 @@ The video is assembled from **28 reusable shot templates** — the tool's "skill
 
 `AnimatedFlowScene`, `BubbleComparatorScene`, `PhoneMapScene`, `ConversationScene`, `BeforeAfterScene`, and `GridHeatmapScene` aren't in `TYPE_MAP` — author their `type` as the snake_case manifest key directly (e.g. `"type": "grid_heatmap"`).
 
-Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `build/pipeline/thumbnails/`.
+Two additional cover components are used for thumbnails, not in the video timeline: `CoverScene` and `CharacterIconCoverScene`. Thumbnails are rendered with `npx remotion still CharacterIconCover --props='...'` into `output/build/pipeline/thumbnails/`.
 
-Six more components exist in `remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`ShortFormVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
+Six more components exist in `tool/remotion/src/scenes/` but aren't wired into the manifest/render pipeline yet — built but not yet registered in `types.ts`/`ShortFormVideo.tsx`, so scripts can't reference them: `AnimatedBarRaceScene`, `CounterAnimScene`, `PacketFlowScene`, `QuizPopScene`, `SplitRevealTitleScene`, `TimelineScene`.
 
-All compositions are browsable individually in Remotion Studio (`npx remotion studio` in `remotion/`).
+All compositions are browsable individually in Remotion Studio (`npx remotion studio` in `tool/remotion/`).
 
 ## Workflow: approved TXT → audited JSON → approved render
 
 The authoring stage is intentionally separate from the production command:
 
 1. **Finalize outside VidGen** — the owner and Claude/ChatGPT agree on the exact topic, narration, visual direction, and on-screen copy.
-2. **Save approved TXT** — write `content/text/<slug>.txt` using ordered scene sections with `Hình ảnh`, on-screen text, and `Voice-over` blocks.
-3. **Generate JSON** — VidGen reads only that TXT and writes `content/json/<slug>.json`. The filename stem must match. Voice-over is copied verbatim and in order; VidGen chooses registered scene types, props, and timing without rewriting the script.
+2. **Save approved TXT** — write `input/content/text/<slug>.txt` using ordered scene sections with `Hình ảnh`, on-screen text, and `Voice-over` blocks.
+3. **Generate JSON** — VidGen reads only that TXT and writes `input/content/json/<slug>.json`. The filename stem must match. Voice-over is copied verbatim and in order; VidGen chooses registered scene types, props, and timing without rewriting the script.
 4. **Audit generated JSON** — parse JSON, validate schema and scene types, compare narration against the TXT, run Gate 1, and report unsupported visual direction or assumptions.
 5. **Stop for review** — no TTS, manifest build, Studio launch, or render. The user reviews the generated JSON and audit report.
-6. **Render only after explicit approval** — run `python -m vidgen.pipeline.video_pipeline content/json/<slug>.json` only when the user separately authorizes rendering.
+6. **Render only after explicit approval** — run `python -m vidgen.pipeline.video_pipeline ../input/content/json/<slug>.json` (from `tool/`) only when the user separately authorizes rendering.
 
-After approval, `video_pipeline` loads and resolves the generated JSON, re-runs Gate 1 and validation, synthesizes voiceover, tightens durations, writes `build/pipeline/render_manifest.json`, renders cached chunks, audits the video, and opens Studio for human review.
+After approval, `video_pipeline` loads and resolves the generated JSON, re-runs Gate 1 and validation, synthesizes voiceover, tightens durations, writes `output/build/pipeline/render_manifest.json`, renders cached chunks, audits the video, and opens Studio for human review.
 
 ### Authoring workflow (Claude Code skills)
 
@@ -196,15 +201,21 @@ Scripts and shot components in this repo are authored with Claude Code using two
 ## Repo layout
 
 ```text
-content/text/       human-approved TXT scripts (source of truth)
-content/json/       VidGen-generated JSON shot plans and historical outputs
-tools/              helper shell entrypoints and CI wrappers
-references/config/  shared colors and optional topic-idea queue
-vidgen/             role-based Python packages for production tooling
-remotion/           compositions, scenes, and chunk renderer
-build/pipeline/     generated audio, manifests, caches, and reports
-tests/              critical pipeline regression tests
-references/         source contract, schema refs, audits, and production notes
+input/content/text/         human-approved TXT scripts (source of truth)
+input/content/json/         VidGen-generated JSON shot plans and historical outputs
+input/references/config/    shared colors and optional topic-idea queue
+input/references/           source contract, schema refs, audits, and production notes
+input/research/             topic research briefs
+input/docs/                 TikTok review docs
+tool/tools/                 helper shell entrypoints and CI wrappers
+tool/vidgen/                role-based Python packages for production tooling
+tool/remotion/               compositions, scenes, and chunk renderer
+tool/tests/                  critical pipeline regression tests
+tool/skills/vidgen/          VidGen skill playbook
+tool/website/                static marketing/publisher site
+output/content/              generated captions and media
+output/build/pipeline/       generated audio, manifests, caches, and reports
+output/audio/                generated TTS wav files
 ```
 ---
 
@@ -214,13 +225,13 @@ VidGen deliberately starts after content approval. Topic selection, research, na
 
 1. Brainstorm and research a topic together outside VidGen.
 2. Review and approve the exact narration, visual plan, and on-screen copy.
-3. Save the approved source as `content/text/<slug>.txt`.
-4. Let VidGen generate `content/json/<slug>.json`, validate it, run Gate 1, and stop.
+3. Save the approved source as `input/content/text/<slug>.txt`.
+4. Let VidGen generate `input/content/json/<slug>.json`, validate it, run Gate 1, and stop.
 5. Review the JSON and audit report; explicitly approve rendering when ready.
 6. Run `vidgen.pipeline.video_pipeline` only after that approval, then inspect every shot and the final MP4 before publishing.
 
 `vidgen.discovery.topic_harvester` remains an optional idea source for days when the
-backlog is empty. It writes candidates to `references/config/topics_queue.json`; it never
+backlog is empty. It writes candidates to `input/references/config/topics_queue.json`; it never
 starts script generation, TTS, rendering, or publishing.
 
 ```bash
@@ -233,7 +244,7 @@ python -m vidgen.discovery.topic_harvester --push 2
 
 ### Manual Publishing
 
-Publishing commands remain explicit and separate from video generation:
+Publishing commands remain explicit and separate from video generation (run from `tool/`):
 
 ```bash
 python -m vidgen.publishing.publish_all remotion/out/video.mp4 --title "Tiêu đề"

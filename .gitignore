@@ -9,24 +9,24 @@
 .facebook_tokens.json
 
 # Generated output files
-build/
-remotion/public/audio/
-public/audio/
+output/build/
+tool/remotion/public/audio/
+output/audio/
 
-# Media ingested by copy_media_to_remotion_public() from content/media/<slug>/
-# — content/media/ is the source of truth, these are build artifacts. Existing
+# Media ingested by copy_media_to_remotion_public() from output/content/media/<slug>/
+# — output/content/media/ is the source of truth, these are build artifacts. Existing
 # hand-committed assets (grabfood_delivery_options.*, hsk_app_screenshot*.png)
 # stay tracked; gitignore only affects new/untracked files.
-remotion/public/video/
-remotion/public/images/
+tool/remotion/public/video/
+tool/remotion/public/images/
 
 # Personal reference audio (voice cloning tests, etc.)
-build/reference-audio/
+output/build/reference-audio/
 
 # Python bytecode
 __pycache__/
 *.py[cod]
 
 # Remotion Studio local state
-remotion/out/
-remotion/.DS_Store
+tool/remotion/out/
+tool/remotion/.DS_Store
