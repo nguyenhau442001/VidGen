@@ -22,7 +22,25 @@
       "on_screen_text": "RTO: CHO THUÊ XE? ⇄ HAY BÁN XE CHO BẠN?"
     },
     {
-      "id": "shot_02_question",
+      "id": "shot_02_signup_perks",
+      "type": "rto_ownership",
+      "duration_frames": 224,
+      "narration": "Green SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu.",
+      "props": {
+        "mode": "signup_perks",
+        "headline": "ƯU ĐÃI ĐĂNG KÝ RTO",
+        "accentWord": "ƯU ĐÃI",
+        "metrics": [
+          { "label": "CHIA DOANH THU", "value": "90% → 85%" },
+          { "label": "THƯỞNG ĐĂNG KÝ", "value": "500.000Đ" },
+          { "label": "ĐỔI XE XĂNG CŨ", "value": "HỖ TRỢ 1 TRIỆU" }
+        ],
+        "sourceLabel": "Nguồn: Green SM — trang chính thức RTO."
+      },
+      "on_screen_text": "90% → 85% DOANH THU · THƯỞNG 500K ĐĂNG KÝ · HỖ TRỢ 1 TRIỆU ĐỔI XE. Nguồn: Green SM — trang chính thức RTO."
+    },
+    {
+      "id": "shot_03_question",
       "type": "rto_ownership",
       "duration_frames": 128,
       "narration": "Không cần trả hết mới được lái. Nhưng ai giữ chìa khóa suốt hai năm đó?",
@@ -34,7 +52,7 @@
       "on_screen_text": "AI GIỮ CHÌA KHÓA?"
     },
     {
-      "id": "shot_03_reframe",
+      "id": "shot_04_reframe",
       "type": "rto_ownership",
       "duration_frames": 192,
       "narration": "Green SM gọi đây là quà tặng. Điều khoản gọi đây là hợp đồng có điều kiện — hai cách gọi, một chiếc xe.",
@@ -47,7 +65,7 @@
       "on_screen_text": "\"TẶNG XE\" ⇄ HỢP ĐỒNG CÓ ĐIỀU KIỆN. Nguồn: Green SM — trang chính thức RTO."
     },
     {
-      "id": "shot_04_revenue_gauge",
+      "id": "shot_05_revenue_gauge",
       "type": "rto_ownership",
       "duration_frames": 272,
       "narration": "Ở Hà Nội, ngưỡng doanh số là hai trăm tám mươi nghìn một ngày. Hụt tới đâu, công ty truy thu hai mươi phần trăm phần hụt đó, trừ thẳng vào ví mỗi ngày.",
@@ -63,7 +81,7 @@
       "on_screen_text": "≥280K/NGÀY (HÀ NỘI) · HỤT → TRUY THU 20%/NGÀY. Nguồn: Green SM — quy định doanh số tối thiểu."
     },
     {
-      "id": "shot_05_lockout_timeline",
+      "id": "shot_06_lockout_timeline",
       "type": "rto_ownership",
       "duration_frames": 208,
       "narration": "Trễ thanh toán bảy ngày, xe bị khóa từ xa. Vi phạm ba tuần liên tiếp, công ty thu hồi xe, không cần giải thích thêm.",
@@ -76,7 +94,7 @@
       "on_screen_text": "TRỄ 7 NGÀY → KHÓA XE TỪ XA · VI PHẠM 3 TUẦN LIÊN TIẾP → THU HỒI XE. Áp dụng chung tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ."
     },
     {
-      "id": "shot_06_transfer_condition",
+      "id": "shot_07_transfer_condition",
       "type": "rto_ownership",
       "duration_frames": 264,
       "narration": "Sở hữu chỉ chuyển giao sau hai mươi bốn tháng, khi bạn trả đủ tiền và đạt đủ chỉ tiêu vận hành. Thiếu một trong hai, chiếc xe vẫn chưa là của bạn.",
@@ -88,7 +106,7 @@
       "on_screen_text": "24 THÁNG · TRẢ ĐỦ TIỀN + ĐẠT ĐỦ KPI = SỞ HỮU"
     },
     {
-      "id": "shot_07_payoff",
+      "id": "shot_08_payoff",
       "type": "rto_ownership",
       "duration_frames": 192,
       "narration": "Sở hữu không phải điểm bắt đầu. Nó là phần thưởng, sau khi bạn đã chạy đủ, đóng đủ, đúng nhịp công ty muốn.",
@@ -100,7 +118,7 @@
       "on_screen_text": "SỞ HỮU = PHẦN THƯỞNG CUỐI, không phải điểm bắt đầu."
     },
     {
-      "id": "shot_08_cta",
+      "id": "shot_09_cta",
       "type": "rto_ownership",
       "duration_frames": 128,
       "narration": "Chính sách miễn phí nào quanh bạn cũng đang giữ một chiếc chìa khóa tương tự?",

@@ -7,8 +7,10 @@ Slug `xanh_sm_rto_chia_khoa_that`, video_id cùng tên. Nguồn: input/research/
 dữ liệu công khai, khung dọc 1080×1920, khoảng 55–70 giây. Không khẳng định RTO là lừa đảo, không nói
 mọi tài xế đều gặp cùng một tình huống — chỉ đối chiếu ngôn ngữ quảng cáo với điều khoản vận hành công
 khai. Các con số lấy từ trang chính thức Green SM và báo chí trong nước, truy cập ngày 15/08/2026;
-nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 4–5 áp dụng cho tài xế Bike nói
-chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở Cảnh 5.
+nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 5–6 áp dụng cho tài xế Bike nói
+chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở Cảnh 6. Cảnh 2 (ưu
+đãi đăng ký) dùng số liệu từ cùng nguồn Green SM chính thức — chỉ trình bày trung lập, không khẳng
+định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 5.
 
 ## Cảnh 1 — Hook
 
@@ -26,7 +28,23 @@ chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câ
 
 ---
 
-## Cảnh 2 — Câu hỏi bật ra
+## Cảnh 2 — Ưu đãi đăng ký
+
+**Hình ảnh:**
+
+Ba thẻ ưu đãi bật sáng lần lượt: chia doanh thu, thưởng đăng ký, hỗ trợ đổi xe.
+
+**Voice-over:**
+
+"Green SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu."
+
+**Chữ trên màn hình:**
+
+**90% → 85% DOANH THU** · **THƯỞNG 500K ĐĂNG KÝ** · **HỖ TRỢ 1 TRIỆU ĐỔI XE**. Nguồn: Green SM — trang chính thức RTO.
+
+---
+
+## Cảnh 3 — Câu hỏi bật ra
 
 **Hình ảnh:**
 
@@ -42,7 +60,7 @@ Chiếc xe điện đứng giữa khung hình, một ổ khóa mờ hiện lên 
 
 ---
 
-## Cảnh 3 — Hai cách gọi, một chiếc xe
+## Cảnh 4 — Hai cách gọi, một chiếc xe
 
 **Hình ảnh:**
 
@@ -59,7 +77,7 @@ thật bên dưới: "HỢP ĐỒNG CÓ ĐIỀU KIỆN".
 
 ---
 
-## Cảnh 4 — Ngưỡng doanh số hàng ngày
+## Cảnh 5 — Ngưỡng doanh số hàng ngày
 
 **Hình ảnh:**
 
@@ -75,7 +93,7 @@ thật bên dưới: "HỢP ĐỒNG CÓ ĐIỀU KIỆN".
 
 ---
 
-## Cảnh 5 — Khóa xe, thu hồi xe
+## Cảnh 6 — Khóa xe, thu hồi xe
 
 **Hình ảnh:**
 
@@ -93,12 +111,12 @@ tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ.
 
 ---
 
-## Cảnh 6 — Điều kiện chuyển giao
+## Cảnh 7 — Điều kiện chuyển giao
 
 **Hình ảnh:**
 
 Cận cảnh trích dẫn điều khoản thật, gắn nguồn công khai, đối chiếu trực tiếp với dòng
-quảng cáo ở Cảnh 1.
+quảng cáo ở Cảnh 1 và ưu đãi ở Cảnh 2.
 
 **Voice-over:**
 
@@ -110,7 +128,7 @@ quảng cáo ở Cảnh 1.
 
 ---
 
-## Cảnh 7 — Chìa khóa thật nằm ở đâu
+## Cảnh 8 — Chìa khóa thật nằm ở đâu
 
 **Hình ảnh:**
 
@@ -127,7 +145,7 @@ timeline chạm mốc tháng 24.
 
 ---
 
-## Cảnh 8 — CTA
+## Cảnh 9 — CTA
 
 **Hình ảnh:**
 

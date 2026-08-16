@@ -308,6 +308,83 @@ const HookVisual: React.FC<{ frame: number; fps: number; headline: string; accen
 };
 
 // ---------------------------------------------------------------------------
+// Mode 1b — signup_perks: stacked stat cards for revenue split + bonuses
+// ---------------------------------------------------------------------------
+const GiftIcon: React.FC<{ size?: number; color?: string }> = ({ size = 30, color = GOLD }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3.5" y="9" width="17" height="11" rx="1.6" stroke={color} strokeWidth={1.8} />
+    <path d="M3.5 9h17M12 9v11" stroke={color} strokeWidth={1.8} />
+    <path
+      d="M12 9c-1.6-3.6-6-4.6-6-1.6C6 9 8.4 9 12 9Zm0 0c1.6-3.6 6-4.6 6-1.6C18 9 15.6 9 12 9Z"
+      stroke={color}
+      strokeWidth={1.8}
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const SwapIcon: React.FC<{ size?: number; color?: string }> = ({ size = 30, color = GOLD }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M4 8h13l-3.5-3.5" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M20 16H7l3.5 3.5" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const SignupPerksVisual: React.FC<{
+  frame: number;
+  fps: number;
+  headline: string;
+  accentWord?: string;
+  metrics?: RtoMetric[];
+  sourceLabel?: string;
+}> = ({ frame, fps, headline, accentWord, metrics, sourceLabel }) => {
+  const icons = [
+    <DocumentIcon key="doc" size={30} color={GOLD} />,
+    <GiftIcon key="gift" size={30} color={GOLD} />,
+    <SwapIcon key="swap" size={30} color={GOLD} />,
+  ];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+      <Eyebrow opacity={fade(frame, 0)}>ƯU ĐÃI ĐĂNG KÝ</Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={38} />
+      <Card style={{ width: 800, minHeight: 500, padding: "36px 34px", display: "flex", flexDirection: "column", gap: 16 }}>
+        {(metrics ?? []).map((m, i) => {
+          const s = spring({ frame: frame - 20 - i * 20, fps, config: { stiffness: 190, damping: 18 } });
+          return (
+            <div
+              key={m.label}
+              style={{
+                opacity: clamp(s),
+                transform: `translateX(${(1 - clamp(s)) * -24}px)`,
+                display: "flex",
+                alignItems: "center",
+                gap: 20,
+                minHeight: 92,
+                borderRadius: 18,
+                border: `1.5px solid ${GOLD}55`,
+                background: `${GOLD}0f`,
+                padding: "16px 24px",
+              }}
+            >
+              {icons[i % icons.length]}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, textAlign: "left" }}>
+                <div style={{ color: DIM, fontSize: 14, fontWeight: 800, letterSpacing: 0.4 }}>{m.label}</div>
+                <div style={{ color: GOLD, fontSize: 26, fontWeight: 900 }}>{m.value}</div>
+              </div>
+            </div>
+          );
+        })}
+        {sourceLabel ? (
+          <div style={{ marginTop: 8, color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center" }}>
+            {sourceLabel}
+          </div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Mode 2 — question: bike with ghosted lock overlay
 // ---------------------------------------------------------------------------
 const QuestionVisual: React.FC<{ frame: number; fps: number; headline: string; accentWord?: string }> = ({
@@ -880,6 +957,17 @@ export const RtoOwnershipScene: React.FC<RtoOwnershipSceneProps> = ({
 
   const content = (() => {
     if (mode === "hook") return <HookVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} />;
+    if (mode === "signup_perks")
+      return (
+        <SignupPerksVisual
+          frame={frame}
+          fps={fps}
+          headline={headline}
+          accentWord={accentWord}
+          metrics={metrics}
+          sourceLabel={sourceLabel}
+        />
+      );
     if (mode === "question") return <QuestionVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} />;
     if (mode === "reframe")
       return <ReframeVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} sourceLabel={sourceLabel} />;
