@@ -4,13 +4,19 @@
 
 Slug `xanh_sm_rto_chia_khoa_that`, video_id cùng tên. Nguồn: input/research/xanh-sm-rto-thue-so-huu/
 (research-brief.md, angle-matrix.json, video-opportunity.json, narrative-outline.md). Video điều tra
-dữ liệu công khai, khung dọc 1080×1920, khoảng 55–70 giây. Không khẳng định RTO là lừa đảo, không nói
-mọi tài xế đều gặp cùng một tình huống — chỉ đối chiếu ngôn ngữ quảng cáo với điều khoản vận hành công
-khai. Các con số lấy từ trang chính thức Green SM và báo chí trong nước, truy cập ngày 15/08/2026;
-nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 5–6 áp dụng cho tài xế Bike nói
-chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở Cảnh 6. Cảnh 2 (ưu
-đãi đăng ký) dùng số liệu từ cùng nguồn Green SM chính thức — chỉ trình bày trung lập, không khẳng
-định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 5.
+dữ liệu công khai, khung dọc 1080×1920, khoảng 70–90 giây (mở rộng để khai thác sâu nỗi đau tài
+xế bằng cơ chế vận hành cụ thể, không phải chỉ nêu điều khoản). Không khẳng định RTO là lừa đảo,
+không nói mọi tài xế đều gặp cùng một tình huống — chỉ đối chiếu ngôn ngữ quảng cáo với điều khoản
+vận hành công khai. Các con số lấy từ trang chính thức Xanh SM và báo chí trong nước, truy cập
+ngày 15/08/2026; nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 6–7 áp dụng cho
+tài xế Bike nói chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở
+Cảnh 7. Cảnh 6 (ép nhận chuyến tới 23:59) dựa trên cơ chế tỷ lệ nhận chuyến của Xanh SM Bike nói
+chung [S003] — chưa xác nhận áp dụng riêng cho nhóm RTO, không được bỏ nguồn trích dẫn trên màn
+hình. Cảnh 3 cố ý không dùng ẩn dụ "chìa khóa" — hỏi thẳng "thuê giá rẻ hay bán theo cách khác",
+echo trực tiếp câu hỏi ở Cảnh 1, không dùng từ pháp lý "chủ sở hữu" vì nguồn chỉ xác nhận quyền
+kiểm soát vận hành, không xác nhận ai đứng tên sở hữu pháp lý trong 24 tháng đầu. Cảnh 2 (ưu đãi
+đăng ký) dùng số liệu từ cùng nguồn Xanh SM chính thức — chỉ trình bày trung lập, không khẳng
+định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 6.
 
 ## Cảnh 1 — Hook
 
@@ -36,15 +42,15 @@ Ba thẻ ưu đãi bật sáng lần lượt: chia doanh thu, thưởng đăng k
 
 **Voice-over:**
 
-"Green SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu."
+"Xanh SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu."
 
 **Chữ trên màn hình:**
 
-**90% → 85% DOANH THU** · **THƯỞNG 500K ĐĂNG KÝ** · **HỖ TRỢ 1 TRIỆU ĐỔI XE**. Nguồn: Green SM — trang chính thức RTO.
+**90% → 85% DOANH THU** · **THƯỞNG 500K ĐĂNG KÝ** · **HỖ TRỢ 1 TRIỆU ĐỔI XE**. Nguồn: Xanh SM — trang chính thức RTO.
 
 ---
 
-## Cảnh 3 — Câu hỏi bật ra
+## Cảnh 3 — Thuê giá rẻ hay bán theo cách khác
 
 **Hình ảnh:**
 
@@ -52,11 +58,11 @@ Chiếc xe điện đứng giữa khung hình, một ổ khóa mờ hiện lên 
 
 **Voice-over:**
 
-"Không cần trả hết mới được lái. Vậy trong hai năm đó, ai thật sự là chủ sở hữu của chiếc xe?"
+"Không cần trả hết mới được lái. Vậy Xanh SM thực sự cho thuê xe giá rẻ, hay thực sự bán xe cho bạn theo cách khác?"
 
 **Chữ trên màn hình:**
 
-**AI THỰC SỰ LÀ CHỦ SỞ HỮU CỦA CHIẾC XE?**
+**CHO THUÊ GIÁ RẺ?** ⇄ **HAY BÁN THEO CÁCH KHÁC?**
 
 ---
 
@@ -69,11 +75,11 @@ thật bên dưới: "HỢP ĐỒNG CÓ ĐIỀU KIỆN".
 
 **Voice-over:**
 
-"Green SM gọi đây là quà tặng. Điều khoản gọi đây là hợp đồng có điều kiện — hai cách gọi, một chiếc xe."
+"Xanh SM gọi đây là quà tặng. Điều khoản gọi đây là hợp đồng có điều kiện — hai cách gọi, một chiếc xe."
 
 **Chữ trên màn hình:**
 
-**"TẶNG XE"** ⇄ **HỢP ĐỒNG CÓ ĐIỀU KIỆN**. Nguồn: Green SM — trang chính thức RTO.
+**"TẶNG XE"** ⇄ **HỢP ĐỒNG CÓ ĐIỀU KIỆN**. Nguồn: Xanh SM — trang chính thức RTO.
 
 ---
 
@@ -89,11 +95,28 @@ thật bên dưới: "HỢP ĐỒNG CÓ ĐIỀU KIỆN".
 
 **Chữ trên màn hình:**
 
-**≥280K/NGÀY (HÀ NỘI)** · **HỤT → TRUY THU 20%/NGÀY**. Nguồn: Green SM — quy định doanh số tối thiểu.
+**≥280K/NGÀY (HÀ NỘI)** · **HỤT → TRUY THU 20%/NGÀY**. Nguồn: Xanh SM — quy định doanh số tối thiểu.
 
 ---
 
-## Cảnh 6 — Khóa xe, thu hồi xe
+## Cảnh 6 — Ép nhận chuyến
+
+**Hình ảnh:**
+
+Thanh tỷ lệ nhận chuyến tụt xuống dưới mốc 50%, biểu tượng app tự bật sáng — icon nút tắt
+bị khóa mờ, đồng hồ chạy tới 23:59.
+
+**Voice-over:**
+
+"Tỷ lệ nhận chuyến dưới năm mươi phần trăm, hệ thống tự động ép nhận chuyến tới hai mươi ba giờ năm chín. Bạn không tắt được app, dù đang muốn nghỉ."
+
+**Chữ trên màn hình:**
+
+**TỶ LỆ NHẬN CHUYẾN <50%** · **HỆ THỐNG ÉP CHẠY ĐẾN 23:59**. Nguồn: báo chí trong nước — cơ chế vận hành Xanh SM Bike.
+
+---
+
+## Cảnh 7 — Khóa xe, thu hồi xe
 
 **Hình ảnh:**
 
@@ -111,7 +134,7 @@ tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ.
 
 ---
 
-## Cảnh 7 — Điều kiện chuyển giao
+## Cảnh 8 — Điều kiện chuyển giao
 
 **Hình ảnh:**
 
@@ -128,7 +151,7 @@ quảng cáo ở Cảnh 1 và ưu đãi ở Cảnh 2.
 
 ---
 
-## Cảnh 8 — Chìa khóa thật nằm ở đâu
+## Cảnh 9 — Chìa khóa thật nằm ở đâu
 
 **Hình ảnh:**
 
@@ -145,7 +168,7 @@ timeline chạm mốc tháng 24.
 
 ---
 
-## Cảnh 9 — CTA
+## Cảnh 10 — CTA
 
 **Hình ảnh:**
 

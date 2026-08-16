@@ -614,6 +614,125 @@ const RevenueGaugeVisual: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Mode 4b — forced_dispatch: pickup-rate bar dips below 50%, phone power button
+// locks out, clock races to 23:59
+// ---------------------------------------------------------------------------
+const ClockIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = LOCK_RED }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" stroke={color} strokeWidth={1.8} />
+    <path d="M12 7v5l3.5 2" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const PowerIcon: React.FC<{ size?: number; color?: string; locked?: boolean }> = ({
+  size = 30,
+  color = TEXT,
+  locked = false,
+}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M12 3v8" stroke={color} strokeWidth={2} strokeLinecap="round" />
+    <path
+      d="M7 5.5a8 8 0 1 0 10 0"
+      stroke={locked ? LOCK_RED : color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      opacity={locked ? 0.5 : 1}
+    />
+  </svg>
+);
+
+const ForcedDispatchVisual: React.FC<{
+  frame: number;
+  fps: number;
+  headline: string;
+  accentWord?: string;
+  footer?: string;
+}> = ({ frame, fps, headline, accentWord, footer }) => {
+  const barProgress = interpolate(frame, [24, 90], [0.86, 0.38], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const belowThreshold = barProgress < 0.5;
+  const lockReveal = fade(frame, 78, 18);
+  const clockSpring = spring({ frame: frame - 96, fps, config: { stiffness: 190, damping: 18 } });
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+      <Eyebrow opacity={fade(frame, 0)} tone="red">
+        TỶ LỆ NHẬN CHUYẾN
+      </Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={40} />
+      <Card style={{ width: 800, minHeight: 480, padding: "36px 34px", display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+        <div style={{ width: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+            <span style={{ color: DIM, fontSize: 14, fontWeight: 800, letterSpacing: 0.4 }}>TỶ LỆ NHẬN CHUYẾN</span>
+            <span style={{ color: belowThreshold ? LOCK_RED : SAFE_GREEN, fontSize: 18, fontWeight: 900 }}>
+              {Math.round(barProgress * 100)}%
+            </span>
+          </div>
+          <div style={{ width: "100%", height: 22, borderRadius: 999, background: MUTED, position: "relative", overflow: "hidden" }}>
+            <div
+              style={{
+                width: `${barProgress * 100}%`,
+                height: "100%",
+                background: belowThreshold ? LOCK_RED : SAFE_GREEN,
+                borderRadius: 999,
+                boxShadow: `0 0 16px ${belowThreshold ? LOCK_RED : SAFE_GREEN}88`,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: -4,
+                bottom: -4,
+                width: 2,
+                background: GOLD,
+              }}
+            />
+          </div>
+          <div style={{ marginTop: 6, color: DIM, fontSize: 12, fontWeight: 700, textAlign: "right" }}>NGƯỠNG 50%</div>
+        </div>
+        <div
+          style={{
+            opacity: lockReveal,
+            display: "flex",
+            alignItems: "center",
+            gap: 18,
+            minHeight: 90,
+            width: "100%",
+            borderRadius: 18,
+            border: `1.5px solid ${LOCK_RED}66`,
+            background: `${LOCK_RED}10`,
+            padding: "18px 24px",
+          }}
+        >
+          <PowerIcon size={34} color={TEXT} locked />
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, textAlign: "left" }}>
+            <div style={{ color: LOCK_RED, fontSize: 15, fontWeight: 900 }}>NÚT TẮT APP BỊ KHÓA</div>
+            <div style={{ color: DIM, fontSize: 13, fontWeight: 700 }}>Hệ thống tự động ép nhận chuyến</div>
+          </div>
+        </div>
+        <div
+          style={{
+            opacity: clamp(clockSpring),
+            transform: `scale(${0.9 + clamp(clockSpring) * 0.1})`,
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <ClockIcon size={28} color={GOLD} />
+          <span style={{ color: GOLD, fontSize: 26, fontWeight: 900 }}>ĐẾN 23:59</span>
+        </div>
+        {footer ? (
+          <div style={{ color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center" }}>{footer}</div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Mode 5 — lockout_timeline: 24-month bar with KPI checkpoints, OWNERSHIP node
 // ---------------------------------------------------------------------------
 const LockoutTimelineVisual: React.FC<{ frame: number; fps: number; headline: string; accentWord?: string; footer?: string }> = ({
@@ -982,6 +1101,8 @@ export const RtoOwnershipScene: React.FC<RtoOwnershipSceneProps> = ({
           footer={footer}
         />
       );
+    if (mode === "forced_dispatch")
+      return <ForcedDispatchVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} footer={footer} />;
     if (mode === "lockout_timeline")
       return <LockoutTimelineVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} footer={footer} />;
     if (mode === "transfer_condition")

@@ -359,6 +359,7 @@ export type RtoOwnershipMode =
   | "question"
   | "reframe"
   | "revenue_gauge"
+  | "forced_dispatch"
   | "lockout_timeline"
   | "transfer_condition"
   | "payoff"
