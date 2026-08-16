@@ -8,7 +8,7 @@
       "id": "shot_01_hook",
       "type": "rto_ownership",
       "duration_frames": 112,
-      "narration": "Rờ Tê Ô Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?",
+      "narration": "Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?",
       "props": {
         "mode": "hook",
         "headline": "RTO: CHO THUÊ XE?\n⇄ BÁN XE CHO BẠN?",
@@ -43,13 +43,13 @@
       "id": "shot_03_question",
       "type": "rto_ownership",
       "duration_frames": 128,
-      "narration": "Không cần trả hết mới được lái. Nhưng ai giữ chìa khóa suốt hai năm đó?",
+      "narration": "Không cần trả hết mới được lái. Vậy trong hai năm đó, ai thật sự là chủ sở hữu của chiếc xe?",
       "props": {
         "mode": "question",
-        "headline": "AI GIỮ CHÌA KHÓA?",
-        "accentWord": "CHÌA KHÓA?"
+        "headline": "AI THỰC SỰ LÀ CHỦ SỞ HỮU CỦA CHIẾC XE?",
+        "accentWord": "CHỦ SỞ HỮU"
       },
-      "on_screen_text": "AI GIỮ CHÌA KHÓA?"
+      "on_screen_text": "AI THỰC SỰ LÀ CHỦ SỞ HỮU CỦA CHIẾC XE?"
     },
     {
       "id": "shot_04_reframe",

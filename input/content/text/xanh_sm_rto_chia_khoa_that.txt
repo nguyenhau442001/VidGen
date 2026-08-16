@@ -20,7 +20,7 @@ chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câ
 
 **Voice-over:**
 
-"Rờ Tê Ô Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?"
+"Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?"
 
 **Chữ trên màn hình:**
 
@@ -52,11 +52,11 @@ Chiếc xe điện đứng giữa khung hình, một ổ khóa mờ hiện lên 
 
 **Voice-over:**
 
-"Không cần trả hết mới được lái. Nhưng ai giữ chìa khóa suốt hai năm đó?"
+"Không cần trả hết mới được lái. Vậy trong hai năm đó, ai thật sự là chủ sở hữu của chiếc xe?"
 
 **Chữ trên màn hình:**
 
-**AI GIỮ CHÌA KHÓA?**
+**AI THỰC SỰ LÀ CHỦ SỞ HỮU CỦA CHIẾC XE?**
 
 ---
 
