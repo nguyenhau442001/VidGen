@@ -1,0 +1,58 @@
+{
+  "recommended_angle": "Xe được 'tặng' — nhưng ai giữ chìa khóa thật?",
+  "audience": "Tài xế đang cân nhắc tham gia RTO + khán giả tổng quát Ủa là sao",
+  "viewer_belief_before": "RTO là một món quà — công ty giúp tài xế nghèo sở hữu xe điện mà không cần vốn lớn, chỉ cần đóng đều đặn.",
+  "viewer_belief_after": "RTO là một cơ chế giữ chân có điều kiện — quyền sở hữu chỉ chuyển giao khi tài xế đã chứng minh đủ 24 tháng vận hành ổn định; trước đó, công ty vẫn giữ toàn quyền khóa/thu hồi xe.",
+  "core_argument": "Ngôn ngữ quảng cáo của RTO ('tặng xe', 'bảo đảm thu nhập') mô tả một giao dịch một chiều có lợi cho tài xế. Nhưng điều khoản vận hành thật (khóa xe từ xa sau 7 ngày trễ hạn, thu hồi xe sau 3 tuần vi phạm liên tiếp, truy thu doanh số hàng ngày) cho thấy đây là một giao dịch hai chiều có điều kiện: xe chỉ thực sự 'của bạn' sau khi bạn đã tạo đủ giá trị vận hành cho nền tảng trong 24 tháng.",
+  "proof_needed": [
+    "Số liệu chính xác: cọc 3 triệu, 60.000đ/ngày, sạc pin miễn phí 2 năm (S002)",
+    "Điều khoản khóa xe từ xa sau 7 ngày trễ hạn thanh toán (S006)",
+    "Điều khoản thu hồi xe sau 3 tuần vi phạm liên tiếp tỷ lệ nhận chuyến (S003)",
+    "Mốc chuyển giao sở hữu chính thức: tối đa 24 tháng, sau khi hoàn tất NGHĨA VỤ TÀI CHÍNH VÀ cam kết vận hành (S006)"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "Một tài xế xem quảng cáo 'chỉ 3 triệu, sở hữu xe điện sau 2 năm' trên điện thoại, gật gù hài lòng — cảnh mở đầu quen thuộc, dễ đồng cảm",
+      "possible_scene_types": ["HookScene", "PhoneMockupScene"],
+      "required_assets": ["Mock UI quảng cáo RTO trên nền tảng mạng xã hội"],
+      "risk": "Không dùng logo/hình ảnh thật của Green SM nếu chưa xác nhận quyền sử dụng — nên dùng mock UI generic có style tương tự"
+    },
+    {
+      "narrative_function": "reframe",
+      "concept": "Lớp chữ quảng cáo ('Tặng xe', 'Bảo đảm thu nhập') hiện lên rồi mờ dần, để lộ lớp điều khoản thật bên dưới ('Khóa xe từ xa sau 7 ngày trễ hạn') — hai lớp văn bản chồng lên nhau trên cùng một khung hình",
+      "possible_scene_types": ["ConditionalGuaranteeShot", "SplitRevealScene", "DriverConsentScene"],
+      "required_assets": ["Hai bộ text layer: ngôn ngữ marketing và ngôn ngữ điều khoản"],
+      "risk": "Cần đảm bảo trích dẫn điều khoản đúng nguyên văn nguồn (S006), không diễn giải sai lệch làm nặng tính cáo buộc"
+    },
+    {
+      "narrative_function": "mechanism",
+      "concept": "Timeline 24 tháng nằm ngang, các trạm kiểm tra KPI định kỳ (doanh số ngày, tỷ lệ nhận chuyến) xuất hiện dọc timeline như các checkpoint phải vượt qua, ô 'Sở hữu chính thức' chỉ sáng lên ở cuối cùng",
+      "possible_scene_types": ["TimelineScene", "TimelineStagesScene", "RatingThresholdScene"],
+      "required_assets": ["Icon checkpoint, icon khóa/mở khóa xe"],
+      "risk": "Cần ghi rõ đây là mô phỏng cấu trúc điều khoản công khai, không phải trải nghiệm xác nhận của một tài xế cụ thể"
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Cận cảnh dòng điều khoản thật kèm nguồn (visual dạng 'document callout') cho hai cơ chế cụ thể: khóa xe sau 7 ngày trễ hạn, thu hồi xe sau 3 tuần vi phạm liên tiếp",
+      "possible_scene_types": ["QuoteCalloutScene", "LedgerEntryShot"],
+      "required_assets": ["Trích dẫn văn bản chính xác từ nguồn S003, S006"],
+      "risk": "Nguồn S006 là trang trung gian, không phải văn bản hợp đồng gốc — nên gắn nhãn 'theo tổng hợp điều khoản công khai' thay vì khẳng định là nguyên văn hợp đồng"
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Chiếc xe (icon) chuyển từ trạng thái có ổ khóa mờ sang trạng thái 'sở hữu hoàn toàn' chỉ khi thanh timeline chạm mốc tháng 24 — khoảnh khắc 'aha' rằng sở hữu là phần thưởng cuối, không phải điểm khởi đầu",
+      "possible_scene_types": ["RatingThresholdScene", "ZoomRevealScene"],
+      "required_assets": ["Icon xe máy điện với trạng thái khóa/mở khóa"],
+      "risk": "Thấp — đây là điểm kết luận trực tiếp từ dữ kiện đã trình bày, không cần thêm claim mới"
+    },
+    {
+      "narrative_function": "cta",
+      "concept": "Câu hỏi mở: những chính sách 'miễn phí' hoặc 'tặng' khác quanh người xem có lớp điều khoản ẩn tương tự không — tease các phần tiếp theo trong series Xanh SM (đã có phần đổi pin, mã hội viên)",
+      "possible_scene_types": ["CTAScene"],
+      "required_assets": [],
+      "risk": "Thấp"
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}

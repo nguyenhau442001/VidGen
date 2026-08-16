@@ -353,6 +353,38 @@ export type RatingThresholdVisual = {
 
 export type RatingThresholdSceneProps = RatingThresholdVisual & { durationInFrames: number };
 
+export type RtoOwnershipMode =
+  | "hook"
+  | "question"
+  | "reframe"
+  | "revenue_gauge"
+  | "lockout_timeline"
+  | "transfer_condition"
+  | "payoff"
+  | "cta";
+
+export type RtoOwnershipMetric = {
+  label: string;
+  value: string;
+  tone?: "gold" | "red";
+};
+
+export type RtoOwnershipVisual = {
+  mode: RtoOwnershipMode;
+  headline: string;
+  accentWord?: string;
+  metrics?: RtoOwnershipMetric[];
+  sourceLabel?: string;
+  footer?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "rtoOwnership";
+  thumbnailAccentColor?: string;
+};
+
+export type RtoOwnershipSceneProps = RtoOwnershipVisual & { durationInFrames: number };
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
@@ -469,7 +501,8 @@ export type ManifestScene =
   | { type: "brand_swap_test"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: BrandSwapTestVisual }
   | { type: "real_footage"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RealFootageVisual }
   | { type: "screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenshotVisual }
-  | { type: "shopee_discount_cover"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ShopeeDiscountCoverVisual };
+  | { type: "shopee_discount_cover"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ShopeeDiscountCoverVisual }
+  | { type: "rto_ownership"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RtoOwnershipVisual };
 
 export type MarketingCaptionHookVisual = {
   label: string;

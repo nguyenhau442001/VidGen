@@ -1,0 +1,142 @@
+# XANH SM RTO — XE ĐƯỢC "TẶNG", NHƯNG AI GIỮ CHÌA KHÓA THẬT?
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `xanh_sm_rto_chia_khoa_that`, video_id cùng tên. Nguồn: input/research/xanh-sm-rto-thue-so-huu/
+(research-brief.md, angle-matrix.json, video-opportunity.json, narrative-outline.md). Video điều tra
+dữ liệu công khai, khung dọc 1080×1920, khoảng 55–70 giây. Không khẳng định RTO là lừa đảo, không nói
+mọi tài xế đều gặp cùng một tình huống — chỉ đối chiếu ngôn ngữ quảng cáo với điều khoản vận hành công
+khai. Các con số lấy từ trang chính thức Green SM và báo chí trong nước, truy cập ngày 15/08/2026;
+nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 4–5 áp dụng cho tài xế Bike nói
+chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở Cảnh 5.
+
+## Cảnh 1 — Hook
+
+**Hình ảnh:**
+
+Điện thoại hiện quảng cáo "Chỉ 3 triệu, sở hữu xe điện sau 2 năm". Một tài xế đọc, gật đầu hài lòng.
+
+**Voice-over:**
+
+"RTO — Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?"
+
+**Chữ trên màn hình:**
+
+**RTO: CHO THUÊ XE?** ⇄ **HAY BÁN XE CHO BẠN?**
+
+---
+
+## Cảnh 2 — Câu hỏi bật ra
+
+**Hình ảnh:**
+
+Chiếc xe điện đứng giữa khung hình, một ổ khóa mờ hiện lên chồng lên thân xe.
+
+**Voice-over:**
+
+"Không cần trả hết mới được lái. Nhưng ai giữ chìa khóa suốt hai năm đó?"
+
+**Chữ trên màn hình:**
+
+**AI GIỮ CHÌA KHÓA?**
+
+---
+
+## Cảnh 3 — Hai cách gọi, một chiếc xe
+
+**Hình ảnh:**
+
+Lớp chữ quảng cáo "TẶNG XE", "BẢO ĐẢM THU NHẬP" hiện lên rồi mờ dần, để lộ lớp điều khoản
+thật bên dưới: "HỢP ĐỒNG CÓ ĐIỀU KIỆN".
+
+**Voice-over:**
+
+"Green SM gọi đây là quà tặng. Điều khoản gọi đây là hợp đồng có điều kiện — hai cách gọi, một chiếc xe."
+
+**Chữ trên màn hình:**
+
+**"TẶNG XE"** ⇄ **HỢP ĐỒNG CÓ ĐIỀU KIỆN**. Nguồn: Green SM — trang chính thức RTO.
+
+---
+
+## Cảnh 4 — Ngưỡng doanh số hàng ngày
+
+**Hình ảnh:**
+
+Đồng hồ đo doanh số dạng gauge, kim chỉ vào vùng đỏ khi dưới ngưỡng 280.000 đồng/ngày.
+
+**Voice-over:**
+
+"Ở Hà Nội, ngưỡng doanh số là hai trăm tám mươi nghìn một ngày. Hụt tới đâu, công ty truy thu hai mươi phần trăm phần hụt đó, trừ thẳng vào ví mỗi ngày."
+
+**Chữ trên màn hình:**
+
+**≥280K/NGÀY (HÀ NỘI)** · **HỤT → TRUY THU 20%/NGÀY**. Nguồn: Green SM — quy định doanh số tối thiểu.
+
+---
+
+## Cảnh 5 — Khóa xe, thu hồi xe
+
+**Hình ảnh:**
+
+Timeline 24 tháng, các trạm kiểm tra KPI xuất hiện dọc đường — tỷ lệ nhận chuyến, số ngày
+vi phạm liên tiếp — trước khi tới ô "SỞ HỮU CHÍNH THỨC" ở cuối.
+
+**Voice-over:**
+
+"Trễ thanh toán bảy ngày, xe bị khóa từ xa. Vi phạm ba tuần liên tiếp, công ty thu hồi xe, không cần giải thích thêm."
+
+**Chữ trên màn hình:**
+
+**TRỄ 7 NGÀY → KHÓA XE TỪ XA** · **VI PHẠM 3 TUẦN LIÊN TIẾP → THU HỒI XE**. Áp dụng chung
+tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ.
+
+---
+
+## Cảnh 6 — Điều kiện chuyển giao
+
+**Hình ảnh:**
+
+Cận cảnh trích dẫn điều khoản thật, gắn nguồn công khai, đối chiếu trực tiếp với dòng
+quảng cáo ở Cảnh 1.
+
+**Voice-over:**
+
+"Sở hữu chỉ chuyển giao sau hai mươi bốn tháng, khi bạn trả đủ tiền và đạt đủ chỉ tiêu vận hành. Thiếu một trong hai, chiếc xe vẫn chưa là của bạn."
+
+**Chữ trên màn hình:**
+
+**24 THÁNG** · **TRẢ ĐỦ TIỀN + ĐẠT ĐỦ KPI = SỞ HỮU**
+
+---
+
+## Cảnh 7 — Chìa khóa thật nằm ở đâu
+
+**Hình ảnh:**
+
+Icon xe máy điện chuyển từ trạng thái có ổ khóa mờ sang "mở khóa hoàn toàn" đúng lúc
+timeline chạm mốc tháng 24.
+
+**Voice-over:**
+
+"Sở hữu không phải điểm bắt đầu. Nó là phần thưởng, sau khi bạn đã chạy đủ, đóng đủ, đúng nhịp công ty muốn."
+
+**Chữ trên màn hình:**
+
+**SỞ HỮU = PHẦN THƯỞNG CUỐI**, không phải điểm bắt đầu.
+
+---
+
+## Cảnh 8 — CTA
+
+**Hình ảnh:**
+
+Câu hỏi mở bật sáng giữa khung hình, gợi mở các chính sách "miễn phí" khác trong đời sống hàng ngày.
+
+**Voice-over:**
+
+"Chính sách miễn phí nào quanh bạn cũng đang giữ một chiếc chìa khóa tương tự?"
+
+**Chữ trên màn hình:**
+
+**CHÍNH SÁCH "MIỄN PHÍ" NÀO QUANH BẠN CŨNG GIỮ MỘT CHIẾC CHÌA KHÓA TƯƠNG TỰ?**

@@ -106,6 +106,7 @@ import { GpsAccuracyScene } from "./scenes/GpsAccuracyScene";
 import { BatterySwapPolicyScene } from "./scenes/BatterySwapPolicyScene";
 import { LazadaEconomicsScene } from "./scenes/LazadaEconomicsScene";
 import { RatingThresholdScene } from "./scenes/RatingThresholdScene";
+import { RtoOwnershipScene } from "./scenes/RtoOwnershipScene";
 import {
   BrandSwapTestScene,
   BriefBlueprintScene,
@@ -230,6 +231,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <LazadaEconomicsScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "rating_threshold":
       return <RatingThresholdScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "rto_ownership":
+      return <RtoOwnershipScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "map_ping":
       return <MapPingScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "geohash_reveal":

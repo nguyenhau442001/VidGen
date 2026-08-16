@@ -149,6 +149,7 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "battery_swap_policy",
     "lazada_economics",
     "rating_threshold",
+    "rto_ownership",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

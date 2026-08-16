@@ -1,0 +1,119 @@
+{
+  "topic": "Xanh SM / Green SM RTO (Rent-to-Own xe điện cho tài xế)",
+  "segments": [
+    {
+      "name": "Tài xế đang cân nhắc tham gia RTO",
+      "role": "Lao động phổ thông tìm phương tiện mưu sinh, thu nhập thấp/trung bình",
+      "experience_level": "Mới hoặc sắp gia nhập nền tảng gọi xe công nghệ",
+      "current_workflow": [
+        "Thấy quảng cáo RTO trên mạng xã hội hoặc từ đại lý tuyển dụng",
+        "Tính toán số tiền cọc 3 triệu có khả thi không",
+        "Cân nhắc so với mua xe trả góp ngân hàng truyền thống"
+      ],
+      "trigger_events": [
+        "Xe cũ hỏng/hết khấu hao, cần phương tiện mới để tiếp tục chạy",
+        "Nghe bạn bè giới thiệu chương trình 'tặng xe'",
+        "Muốn chuyển từ xe xăng sang xe điện để giảm chi phí nhiên liệu"
+      ],
+      "functional_pains": [
+        "Không đủ vốn mua xe trả thẳng",
+        "Không rõ tổng chi phí thực tế nếu tính cả rủi ro phạt/truy thu"
+      ],
+      "emotional_pains": [
+        "Sợ bị 'gài bẫy' bởi điều khoản ẩn không đọc kỹ trước khi ký",
+        "Lo lắng mất xe giữa chừng đồng nghĩa mất luôn công cụ mưu sinh"
+      ],
+      "professional_pains": [
+        "Áp lực phải đạt KPI vận hành hàng ngày để tránh bị trừ ví",
+        "Áp lực nhận đủ chuyến để không bị hệ thống tự động ép nhận chuyến"
+      ],
+      "current_alternatives": [
+        "Mua xe xăng trả góp ngân hàng/công ty tài chính",
+        "Thuê xe theo ngày không cam kết sở hữu"
+      ],
+      "desired_outcomes": [
+        "Sở hữu xe thật sự sau 24 tháng mà không phát sinh chi phí ẩn",
+        "Biết trước chính xác ngưỡng doanh số/số cuốc cần đạt mỗi ngày"
+      ],
+      "objections": [
+        "Nếu ngày mưa/ế khách không đạt doanh số thì có bị phạt ngay không?",
+        "Có bị tính lãi suất ẩn nào ngoài phí thuê 60.000đ/ngày không?"
+      ],
+      "customer_language": [
+        "tặng xe",
+        "bảo đảm thu nhập",
+        "chỉ cần 3 triệu là có xe"
+      ],
+      "awareness_stage": "problem_aware",
+      "evidence": ["S001", "S002"],
+      "confidence": "medium"
+    },
+    {
+      "name": "Tài xế Grab/Be đang cân nhắc chuyển nền tảng",
+      "role": "Tài xế công nghệ có kinh nghiệm, đã quen mô hình thuê/sở hữu xe khác",
+      "experience_level": "Có kinh nghiệm chạy xe công nghệ 1-3 năm",
+      "current_workflow": [
+        "So sánh thu nhập ròng giữa các nền tảng",
+        "Tính toán chi phí nhiên liệu/pin/bảo trì giữa xe xăng và xe điện",
+        "Hỏi trong group cộng đồng tài xế về trải nghiệm thực tế RTO"
+      ],
+      "trigger_events": [
+        "Chi phí xăng tăng khiến thu nhập ròng giảm",
+        "Nghe case cụ thể (tích cực hoặc tiêu cực) từ tài xế đã tham gia RTO"
+      ],
+      "functional_pains": [
+        "Khó so sánh trực tiếp tổng chi phí sở hữu giữa các mô hình vì điều khoản RTO rải rác nhiều trang"
+      ],
+      "emotional_pains": [
+        "Từng bị 'sập bẫy' khuyến mãi ở nền tảng khác nên cảnh giác cao với điều khoản mới"
+      ],
+      "professional_pains": [
+        "Lo ngại bị khóa tài khoản đúng lúc đang phụ thuộc thu nhập từ nền tảng đó"
+      ],
+      "current_alternatives": [
+        "Tiếp tục chạy xe cá nhân đa nền tảng, không ràng buộc một hệ sinh thái"
+      ],
+      "desired_outcomes": [
+        "Một bảng so sánh rõ ràng: lợi ích quảng cáo vs. nghĩa vụ thật sự phải đạt"
+      ],
+      "objections": [
+        "RTO có thực sự rẻ hơn xe xăng trả góp khi tính cả rủi ro phạt không?"
+      ],
+      "customer_language": [
+        "siết quản lý",
+        "tài xế lười chạy",
+        "khóa xe"
+      ],
+      "awareness_stage": "solution_aware",
+      "evidence": ["S003", "S004", "S005"],
+      "confidence": "medium"
+    },
+    {
+      "name": "Khán giả tổng quát Ủa là sao",
+      "role": "Không lái xe công nghệ, quan tâm cách hệ thống công nghệ/gig-economy vận hành thật sự",
+      "experience_level": "Người xem phổ thông, tò mò công nghệ, 18-30 tuổi",
+      "current_workflow": [
+        "Xem video ngắn giải thích 'sự thật đằng sau' các chính sách quen thuộc"
+      ],
+      "trigger_events": [
+        "Thấy quảng cáo 'tặng xe' trên mạng xã hội và tò mò có thật không"
+      ],
+      "functional_pains": [],
+      "emotional_pains": [
+        "Thích cảm giác 'à hoá ra là vậy' khi hiểu cơ chế ẩn sau một chính sách tưởng đơn giản"
+      ],
+      "professional_pains": [],
+      "current_alternatives": [
+        "Đọc bài báo dài, hoặc không tìm hiểu gì cả vì không liên quan trực tiếp"
+      ],
+      "desired_outcomes": [
+        "Hiểu nhanh, hiểu đúng, cảm thấy thông minh hơn sau 70 giây"
+      ],
+      "objections": [],
+      "customer_language": [],
+      "awareness_stage": "unaware",
+      "evidence": ["S002", "S006"],
+      "confidence": "low"
+    }
+  ]
+}
