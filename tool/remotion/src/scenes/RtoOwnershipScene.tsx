@@ -513,6 +513,92 @@ const ReframeVisual: React.FC<{ frame: number; fps: number; headline: string; ac
 };
 
 // ---------------------------------------------------------------------------
+// Mode 6b — profit_reframe: press framing ("lãi nguyên chiếc xe") dissolves
+// into the condition it quietly depends on — same marketing-vs-real beat
+// shape as ReframeVisual, different copy and a three-check condition line.
+// ---------------------------------------------------------------------------
+const ProfitReframeVisual: React.FC<{ frame: number; fps: number; headline: string; accentWord?: string; sourceLabel?: string }> = ({
+  frame,
+  fps,
+  headline,
+  accentWord,
+  sourceLabel,
+}) => {
+  const pressOpacity = interpolate(frame, [20, 55], [1, 0.08], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const realSpring = spring({ frame: frame - 46, fps, config: { stiffness: 170, damping: 18 } });
+  const arrowFade = fade(frame, 60, 16);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+      <Eyebrow opacity={fade(frame, 0)} tone="gold">
+        LÃI NGUYÊN XE, NẾU
+      </Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={42} />
+      <Card style={{ width: 800, minHeight: 460, padding: "44px 36px", display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+        <div
+          style={{
+            opacity: pressOpacity,
+            minWidth: 460,
+            minHeight: 62,
+            borderRadius: 16,
+            border: `1.5px solid ${GOLD}55`,
+            background: `${GOLD}12`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            padding: "10px 24px",
+          }}
+        >
+          <span style={{ color: GOLD, fontSize: 24, fontWeight: 900, letterSpacing: 0.5 }}>"LÃI NGUYÊN CHIẾC XE"</span>
+        </div>
+        <div style={{ opacity: arrowFade, color: DIM, fontSize: 28 }}>
+          <svg width={28} height={28} viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v14M6 13l6 6 6-6" stroke={DIM} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <div
+          style={{
+            opacity: clamp(realSpring),
+            transform: `translateY(${(1 - clamp(realSpring)) * 18}px)`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+            width: "100%",
+          }}
+        >
+          {["ĐỦ DOANH SỐ MỖI NGÀY", "ĐỦ TỶ LỆ NHẬN CHUYẾN", "ĐỦ 250 CUỐC MỖI THÁNG"].map((label) => (
+            <div
+              key={label}
+              style={{
+                minHeight: 56,
+                borderRadius: 14,
+                border: `1.5px solid ${LOCK_RED}66`,
+                background: `${LOCK_RED}12`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                padding: "8px 20px",
+              }}
+            >
+              <span style={{ color: TEXT, fontSize: 18, fontWeight: 900 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+        {sourceLabel ? (
+          <div style={{ color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center", opacity: clamp(realSpring) }}>
+            {sourceLabel}
+          </div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Mode 4 — revenue_gauge: dial with needle dipping into red zone below threshold
 // ---------------------------------------------------------------------------
 const RevenueGaugeVisual: React.FC<{
@@ -607,6 +693,89 @@ const RevenueGaugeVisual: React.FC<{
         ) : null}
         {footer ? (
           <div style={{ marginTop: 14, color: DIM, fontSize: 14, fontWeight: 700, textAlign: "center" }}>{footer}</div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Mode 4c — monthly_trips: a third, independent KPI layer — count-up toward
+// the 250 trips/month floor, stacked visually below the daily-revenue and
+// acceptance-rate thresholds already shown in the two prior scenes.
+// ---------------------------------------------------------------------------
+const MonthlyTripsVisual: React.FC<{
+  frame: number;
+  fps: number;
+  headline: string;
+  accentWord?: string;
+  footer?: string;
+}> = ({ frame, fps, headline, accentWord, footer }) => {
+  const target = 250;
+  const count = Math.round(
+    interpolate(frame, [10, 80], [0, target], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
+  );
+  const tagReveal = fade(frame, 86, 16);
+  const stackSpring = spring({ frame: frame - 104, fps, config: { stiffness: 180, damping: 20 } });
+  const layers = ["DOANH SỐ / NGÀY", "TỶ LỆ NHẬN CHUYẾN", "CUỐC XE / THÁNG"];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+      <Eyebrow opacity={fade(frame, 0)} tone="red">
+        NGHĨA VỤ CUỐC XE HÀNG THÁNG
+      </Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={40} />
+      <Card style={{ width: 800, minHeight: 480, padding: "40px 34px", display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+          <span style={{ color: GOLD, fontSize: 78, fontWeight: 900, letterSpacing: -1 }}>{count}</span>
+          <span style={{ color: DIM, fontSize: 26, fontWeight: 800 }}>/ 250 CUỐC</span>
+        </div>
+        <div
+          style={{
+            opacity: tagReveal,
+            minWidth: 420,
+            minHeight: 60,
+            borderRadius: 14,
+            border: `1.5px solid ${LOCK_RED}66`,
+            background: `${LOCK_RED}12`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "10px 22px",
+            textAlign: "center",
+          }}
+        >
+          <span style={{ color: LOCK_RED, fontSize: 18, fontWeight: 900 }}>TÍNH RIÊNG, KHÔNG GỘP NGƯỠNG NGÀY</span>
+        </div>
+        <div
+          style={{
+            opacity: clamp(stackSpring),
+            transform: `translateY(${(1 - clamp(stackSpring)) * 14}px)`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            width: "100%",
+          }}
+        >
+          {layers.map((label, i) => (
+            <div
+              key={label}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "8px 14px",
+                borderRadius: 10,
+                background: i === 2 ? `${GOLD}14` : PANEL,
+                border: `1px solid ${i === 2 ? GOLD : BORDER}`,
+              }}
+            >
+              <span style={{ color: i === 2 ? GOLD : DIM, fontSize: 13, fontWeight: 900 }}>{i + 1}</span>
+              <span style={{ color: i === 2 ? TEXT : DIM, fontSize: 14, fontWeight: 800, letterSpacing: 0.4 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+        {footer ? (
+          <div style={{ color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center" }}>{footer}</div>
         ) : null}
       </Card>
     </div>
@@ -1103,11 +1272,17 @@ export const RtoOwnershipScene: React.FC<RtoOwnershipSceneProps> = ({
       );
     if (mode === "forced_dispatch")
       return <ForcedDispatchVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} footer={footer} />;
+    if (mode === "monthly_trips")
+      return <MonthlyTripsVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} footer={footer} />;
     if (mode === "lockout_timeline")
       return <LockoutTimelineVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} footer={footer} />;
     if (mode === "transfer_condition")
       return (
         <TransferConditionVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} sourceLabel={sourceLabel} />
+      );
+    if (mode === "profit_reframe")
+      return (
+        <ProfitReframeVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} sourceLabel={sourceLabel} />
       );
     if (mode === "payoff") return <PayoffVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} />;
     return <CtaVisual frame={frame} fps={fps} headline={headline} accentWord={accentWord} />;

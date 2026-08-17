@@ -94,7 +94,20 @@
       "on_screen_text": "TỶ LỆ NHẬN CHUYẾN <50% · HỆ THỐNG ÉP CHẠY ĐẾN 23:59. Nguồn: báo chí trong nước — cơ chế vận hành Xanh SM Bike."
     },
     {
-      "id": "shot_07_lockout_timeline",
+      "id": "shot_07_monthly_trips",
+      "type": "rto_ownership",
+      "duration_frames": 224,
+      "narration": "Chưa hết. Mỗi tháng còn phải đạt tối thiểu hai trăm năm mươi cuốc, tính riêng, không gộp chung với ngưỡng doanh số ngày.",
+      "props": {
+        "mode": "monthly_trips",
+        "headline": "≥250 CUỐC/THÁNG",
+        "accentWord": "250 CUỐC/THÁNG",
+        "footer": "Nguồn: trang trung gian trích điều khoản Xanh SM, chưa đối chiếu văn bản hợp đồng gốc."
+      },
+      "on_screen_text": "≥250 CUỐC/THÁNG · TÍNH RIÊNG, KHÔNG GỘP NGƯỠNG NGÀY. Nguồn: trang trung gian trích điều khoản Xanh SM, chưa đối chiếu văn bản hợp đồng gốc."
+    },
+    {
+      "id": "shot_08_lockout_timeline",
       "type": "rto_ownership",
       "duration_frames": 208,
       "narration": "Trễ thanh toán bảy ngày, xe bị khóa từ xa. Vi phạm ba tuần liên tiếp, công ty thu hồi xe, không cần giải thích thêm.",
@@ -107,7 +120,20 @@
       "on_screen_text": "TRỄ 7 NGÀY → KHÓA XE TỪ XA · VI PHẠM 3 TUẦN LIÊN TIẾP → THU HỒI XE. Áp dụng chung tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ."
     },
     {
-      "id": "shot_08_transfer_condition",
+      "id": "shot_09_profit_reframe",
+      "type": "rto_ownership",
+      "duration_frames": 232,
+      "narration": "Báo chí gọi đây là chính sách giúp tài xế lãi nguyên chiếc xe. Nhưng lãi đó chỉ tính được, nếu bạn giữ đủ cả ba ngưỡng suốt hai mươi bốn tháng.",
+      "props": {
+        "mode": "profit_reframe",
+        "headline": "\"LÃI NGUYÊN CHIẾC XE\" ⇄ ĐỦ CẢ BA NGƯỠNG SUỐT 24 THÁNG",
+        "accentWord": "ĐỦ CẢ BA NGƯỠNG SUỐT 24 THÁNG",
+        "sourceLabel": "Nguồn: báo chí trong nước, đối chiếu với điều khoản vận hành ở các cảnh trước."
+      },
+      "on_screen_text": "\"LÃI NGUYÊN CHIẾC XE\" ⇄ ĐỦ CẢ BA NGƯỠNG SUỐT 24 THÁNG. Nguồn: báo chí trong nước, đối chiếu với điều khoản vận hành ở các cảnh trước."
+    },
+    {
+      "id": "shot_10_transfer_condition",
       "type": "rto_ownership",
       "duration_frames": 264,
       "narration": "Sở hữu chỉ chuyển giao sau hai mươi bốn tháng, khi bạn trả đủ tiền và đạt đủ chỉ tiêu vận hành. Thiếu một trong hai, chiếc xe vẫn chưa là của bạn.",
@@ -119,7 +145,7 @@
       "on_screen_text": "24 THÁNG · TRẢ ĐỦ TIỀN + ĐẠT ĐỦ KPI = SỞ HỮU"
     },
     {
-      "id": "shot_09_payoff",
+      "id": "shot_11_payoff",
       "type": "rto_ownership",
       "duration_frames": 192,
       "narration": "Sở hữu không phải điểm bắt đầu. Nó là phần thưởng, sau khi bạn đã chạy đủ, đóng đủ, đúng nhịp công ty muốn.",
@@ -131,7 +157,7 @@
       "on_screen_text": "SỞ HỮU = PHẦN THƯỞNG CUỐI, không phải điểm bắt đầu."
     },
     {
-      "id": "shot_10_cta",
+      "id": "shot_12_cta",
       "type": "rto_ownership",
       "duration_frames": 128,
       "narration": "Chính sách miễn phí nào quanh bạn cũng đang giữ một chiếc chìa khóa tương tự?",

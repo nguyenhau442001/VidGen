@@ -8,15 +8,18 @@ dữ liệu công khai, khung dọc 1080×1920, khoảng 70–90 giây (mở r�
 xế bằng cơ chế vận hành cụ thể, không phải chỉ nêu điều khoản). Không khẳng định RTO là lừa đảo,
 không nói mọi tài xế đều gặp cùng một tình huống — chỉ đối chiếu ngôn ngữ quảng cáo với điều khoản
 vận hành công khai. Các con số lấy từ trang chính thức Xanh SM và báo chí trong nước, truy cập
-ngày 15/08/2026; nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 6–7 áp dụng cho
+ngày 15/08/2026; nguồn ngắn nên xuất hiện trong cảnh liên quan. Ngưỡng KPI ở Cảnh 6–8 áp dụng cho
 tài xế Bike nói chung — chưa xác nhận mức riêng cho nhóm RTO, phải giữ nguyên câu disclaimer ở
-Cảnh 7. Cảnh 6 (ép nhận chuyến tới 23:59) dựa trên cơ chế tỷ lệ nhận chuyến của Xanh SM Bike nói
+Cảnh 8. Cảnh 6 (ép nhận chuyến tới 23:59) dựa trên cơ chế tỷ lệ nhận chuyến của Xanh SM Bike nói
 chung [S003] — chưa xác nhận áp dụng riêng cho nhóm RTO, không được bỏ nguồn trích dẫn trên màn
-hình. Cảnh 3 cố ý không dùng ẩn dụ "chìa khóa" — hỏi thẳng "thuê giá rẻ hay bán theo cách khác",
-echo trực tiếp câu hỏi ở Cảnh 1, không dùng từ pháp lý "chủ sở hữu" vì nguồn chỉ xác nhận quyền
-kiểm soát vận hành, không xác nhận ai đứng tên sở hữu pháp lý trong 24 tháng đầu. Cảnh 2 (ưu đãi
-đăng ký) dùng số liệu từ cùng nguồn Xanh SM chính thức — chỉ trình bày trung lập, không khẳng
-định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 6.
+hình. Cảnh 7 (250 cuốc/tháng, nguồn S005) là trang trung gian trích điều khoản, chưa đối chiếu
+văn bản hợp đồng gốc — giữ nguyên câu disclaimer nguồn trên màn hình. Cảnh 9 (lãi nguyên xe) đối
+chiếu khung truyền thông báo chí [S007] với ba ngưỡng KPI đã nêu ở Cảnh 5–7, không phải claim
+mới — chỉ tổng hợp lại điều kiện đã có nguồn. Cảnh 3 cố ý không dùng ẩn dụ "chìa khóa" — hỏi thẳng
+"thuê giá rẻ hay bán theo cách khác", echo trực tiếp câu hỏi ở Cảnh 1, không dùng từ pháp lý "chủ
+sở hữu" vì nguồn chỉ xác nhận quyền kiểm soát vận hành, không xác nhận ai đứng tên sở hữu pháp lý
+trong 24 tháng đầu. Cảnh 2 (ưu đãi đăng ký) dùng số liệu từ cùng nguồn Xanh SM chính thức — chỉ
+trình bày trung lập, không khẳng định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 6.
 
 ## Cảnh 1 — Hook
 
@@ -116,7 +119,26 @@ bị khóa mờ, đồng hồ chạy tới 23:59.
 
 ---
 
-## Cảnh 7 — Khóa xe, thu hồi xe
+## Cảnh 7 — Nghĩa vụ cuốc xe hàng tháng
+
+**Hình ảnh:**
+
+Bộ đếm cuốc xe chạy lên tới 250, thẻ cảnh báo "tính riêng, không gộp ngưỡng ngày" bật
+sáng, rồi ba lớp KPI (doanh số/ngày, tỷ lệ nhận chuyến, cuốc xe/tháng) xếp chồng thành
+một danh sách.
+
+**Voice-over:**
+
+"Chưa hết. Mỗi tháng còn phải đạt tối thiểu hai trăm năm mươi cuốc, tính riêng, không gộp chung với ngưỡng doanh số ngày."
+
+**Chữ trên màn hình:**
+
+**≥250 CUỐC/THÁNG** · **TÍNH RIÊNG, KHÔNG GỘP NGƯỠNG NGÀY**. Nguồn: trang trung gian trích
+điều khoản Xanh SM, chưa đối chiếu văn bản hợp đồng gốc.
+
+---
+
+## Cảnh 8 — Khóa xe, thu hồi xe
 
 **Hình ảnh:**
 
@@ -134,7 +156,25 @@ tài xế Bike — mức riêng cho nhóm RTO chưa được công bố rõ.
 
 ---
 
-## Cảnh 8 — Điều kiện chuyển giao
+## Cảnh 9 — Lãi nguyên xe, nếu
+
+**Hình ảnh:**
+
+Nhãn quảng cáo "LÃI NGUYÊN CHIẾC XE" bật sáng rồi mờ dần, để lộ ba điều kiện ràng buộc
+thật bên dưới: đủ doanh số ngày, đủ tỷ lệ nhận chuyến, đủ 250 cuốc tháng.
+
+**Voice-over:**
+
+"Báo chí gọi đây là chính sách giúp tài xế lãi nguyên chiếc xe. Nhưng lãi đó chỉ tính được, nếu bạn giữ đủ cả ba ngưỡng suốt hai mươi bốn tháng."
+
+**Chữ trên màn hình:**
+
+**"LÃI NGUYÊN CHIẾC XE"** ⇄ **ĐỦ CẢ BA NGƯỠNG SUỐT 24 THÁNG**. Nguồn: báo chí trong nước,
+đối chiếu với điều khoản vận hành ở các cảnh trước.
+
+---
+
+## Cảnh 10 — Điều kiện chuyển giao
 
 **Hình ảnh:**
 
@@ -151,7 +191,7 @@ quảng cáo ở Cảnh 1 và ưu đãi ở Cảnh 2.
 
 ---
 
-## Cảnh 9 — Chìa khóa thật nằm ở đâu
+## Cảnh 11 — Chìa khóa thật nằm ở đâu
 
 **Hình ảnh:**
 
@@ -168,7 +208,7 @@ timeline chạm mốc tháng 24.
 
 ---
 
-## Cảnh 10 — CTA
+## Cảnh 12 — CTA
 
 **Hình ảnh:**
 

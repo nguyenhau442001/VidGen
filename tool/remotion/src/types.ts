@@ -360,8 +360,10 @@ export type RtoOwnershipMode =
   | "reframe"
   | "revenue_gauge"
   | "forced_dispatch"
+  | "monthly_trips"
   | "lockout_timeline"
   | "transfer_condition"
+  | "profit_reframe"
   | "payoff"
   | "cta";
 
