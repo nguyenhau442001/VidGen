@@ -25,6 +25,19 @@ Cảnh 2b (chi phí thuê thực tế: cọc 3 triệu, thuê 60.000đ/ngày, s�
 disclaimer nguồn trên màn hình; thêm vào 2026-08-23 để bổ sung độ dài video và làm rõ gánh nặng
 tài chính thực tế trước khi vào câu hỏi thuê/bán ở Cảnh 3.
 
+CẬP NHẬT 2026-08-23: Đối chiếu trực tiếp trang [S002] (greensm.com) bằng crawl trực tiếp cho
+thấy nội dung trang đã thay đổi so với lần truy cập 15/08/2026 — không còn cơ chế "chia doanh
+thu 90% năm 1, 85% năm 2" mà đã chuyển sang "Chính sách Bảo đảm Thu nhập" (Hà Nội/TP.HCM: tối
+thiểu 600.000đ/ngày nếu đạt 15 cuốc; khu vực khác: tối thiểu 11 triệu/tháng full-time hoặc 6,2
+triệu/tháng part-time). Cảnh 2 đã được cập nhật theo số liệu mới nhất, sourceLabel ghi rõ ngày
+truy cập 23/08/2026 để phân biệt với dữ liệu 15/08 đã lỗi thời. Bài học: trang tin tức GSM có
+thể thay đổi nội dung theo thời gian mà không lưu lịch sử — cần re-verify trước khi publish nếu
+khoảng cách giữa research và render vượt quá vài ngày. Cảnh 2c (quy trình 4 bước: cọc xe, vận
+doanh, trừ phí tự động từ ví, tích lũy sở hữu sau 2 năm) thêm cùng đợt cập nhật này — dựa trên
+mục "Chương trình 1: VÀO XANH – TẶNG XE" trên cùng trang [S002], vốn bị bỏ sót trong lần dựng
+kịch bản đầu. Cụm "cơ hội thành chủ sở hữu" giữ nguyên chữ "cơ hội" từ nguồn gốc, không nâng
+thành khẳng định chắc chắn.
+
 ## Cảnh 1 — Hook
 
 **Hình ảnh:**
@@ -45,15 +58,31 @@ tài chính thực tế trước khi vào câu hỏi thuê/bán ở Cảnh 3.
 
 **Hình ảnh:**
 
-Ba thẻ ưu đãi bật sáng lần lượt: chia doanh thu, thưởng đăng ký, hỗ trợ đổi xe.
+Ba thẻ ưu đãi bật sáng lần lượt: bảo đảm thu nhập theo ngày, bảo đảm thu nhập theo tháng, mức part-time.
 
 **Voice-over:**
 
-"Xanh SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu."
+"Ở Hà Nội và TP Hồ Chí Minh, Xanh SM bảo đảm thu nhập tối thiểu 600 nghìn một ngày nếu chạy đủ 15 cuốc. Khu vực khác, mức bảo đảm là 11 triệu một tháng chạy toàn thời gian."
 
 **Chữ trên màn hình:**
 
-**90% → 85% DOANH THU** · **THƯỞNG 500K ĐĂNG KÝ** · **HỖ TRỢ 1 TRIỆU ĐỔI XE**. Nguồn: Xanh SM — trang chính thức RTO.
+**≥600K/NGÀY (HN, TP.HCM)** · **≥11 TRIỆU/THÁNG FULL-TIME** · **≥6,2 TRIỆU/THÁNG PART-TIME**. Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026.
+
+---
+
+## Cảnh 2c — Quy trình 4 bước
+
+**Hình ảnh:**
+
+Bốn bước đánh số bật sáng lần lượt: cọc xe, vận doanh, trừ phí tự động, tích lũy sở hữu — bước 3 nổi bật màu vàng.
+
+**Voice-over:**
+
+"Hệ thống tự động trừ phí thuê mỗi ngày từ ví của bạn, không cần thao tác gì. Sau hai năm, bạn mới có cơ hội — không phải chắc chắn — trở thành chủ sở hữu."
+
+**Chữ trên màn hình:**
+
+**QUY TRÌNH 4 BƯỚC: CỌC XE · VẬN DOANH · TRỪ PHÍ TỰ ĐỘNG TỪ VÍ · SAU 2 NĂM CƠ HỘI SỞ HỮU**. Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026.
 
 ---
 

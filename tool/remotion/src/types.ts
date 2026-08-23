@@ -357,6 +357,7 @@ export type RtoOwnershipMode =
   | "hook"
   | "signup_perks"
   | "cost_breakdown"
+  | "process_steps"
   | "question"
   | "reframe"
   | "revenue_gauge"

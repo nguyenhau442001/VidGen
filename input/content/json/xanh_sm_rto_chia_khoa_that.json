@@ -24,20 +24,39 @@
     {
       "id": "shot_02_signup_perks",
       "type": "rto_ownership",
-      "duration_frames": 224,
-      "narration": "Xanh SM chia lại 90% doanh thu năm đầu, 85% năm hai. Đăng ký còn được thưởng 500 nghìn, đổi xe xăng cũ được hỗ trợ 1 triệu.",
+      "duration_frames": 265,
+      "narration": "Ở Hà Nội và TP Hồ Chí Minh, Xanh SM bảo đảm thu nhập tối thiểu 600 nghìn một ngày nếu chạy đủ 15 cuốc. Khu vực khác, mức bảo đảm là 11 triệu một tháng chạy toàn thời gian.",
       "props": {
         "mode": "signup_perks",
         "headline": "ƯU ĐÃI ĐĂNG KÝ RTO",
         "accentWord": "ƯU ĐÃI",
         "metrics": [
-          { "label": "CHIA DOANH THU", "value": "90% → 85%" },
-          { "label": "THƯỞNG ĐĂNG KÝ", "value": "500.000Đ" },
-          { "label": "ĐỔI XE XĂNG CŨ", "value": "HỖ TRỢ 1 TRIỆU" }
+          { "label": "HÀ NỘI, TP.HCM", "value": "≥600K/NGÀY (ĐỦ 15 CUỐC)" },
+          { "label": "KHU VỰC KHÁC", "value": "≥11 TRIỆU/THÁNG (FULL-TIME)" },
+          { "label": "PART-TIME KHU VỰC KHÁC", "value": "≥6,2 TRIỆU/THÁNG" }
         ],
-        "sourceLabel": "Nguồn: Xanh SM — trang chính thức RTO."
+        "sourceLabel": "Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026."
       },
-      "on_screen_text": "90% → 85% DOANH THU · THƯỞNG 500K ĐĂNG KÝ · HỖ TRỢ 1 TRIỆU ĐỔI XE. Nguồn: Xanh SM — trang chính thức RTO."
+      "on_screen_text": "≥600K/NGÀY (HN, TP.HCM) · ≥11 TRIỆU/THÁNG FULL-TIME · ≥6,2 TRIỆU/THÁNG PART-TIME. Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026."
+    },
+    {
+      "id": "shot_02c_process_steps",
+      "type": "rto_ownership",
+      "duration_frames": 230,
+      "narration": "Hệ thống tự động trừ phí thuê mỗi ngày từ ví của bạn, không cần thao tác gì. Sau hai năm, bạn mới có cơ hội — không phải chắc chắn — trở thành chủ sở hữu.",
+      "props": {
+        "mode": "process_steps",
+        "headline": "QUY TRÌNH 4 BƯỚC CỦA XANH SM",
+        "accentWord": "4 BƯỚC",
+        "metrics": [
+          { "label": "BƯỚC 1", "value": "CỌC 3 TRIỆU → NHẬN XE NGAY" },
+          { "label": "BƯỚC 2", "value": "VẬN DOANH, TẠO THU NHẬP" },
+          { "label": "BƯỚC 3", "value": "TRỪ PHÍ TỰ ĐỘNG TỪ VÍ", "tone": "gold" },
+          { "label": "BƯỚC 4", "value": "SAU 2 NĂM: CƠ HỘI SỞ HỮU" }
+        ],
+        "sourceLabel": "Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026."
+      },
+      "on_screen_text": "QUY TRÌNH 4 BƯỚC: CỌC XE · VẬN DOANH · TRỪ PHÍ TỰ ĐỘNG TỪ VÍ · SAU 2 NĂM CƠ HỘI SỞ HỮU. Nguồn: Xanh SM — trang chính thức RTO, cập nhật 23/08/2026."
     },
     {
       "id": "shot_02b_actual_cost",

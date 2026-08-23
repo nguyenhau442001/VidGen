@@ -16,13 +16,14 @@
 - Title: [CẬP NHẬT] Vào Xanh - Tặng Xe Cùng Chính Sách Bảo Đảm Thu Nhập Cho Bác Tài Xanh Bike Thuê Xe Sở Hữu (RTO)
 - Organization/Author: Green SM (trang tin chính thức)
 - URL: https://www.greensm.com/vn-vi/news/vao-xanh-tang-xe-cung-chinh-sach-bao-dam-thu-nhap-vo-cung-hap-dan
-- Publish date: không rõ chính xác, cập nhật 2026
-- Access date: 2026-08-15
+- Publish date: không rõ chính xác, cập nhật 2026 (trang hiện ghi mốc cập nhật 23/05/2026)
+- Access date: 2026-08-15 (lần 1); RE-VERIFIED 2026-08-23 (lần 2, qua crawl trực tiếp)
 - Source type: 1 (official documentation)
 - Reliability: fact
-- Claims supported: Chương trình RTO chính thức tồn tại; áp dụng cho xe Evo và Feliz II battery-swap; thời hạn chương trình 26/03/2026 – 30/06/2026 hoặc tới khi có thông báo mới; chia sẻ doanh thu 90% năm 1, 85% năm 2; thưởng 500.000đ vào ví khi đăng ký; hỗ trợ 1 triệu đồng khi đổi xe xăng cũ
-- Limitations: Là trang marketing chính thức — trình bày một chiều tích cực, không nêu điều khoản phạt/thu hồi
-- Notes: Nguồn mạnh nhất cho khung chương trình, nhưng cần nguồn khác cho phần điều khoản ràng buộc
+- Claims supported (bản 15/08/2026, ĐÃ LỖI THỜI — trang đã đổi nội dung): chia sẻ doanh thu 90% năm 1, 85% năm 2; thưởng 500.000đ vào ví khi đăng ký; hỗ trợ 1 triệu đồng khi đổi xe xăng cũ
+- Claims supported (bản 23/08/2026, HIỆN HÀNH): Chương trình RTO chính thức tồn tại; áp dụng cho xe Evo và Feliz II battery-swap; thời hạn chương trình 26/03/2026 – 30/06/2026 hoặc tới khi có thông báo mới; cọc 3.000.000đ (2tr cọc xe + 1tr cọc pin) → nhận xe ngay; giá thuê cố định 60.000đ/ngày (Evo) hoặc 67.000đ/ngày (Feliz II); Chính sách Bảo đảm Thu nhập thay cho chia doanh thu cũ — Hà Nội/TP.HCM: tối thiểu 600.000đ/ngày nếu đạt 15 cuốc (bù 36.000đ/cuốc thiếu, hoặc bù thêm 72.000đ nếu đã đạt ≥600k); khu vực khác: tối thiểu 11 triệu/tháng full-time hoặc 6,2 triệu/tháng part-time; nếu tài xế bị khóa tài khoản do vi phạm quy tắc ứng xử thì KHÔNG được hoàn cọc; tài xế có thể mua lại xe bất cứ lúc nào theo giá trị khấu hao còn lại. "Chương trình 1: VÀO XANH – TẶNG XE" (4 bước, mục riêng trên cùng trang): Bước 1 cọc xe & nhận xe ngay; Bước 2 vận doanh trên Green SM Platform; Bước 3 hệ thống TỰ ĐỘNG trừ phí thuê từ Ví tài xế mỗi ngày (không cần thao tác, không phát sinh phụ phí theo mô tả); Bước 4 tích lũy thu nhập từ vận doanh, sau 2 năm → "có CƠ HỘI thành chủ sở hữu xe" (nguyên văn dùng "cơ hội", không phải cam kết chắc chắn)
+- Limitations: Là trang marketing chính thức — trình bày một chiều tích cực, không nêu đầy đủ điều khoản phạt/thu hồi trong phần mô tả chính (dù GÓC GIẢI ĐÁP có đề cập việc mất cọc khi bị khóa tài khoản). Trang là "tin tức", có thể tiếp tục thay đổi nội dung không báo trước và không giữ lịch sử phiên bản — mọi số liệu trích từ trang này cần re-verify nếu khoảng cách giữa lúc trích và lúc publish video vượt quá vài ngày.
+- Notes: Nguồn mạnh nhất cho khung chương trình, nhưng cần nguồn khác cho phần điều khoản ràng buộc. QUAN TRỌNG: bản 90%/85% dùng trong video gốc (render trước 2026-08-23) đã lỗi thời — video đã được cập nhật lại theo bản 23/08/2026 ở Cảnh 2.
 
 ## S003
 - Title: Xanh SM siết quản lý đối với các tài xế lười chạy

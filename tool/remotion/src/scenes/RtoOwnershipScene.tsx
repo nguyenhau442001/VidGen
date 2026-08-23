@@ -458,6 +458,76 @@ const CostBreakdownVisual: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Mode 1d — process_steps: numbered step list, one step highlighted
+// ---------------------------------------------------------------------------
+const ProcessStepsVisual: React.FC<{
+  frame: number;
+  fps: number;
+  headline: string;
+  accentWord?: string;
+  metrics?: RtoMetric[];
+  sourceLabel?: string;
+}> = ({ frame, fps, headline, accentWord, metrics, sourceLabel }) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+      <Eyebrow opacity={fade(frame, 0)}>QUY TRÌNH 4 BƯỚC</Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={36} />
+      <Card style={{ width: 820, minHeight: 520, padding: "30px 32px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {(metrics ?? []).map((m, i) => {
+          const s = spring({ frame: frame - 18 - i * 18, fps, config: { stiffness: 190, damping: 18 } });
+          const highlighted = m.tone === "gold";
+          return (
+            <div
+              key={m.label}
+              style={{
+                opacity: clamp(s),
+                transform: `translateX(${(1 - clamp(s)) * -24}px)`,
+                display: "flex",
+                alignItems: "center",
+                gap: 18,
+                minHeight: 84,
+                borderRadius: 18,
+                border: `1.5px solid ${highlighted ? GOLD : BORDER}`,
+                background: highlighted ? `${GOLD}14` : PANEL,
+                padding: "14px 22px",
+                boxShadow: highlighted ? `0 0 30px ${GOLD}22` : "none",
+              }}
+            >
+              <div
+                style={{
+                  flexShrink: 0,
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  border: `2px solid ${highlighted ? GOLD : DIM}`,
+                  color: highlighted ? GOLD : DIM,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 18,
+                  fontWeight: 900,
+                }}
+              >
+                {i + 1}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 3, textAlign: "left" }}>
+                <div style={{ color: DIM, fontSize: 13, fontWeight: 800, letterSpacing: 0.4 }}>{m.label}</div>
+                <div style={{ color: highlighted ? GOLD : TEXT, fontSize: 21, fontWeight: 900 }}>{m.value}</div>
+              </div>
+            </div>
+          );
+        })}
+        {sourceLabel ? (
+          <div style={{ marginTop: 6, color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center" }}>
+            {sourceLabel}
+          </div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Mode 2 — question: bike with ghosted lock overlay
 // ---------------------------------------------------------------------------
 const QuestionVisual: React.FC<{ frame: number; fps: number; headline: string; accentWord?: string }> = ({
@@ -1332,6 +1402,17 @@ export const RtoOwnershipScene: React.FC<RtoOwnershipSceneProps> = ({
     if (mode === "cost_breakdown")
       return (
         <CostBreakdownVisual
+          frame={frame}
+          fps={fps}
+          headline={headline}
+          accentWord={accentWord}
+          metrics={metrics}
+          sourceLabel={sourceLabel}
+        />
+      );
+    if (mode === "process_steps")
+      return (
+        <ProcessStepsVisual
           frame={frame}
           fps={fps}
           headline={headline}
