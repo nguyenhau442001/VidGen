@@ -1,6 +1,6 @@
 {
   "video_id": "xanh_sm_rto_chia_khoa_that",
-  "title": "Xe được \"tặng\" — nhưng ai giữ chìa khóa thật?",
+  "title": "Xe được \"tặng\" — nhưng ai thật sự sở hữu?",
   "fps": 30,
   "narration_language": "vi",
   "shots": [
@@ -13,8 +13,8 @@
         "mode": "hook",
         "headline": "RTO: CHO THUÊ XE?\n⇄ BÁN XE CHO BẠN?",
         "accentWord": "BÁN XE CHO BẠN?",
-        "thumbnailHeadline": "XE ĐƯỢC \"TẶNG\"\nAI GIỮ CHÌA KHÓA?",
-        "thumbnailAccentWord": "CHÌA KHÓA?",
+        "thumbnailHeadline": "XE ĐƯỢC \"TẶNG\"\nAI SỞ HỮU THẬT?",
+        "thumbnailAccentWord": "SỞ HỮU THẬT?",
         "thumbnailSubtext": "XANH SM RTO · SỰ THẬT ĐIỀU KHOẢN",
         "thumbnailIllustration": "rtoOwnership",
         "thumbnailAccentColor": "#f0a830"
@@ -178,13 +178,13 @@
       "id": "shot_12_cta",
       "type": "rto_ownership",
       "duration_frames": 128,
-      "narration": "Chính sách miễn phí nào quanh bạn cũng đang giữ một chiếc chìa khóa tương tự?",
+      "narration": "Chính sách miễn phí nào quanh bạn cũng đang giữ quyền quyết định?",
       "props": {
         "mode": "cta",
-        "headline": "CHÍNH SÁCH \"MIỄN PHÍ\" NÀO QUANH\nBẠN GIỮ CHÌA KHÓA TƯƠNG TỰ?",
-        "accentWord": "CHÌA KHÓA TƯƠNG TỰ?"
+        "headline": "CHÍNH SÁCH \"MIỄN PHÍ\" NÀO QUANH\nBẠN CŨNG GIỮ QUYỀN QUYẾT ĐỊNH?",
+        "accentWord": "QUYỀN QUYẾT ĐỊNH?"
       },
-      "on_screen_text": "CHÍNH SÁCH \"MIỄN PHÍ\" NÀO QUANH BẠN CŨNG GIỮ MỘT CHIẾC CHÌA KHÓA TƯƠNG TỰ?"
+      "on_screen_text": "CHÍNH SÁCH \"MIỄN PHÍ\" NÀO QUANH BẠN CŨNG GIỮ QUYỀN QUYẾT ĐỊNH?"
     }
   ]
 }
