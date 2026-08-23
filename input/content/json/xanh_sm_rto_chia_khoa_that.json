@@ -8,7 +8,7 @@
       "id": "shot_01_hook",
       "type": "rto_ownership",
       "duration_frames": 96,
-      "narration": "Xanh SM cho thuê xe, hay thực ra bán xe cho bạn?",
+      "narration": "Xanh SM cho thuê xe hay thực ra bán xe cho bạn?",
       "props": {
         "mode": "hook",
         "headline": "RTO: CHO THUÊ XE?\n⇄ BÁN XE CHO BẠN?",
