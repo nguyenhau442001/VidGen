@@ -356,6 +356,7 @@ export type RatingThresholdSceneProps = RatingThresholdVisual & { durationInFram
 export type RtoOwnershipMode =
   | "hook"
   | "signup_perks"
+  | "cost_breakdown"
   | "question"
   | "reframe"
   | "revenue_gauge"

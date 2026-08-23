@@ -385,6 +385,79 @@ const SignupPerksVisual: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Mode 1c — cost_breakdown: stacked stat cards for actual rental cost
+// ---------------------------------------------------------------------------
+const CoinStackIcon: React.FC<{ size?: number; color?: string }> = ({ size = 30, color = GOLD }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <ellipse cx="12" cy="7" rx="8" ry="3.2" stroke={color} strokeWidth={1.8} />
+    <path d="M4 7v4.5c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2V7" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+    <path d="M4 11.5V16c0 1.77 3.58 3.2 8 3.2s8-1.43 8-3.2v-4.5" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+  </svg>
+);
+
+const BatteryIcon: React.FC<{ size?: number; color?: string }> = ({ size = 30, color = GOLD }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="2.5" y="7.5" width="16" height="9" rx="1.8" stroke={color} strokeWidth={1.8} />
+    <path d="M20 10.2h1.5v3.6H20" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+    <rect x="5" y="10" width="4.5" height="4" rx="0.6" fill={color} />
+  </svg>
+);
+
+const CostBreakdownVisual: React.FC<{
+  frame: number;
+  fps: number;
+  headline: string;
+  accentWord?: string;
+  metrics?: RtoMetric[];
+  sourceLabel?: string;
+}> = ({ frame, fps, headline, accentWord, metrics, sourceLabel }) => {
+  const icons = [
+    <CoinStackIcon key="coin" size={30} color={GOLD} />,
+    <ClockIcon key="clock" size={30} color={GOLD} />,
+    <BatteryIcon key="battery" size={30} color={GOLD} />,
+  ];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+      <Eyebrow opacity={fade(frame, 0)}>CHI PHÍ THỰC TẾ</Eyebrow>
+      <Headline text={headline} accentWord={accentWord} fontSize={38} />
+      <Card style={{ width: 800, minHeight: 500, padding: "36px 34px", display: "flex", flexDirection: "column", gap: 16 }}>
+        {(metrics ?? []).map((m, i) => {
+          const s = spring({ frame: frame - 20 - i * 20, fps, config: { stiffness: 190, damping: 18 } });
+          return (
+            <div
+              key={m.label}
+              style={{
+                opacity: clamp(s),
+                transform: `translateX(${(1 - clamp(s)) * -24}px)`,
+                display: "flex",
+                alignItems: "center",
+                gap: 20,
+                minHeight: 92,
+                borderRadius: 18,
+                border: `1.5px solid ${GOLD}55`,
+                background: `${GOLD}0f`,
+                padding: "16px 24px",
+              }}
+            >
+              {icons[i % icons.length]}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, textAlign: "left" }}>
+                <div style={{ color: DIM, fontSize: 14, fontWeight: 800, letterSpacing: 0.4 }}>{m.label}</div>
+                <div style={{ color: GOLD, fontSize: 26, fontWeight: 900 }}>{m.value}</div>
+              </div>
+            </div>
+          );
+        })}
+        {sourceLabel ? (
+          <div style={{ marginTop: 8, color: DIM, fontSize: 13, fontWeight: 700, textAlign: "center" }}>
+            {sourceLabel}
+          </div>
+        ) : null}
+      </Card>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Mode 2 — question: bike with ghosted lock overlay
 // ---------------------------------------------------------------------------
 const QuestionVisual: React.FC<{ frame: number; fps: number; headline: string; accentWord?: string }> = ({
@@ -1248,6 +1321,17 @@ export const RtoOwnershipScene: React.FC<RtoOwnershipSceneProps> = ({
     if (mode === "signup_perks")
       return (
         <SignupPerksVisual
+          frame={frame}
+          fps={fps}
+          headline={headline}
+          accentWord={accentWord}
+          metrics={metrics}
+          sourceLabel={sourceLabel}
+        />
+      );
+    if (mode === "cost_breakdown")
+      return (
+        <CostBreakdownVisual
           frame={frame}
           fps={fps}
           headline={headline}

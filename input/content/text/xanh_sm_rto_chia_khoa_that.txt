@@ -20,6 +20,10 @@ mới — chỉ tổng hợp lại điều kiện đã có nguồn. Cảnh 3 c�
 sở hữu" vì nguồn chỉ xác nhận quyền kiểm soát vận hành, không xác nhận ai đứng tên sở hữu pháp lý
 trong 24 tháng đầu. Cảnh 2 (ưu đãi đăng ký) dùng số liệu từ cùng nguồn Xanh SM chính thức — chỉ
 trình bày trung lập, không khẳng định điều kiện chia doanh thu phụ thuộc ngưỡng KPI ở Cảnh 6.
+Cảnh 2b (chi phí thuê thực tế: cọc 3 triệu, thuê 60.000đ/ngày, sạc pin miễn phí 2 năm) dựa trên
+[S001] — trang trung gian tuyển dụng, chưa đối chiếu văn bản hợp đồng gốc GSM, giữ nguyên câu
+disclaimer nguồn trên màn hình; thêm vào 2026-08-23 để bổ sung độ dài video và làm rõ gánh nặng
+tài chính thực tế trước khi vào câu hỏi thuê/bán ở Cảnh 3.
 
 ## Cảnh 1 — Hook
 
@@ -50,6 +54,22 @@ Ba thẻ ưu đãi bật sáng lần lượt: chia doanh thu, thưởng đăng k
 **Chữ trên màn hình:**
 
 **90% → 85% DOANH THU** · **THƯỞNG 500K ĐĂNG KÝ** · **HỖ TRỢ 1 TRIỆU ĐỔI XE**. Nguồn: Xanh SM — trang chính thức RTO.
+
+---
+
+## Cảnh 2b — Chi phí thuê thực tế
+
+**Hình ảnh:**
+
+Ba thẻ chi phí bật sáng lần lượt: cọc ban đầu, phí thuê theo ngày, sạc pin miễn phí.
+
+**Voice-over:**
+
+"Nhưng để chạm tay vào ưu đãi đó, bạn vẫn phải cọc ba triệu và trả sáu mươi nghìn thuê xe mỗi ngày. Đổi lại, sạc pin được miễn phí suốt hai năm."
+
+**Chữ trên màn hình:**
+
+**CỌC 3 TRIỆU** · **THUÊ 60K/NGÀY** · **SẠC PIN MIỄN PHÍ 2 NĂM**. Nguồn: trang trung gian tuyển dụng, chưa đối chiếu hợp đồng gốc GSM.
 
 ---
 
