@@ -150,6 +150,8 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "lazada_economics",
     "rating_threshold",
     "rto_ownership",
+    "plate_color",
+    "place_id",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,

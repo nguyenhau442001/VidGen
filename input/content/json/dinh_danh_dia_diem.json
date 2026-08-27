@@ -1,0 +1,200 @@
+{
+  "video_id": "dinh_danh_dia_diem",
+  "title": "Nhà bạn sắp có \"CCCD\" riêng",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01",
+      "type": "place_id",
+      "duration_frames": 104,
+      "narration": "Sự thật là, nhà bạn sắp có một mã số không đâu trùng.",
+      "props": {
+        "mode": "hook",
+        "headline": "NHÀ BẠN SẮP CÓ \"CCCD\" RIÊNG",
+        "accentWord": "CCCD"
+      }
+    },
+    {
+      "id": "shot_02",
+      "type": "place_id",
+      "duration_frames": 240,
+      "narration": "Sổ đỏ ghi địa chỉ một kiểu, điện nước ghi kiểu khác, ngân hàng lại ghi kiểu khác nữa. Bốn hệ thống, bốn cách hiểu về cùng một căn nhà.",
+      "props": {
+        "mode": "problem",
+        "headline": "CÙNG 1 CĂN NHÀ, MỖI HỆ THỐNG GHI 1 KIỂU",
+        "accentWord": "1 CĂN NHÀ",
+        "systems": [
+          { "label": "Sổ đỏ" },
+          { "label": "Điện nước" },
+          { "label": "Ngân hàng" },
+          { "label": "Giao hàng" }
+        ]
+      }
+    },
+    {
+      "id": "shot_03",
+      "type": "place_id",
+      "duration_frames": 248,
+      "narration": "Nhớ hồi CCCD gắn chip không? Chục loại giấy tờ, mỗi nơi một mã số riêng — gộp lại còn đúng một mã, một mã nói hết mọi chuyện về bạn.",
+      "props": {
+        "mode": "id_merge",
+        "headline": "CCCD GẮN CHIP = GỘP NHIỀU MÃ THÀNH 1",
+        "accentWord": "GỘP"
+      }
+    },
+    {
+      "id": "shot_04",
+      "type": "place_id",
+      "duration_frames": 136,
+      "narration": "Từ 1 tháng 9 năm 2026, đất đai và công trình cũng được làm y hệt vậy.",
+      "props": {
+        "mode": "mechanism",
+        "headline": "HIỆU LỰC TỪ 1/9/2026",
+        "accentWord": "1/9/2026",
+        "metrics": []
+      }
+    },
+    {
+      "id": "shot_05",
+      "type": "place_id",
+      "duration_frames": 232,
+      "narration": "Nghị định 326, ban hành ngày 19 tháng 8, cấp cho mỗi thửa đất một mã 12 chữ số — duy nhất, không trùng, không đổi theo thời gian.",
+      "props": {
+        "mode": "mechanism",
+        "headline": "NGHỊ ĐỊNH 326/2026/NĐ-CP",
+        "accentWord": "326/2026/NĐ-CP",
+        "metrics": [
+          { "label": "MÃ", "value": "12 chữ số / thửa đất" },
+          { "label": "TÍNH CHẤT", "value": "Duy nhất, không trùng, không đổi" }
+        ]
+      }
+    },
+    {
+      "id": "shot_06",
+      "type": "place_id",
+      "duration_frames": 192,
+      "narration": "Mã này hiện thẳng trên VNeID. Dữ liệu lấy từ những cơ sở đã có sẵn — bạn không cần khai lại từ đầu.",
+      "props": {
+        "mode": "vneid",
+        "headline": "MÃ ĐỊNH DANH HIỂN THỊ TRÊN VNEID",
+        "accentWord": "VNEID"
+      }
+    },
+    {
+      "id": "shot_07",
+      "type": "place_id",
+      "duration_frames": 192,
+      "narration": "Và không chỉ nhà bạn. Cầu, đường, chùa, sông hồ — tổng cộng 71 loại địa điểm đều được gắn mã riêng như vậy.",
+      "props": {
+        "mode": "scope",
+        "headline": "71 LOẠI ĐỊA ĐIỂM ĐƯỢC GẮN MÃ",
+        "accentWord": "71"
+      }
+    },
+    {
+      "id": "shot_08",
+      "type": "place_id",
+      "duration_frames": 216,
+      "narration": "Mã này gắn với miếng đất, không gắn với chủ. Bạn bán nhà, sang tên, tách thửa — mã vẫn là mã đó, ổn định lâu dài.",
+      "props": {
+        "mode": "permanence",
+        "headline": "MÃ GẮN VỚI ĐẤT, KHÔNG GẮN VỚI CHỦ",
+        "accentWord": "KHÔNG GẮN VỚI CHỦ"
+      }
+    },
+    {
+      "id": "shot_09",
+      "type": "place_id",
+      "duration_frames": 96,
+      "narration": "Mã này không thay sổ đỏ.",
+      "props": {
+        "mode": "link_key",
+        "headline": "KHÔNG THAY SỔ ĐỎ",
+        "accentWord": "KHÔNG",
+        "systems": [
+          { "label": "Sổ đỏ" }
+        ]
+      }
+    },
+    {
+      "id": "shot_10",
+      "type": "place_id",
+      "duration_frames": 264,
+      "narration": "Nó là khóa để các hệ thống nhận ra: đây cùng một chỗ — gõ địa chỉ một lần, nơi khác tự nhận đúng vị trí, không cần gõ tay lại từng nơi.",
+      "props": {
+        "mode": "link_key",
+        "headline": "LÀ KHÓA LIÊN KẾT DỮ LIỆU GIỮA CÁC HỆ THỐNG",
+        "accentWord": "KHÓA LIÊN KẾT",
+        "systems": [
+          { "label": "Sổ đỏ" },
+          { "label": "Điện nước" },
+          { "label": "Ngân hàng" },
+          { "label": "Giao hàng" }
+        ]
+      }
+    },
+    {
+      "id": "shot_11",
+      "type": "place_id",
+      "duration_frames": 240,
+      "narration": "Dữ liệu này chỉ được dùng đúng mục đích cho phép — không chuyển cho bên khác nếu bạn chưa đồng ý theo luật bảo vệ dữ liệu cá nhân.",
+      "props": {
+        "mode": "privacy",
+        "headline": "DỮ LIỆU CHỈ DÙNG ĐÚNG MỤC ĐÍCH",
+        "accentWord": "ĐÚNG MỤC ĐÍCH"
+      }
+    },
+    {
+      "id": "shot_12",
+      "type": "place_id",
+      "duration_frames": 184,
+      "narration": "Bạn xem mã của chính mình trên VNeID thì miễn phí. Cơ quan nhà nước khai thác theo đúng chức năng của họ.",
+      "props": {
+        "mode": "access",
+        "headline": "AI XEM MIỄN PHÍ TRÊN VNEID?",
+        "accentWord": "MIỄN PHÍ",
+        "tiers": [
+          { "label": "Công dân", "detail": "Xem miễn phí trên VNeID", "tone": "free" },
+          { "label": "Cơ quan nhà nước", "detail": "Khai thác theo chức năng", "tone": "free" }
+        ]
+      }
+    },
+    {
+      "id": "shot_13",
+      "type": "place_id",
+      "duration_frames": 128,
+      "narration": "Còn tổ chức khác muốn dùng ngoài hai trường hợp đó phải trả phí khai thác.",
+      "props": {
+        "mode": "access",
+        "headline": "TỔ CHỨC KHÁC PHẢI TRẢ PHÍ",
+        "accentWord": "TRẢ PHÍ",
+        "tiers": [
+          { "label": "Tổ chức khác", "detail": "Trả phí khai thác", "tone": "paid" }
+        ]
+      }
+    },
+    {
+      "id": "shot_14",
+      "type": "place_id",
+      "duration_frames": 208,
+      "narration": "Cả Hồ Gươm, vịnh Hạ Long cũng có mã riêng của nó. Bộ Công an là nơi dựng và giữ kho dữ liệu này.",
+      "props": {
+        "mode": "landmark",
+        "headline": "HỒ GƯƠM, HẠ LONG CŨNG CÓ MÃ RIÊNG",
+        "accentWord": "MÃ RIÊNG"
+      }
+    },
+    {
+      "id": "shot_15",
+      "type": "place_id",
+      "duration_frames": 216,
+      "narration": "Con người có CCCD. Giờ tới lượt căn nhà bạn đang ở cũng có một mã riêng của nó. Bạn nghĩ tiếp theo tới lượt cái gì?",
+      "props": {
+        "mode": "cta",
+        "headline": "CON NGƯỜI CÓ CCCD — GIỜ ĐẾN LƯỢT CĂN NHÀ",
+        "accentWord": "CĂN NHÀ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+# NHÀ BẠN SẮP CÓ "CCCD" RIÊNG
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `dinh_danh_dia_diem`, video_id cùng tên. Chủ đề: Nghị định 326/2026/NĐ-CP về định danh
+địa điểm, ban hành 19/8/2026, hiệu lực 1/9/2026 — mỗi thửa đất/công trình được cấp mã định
+danh 12 chữ số, hiển thị trên VNeID. Dữ kiện lấy từ prompt owner qua `/goal` (đã xác minh:
+Cổng TTĐT Chính phủ baochinhphu.vn, LuatVietnam.vn trích Điều 2/3/4/9 Nghị định). Không có
+research-brief riêng cho video này — dữ kiện được owner cung cấp trực tiếp trong prompt, coi
+là nguồn đã xác minh theo yêu cầu "dùng đúng số liệu, không tự suy diễn thêm". Không bịa thêm
+số liệu/ví dụ ngoài phần owner cung cấp. Khung dọc 1080×1920, mục tiêu 70–90 giây.
+
+Hidden Objective Function của video: người xem tưởng đây là thủ tục hành chính thêm (wrong
+belief: "thêm một mã số để quản lý"); thực ra mục tiêu là tạo khóa liên kết dữ liệu liên ngành
+(true objective: các hệ thống rời rạc — sổ đỏ, điện nước, ngân hàng — tự nhận diện đúng cùng
+một địa điểm). Phép so sánh trung tâm: CCCD gắn chip đã làm với CON NGƯỜI (gộp nhiều mã rời
+rạc thành 1 mã) — giờ áp dụng cho ĐỊA ĐIỂM.
+
+CẬP NHẬT (cùng phiên, mở rộng thời lượng): render TTS đầu (9 cảnh) chỉ đạt 44.8s, ngắn hơn
+mục tiêu 60-90s. Thêm Cảnh 8 (quyền riêng tư) trước CTA, dùng đúng ý owner đã cung cấp trong
+prompt gốc ("thông tin khai thác từ CSDL định danh địa điểm chỉ được dùng đúng mục đích cho
+phép, không chuyển giao/chia sẻ trừ khi có yêu cầu hoặc sự đồng ý của chủ thể dữ liệu theo
+pháp luật bảo vệ dữ liệu cá nhân") — chất liệu có sẵn trong brief nhưng chưa dùng ở bản đầu,
+không bịa số liệu mới. Đánh số lại Cảnh 8 (CTA) thành Cảnh 9.
+
+CẬP NHẬT (cùng phiên, lần 3 — 27/8): render 13 cảnh cho MP4 66.7s, vẫn dưới mốc 70s owner
+yêu cầu. Thêm 2 cảnh mới từ nguồn báo thật xác minh trong phiên này, không bịa: (a) Cảnh 5c
+"Mã gắn với đất, không gắn với chủ" — dựa Điều 3 khoản 1 Nghị định 326 "sau khi được tạo lập
+và gắn cho một đối tượng cụ thể, mã định danh địa điểm phải có tính ổn định lâu dài"
+(LuatVietnam.vn trích nguyên văn; Báo Chính phủ xác nhận mã không đổi qua giao dịch/tách/hợp
+thửa). (b) Cảnh 7d "Cả Hồ Gươm cũng có mã" — Soha/Báo Chính phủ: các địa danh nổi tiếng như
+Hồ Gươm, vịnh Hạ Long đều được cấp mã; Bộ Công an là cơ quan xây dựng và quản lý Cơ sở dữ
+liệu định danh địa điểm. Đánh số lại: CTA giữ nguyên là cảnh cuối.
+
+CẬP NHẬT (cùng phiên, lần 2): sau khi thêm Cảnh 8, TTS 10 cảnh vẫn chỉ đạt 47.8s (giọng đọc
+nhanh hơn ước tính 4.2 từ/giây dùng để tính duration_frames). User yêu cầu tìm thêm thông tin
+từ báo chí thật để mở rộng nội dung thay vì bịa. Đã web-search + fetch 2 nguồn: (a)
+baochinhphu.vn/moi-dia-diem-se-co-ma-dinh-danh-12-chu-so-hien-thi-tren-vneid-102260819150359235.htm
+— xác nhận ai được khai thác dữ liệu: "Tổ chức, cá nhân được khai thác dữ liệu công khai về
+định danh địa điểm trên ứng dụng định danh quốc gia (VNeID)" (miễn phí), "Cơ quan nhà nước, tổ
+chức chính trị được khai thác thông tin...để thực hiện chức năng, nhiệm vụ", còn "Tổ chức, cá
+nhân không thuộc các trường hợp quy định...phải nộp phí khai thác"; (b)
+luatvietnam.vn/tin-van-ban-moi/71-doi-tuong-duoc-dinh-danh-dia-diem-tu-01-9-2026-186-111640-article.html
+— xác nhận phạm vi định danh rộng hơn nhà đất rất nhiều: 71 loại đối tượng gồm cả đường, cầu,
+hầm, ga đường sắt, cảng, chùa/đền/miếu, sông suối/ao hồ, trạm bơm thủy lợi, nông trường... Thêm
+Cảnh 5b (phạm vi 71 đối tượng, chèn sau Cảnh 5 vneid) và Cảnh 7b (ai được xem/khai thác dữ liệu,
+chèn sau Cảnh 7 quyền riêng tư) dựa trên 2 nguồn báo mới xác thực này — không dùng lại các số
+liệu đã có trong prompt gốc, đây là chất liệu hoàn toàn mới từ báo chí thật. Đánh số lại tuần
+tự: Cảnh 8 quyền riêng tư cũ → Cảnh 7, CTA cũ → Cảnh 8.
+
+## Cảnh 1 — Hook
+
+**Hình ảnh:**
+
+Số nhà "111/35A" hiện lớn giữa khung, viền đỏ nhấp nháy như báo lỗi; sau đó số nhà mờ đi,
+một dãy 12 chữ số hiện ra kèm icon ứng dụng VNeID.
+
+**Voice-over:**
+
+"Sự thật là, nhà bạn sắp có một mã số không đâu trùng."
+
+**Chữ trên màn hình:**
+
+**NHÀ BẠN SẮP CÓ "CCCD" RIÊNG**
+
+---
+
+## Cảnh 2 — Vấn đề
+
+**Hình ảnh:**
+
+Bốn icon hộp riêng biệt bật sáng lần lượt: sổ đỏ, đồng hồ điện nước, ngân hàng, đơn giao
+hàng — mỗi icon ghi một kiểu địa chỉ hơi khác nhau, không có đường nối giữa chúng.
+
+**Voice-over:**
+
+"Sổ đỏ ghi địa chỉ một kiểu, điện nước ghi kiểu khác, ngân hàng lại ghi kiểu khác nữa.
+Bốn hệ thống, bốn cách hiểu về cùng một căn nhà."
+
+**Chữ trên màn hình:**
+
+**CÙNG 1 CĂN NHÀ** — MỖI HỆ THỐNG GHI ĐỊA CHỈ 1 KIỂU, KHÔNG LIÊN THÔNG
+
+---
+
+## Cảnh 3 — Phép so sánh CCCD
+
+**Hình ảnh:**
+
+Nhiều loại giấy tờ cũ (sổ hộ khẩu, chứng minh thư, bảo hiểm y tế) bay vào gộp lại thành một
+thẻ CCCD gắn chip duy nhất, hiệu ứng hợp nhất rõ ràng.
+
+**Voice-over:**
+
+"Nhớ hồi CCCD gắn chip không? Chục loại giấy tờ, mỗi nơi một mã số riêng — gộp lại còn
+đúng một mã, một mã nói hết mọi chuyện về bạn."
+
+**Chữ trên màn hình:**
+
+**CCCD GẮN CHIP** = GỘP NHIỀU MÃ RỜI RẠC THÀNH 1 MÃ DUY NHẤT
+
+---
+
+## Cảnh 4 — Cơ chế, áp dụng cho địa điểm
+
+**Hình ảnh:**
+
+Thẻ CCCD mờ đi, chuyển cảnh sang một thửa đất/căn nhà cách điệu được đóng khung.
+
+**Voice-over:**
+
+"Từ 1 tháng 9 năm 2026, đất đai và công trình cũng được làm y hệt vậy."
+
+**Chữ trên màn hình:**
+
+**HIỆU LỰC TỪ 1/9/2026**
+
+---
+
+## Cảnh 4b — Chi tiết nghị định
+
+**Hình ảnh:**
+
+Một dãy 12 chữ số khắc lên khung nhà như con dấu, số "326" và ngày "19/8" hiện phía dưới.
+
+**Voice-over:**
+
+"Nghị định 326, ban hành ngày 19 tháng 8, cấp cho mỗi thửa đất một mã 12 chữ số — duy
+nhất, không trùng, không đổi theo thời gian."
+
+**Chữ trên màn hình:**
+
+**NGHỊ ĐỊNH 326/2026/NĐ-CP** · **MÃ 12 CHỮ SỐ / THỬA ĐẤT**
+
+---
+
+## Cảnh 5 — Hiển thị trên VNeID
+
+**Hình ảnh:**
+
+Mockup màn hình điện thoại mở app VNeID, mã định danh địa điểm 12 chữ số hiện trong một
+mục riêng, dữ liệu từ các cơ sở có sẵn tự động điền vào.
+
+**Voice-over:**
+
+"Mã này hiện thẳng trên VNeID. Dữ liệu lấy từ những cơ sở đã có sẵn — bạn không cần khai
+lại từ đầu."
+
+**Chữ trên màn hình:**
+
+**MÃ ĐỊNH DANH HIỂN THỊ TRÊN VNEID** · KẾ THỪA DỮ LIỆU CÓ SẴN, KHÔNG KHAI LẠI
+
+---
+
+## Cảnh 5b — Không chỉ nhà bạn
+
+**Hình ảnh:**
+
+Từ icon căn nhà, camera kéo rộng ra dần lộ thêm nhiều icon khác cùng được gắn mã: cây cầu,
+con đường, ngôi chùa, dòng sông — tổng cộng một con số lớn hiện giữa khung.
+
+**Voice-over:**
+
+"Và không chỉ nhà bạn. Cầu, đường, chùa, sông hồ — tổng cộng 71 loại địa điểm đều được gắn
+mã riêng như vậy."
+
+**Chữ trên màn hình:**
+
+**71 LOẠI ĐỊA ĐIỂM ĐƯỢC GẮN MÃ** — KHÔNG CHỈ NHÀ ĐẤT. Nguồn: LuatVietnam.vn.
+
+---
+
+## Cảnh 5c — Mã gắn với đất, không gắn với chủ
+
+**Hình ảnh:**
+
+Khung nhà mang mã 12 chữ số đứng yên ở giữa; phía trên, các icon "chủ sở hữu" thay nhau đổi
+(người A mờ đi, người B hiện lên), nhưng mã bên dưới không hề nhấp nháy hay đổi số.
+
+**Voice-over:**
+
+"Mã này gắn với miếng đất, không gắn với chủ. Bạn bán nhà, sang tên, tách thửa — mã vẫn là
+mã đó, ổn định lâu dài."
+
+**Chữ trên màn hình:**
+
+**MÃ GẮN VỚI ĐỊA ĐIỂM, KHÔNG GẮN VỚI CHỦ** — ĐỔI CHỦ, MÃ VẪN NGUYÊN. Nguồn: LuatVietnam.vn.
+
+---
+
+## Cảnh 6 — Không thay sổ đỏ
+
+**Hình ảnh:**
+
+Một mã 12 chữ số ở trung tâm, chưa có đường nối, icon sổ đỏ mờ nhạt hiện cạnh đó.
+
+**Voice-over:**
+
+"Mã này không thay sổ đỏ."
+
+**Chữ trên màn hình:**
+
+**KHÔNG THAY SỔ ĐỎ**
+
+---
+
+## Cảnh 6b — Khóa liên kết dữ liệu
+
+**Hình ảnh:**
+
+Đường dây nối tỏa ra từ mã trung tâm tới icon sổ đỏ, điện nước, ngân hàng, giao hàng —
+tất cả icon đồng loạt sáng xanh khi kết nối xong.
+
+**Voice-over:**
+
+"Nó là khóa để các hệ thống nhận ra: đây cùng một chỗ — gõ địa chỉ một lần, nơi khác tự
+nhận đúng vị trí, không cần gõ tay lại từng nơi."
+
+**Chữ trên màn hình:**
+
+**LÀ KHÓA LIÊN KẾT DỮ LIỆU GIỮA CÁC HỆ THỐNG**
+
+---
+
+## Cảnh 7 — Quyền riêng tư
+
+**Hình ảnh:**
+
+Mã 12 chữ số trong một hộp khóa kín, một icon ổ khóa hiện phía trên; các mũi tên thử "chuyển
+ra ngoài" bị chặn lại ở viền hộp.
+
+**Voice-over:**
+
+"Dữ liệu này chỉ được dùng đúng mục đích cho phép — không chuyển cho bên khác nếu bạn chưa
+đồng ý theo luật bảo vệ dữ liệu cá nhân."
+
+**Chữ trên màn hình:**
+
+**DỮ LIỆU CHỈ DÙNG ĐÚNG MỤC ĐÍCH** — KHÔNG CHIA SẺ KHI CHƯA CÓ SỰ ĐỒNG Ý
+
+---
+
+## Cảnh 7b — Ai xem miễn phí
+
+**Hình ảnh:**
+
+Hai nhóm người hiện lần lượt: công dân thường (icon miễn phí) và cơ quan nhà nước (icon
+huy hiệu) — mỗi nhóm kèm nhãn quyền truy cập tương ứng.
+
+**Voice-over:**
+
+"Bạn xem mã của chính mình trên VNeID thì miễn phí. Cơ quan nhà nước khai thác theo đúng
+chức năng của họ."
+
+**Chữ trên màn hình:**
+
+**CÔNG DÂN: XEM MIỄN PHÍ TRÊN VNEID** · **CƠ QUAN NHÀ NƯỚC: KHAI THÁC THEO CHỨC NĂNG**.
+Nguồn: Báo Chính phủ (baochinhphu.vn).
+
+---
+
+## Cảnh 7c — Ai phải trả phí
+
+**Hình ảnh:**
+
+Nhóm tổ chức khác (icon có dấu tiền) hiện lên, tách biệt khỏi hai nhóm trước.
+
+**Voice-over:**
+
+"Còn tổ chức khác muốn dùng ngoài hai trường hợp đó phải trả phí khai thác."
+
+**Chữ trên màn hình:**
+
+**TỔ CHỨC KHÁC: TRẢ PHÍ KHAI THÁC**. Nguồn: Báo Chính phủ (baochinhphu.vn).
+
+---
+
+## Cảnh 7d — Cả Hồ Gươm cũng có mã
+
+**Hình ảnh:**
+
+Icon Hồ Gươm (mặt nước + Tháp Rùa cách điệu) và icon vịnh Hạ Long (núi đá nhô lên mặt nước)
+hiện lần lượt, mỗi cái được đóng một mã 12 chữ số; phía dưới hiện phù hiệu "BỘ CÔNG AN" như
+cơ quan giữ kho dữ liệu.
+
+**Voice-over:**
+
+"Cả Hồ Gươm, vịnh Hạ Long cũng có mã riêng của nó. Bộ Công an là nơi dựng và giữ kho dữ liệu
+này."
+
+**Chữ trên màn hình:**
+
+**HỒ GƯƠM, VỊNH HẠ LONG ĐỀU CÓ MÃ** · KHO DỮ LIỆU DO BỘ CÔNG AN QUẢN LÝ. Nguồn: Báo Chính phủ.
+
+---
+
+## Cảnh 8 — CTA
+
+**Hình ảnh:**
+
+Chia đôi màn hình: bên trái thẻ CCCD của một người, bên phải khung nhà mang mã 12 chữ số —
+cả hai cùng sáng lên đối xứng.
+
+**Voice-over:**
+
+"Con người có CCCD. Giờ tới lượt căn nhà bạn đang ở cũng có một mã riêng của nó. Bạn nghĩ
+tiếp theo tới lượt cái gì?"
+
+**Chữ trên màn hình:**
+
+**CON NGƯỜI CÓ CCCD — GIỜ ĐẾN LƯỢT CĂN NHÀ.** TIẾP THEO LÀ GÌ?

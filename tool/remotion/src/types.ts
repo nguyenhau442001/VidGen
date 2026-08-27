@@ -391,6 +391,91 @@ export type RtoOwnershipVisual = {
 
 export type RtoOwnershipSceneProps = RtoOwnershipVisual & { durationInFrames: number };
 
+export type PlateColorMode =
+  | "hook"
+  | "question"
+  | "color_reveal"
+  | "code_grid"
+  | "military_code"
+  | "diplomatic_exception"
+  | "identity_bind"
+  | "conversion_fact"
+  | "cta";
+
+export type PlateColorKey = "white" | "blue" | "red" | "yellow" | "ng";
+
+export type PlateColorMetric = { label: string; value: string };
+
+export type PlateColorCodeGridRow = { code: string; meaning: string };
+
+export type PlateColorVisual = {
+  mode: PlateColorMode;
+  headline: string;
+  accentWord?: string;
+  eyebrow?: string;
+  // color_reveal-only
+  colorKey?: PlateColorKey;
+  plateCode?: string;
+  metrics?: PlateColorMetric[];
+  // code_grid-only
+  codeGridRows?: PlateColorCodeGridRow[];
+  // military_code-only
+  militaryCode?: string;
+  militaryUnitLabel?: string;
+  // diplomatic_exception-only
+  diplomaticImmunityLabel?: string;
+  diplomaticExceptionLabel?: string;
+  // conversion_fact-only
+  conversionYearLabel?: string;
+  sourceLabel?: string;
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "plateColor";
+  thumbnailAccentColor?: string;
+};
+
+export type PlateColorSceneProps = PlateColorVisual & { durationInFrames: number };
+
+export type PlaceIdMode =
+  | "hook"
+  | "problem"
+  | "id_merge"
+  | "mechanism"
+  | "vneid"
+  | "link_key"
+  | "privacy"
+  | "scope"
+  | "permanence"
+  | "landmark"
+  | "access"
+  | "cta";
+
+export type PlaceIdSystemBox = { label: string; icon?: "doc" | "house" };
+
+export type PlaceIdMetric = { label: string; value: string };
+
+export type PlaceIdAccessTier = { label: string; detail: string; tone: "free" | "paid" };
+
+export type PlaceIdVisual = {
+  mode: PlaceIdMode;
+  headline: string;
+  accentWord?: string;
+  // problem, link_key
+  systems?: PlaceIdSystemBox[];
+  // mechanism
+  metrics?: PlaceIdMetric[];
+  // access
+  tiers?: PlaceIdAccessTier[];
+  thumbnailHeadline?: string;
+  thumbnailAccentWord?: string;
+  thumbnailSubtext?: string;
+  thumbnailIllustration?: "placeId";
+  thumbnailAccentColor?: string;
+};
+
+export type PlaceIdSceneProps = PlaceIdVisual & { durationInFrames: number };
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
@@ -508,7 +593,9 @@ export type ManifestScene =
   | { type: "real_footage"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RealFootageVisual }
   | { type: "screenshot"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ScreenshotVisual }
   | { type: "shopee_discount_cover"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ShopeeDiscountCoverVisual }
-  | { type: "rto_ownership"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RtoOwnershipVisual };
+  | { type: "rto_ownership"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RtoOwnershipVisual }
+  | { type: "plate_color"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PlateColorVisual }
+  | { type: "place_id"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PlaceIdVisual };
 
 export type MarketingCaptionHookVisual = {
   label: string;
