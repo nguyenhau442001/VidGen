@@ -1,0 +1,42 @@
+{
+  "topic": "Ý nghĩa màu sắc biển số xe ô tô Việt Nam",
+  "segments": [
+    {
+      "name": "Người đi đường tò mò",
+      "role": "Người xem phổ thông, không phải chuyên gia luật giao thông",
+      "experience_level": "Không có kiến thức chuyên môn — chỉ quan sát ngoài đường hằng ngày",
+      "current_workflow": [
+        "Nhìn thấy biển số xe khi tham gia giao thông, không chủ động tra cứu",
+        "Nếu tò mò, thường hỏi bạn bè hoặc tìm kiếm nhanh trên Google/TikTok"
+      ],
+      "trigger_events": [
+        "Vừa nhìn thấy một biển số lạ (biển đỏ, biển có chữ NG) ngoài đường hoặc trong ảnh/video lan truyền",
+        "Lướt feed nội dung dạng 'bạn có biết' / kiến thức đời thường, không có trigger chủ động cụ thể"
+      ],
+      "functional_pains": [
+        "Không phân biệt được các màu biển số tương ứng loại chủ xe nào",
+        "Tra cứu trên mạng thường ra kết quả mâu thuẫn nhau giữa các nguồn không chính thống"
+      ],
+      "emotional_pains": [
+        "Cảm giác 'mình sống ở đây bao lâu mà không biết' khi phát hiện mình hiểu sai một điều hiển nhiên"
+      ],
+      "professional_pains": [],
+      "current_alternatives": [
+        "Tự suy đoán dựa trên kinh nghiệm cá nhân (thường sai, như chính outline nháp ban đầu của user)",
+        "Tìm kiếm Google, đọc các bài blog SEO không trích dẫn nguồn luật cụ thể"
+      ],
+      "desired_outcomes": [
+        "Hiểu nhanh, nhớ lâu ý nghĩa từng màu biển số",
+        "Có một chi tiết thú vị để kể lại cho người khác"
+      ],
+      "objections": [
+        "Sợ nội dung không chính xác / clip câu view núp bóng kiến thức",
+        "Sợ nội dung khô khan kiểu đọc luật"
+      ],
+      "customer_language": [],
+      "awareness_stage": "problem-unaware (không biết mình đang hiểu sai/thiếu thông tin cho tới khi video chỉ ra)",
+      "evidence": ["S002", "S003"],
+      "confidence": "medium"
+    }
+  ]
+}

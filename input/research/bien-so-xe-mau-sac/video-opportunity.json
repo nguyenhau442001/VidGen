@@ -1,0 +1,50 @@
+{
+  "recommended_angle": "Giải mã màu biển số xe — sự thật đằng sau hệ thống bạn nhìn thấy mỗi ngày",
+  "audience": "Người đi đường tò mò",
+  "viewer_belief_before": "Màu biển số xe là ngẫu nhiên hoặc chỉ hiểu mơ hồ/sai (ví dụ nhầm biển đỏ là 'xe cơ quan chính phủ' thay vì quân đội)",
+  "viewer_belief_after": "Màu biển số là một hệ thống phân loại có căn cứ pháp luật rõ ràng (trắng=tư nhân, xanh=nhà nước, đỏ=quân đội, vàng=kinh doanh vận tải, NG=ngoại giao), và biển quân đội còn mã hóa cả đơn vị quản lý qua 2 chữ cái đầu",
+  "core_argument": "Một hệ thống ký hiệu công khai, nhìn thấy mỗi ngày hàng chục lần, vẫn có thể hoàn toàn vô hình về nhận thức cho tới khi được chỉ ra rõ ràng — kể cả người tạo ý tưởng video này ban đầu cũng nhầm lẫn hai màu quan trọng nhất.",
+  "proof_needed": [
+    "Trích dẫn đúng số Thông tư cho từng màu (79/2024/TT-BCA cho khung màu dân sự, 169/2021/TT-BQP cho ký hiệu quân đội)",
+    "Ví dụ cụ thể dễ nhớ cho ký hiệu quân đội (AA = Quân đoàn 1) thay vì liệt kê khô khan",
+    "Nêu rõ ngoại lệ của miễn trừ ngoại giao (không áp dụng cho công dân Việt Nam) để tránh hiểu sai"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "Hook mở đầu: hình ảnh nhiều biển số xe khác màu lướt qua nhanh, tạo cảm giác 'bạn thấy cái này mỗi ngày' trước khi hỏi câu tò mò",
+      "possible_scene_types": ["hook scene tái dùng pattern từ RtoOwnershipScene HookVisual, đổi nội dung"],
+      "required_assets": ["Minh họa cách điệu 4-5 biển số màu khác nhau (không dùng ảnh biển số thật của xe cá nhân để tránh vấn đề riêng tư/bản quyền)"],
+      "risk": "Không dùng ảnh chụp biển số thật ngoài đường (có thể lộ thông tin xe cá nhân) — nên dựng minh họa cách điệu đúng màu chuẩn"
+    },
+    {
+      "narrative_function": "mechanism",
+      "concept": "Mỗi màu là 1 card lật ra: màu biển, icon loại xe tương ứng, 1 dòng giải thích ngắn — tái dùng layout metric-card đã có sẵn trong RtoOwnershipScene (CostBreakdownVisual/ProcessStepsVisual pattern)",
+      "possible_scene_types": ["scene mới kiểu 'plate_color_reveal', metrics-card layout"],
+      "required_assets": ["4-5 card component, mỗi card đúng màu nền biển số thật (trắng/xanh/đỏ/vàng) theo S002"],
+      "risk": "Phải dùng đúng mã màu chuẩn (không tự chế), đối chiếu S002 trước khi code component"
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Twist quân đội: zoom vào 2 chữ cái đầu trên biển đỏ, hiệu ứng 'giải mã' hiện ra tên đơn vị (AA → Quân đoàn 1)",
+      "possible_scene_types": ["scene nhấn mạnh 1 chi tiết, có thể dùng lại tone-highlight pattern (viền vàng/glow) đã làm ở process_steps scene của video RTO"],
+      "required_assets": ["2-3 ví dụ ký hiệu quân đội đã xác thực (AA, KA, QH) — không tự bịa thêm ký hiệu ngoài S003"],
+      "risk": "Chỉ dùng đúng 2-3 ví dụ đã xác thực, không mở rộng danh sách nếu chưa research thêm"
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Twist NG: biển trắng có chữ đỏ, kèm dòng chữ ngắn về miễn trừ NGOẠI TRỪ khi người lái là công dân Việt Nam",
+      "possible_scene_types": ["scene tương tự transfer_condition/lockout_timeline pattern đã có ở RTO video — trình bày 'quyền lợi + ngoại lệ' song song"],
+      "required_assets": ["Không cần asset đặc biệt, chỉ cần text card rõ ràng 2 vế (miễn trừ / ngoại lệ)"],
+      "risk": "Phải giữ ngoại lệ rõ ràng, tránh gây hiểu lầm là 'đặc quyền tuyệt đối né luật'"
+    },
+    {
+      "narrative_function": "cta",
+      "concept": "CTA mới thay thế kicker gốc (đã bị phủ định) — có thể dùng chính sự kiện thật 2020-2021 (bắt buộc đổi biển vàng cho xe kinh doanh vận tải) làm 'twist nhỏ' cuối cùng thay vì suy đoán tương lai không có bằng chứng",
+      "possible_scene_types": ["CTA scene chuẩn, follow prompt"],
+      "required_assets": [],
+      "risk": "Không dùng lại câu kicker gốc của user ('đang chuyển dần sang thống nhất biển trắng') vì không xác thực được — cần viết lại"
+    }
+  ],
+  "recommended_next_skill": "vidgen-narrative-director"
+}

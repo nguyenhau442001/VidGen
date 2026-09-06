@@ -1,0 +1,218 @@
+{
+  "video_id": "bien_so_xe_mau_sac",
+  "title": "Giải Mã Màu Biển Số Xe",
+  "fps": 30,
+  "narration_language": "vi",
+  "shots": [
+    {
+      "id": "shot_01_hook",
+      "type": "plate_color",
+      "duration_frames": 150,
+      "narration": "Có bao giờ bạn tự hỏi, vì sao biển số xe lại có nhiều màu khác nhau đến vậy?",
+      "props": {
+        "mode": "hook",
+        "headline": "VÌ SAO BIỂN SỐ XE\nCÓ NHIỀU MÀU KHÁC NHAU?",
+        "accentWord": "NHIỀU MÀU KHÁC NHAU"
+      },
+      "on_screen_text": "VÌ SAO BIỂN SỐ XE CÓ NHIỀU MÀU KHÁC NHAU?"
+    },
+    {
+      "id": "shot_02_question",
+      "type": "plate_color",
+      "duration_frames": 120,
+      "narration": "Biển xanh, biển đỏ — bạn có chắc mình phân biệt đúng không?",
+      "props": {
+        "mode": "question",
+        "headline": "BIỂN XANH ⇄ BIỂN ĐỎ\nPHÂN BIỆT ĐÚNG KHÔNG?",
+        "accentWord": "PHÂN BIỆT ĐÚNG KHÔNG?"
+      },
+      "on_screen_text": "BIỂN XANH ⇄ BIỂN ĐỎ — PHÂN BIỆT ĐÚNG KHÔNG?"
+    },
+    {
+      "id": "shot_03_white",
+      "type": "plate_color",
+      "duration_frames": 236,
+      "narration": "Trước tiên là trắng, chữ đen — xe cá nhân, doanh nghiệp tư nhân. Loại bạn gặp nhiều nhất. Nhớ đơn giản: trắng là màu mặc định, không thuộc nhóm đặc biệt nào.",
+      "props": {
+        "mode": "color_reveal",
+        "eyebrow": "BIỂN TRẮNG",
+        "headline": "CÁ NHÂN · DOANH NGHIỆP\nTƯ NHÂN",
+        "accentWord": "TƯ NHÂN",
+        "colorKey": "white",
+        "metrics": [
+          { "label": "MÀU NỀN", "value": "TRẮNG" },
+          { "label": "MÀU CHỮ", "value": "ĐEN" },
+          { "label": "ÁP DỤNG", "value": "CÁ NHÂN, DOANH NGHIỆP TƯ NHÂN" }
+        ],
+        "sourceLabel": "Nguồn: Thông tư 79/2024/TT-BCA."
+      },
+      "on_screen_text": "BIỂN TRẮNG = CÁ NHÂN · DOANH NGHIỆP TƯ NHÂN. Nguồn: Thông tư 79/2024/TT-BCA."
+    },
+    {
+      "id": "shot_04_blue",
+      "type": "plate_color",
+      "duration_frames": 272,
+      "narration": "Khác hẳn là biển xanh, chữ trắng — cơ quan nhà nước, công an. Không phải màu đỏ như nhiều người tưởng. Mẹo nhớ: xanh là màu của nhà nước, đỏ mới là màu riêng của quân đội.",
+      "props": {
+        "mode": "color_reveal",
+        "eyebrow": "BIỂN XANH",
+        "headline": "CƠ QUAN NHÀ NƯỚC\n· CÔNG AN",
+        "accentWord": "CƠ QUAN NHÀ NƯỚC",
+        "colorKey": "blue",
+        "metrics": [
+          { "label": "MÀU NỀN", "value": "XANH" },
+          { "label": "MÀU CHỮ", "value": "TRẮNG" },
+          { "label": "ÁP DỤNG", "value": "CƠ QUAN NHÀ NƯỚC, CÔNG AN" }
+        ],
+        "sourceLabel": "Nguồn: Thông tư 79/2024/TT-BCA."
+      },
+      "on_screen_text": "BIỂN XANH = CƠ QUAN NHÀ NƯỚC · CÔNG AN. Nguồn: Thông tư 79/2024/TT-BCA."
+    },
+    {
+      "id": "shot_05_red",
+      "type": "plate_color",
+      "duration_frames": 315,
+      "narration": "Dễ nhầm với xanh nhất là đỏ, chữ trắng — xe quân đội. Và hai chữ cái đầu tiết lộ luôn đơn vị quản lý — AA là Quân đoàn một. Nhớ theo màu máu, màu cờ — đỏ là màu của quân đội.",
+      "props": {
+        "mode": "military_code",
+        "headline": "BIỂN ĐỎ = QUÂN ĐỘI\nAA = QUÂN ĐOÀN 1",
+        "accentWord": "AA = QUÂN ĐOÀN 1",
+        "militaryCode": "AA",
+        "militaryUnitLabel": "QUÂN ĐOÀN 1",
+        "sourceLabel": "Nguồn: Thông tư 169/2021/TT-BQP, Phụ lục III."
+      },
+      "on_screen_text": "BIỂN ĐỎ = QUÂN ĐỘI · AA = QUÂN ĐOÀN 1. Nguồn: Thông tư 169/2021/TT-BQP, Phụ lục III."
+    },
+    {
+      "id": "shot_05b_more_codes",
+      "type": "plate_color",
+      "duration_frames": 220,
+      "narration": "KA là Quân khu một. QH là Quân chủng Hải quân. TM là Bộ Tổng tham mưu — mỗi chữ cái đầu, một nhóm đơn vị riêng.",
+      "props": {
+        "mode": "code_grid",
+        "eyebrow": "THÊM KÝ HIỆU QUÂN ĐỘI",
+        "headline": "MỖI CHỮ CÁI ĐẦU\nMỘT NHÓM ĐƠN VỊ",
+        "accentWord": "MỘT NHÓM ĐƠN VỊ",
+        "codeGridRows": [
+          { "code": "KA", "meaning": "Quân khu 1" },
+          { "code": "QH", "meaning": "Quân chủng Hải quân" },
+          { "code": "TM", "meaning": "Bộ Tổng tham mưu" }
+        ],
+        "sourceLabel": "Nguồn: Thông tư 169/2021/TT-BQP, Phụ lục III."
+      },
+      "on_screen_text": "KA = QUÂN KHU 1 · QH = QUÂN CHỦNG HẢI QUÂN · TM = BỘ TỔNG THAM MƯU. Nguồn: Thông tư 169/2021/TT-BQP, Phụ lục III."
+    },
+    {
+      "id": "shot_06_yellow",
+      "type": "plate_color",
+      "duration_frames": 286,
+      "narration": "Đổi hẳn logic là vàng, chữ đen — xe kinh doanh vận tải. Taxi, xe khách, xe tải chở thuê, không chỉ taxi. Nhớ theo logic: vàng là màu tiền, xe nào chở khách kiếm tiền thì mang biển vàng.",
+      "props": {
+        "mode": "color_reveal",
+        "eyebrow": "BIỂN VÀNG",
+        "headline": "KINH DOANH VẬN TẢI\nKHÔNG CHỈ TAXI",
+        "accentWord": "KHÔNG CHỈ TAXI",
+        "colorKey": "yellow",
+        "metrics": [
+          { "label": "MÀU NỀN", "value": "VÀNG" },
+          { "label": "MÀU CHỮ", "value": "ĐEN" },
+          { "label": "ÁP DỤNG", "value": "TAXI, XE KHÁCH, XE TẢI CHỞ THUÊ" }
+        ]
+      },
+      "on_screen_text": "BIỂN VÀNG = KINH DOANH VẬN TẢI (TAXI · XE KHÁCH · XE TẢI CHỞ THUÊ)"
+    },
+    {
+      "id": "shot_07_ng",
+      "type": "plate_color",
+      "duration_frames": 400,
+      "narration": "Biển trắng, chữ NG đỏ gây tranh cãi nhất — xe ngoại giao, được miễn trừ theo công ước quốc tế. Miễn trừ này áp dụng cho người có thân phận ngoại giao, không phải cho bất kỳ ai ngồi trên xe. Nhưng công dân Việt Nam lái xe này vẫn bị xử lý bình thường.",
+      "props": {
+        "mode": "diplomatic_exception",
+        "headline": "BIỂN NG = NGOẠI GIAO\nMIỄN TRỪ CÓ NGOẠI LỆ",
+        "accentWord": "MIỄN TRỪ CÓ NGOẠI LỆ",
+        "diplomaticImmunityLabel": "Miễn trừ theo Công ước Viên 1961 — không bị khám xét, trưng dụng, bắt giữ.",
+        "diplomaticExceptionLabel": "Công dân Việt Nam lái xe biển NG vẫn bị xử lý theo luật Việt Nam bình thường.",
+        "sourceLabel": "Nguồn: Công ước Viên 1961, Thông tư liên bộ 01/1988."
+      },
+      "on_screen_text": "BIỂN NG = NGOẠI GIAO, MIỄN TRỪ THEO CÔNG ƯỚC VIÊN 1961 · NGOẠI LỆ: CÔNG DÂN VIỆT NAM VẪN BỊ XỬ LÝ BÌNH THƯỜNG"
+    },
+    {
+      "id": "shot_07b_more_diplomatic_codes",
+      "type": "plate_color",
+      "duration_frames": 220,
+      "narration": "Ngoài NG, còn QT cho tổ chức quốc tế, CV cho nhân viên hành chính, NN cho người nước ngoài — mỗi ký hiệu, một nhóm chủ xe khác nhau.",
+      "props": {
+        "mode": "code_grid",
+        "eyebrow": "KÝ HIỆU QUỐC TẾ KHÁC",
+        "headline": "MỖI KÝ HIỆU\nMỘT NHÓM CHỦ XE",
+        "accentWord": "MỘT NHÓM CHỦ XE",
+        "codeGridRows": [
+          { "code": "QT", "meaning": "Tổ chức quốc tế" },
+          { "code": "CV", "meaning": "Nhân viên hành chính" },
+          { "code": "NN", "meaning": "Người nước ngoài" }
+        ],
+        "sourceLabel": "Nguồn: Thông tư 79/2024/TT-BCA."
+      },
+      "on_screen_text": "QT = TỔ CHỨC QUỐC TẾ · CV = NHÂN VIÊN HÀNH CHÍNH · NN = NGƯỜI NƯỚC NGOÀI. Nguồn: Thông tư 79/2024/TT-BCA."
+    },
+    {
+      "id": "shot_07c_identity_bind",
+      "type": "plate_color",
+      "duration_frames": 220,
+      "narration": "Từ năm hai nghìn không trăm hai mươi ba, biển số không còn thuộc về xe — mà thuộc về người đứng tên. Bán xe, biển số bị thu hồi, giữ năm năm để bạn dùng cho xe tiếp theo.",
+      "props": {
+        "mode": "identity_bind",
+        "headline": "BIỂN SỐ THEO NGƯỜI\nKHÔNG THEO XE",
+        "accentWord": "THEO NGƯỜI",
+        "conversionYearLabel": "2023",
+        "sourceLabel": "Nguồn: Thông tư 24/2023/TT-BCA."
+      },
+      "on_screen_text": "BIỂN SỐ THEO NGƯỜI, KHÔNG THEO XE · BÁN XE → THU HỒI, GIỮ 5 NĂM. Nguồn: Thông tư 24/2023/TT-BCA."
+    },
+    {
+      "id": "shot_08_conversion",
+      "type": "plate_color",
+      "duration_frames": 175,
+      "narration": "Luật này từng đổi thật — năm 2021, xe chạy dịch vụ bị bắt buộc đổi sang biển vàng.",
+      "props": {
+        "mode": "conversion_fact",
+        "headline": "2021: TRẮNG → VÀNG\nBẮT BUỘC VỚI XE DỊCH VỤ",
+        "accentWord": "BẮT BUỘC",
+        "conversionYearLabel": "2021",
+        "sourceLabel": "Nguồn: Thông tư 58/2020/TT-BCA."
+      },
+      "on_screen_text": "2021: XE KINH DOANH VẬN TẢI BẮT BUỘC ĐỔI BIỂN TRẮNG → BIỂN VÀNG. Nguồn: Thông tư 58/2020/TT-BCA."
+    },
+    {
+      "id": "shot_08b_foreign_examples",
+      "type": "plate_color",
+      "duration_frames": 360,
+      "narration": "Ở Mỹ, mọi bang đều cho chủ xe tự đặt chữ riêng trên biển, gọi là vanity plate. Bỉ còn hợp pháp hóa việc này từ năm hai nghìn không trăm mười bốn, với giá hơn một nghìn euro một biển. Còn ở bang Victoria của Úc, chủ xe được chọn luôn cả màu sắc, không chỉ chữ.",
+      "props": {
+        "mode": "code_grid",
+        "eyebrow": "CÒN Ở NƯỚC NGOÀI?",
+        "headline": "TỰ ĐẶT CHỮ TRÊN BIỂN\nCÓ NƯỚC CHO PHÉP THẬT",
+        "accentWord": "CÓ NƯỚC CHO PHÉP THẬT",
+        "codeGridRows": [
+          { "code": "MỸ", "meaning": "Mọi bang cho tự đặt chữ (vanity plate)" },
+          { "code": "BỈ", "meaning": "Hợp pháp từ 2014, ~1.000€/biển" },
+          { "code": "ÚC", "meaning": "Victoria: tự chọn cả màu sắc, không chỉ chữ" }
+        ],
+        "sourceLabel": "Nguồn: DMV các bang Mỹ; SPF/DIV Bỉ, luật 2014; VicRoads (Victoria, Úc)."
+      },
+      "on_screen_text": "MỸ: TỰ ĐẶT CHỮ (VANITY PLATE) · BỈ: HỢP PHÁP TỪ 2014, ~1.000€/BIỂN · ÚC (VICTORIA): TỰ CHỌN CẢ MÀU SẮC"
+    },
+    {
+      "id": "shot_09_cta",
+      "type": "plate_color",
+      "duration_frames": 175,
+      "narration": "Nhìn biển số lần sau — giờ bạn đọc được rồi. Follow để giải mã ký hiệu tiếp theo.",
+      "props": {
+        "mode": "cta",
+        "headline": "GIỜ BẠN ĐỌC ĐƯỢC\nBIỂN SỐ RỒI",
+        "accentWord": "ĐỌC ĐƯỢC"
+      },
+      "on_screen_text": "GIỜ BẠN ĐỌC ĐƯỢC BIỂN SỐ RỒI — FOLLOW ĐỂ GIẢI MÃ KÝ HIỆU TIẾP THEO"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "angles": [
+    {
+      "title": "Giải mã màu biển số xe — sự thật đằng sau hệ thống bạn nhìn thấy mỗi ngày",
+      "one_sentence_concept": "Đi từ hook 'bạn nhìn thấy hàng trăm biển số mỗi ngày nhưng không hiểu' tới việc giải mã từng màu (trắng/xanh/đỏ/vàng/NG), đỉnh điểm là twist 2 chữ cái quân đội và đính chính chiều chuyển đổi biển vàng.",
+      "audience": "Người đi đường tò mò",
+      "core_pain": "Không phân biệt được ý nghĩa các màu biển số, dễ nhầm lẫn (kể cả nhầm xanh/đỏ như chính outline nháp ban đầu)",
+      "core_tension": "Hệ thống mã hóa công khai, nhìn thấy mỗi ngày, nhưng gần như vô hình về nhận thức",
+      "new_belief": "Màu biển số không ngẫu nhiên — nó là một hệ thống phân loại chủ xe có căn cứ pháp luật rõ ràng, và 2 chữ cái đầu trên biển quân đội còn tiết lộ chính xác đơn vị quản lý",
+      "proof_mechanism": "Trích dẫn trực tiếp số Thông tư (79/2024/TT-BCA, 169/2021/TT-BQP) cho từng claim, kèm ví dụ cụ thể (AA = Quân đoàn 1)",
+      "evidence": ["S001", "S002", "S003", "S004", "S005"],
+      "visual_metaphor": "Card-reveal theo từng màu biển số (tái dùng pattern RtoOwnershipScene: metric card, badge số, accent color) — mỗi màu là 1 card lật ra kèm icon xe tương ứng",
+      "cta": "Follow để xem thêm những ký hiệu ẩn quanh bạn mà ít ai để ý",
+      "series_potential": "Cao — có thể nối tiếp bằng các chủ đề 'ký hiệu ẩn' khác (mã vùng điện thoại, ký hiệu trên tem đăng kiểm, mã vạch...)",
+      "risks": [
+        "Rủi ro thông tin sai nếu không trích đúng nguồn — đã giảm thiểu bằng cách sửa 2 lỗi fact trong outline gốc (màu xanh/đỏ, chiều chuyển đổi biển vàng)",
+        "Nội dung về miễn trừ ngoại giao (NG) có thể bị hiểu sai thành cổ súy né luật nếu không nêu rõ ngoại lệ công dân Việt Nam"
+      ],
+      "disclaimers": [
+        "Cần nêu rõ ngoại lệ: công dân Việt Nam lái xe biển NG vẫn bị xử lý theo luật Việt Nam bình thường",
+        "Không dùng kicker 'sắp thống nhất biển trắng' — không có bằng chứng, hướng ngược lại thực tế"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 8,
+        "novelty": 6,
+        "emotional_tension": 6,
+        "credibility": 8,
+        "proof_potential": 8,
+        "visual_potential": 8,
+        "shareability": 7,
+        "save_value": 7,
+        "channel_fit": 7,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Biển đỏ quân đội — giải mã 2 chữ cái bí ẩn",
+      "one_sentence_concept": "Video hẹp hơn, chỉ tập trung sâu vào hệ thống ký hiệu quân đội (64 mã 2 chữ cái) thay vì lướt qua tất cả các màu.",
+      "audience": "Người đi đường tò mò",
+      "core_pain": "Không biết cách 'đọc' được ký hiệu quân đội dù nhìn thấy biển đỏ thường xuyên",
+      "core_tension": "Một mã 2 ký tự đơn giản nhưng ẩn chứa cả một hệ thống phân cấp quân sự",
+      "new_belief": "Biển số quân đội không phải ngẫu nhiên — nó là một 'danh thiếp' công khai của đơn vị quản lý",
+      "proof_mechanism": "Thông tư 169/2021/TT-BQP, Phụ lục III",
+      "evidence": ["S003"],
+      "visual_metaphor": "Bảng giải mã kiểu 'cheat sheet' — chữ cái bên trái, tên đơn vị bên phải, hiệu ứng lật từng dòng",
+      "cta": "Lưu lại video này để lần sau nhìn biển đỏ là đọc được ngay",
+      "series_potential": "Trung bình — chủ đề hẹp, khó nối tiếp thành nhiều tập mà không lặp lại",
+      "risks": ["Chủ đề hẹp hơn, có thể không đủ chất liệu cho 70-90s nếu không có visual đa dạng"],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 7,
+        "emotional_tension": 5,
+        "credibility": 8,
+        "proof_potential": 8,
+        "visual_potential": 6,
+        "shareability": 6,
+        "save_value": 8,
+        "channel_fit": 6,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Biển NG — xe 'bất khả xâm phạm' hay chỉ là hiểu lầm phổ biến?",
+      "one_sentence_concept": "Video hẹp tập trung riêng vào biển ngoại giao NG: quyền miễn trừ thật sự tới đâu, và ngoại lệ quan trọng nhiều người bỏ qua (công dân Việt Nam vẫn bị xử lý bình thường).",
+      "audience": "Người đi đường tò mò",
+      "core_pain": "Hiểu sai biển NG là 'thoát mọi trách nhiệm', dẫn tới ngộ nhận nguy hiểm",
+      "core_tension": "Một quyền miễn trừ có thật theo công ước quốc tế, nhưng bị đại chúng phóng đại thành 'vô luật'",
+      "new_belief": "Miễn trừ ngoại giao gắn với thân phận người mang, không gắn với chiếc xe — công dân Việt Nam lái xe biển NG vẫn chịu trách nhiệm như bình thường",
+      "proof_mechanism": "Công ước Viên 1961, Thông tư liên bộ 01/1988",
+      "evidence": ["S004"],
+      "visual_metaphor": "Timeline 'quyền lợi vs ngoại lệ' — 2 cột song song, giống lockout_timeline pattern đã dùng ở video RTO",
+      "cta": "Share cho ai đang hiểu nhầm biển NG là 'vô luật'",
+      "series_potential": "Thấp — chủ đề rất hẹp, khó nối tiếp",
+      "risks": ["Chủ đề nhạy cảm liên quan ngoại giao, cần giữ giọng trung lập, không công kích bất kỳ quốc gia/cá nhân cụ thể nào"],
+      "disclaimers": ["Không nêu tên vụ việc/cá nhân cụ thể nào liên quan xe biển NG để tránh rủi ro pháp lý/quan hệ ngoại giao"],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 5,
+        "novelty": 7,
+        "emotional_tension": 6,
+        "credibility": 7,
+        "proof_potential": 6,
+        "visual_potential": 5,
+        "shareability": 6,
+        "save_value": 6,
+        "channel_fit": 5,
+        "vidgen_fit": 5,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "Sự thật về biển vàng — vì sao xe của bạn có thể phải đổi màu biển",
+      "one_sentence_concept": "Kể lại đúng sự kiện có thật 2020-2021 (Thông tư 58/2020/TT-BCA) khi hàng loạt xe kinh doanh vận tải buộc phải đổi biển trắng sang vàng, và điều gì xảy ra nếu không đổi.",
+      "audience": "Người đi đường tò mò, đặc biệt người có xe hoặc định chạy xe công nghệ",
+      "core_pain": "Không biết ranh giới giữa 'xe cá nhân' và 'xe kinh doanh vận tải' theo luật, dễ bị phạt oan nếu chạy dịch vụ mà không đổi biển",
+      "core_tension": "Một quy định đã có hiệu lực nhiều năm nhưng vẫn gây nhầm lẫn ngược chiều (nhiều người tưởng biển vàng sắp bị xóa bỏ)",
+      "new_belief": "Biển vàng không phải 'sắp biến mất' — nó là yêu cầu bắt buộc cho xe kinh doanh vận tải, đổi chiều ngược lại chỉ xảy ra khi ngừng kinh doanh",
+      "proof_mechanism": "Thông tư 58/2020/TT-BCA, Nghị định 100/2019/NĐ-CP (mức phạt)",
+      "evidence": ["S005"],
+      "visual_metaphor": "Before/after card đổi màu biển, kèm mốc thời gian 2020-2021",
+      "cta": "Tag một người bạn đang chạy xe công nghệ để họ kiểm tra lại biển số",
+      "series_potential": "Trung bình — có thể nối với chủ đề mức phạt giao thông liên quan biển số",
+      "risks": ["Có thể bị hiểu nhầm là nội dung quảng cáo dịch vụ đổi biển nếu không giữ giọng trung lập thông tin"],
+      "disclaimers": ["Không gợi ý bất kỳ dịch vụ đổi biển cụ thể nào, chỉ trình bày quy định"],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 5,
+        "emotional_tension": 4,
+        "credibility": 8,
+        "proof_potential": 7,
+        "visual_potential": 5,
+        "shareability": 5,
+        "save_value": 6,
+        "channel_fit": 5,
+        "vidgen_fit": 5,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Bạn đang tin sai về biển số xe — kể cả người làm video này",
+      "one_sentence_concept": "Angle 'thú tội' — mở đầu bằng chính sự nhầm lẫn ban đầu của người viết kịch bản (nhầm đỏ với xanh) như một cú hook tự trào, rồi mới đi vào giải mã đúng.",
+      "audience": "Người đi đường tò mò",
+      "core_pain": "Tự tin rằng mình đã hiểu đúng những thứ nhìn thấy hằng ngày, trong khi thực ra chưa kiểm chứng bao giờ",
+      "core_tension": "Ngay cả người tạo nội dung giải thích cũng từng hiểu sai — tạo sự đồng cảm thay vì cảm giác bị 'dạy đời'",
+      "new_belief": "Không ai đương nhiên biết đúng những ký hiệu quen thuộc — kiểm chứng luôn tốt hơn đoán",
+      "proof_mechanism": "Đối chiếu trực tiếp outline gốc (đã sai) với văn bản luật thật (S001-S005)",
+      "evidence": ["S001", "S002", "S003"],
+      "visual_metaphor": "Mở đầu bằng dòng chữ 'sai' gạch chéo đỏ đè lên giả định ban đầu, rồi hiện ra câu đúng — kiểu hiệu ứng correction/strike-through",
+      "cta": "Comment xem bạn từng hiểu sai màu nào",
+      "series_potential": "Cao — format 'thú tội hiểu sai' có thể tái sử dụng cho nhiều chủ đề khác",
+      "risks": ["Cần đảm bảo tự trào không làm giảm uy tín kênh — phải theo sau bằng thông tin chính xác, có nguồn rõ ràng"],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 8,
+        "emotional_tension": 7,
+        "credibility": 7,
+        "proof_potential": 7,
+        "visual_potential": 7,
+        "shareability": 8,
+        "save_value": 6,
+        "channel_fit": 8,
+        "vidgen_fit": 7,
+        "exaggeration_risk": 2
+      }
+    }
+  ],
+  "recommended_angle": "Giải mã màu biển số xe — sự thật đằng sau hệ thống bạn nhìn thấy mỗi ngày",
+  "reasoning": "Angle 1 giữ đúng tinh thần outline gốc của user (đủ 4-5 màu, nhịp độ 10-15s/màu, twist kép ở cuối), có điểm số cao hơn ở hầu hết tiêu chí, và tận dụng được chính lỗi nhận thức của user (nhầm xanh/đỏ) làm bằng chứng sống cho core tension — 'ngay cả người làm video này cũng từng hiểu sai'. Angle 2 hẹp hơn, phù hợp làm video phái sinh sau này hơn là video mở màn cho chủ đề.",
+  "tradeoffs": [
+    "Angle 1 rộng hơn nên mỗi màu chỉ có 10-15s, không đi sâu được như angle 2 — chấp nhận được vì mục tiêu là video giới thiệu tổng quan, không phải video chuyên sâu",
+    "Bỏ kicker gốc về 'thống nhất biển trắng' nghĩa là cần viết lại đoạn CTA/kicker hoàn toàn mới — không tái dùng được câu văn user đã viết sẵn"
+  ]
+}
