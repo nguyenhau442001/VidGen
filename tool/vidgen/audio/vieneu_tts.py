@@ -17,10 +17,10 @@ except ImportError as exc:
         "See: https://github.com/pnnbao97/VieNeu-TTS"
     ) from exc
 
-# VieNeu-TTS v3.5 ships "Adam" as the built-in default preset, so passing it
-# explicitly matches the SDK default; kept named here so the pipeline can log
-# and override it per run.
-DEFAULT_VOICE = "Adam"
+# Northern-male preset — owner's channel default. VieNeu-TTS 3.5's own built-in
+# default is "Adam", but a listen test found it flat for this content, so the
+# pipeline keeps overriding it here.
+DEFAULT_VOICE = "Thanh Bình"
 _tts_instance: Vieneu | None = None
 
 

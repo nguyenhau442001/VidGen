@@ -43,7 +43,7 @@ Options:
 | Flag | Default | Description |
 |---|---|---|
 | `--speed` | `1.1` | Default voiceover speed multiplier, pitch-preserved. Per-shot `tts_speed` overrides this when present (1.0 = VieNeu native pace; don't exceed ~1.25 — Vietnamese tones degrade) |
-| `--tts-voice` | `Adam` | VieNeu preset voice (the SDK's own default since v3.5). `VIDGEN_TTS_VOICE` overrides the channel default |
+| `--tts-voice` | `Thanh Bình` | VieNeu preset voice. `VIDGEN_TTS_VOICE` overrides the channel default |
 | `--no-trim` | off | Keep TTS silence (leading/trailing and long internal pauses) |
 | `--target-dbfs` | `-15.0` | Normalize every voiceover clip to this RMS level (soft-limited) |
 | `--skip-validation` | off | Skip pre-render manifest validation (emergency use only) |
