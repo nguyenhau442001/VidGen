@@ -17,7 +17,10 @@ except ImportError as exc:
         "See: https://github.com/pnnbao97/VieNeu-TTS"
     ) from exc
 
-DEFAULT_VOICE = "Thanh Bình"
+# VieNeu-TTS v3.5 ships "Adam" as the built-in default preset, so passing it
+# explicitly matches the SDK default; kept named here so the pipeline can log
+# and override it per run.
+DEFAULT_VOICE = "Adam"
 _tts_instance: Vieneu | None = None
 
 

@@ -1,6 +1,6 @@
 """Standalone test for VieNeu-TTS zero-shot voice cloning (not wired into the pipeline).
 
-Installed vieneu SDK (v3.2.3, default mode "v3turbo") clones via
+Installed vieneu SDK (v3.5.0, default mode "v3turbo") clones via
 tts.infer(text=..., ref_audio=<path>, denoise=True) -- zero-shot, no ref_text
 parameter exists on this mode (confirmed against vieneu.v3turbo.V3TurboVieNeuTTS.infer
 and the package's own README). ref_text only exists on the older "standard"/"remote"

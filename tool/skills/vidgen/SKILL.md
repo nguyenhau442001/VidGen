@@ -538,8 +538,9 @@ pip install librosa soundfile
 
 **If TTS fails:**
 - `ModuleNotFoundError: librosa` → run the pip install above
-- `AttributeError on tts.save()` → VieNeu version mismatch; check `_audio_from_vieneu()`
-  in `tool/vidgen/audio/speech_synthesizer.py` and adapt to the actual `AudioSpec` API
+- `AttributeError on tts.save()` → VieNeu version mismatch; check `_audio_from_spec()`
+  in `tool/vidgen/audio/vieneu_tts.py` and adapt to the actual SDK API (v3.5: `infer()`
+  returns an ndarray, `save(audio, path)` writes it)
 - Stop immediately, report the exact failure and partial changes, and ask before fixing or rerunning.
 
 ---

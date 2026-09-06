@@ -5,8 +5,8 @@ from vidgen.audio import speech_synthesizer as tts
 from vidgen.audio import vieneu_tts
 
 
-def test_default_vieneu_voice_is_thanh_binh():
-    assert tts.DEFAULT_VIENEU_VOICE == "Thanh Bình"
+def test_default_vieneu_voice_is_adam():
+    assert tts.DEFAULT_VIENEU_VOICE == "Adam"
 
 
 def test_vieneu_adapter_applies_default_voice(monkeypatch):
@@ -26,7 +26,7 @@ def test_vieneu_adapter_applies_default_voice(monkeypatch):
 
     vieneu_tts.synthesize("xin chào")
 
-    assert calls == {"text": "xin chào", "voice": "Thanh Bình"}
+    assert calls == {"text": "xin chào", "voice": "Adam"}
 
 
 def test_audio_from_pcm_bytes_uses_mime_rate_and_channels():
