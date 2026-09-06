@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -f /Users/haunguyen/GitHub/VidGen/remotion/out/*.mp4 /Users/haunguyen/GitHub/VidGen/remotion/out/*_thumb.png *)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-haunguyen-GitHub-VidGen/0d45406b-e2c4-46ba-8e4d-4b1312bb2c8b/scratchpad/frames_gauge)",
+      "Bash(FR=\"/private/tmp/claude-501/-Users-haunguyen-GitHub-VidGen/19fb20c7-8a5d-4ce5-b97c-1a2182fde602/scratchpad/frames\" *)"
+    ],
+    "additionalDirectories": [
+      "/Users/haunguyen/GitHub/VidGen/remotion/out",
+      "/private/tmp/claude-501/-Users-haunguyen-GitHub-VidGen/19fb20c7-8a5d-4ce5-b97c-1a2182fde602/scratchpad/frames"
+    ]
+  }
+}
