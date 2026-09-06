@@ -1074,9 +1074,13 @@ export const PlaceIdScene: React.FC<PlaceIdSceneProps> = ({
   })();
 
   return (
-    <AbsoluteFill style={{ background: BG, fontFamily: BE_VIETNAM_PRO, color: TEXT, opacity: exit, overflow: "hidden" }}>
-      <Backdrop frame={frame} />
-      <SafeZone style={{ justifyContent: "center", alignItems: "center" }}>{content}</SafeZone>
+    <AbsoluteFill style={{ background: BG, fontFamily: BE_VIETNAM_PRO, color: TEXT, overflow: "hidden" }}>
+      {/* exit fade applies to content only — never to the dark BG layer, or the
+          light channel root behind it flashes white at every scene cut. */}
+      <AbsoluteFill style={{ opacity: exit }}>
+        <Backdrop frame={frame} />
+        <SafeZone style={{ justifyContent: "center", alignItems: "center" }}>{content}</SafeZone>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
