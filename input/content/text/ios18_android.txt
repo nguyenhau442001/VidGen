@@ -1,0 +1,311 @@
+# iOS 18: NHỮNG THỨ ANDROID ĐÃ LÀM TỪ LÂU
+
+**Ghi chú sản xuất — không đọc:**
+
+Slug `ios18_android`, video_id cùng tên. Khung dọc 1080×1920, phong cách tech documentary
+cinematic, nhịp nhanh. Mục tiêu thời lượng 1 phút 30 giây đến 2 phút — đây là yêu cầu trực
+tiếp của owner qua `/goal`, ghi đè mục tiêu 70 giây mặc định trong SKILL.md. Hook đọc chính
+xác nguyên văn theo yêu cầu owner (dài hơn mức ≤6 từ thông thường — cũng là ghi đè có chủ
+đích; GATE 1 tự động sẽ cảnh báo "hook too long" — đây là override đã biết, không sửa).
+
+Cấu trúc: mỗi "beat" của brief được tách thành 2 cảnh liên tiếp (cảnh giới thiệu iOS 18 +
+cảnh đối chiếu Android / chi tiết) — cùng `mode`, lời đọc tách đúng ranh giới câu, giữ
+nguyên văn. Tách câu là thao tác hợp lệ (ngược với "nối đoạn bằng một dấu cách"), không
+đổi từ/ý/thứ tự.
+
+Research đầy đủ tại `research/ios18-vs-android/` (5 file, đã pass validator). Angle:
+"Apple đến sau, rồi chơi theo luật của riêng mình" (điểm 90.3). Mọi dữ kiện neo vào
+source-log.md — KHÔNG bịa thêm số liệu.
+
+Hình ảnh (yêu cầu owner "quá nhiều graphic → tối đa ảnh thật"): các cảnh iOS 18
+(2, 3, 4, 5, 6, 7) và iPhone Duo (12, 13) dùng ẢNH BÁO CHÍ CHÍNH THỨC — render iPhone
+của Apple Newsroom (S019–S024, S026), ảnh Secure Folder của Samsung (S025), render
+SH 160i của Honda VN (S027). Bên Android của cảnh 3/5 giữ graphic vẽ (Google không
+phát hành ảnh báo chí themed-icon / Quick Settings sạch). Cảnh 1 dùng ảnh Home Screen
+iOS 18 thật làm hero. Cảnh chat / reframe / payoff (8, 9, 10, 11, 14) giữ graphic —
+không có ảnh chính thức phù hợp. Mọi ảnh Internet đều ghi nguồn đầy đủ trong
+source-log.md (source + URL + nội dung + ngày + ghi chú bản quyền).
+
+Nguồn chính đã xác minh trong phiên này:
+- iOS 18 Home Screen / Control Center / khóa-ẩn app / RCS: Apple Newsroom + Apple Support
+  (S001, S003, S004, S005), báo công nghệ (S002).
+- Android có trước: themed icons Android 12 năm 2021 / Android 13 năm 2022 (S007); đặt icon
+  tự do qua launcher như Nova từ lâu (S008); Quick Settings sửa được từ lâu, tile bên thứ ba
+  qua TileService API từ Android 7.0 năm 2016 (S009, S010); khóa/ẩn app: Samsung Secure Folder
+  từ 2017, Xiaomi App Lock, stock Android có Private Space từ Android 15 năm 2024 — TRƯỚC ĐÓ
+  TÙY HÃNG (S011, S012).
+- iPhone Duo: iPhone gập đầu tiên của Apple, ra mắt sự kiện "Surprise and Shine" tháng 9/2026,
+  dùng Touch ID cạnh viền (không phải Face ID), titanium, nano-texture giấu nếp gập (S014).
+- Giá Apple VN chính thức: iPhone Duo bản 2TB 103.999.000₫; bản thấp nhất 256GB 64.999.000₫
+  (S013, S015).
+- Honda SH 160i 2026 bản ABS Đặc biệt: giá đề xuất khoảng 103.990.000₫; giá lăn bánh cao hơn,
+  khoảng 113 triệu (S017).
+- Báo công nghệ (9to5Mac, Malay Mail) gọi Home Screen iOS 18 là "Android-style" (S018); báo VN
+  (Soha) đã so iPhone Duo với Honda SH (S016).
+
+Kỷ luật fact-check trong lời đọc:
+- Nói "có trước / sớm hơn", KHÔNG nói "phát minh" hay "đầu tiên" cho bên nào.
+- Khóa/ẩn app trên Android: nói rõ "tùy hãng" và "stock Android từ 2024".
+- RCS: KHÔNG nói RCS biến iMessage và Android thành một. Vẫn là bong bóng xanh.
+- "Copy Android" chỉ đặt dưới dạng câu hỏi, không phải kết luận.
+- iPhone Duo vs SH: so GIÁ NIÊM YẾT, không nói "đắt hơn SH".
+
+Hidden Objective Function: người xem tưởng cuộc chiến điện thoại là chuyện "ai có tính năng
+trước" (wrong belief); thực ra người ra trước hiếm khi thắng thị trường — điều quyết định là
+ai kiểm soát cả phần cứng, phần mềm, hệ sinh thái và định giá (true objective). iPhone Duo là
+biểu hiện rõ nhất của mục tiêu thật đó.
+
+---
+
+## Cảnh 1 — Hook
+
+**Hình ảnh:**
+
+Câu hook hiện lớn giữa khung. Bên dưới, một bảng bốn dòng: mỗi dòng có icon Android bên trái,
+mũi tên, rồi icon Apple bên phải sáng dần lên — Home Screen, icon tùy biến, bảng điều khiển,
+khóa ứng dụng. Montage nhanh, dứt khoát.
+
+**Voice-over:**
+
+"iOS 18: Apple cuối cùng cũng chịu cho iPhone làm những thứ Android đã làm từ lâu. Và nếu bạn
+từng tranh luận iPhone với Android, có lẽ vài thứ trong video này sẽ khiến bạn thấy khá quen."
+
+**Chữ trên màn hình:**
+
+**iOS 18 · iPHONE vs ANDROID**
+
+---
+
+## Cảnh 2 — Home Screen: iOS 18 làm được gì
+
+**Hình ảnh:**
+
+Hai điện thoại cạnh nhau, tạm mờ bên Android. Bên phải iOS 18 sáng rõ: kéo icon vào ô trống,
+chừa khoảng trống, icon nhạt màu, đặt sát dock.
+
+**Voice-over:**
+
+"Trên iOS 18, bạn đặt icon và widget vào chỗ trống tùy ý. Chừa khoảng trống. Đổi icon sang
+tông tối hoặc nhuộm màu theo hình nền."
+
+**Chữ trên màn hình:**
+
+**iOS 18: ĐẶT ICON TỰ DO · NHUỘM MÀU**
+
+---
+
+## Cảnh 3 — Home Screen: Android có trước
+
+**Hình ảnh:**
+
+Match-cut sang bên Android sáng rõ: làm y hệt — icon đổi màu theo hình nền, đặt tự do. Nhãn
+mốc thời gian "Android 12 · 2021".
+
+**Voice-over:**
+
+"Trên Android, chuyện này không mới. Icon đổi màu theo hình nền có từ Android 12, năm 2021.
+Đặt icon tự do thì các launcher đã làm từ lâu hơn nữa. Điểm khác là: Apple vốn giữ màn hình
+chính rất chặt. Đây là lần đầu họ nới tay."
+
+**Chữ trên màn hình:**
+
+**ANDROID CÓ TRƯỚC** — APPLE VỐN GIỮ MÀN HÌNH CHÍNH RẤT CHẶT
+
+---
+
+## Cảnh 4 — Control Center: iOS 18 làm được gì
+
+**Hình ảnh:**
+
+Bên phải iOS 18 Control Center sáng rõ: kéo nút, đổi kích thước bằng tay nắm góc, thêm nút từ
+app bên thứ ba.
+
+**Voice-over:**
+
+"Control Center của iOS 18 giờ cho thêm nút, bớt nút, dời chỗ, đổi kích thước. Thêm cả nút từ
+app bên thứ ba."
+
+**Chữ trên màn hình:**
+
+**iOS 18: TỰ SẮP XẾP NÚT ĐIỀU KHIỂN**
+
+---
+
+## Cảnh 5 — Control Center: Android có trước
+
+**Hình ảnh:**
+
+Bên Android Quick Settings sáng rõ, vào chế độ sửa, kéo các ô công tắc. Nhãn "TileService ·
+2016".
+
+**Voice-over:**
+
+"Bảng công tắc nhanh sửa được thì Android có từ lâu. Nút của app bên thứ ba thì Android mở từ
+năm 2016. Nhưng ý ở đây không phải ai xong trước. Trước đây Apple quyết định bạn cần những nút
+gì. Bây giờ bạn bắt đầu được quyền quyết định."
+
+**Chữ trên màn hình:**
+
+**QUICK SETTINGS ĐÃ VẬY TỪ LÂU** — TRƯỚC APPLE CHỌN HỘ, GIỜ BẠN CHỌN
+
+---
+
+## Cảnh 6 — Khóa và ẩn app: iOS 18 làm được gì
+
+**Hình ảnh:**
+
+Bên phải iOS 18: chạm giữ app, chọn khóa bằng Face ID, app biến mất vào thư mục ẩn trong App
+Library.
+
+**Voice-over:**
+
+"iOS 18 cho khóa một app bằng Face ID. Hoặc ẩn hẳn nó đi — app rời màn hình chính, biến khỏi
+tìm kiếm và thông báo. Android user nhìn vào có thể sẽ hỏi: ủa, cái này mới à?"
+
+**Chữ trên màn hình:**
+
+**iOS 18: KHÓA APP BẰNG FACE ID · ẨN APP**
+
+---
+
+## Cảnh 7 — Khóa và ẩn app: Android tùy hãng
+
+**Hình ảnh:**
+
+Bên Android: Samsung Secure Folder và Private Space của Android nuốt app khỏi danh sách. Nhãn
+"Samsung 2017 · Android gốc 2024".
+
+**Voice-over:**
+
+"Trên Android, chuyện khóa và ẩn app đã có từ trước, nhưng tùy hãng. Samsung có Secure Folder
+từ năm 2017. Xiaomi có khóa ứng dụng riêng. Còn bản Android gốc thì mới gom lại thành tính năng
+chuẩn từ năm 2024."
+
+**Chữ trên màn hình:**
+
+**ANDROID: TÙY HÃNG TRƯỚC ĐÂY** — SAMSUNG 2017, ANDROID GỐC 2024
+
+---
+
+## Cảnh 8 — RCS: cái gì mới
+
+**Hình ảnh:**
+
+Hai khung chat nhắn cho nhau. Tin nhắn SMS cũ nâng cấp thành RCS: hiện thanh đang gõ, ảnh nét
+hơn, dòng chữ đã xem.
+
+**Voice-over:**
+
+"Và rồi Apple đưa RCS vào Messages. Nhắn giữa iPhone và Android giờ có ảnh nét, có thanh đang
+gõ, có báo đã xem, nhóm chat mượt hơn."
+
+**Chữ trên màn hình:**
+
+**RCS TRONG MESSAGES: ẢNH NÉT, THANH ĐANG GÕ, ĐÃ XEM**
+
+---
+
+## Cảnh 9 — RCS: vẫn không phải iMessage
+
+**Hình ảnh:**
+
+Bong bóng chat vẫn màu xanh, hiện rõ. Nhãn "vẫn là bong bóng xanh".
+
+**Voice-over:**
+
+"Nhưng bong bóng vẫn xanh. Đây không phải iMessage. Nó chỉ là Apple tiến gần hơn tới một chuẩn
+chung mà phần còn lại của thế giới đã dùng từ lâu."
+
+**Chữ trên màn hình:**
+
+**VẪN LÀ BONG BÓNG XANH — KHÔNG PHẢI iMESSAGE**
+
+---
+
+## Cảnh 10 — Vậy là copy?
+
+**Hình ảnh:**
+
+Câu hỏi "Vậy Apple chỉ đang copy Android?" hiện lớn, rồi câu trả lời "Không đơn giản vậy."
+
+**Voice-over:**
+
+"Vậy Apple chỉ đang copy Android? Không đơn giản như vậy. Android thường tung tính năng ra sớm
+hơn."
+
+**Chữ trên màn hình:**
+
+**VẬY APPLE CHỈ ĐANG COPY ANDROID?** — KHÔNG ĐƠN GIẢN VẬY
+
+---
+
+## Cảnh 11 — Lợi thế thật của Apple
+
+**Hình ảnh:**
+
+Một dòng thời gian: chấm Android sáng trước, chấm Apple sáng sau nhưng vầng sáng lan ra cả một
+vòng tròn phần cứng, phần mềm, dịch vụ.
+
+**Voice-over:**
+
+"Nhưng Apple kiểm soát cả con chip, hệ điều hành, lẫn hệ sinh thái. Khi họ đưa một tính năng
+vào iPhone, họ ghép nó vào sâu và làm lại theo cách của mình. Trong cuộc chiến điện thoại, ai
+có trước chưa bao giờ là điều quyết định."
+
+**Chữ trên màn hình:**
+
+**AI CÓ TRƯỚC CHƯA BAO GIỜ LÀ ĐIỀU QUYẾT ĐỊNH**
+
+---
+
+## Cảnh 12 — iPhone Duo: Apple vào sau
+
+**Hình ảnh:**
+
+Một chiếc iPhone Duo mở ra như cuốn sách.
+
+**Voice-over:**
+
+"Nhưng nếu bạn nghĩ Apple chỉ đang chạy theo Android, hãy nhìn chiếc iPhone mới nhất của họ.
+iPhone Duo. Chiếc iPhone gập đầu tiên. Samsung bán điện thoại gập từ nhiều năm trước."
+
+**Chữ trên màn hình:**
+
+**iPHONE DUO — CHIẾC iPHONE GẬP ĐẦU TIÊN**
+
+---
+
+## Cảnh 13 — iPhone Duo: giá bằng một chiếc SH
+
+**Hình ảnh:**
+
+Chia đôi: iPhone Duo bên trái, một chiếc Honda SH bên phải. Hai bảng giá trồi lên, gần như
+trùng nhau, ở giữa là dấu xấp xỉ.
+
+**Voice-over:**
+
+"Apple vào sau, và vào bằng mức giá cao nhất lịch sử hãng. Bản cao nhất ở Việt Nam niêm yết
+gần một trăm lẻ bốn triệu. Xấp xỉ giá niêm yết một chiếc Honda SH bản đắt. Một chiếc iPhone
+gập, hay một chiếc SH?"
+
+**Chữ trên màn hình:**
+
+**iPHONE DUO 2TB: 103.999.000₫ ≈ HONDA SH 160i ABS ĐẶC BIỆT: 103.990.000₫**. Giá niêm yết; SH lăn bánh khoảng 113 triệu. Nguồn: Apple VN, đại lý Honda.
+
+---
+
+## Cảnh 14 — Payoff
+
+**Hình ảnh:**
+
+Icon Android và icon Apple hai bên, nối bằng một đường mảnh. Câu chốt hiện lớn, giữ trên nền
+sạch.
+
+**Voice-over:**
+
+"Apple có thể đến sau Android. Nhưng khi họ bước vào một cuộc chơi mới, họ vẫn muốn chơi theo
+luật của riêng mình."
+
+**Chữ trên màn hình:**
+
+**ĐẾN SAU — NHƯNG CHƠI THEO LUẬT CỦA RIÊNG MÌNH**
