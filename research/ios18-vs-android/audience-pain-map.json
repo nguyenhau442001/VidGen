@@ -1,0 +1,63 @@
+{
+  "topic": "iOS 18 vs Android catch-up features + iPhone Duo",
+  "segments": [
+    {
+      "name": "Người xem phổ thông theo dõi cuộc chiến iPhone vs Android",
+      "role": "Người dùng smartphone đại chúng tại Việt Nam, dùng cả iPhone lẫn Android trong nhà/nhóm bạn",
+      "experience_level": "Không chuyên; biết dùng điện thoại tốt nhưng không rành lịch sử Android hay thuật ngữ kỹ thuật",
+      "current_workflow": [
+        "Xem video công nghệ ngắn trên TikTok/YouTube khi rảnh",
+        "Đọc tiêu đề báo công nghệ, hiếm khi đọc hết bài",
+        "Tranh luận iPhone vs Android trong nhóm chat bạn bè",
+        "Quyết định mua máy dựa một phần vào nội dung xem được và ý kiến bạn bè"
+      ],
+      "trigger_events": [
+        "Bạn bè cập nhật iOS 18 và khoe icon tinted / Control Center mới",
+        "Người dùng Android bĩu môi 'máy tao làm được từ 2021'",
+        "iPhone Duo ra mắt và giá 104 triệu lên trend, ai cũng sốc vì bằng giá một chiếc SH",
+        "Thấy quảng cáo iPhone gập và tự hỏi có đáng tiền không"
+      ],
+      "functional_pains": [
+        "Không biết iOS 18 thực sự thay đổi gì so với Android",
+        "Nghe hai bên cãi nhau nhưng không rõ bên nào đúng ở điểm nào",
+        "Video review thì toàn liệt kê tính năng, xem xong không rút ra được gì"
+      ],
+      "emotional_pains": [
+        "Thấy mình 'ngoài cuộc' khi bạn bè tranh luận sôi nổi",
+        "Khó chịu khi bị nói dùng iPhone là 'bị Apple dắt mũi' hoặc dùng Android là 'ham rẻ'",
+        "Mệt vì cuộc tranh luận nào cũng quay về 'ai có trước'"
+      ],
+      "professional_pains": [
+        "Không có pain nghề nghiệp trực tiếp — đây là nội dung bình luận, không phải giải pháp công việc"
+      ],
+      "current_alternatives": [
+        "Xem video 'Top 5 tính năng iOS 18' — không có so sánh, không có quan điểm",
+        "Xem nội dung rage-bait iPhone vs Android — chọn phe, thêm nhiệt không thêm sáng",
+        "Đọc bài giải thích lịch sử Android — chính xác nhưng khô, chỉ hợp người mê công nghệ",
+        "Bỏ qua, chọn phe sẵn và không nghĩ thêm"
+      ],
+      "desired_outcomes": [
+        "Hiểu nhanh iOS 18 khác Android chỗ nào, không cần jargon",
+        "Có một góc nhìn thông minh để nói trong nhóm chat, không chỉ là fanboy",
+        "Xem xong thấy 'à, câu chuyện lớn hơn mình tưởng'",
+        "Chia sẻ được một video mà cả hai phe đều gật đầu"
+      ],
+      "objections": [
+        "'Lại một video Top tính năng iOS 18 nữa à?'",
+        "'Ông này Android fanboy / Apple shill rồi'",
+        "'Ai chả biết Android có trước'",
+        "'Nói iPhone Duo đắt hơn SH là xạo, kiểm tra giá chưa?'"
+      ],
+      "customer_language": [
+        "Ủa, cái này Android có từ lâu rồi mà",
+        "Apple cuối cùng cũng chịu...",
+        "iPhone gập, màn hình gập",
+        "Đắt ngang cái SH",
+        "Copy Android chứ gì"
+      ],
+      "awareness_stage": "problem_aware",
+      "evidence": ["S016", "S018"],
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "angles": [
+    {
+      "title": "Apple đến sau, rồi chơi theo luật của riêng mình",
+      "one_sentence_concept": "iOS 18 mang lên iPhone loạt thứ Android đã có từ trước, nhưng cuộc chiến điện thoại chưa bao giờ chỉ là ai có tính năng trước — và iPhone Duo là bằng chứng rõ nhất.",
+      "audience": "Người xem phổ thông theo dõi cuộc chiến iPhone vs Android",
+      "core_pain": "Cuộc tranh luận iPhone vs Android mắc kẹt ở 'ai có trước', xem xong không rút ra được gì lớn hơn",
+      "core_tension": "Android thường có tính năng trước nhiều năm, nhưng người ra trước hiếm khi thắng thị trường — Apple kiểm soát cả phần cứng, phần mềm, hệ sinh thái và thiết kế lại theo cách riêng khi ra sau",
+      "new_belief": "Đến trước không quyết định ai thắng; cách một hãng tích hợp và định giá mới quyết định",
+      "proof_mechanism": "Đối chiếu trực tiếp 4 tính năng (Home Screen, Control Center, khóa/ẩn app, RCS): cho xem Android làm được điều đó ở phiên bản/skin nào, năm nào, rồi match-cut sang iOS 18 làm điều tương tự — rồi chốt bằng con số kiểm chứng được: iPhone Duo bản 2TB 103.999.000₫ ≈ giá đề xuất Honda SH 160i ABS Đặc biệt 103.990.000₫",
+      "evidence": ["S001", "S002", "S003", "S004", "S005", "S006", "S007", "S008", "S009", "S010", "S011", "S012", "S013", "S014", "S016", "S017", "S018"],
+      "visual_metaphor": "Đường đua: Android chạy trước, Apple vào sau nhưng đổi luật chơi giữa chừng — split-screen Android/iPhone cho mỗi tính năng, kết bằng iPhone Duo đặt cạnh chiếc SH",
+      "cta": "Không CTA bán hàng — kết bằng một câu insight để lại cho người xem",
+      "series_potential": "Có thể mở series 'Ai thực sự có trước' cho từng cặp tính năng iOS/Android; hoặc series về foldables",
+      "risks": [
+        "Nửa khán giả dùng iPhone có thể thấy bị công kích nếu phần payoff không đủ công bằng với Apple",
+        "Dễ trượt về 'Apple copy Android' nếu narration không cẩn thận",
+        "Giá Honda SH thực tế (lăn bánh) cao hơn MSRP — phải nói rõ đang so giá niêm yết"
+      ],
+      "disclaimers": [
+        "Không hãng nào 'phát minh' các tính năng này — chỉ nói 'có trước / sớm hơn'",
+        "Tính năng khóa/ẩn app trên Android trước Android 15 là theo skin (Samsung, Xiaomi), không phải toàn bộ Android",
+        "RCS không biến iMessage và Android Messages thành một",
+        "'Apple copy Android' chỉ dùng như quan điểm/bình luận, không phải fact"
+      ],
+      "scores": {
+        "pain_recognition": 8,
+        "relevance": 9,
+        "novelty": 7,
+        "emotional_tension": 8,
+        "credibility": 9,
+        "proof_potential": 9,
+        "visual_potential": 9,
+        "shareability": 9,
+        "save_value": 6,
+        "channel_fit": 9,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 3
+      }
+    },
+    {
+      "title": "Top 5 tính năng iOS 18 đáng nâng cấp",
+      "one_sentence_concept": "Điểm qua 5 tính năng lớn nhất của iOS 18 và cách bật chúng.",
+      "audience": "Người dùng iPhone vừa cập nhật iOS 18",
+      "core_pain": "Không biết iOS 18 có gì mới và cách dùng",
+      "core_tension": "Không có mâu thuẫn thật — chỉ là danh sách",
+      "new_belief": "iOS 18 có nhiều thứ đáng vọc",
+      "proof_mechanism": "Screen recording từng tính năng",
+      "evidence": ["S001", "S002", "S003", "S004"],
+      "visual_metaphor": "Danh sách đánh số trôi qua",
+      "cta": "Follow để xem thêm mẹo iOS",
+      "series_potential": "Cao nhưng nhàm — ai cũng làm",
+      "risks": [
+        "Trùng lặp với hàng nghìn video khác",
+        "Không có quan điểm, không tạo tranh luận",
+        "Đi ngược yêu cầu brief"
+      ],
+      "disclaimers": [],
+      "scores": {
+        "pain_recognition": 5,
+        "relevance": 6,
+        "novelty": 2,
+        "emotional_tension": 2,
+        "credibility": 8,
+        "proof_potential": 7,
+        "visual_potential": 5,
+        "shareability": 3,
+        "save_value": 7,
+        "channel_fit": 3,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 2
+      }
+    },
+    {
+      "title": "Android đã thắng cuộc chiến tính năng từ lâu",
+      "one_sentence_concept": "Mọi thứ iOS 18 mới có, Android đã làm từ nhiều năm trước — Android mới là kẻ dẫn đầu thực sự.",
+      "audience": "Người dùng Android muốn được xác nhận",
+      "core_pain": "Bị nói dùng Android là 'ham rẻ', muốn được minh oan",
+      "core_tension": "Android dẫn trước về tính năng nhưng vẫn bị coi là 'kèo dưới'",
+      "new_belief": "Android mới là hệ điều hành đổi mới, iPhone chỉ chạy theo",
+      "proof_mechanism": "Liệt kê tính năng Android có trước kèm năm",
+      "evidence": ["S007", "S008", "S009", "S010", "S011"],
+      "visual_metaphor": "Android cầm cúp vô địch, iPhone về sau",
+      "cta": "Comment nếu bạn team Android",
+      "series_potential": "Trung bình",
+      "risks": [
+        "Fanboy Android trắng trợn — đi ngược brief",
+        "Bỏ qua việc Apple vẫn thắng thị phần cao cấp và lợi nhuận",
+        "Đánh đồng toàn bộ Android trong khi tính năng phân mảnh theo hãng",
+        "Toxic, chia rẽ khán giả"
+      ],
+      "disclaimers": [
+        "Không có nguồn cho tuyên bố 'phát minh'"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 4,
+        "emotional_tension": 7,
+        "credibility": 4,
+        "proof_potential": 5,
+        "visual_potential": 6,
+        "shareability": 6,
+        "save_value": 3,
+        "channel_fit": 3,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 8
+      }
+    },
+    {
+      "title": "iPhone Duo: chiếc điện thoại giá bằng một chiếc SH",
+      "one_sentence_concept": "iPhone gập đầu tiên của Apple ra mắt ở Việt Nam với giá bản cao nhất xấp xỉ một chiếc Honda SH — Apple đến sau trong cuộc chơi gập nhưng vẫn định giá theo cách của riêng mình.",
+      "audience": "Người xem phổ thông tò mò về iPhone gập và giá",
+      "core_pain": "Sốc và tò mò khi một chiếc điện thoại có giá bằng một phương tiện đi lại",
+      "core_tension": "Apple vào thị trường gập muộn hơn Samsung nhiều năm, nhưng đặt giá cao nhất lịch sử hãng",
+      "new_belief": "Với Apple, đến sau không có nghĩa là phải cạnh tranh bằng giá — họ cạnh tranh bằng vị thế",
+      "proof_mechanism": "Đối chiếu giá niêm yết Apple VN (iPhone Duo 2TB 103.999.000₫) với giá đề xuất Honda SH 160i ABS Đặc biệt (103.990.000₫), kèm bối cảnh Samsung Galaxy Fold đã ra từ 2019",
+      "evidence": ["S013", "S014", "S016", "S017"],
+      "visual_metaphor": "iPhone Duo và chiếc SH đặt cạnh nhau, hai bảng giá gần như trùng khớp",
+      "cta": "Không CTA bán hàng",
+      "series_potential": "Trung bình — có thể mở rộng thành 'giá công nghệ vs giá đời sống ở VN'",
+      "risks": [
+        "Chỉ tập trung iPhone Duo thì mất phần iOS 18 vs Android mà brief yêu cầu là xương sống",
+        "Giá lăn bánh SH cao hơn — phải nói rõ so giá niêm yết",
+        "Thiếu insight lớn hơn nếu dừng ở 'wow đắt thật'"
+      ],
+      "disclaimers": [
+        "So sánh dựa trên giá niêm yết, không phải giá lăn bánh",
+        "iPhone Duo dùng Touch ID cạnh viền, không phải Face ID"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 7,
+        "novelty": 7,
+        "emotional_tension": 8,
+        "credibility": 8,
+        "proof_potential": 8,
+        "visual_potential": 8,
+        "shareability": 9,
+        "save_value": 4,
+        "channel_fit": 7,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 4
+      }
+    },
+    {
+      "title": "Vì sao Apple luôn đến sau mà vẫn thắng",
+      "one_sentence_concept": "Apple hiếm khi là hãng đầu tiên có một tính năng, nhưng thường là hãng khiến tính năng đó trở thành phổ thông — vì sao?",
+      "audience": "Người xem quan tâm chiến lược công nghệ, hơi nâng cao",
+      "core_pain": "Không hiểu vì sao kẻ đổi mới trước lại thua kẻ ra sau",
+      "core_tension": "Đổi mới trước không bằng phân phối và tích hợp tốt hơn",
+      "new_belief": "First-mover advantage là huyền thoại; integration advantage mới là thật",
+      "proof_mechanism": "Case study lịch sử: copy-paste, đa nhiệm, widget, NFC thanh toán, RCS — Apple ra sau nhưng biến thành chuẩn phổ thông nhờ hệ sinh thái",
+      "evidence": ["S001", "S005", "S006", "S018"],
+      "visual_metaphor": "Dòng thời gian: chấm Android sáng trước, chấm Apple sáng sau nhưng lan rộng hơn",
+      "cta": "Không CTA bán hàng",
+      "series_potential": "Cao — mỗi tính năng một tập",
+      "risks": [
+        "Trừu tượng, ít cảm xúc, khó giữ chân người xem phổ thông",
+        "Thiếu góc iPhone vs Android trực diện mà brief muốn",
+        "Dễ nghe như bênh Apple nếu không có phản biện"
+      ],
+      "disclaimers": [
+        "'Thắng' ở đây là thị phần cao cấp và lợi nhuận, không phải mọi chỉ số"
+      ],
+      "scores": {
+        "pain_recognition": 6,
+        "relevance": 6,
+        "novelty": 7,
+        "emotional_tension": 5,
+        "credibility": 7,
+        "proof_potential": 6,
+        "visual_potential": 6,
+        "shareability": 6,
+        "save_value": 7,
+        "channel_fit": 6,
+        "vidgen_fit": 6,
+        "exaggeration_risk": 5
+      }
+    },
+    {
+      "title": "Bốn lần iPhone nói 'lần đầu tiên' mà Android đã làm từ lâu",
+      "one_sentence_concept": "Bóc bốn tính năng iOS 18 mà Apple giới thiệu đầy tự hào, đặt cạnh phiên bản Android đã tồn tại từ trước.",
+      "audience": "Người xem thích nội dung đối chiếu vui, hơi châm biếm",
+      "core_pain": "Mệt vì marketing Apple thổi phồng tính năng cũ",
+      "core_tension": "Cùng một tính năng, một bên gọi là cách mạng, một bên coi là bình thường",
+      "new_belief": "Ngôn ngữ marketing không phản ánh mốc thời gian thật",
+      "proof_mechanism": "Đối chiếu từng cặp, có năm và nguồn cho phần Android",
+      "evidence": ["S001", "S007", "S009", "S011", "S018"],
+      "visual_metaphor": "Bốn cặp thẻ lật: mặt Apple / mặt Android",
+      "cta": "Comment tính năng thứ 5 bạn nghĩ ra",
+      "series_potential": "Cao",
+      "risks": [
+        "Vẫn hơi giống listicle, dễ mất phần insight lớn",
+        "Tông châm biếm quá đà thành chê Apple một chiều",
+        "Không có climax mạnh nếu thiếu phần iPhone Duo"
+      ],
+      "disclaimers": [
+        "Tính năng Android phân mảnh theo hãng/skin",
+        "Không dùng từ 'phát minh' hay 'đầu tiên' cho bên nào nếu chưa xác minh"
+      ],
+      "scores": {
+        "pain_recognition": 7,
+        "relevance": 8,
+        "novelty": 5,
+        "emotional_tension": 7,
+        "credibility": 7,
+        "proof_potential": 7,
+        "visual_potential": 8,
+        "shareability": 8,
+        "save_value": 5,
+        "channel_fit": 7,
+        "vidgen_fit": 8,
+        "exaggeration_risk": 5
+      }
+    }
+  ],
+  "recommended_angle": "Apple đến sau, rồi chơi theo luật của riêng mình",
+  "reasoning": "Angle này là angle duy nhất thỏa mãn cả brief lẫn tiêu chí của skill: (1) mở đúng hook bắt buộc; (2) xương sống là đối chiếu iPhone vs Android trực diện với bằng chứng thật cho từng tính năng — credibility 9, proof_potential 9; (3) có climax iPhone Duo với một con số kiểm chứng được (2TB 103.999.000₫ ≈ SH ABS Đặc biệt 103.990.000₫), tránh được rủi ro 'nói quá' của angle chỉ-iPhone-Duo; (4) payoff là insight lớn hơn ('đến trước không quyết định ai thắng') chứ không phải liệt kê tính năng; (5) không thiên vị — vừa cho Android công lao đi trước, vừa giải thích lợi thế tích hợp của Apple. exaggeration_risk chỉ 3 vì mọi claim đều neo vào nguồn official Apple/Google + báo công nghệ uy tín, và phần 'Apple copy Android' được đóng khung rõ là câu hỏi/quan điểm chứ không phải kết luận.",
+  "tradeoffs": [
+    "'iPhone Duo: giá bằng một chiếc SH' có shareability ngang bằng và cùng con số, nhưng bỏ mất xương sống iOS 18 vs Android mà brief coi là bắt buộc — nên hạ xuống thành phần climax bên trong angle được chọn, không phải angle riêng.",
+    "'Top 5 tính năng iOS 18' và 'Android đã thắng cuộc chiến tính năng' bị loại: cái đầu không có quan điểm và đi ngược brief, cái sau exaggeration_risk 8 và toxic.",
+    "'Vì sao Apple luôn đến sau mà vẫn thắng' có insight tốt nhưng quá trừu tượng cho người xem phổ thông và thiếu đối chiếu trực diện — dùng nội dung của nó cho phần 82–100s (INSIGHT) của angle được chọn.",
+    "'Bốn lần iPhone nói lần đầu tiên' về cơ bản là phiên bản nhẹ hơn của angle được chọn nhưng thiếu climax iPhone Duo — gộp tinh thần châm biếm của nó vào tông giọng chung."
+  ]
+}

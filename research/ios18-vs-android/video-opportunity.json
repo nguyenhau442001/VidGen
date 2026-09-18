@@ -1,0 +1,101 @@
+{
+  "recommended_angle": "Apple đến sau, rồi chơi theo luật của riêng mình",
+  "audience": "Người xem phổ thông theo dõi cuộc chiến iPhone vs Android",
+  "viewer_belief_before": "Cuộc chiến iPhone vs Android là chuyện ai có tính năng trước; iOS 18 hoặc là cách mạng (nếu team Apple) hoặc là copy Android (nếu team Android).",
+  "viewer_belief_after": "Đến trước không quyết định ai thắng. Android thường dẫn trước về tính năng, nhưng Apple kiểm soát cả phần cứng, phần mềm, hệ sinh thái và định giá — nên khi bước vào một cuộc chơi mới, kể cả muộn, Apple vẫn chơi theo luật của riêng mình. iPhone Duo là ví dụ rõ nhất.",
+  "core_argument": "iOS 18 mang lên iPhone loạt tính năng Android đã có trước (Home Screen linh hoạt, dark/tinted icons, Control Center tùy biến, khóa/ẩn app, RCS). Nhưng 'ai có trước' chưa bao giờ là điều quyết định. Apple đến sau, tích hợp sâu vào hệ sinh thái, thiết kế lại theo cách riêng — và với iPhone Duo, đến sau trong cuộc chơi gập nhưng vào bằng mức giá cao nhất lịch sử hãng, bản 2TB xấp xỉ giá niêm yết một chiếc Honda SH.",
+  "proof_needed": [
+    "iOS 18 Home Screen: đặt icon/widget tự do, dark & tinted icons — Apple Newsroom [S001], iMore [S002]",
+    "Android có icon theo theme/wallpaper từ Android 12 (2021) / mở rộng Android 13 (2022) [S007]; đặt icon tự do qua launcher (Nova...) từ lâu [S008]",
+    "iOS 18 Control Center: thêm/bớt, di chuyển, đổi kích thước control, control bên thứ ba, nhiều trang [S001][S003]",
+    "Android Quick Settings sửa được từ lâu; tile bên thứ ba qua TileService API từ Android 7.0 / 2016 [S009][S010]",
+    "iOS 18 khóa app bằng Face ID/Touch ID + ẩn app vào thư mục khóa trong App Library [S001][S004]",
+    "Android: Samsung Secure Folder từ 2017, Xiaomi App Lock; stock Android có Private Space từ Android 15 / 2024 — trước đó tùy skin [S011][S012]",
+    "iOS 18 RCS: read receipts, typing indicator, media nét hơn, group tốt hơn giữa iPhone và Android; vẫn bong bóng xanh; không phải iMessage [S005][S006]",
+    "iPhone Duo: iPhone gập đầu tiên, Touch ID cạnh viền (không phải Face ID), titanium, nano-texture giấu nếp gập [S014]",
+    "Giá Apple VN: iPhone Duo 2TB 103.999.000₫; base 256GB 64.999.000₫ [S013][S015]",
+    "Honda SH 160i ABS Đặc biệt: giá đề xuất ≈ 103.990.000₫; lăn bánh ≈ 113 triệu ₫ [S017]",
+    "Báo công nghệ (9to5Mac, Malay Mail) gọi Home Screen iOS 18 là 'Android-style' [S018]; báo VN so iPhone Duo với SH [S016]"
+  ],
+  "visual_opportunities": [
+    {
+      "narrative_function": "pain_recognition",
+      "concept": "Hook (0-7s): câu hook bắt buộc trên nền một montage cực nhanh 4 cặp đối chiếu — mỗi cặp là một cú chớp Android rồi iPhone: Home Screen, tùy biến icon, Quick Settings/Control Center, khóa app. Người xem nhận ra ngay 'ủa hai bên giống nhau'.",
+      "possible_scene_types": ["cần xác nhận với vidgen-scene-director — có thể là một bespoke montage scene hoặc chuỗi SplitCompare rất ngắn; tham chiếu PlaceIdScene.tsx như tiền lệ cho bespoke scene"],
+      "required_assets": [
+        "Screen recording / mock UI Home Screen Android (Pixel hoặc One UI) và iOS 18",
+        "Mock UI tinted icons hai bên",
+        "Mock UI Quick Settings Android và Control Center iOS 18",
+        "Mock UI khóa app hai bên",
+        "Nguồn: chụp lại từ Apple Newsroom [S001], Android/Google official, hoặc dựng lại UI — mọi ảnh lấy từ Internet phải ghi nguồn"
+      ],
+      "risk": "Montage quá nhanh dễ rối; mỗi cặp cần <1s nhưng vẫn phải đọc được. Không để screenshot đứng yên. Không dùng logo/branding gây hiểu nhầm là quảng cáo."
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Home Screen (7-28s): split-screen dọc. Trái: ngón tay kéo icon Android vào ô trống, bật themed icon, wallpaper đổi màu icon theo. Phải: match-cut sang iOS 18 làm điều tương tự — Edit > Customize > Tinted. On-screen text ghi mốc Android 12 (2021) cho themed icons, và 'iOS 18 (2024)'.",
+      "possible_scene_types": ["SplitCompare / before-after scene — cần xác nhận catalog với vidgen-scene-director"],
+      "required_assets": [
+        "Screen recording Android themed icons (Android Police minh hoạ [S007]) hoặc dựng lại",
+        "Screen recording iOS 18 tinted icons (Apple/iMore [S002]) hoặc dựng lại",
+        "Overlay mốc thời gian"
+      ],
+      "risk": "Phải nói 'có trước / sớm hơn', tuyệt đối không 'Android phát minh'. Themed icon Android cần app có icon monochrome — nếu demo, chọn app có sẵn để không gây hiểu nhầm là 'mọi icon đều đổi'."
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Control Center (28-48s): trái Android Quick Settings vào edit mode kéo tile; phải iOS 18 Control Center kéo control, đổi kích thước bằng handle, thêm control bên thứ ba. Narration: 'Trước đây Apple quyết định bạn cần những nút gì. Bây giờ bạn bắt đầu được quyền quyết định.' On-screen text: tile bên thứ ba trên Android có từ 2016 (TileService).",
+      "possible_scene_types": ["SplitCompare / UI-interaction scene"],
+      "required_assets": [
+        "Screen recording Android Quick Settings edit (Android Central [S009])",
+        "Screen recording iOS 18 Control Center resize/add (MacRumors [S003])",
+        "Ghi chú nguồn API Android Developers [S010]"
+      ],
+      "risk": "Android tile không resize tự do như iOS 18 control — không nói quá là 'giống hệt'. Nêu đúng: cùng ý tưởng 'bảng điều khiển nhanh tùy biến', chi tiết khác nhau."
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "Khóa / ẩn app (48-67s): trái — Samsung Secure Folder / Android 15 Private Space nuốt app khỏi danh sách; phải — iOS 18 tap & hold > Require Face ID > Hide App, icon biến mất, mở thư mục Hidden trong App Library. Câu thoại: 'Android user nhìn vào có thể sẽ hỏi: Ủa, cái này mới à?' On-screen text phải ghi rõ: trên Android là tùy hãng (Samsung 2017, Xiaomi), stock Android từ Android 15 (2024).",
+      "possible_scene_types": ["SplitCompare / phone-frame UI scene"],
+      "required_assets": [
+        "Screen recording Samsung Secure Folder / Android 15 Private Space (Android Authority [S011])",
+        "Screen recording iOS 18 lock/hide app (Apple Support [S004])",
+        "Overlay disclaimer 'tùy hãng / skin'"
+      ],
+      "risk": "Rủi ro fact-check cao nhất. Không được nói 'Android đã có từ lâu' trống trơn. iPhone Duo dùng Touch ID — giữ câu thoại ở mức 'iPhone' chung, không gán cho Duo."
+    },
+    {
+      "narrative_function": "proof",
+      "concept": "RCS (67-82s): một khung chat iPhone và một khung chat Android nhắn cho nhau. SMS cũ (bong bóng xanh, không typing indicator, ảnh mờ) biến đổi thành RCS (typing indicator hiện lên, ảnh nét, đã xem). Narration ngắn. On-screen text: 'Vẫn là bong bóng xanh. Vẫn không phải iMessage.'",
+      "possible_scene_types": ["chat-thread animation scene — cần xác nhận catalog"],
+      "required_assets": [
+        "Mock UI Messages iOS 18 với RCS",
+        "Mock UI Android Messages",
+        "Nguồn Apple Support [S005], PhoneArena [S006]"
+      ],
+      "risk": "Không để người xem hiểu RCS = iMessage. Không đồng hoá Android Messages với iMessage. Giữ đúng framing 'tiến gần một chuẩn chung, không phải hợp nhất'."
+    },
+    {
+      "narrative_function": "reframe",
+      "concept": "Insight (82-100s): câu hỏi 'Vậy Apple chỉ đang copy Android?' hiện lớn giữa màn hình, rồi 'Không đơn giản như vậy.' Motion graphic: một dòng thời gian có chấm Android sáng trước, chấm Apple sáng sau nhưng lan rộng ra cả một vòng tròn hệ sinh thái (phần cứng + phần mềm + dịch vụ). Narration giải thích lợi thế tích hợp.",
+      "possible_scene_types": ["timeline / kinetic-typography scene — tham chiếu bespoke scene pattern trong repo"],
+      "required_assets": [
+        "Không cần asset ngoài — motion graphic thuần",
+        "Nếu minh hoạ hệ sinh thái: icon iPhone/Mac/Watch/AirPods dạng line"
+      ],
+      "risk": "Dễ nghe như bênh Apple. Phải giữ cân bằng: câu trước khen Android đi trước, câu sau mới nói lợi thế Apple. 'Copy Android' chỉ đóng khung là câu hỏi/quan điểm."
+    },
+    {
+      "narrative_function": "payoff",
+      "concept": "Climax iPhone Duo (100-120s): 'Nhưng nếu bạn nghĩ Apple chỉ đang chạy theo Android... hãy nhìn chiếc iPhone mới nhất của họ.' Macro shot iPhone Duo mở ra như cuốn sách. Rồi cut: iPhone Duo bên trái, một chiếc Honda SH bên phải. Hai bảng giá trồi lên: 103.999.000₫ và 103.990.000₫ — gần như trùng khít. Câu chốt: 'Một chiếc iPhone gập... hay một chiếc SH?' rồi câu payoff cuối.",
+      "possible_scene_types": ["product-hero + split price-compare scene — cần xác nhận / có thể cần bespoke"],
+      "required_assets": [
+        "Ảnh/render iPhone Duo (Apple Newsroom / Apple VN [S013][S014]) — ghi nguồn",
+        "Ảnh Honda SH 160i (Honda VN hoặc nguồn xe uy tín [S017]) — ghi nguồn, đánh dấu SOURCE/RIGHTS NEED VERIFICATION nếu không rõ license",
+        "Số liệu giá on-screen từ [S013] và [S017]"
+      ],
+      "risk": "Không nói 'đắt hơn SH' — chỉ 'xấp xỉ giá niêm yết một chiếc SH bản cao'. Phải ghi rõ đang so giá niêm yết (SH lăn bánh ~113tr cao hơn). Ảnh sản phẩm lấy từ Internet bắt buộc ghi nguồn; ưu tiên ảnh official."
+    }
+  ],
+  "recommended_next_skill": "vidgen"
+}
