@@ -152,6 +152,7 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "rto_ownership",
     "plate_color",
     "place_id",
+    "ios18_android",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,
@@ -599,4 +600,32 @@ def copy_media_to_remotion_public(
                 )
             shutil.copy2(src, os.path.join(public_images_dir, filename))
             copied.append(f"images/{filename}")
+        elif shot["type"] == "ios18_android":
+            # Optional real press screenshots referenced by basename in several
+            # props; each falls back to a drawn graphic in the component when
+            # absent, so only copy the ones actually authored.
+            refs = [
+                props.get("image"),
+                props.get("heroImage"),
+                props.get("scooterImage"),
+            ]
+            for side_key in ("left", "right"):
+                side = props.get(side_key)
+                if isinstance(side, dict):
+                    refs.append(side.get("image"))
+            for rel_path in refs:
+                if not rel_path:
+                    continue
+                filename = os.path.basename(rel_path)
+                dest = os.path.join(public_images_dir, filename)
+                if os.path.exists(dest):
+                    continue
+                src = os.path.join(media_dir, filename)
+                if not os.path.exists(src):
+                    raise FileNotFoundError(
+                        f"shot '{shot['id']}': media file not found: {src} "
+                        f"(expected under output/content/media/<slug>/)"
+                    )
+                shutil.copy2(src, dest)
+                copied.append(f"images/{filename}")
     return copied

@@ -476,6 +476,47 @@ export type PlaceIdVisual = {
 
 export type PlaceIdSceneProps = PlaceIdVisual & { durationInFrames: number };
 
+export type Ios18AndroidMode = "hook" | "compare" | "chat" | "reframe" | "price" | "payoff";
+
+export type Ios18AndroidCompareSide = {
+  label: string;
+  bullets: string[];
+  badge: string;
+  tinted?: boolean;
+  outlined?: boolean;
+  gridGaps?: number[];
+  // real press screenshot to fill the phone screen; falls back to the drawn
+  // mock icon grid when absent
+  image?: string;
+};
+
+export type Ios18AndroidVisual = {
+  mode: Ios18AndroidMode;
+  headline: string;
+  accentWord?: string;
+  // compare
+  left?: Ios18AndroidCompareSide;
+  right?: Ios18AndroidCompareSide;
+  // reframe
+  question?: string;
+  answer?: string;
+  // payoff
+  subline?: string;
+  // price
+  priceLeft?: string;
+  priceRight?: string;
+  priceLeftLabel?: string;
+  priceRightLabel?: string;
+  // hook: real screenshot shown above the montage strip.
+  // price: real iPhone Duo render (heroImage) + Honda SH render (scooterImage).
+  heroImage?: string;
+  scooterImage?: string;
+  // compare / chat / price shared caption line
+  footnote?: string;
+};
+
+export type Ios18AndroidSceneProps = Ios18AndroidVisual & { durationInFrames: number };
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
@@ -595,7 +636,8 @@ export type ManifestScene =
   | { type: "shopee_discount_cover"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ShopeeDiscountCoverVisual }
   | { type: "rto_ownership"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: RtoOwnershipVisual }
   | { type: "plate_color"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PlateColorVisual }
-  | { type: "place_id"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PlaceIdVisual };
+  | { type: "place_id"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: PlaceIdVisual }
+  | { type: "ios18_android"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: Ios18AndroidVisual };
 
 export type MarketingCaptionHookVisual = {
   label: string;

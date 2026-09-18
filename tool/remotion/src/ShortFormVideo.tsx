@@ -109,6 +109,7 @@ import { RatingThresholdScene } from "./scenes/RatingThresholdScene";
 import { RtoOwnershipScene } from "./scenes/RtoOwnershipScene";
 import { PlateColorScene } from "./scenes/PlateColorScene";
 import { PlaceIdScene } from "./scenes/PlaceIdScene";
+import { Ios18AndroidScene } from "./scenes/Ios18AndroidScene";
 import {
   BrandSwapTestScene,
   BriefBlueprintScene,
@@ -239,6 +240,8 @@ const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
       return <PlateColorScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "place_id":
       return <PlaceIdScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "ios18_android":
+      return <Ios18AndroidScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "map_ping":
       return <MapPingScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "geohash_reveal":
