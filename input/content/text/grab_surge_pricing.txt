@@ -1,0 +1,67 @@
+# TẠI SAO TRỜI MƯA GRAB TĂNG GIÁ GẤP ĐÔI?
+
+**Series:** Ủa là sao?
+**Target duration:** 70–75s
+**Topic:** Surge Pricing Algorithm (Cơ chế giá động)
+**Core Pattern:** Con người nghĩ hệ thống tối ưu lợi nhuận. Thực ra hệ thống tối ưu cân bằng cung cầu trên đường.
+**Visual Style:** Editorial Documentarian (Investigation board, Deep-dive patent, Data comparison, Punchline reveal).
+
+---
+
+## SCENE 1 — HOOK | 0–6s
+
+### Visual
+Investigation board: Màn hình đặt xe lúc mưa bão, giá từ 50 nghìn nhảy vọt lên 110 nghìn. Đóng mộc chữ "NGHỊCH LÝ".
+
+### Narration
+Tại sao trời mưa Grab tăng giá gấp đôi? Sự thật đằng sau thuật toán này sẽ làm bạn bất ngờ.
+
+---
+
+## SCENE 2 — BẢN CHẤT LẦM TƯỞNG | 6–18s
+
+### Visual
+Tactile document: Hồ sơ so sánh giữa kỳ vọng người dùng và thuật toán phân bổ. Vệt highlight quét qua dòng chữ cốt lõi.
+
+### Narration
+Nhưng nếu Grab chỉ muốn tối đa hóa lợi nhuận ngay lúc đó, họ sẽ mất sạch khách hàng vào tay đối thủ. Thuật toán giá cước tăng vọt thật ra không tối ưu túi tiền của hãng. Nó đang giải một bài toán sinh tử: giữ cho hệ thống không bị sập.
+
+---
+
+## SCENE 3 — CƠ CHẾ KÉO NGUỒN CUNG | 18–32s
+
+### Visual
+Deep-dive document: Báo cáo phân tích hành vi tài xế lúc thời tiết xấu. Đoạn trích dẫn thuật toán điều tiết số lượng xe lưu thông.
+
+### Narration
+Hãy nhìn từ phía tài xế. Mưa lớn, đường ngập, rủi ro tai nạn tăng cao. Nếu giá cước vẫn giữ nguyên, phần lớn tài xế sẽ tắt ứng dụng tấp vào lề trú mưa. Đòn bẩy giá cước tăng là động lực duy nhất kéo tài xế mặc áo mưa lao ra đường.
+
+---
+
+## SCENE 4 — BỘ LỌC SÀNG LỌC NHU CẦU | 32–46s
+
+### Visual
+Data comparison editorial: Mô phỏng 100 người đặt xe nhưng chỉ có 20 tài xế. Sự khác biệt giữa giá cố định và giá linh hoạt.
+
+### Narration
+Ở chiều ngược lại, giá cao đóng vai trò như một bộ lọc tự nhiên. Giữa 100 người cùng bấm tìm xe, mức giá nhân đôi khiến 80 người không quá gấp chuyển sang đứng đợi, nhường lại 20 chiếc xe cho những ai đang thực sự khẩn cấp.
+
+---
+
+## SCENE 5 — THẢM HỌA GIÁ KHÔNG ĐỔI | 46–60s
+
+### Visual
+Comparison side-by-side: Cảnh báo sập mạng "Không tìm thấy tài xế" vs Hệ thống duy trì kết nối thành công.
+
+### Narration
+Nếu giá không tăng, một trăm người cùng tranh hai mươi chiếc xe. Kết quả là ứng dụng sẽ tê liệt, vòng quay tìm tài xế quay vô tận, và cuối cùng không một ai di chuyển được. Giá tăng chính là chiếc phanh điều tiết cung cầu.
+
+---
+
+## SCENE 6 — KẾT LUẬN & CLIFFHANGER | 60–72s
+
+### Visual
+Punchline reveal: Nền đen chữ trắng tương phản mạnh mẽ, dập sub-bass và câu hỏi kết luận.
+
+### Narration
+Hệ thống không cố ý gây khó dễ cho bạn. Nó chỉ đang dùng giá tiền để phân bổ nguồn lực khan hiếm lúc nguy nan. Lần tới khi gặp giá tăng gấp đôi, bạn sẽ chọn chi thêm tiền hay kiên nhẫn đợi mưa tạnh?

@@ -1,0 +1,197 @@
+{
+  "video_id": "grab_surge_pricing",
+  "title": "Tại sao trời mưa Grab tăng giá gấp đôi?",
+  "fps": 30,
+  "shots": [
+    {
+      "id": "shot_01",
+      "type": "investigation_board",
+      "duration_frames": 160,
+      "narration": "Tại sao trời mưa Grab tăng giá gấp đôi? Sự thật đằng sau thuật toán này sẽ làm bạn bất ngờ.",
+      "sfx": [
+        { "type": "whoosh_subtle", "frameOffset": 0, "volume": 0.6 },
+        { "type": "paper_slide", "frameOffset": 15, "volume": 0.7 },
+        { "type": "stamp_impact", "frameOffset": 45, "volume": 0.9 }
+      ],
+      "props": {
+        "headline": "Vì Sao Trời Mưa Grab Tăng Giá Gấp Đôi?",
+        "subheadline": "Giá nhảy vọt lúc thời tiết xấu: Lòng tham hay cơ chế thuật toán?",
+        "caseFileNumber": "SURGE-PRICING-ALGO",
+        "evidence": [
+          {
+            "id": "e1",
+            "type": "stat",
+            "title": "Chặng 3km thường nhật: 45.000đ",
+            "content": "Thời tiết khô ráo, tài xế dồi dào, cuốc xe nổ đều đặn.",
+            "verifiedBadge": true
+          },
+          {
+            "id": "e2",
+            "type": "stat",
+            "title": "Khi mưa bão nổ ra: 110.000đ (x2.4)",
+            "content": "Giá nhảy vọt tức thì. 90% người dùng nghĩ công ty chém đẹp.",
+            "verifiedBadge": true
+          }
+        ],
+        "stampText": "NGHỊCH LÝ",
+        "stampFrame": 45
+      }
+    },
+    {
+      "id": "shot_02",
+      "type": "deep_dive_document",
+      "duration_frames": 280,
+      "narration": "Nhưng nếu Grab chỉ muốn tối đa hóa lợi nhuận ngay lúc đó, họ sẽ mất sạch khách hàng vào tay đối thủ. Thuật toán giá cước tăng vọt thật ra không tối ưu túi tiền của hãng. Nó đang giải một bài toán sinh tử: giữ cho hệ thống không bị sập.",
+      "sfx": [
+        { "type": "paper_slide", "frameOffset": 0, "volume": 0.65 },
+        { "type": "marker_stroke", "frameOffset": 25, "volume": 0.75 }
+      ],
+      "props": {
+        "documentTitle": "Dynamic Pricing & Supply-Demand Elasticity",
+        "sourceAuthority": "DYNAMIC PRICING PATENT & WHITE PAPER",
+        "dateLabel": "SPEC v2.4",
+        "paragraphs": [
+          {
+            "segments": [
+              { "text": "Nếu hãng đơn phương tăng giá để trục lợi ngắn hạn, khách hàng sẽ lập tức chuyển sang đối thủ hoặc xe ôm truyền thống. " },
+              {
+                "text": "Mục tiêu thật sự của thuật toán giá cước tăng vọt: Cân bằng trạng thái thanh khoản cung cầu, bảo vệ hệ thống không bị sập mạng.",
+                "highlighted": true,
+                "color": "rgba(255, 230, 0, 0.65)"
+              }
+            ]
+          }
+        ],
+        "marginNote": {
+          "text": "Giá cước không tối ưu túi tiền. Nó tối ưu độ ổn định của mạng lưới."
+        }
+      }
+    },
+    {
+      "id": "shot_03",
+      "type": "deep_dive_document",
+      "duration_frames": 290,
+      "narration": "Hãy nhìn từ phía tài xế. Mưa lớn, đường ngập, rủi ro tai nạn tăng cao. Nếu giá cước vẫn giữ nguyên, phần lớn tài xế sẽ tắt ứng dụng tấp vào lề trú mưa. Đòn bẩy giá cước tăng là động lực duy nhất kéo tài xế mặc áo mưa lao ra đường.",
+      "sfx": [
+        { "type": "paper_slide", "frameOffset": 0, "volume": 0.6 },
+        { "type": "marker_stroke", "frameOffset": 30, "volume": 0.8 }
+      ],
+      "props": {
+        "documentTitle": "Phân Tích Hành Vi Nguồn Cung (Tài Xế)",
+        "sourceAuthority": "DRIVER FLEET BEHAVIOR ANALYSIS",
+        "dateLabel": "WEATHER SHOCK DATA",
+        "paragraphs": [
+          {
+            "segments": [
+              { "text": "Mưa lớn gây ngập xe, ướt điện thoại, rủi ro trượt ngã tăng 300%. Nếu thù lao không đổi, lựa chọn duy nhất của tài xế là tắt ứng dụng trú mưa. " },
+              {
+                "text": "Cơ chế thưởng cuốc và nhân hệ số giá là đòn bẩy kinh tế bắt buộc để kéo tài xế chấp nhận rủi ro mặc áo mưa ra đường.",
+                "highlighted": true,
+                "color": "rgba(255, 230, 0, 0.65)"
+              }
+            ]
+          }
+        ],
+        "marginNote": {
+          "text": "Không có động lực tài chính = Số xe hoạt động về gần bằng 0."
+        }
+      }
+    },
+    {
+      "id": "shot_04",
+      "type": "data_comparison_editorial",
+      "duration_frames": 310,
+      "narration": "Ở chiều ngược lại, giá cao đóng vai trò như một bộ lọc tự nhiên. Giữa 100 người cùng bấm tìm xe, mức giá nhân đôi khiến 80 người không quá gấp chuyển sang đứng đợi, nhường lại 20 chiếc xe cho những ai đang thực sự khẩn cấp.",
+      "sfx": [
+        { "type": "whoosh_subtle", "frameOffset": 0, "volume": 0.5 },
+        { "type": "stamp_impact", "frameOffset": 20, "volume": 0.75 },
+        { "type": "stamp_impact", "frameOffset": 50, "volume": 0.75 }
+      ],
+      "props": {
+        "headline": "Bộ Lọc Nhu Cầu Tự Nhiên",
+        "question": "100 người cần xe, nhưng trời mưa chỉ có 20 tài xế nhận cuốc.",
+        "leftSide": {
+          "label": "Nhóm linh hoạt",
+          "metric": "80 NGƯỜI",
+          "notes": [
+            "Đi chơi, tan tầm không vội",
+            "Thấy giá cao chuyển sang trú mưa",
+            "Chờ tạnh mưa giá hạ mới đặt"
+          ],
+          "verdict": "TẠM DỪNG",
+          "stamp": "LỌC BỚT",
+          "highlight": false
+        },
+        "rightSide": {
+          "label": "Nhóm khẩn cấp",
+          "metric": "20 NGƯỜI",
+          "notes": [
+            "Đi sân bay, bệnh viện, họp gấp",
+            "Sẵn sàng trả gấp đôi để có xe ngay",
+            "Được kết nối xe thành công"
+          ],
+          "verdict": "KẾT NỐI",
+          "stamp": "ƯU TIÊN",
+          "highlight": true
+        },
+        "insightCallout": "Giá cao phân bổ xe cho người cần nhất, thay vì phân bổ ngẫu nhiên theo kiểu ai bấm trước được trước."
+      }
+    },
+    {
+      "id": "shot_05",
+      "type": "data_comparison_editorial",
+      "duration_frames": 290,
+      "narration": "Nếu giá không tăng, một trăm người cùng tranh hai mươi chiếc xe. Kết quả là ứng dụng sẽ tê liệt, vòng quay tìm tài xế quay vô tận, và cuối cùng không một ai di chuyển được. Giá tăng chính là chiếc phanh điều tiết cung cầu.",
+      "sfx": [
+        { "type": "whoosh_subtle", "frameOffset": 0, "volume": 0.5 },
+        { "type": "stamp_impact", "frameOffset": 25, "volume": 0.8 }
+      ],
+      "props": {
+        "headline": "Kịch Bản Nếu Giá Giữ Nguyên",
+        "question": "Điều gì xảy ra nếu cấm tăng giá lúc thời tiết xấu?",
+        "leftSide": {
+          "label": "Nếu giữ nguyên giá",
+          "metric": "0 XE",
+          "notes": [
+            "Tài xế tắt app đi ngủ",
+            "100 khách cùng bấm tìm xe",
+            "Vòng quay xoay vô tận",
+            "Mạng lưới sập hoàn toàn"
+          ],
+          "verdict": "TÊ LIỆT",
+          "stamp": "THẢM HỌA",
+          "highlight": false
+        },
+        "rightSide": {
+          "label": "Khi giá tăng linh hoạt",
+          "metric": "20 XE",
+          "notes": [
+            "Tài xế có động lực ra đường",
+            "Lọc 80 khách chờ tạnh",
+            "20 khách gấp có xe ngay",
+            "Hệ thống vận hành thông suốt"
+          ],
+          "verdict": "LƯU THÔNG",
+          "stamp": "CÂN BẰNG",
+          "highlight": true
+        },
+        "insightCallout": "Giá tăng chính là 'chiếc phanh điều tiết' cứu mạng lưới khỏi bị tắc nghẽn."
+      }
+    },
+    {
+      "id": "shot_06",
+      "type": "punchline_reveal",
+      "duration_frames": 240,
+      "narration": "Hệ thống không cố ý gây khó dễ cho bạn. Nó chỉ đang dùng giá tiền để phân bổ nguồn lực khan hiếm lúc nguy nan. Lần tới khi gặp giá tăng gấp đôi, bạn sẽ chọn chi thêm tiền hay kiên nhẫn đợi mưa tạnh?",
+      "sfx": [
+        { "type": "bass_drop", "frameOffset": 0, "volume": 0.9 }
+      ],
+      "props": {
+        "eyebrow": "QUY LUẬT THỊ TRƯỜNG",
+        "primaryStatement": "GIÁ TĂNG ĐỂ ĐIỀU TIẾT. KHÔNG PHẢI ĐỂ LÀM GIÀU.",
+        "secondaryStatement": "Khi bạn hiểu mục tiêu của hệ thống, mọi hành vi kỳ lạ đều trở nên hoàn toàn hợp lý.",
+        "disclaimerNote": "Ủa là sao? · Khám phá mục tiêu ẩn đằng sau công nghệ."
+      }
+    }
+  ]
+}

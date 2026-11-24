@@ -153,6 +153,10 @@ DIRECT_SNAKE_CASE_SCENE_TYPES = {
     "plate_color",
     "place_id",
     "ios18_android",
+    "investigation_board",
+    "deep_dive_document",
+    "data_comparison_editorial",
+    "punchline_reveal",
 }
 
 # Valid render-time scene types include the registered PascalCase aliases,
