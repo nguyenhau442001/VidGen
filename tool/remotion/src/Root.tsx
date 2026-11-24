@@ -2,6 +2,7 @@ import React from "react";
 import { Composition, continueRender, delayRender } from "remotion";
 import { ShortFormVideo } from "./ShortFormVideo";
 import { CoverScene } from "./scenes/CoverScene";
+import { EditorialPreview } from "./scenes/editorial/EditorialPreview";
 import { PhoneMockupScene } from "./scenes/PhoneMockupScene";
 import { MapPingScene } from "./scenes/MapPingScene";
 import { GeohashRevealScene } from "./scenes/GeohashRevealScene";
@@ -49,7 +50,7 @@ import { LedgerEntryShot } from "./scenes/LedgerEntryShot";
 import { CostBreakdownShot } from "./scenes/CostBreakdownShot";
 import { interpolate, useCurrentFrame } from "remotion";
 import { waitForInter, waitForJetBrainsMono, waitForBeVietnamPro, HSK_PALETTE } from "./styles";
-import defaultManifest from "../../../output/build/pipeline/render_manifest.json";
+import { defaultManifest } from "./data/activeManifest";
 
 // Falls back to an empty placeholder shot when output/build/pipeline/render_manifest.json is
 // not currently Shopee-shaped (e.g. another video's manifest is loaded for
@@ -57,7 +58,7 @@ import defaultManifest from "../../../output/build/pipeline/render_manifest.json
 // don't crash the whole Root.tsx module. Switch Studio back to the Shopee
 // manifest to render this composition with real content.
 const shopeeShotById = (id: number) => {
-  const shot = (defaultManifest as unknown as RenderManifest).shots.find((s) => s.id === id);
+  const shot = (defaultManifest as unknown as RenderManifest).shots?.find((s) => s.id === id);
   if (!shot) {
     return {
       id,
@@ -75,14 +76,14 @@ Promise.all([waitForInter(), waitForJetBrainsMono(), waitForBeVietnamPro()]).the
 });
 
 // Derive cover props from the manifest: hook text from scene 1, terminal lines from first terminal scene
-const manifestShots = (defaultManifest as unknown as RenderManifest).shots;
+const manifestShots = (defaultManifest as unknown as RenderManifest).shots || [];
 const hookScene = manifestShots[0];
-  const firstTerminal = manifestShots.find(
-    (s): s is Extract<ManifestScene, { type: "terminal" }> => s.type === "terminal"
-  );
+const firstTerminal = manifestShots.find(
+  (s): s is Extract<ManifestScene, { type: "terminal" }> => s?.type === "terminal"
+);
 const coverDefaultProps = {
-  headline: hookScene.type === "explanation" ? hookScene.visual.headline : "",
-  body: hookScene.type === "explanation" ? (hookScene.visual.body ?? "") : "",
+  headline: hookScene?.type === "explanation" ? hookScene.visual.headline : (hookScene?.sceneName || "ỦA LÀ SAO?"),
+  body: hookScene?.type === "explanation" ? (hookScene.visual.body ?? "") : "",
   terminalLines: firstTerminal
     ? firstTerminal.visual.lines.map((l) => (typeof l === "string" ? l : l.text)).filter((l) => l.trim())
     : [],
@@ -242,6 +243,14 @@ export const Root: React.FC = () => {
           durationInFrames: Math.max(1, manifest.shots.reduce((s, sc) => s + sc.durationInFrames, 0)),
         };
       }}
+      />
+      <Composition
+        id="EditorialPreview"
+        component={EditorialPreview}
+        durationInFrames={450}
+        fps={30}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="Cover"

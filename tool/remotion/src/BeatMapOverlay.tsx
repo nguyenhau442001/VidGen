@@ -2,22 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { RenderManifest } from "./types";
 import { colors } from "./styles";
-import beatmapData from "../../../output/build/pipeline/beatmap.json";
-
-type BeatMapScene = {
-  id: string;
-  index: number;
-  score: number;
-  reasons: string[];
-  hot: boolean;
-};
-
-type BeatMapData = {
-  video_title: string;
-  scenes: BeatMapScene[];
-};
-
-const beatmap = beatmapData as BeatMapData;
+import { activeBeatmap as beatmap } from "./data/activeBeatmap";
 
 const STRIP_HEIGHT = 14;
 

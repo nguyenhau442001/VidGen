@@ -517,9 +517,23 @@ export type Ios18AndroidVisual = {
 
 export type Ios18AndroidSceneProps = Ios18AndroidVisual & { durationInFrames: number };
 
+import {
+  SFXCue,
+  InvestigationBoardVisual,
+  DeepDiveDocumentVisual,
+  DataComparisonEditorialVisual,
+  PunchlineRevealVisual,
+} from "./types/editorial";
+
+export * from "./types/editorial";
+
 export type ManifestExtraAudio = { path: string; previewPath?: string; offsetFrames: number };
 
 export type ManifestScene =
+  | { type: "investigation_board"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; sfx?: SFXCue[]; durationInFrames: number; visual: InvestigationBoardVisual }
+  | { type: "deep_dive_document"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; sfx?: SFXCue[]; durationInFrames: number; visual: DeepDiveDocumentVisual }
+  | { type: "data_comparison_editorial"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; sfx?: SFXCue[]; durationInFrames: number; visual: DataComparisonEditorialVisual }
+  | { type: "punchline_reveal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; sfx?: SFXCue[]; durationInFrames: number; visual: PunchlineRevealVisual }
   | { type: "explanation"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: ExplanationVisual }
   | { type: "terminal"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: TerminalVisual }
   | { type: "code"; id: number; label?: string; sceneName?: string; audioPath: string; audioOffsetFrames?: number; extraAudio?: ManifestExtraAudio[]; durationInFrames: number; visual: CodeVisual }

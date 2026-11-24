@@ -124,6 +124,15 @@ import { BeatMapOverlay } from "./BeatMapOverlay";
 import { colors, HSK_PALETTE } from "./styles";
 import { LayoutAudit } from "./LayoutAudit";
 import { SceneErrorBoundary } from "./SceneErrorBoundary";
+import { FilmGrainOverlay } from "./primitives";
+import {
+  DeepDiveDocumentScene,
+  InvestigationBoardScene,
+  DataComparisonEditorialScene,
+  PunchlineRevealScene,
+} from "./scenes/editorial";
+
+import { SFXCue } from "./types/editorial";
 
 const handleAudioError =
   (label: string): React.ReactEventHandler<HTMLAudioElement> =>
@@ -134,6 +143,7 @@ const handleAudioError =
 
 type ManifestShotWithPreviewAudio = ManifestScene & {
   previewAudioPath?: string;
+  sfx?: SFXCue[];
 };
 
 export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifest }) => {
@@ -171,6 +181,17 @@ export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifes
                 />
               </Sequence>
             ))}
+            {shot.sfx?.map((cue, i) => (
+              <Sequence key={`sfx-${i}`} from={cue.frameOffset}>
+                <Audio
+                  src={staticFile(`sfx/${cue.type}.wav`)}
+                  volume={cue.volume ?? 0.65}
+                  onError={() => {
+                    // Gracefully ignore missing optional SFX
+                  }}
+                />
+              </Sequence>
+            ))}
             <SceneErrorBoundary label={`${shot.id} (${shot.type})`}>
               <SceneRenderer shot={shot} />
             </SceneErrorBoundary>
@@ -179,6 +200,7 @@ export const ShortFormVideo: React.FC<{ manifest: RenderManifest }> = ({ manifes
       </Series>
       <SafeZoneGuide />
       <BeatMapOverlay manifest={manifest} />
+      <FilmGrainOverlay opacity={0.038} vignette={true} />
     </AbsoluteFill>
   );
 };
@@ -216,6 +238,14 @@ function resolveRevealContent(
 
 const SceneRenderer: React.FC<{ shot: ManifestScene }> = ({ shot }) => {
   switch (shot.type) {
+    case "investigation_board":
+      return <InvestigationBoardScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "deep_dive_document":
+      return <DeepDiveDocumentScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "data_comparison_editorial":
+      return <DataComparisonEditorialScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
+    case "punchline_reveal":
+      return <PunchlineRevealScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "explanation":
       return <ExplanationScene {...shot.visual} durationInFrames={shot.durationInFrames} />;
     case "terminal":

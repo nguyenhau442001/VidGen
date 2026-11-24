@@ -350,20 +350,21 @@ def build_render_manifest(script: dict, audio_durations: dict) -> dict:
                     }
                 )
 
-        shots.append(
-            {
-                "id": i,
-                "label": str(sid),  # original script shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
-                "sceneName": scene_name_for(sid),
-                "type": scene_type,
-                "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
-                "previewAudioPath": f"audio/{preview_audio_filename(sid)}" if has_audio else "",
-                "audioOffsetFrames": audio_offset,
-                "extraAudio": extra_audio,
-                "durationInFrames": duration_frames,
-                "visual": visual,
-            }
-        )
+        manifest_shot = {
+            "id": i,
+            "label": str(sid),  # original script shot id, e.g. "shot_01b" — for matching Studio's timeline back to the source JSON
+            "sceneName": scene_name_for(sid),
+            "type": scene_type,
+            "audioPath": f"audio/{wav_filename(sid)}" if has_audio else "",
+            "previewAudioPath": f"audio/{preview_audio_filename(sid)}" if has_audio else "",
+            "audioOffsetFrames": audio_offset,
+            "extraAudio": extra_audio,
+            "durationInFrames": duration_frames,
+            "visual": visual,
+        }
+        if "sfx" in shot:
+            manifest_shot["sfx"] = shot["sfx"]
+        shots.append(manifest_shot)
     manifest = {"fps": fps, "width": 1080, "height": 1920, "shots": shots}
     if script.get("soundtrack"):
         soundtrack = script["soundtrack"]

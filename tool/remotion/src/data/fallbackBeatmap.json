@@ -1,0 +1,12 @@
+{
+  "video_title": "Fallback Video",
+  "scenes": [
+    {
+      "id": "scene_01",
+      "index": 0,
+      "score": 75,
+      "reasons": ["Intro scene"],
+      "hot": false
+    }
+  ]
+}

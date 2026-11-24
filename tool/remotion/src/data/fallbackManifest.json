@@ -1,0 +1,20 @@
+{
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 180,
+  "shots": [
+    {
+      "id": 1,
+      "sceneName": "editorial_intro",
+      "type": "explanation",
+      "durationInFrames": 180,
+      "audioPath": "",
+      "visual": {
+        "headline": "ỦA LÀ SAO?",
+        "body": "Khám phá mục tiêu ẩn đằng sau hệ thống công nghệ bạn dùng mỗi ngày.",
+        "badge": "EPISODE PREVIEW"
+      }
+    }
+  ]
+}
